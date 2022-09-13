@@ -162,7 +162,7 @@ C
         IRM    = 0
         IRS    = 0
 C- deactivated interfaces
-        IF (NTYP.EQ.0) CYCLE
+        IF (NTYP==0) CYCLE
 C-----Isogeometric elements
         IF(NTYP==7) THEN
          NRTM_IGE   = IPARI(73,NI)
@@ -203,7 +203,7 @@ C
           IF(NRTS == 0) THEN
              CALL ANCMSG(MSGID=118, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
           ENDIF
-          IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
+          IF(IPRI>=1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
           SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS,1:4)
           CALL INSURF(NRTS,NSN,IRS,INTBUF_TAB(NI)%IRECTS,NOINT,
      .                SURF_NODES,ITAB,INTBUF_TAB(NI)%NSV,ID,TITR,
@@ -211,19 +211,19 @@ C
         ELSEIF (NTYP == 17) THEN
         ELSEIF (NTYP == 20) THEN
         ELSEIF (NTYP == 22) THEN
-            IF(ISU1.GT.0)THEN
-              IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
+            IF(ISU1>0)THEN
+              IF(IPRI>=1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
               NBRIC=IGRBRIC(ISU1)%NENTITY
               CALL INGRBRIC(NSN,   NOINT,   IGRBRIC(ISU1)%ENTITY,   ITAB,  INTBUF_TAB(NI)%NSV,
      +                      IXS,   NBRIC,   PM, INTBUF_TAB(NI)%S_NSV,IGEO)
            ENDIF
 C--------------------------------------------
         ELSEIF(NTYP == 23) THEN
-          IF(IS1.NE.0) THEN
-            IF(NRTS == 0.AND.IS1.NE.2) THEN
+          IF(IS1/=0) THEN
+            IF(NRTS == 0.AND.IS1/=2) THEN
               CALL ANCMSG(MSGID=118, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
-            IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
+            IF(IPRI>=1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
             IF(IS1 == 1)THEN
               NRTS=IGRSURF(ISU1)%NSEG
               SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS,1:4)
@@ -240,18 +240,18 @@ c              CALL INPOINT(NSN,NOINT,IBUFSSG(IAD),ITAB,INTBUF_TAB(NI)%NSV)
 c            END IF
         ELSEIF (NTYP == 25) THEN
         ELSE
-          IF(IS1.NE.0) THEN
-            IF(NRTS == 0.AND.IS1.NE.2.AND.IS1.NE.5) THEN
+          IF(IS1/=0) THEN
+            IF(NRTS == 0.AND.IS1/=2.AND.IS1/=5) THEN
               CALL ANCMSG(MSGID=118, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
-            IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
+            IF(IPRI>=1) WRITE(IOUT,'(//,A)')' SECONDARY SURFACE'
             IF(IS1 == 1)THEN
               IF (NTYP == 3 .OR. NTYP == 6) IRS = IPARI(25,NI)
               SURF_NODES => IGRSURF(ISU1)%NODES(1:NRTS_FE,1:4)
               CALL INSURF(NRTS_FE,NSN_FE,IRS,INTBUF_TAB(NI)%IRECTS,NOINT,
      .                   SURF_NODES,ITAB,INTBUF_TAB(NI)%NSV,ID,TITR,
      .                   NTAG,INTBUF_TAB(NI)%S_NSV,INTBUF_TAB(NI)%S_IRECTS,X,TYPE18)
-              IF (IGRSURF(ISU1)%NSEG_IGE .GE. 1) THEN
+              IF (IGRSURF(ISU1)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU1)%NODES_IGE(1:NRTS_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU1)%IAD_IGE
                 CALL INSURFIGEO(NRTS_IGE,NRTS_FE,NSN_IGE,0,IAD_IGE,IRS,
@@ -293,7 +293,7 @@ C-----
           IF(NRTM == 0) THEN
              CALL ANCMSG(MSGID=119, MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=ID,C1=TITR)
           ENDIF
-          IF(IPRI.GE.1) WRITE(IOUT,'(//,A,I10)')
+          IF(IPRI>=1) WRITE(IOUT,'(//,A,I10)')
      .    ' MAIN SURFACE IS THE HYPER-ELLIPSOIDAL SURFACE :',
      .      IGRSURF(ISU2)%ID
           INTBUF_TAB(NI)%KSURF(1)=ISU2
@@ -301,7 +301,7 @@ C-----
           IF(NRTM == 0) THEN
              CALL ANCMSG(MSGID=119, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID,C1=TITR)
           ENDIF
-          IF(IPRI.GE.1) WRITE(IOUT,'(//,A,I10)')
+          IF(IPRI>=1) WRITE(IOUT,'(//,A,I10)')
      .    ' MAIN SURFACE IS THE HYPER-ELLIPSOIDAL SURFACE :',
      .      IGRSURF(ISU2)%ID
           INTBUF_TAB(NI)%KSURF(1)=ISU2
@@ -309,11 +309,11 @@ C-----
 C       
 C--------------------------------------------
         ELSEIF( NTYP == 23) THEN
-          IF(IS2.NE.0) THEN
+          IF(IS2/=0) THEN
             IF(NRTM == 0) THEN
               CALL ANCMSG(MSGID=119, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
-            IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
+            IF(IPRI>=1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
             IF(IS2 == 1)THEN
               NRTM=IGRSURF(ISU2)%NSEG
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM,1:4)
@@ -329,11 +329,11 @@ C--------------------------------------------
         ELSEIF (NTYP == 24) THEN
           NRTM_SH   = IPARI(42,NI)
           NRTM0   = NRTM -NRTM_SH
-          IF (IS2.NE.0) THEN
+          IF (IS2/=0) THEN
             IF(NRTM0 == 0) THEN
               CALL ANCMSG(MSGID=119, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
-            IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
+            IF(IPRI>=1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
             IF(IS2 == -1)THEN
               NRTM0 = IGRSURF(ISU2)%NSEG
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM0,1:4)
@@ -353,17 +353,17 @@ C--------------------------------------------
         ELSE
           IF (NTYP == 3 .OR. NTYP == 5 .OR. NTYP == 6 .OR. NTYP == 8)
      .        IRM = IPARI(24,NI)
-          IF (IS2.NE.0) THEN
+          IF (IS2/=0) THEN
             IF(NRTM_FE == 0 .AND. NRTM_IGE == 0) THEN
               CALL ANCMSG(MSGID=119, MSGTYPE=MSGERROR,  ANMODE=ANINFO, I1=ID, C1=TITR)
             ENDIF
-            IF(IPRI.GE.1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
+            IF(IPRI>=1) WRITE(IOUT,'(//,A)')' MAIN SURFACE'
             IF(IS2 == 1)THEN
               SURF_NODES => IGRSURF(ISU2)%NODES(1:NRTM_FE,1:4)
               CALL INSURF(NRTM_FE,NMN_FE,IRM,INTBUF_TAB(NI)%IRECTM,NOINT,
      .                    SURF_NODES,ITAB,INTBUF_TAB(NI)%MSR,ID,TITR,
      .                    NTAG,INTBUF_TAB(NI)%S_MSR,INTBUF_TAB(NI)%S_IRECTM,X,TYPE18)
-              IF (IGRSURF(ISU2)%NSEG_IGE .GE. 1) THEN
+              IF (IGRSURF(ISU2)%NSEG_IGE >= 1) THEN
                 SURF_NODES_IGE => IGRSURF(ISU2)%NODES_IGE(1:NRTM_IGE,1:4)
                 IAD_IGE = IGRSURF(ISU2)%IAD_IGE
                 CALL INSURFIGEO(NRTM_IGE,NRTM_FE,NMN_IGE,NSN_IGE,IAD_IGE,IRM,INTBUF_TAB(NI)%IRECTM,NOINT,
@@ -420,7 +420,7 @@ C-------
           ENDIF
 C-------
         ELSEIF (NTYP == 3 .OR. NTYP == 4 .OR. NTYP == 9) THEN
-          IF(IPARI(30,NI).NE.0) THEN
+          IF(IPARI(30,NI)/=0) THEN
             INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
             INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
             INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -428,7 +428,7 @@ C-------
             INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
             INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           CALL NSEGMT(
@@ -440,7 +440,7 @@ C-------
 C-------
         ELSEIF (NTYP == 5) THEN
 C-------
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
             INTBUF_TAB(NI)%FRIC_P(1)  =FRIC_P(1,NI)
             INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
             INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -448,7 +448,7 @@ C-------
             INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
             INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           CALL NSEGMT(
@@ -467,7 +467,7 @@ C-------
      .         NMT,NRTM,NMN)
 C-------
         ELSEIF (NTYP == 7) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -475,7 +475,7 @@ C-------
              INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
              INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+6*MULTIMP*(NSN_IGE+NSN_FE)
@@ -498,7 +498,7 @@ C-------
      .         NMT,NRTM,NMN)
 C-------
         ELSEIF (NTYP == 20) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -506,7 +506,7 @@ C-------
              INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+6*MULTIMP*NSN
@@ -521,7 +521,7 @@ C-------
 
 C-------
         ELSEIF (NTYP == 21) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FROT_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FROT_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FROT_P(3) = FRIC_P(3,NI)
@@ -529,13 +529,13 @@ C-------
              INTBUF_TAB(NI)%FROT_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FROT_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%ALPHA0(1) = XFILTR(NI)
           ENDIF
           LIXINT = MAX(LIXINT,6*MULTIMP*NSN)
 C-------
         ELSEIF (NTYP == 22) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -543,13 +543,13 @@ C-------
              INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+6*MULTIMP*NSN
 C-------
         ELSEIF (NTYP == 23) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -557,13 +557,13 @@ C-------
              INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = MAX(LIXINT,6*MULTIMP*NSN)
 C-------
         ELSEIF (NTYP == 24) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -571,7 +571,7 @@ C-------
              INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+6*MULTIMP*NSN
@@ -590,7 +590,7 @@ C-----------inside I24SURFI NRTM=NRTM0
 C------initialization of doubler M_seg pour shells ---> move inside I24SURFI
 C-------
         ELSEIF (NTYP == 25) THEN
-          IF (IPARI(30,NI).NE.0) THEN
+          IF (IPARI(30,NI)/=0) THEN
              INTBUF_TAB(NI)%FRIC_P(1) = FRIC_P(1,NI)
              INTBUF_TAB(NI)%FRIC_P(2) = FRIC_P(2,NI)
              INTBUF_TAB(NI)%FRIC_P(3) = FRIC_P(3,NI)
@@ -598,7 +598,7 @@ C-------
              INTBUF_TAB(NI)%FRIC_P(5) = FRIC_P(5,NI)
              INTBUF_TAB(NI)%FRIC_P(6) = FRIC_P(6,NI)
           ENDIF
-          IF(IPARI(31,NI).NE.0) THEN
+          IF(IPARI(31,NI)/=0) THEN
             INTBUF_TAB(NI)%XFILTR(1) = XFILTR(NI)
           ENDIF
           LIXINT = LIXINT+6*MULTIMP*NSN

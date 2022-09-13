@@ -72,14 +72,14 @@ C-----------------------------------------------
         REAL :: TOTAL
         REAL ::  ZEROS = 0.0 
 
-        IF (IMPL_S.EQ.1) THEN
+        IF (IMPL_S==1) THEN
          NFIELDS = 4
          FIELDS(1) = 31 ; FIELDS(2) = 32 ; FIELDS(3) = 33 ; FIELDS(4) = 34
          CALL PRINT_BLOCK("** IMPLICIT  **",TABTIME,NTIMAX,
      .                      FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
         ENDIF
 C
-c       IF(IMONM .GE. 1)THEN
+c       IF(IMONM >= 1)THEN
          NF = 1
          IF(NINTER > 0) THEN
            FIELDS(NF) = MACRO_TIMER_CONTSORT
@@ -109,7 +109,7 @@ c       IF(IMONM .GE. 1)THEN
      .                      FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
 
 
-        IF(NADMESH.NE.0)THEN
+        IF(NADMESH/=0)THEN
          NFIELDS = 3
          FIELDS(1) = 36 ; FIELDS(2) = 37 ; FIELDS(3) = 38 
          CALL PRINT_BLOCK("** ADAPTIVE MESH TIME  **",TABTIME,NTIMAX,
@@ -139,7 +139,7 @@ c       IF(IMONM .GE. 1)THEN
      .                     FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
         ENDIF ! SPMD
 C
-        IF (IMONM.GE.1) THEN
+        IF (IMONM>=1) THEN
           IF(IDTMINS/=0.OR.IDTMINS_INT/=0)THEN
             FIELDS(1)  =61 ; TITLES(61) = 'PCG' 
             FIELDS(2)  =62 ; TITLES(62) = 'PARITF' 
@@ -254,7 +254,7 @@ C
           CALL PRINT_BLOCK(" ",TABTIME,NTIMAX,
      .                      FLAG,OUT_ID,NFIELDS,FIELDS,TITLES)
 
-          IF(IALE+IEULER+ITHERM.NE.0) THEN
+          IF(IALE+IEULER+ITHERM/=0) THEN
             FIELDS(1) = MACRO_TIMER_ALEMAIN                           
             FIELDS(2) = MACRO_TIMER_IFSUB0                           
             FIELDS(3) = MACRO_TIMER_MULTIFVM                           
@@ -966,7 +966,7 @@ C
       ENDIF
 
       SECS = CLOCK1-CLOCKINI(EVENT,ITASK)    ! diff temps courant - temps initial
-      IF(SECS.LT.ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+      IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
       SECS = SECS/CLOCKRATE
 #endif
 
@@ -1090,7 +1090,7 @@ C-----------------------------------------------
       TITLES(38) = 'VEL'
 C
       ZEROS=ZERO
-      IF (ICRAY.EQ.1) THEN
+      IF (ICRAY==1) THEN
         IRSIZE = 8
       ELSE
         IRSIZE = 4
@@ -1109,7 +1109,7 @@ CC smp nproc = ntask, spmd nproc = NSPMD
       IF (NSPMD > 1) THEN
 C gather des cpu et sys time pour spmd
         MSGTAG = 1000
-        IF (ISPMD.NE.0) THEN
+        IF (ISPMD/=0) THEN
           CALL RAD_SPMD_SEND(CPUTIME,NTIMAX*IRSIZE,0,IT_SPMD,
      .                       MSGTAG+ISPMD+1,INTSIZE)
           CALL RAD_SPMD_SEND(SYSTIME,NTIMAX*IRSIZE,0,IT_SPMD,
@@ -1139,7 +1139,7 @@ C Gather de la m  moire utilis  e
         MEMSTAT(4,ISPMD+1) = VMHWM
         MEMSTAT(5,ISPMD+1) = VMSTK
 
-        IF (ISPMD.NE.0) THEN
+        IF (ISPMD/=0) THEN
           CALL RAD_SPMD_SEND( MEMUSE(ISPMD+1),1*IRSIZE,0,IT_SPMD,
      .                        MSGTAG+ISPMD+1,INTSIZE)
           CALL RAD_SPMD_SEND( VMSIZE,1*IRSIZE,0,IT_SPMD,
@@ -1216,7 +1216,7 @@ C
 
 
 C
-      IF (ISPMD.NE.0) RETURN
+      IF (ISPMD/=0) RETURN
 
       WRITE(ISTDO,*)' '
       WRITE(ISTDO,*)'                          ** CPU USER TIME **'
@@ -1317,7 +1317,7 @@ C---------------------------
       WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' AMS.........................: ',
      +  CUMUL(39),100*CUMUL(39)/CUMUL(1),' % '
       END IF
-      IF(IALE+IEULER+ITHERM.NE.0) THEN
+      IF(IALE+IEULER+ITHERM/=0) THEN
       WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' ALE.........................: ',
      + CUMUL(MACRO_TIMER_ALEMAIN),
      + 100*CUMUL(MACRO_TIMER_ALEMAIN)/CUMUL(1),' % '
@@ -1327,7 +1327,7 @@ C---------------------------
      +  TOTAL,100*TOTAL/CUMUL(1),' % '
       WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' TOTAL.......................: ',
      +  CUMUL(1),100*CUMUL(1)/CUMUL(1),' % '
-c     IF(NUMSPH .NE.0) THEN
+c     IF(NUMSPH /=0) THEN
 c     WRITE(ISTDO,'(A,E9.4,3x,F6.2,A)')' SPH TOTAL...................: ',
 c    + CUMUL(48),
 c    + 100*CUMUL(48)/CUMUL(1),' % '
@@ -1360,7 +1360,7 @@ c     ENDIF
         WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' AMS.........................: ',
      +  CUMUL(39),100*CUMUL(39)/CUMUL(1),' % '
       END IF
-      IF(IALE+IEULER+ITHERM.NE.0) THEN
+      IF(IALE+IEULER+ITHERM/=0) THEN
       WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' ALE.........................: ',
      +  CUMUL(MACRO_TIMER_ALEMAIN)
      +  ,100*CUMUL(MACRO_TIMER_ALEMAIN)/CUMUL(1),' % '
@@ -1369,7 +1369,7 @@ c     ENDIF
      +  TOTAL,100*TOTAL/CUMUL(1),' % '
       WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' TOTAL.......................: ',
      +  CUMUL(1),100*CUMUL(1)/CUMUL(1),' % '
-c     IF(NUMSPH .NE.0) THEN
+c     IF(NUMSPH /=0) THEN
 c     WRITE(IOUT,'(A,E9.4,3x,F6.2,A)')' SPH TOTAL...................: ',
 c    + CUMUL(48),
 c    + 100*CUMUL(48)/CUMUL(1),' % '
@@ -1566,7 +1566,7 @@ C---------------------------
 C      CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
 C     +                  COUNT_MAX=NBMAX                   )
 C      SECS = CLOCK1-CLOCK0         ! diff temps final - temps initial (qui peut ne pas etre 0 !)
-C      IF(SECS.LT.ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+C      IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
 C      SECS = SECS/CLOCKRATE
 
       IH=SECS/3600
@@ -1840,18 +1840,18 @@ C-----------------------------------------------
       INTEGER FREQUENCE,LENH,LENC,I,MEM,SWAP
       SAVE HOSTNAME,CPUNAM,FREQUENCE,LENH,LENC,MEM,SWAP
 
-      IF(IFLAG.EQ.1) THEN
+      IF(IFLAG==1) THEN
 
         CALL CPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,MEM,SWAP)
 
-      ELSEIF(IFLAG.EQ.2) THEN
+      ELSEIF(IFLAG==2) THEN
 C 2eme appel apres init parallele (echange et ecriture)
-        IF(ISPMD.EQ.0) THEN
+        IF(ISPMD==0) THEN
           WRITE(IOUT,*)' ' 
           WRITE(IOUT,7000) 
           WRITE(IOUT,*)' ' 
-          IF(NSPMD.EQ.1) THEN
-            IF(MEM.GT.-1)THEN
+          IF(NSPMD==1) THEN
+            IF(MEM>-1)THEN
               WRITE(IOUT,7400) 
               WRITE(IOUT,'(A,A,A,A,A,I4,A,I6,A,I6,A)') ' ',
      .        HOSTNAME(1:LENH),'   ',CPUNAM(1:LENC),', ',FREQUENCE,
@@ -1864,7 +1864,7 @@ C 2eme appel apres init parallele (echange et ecriture)
             END IF
           ELSE
             I = 1
-            IF(MEM.GT.-1)THEN
+            IF(MEM>-1)THEN
               WRITE(IOUT,7500) 
               WRITE(IOUT,'(I4,A,A,A,A,A,I4,A,I6,A,I6,A)') I,'   ',
      .        HOSTNAME(1:LENH),'   ',CPUNAM(1:LENC),', ',FREQUENCE,
@@ -1878,10 +1878,10 @@ C 2eme appel apres init parallele (echange et ecriture)
           END IF
         END IF
 C ecriture du complement en multiprocs
-        IF(NSPMD.GT.1)
+        IF(NSPMD>1)
      .    CALL SPMD_PRINTCPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,
      .                           MEM,SWAP)
-        IF(ISPMD.EQ.0) WRITE(IOUT,*)' ' 
+        IF(ISPMD==0) WRITE(IOUT,*)' ' 
 
       ENDIF
      
@@ -2110,7 +2110,7 @@ C   ouverture du fichier DDW
 C  
 C   preparation de la ponderation
 C  
-      IF (TPSENG.EQ.ZERO) THEN
+      IF (TPSENG==ZERO) THEN
          TPPOND = ONE
       ELSE
          TPPOND = TPSENG/TPSREF
@@ -2134,18 +2134,18 @@ C   Comptage des groupes
 
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
-        IF (ITY.EQ.1) THEN
+        IF (ITY==1) THEN
           ISOLNOD = IPARG(28,NG) 
-          IF (ISOLNOD.EQ.4) THEN
+          IF (ISOLNOD==4) THEN
             NUMSOL4G = NUMSOL4G+1
-          ELSEIF (ISOLNOD.EQ.10) THEN
+          ELSEIF (ISOLNOD==10) THEN
             NUMSOL10G = NUMSOL10G+1
           ELSE
             NUMSOLG = NUMSOLG + 1
           ENDIF
-        ELSEIF (ITY.EQ.3) THEN
+        ELSEIF (ITY==3) THEN
            NUMSHG = NUMSHG + 1
-        ELSEIF (ITY.EQ.7) THEN
+        ELSEIF (ITY==7) THEN
            NUMTRIG = NUMTRIG + 1
         ENDIF
       ENDDO
@@ -2162,38 +2162,38 @@ C   Calcul du temps theorique de chaque groupe
 
          THEOGP(NG)=0.
 C   SOLIDES
-         IF (ITY.EQ.1) THEN
+         IF (ITY==1) THEN
           ISOLNOD=IPARG(28,NG)
-          IF (ISOLNOD.EQ.4) THEN
+          IF (ISOLNOD==4) THEN
            TELT = TET4TNL(MTN,1) + TET4TELT(1)
 C   TETRA10
-          ELSEIF (ISOLNOD.EQ.10) THEN
+          ELSEIF (ISOLNOD==10) THEN
 	   MMA = IXS(1,NFT)
 	   NFUNC = MAX(IPM(10,MMA) - 3,1)
-	   IF (NFUNC.LE.2) THEN
+	   IF (NFUNC<=2) THEN
               TELT = TET10TNL(MTN,1) + TET10TELT(1)
-	   ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+	   ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
 	      TELT = TET10TNL(MTN,2) + TET10TELT(1)
 	   ELSE
 	      TELT = TET10TNL(MTN,3) + TET10TELT(1)
 	   ENDIF
           ELSE
-           IF (IHBE.LE.1.OR.IHBE.EQ.101) THEN
+           IF (IHBE<=1.OR.IHBE==101) THEN
 C   Solides ISOLD1
             TELT = SOL1TNL(MTN,1) + SOLTELT(1)
-           ELSEIF (IHBE.EQ.2.OR.IHBE.EQ.102) THEN
+           ELSEIF (IHBE==2.OR.IHBE==102) THEN
 C   Solides ISOLD2
             TELT = SOL1TNL(MTN,1) + SOLTELT(2)
 C
-           ELSEIF (IHBE.EQ.24.OR.IHBE.EQ.104) THEN
+           ELSEIF (IHBE==24.OR.IHBE==104) THEN
 C   Solides ISOLD24  - HEPH
             TELT = SOL1TNL(MTN,1) + SOLTELT(3)
 C
-           ELSEIF (IHBE.EQ.12.OR.IHBE.EQ.112) THEN
+           ELSEIF (IHBE==12.OR.IHBE==112) THEN
 C   Solides ISOLD12 - std 8 node integ point
             TELT = SOL8TNL(MTN,1) + SOLTELT(4)
 C
-           ELSEIF (IHBE.EQ.14.OR.IHBE.GE.222) THEN
+           ELSEIF (IHBE==14.OR.IHBE>=222) THEN
 C   Solides HA8
             MPT = ABS (NPT)
             NPTS = MPT/100
@@ -2203,7 +2203,7 @@ C   Solides HA8
 C
             TELT = NPTOT*SOL8TNL(MTN,1)+SOLTELT(5)+NPTOT*SOLTELT(6)
 	   
-	   ELSEIF(IHBE.EQ.17)THEN
+	   ELSEIF(IHBE==17)THEN
 	     TELT = SOL1TNL(MTN,1)*8+SOLTELT(7)
 	   ELSE
 	     TELT = SOL1TNL(MTN,1) + SOLTELT(1)
@@ -2212,15 +2212,15 @@ C
 C
            THEOGP(NG)= TELT*NELEM*NCYCLE*TPPOND
 C   COQUES
-         ELSEIF (ITY.EQ.3) THEN
+         ELSEIF (ITY==3) THEN
 
           DO J=NFT,NFT+NELEM-1
            MMA = IXC(1,J)
-           IF (NPT.GT.0) THEN
+           IF (NPT>0) THEN
 C   traitement a part pour zero points d integration
-             IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
+             IF (MTN==2.OR.MTN==3) THEN
                CC = PM(43,MMA)
-               IF (CC.NE.0.0 )THEN
+               IF (CC/=0.0 )THEN
                  TABMAT(1) = SHTNL(MTN,1,2)
                  TABMAT(2) = SHTNL(MTN,2,2)
                  TABMAT(3) = SHTNL(MTN,3,2)
@@ -2230,18 +2230,18 @@ C   traitement a part pour zero points d integration
                  TABMAT(3) = SHTNL(MTN,3,1)
                ENDIF
 
-             ELSEIF (MTN.EQ.36) THEN
+             ELSEIF (MTN==36) THEN
                 NFUNC = IPM(10,MMA)
 
-               IF (NFUNC.LE.2) THEN
+               IF (NFUNC<=2) THEN
                  TABMAT(1) = SHTNL(MTN,1,1)
                  TABMAT(2) = SHTNL(MTN,2,1)
                  TABMAT(3) = SHTNL(MTN,3,1)
-               ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+               ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
                  TABMAT(1) = SHTNL(MTN,1,2)
                  TABMAT(2) = SHTNL(MTN,2,2)
                  TABMAT(3) = SHTNL(MTN,3,2)
-               ELSEIF (NFUNC.GT.7) THEN
+               ELSEIF (NFUNC>7) THEN
                  TABMAT(1) = SHTNL(MTN,1,3)
                  TABMAT(2) = SHTNL(MTN,2,3)
                  TABMAT(3) = SHTNL(MTN,3,3)
@@ -2262,21 +2262,21 @@ C   traitement a part pour zero points d integration
 
             ELSE
 C   Cas Zero points d integration
-             IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
+             IF (MTN==2.OR.MTN==3) THEN
                CC = PM(43,MMA)
-               IF (CC.NE.0.0 )THEN
+               IF (CC/=0.0 )THEN
                  TIMMAT = SHTNL(MTN,0,2)
                ELSE
                  TIMMAT = SHTNL(MTN,0,1)
                ENDIF
 
-             ELSEIF (MTN.EQ.36) THEN
+             ELSEIF (MTN==36) THEN
                NFUNC = NINT(PM(40,MMA))
-               IF (NFUNC.LE.2) THEN
+               IF (NFUNC<=2) THEN
                  TIMMAT = SHTNL(MTN,0,1)
-               ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+               ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
                  TIMMAT = SHTNL(MTN,0,2)
-               ELSEIF (NFUNC.GT.7) THEN
+               ELSEIF (NFUNC>7) THEN
                  TIMMAT = SHTNL(MTN,0,3)
                ENDIF
              ELSE
@@ -2287,9 +2287,9 @@ C   fin cas zero point d integrations
             ENDIF 
 
 C   temps elementaire
-            IF (IHBE.GE.11.AND.IHBE.LE.19) THEN
+            IF (IHBE>=11.AND.IHBE<=19) THEN
               TELT = SHTELT(3)+BATOZMULT*TIMMAT
-            ELSEIF (IHBE.GE.21.AND.IHBE.LE.29) THEN
+            ELSEIF (IHBE>=21.AND.IHBE<=29) THEN
               TELT = SHTELT(2) + TIMMAT
             ELSE
               TELT = SHTELT(1)  + TIMMAT
@@ -2298,15 +2298,15 @@ C   fin temps elementaire
               THEOGP(NG)= THEOGP(NG)+TELT*NCYCLE*TPPOND
           ENDDO
 C   TRIANGLES
-         ELSEIF (ITY.EQ.7) THEN
+         ELSEIF (ITY==7) THEN
 
           DO J=NFT,NFT+NELEM-1
            MMA = IXTG(1,J)
-           IF (NPT.GT.0) THEN
+           IF (NPT>0) THEN
 C   traitement a part pour zero points d integration
-             IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
+             IF (MTN==2.OR.MTN==3) THEN
                CC = PM(43,MMA)
-               IF (CC.NE.0.0 )THEN
+               IF (CC/=0.0 )THEN
                  TABMAT(1) = TRITNL(MTN,1,2)
                  TABMAT(2) = TRITNL(MTN,2,2)
                  TABMAT(3) = TRITNL(MTN,3,2)
@@ -2316,17 +2316,17 @@ C   traitement a part pour zero points d integration
                  TABMAT(3) = TRITNL(MTN,3,1)
                ENDIF
 
-             ELSEIF (MTN.EQ.36) THEN
+             ELSEIF (MTN==36) THEN
                NFUNC = IPM(10,MMA)
-               IF (NFUNC.LE.2) THEN
+               IF (NFUNC<=2) THEN
                  TABMAT(1) = TRITNL(MTN,1,1)
                  TABMAT(2) = TRITNL(MTN,2,1)
                  TABMAT(3) = TRITNL(MTN,3,1)
-               ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+               ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
                  TABMAT(1) = TRITNL(MTN,1,2)
                  TABMAT(2) = TRITNL(MTN,2,2)
                  TABMAT(3) = TRITNL(MTN,3,2)
-               ELSEIF (NFUNC.GT.7) THEN
+               ELSEIF (NFUNC>7) THEN
                  TABMAT(1) = TRITNL(MTN,1,3)
                  TABMAT(2) = TRITNL(MTN,2,3)
                  TABMAT(3) = TRITNL(MTN,3,3)
@@ -2347,21 +2347,21 @@ C   traitement a part pour zero points d integration
 
             ELSE
 C   Cas Zero points d integration
-             IF (MTN.EQ.2.OR.MTN.EQ.3) THEN
+             IF (MTN==2.OR.MTN==3) THEN
                CC = PM(43,MMA)
-               IF (CC.NE.0.0 )THEN
+               IF (CC/=0.0 )THEN
                  TIMMAT = TRITNL(MTN,0,2)
                ELSE
                  TIMMAT = TRITNL(MTN,0,1)
                ENDIF
 
-             ELSEIF (MTN.EQ.36) THEN
+             ELSEIF (MTN==36) THEN
                NFUNC = NINT(PM(40,MMA))
-               IF (NFUNC.LE.2) THEN
+               IF (NFUNC<=2) THEN
                  TIMMAT = TRITNL(MTN,0,1)
-               ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+               ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
                  TIMMAT = TRITNL(MTN,0,2)
-               ELSEIF (NFUNC.GT.7) THEN
+               ELSEIF (NFUNC>7) THEN
                  TIMMAT = TRITNL(MTN,0,3)
                ENDIF
              ELSE
@@ -2372,9 +2372,9 @@ C   fin cas zero point d integrations
             ENDIF 
 
 C   temps elementaire
-            IF (IHBE.GE.11.AND.IHBE.LE.19) THEN
+            IF (IHBE>=11.AND.IHBE<=19) THEN
               TELT = TRITELT(3)+BATOZMULT*TIMMAT
-            ELSEIF (IHBE.GE.21.AND.IHBE.LE.29) THEN
+            ELSEIF (IHBE>=21.AND.IHBE<=29) THEN
               TELT = TRITELT(2) + TIMMAT
             ELSE
               TELT = TRITELT(1)  + TIMMAT
@@ -2397,18 +2397,18 @@ C   peux passer au traitement et a l affichage.
        WRITE(66,1100) NUMSOLG,NUMSHG,NUMTRIG,NUMOTHER
        WRITE(66,'(A)') ' ' 
        WRITE(66,1200) TPSREEL,TPSTHTOT
-      IF (NUMSOLG.GT.0)
+      IF (NUMSOLG>0)
      .  CALL PRINTSOLIDES(IPARG,THEOGP,NUMSOLG,IPM,IXS)
 
-      IF (NUMSOL4G.GT.0)
+      IF (NUMSOL4G>0)
      .  CALL PRINTTET4(IPARG,THEOGP,NUMSOL4G,IPM,IXS)
 
-      IF (NUMSOL10G.GT.0)
+      IF (NUMSOL10G>0)
      .  CALL PRINTTET10(IPARG,THEOGP,NUMSOL10G)
-      IF (NUMSHG.GT.0)
+      IF (NUMSHG>0)
      .  CALL PRINTCOQUES(IPARG,IXC,IPM,THEOGP,NUMSHG)
 
-      IF (NUMTRIG.GT.0)
+      IF (NUMTRIG>0)
      .  CALL PRINTTRIANGLES(IPARG,THEOGP,NUMTRIG)
 
       CLOSE(UNIT=66)
@@ -2503,7 +2503,7 @@ C-----------------------------------------------
         IHBE  = IPARG(23,NG)
 
 
-        IF (ITY.EQ.3) THEN
+        IF (ITY==3) THEN
 
           NGL = NGL + 1
 
@@ -2631,9 +2631,9 @@ C-----------------------------------------------
         NFT = IPARG(3,NG)+1
         IHBE    = IPARG(23,NG)
 
-        IF (ITY.EQ.1) THEN
+        IF (ITY==1) THEN
           ISOLNOD = IPARG(28,NG)
-          IF (ISOLNOD.NE.4.AND.ISOLNOD.NE.10) THEN
+          IF (ISOLNOD/=4.AND.ISOLNOD/=10) THEN
             NGL = NGL + 1
             NUMGROUP(NGL) = NG
             DIFFTTSH(NGL) = CPUTIMEG(NG) - THEOGP(NG)
@@ -2747,9 +2747,9 @@ C-----------------------------------------------
         NFT = IPARG(3,NG)+1
         IHBE    = IPARG(23,NG)
 
-        IF (ITY.EQ.1) THEN
+        IF (ITY==1) THEN
           ISOLNOD =  IPARG(28,NG)
-          IF (ISOLNOD.EQ.4) THEN
+          IF (ISOLNOD==4) THEN
             NGL = NGL + 1
             NUMGROUP(NGL) = NG
             DIFFTTSH(NGL) = CPUTIMEG(NG) - THEOGP(NG)
@@ -2863,9 +2863,9 @@ C-----------------------------------------------
         NFT = IPARG(3,NG)+1
         IHBE    = IPARG(23,NG)
 
-        IF (ITY.EQ.1) THEN
+        IF (ITY==1) THEN
           ISOLNOD =  IPARG(28,NG)
-          IF (ISOLNOD.EQ.10) THEN
+          IF (ISOLNOD==10) THEN
             NGL = NGL + 1
             NUMGROUP(NGL) = NG
             DIFFTTSH(NGL) = CPUTIMEG(NG) - THEOGP(NG)
@@ -2977,7 +2977,7 @@ C-----------------------------------------------
         NFT = IPARG(3,NG)+1
         IHBE    = IPARG(23,NG)
 
-        IF (ITY.EQ.7) THEN
+        IF (ITY==7) THEN
 
           NGL = NGL + 1
 
@@ -3046,7 +3046,7 @@ Chd|====================================================================
 
       MUL = 1.
       DO J=1,LTAB
-        IF (I.NE.J) THEN
+        IF (I/=J) THEN
           MUL= MUL * (X-LX(J))/(LX(I)-LX(J))
         ENDIF
       ENDDO
@@ -3080,7 +3080,7 @@ Chd|====================================================================
 
          DO I=1,SIZE
            DO J=1,SIZE-I
-              IF (WORK(J).LT.WORK(J+1)) THEN
+              IF (WORK(J)<WORK(J+1)) THEN
                  TMP = WORK(J)
                  WORK(J) = WORK(J+1)
                  WORK(J+1) = TMP
@@ -3149,7 +3149,7 @@ C-----------------------------------------------
 #else
       IF(CLOCK1 > 0 ) THEN
         SECS = CLOCK1-CLOCK0         ! diff temps courant - temps initial (qui peut ne pas etre 0 !)
-        IF(SECS.LT.ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
+        IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
         SECS = SECS/CLOCKRATE
         CLOCK0 = CLOCK1              ! recuperation du temps courant dans clock0
         ELAPSED = ELAPSED + SECS

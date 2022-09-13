@@ -98,7 +98,7 @@ C-----------------------------------------------
       !=== instantaneous release
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I).EQ.ONE)THEN   
+          IF(TT > TEND .AND. ABURN(I)==ONE)THEN   
             LAMBDA   = ONE
             ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
@@ -114,7 +114,7 @@ C-----------------------------------------------
       !=== afterburning with constant rate from Tbegin to Tend
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I).EQ.ONE)THEN 
+          IF(TT > TEND .AND. ABURN(I)==ONE)THEN 
             LAMBDA   = ONE
             ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
@@ -131,7 +131,7 @@ C-----------------------------------------------
       !=== afterburning with linear rate from Tbegin to Tend
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I).EQ.ONE)THEN    ! .AND. ABURN(I).EQ.ONE  needed to add last increment
+          IF(TT > TEND .AND. ABURN(I)==ONE)THEN    ! .AND. ABURN(I)==ONE  needed to add last increment
             LAMBDA   = ONE
             ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN

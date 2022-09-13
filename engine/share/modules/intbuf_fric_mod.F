@@ -322,7 +322,7 @@ C--------------------------------------
            LEN    =LENC+2*LENC*NSET
         ENDIF
 
-        IF(LEN.GT.0)THEN
+        IF(LEN>0)THEN
            ALLOCATE(INTBUF_FRIC_TAB(N)%TABCOEF_FRIC(LEN))
            CALL READ_DB(INTBUF_FRIC_TAB(N)%TABCOEF_FRIC,LEN)
         ENDIF

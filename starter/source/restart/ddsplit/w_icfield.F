@@ -70,7 +70,7 @@ C
           NN = LCFIELD(IAD+J-1)
           N = ABS(NN)
           IF (NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L)THEN
-            IF(NN.GT.0) THEN
+            IF(NN>0) THEN
              LGRTMP(IADL+NLL) = NODLOCAL(N)
             ELSE
               LGRTMP(IADL+NLL) = -NODLOCAL(N)

@@ -207,7 +207,7 @@ C-----------------------------------------------
 C
       NUVAR  = 0
       NUVARR = 0
-      IF (MTN.GE.29) THEN
+      IF (MTN>=29) THEN
         DO I=LFT,LLT
           IMAT = IXTG(1,I+NFT)
           NUVAR  = MAX(NUVAR,IPM(8,IMAT))
@@ -247,7 +247,7 @@ c---- Init UVAR
      .               NPTR,NPTS,NPTT,IGTYP)
       ENDIF
 C      
-       IF (( ISIGSH.NE.0 .OR. ITHKSHEL == 2) .and. MPT>0) THEN
+       IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. MPT>0) THEN
            CALL LAYINI1(
      .        ELBUF_STR  ,LFT        ,LLT        ,GEO        ,IGEO      ,
      .        MAT        ,PID        ,MATLY      ,POSLY      ,IGTYP     ,
@@ -298,7 +298,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
      3                   SIGSH   )
         ENDIF
 C
-        IF (IUSER == 1.AND.MTN.GE.28) THEN
+        IF (IUSER == 1.AND.MTN>=28) THEN
           CALL CUSERINI4(ELBUF_STR,
      1                 LFT     ,LLT    ,NFT     ,NEL     ,ISTRAIN  ,
      2                 SIGSH   ,NSIGSH ,NUMELC  ,IXTG    ,NIXTG    ,
@@ -318,7 +318,7 @@ C-----------------------------------------------------------------------
 C----------------------------------------
 c Failure model initialisation
 C----------------------------------------
-c	     IF ( NPERTURB .NE. 0 .OR. NVSHELL1 /= 0) THEN
+c	     IF ( NPERTURB /= 0 .OR. NVSHELL1 /= 0) THEN
 	       CALL CFAILINI4(ELBUF_STR,IXTG    ,NIXTG   ,NPTR    ,NPTS    ,
      .                 NPTT     ,NLAY    ,IPM     ,SIGSH   ,NSIGSH  ,
      .                 NUMELTG  ,PTSH3N  ,RNOISE  ,PERTURB ,BUFMAT  ,
@@ -446,7 +446,7 @@ C-----------------------------------------------
      .        X31G(MVSIZ), Y31G(MVSIZ), Z31G(MVSIZ)
 C=======================================================================
 C
-      IF (ISMSTR.NE.3)THEN
+      IF (ISMSTR/=3)THEN
         DO I=JFT,JLT
           X21G(I)=X2G(I)-X1G(I)
           Y21G(I)=Y2G(I)-Y1G(I)

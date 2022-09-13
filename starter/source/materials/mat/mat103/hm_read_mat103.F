@@ -140,7 +140,7 @@ C     DEFAULTS
 C----------------------------------------------- 
       IF(PMIN == ZERO) PMIN=-INFINITY
       IF(RCP  == ZERO) RCP = INFINITY 
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 C----------------------------------------------- 

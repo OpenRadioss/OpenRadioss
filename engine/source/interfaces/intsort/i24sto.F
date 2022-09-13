@@ -115,17 +115,17 @@ C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES 
 C-----------------------------------------------
       DO I=1,J_STOK
-       IF(PENE(I).NE.ZERO)THEN
+       IF(PENE(I)/=ZERO)THEN
          N  = PROV_N(I)
          NE = PROV_E(I)+ESHIFT
-         IF(N.GT.NSN)THEN
+         IF(N>NSN)THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
             N = OLDNUM(N-NSN)+NSN
-            IF(N.EQ.NSN) N = NSN+NSNROLD+1
+            IF(N==NSN) N = NSN+NSNROLD+1
          END IF
          J = CAND_A(N)
-          DO WHILE(J.LE.CAND_A(N+1)-1)
-              IF(CAND_E(J).EQ.NE)THEN
+          DO WHILE(J<=CAND_A(N+1)-1)
+              IF(CAND_E(J)==NE)THEN
                   PENE(I)=ZERO
                   J=CAND_A(N+1)
                 ELSE
@@ -137,16 +137,16 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
 
       K_STOK = 0
       DO I=1,J_STOK
-          IF(PENE(I)+PENE_E(I).NE.ZERO) THEN
+          IF(PENE(I)+PENE_E(I)/=ZERO) THEN
            K_STOK = K_STOK + 1
            IF( MSEGTYP(PROV_E(I)+ESHIFT)>0) K_STOK = K_STOK + 1
           END IF 
       ENDDO
-      IF(K_STOK.EQ.0)RETURN
+      IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
       I_STOK = II_STOK
-      IF(I_STOK+K_STOK.GT.MULNSN) THEN
+      IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -155,7 +155,7 @@ C
 #include "lockoff.inc"
       IF(IEDGE==0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT

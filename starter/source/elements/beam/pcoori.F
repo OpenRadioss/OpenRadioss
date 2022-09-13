@@ -108,7 +108,7 @@ C------------------------------
        XP2=Y2(I)-Y1(I)
        XP3=Z2(I)-Z1(I)
        XNOR1=SQRT(XP1*XP1+XP2*XP2+XP3*XP3)
-       IF(XNOR1.LE.EM20) THEN
+       IF(XNOR1<=EM20) THEN
           CALL ANCMSG(MSGID=222,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -120,7 +120,7 @@ C      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
        XP5=Y3(I)-Y1(I)
        XP6=Z3(I)-Z1(I)
        XNOR2=SQRT(XP4*XP4+XP5*XP5+XP6*XP6)
-       IF(XNOR2.LT.EM20) THEN
+       IF(XNOR2<EM20) THEN
           CALL ANCMSG(MSGID=223,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -130,7 +130,7 @@ C      CALCUL DE COLINEARITE DES VECTEURS N1N2 ET N1N3
          DET2=XP2*XP6-XP3*XP5
          DET3=XP3*XP4-XP1*XP6
          DET= SQRT(DET1**2+DET2**2+DET3**2)
-         IF(DET.LT.EM20) THEN
+         IF(DET<EM20) THEN
           CALL ANCMSG(MSGID=224,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,

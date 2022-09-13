@@ -84,7 +84,7 @@ C-----------------------------------------------
       NB_FACE = 6
       TFEXTT  = ZERO
       IX      =>IXS(1:NIXS, 1 + NFT : NEL + NFT)
-      IF (ISOLNOD .EQ. 8) THEN
+      IF (ISOLNOD == 8) THEN
          NB_NODE = 8
          DO J = 1, NB_NODE
             NODE_LIST = J + 1
@@ -97,8 +97,8 @@ C-----------------------------------------------
          NODE_LIST(4) = 6
       ENDIF
 
-      IF (MULTI_FVM%SYM .NE. 0) THEN
-         IF (ITY .EQ. 2) THEN
+      IF (MULTI_FVM%SYM /= 0) THEN
+         IF (ITY == 2) THEN
 C     QUADS
             NB_FACE = 4
             NB_NODE = 4
@@ -108,7 +108,7 @@ C     QUADS
             NODE_LIST(4) = 5
 
             IX => IXQ(1:NIXQ, 1 + NFT : NEL + NFT)
-         ELSEIF (ITY .EQ. 7) THEN
+         ELSEIF (ITY == 7) THEN
 C     TRIANGLES
             NB_FACE = 3
             NB_NODE = 3
@@ -138,18 +138,18 @@ C     Velocity components
 ! Volume 
          VOL = GBUF%VOL(II)
 ! Sum of fluxes
-         IF (MULTI_FVM%SYM .EQ. 0 .AND. ISOLNOD .NE. 4) THEN
+         IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD /= 4) THEN
             SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 1, I) + MULTI_FVM%FLUXES(1:5, 2, I) + 
      .           MULTI_FVM%FLUXES(1:5, 3, I) + MULTI_FVM%FLUXES(1:5, 4, I) +
      .           MULTI_FVM%FLUXES(1:5, 5, I) + MULTI_FVM%FLUXES(1:5, 6, I)
-         ELSEIF (ISOLNOD .EQ. 4) THEN
+         ELSEIF (ISOLNOD == 4) THEN
             SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 5, I) + MULTI_FVM%FLUXES(1:5, 6, I) + 
      .           MULTI_FVM%FLUXES(1:5, 2, I) + MULTI_FVM%FLUXES(1:5, 4, I)
          ELSE
 C     TRIANGLES
             SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 1, I) + MULTI_FVM%FLUXES(1:5, 2, I) + 
      .           MULTI_FVM%FLUXES(1:5, 3, I)
-            IF (ITY .EQ. 2) THEN
+            IF (ITY == 2) THEN
 C     QUADS
                SUMFLUX(1:5) = SUMFLUX(1:5) + MULTI_FVM%FLUXES(1:5, 4, I)
             ENDIF
@@ -157,7 +157,7 @@ C     QUADS
 ! Time evolution
          VII(1:5) = VOL * VII(1:5) - TIMESTEP * SUMFLUX(1:5)
 ! 2D axi
-         IF (MULTI_FVM%SYM .EQ. 1) THEN
+         IF (MULTI_FVM%SYM == 1) THEN
             PRES = MULTI_FVM%PRES(I)
             VII(3) = VII(3) + TIMESTEP * GBUF%AREA(II) * PRES
          ENDIF
@@ -167,13 +167,13 @@ C     QUADS
 !     TODO(DC) :check the case of tetrahedra
          DO J = 1, NB_NODE
             NODEID = IX(NODE_LIST(J), II)
-            IF(GRAVITY(4, NODEID) .EQ. ZERO) CYCLE
+            IF(GRAVITY(4, NODEID) == ZERO) CYCLE
             NVERTEX = NVERTEX + 1
             GRAVII(1) = GRAVII(1) + GRAVITY(1, NODEID)
             GRAVII(2) = GRAVII(2) + GRAVITY(2, NODEID)
             GRAVII(3) = GRAVII(3) + GRAVITY(3, NODEID)
          ENDDO
-         IF (NVERTEX .GT. 0) THEN
+         IF (NVERTEX > 0) THEN
             GRAVII(1:3) = GRAVII(1:3) / NVERTEX
          ENDIF
          VII(2:4) = VII(2:4) + TIMESTEP * GBUF%RHO(II) * VOL * GRAVII(1:3)

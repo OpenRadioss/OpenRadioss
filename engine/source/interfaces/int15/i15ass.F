@@ -148,13 +148,13 @@ C-----
 C---------------------------------
 C     ASSEMBLAGE des FORCES aux NOEUDS SECONDS.
 C---------------------------------
-      IF (IPARIT.NE.0) THEN
+      IF (IPARIT/=0) THEN
 #include "lockon.inc"
         NISKYL = NISKY
         NISKY  = NISKY+NNC
 #include "lockoff.inc"
       END IF
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
 #include "vectorize.inc"
        DO 300 I=1,NNC
         IN=KNC(I)
@@ -170,7 +170,7 @@ C---------------------------------
         STIFN(IN)=STIFN(IN)+WNS(IN)
  300   CONTINUE
       ELSE
-       IF(KDTINT.EQ.0)THEN
+       IF(KDTINT==0)THEN
         DO 350 I=1,NNC
          IN=KNC(I)
          FX=WNF(1,IN)
@@ -202,9 +202,9 @@ C---------------------------------
 C------------------------------------------------------------
 C     ANIM (FORCES DE CONTACT).
 C------------------------------------------------------------
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
 #include "vectorize.inc"
         DO 400 I=1,NNC
@@ -231,7 +231,7 @@ C---------------------------------
 C     Travail des forces d'interface avec Madymo.
 C---------------------------------
       FS(7)=FS(7)+DE*DT1*HALF
-      IF (IGRSURF(KSURF)%TYPE.EQ.100) THEN
+      IF (IGRSURF(KSURF)%TYPE==100) THEN
 C     Sorties Ellipdoides Madymo.
 #include "atomic.inc"
           TFEXT=TFEXT+DE*DT1*HALF

@@ -124,14 +124,14 @@ C-------NSN defined in scr04_c.inc--
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       GAP  =INTBUF_TAB%VARIABLES(2)
 C
-      IF(NTY.EQ.3)THEN
-      ELSEIF(NTY.EQ.4)THEN
-      ELSEIF(NTY.EQ.5)THEN
+      IF(NTY==3)THEN
+      ELSEIF(NTY==4)THEN
+      ELSEIF(NTY==5)THEN
         FRIC = INTBUF_TAB%VARIABLES(1)
         IF (IFQ /= 0) FREQ = INTBUF_TAB%XFILTR(1)
 c
@@ -184,9 +184,9 @@ c
      3         KJ12     ,KK11      ,KK12      ,KL11      ,KL12     ,
      4         OFF      )
         END DO 
-      ELSEIF(NTY.EQ.6)THEN
+      ELSEIF(NTY==6)THEN
 C
-      ELSEIF(NTY.EQ.7.OR.NTY.EQ.22)THEN
+      ELSEIF(NTY==7.OR.NTY==22)THEN
 C
       ENDIF
 C

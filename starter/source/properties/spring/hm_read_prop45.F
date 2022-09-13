@@ -149,23 +149,23 @@ C
       XIDSK1 = IDSK1
       XIDSK2 = IDSK2  
 C
-      IF (CR.LT.ZERO.OR.CR.GT.1.) THEN
+      IF (CR<ZERO.OR.CR>1.) THEN
          CALL ANCMSG(MSGID=388,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
      .                   C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = FIVEEM2
-      IF (SCF.LT.ZERO) THEN
+      IF (CR==ZERO) CR = FIVEEM2
+      IF (SCF<ZERO) THEN
          CALL ANCMSG(MSGID=939,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF
-      IF (SCF.EQ.ZERO) THEN      
-        IF (KNN.EQ.0) THEN
+      IF (SCF==ZERO) THEN      
+        IF (KNN==0) THEN
 	  SCF = ONE
         ELSE
 	  SCF = 10
@@ -246,20 +246,20 @@ C
          IFUN_FMRY = ZEROI
          IFUN_FMRZ = ZEROI              
 C     
-      IF (JTYP.EQ.1) THEN
+      IF (JTYP==1) THEN
 C=======================================================================
 C----   SPHERICAL JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,100)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -281,7 +281,7 @@ C
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)
 C
-         IF ((RED.NE.0).AND.(RED.NE.3)) THEN
+         IF ((RED/=0).AND.(RED/=3)) THEN
             CALL ANCMSG(MSGID=973,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -331,20 +331,20 @@ C
          IFUN_FMY = ZEROI 
          IFUN_FMZ = ZEROI	 
 C	 	  
-      ELSEIF (JTYP.EQ.2) THEN
+      ELSEIF (JTYP==2) THEN
 C=======================================================================
 C----   REVOLUTE JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,200)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -416,20 +416,20 @@ C
          IFUN_FMRY = ZEROI 
          IFUN_FMRZ = ZEROI	 	 
 C	 
-      ELSEIF (JTYP.EQ.3) THEN
+      ELSEIF (JTYP==3) THEN
 C=======================================================================
 C----   CYLINDRICAL JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,300)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -447,7 +447,7 @@ C
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
 C
-         IF ((RED.NE.0).AND.(RED.NE.2)) THEN
+         IF ((RED/=0).AND.(RED/=2)) THEN
            CALL ANCMSG(MSGID=973,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -507,20 +507,20 @@ C
          IFUN_FMRY = ZEROI 
          IFUN_FMRZ = ZEROI	 
 C		 
-      ELSEIF (JTYP.EQ.4) THEN
+      ELSEIF (JTYP==4) THEN
 C=======================================================================
 C----   PLANAR JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,400)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -542,7 +542,7 @@ C
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)	 
 C
-         IF ((RED.NE.0).AND.(RED.NE.3)) THEN
+         IF ((RED/=0).AND.(RED/=3)) THEN
            CALL ANCMSG(MSGID=973,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -593,20 +593,20 @@ C
          IFUN_FMRY = ZEROI 
          IFUN_FMRZ = ZEROI                                    	 
 C
-      ELSEIF (JTYP.EQ.5) THEN
+      ELSEIF (JTYP==5) THEN
 C=======================================================================
 C----   UNIVERSAL  JOINT
 C=================================================================	 			 
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,500)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -624,7 +624,7 @@ C
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)
 C
-         IF ((RED.NE.0).AND.(RED.NE.2)) THEN
+         IF ((RED/=0).AND.(RED/=2)) THEN
             CALL ANCMSG(MSGID=973,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -684,20 +684,20 @@ C
          IFUN_FMZ = ZEROI 
          IFUN_FMRX = ZEROI	 
 C	 	  
-      ELSEIF (JTYP.EQ.6) THEN
+      ELSEIF (JTYP==6) THEN
 C=======================================================================
 C----   TRANSLATIONAL JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,600)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -769,20 +769,20 @@ C
          IFUN_FMRY = ZEROI 
          IFUN_FMRZ = ZEROI	 
 C		 
-      ELSEIF (JTYP.EQ.7) THEN
+      ELSEIF (JTYP==7) THEN
 C=======================================================================
 C----   OLDHAM JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,700)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -800,7 +800,7 @@ C
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
      .                     LSUBMODEL) 
 C
-         IF ((RED.NE.0).AND.(RED.NE.2)) THEN
+         IF ((RED/=0).AND.(RED/=2)) THEN
            CALL ANCMSG(MSGID=973,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -860,20 +860,20 @@ C
          IFUN_FMRY = ZEROI
          IFUN_FMRZ = ZEROI	 	 	 	 
 C		 
-      ELSEIF (JTYP.EQ.8) THEN
+      ELSEIF (JTYP==8) THEN
 C=======================================================================
 C----   RIGID JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,800)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -950,20 +950,20 @@ C
          IFUN_FMRY = ZEROI
          IFUN_FMRZ = ZEROI	 
 C		 
-      ELSEIF (JTYP.EQ.9) THEN
+      ELSEIF (JTYP==9) THEN
 C=======================================================================
 C----   FREE JOINT
 C=======================================================================
          IF(.NOT. IS_CRYPTED)THEN
            WRITE(IOUT,900)
-	   IF ((IDSK1.EQ.0).AND.(IDSK2.EQ.0)) THEN
-	     IF (KNN.EQ.0) THEN
+	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
                WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
 	     ENDIF
            ELSE
-	     IF (KNN.EQ.0) THEN
+	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
                WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
@@ -997,7 +997,7 @@ C
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)	 
 C
-         IF ((RED.NE.0).AND.(RED.NE.6)) THEN
+         IF ((RED/=0).AND.(RED/=6)) THEN
            CALL ANCMSG(MSGID=973,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_2,
@@ -1036,12 +1036,12 @@ C
         ELSEIF (SUMT > ONE) THEN
           ALPHA_PLUS = (FCOMBX*SDXMA+FCOMBY*SDYMA+FCOMBZ*SDZMA)/SUMT
           ALPHA_MOIN = (FCOMBX*SDXMI+FCOMBY*SDYMI+FCOMBZ*SDZMI)/SUMT
-          IF ((FCOMBX.GT.EM20).AND.(ABS(ALPHA_PLUS - SDXMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBY.GT.EM20).AND.(ABS(ALPHA_PLUS - SDYMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBZ.GT.EM20).AND.(ABS(ALPHA_PLUS - SDZMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBX.GT.EM20).AND.(ABS(ALPHA_MOIN - SDXMI)/MAX(EM20,ABS(ALPHA_MOIN)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBY.GT.EM20).AND.(ABS(ALPHA_MOIN - SDYMI)/MAX(EM20,ABS(ALPHA_MOIN)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBZ.GT.EM20).AND.(ABS(ALPHA_MOIN - SDZMI)/MAX(EM20,ABS(ALPHA_MOIN)).GT.EM10)) COMB_ERROR = 1
+          IF ((FCOMBX>EM20).AND.(ABS(ALPHA_PLUS - SDXMA)/MAX(EM20,ABS(ALPHA_PLUS))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBY>EM20).AND.(ABS(ALPHA_PLUS - SDYMA)/MAX(EM20,ABS(ALPHA_PLUS))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBZ>EM20).AND.(ABS(ALPHA_PLUS - SDZMA)/MAX(EM20,ABS(ALPHA_PLUS))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBX>EM20).AND.(ABS(ALPHA_MOIN - SDXMI)/MAX(EM20,ABS(ALPHA_MOIN))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBY>EM20).AND.(ABS(ALPHA_MOIN - SDYMI)/MAX(EM20,ABS(ALPHA_MOIN))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBZ>EM20).AND.(ABS(ALPHA_MOIN - SDZMI)/MAX(EM20,ABS(ALPHA_MOIN))>EM10)) COMB_ERROR = 1
         ENDIF
 C
 C--- Check for combined angles - values must be the same for combined dof
@@ -1055,15 +1055,15 @@ C
         ELSEIF (SUMR > ONE) THEN
           ALPHA_PLUS = (FCOMBRX*SAXMA+FCOMBRY*SAYMA+FCOMBRZ*SAZMA)/SUMR
           ALPHA_MOIN = (FCOMBRX*SAXMI+FCOMBRY*SAYMI+FCOMBRZ*SAZMI)/SUMR
-          IF ((FCOMBRX.GT.EM20).AND.(ABS(ALPHA_PLUS - SAXMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBRY.GT.EM20).AND.(ABS(ALPHA_PLUS - SAYMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBRZ.GT.EM20).AND.(ABS(ALPHA_PLUS - SAZMA)/MAX(EM20,ABS(ALPHA_PLUS)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBRX.GT.EM20).AND.(ABS(ALPHA_MOIN - SAXMI)/MAX(EM20,ABS(ALPHA_MOIN)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBRY.GT.EM20).AND.(ABS(ALPHA_MOIN - SAYMI)/MAX(EM20,ABS(ALPHA_MOIN)).GT.EM10)) COMB_ERROR = 1
-          IF ((FCOMBRZ.GT.EM20).AND.(ABS(ALPHA_MOIN - SAZMI)/MAX(EM20,ABS(ALPHA_MOIN)).GT.EM10)) COMB_ERROR = 1
+          IF ((FCOMBRX>EM20).AND.(ABS(ALPHA_PLUS - SAXMA)/MAX(EM20,ABS(ALPHA_PLUS))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBRY>EM20).AND.(ABS(ALPHA_PLUS - SAYMA)/MAX(EM20,ABS(ALPHA_PLUS))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBRZ>EM20).AND.(ABS(ALPHA_PLUS - SAZMA)/MAX(EM20,ABS(ALPHA_PLUS))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBRX>EM20).AND.(ABS(ALPHA_MOIN - SAXMI)/MAX(EM20,ABS(ALPHA_MOIN))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBRY>EM20).AND.(ABS(ALPHA_MOIN - SAYMI)/MAX(EM20,ABS(ALPHA_MOIN))>EM10)) COMB_ERROR = 1
+          IF ((FCOMBRZ>EM20).AND.(ABS(ALPHA_MOIN - SAZMI)/MAX(EM20,ABS(ALPHA_MOIN))>EM10)) COMB_ERROR = 1
         ENDIF
 C
-        IF (COMB_ERROR.EQ.1) THEN
+        IF (COMB_ERROR==1) THEN
               CALL ANCMSG(MSGID=1598,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
@@ -1423,34 +1423,34 @@ C
 	GOTO 350		
       ENDIF          	              
 C
-      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0) CRX = ONE * FAC3
-      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = ONE * FAC3
-      IF(FM.EQ.ZERO.AND.IFUN_FM.NE.0) FM = ONE * FAC3
+      IF(CRX==ZERO.AND.IFUN_CRX/=0) CRX = ONE * FAC3
+      IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE * FAC3
+      IF(FM==ZERO.AND.IFUN_FM/=0) FM = ONE * FAC3
 C
 C-----------------------
       IF(.NOT. IS_CRYPTED)THEN
-        IF (IDOF.EQ.1) THEN
+        IF (IDOF==1) THEN
           WRITE(IOUT,100)       
-        ELSEIF (IDOF.EQ.2) THEN
+        ELSEIF (IDOF==2) THEN
           WRITE(IOUT,200)
-        ELSEIF (IDOF.EQ.2) THEN
+        ELSEIF (IDOF==2) THEN
           WRITE(IOUT,300)
-        ELSEIF (IDOF.EQ.4) THEN
+        ELSEIF (IDOF==4) THEN
           WRITE(IOUT,400)
-        ELSEIF (IDOF.EQ.5) THEN
+        ELSEIF (IDOF==5) THEN
           WRITE(IOUT,500) 	 	 	  	        
         ELSE
           WRITE(IOUT,600)       
         ENDIF
       ENDIF
 C      
-      IF (SAMI.GT.ZERO) THEN
+      IF (SAMI>ZERO) THEN
           CALL ANCMSG(MSGID=943,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
      .                   I1=ID,
      .                   C1=TITR)
-      ELSEIF (SAMA.LT.ZERO) THEN
+      ELSEIF (SAMA<ZERO) THEN
           CALL ANCMSG(MSGID=944,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -1459,14 +1459,14 @@ C
       ENDIF 
 C      
       IF(.NOT. IS_CRYPTED)THEN
-        IF (IDOF.LT.4) THEN
-          IF (IFUN_FM.EQ.0) THEN      
+        IF (IDOF<4) THEN
+          IF (IFUN_FM==0) THEN      
             WRITE(IOUT,1000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,FM
 	  ELSE
             WRITE(IOUT,3000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM	
 	  ENDIF
         ELSE
-          IF (IFUN_FM.EQ.0) THEN      	
+          IF (IFUN_FM==0) THEN      	
             WRITE(IOUT,2000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,FM
 	  ELSE
             WRITE(IOUT,4000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM	

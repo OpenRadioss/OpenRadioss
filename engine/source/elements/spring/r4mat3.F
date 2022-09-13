@@ -70,17 +70,17 @@ C
        A(I)   =GEO(10,MGN(I))
 C       KX(I)=A(I)*KX(I)
        ILENG=NINT(GEO(93,MGN(I)))
-       IF(ILENG.NE.0) ILEN = 1
+       IF(ILENG/=0) ILEN = 1
       ENDDO
-      IF(ILEN.NE.0) THEN
+      IF(ILEN/=0) THEN
        DO I=JFT,JLT
         ILENG=NINT(GEO(93,MGN(I)))
-        IF(ILENG.NE.0)THEN
+        IF(ILENG/=0)THEN
           KX(I)=KX(I)/AL0(I)
         ENDIF
        ENDDO
       ENDIF
-      IF (ISMDISP.GT.0.OR.ISPRN.EQ.1) THEN
+      IF (ISMDISP>0.OR.ISPRN==1) THEN
        DO I=JFT,JLT
         IECROU(I)=NINT(GEO(7,MGN(I)))
 C        IFUNC(I) =NINT(GEO(4,MGN(I)))
@@ -146,10 +146,10 @@ C-------------------------------------
 C        VECTOR INTERPOLATION (ADRESS)
 C-------------------------------------
       NC = 0
-      IF (ILINE.EQ.1.OR.
-     .   (ISMDISP.GT.0.AND.NCYCLE.EQ.1.AND.IMCONV.EQ.1)) THEN
+      IF (ILINE==1.OR.
+     .   (ISMDISP>0.AND.NCYCLE==1.AND.IMCONV==1)) THEN
        DO I=JFT,JLT
-       IF (IFUNC(I).GT.0) THEN
+       IF (IFUNC(I)>0) THEN
         NC = NC + 1
         INDEX(NC) = I
        ENDIF 
@@ -161,12 +161,12 @@ C-------------------------------------
        ENDDO
       ELSE
       DO I=JFT,JLT
-       IF (IFUNC(I).GT.0.AND.IECROU(I).EQ.0.AND.ABS(DX(I)).GT.EM20) THEN
+       IF (IFUNC(I)>0.AND.IECROU(I)==0.AND.ABS(DX(I))>EM20) THEN
         NC = NC + 1
         INDEX(NC) = I
        ENDIF 
       ENDDO
-      IF (NC.EQ.0) RETURN
+      IF (NC==0) RETURN
 C
       DO J=1,NC
        I = INDEX(J)
@@ -180,7 +180,7 @@ C       JPOS(J) = NINT(POS(1,I))
        X0(J)   = ZERO
       ENDDO
 C
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL VINTER2DP(TF,JAD ,JPOS0,JLEN ,NC,X0 ,DYDX ,F0)
         CALL VINTER2DP(TF,JAD ,JPOS ,JLEN ,NC,XX ,DYDX ,YY)
       ELSE
@@ -235,63 +235,63 @@ C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
        NPOINT=(NPF(IFUNCT+1)-NPF(IFUNCT))/2+1
        Y0 = ZERO
        N0 = 0
-       IF (TF(NPF(IFUNCT)).LT.ZERO) N0 = NPOINT+1
+       IF (TF(NPF(IFUNCT))<ZERO) N0 = NPOINT+1
        DO J=2,NPOINT
         J1=2*(J-2)
         X=TF(NPF(IFUNCT)+J1)
-        IF (X.GE.ZERO) THEN
-         IF (X.EQ.ZERO) Y0=TF(NPF(IFUNCT)+J1+1)
+        IF (X>=ZERO) THEN
+         IF (X==ZERO) Y0=TF(NPF(IFUNCT)+J1+1)
          N0=J
          GOTO 10
         ENDIF
        ENDDO
  10    CONTINUE
 C------only traction--------
-       IF (N0.LE.2) THEN
+       IF (N0<=2) THEN
         X=TF(NPF(IFUNCT))
         Y=TF(NPF(IFUNCT)+1)-Y0
-        IF (X.EQ.ZERO) THEN
+        IF (X==ZERO) THEN
          X=TF(NPF(IFUNCT)+2)
          Y=TF(NPF(IFUNCT)+3)-Y0
 	ELSE
          X=TF(NPF(IFUNCT)+2)-X
          Y=TF(NPF(IFUNCT)+3)-Y
         ENDIF
-        IF (ABS(X).GT.ZERO) E_S= Y/X
+        IF (ABS(X)>ZERO) E_S= Y/X
 C------only compression--------
-       ELSEIF (N0.GE.NPOINT) THEN
+       ELSEIF (N0>=NPOINT) THEN
         J1=2*(N0-3)
         X=TF(NPF(IFUNCT)+J1)
         Y=TF(NPF(IFUNCT)+J1+1)-Y0
 C------w/o zero point--------------	
-        IF (N0.EQ.(NPOINT+1)) THEN
+        IF (N0==(NPOINT+1)) THEN
          J1=2*(N0-4)
          X=TF(NPF(IFUNCT)+J1)-X
          Y=TF(NPF(IFUNCT)+J1+1)-Y
         ENDIF
-        IF (ABS(X).GT.ZERO) E_S= Y/X
+        IF (ABS(X)>ZERO) E_S= Y/X
        ELSE
 C------compression 1er point
         J1=2*(N0-3)
         XN=TF(NPF(IFUNCT)+J1)
         YN=TF(NPF(IFUNCT)+J1+1)-Y0
         E1 = ZERO
-        IF (ABS(XN).GT.ZERO) E1= YN/XN
+        IF (ABS(XN)>ZERO) E1= YN/XN
 C------traction 1er point
         J1=2*(N0-2)
         X=TF(NPF(IFUNCT)+J1)
-        IF (X.EQ.ZERO) THEN
+        IF (X==ZERO) THEN
          J1=J1+2
          X=TF(NPF(IFUNCT)+J1)
          Y=TF(NPF(IFUNCT)+J1+1)-Y0
          E2 = ZERO
-         IF (ABS(X).GT.ZERO) E2= Y/X
+         IF (ABS(X)>ZERO) E2= Y/X
          E_S= HALF*(E1+E2)
 C------w/o point (0,0)-----
 	ELSE
          Y=TF(NPF(IFUNCT)+J1+1)-Y0
          E_S= ZERO
-         IF (ABS(X-XN).GT.ZERO) E_S= (Y-YN)/(X-XN)
+         IF (ABS(X-XN)>ZERO) E_S= (Y-YN)/(X-XN)
         ENDIF
        ENDIF
 C

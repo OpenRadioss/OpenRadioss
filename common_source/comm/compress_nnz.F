@@ -47,10 +47,10 @@ C---------------------------------------------
          DO WHILE (IBEGIN <= LEN)
            I = IBEGIN
            NNZ = 0
-           continue_loop = (ARRAY(I) .NE. ICHAR(' '))
+           continue_loop = (ARRAY(I) /= ICHAR(' '))
            DO WHILE(continue_loop)
               IF(I <= LEN) THEN
-                 IF(ARRAY(I) .NE. ICHAR(' ')) THEN
+                 IF(ARRAY(I) /= ICHAR(' ')) THEN
                    continue_loop = .true.
                    NNZ = NNZ + 1
                    I = I + 1
@@ -107,10 +107,10 @@ C---------------------------------------------
          DO WHILE (IBEGIN <= LEN)
            I = IBEGIN
            NNZ = 0
-           continue_loop = (ARRAY(I) .NE. 0)
+           continue_loop = (ARRAY(I) /= 0)
            DO WHILE(continue_loop)
               IF(I <= LEN) THEN
-                 IF(ARRAY(I) .NE. 0) THEN
+                 IF(ARRAY(I) /= 0) THEN
                    continue_loop = .true.
                    NNZ = NNZ + 1
                    I = I + 1
@@ -169,10 +169,10 @@ C---------------------------------------------
          DO WHILE (IBEGIN <= LEN)
            I = IBEGIN
            NNZ = 0
-           continue_loop = (ARRAY(I) .NE. 0)
+           continue_loop = (ARRAY(I) /= 0)
            DO WHILE(continue_loop)
               IF(I <= LEN) THEN
-                 IF(ARRAY(I) .NE. 0) THEN
+                 IF(ARRAY(I) /= 0) THEN
                    continue_loop = .true.
                    NNZ = NNZ + 1
                    I = I + 1

@@ -240,7 +240,7 @@ C-----------
      4         +VZ1(I)*VZ1(I)+VZ2(I)*VZ2(I)+VZ3(I)*VZ3(I)+VZ4(I)*VZ4(I)
      5         +VZ5(I)*VZ5(I)+VZ6(I)*VZ6(I)+VZ7(I)*VZ7(I)+VZ8(I)*VZ8(I)
        ENDDO
-       IF(IPARG(80).EQ.1) THEN
+       IF(IPARG(80)==1) THEN
          DO I=LFT,LLT
           XGAX(I)=XD1(I)+XD2(I)+XD3(I)+XD4(I)+XD5(I)+XD6(I)+XD7(I)+XD8(I)
           XGAY(I)=YD1(I)+YD2(I)+YD3(I)+YD4(I)+YD5(I)+YD6(I)+YD7(I)+YD8(I)

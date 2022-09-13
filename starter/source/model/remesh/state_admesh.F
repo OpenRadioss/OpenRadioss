@@ -254,7 +254,7 @@ C
                  ERRORADJ =1 
                 ENDIF
               ENDIF
-              IF(ERRORADJ ==1.AND.ABS(LEVEL).LT.LEVELMAX) THEN 
+              IF(ERRORADJ ==1.AND.ABS(LEVEL)<LEVELMAX) THEN 
                 CALL ANCMSG(MSGID=1023,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -265,7 +265,7 @@ C
      .                  I5=ID)
               END IF
 C
-              IF(LEVEL.LT.-LEVELMAX-1.OR.LEVEL.GT.LEVELMAX)THEN
+              IF(LEVEL<-LEVELMAX-1.OR.LEVEL>LEVELMAX)THEN
             CALL ANCMSG(MSGID=656,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -460,7 +460,7 @@ C
                  ERRORADJ =1 
                 ENDIF
               ENDIF
-              IF(ERRORADJ ==1.AND.ABS(LEVEL).LT.LEVELMAX) THEN 
+              IF(ERRORADJ ==1.AND.ABS(LEVEL)<LEVELMAX) THEN 
                 CALL ANCMSG(MSGID=1023,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -471,7 +471,7 @@ C
      .                  I5=ID)
               END IF
 C
-              IF(LEVEL.LT.-LEVELMAX-1.OR.LEVEL.GT.LEVELMAX)THEN
+              IF(LEVEL<-LEVELMAX-1.OR.LEVEL>LEVELMAX)THEN
             CALL ANCMSG(MSGID=657,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,

@@ -146,7 +146,7 @@ c--------------------------------------------------
         IF ((TYP>28.AND.TYP<38).AND. .NOT.(ALREADY_DONE) ) CALL SENSOR_USER_ALLOC(ALREADY_DONE)
 !
 c---------------------------------------
-        IF (TYP.GE.29.AND.TYP.LE.31) THEN
+        IF (TYP>=29.AND.TYP<=31) THEN
 C--------------------------------
 C         USER SENSOR
 C--------------------
@@ -169,7 +169,7 @@ C           global activation time
               WRITE(30,FMT='(A)')TRIM(RLINE)
             ENDDO
             CLOSE(UNIT=30)
-          ENDIF ! IF (TYP.GE.29.AND.TYP.LE.31)
+          ENDIF ! IF (TYP>=29.AND.TYP<=31)
 !
           WRITE (IOUT,'(A,I10)') ' SENSOR ID = ', SENS_ID
           IF(TYP == 29)THEN
@@ -213,7 +213,7 @@ C           global activation time
      .                  C2=KEY(1:LEN_TRIM(KEY)),
      .                  I1=SENS_ID,
      .                  C1=TITLE)
-        ENDIF ! IF (TYP.GE.29.AND.TYP.LE.31)
+        ENDIF ! IF (TYP>=29.AND.TYP<=31)
 !
       ELSE
 !   error TBD

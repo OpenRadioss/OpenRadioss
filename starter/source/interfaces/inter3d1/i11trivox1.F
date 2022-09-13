@@ -215,7 +215,7 @@ C=======================================================================
 
         DO I = 1,NRTS  !si besoin on peut inverser Main/Secnd
         
-c           IF(STFS(I).EQ.ZERO)CYCLE !on ne retient pas les facettes detruites
+c           IF(STFS(I)==ZERO)CYCLE !on ne retient pas les facettes detruites
                  
             !-------------------------------------------!
             ! Nodes ID for edge (N1,N2)                      !
@@ -318,7 +318,7 @@ C
 
                 CURRENT_ADD = CURRENT_ADD+1 
 
-                IF( CURRENT_ADD.GE.MAX_ADD)THEN
+                IF( CURRENT_ADD>=MAX_ADD)THEN
                  !OPTIMISATION : suprresion du deallocate/GOTO debut.
                  !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
                  MAX_ADD = 2 * MAX_ADD        
@@ -417,8 +417,8 @@ C
               SS1=ITAB(IRECTS(1,I))
               SS2=ITAB(IRECTS(2,I))              
               
-              IF( (SS1.EQ.MM1).OR.(SS1.EQ.MM2).OR.
-     .            (SS2.EQ.MM1).OR.(SS2.EQ.MM2)    )THEN
+              IF( (SS1==MM1).OR.(SS1==MM2).OR.
+     .            (SS2==MM1).OR.(SS2==MM2)    )THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
@@ -446,7 +446,7 @@ C             IREMPGAP - Taged lines are removded
               DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
-              IF(I_STOK.GE.NVSIZ)THEN
+              IF(I_STOK>=NVSIZ)THEN
                   CALL I11STO_VOX1(
      1              NVSIZ,IRECTS,IRECTM,X     ,II_STOK ,
      2              CAND_S,CAND_M,NSN   ,NOINT ,MARGE  ,
@@ -454,10 +454,10 @@ C-----------------------------------------------------
      4              CHAINE,IADFIN,GAPMIN,DRAD   ,IGAP  ,
      5              GAP_S ,GAP_M ,GAP_S_L,GAP_M_L,DGAPLOAD)
 
-                IF(I_MEM.EQ.2) THEN
+                IF(I_MEM==2) THEN
                       II_STOK=ZERO                                            
                   GOTO 1000
-                END IF!(I_MEM.EQ.2)
+                END IF!(I_MEM==2)
                 I_STOK = I_STOK-NVSIZ
                 DO J=1,I_STOK
                   PROV_S(J) = PROV_S(J+NVSIZ)
@@ -487,7 +487,7 @@ C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
  
-      IF(I_STOK.NE.0)CALL I11STO_VOX1(
+      IF(I_STOK/=0)CALL I11STO_VOX1(
      1              I_STOK,IRECTS,IRECTM,X     ,II_STOK,
      2              CAND_S,CAND_M,NSN   ,NOINT ,MARGE  ,
      3              I_MEM ,PROV_S,PROV_M,MULTIMP,ADDCM ,

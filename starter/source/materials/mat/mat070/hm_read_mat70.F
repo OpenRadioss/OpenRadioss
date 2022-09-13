@@ -131,7 +131,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_SHAPE' ,EXPO     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_HYST'  ,HYS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 
@@ -150,7 +150,7 @@ C-----------------------------------------------
         !IF(I==1)CALL HM_GET_INT_ARRAY_INDEX('I2017_2'        ,I2017_2     ,IS_AVAILABLE, LSUBMODEL)
         !units
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-        IF(YFAC(I) .EQ. ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
+        IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
       ENDDO  
                          
       !--unloading function
@@ -161,7 +161,7 @@ C-----------------------------------------------
           CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'        ,YFAC(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)   
           !units
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD'    ,YFAC_UNIT(I),I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-          IF(YFAC(I) .EQ. ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
+          IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
         ENDDO 
       ELSE 
         IF(NRATEN == 0 .AND. IUNLOAD <= 2 ) THEN

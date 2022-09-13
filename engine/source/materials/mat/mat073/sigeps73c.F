@@ -153,9 +153,9 @@ c--------plastic strain
       A12     = UPARAM(10)
       EPSMAX  = UPARAM(13)
       EINF    = UPARAM(24)
-      IF(EPSMAX.EQ.ZERO)THEN
+      IF(EPSMAX==ZERO)THEN
 c      NXK=SIZE(TABLE(ITABLE)%X(1)%VALUES)
-c      IF(TABLE(ITABLE)%Y%VALUES(NXK).EQ.ZERO)THEN
+c      IF(TABLE(ITABLE)%Y%VALUES(NXK)==ZERO)THEN
 c       EPSMAX = TABLE(ITABLE)%X(1)%VALUES(NXK)
 c      ELSE
         EPSMAX = EP30
@@ -311,12 +311,12 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+      IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
       ENDDO
-      IF(NINDX.GT.0) THEN
+      IF(NINDX>0) THEN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -340,12 +340,12 @@ C   ---
        S2=A02*NU1*TWO-A03-FA03
        S12=A03-NU1*(A01+A02)+FA03
        S3=SQRT(NU2*(A01-A02)*(A01-A02)+S12*S12)
-       IF (ABS(S1).LT.EM20) THEN 
+       IF (ABS(S1)<EM20) THEN 
         Q12(I)=ZERO
        ELSE
         Q12(I)=-(A01-A02+S3+FA01-FA02)/S1
        ENDIF
-       IF (ABS(S2).LT.EM20) THEN 
+       IF (ABS(S2)<EM20) THEN 
         Q21(I)=ZERO
        ELSE
         Q21(I)=(A01-A02+S3+FA01-FA02)/S2
@@ -375,7 +375,7 @@ C
        DO J=1,NINDX
         I=INDEX(J)
         DPLA_I(I)=DPLA_J(I)
-        IF(DPLA_I(I).GT.ZERO) THEN
+        IF(DPLA_I(I)>ZERO) THEN
         YLD_I =YLD(I)+H(I)*DPLA_I(I)
         DR  =A11(I)*DPLA_I(I)/YLD_I !
         P_1=ONE/(ONE + B_1(I)*DR)
@@ -432,7 +432,7 @@ C------------------------------------------
       ENDDO
 C
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
+        IF(PLA(I)>EPSMAX.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
       ENDDO
       ENDIF
       DO I=1,NEL
@@ -453,9 +453,9 @@ C
       A12     = UPARAM(10)
       G3      = UPARAM(17)
       EPSMAX  = UPARAM(13)
-      IF(EPSMAX.EQ.ZERO)THEN
+      IF(EPSMAX==ZERO)THEN
 c      NXK=SIZE(TABLE(ITABLE)%X(1)%VALUES)
-c      IF(TABLE(ITABLE)%Y%VALUES(NXK).EQ.ZERO)THEN
+c      IF(TABLE(ITABLE)%Y%VALUES(NXK)==ZERO)THEN
 c       EPSMAX = TABLE(ITABLE)%X(1)%VALUES(NXK)
 c      ELSE
         EPSMAX = EP30
@@ -586,12 +586,12 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+      IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
       ENDDO
-      IF(NINDX.GT.0) THEN
+      IF(NINDX>0) THEN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -615,12 +615,12 @@ C   ---
        S2=A02*NU1*TWO-A03-FA03
        S12=A03-NU1*(A01+A02)+FA03
        S3=SQRT(NU2*(A01-A02)*(A01-A02)+S12*S12)
-       IF (ABS(S1).LT.EM20) THEN 
+       IF (ABS(S1)<EM20) THEN 
         Q12(I)=ZERO
        ELSE
         Q12(I)=-(A01-A02+S3+FA01-FA02)/S1
        ENDIF
-       IF (ABS(S2).LT.EM20) THEN 
+       IF (ABS(S2)<EM20) THEN 
         Q21(I)=ZERO
        ELSE
         Q21(I)=(A01-A02+S3+FA01-FA02)/S2
@@ -650,7 +650,7 @@ C
        DO J=1,NINDX
         I=INDEX(J)
         DPLA_I(I)=DPLA_J(I)
-        IF(DPLA_I(I).GT.ZERO) THEN
+        IF(DPLA_I(I)>ZERO) THEN
         YLD_I =YLD(I)+H(I)*DPLA_I(I)
         DR  =A1*DPLA_I(I)/YLD_I
         P_1=ONE/(ONE + B_1(I)*DR)
@@ -706,7 +706,7 @@ C------------------------------------------
       ENDDO
 C
       DO I=1,NEL
-        IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
+        IF(PLA(I)>EPSMAX.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
       ENDDO
       ENDIF
       DO I=1,NEL

@@ -78,7 +78,7 @@ C
         II = I + NFT
         IF(IFPEN(II) == 1)THEN
           SLVE = CAND_N(II)
-          IF(SLVE.LE.NRTS)THEN
+          IF(SLVE<=NRTS)THEN
              IF(STFS(SLVE)==ZERO)THEN
                 IFPEN(II) = 0 
              ENDIF
@@ -97,9 +97,9 @@ C
         IF(IFPEN(II) == 1)THEN
           IAD=ADDCM(CAND_E(II))
           J=0
-          DO WHILE(IAD.NE.0.AND.J.LT.NSN4)
+          DO WHILE(IAD/=0.AND.J<NSN4)
             J=J+1
-            IF(CHAINE(1,IAD).EQ.CAND_N(II))THEN
+            IF(CHAINE(1,IAD)==CAND_N(II))THEN
               IFPEN(II) = 0
               IAD=0
             ELSE
@@ -110,12 +110,12 @@ C
           IF(IFPEN(II) == 1)THEN
             I_STOK = I_STOK + 1
               IADFIN=I_STOK
-              IF(IADFIN.GT.NSN4) THEN
+              IF(IADFIN>NSN4) THEN
                 RETURN
               ENDIF   
             CHAINE(1,IADFIN)=CAND_N(II)
             CHAINE(2,IADFIN)=0
-            IF(ADDCM(CAND_E(II)).EQ.0)THEN
+            IF(ADDCM(CAND_E(II))==0)THEN
               ADDCM(CAND_E(II))=IADFIN
             ELSE
               CHAINE(2,IAD0)=IADFIN

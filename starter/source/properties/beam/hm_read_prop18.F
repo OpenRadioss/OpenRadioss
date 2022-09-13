@@ -161,7 +161,7 @@ C---      user-defined integration points
             CALL HM_GET_FLOAT_ARRAY_INDEX('Z_IP',PZ,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('AREA_IP',AI,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-            IF (AI.LE.ZERO) THEN                                
+            IF (AI<=ZERO) THEN                                
              CALL ANCMSG(MSGID=314,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,

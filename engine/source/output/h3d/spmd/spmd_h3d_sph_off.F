@@ -63,7 +63,7 @@ C-----------------------------------------------
         ITY   =IPARG(5,NG)
         NFT   =IPARG(3,NG)
 c
-        IF(ITY.EQ.51)THEN
+        IF(ITY==51)THEN
           DO I=1,NEL 
             ID_ELEM(NFT+I) = KXSP(NISP,NFT+I)
           ENDDO

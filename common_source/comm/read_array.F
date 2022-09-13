@@ -71,7 +71,7 @@ C-----------------------------------------------
       LVARINT=LVARINT+1
       NUM=TABVINT(LVARINT)
       
-      IF(M_CHECK.NE.0)THEN
+      IF(M_CHECK/=0)THEN
         DO I=1,NUM
           LVARINT=LVARINT+1
           ARRAY(TABVINT(LVARINT))=1

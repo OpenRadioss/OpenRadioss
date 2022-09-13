@@ -79,28 +79,28 @@ c     FACIROT2 = NINE + THIRD
       DO I=LFT,LLT
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-           IF(OFFG(I).LT.ZERO)THEN
+           IF(OFFG(I)<ZERO)THEN
               FX(I,1:10)=ZERO
               STI(I)=ZERO
            ENDIF
         ENDDO
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,10
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              CONDE(I)=ZERO
           ENDIF
          ENDDO
@@ -136,7 +136,7 @@ C            Assembling Mvertex * Rayon(M-1 K)/2
           DO N=5,10
            DO I=LFT,LLT
              NN = NC(I,N)
-             IF(NN.NE.0)THEN
+             IF(NN/=0)THEN
                A(1,NN)=A(1,NN)+FX(I,N)
                A(2,NN)=A(2,NN)+FY(I,N)
                A(3,NN)=A(3,NN)+FZ(I,N)
@@ -220,7 +220,7 @@ C
          DO N=5,10
           DO I=LFT,LLT
             NN = NC(I,N)
-            IF(NN.NE.0)THEN
+            IF(NN/=0)THEN
               A(1,NN)=A(1,NN)+FX(I,N)
               A(2,NN)=A(2,NN)+FY(I,N)
               A(3,NN)=A(3,NN)+FZ(I,N)
@@ -253,7 +253,7 @@ C
            ENDDO
           ENDDO
           
-          IF(ISMSTR.EQ.1.OR.((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
+          IF(ISMSTR==1.OR.((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
            DO N=5,10
             DO I=LFT,LLT
               N1=NC(I,IPERM1(N))
@@ -264,7 +264,7 @@ C
               A(1,N2)=A(1,N2)+HALF*FX(I,N)
               A(2,N2)=A(2,N2)+HALF*FY(I,N)
               A(3,N2)=A(3,N2)+HALF*FZ(I,N)
-      	      IF(ABS(OFFG(I)).GT.ONE)THEN
+      	      IF(ABS(OFFG(I))>ONE)THEN
       	  	XX=SAV(I,IPERM2(N))-SAV(I,IPERM1(N))
       	  	YY=SAV(I,IPERM2(N)+10)-SAV(I,IPERM1(N)+10)
       	  	ZZ=SAV(I,IPERM2(N)+20)-SAV(I,IPERM1(N)+20)
@@ -364,7 +364,7 @@ C
          DO N=5,10
           DO I=LFT,LLT
             NN = NC(I,N)
-            IF(NN.NE.0)THEN
+            IF(NN/=0)THEN
               FTHE(NN)= FTHE(NN) + THEM(I,N)
             ELSE
               N1=NC(I,IPERM1(N))
@@ -398,7 +398,7 @@ C
          DO N=5,10
           DO I=LFT,LLT
             NN = NC(I,N)
-            IF(NN.NE.0)THEN
+            IF(NN/=0)THEN
              CONDN(NN)= CONDN(NN) + CONDE(I)
             ELSE
               N1=NC(I,IPERM1(N))
@@ -438,11 +438,11 @@ C
 
       ENDIF
  
-      IF(NSECT.GT.0)THEN
+      IF(NSECT>0)THEN
        DO N=5,10
         DO I=LFT,LLT
           NN = NC(I,N)
-          IF(NN.EQ.0)THEN
+          IF(NN==0)THEN
             N1=IPERM1(N)
             N2=IPERM2(N)
             FX(I,N1)=FX(I,N1)+HALF*FX(I,N)
@@ -520,10 +520,10 @@ c     FACIROT2 = NINE + THIRD
       DO I=LFT,LLT
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO N=1,10
           DO I=LFT,LLT
-            IF(OFFG(I).LT.ZERO)THEN
+            IF(OFFG(I)<ZERO)THEN
               FX(I,N)=ZERO
               FY(I,N)=ZERO
               FZ(I,N)=ZERO
@@ -533,19 +533,19 @@ c     FACIROT2 = NINE + THIRD
         ENDDO
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LT.ZERO)THEN
+       IF(OFF_L<ZERO)THEN
         DO J=1,10
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              CONDE(I)=ZERO
           ENDIF
          ENDDO
@@ -561,7 +561,7 @@ C       same as version 44./ to be checked
         END DO
       END IF
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
         IF(IDT1TET10/=0 .AND. ISROT/=1)THEN
           IF(ISROT == 0)THEN
 
@@ -601,7 +601,7 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
                II=I+NFT
                JJ=II-NUMELS8
                NN = NC(I,N+4)
-               IF(NN.NE.0)THEN
+               IF(NN/=0)THEN
            	 K = IADS10(N,JJ)
            	 FSKYV(K,1)=FX(I,N+4)
            	 FSKYV(K,2)=FY(I,N+4)
@@ -714,7 +714,7 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
            II=I+NFT
            JJ=II-NUMELS8
            NN = NC(I,N+4)
-           IF(NN.NE.0)THEN
+           IF(NN/=0)THEN
              K = IADS10(N,JJ)
              FSKYV(K,1)=FX(I,N+4)
              FSKYV(K,2)=FY(I,N+4)
@@ -761,7 +761,7 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
           ENDDO
          ENDDO
 
-         IF(ISMSTR.EQ.1.OR.((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
+         IF(ISMSTR==1.OR.((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
          DO N= 1,6
           K1=IPERM1(N)
           K2=IPERM2(N)
@@ -773,7 +773,7 @@ C           	   => STIG == sum( Volp*rho ) *  Radius(K) / (4 Mmin) == Radius(K)
             II=I+NFT
             JJ=II-NUMELS8
             NN = NC(I,N+4)
-	    IF(ABS(OFFG(I)).GT.ONE)THEN
+	    IF(ABS(OFFG(I))>ONE)THEN
 	     XX=SAV(I,K2)-SAV(I,K1)
 	     YY=SAV(I,K2+10)-SAV(I,K1+10)
 	     ZZ=SAV(I,K2+20)-SAV(I,K1+20)
@@ -930,7 +930,7 @@ C             cf Assembling respectively Kvertex=Mvertex * Omega**2/2 and Kedge=
               II=I+NFT
               JJ=II-NUMELS8
               NN = NC(I,N+4)
-              IF(NN.NE.0)THEN
+              IF(NN/=0)THEN
            	K = IADS10(N,JJ)
            	FSKY(1,K)=FX(I,N+4)
            	FSKY(2,K)=FY(I,N+4)
@@ -1030,7 +1030,7 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
             II=I+NFT
             JJ=II-NUMELS8
             NN = NC(I,N+4)
-            IF(NN.NE.0)THEN
+            IF(NN/=0)THEN
               K = IADS10(N,JJ)
               FSKY(1,K)=FX(I,N+4)
               FSKY(2,K)=FY(I,N+4)
@@ -1068,7 +1068,7 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
           ENDDO
          ENDDO
 
-         IF(ISMSTR.EQ.1.OR.((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
+         IF(ISMSTR==1.OR.((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
           DO N= 1,6
            K1=IPERM1(N)
            K2=IPERM2(N)
@@ -1080,7 +1080,7 @@ C             cf Assembling K = 1/2 * M/4 * Omega**2
              II=I+NFT
              JJ=II-NUMELS8
              NN = NC(I,N+4)
-	     IF(ABS(OFFG(I)).GT.ONE)THEN
+	     IF(ABS(OFFG(I))>ONE)THEN
 	      XX=SAV(I,K2)-SAV(I,K1)
 	      YY=SAV(I,K2+10)-SAV(I,K1+10)
 	      ZZ=SAV(I,K2+20)-SAV(I,K1+20)
@@ -1212,7 +1212,7 @@ C
                II=I+NFT
                JJ=II-NUMELS8
                NN = NC(I,N+4)
-               IF(NN.NE.0)THEN
+               IF(NN/=0)THEN
                   K = IADS10(N,JJ)
                   FTHESKY(K)=THEM(I,N+4)
                ELSE
@@ -1248,7 +1248,7 @@ C
                II=I+NFT
                JJ=II-NUMELS8
                NN = NC(I,N+4)
-               IF(NN.NE.0)THEN
+               IF(NN/=0)THEN
                  K = IADS10(N,JJ)
                 CONDNSKY(K)=CONDE(I)
                ELSE
@@ -1297,13 +1297,13 @@ C
         ENDIF    
       ENDIF
 C      
-      IF(NSECT.GT.0)THEN
+      IF(NSECT>0)THEN
         DO N= 1,6
           N1=IPERM1(N)
           N2=IPERM2(N)
           DO I=LFT,LLT
            NN = NC(I,N+4)
-           IF(NN.EQ.0)THEN
+           IF(NN==0)THEN
              FX(I,N1)=FX(I,N1)+HALF*FX(I,N+4)
              FY(I,N1)=FY(I,N1)+HALF*FY(I,N+4)
              FZ(I,N1)=FZ(I,N1)+HALF*FZ(I,N+4)

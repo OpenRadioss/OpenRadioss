@@ -121,7 +121,7 @@ C-----------------------------------------------
 
       ITIED=INT(INTBUF_TAB%VARIABLES(1))
       GAP  =INTBUF_TAB%VARIABLES(2)
-      IF(ITIED.EQ.0 .OR. ITIED.EQ.3)THEN
+      IF(ITIED==0 .OR. ITIED==3)THEN
         L1=1
         L2=L1+3*NSN
         L3=L2+3*NMN
@@ -144,7 +144,7 @@ C-----------------------------------------------
      1          INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,INTBUF_TAB%NSEGM)
         ENDDO
 
-        IF(ILEV.GT.0)
+        IF(ILEV>0)
      &  CALL I12ROT3(WA(L1),WA(L2),X,SKEW,ISKWN,ILEV,IREF,ICEN,NSN,NMN,
      &               INTBUF_TAB%STFNS,INTBUF_TAB%STFNM)
  
@@ -180,15 +180,15 @@ C-----------------------------------------------
         CALL I12DIS3(INTBUF_TAB%CSTS,INTBUF_TAB%NSV,ITAB,GAP,NOINT,
      .               ITEST,INTBUF_TAB%FCOUNT,SSC ,TTC)
         ENDDO
-        IF(ITEST.GT.0)THEN
+        IF(ITEST>0)THEN
           WRITE(IOUT,'(A,I8,A,I8,A)')
      .    ' *** WARNING INTERFACE',NOINT,' : ',
      .    ITEST,' SECONDARY NODES LIE OUTSIDE OF MAIN SEGMENT'
         TEST=1
         ENDIF
-      ENDIF !(ITIED.EQ.0 .OR. ITIED.EQ.3)
+      ENDIF !(ITIED==0 .OR. ITIED==3)
 
-      IF(CODTOT.NE.0 .AND. INCOMP.EQ.0 .AND. ITIED.NE.3)THEN
+      IF(CODTOT/=0 .AND. INCOMP==0 .AND. ITIED/=3)THEN
         L1=1
         L2=L1+NSN*NVCONV
         L3=L2+NSN*NVCONV
@@ -282,7 +282,7 @@ C-----------------------------------------------
       ! CONDITIONS PERIODIQUES                                          !
       ! TRANSFORMATIONS DES ACCELERATIONS SECONDARYS                        !
       !-----------------------------------------------------------------!
-      IF(ITIED.EQ.2)CALL IN12R(A,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,
+      IF(ITIED==2)CALL IN12R(A,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,
      .                         NSN,1,INTBUF_TAB%FCOUNT)
       !-----------------------------------------------------------------!     
       ! CALCUL FORCES COTE MAIN (IDEM TYPE 2)                         !
@@ -360,7 +360,7 @@ C-----------------------------------------------
      4 V         ,MS            ,WEIGHT    ,INTBUF_TAB%NMAS,INTBUF_TAB%FCOUNT,
      5 SKEW         ,WA            ,INTBUF_TAB%STFNS,INTBUF_TAB%STFNM,ILEV,IREF)
 
-      IF(ITIED.EQ.2)THEN
+      IF(ITIED==2)THEN
        CALL IN12R(A,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,NSN,2,INTBUF_TAB%FCOUNT)
        CALL IN12R(V,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,NSN,2,INTBUF_TAB%FCOUNT)
       ENDIF

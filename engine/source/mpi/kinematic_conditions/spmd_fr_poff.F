@@ -66,9 +66,9 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       PMAIN = FR_WALL(NSPMD+2)
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.PMAIN) THEN
+      IF(LOC_PROC==PMAIN) THEN
         DO P = 1, NSPMD
-          IF(LOC_PROC.NE.P.AND.FR_WALL(P).NE.0)THEN
+          IF(LOC_PROC/=P.AND.FR_WALL(P)/=0)THEN
             MSGTYP = MSGOFF
             CALL MPI_RECV(FTMP  ,LEN           ,REAL  ,IT_SPMD(P),
      .                    MSGTYP,MPI_COMM_WORLD,STATUS,IERROR    )
@@ -80,7 +80,7 @@ C
         ENDDO
 C
         DO P = 1, NSPMD
-          IF(LOC_PROC.NE.P.AND.FR_WALL(P).NE.0)THEN
+          IF(LOC_PROC/=P.AND.FR_WALL(P)/=0)THEN
             MSGTYP = MSGOFF2
             CALL MPI_SEND(FS    ,LEN           ,REAL  ,IT_SPMD(P),
      .                    MSGTYP,MPI_COMM_WORLD,IERROR)

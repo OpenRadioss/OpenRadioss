@@ -63,12 +63,12 @@ C
          ENDDO
       ENDDO
 C
-      IF (IFILE.EQ.0) THEN
+      IF (IFILE==0) THEN
          DO I=1,LVSIG
             VSIG(I)=FXBSIG(I)
          ENDDO
          ASIG=ASIG+LVSIG
-      ELSEIF (IFILE.EQ.1) THEN
+      ELSEIF (IFILE==1) THEN
          IAD=0
          DO I=1,LVSIG/6
             IRCS=IRCS+1
@@ -76,7 +76,7 @@ C
             IAD=IAD+6
          ENDDO
          II=LVSIG-(LVSIG/6)*6
-         IF (II.NE.0) THEN
+         IF (II/=0) THEN
             IRCS=IRCS+1
             READ(IFXS,REC=IRCS) (VSIG(IAD+J),J=1,II)
          ENDIF

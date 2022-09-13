@@ -69,11 +69,11 @@ c
         LFT=1                                                           
         LLT=NEL                                                         
 C-----------------------------------------------                        
-        IF(ITY.EQ.51)THEN                                               
+        IF(ITY==51)THEN                                               
 C-----------------------------------------------                        
 C         PARTICULES SPH.                                               
 C-----------------------------------------------                        
-          IF(MLW.EQ.0)THEN                                              
+          IF(MLW==0)THEN                                              
             DO I=LFT,LLT                                                
               N = NFT + I                                               
               IOFF(EL2FA(NN1+N)) = 0                                    
@@ -84,7 +84,7 @@ C---      sleeping sol2sph particles considered as deleted in anim
             DO I=LFT,LLT
               N = NFT + I
               IOFF(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),ONE))
-              IF (SPH2SOL(N).EQ.0) THEN
+              IF (SPH2SOL(N)==0) THEN
                 IOFF_LOC(EL2FA(NN1+N)) = IOFF(EL2FA(NN1+N))
               ELSE
                 IOFF_LOC(EL2FA(NN1+N)) = 0

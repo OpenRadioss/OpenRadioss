@@ -219,7 +219,7 @@ C
           INUM(8,I)=IXC(6,NFT+I)
           INUM(9,I)=IXC(7,NFT+I)
           XNUM(I)=THK(NFT+I)
-          IF (NSUBDOM.GT.0) INUM_R2R(I) = TAG_ELCF(NFT+I)
+          IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELCF(NFT+I)
 !!          NPTEL(I) = IWORKC(1,NFT+I)
           IF (NDRAPE > 0) THEN
             NPT = DRAPE(NFT + I)%NPT
@@ -239,7 +239,7 @@ C
           ANGLE(I) = SH4ANG(NFT+I)          
         ENDDO
 C
- 	IF(NADMESH.NE.0)THEN
+ 	IF(NADMESH/=0)THEN
  	  DO  K=1,KSH4TREE
  	    DO  I=1,NEL
  	      ISTOR(K,I)=SH4TREE(K,NFT+I)
@@ -267,7 +267,7 @@ C
           IXC(5,I+NFT)=INUM(7,INDEX(I))
           IXC(6,I+NFT)=INUM(8,INDEX(I))
           IXC(7,I+NFT)=INUM(9,INDEX(I))
-          IF (NSUBDOM.GT.0) TAG_ELCF(NFT+I) = INUM_R2R(INDEX(I))
+          IF (NSUBDOM>0) TAG_ELCF(NFT+I) = INUM_R2R(INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
 C         
 !!          IWORKSH(1,NFT+I) = NPTEL(INDEX(I))
@@ -289,7 +289,7 @@ C
            SH4ANG(NFT+I) = ANGLE(INDEX(I))
         ENDDO
 
- 	IF(NADMESH.NE.0)THEN
+ 	IF(NADMESH/=0)THEN
  	  DO  K=1,KSH4TREE
  	    DO  I=1,NEL
  	      SH4TREE(K,I+NFT)=ISTOR(K,INDEX(I))
@@ -306,7 +306,7 @@ C dd-iad
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEP(NFT+INDEX(I))
@@ -344,11 +344,11 @@ C
 C
 C RENUMEROTATION DE L ARBRE
 C
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
         DO  I=1,NUMELC
-          IF(SH4TREE(1,I).NE.0)
+          IF(SH4TREE(1,I)/=0)
      .       SH4TREE(1,I)=ITR1(SH4TREE(1,I))
-          IF(SH4TREE(2,I).NE.0)
+          IF(SH4TREE(2,I)/=0)
      .       SH4TREE(2,I)=ITR1(SH4TREE(2,I))
         ENDDO
       END IF
@@ -397,7 +397,7 @@ C
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          DO WHILE (NFT < NEL_PREC+NEL)
@@ -407,7 +407,7 @@ C ngroup global
           MID = IXC(1,II)
           MLN = NINT(PM(19,MID))
           PID = IXC(6,II)
-          IF (NSUBDOM.GT.0) IPARTR2R = TAG_MAT(MID)
+          IF (NSUBDOM>0) IPARTR2R = TAG_MAT(MID)
 c          NPN = NINT(GEO(6,PID))
           NPN   = IGEO(4,PID)
           ISMST = IGEO(5,PID)
@@ -614,7 +614,7 @@ c          ENDIF
               MY_NVSIZ=NVSIZ
             ELSE
               ILEV= SH4TREE(3,II)
-              IF(ILEV.LT.0)ILEV=-ILEV-1
+              IF(ILEV<0)ILEV=-ILEV-1
               MY_NVSIZ=MAX(4,MIN(4**ILEV,NVSIZ))
             END IF
           END IF
@@ -678,7 +678,7 @@ C
             ITHK = 1
           ENDIF
 C---------Drilling dof---ISHELL=12(QBAT uses NB4)--------         
-         IF (ISROT.GT.0.AND.IHBE.LT.11) THEN    	
+         IF (ISROT>0.AND.IHBE<11) THEN    	
           CALL ANCMSG(MSGID=854,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
@@ -793,7 +793,7 @@ C---------
           IPARG(54,NGROUP) = IXFEM
           IPARG(65,NGROUP) = NLEVXF
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(77,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
           IPARG(5,NGROUP)  = 3          ! ITY
           IPARG(6,NGROUP)  = NPN
           IPARG(9,NGROUP)  = ISMST
@@ -815,7 +815,7 @@ C
           DO 210 J = 2,NE1
             MIDN = IXC(1,J+EADD(N)+NFT-1)
             PIDN = IXC(6,J+EADD(N)+NFT-1)
-            IF(MID.NE.MIDN.OR.PID.NE.PIDN)THEN
+            IF(MID/=MIDN.OR.PID/=PIDN)THEN
               PID = PIDN
               MID = MIDN
               NSG = NSG + 1

@@ -78,7 +78,7 @@ C
         MSL  = NPBYL(2,N)
         NFIX = NPBYL(4,N)
         NFRE = NPBYL(5,N)
-        IF (NFIX.EQ.0) THEN
+        IF (NFIX==0) THEN
 C         no condensation
           M  = NPBYL(1,N)
           DO I=1,MSL-1
@@ -177,7 +177,7 @@ C---        Trans z
             SLL(IK) = 0
             XLL(IK) =-RX
           ENDDO
-        ELSEIF (NFRE.NE.0) THEN
+        ELSEIF (NFRE/=0) THEN
 C         partial condensation: secnds = free nodes -1
           JF = TNSL+2*MSL
           IFX  = NPBYL(7,N)
@@ -362,7 +362,7 @@ C=======================================================================
       DO N=1,NRBYLAG
         NFIX = NPBYL(4,N) 
         NFRE = NPBYL(5,N)
-        IF (NFIX.GT.0.AND.NFRE.GT.0) THEN
+        IF (NFIX>0.AND.NFRE>0) THEN
 C         Partially condensed RB
           IFX  = NPBYL(7,N)
           IFR  = NPBYL(8,N)

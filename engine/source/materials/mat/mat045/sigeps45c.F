@@ -192,7 +192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      IF(TIME.EQ.ZERO)THEN
+      IF(TIME==ZERO)THEN
         DO I=1,NEL0
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
@@ -251,21 +251,21 @@ C-------------------
 C     CRITERIA
 C-------------------
        DO I=1,NEL0
-        IF(UVAR(I,1).LE.ZERO) THEN
+        IF(UVAR(I,1)<=ZERO) THEN
          CH1=CA
-        ELSEIF(UVAR(I,1).GT.EPSM) THEN
+        ELSEIF(UVAR(I,1)>EPSM) THEN
          CH1=CA+CB*EPSM**CN
         ELSE
          CH1=CA+CB*UVAR(I,1)**CN
         ENDIF
-        IF(UVAR(I,2).LE.EPS0) THEN
+        IF(UVAR(I,2)<=EPS0) THEN
          CH2=0.
-        ELSEIF(UVAR(I,1).LE.ZERO) THEN
+        ELSEIF(UVAR(I,1)<=ZERO) THEN
          CH2=CC*LOG(UVAR(I,2)/EPS0)
         ELSE
          CH2=(CC-CD*UVAR(I,1)**CM)*LOG(UVAR(I,2)/EPS0)
         ENDIF
-        IF(UVAR(I,2).LE.ZERO) THEN
+        IF(UVAR(I,2)<=ZERO) THEN
          CH3=ZERO
         ELSE
          CH3=CE*UVAR(I,2)**CK
@@ -277,16 +277,16 @@ C------------------------
 C     HARDENING MODULUS
 C------------------------
        DO I=1,NEL0
-        IF(UVAR(I,1).GT.ZERO. AND .CN.GE.ONE) THEN
+        IF(UVAR(I,1)>ZERO. AND .CN>=ONE) THEN
          QH1= CB*CN*UVAR(I,1)**(CN-ONE)
-        ELSEIF(UVAR(I,1).GT.ZERO. AND .CN.LT.ONE)THEN
+        ELSEIF(UVAR(I,1)>ZERO. AND .CN<ONE)THEN
          QH1= CB*CN*UVAR(I,1)**(ONE - CN)
         ELSE
          QH1=ZERO
         ENDIF
-        IF(UVAR(I,1).LE.ZERO. OR .UVAR(I,2).LE.EPS0) THEN
+        IF(UVAR(I,1)<=ZERO. OR .UVAR(I,2)<=EPS0) THEN
          QH2=ZERO
-        ELSEIF(CM.GE.ONE) THEN
+        ELSEIF(CM>=ONE) THEN
          QH2=CD*CM*UVAR(I,1)**(CM- ONE)*LOG(UVAR(I,2)/EPS0)
         ELSE
          QH2=CD*CM*UVAR(I,1)**(ONE -CM)*LOG(UVAR(I,2)/EPS0)
@@ -296,7 +296,7 @@ C------------------------
 C-------------------
 C     PROJECTION
 C-------------------
-       IF(IFLAG(1).EQ.0)THEN
+       IF(IFLAG(1)==0)THEN
 C radial return 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
@@ -314,10 +314,10 @@ C radial return
            DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) /UVAR(I,3)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)
-C           IF(R.LT.1.) ETSE(I)= H(I)/(H(I)+E(I))
+C           IF(R<1.) ETSE(I)= H(I)/(H(I)+E(I))
          ENDDO
 C
-       ELSEIF(IFLAG(1).EQ.1)THEN
+       ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
@@ -337,12 +337,12 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.UVAR(I,3).AND.OFF(I).EQ.ONE) THEN
+           IF(SVM(I)>UVAR(I,3).AND.OFF(I)==ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
          ENDDO
-         IF(NINDX.EQ.0) RETURN
+         IF(NINDX==0) RETURN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -367,7 +367,7 @@ C#include "vectorize.inc"
              DF    =-(AA(I)*NU1*P2*PP(I)+THREE*BB(I)*NU2*Q2*QQ(I))
      .         *(YOUNG-TWO*DR(I)*UVAR(I,4))/YLD_I
      .         -TWO*UVAR(I,4)*YLD_I
-             IF(DPLA_I(I).GT.ZERO) THEN
+             IF(DPLA_I(I)>ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
@@ -393,7 +393,7 @@ C
        ENDIF
 C
        DO I=1,NEL0
-         IF(UVAR(I,1).GT.EPSM.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
+         IF(UVAR(I,1)>EPSM.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
        ENDDO
 C-------------------------
       RETURN

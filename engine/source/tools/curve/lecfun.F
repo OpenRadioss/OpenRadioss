@@ -65,32 +65,32 @@ C     REAL
       my_real
      .   TIME, FUNCT
 C-----------------------------------------------
-      IF(ISPMD.EQ.0)
+      IF(ISPMD==0)
      .  WRITE (IOUT,2000) NFCT
 C
       DO K=1,NFCT
         READ (IIN,'(2I10)') LLNEW,NPTSNEW
-        IF(ISPMD.EQ.0)
+        IF(ISPMD==0)
      .    WRITE (IOUT,2200) LLNEW,NPTSNEW
         OK=0
         DO L=1,NFUNCT
          LL=NPC(NFUNCT+L+1)
-         IF(LL.EQ.LLNEW)THEN
+         IF(LL==LLNEW)THEN
           OK=1
           NPTS = (NPC(L+1)-NPC(L))/2
-          IF(NPTS.EQ.NPTSNEW)THEN
+          IF(NPTS==NPTSNEW)THEN
             I=NPC(L)
             DO J=1,NPTSNEW
 C
               READ(IIN,'(2F16.0)')         TIME,FUNCT
-              IF(ISPMD.EQ.0)
+              IF(ISPMD==0)
      .          WRITE(IOUT,'(3X,G12.4,2X,G12.4)') TIME,FUNCT
 C
               PLD(I)=TIME
-              IF(J.GT.1.AND.PLD(I).LE.PLD(I-2)) THEN
+              IF(J>1.AND.PLD(I)<=PLD(I-2)) THEN
                 IERR=IERR+1
                 IK=J/2+1
-                IF(ISPMD.EQ.0)
+                IF(ISPMD==0)
      .          CALL ANCMSG(MSGID=105,ANMODE=ANINFO_BLIND,
      .            I1=LL,I2=IK,I3=IK-1)
                 CALL ARRET(2)
@@ -101,7 +101,7 @@ C
             ENDDO
           ELSE
             IERR=IERR+1
-            IF(ISPMD.EQ.0)THEN
+            IF(ISPMD==0)THEN
               CALL ANCMSG(MSGID=106,ANMODE=ANINFO_BLIND,
      .            I1=LL)
             END IF
@@ -109,8 +109,8 @@ C
           ENDIF
          ENDIF
         ENDDO
-        IF(OK.EQ.0)THEN
-          IF(ISPMD.EQ.0)THEN
+        IF(OK==0)THEN
+          IF(ISPMD==0)THEN
             IERR=IERR+1
             CALL ANCMSG(MSGID=107,ANMODE=ANINFO,
      .            I1=LL)
@@ -122,18 +122,18 @@ C
 C
 C par construction TABLE(L) == Function no L
          LL=TABLE(L)%NOTABLE
-         IF(LL.EQ.LLNEW)THEN
+         IF(LL==LLNEW)THEN
           OK=1
           NPTS = SIZE(TABLE(L)%X(1)%VALUES)
-          IF(NPTS.EQ.NPTSNEW)THEN
+          IF(NPTS==NPTSNEW)THEN
             I=NPC(L)
             DO J=1,NPTSNEW/2
               TABLE(L)%X(1)%VALUES(J)=PLD(I)
-              IF(J.GT.1.AND.
-     .        TABLE(L)%X(1)%VALUES(J).LE.TABLE(L)%X(1)%VALUES(J-1))THEN
+              IF(J>1.AND.
+     .        TABLE(L)%X(1)%VALUES(J)<=TABLE(L)%X(1)%VALUES(J-1))THEN
                 IERR=IERR+1
                 IK=J
-                IF(ISPMD.EQ.0)
+                IF(ISPMD==0)
      .           CALL ANCMSG(MSGID=105,ANMODE=ANINFO_BLIND,
      .            I1=LL,I2=IK,I3=IK-1)
                 CALL ARRET(2)
@@ -144,7 +144,7 @@ C par construction TABLE(L) == Function no L
             ENDDO
           ELSE
             IERR=IERR+1
-            IF(ISPMD.EQ.0)THEN
+            IF(ISPMD==0)THEN
               CALL ANCMSG(MSGID=106,ANMODE=ANINFO_BLIND,
      .            I1=LL)
             END IF
@@ -152,8 +152,8 @@ C par construction TABLE(L) == Function no L
           ENDIF
          ENDIF
         ENDDO
-        IF(OK.EQ.0)THEN
-          IF(ISPMD.EQ.0)THEN
+        IF(OK==0)THEN
+          IF(ISPMD==0)THEN
             IERR=IERR+1
             CALL ANCMSG(MSGID=107,ANMODE=ANINFO,
      .            I1=LL)

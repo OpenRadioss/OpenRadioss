@@ -169,7 +169,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('curveid',NCUR,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('inputsystem',IFRA,IS_AVAILABLE,LSUBMODEL)
-        IF(IFRA == 0 .AND. SUB_ID .NE. 0 ) THEN
+        IF(IFRA == 0 .AND. SUB_ID /= 0 ) THEN
           CALL ANCMSG(MSGID   = 1712,
      .                ANMODE  = ANINFO,
      .                MSGTYPE = MSGWARNING,
@@ -195,7 +195,7 @@ C--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID   = 659,
      .                ANMODE  = ANINFO,
      .                MSGTYPE = MSGERROR,
@@ -207,12 +207,12 @@ C--------------------------------------------------
         ENDIF
 C----------- 
         IDIR=0       
-        IF(XYZ(1:1).EQ.char_X) IDIR=1
-        IF(XYZ(1:1).EQ.char_Y) IDIR=2
-        IF(XYZ(1:1).EQ.char_Z) IDIR=3
-        IF(XYZ(1:2).EQ.char_XX)IDIR=4
-        IF(XYZ(1:2).EQ.char_YY)IDIR=5
-        IF(XYZ(1:2).EQ.char_ZZ)IDIR=6
+        IF(XYZ(1:1)==char_X) IDIR=1
+        IF(XYZ(1:1)==char_Y) IDIR=2
+        IF(XYZ(1:1)==char_Z) IDIR=3
+        IF(XYZ(1:2)==char_XX)IDIR=4
+        IF(XYZ(1:2)==char_YY)IDIR=5
+        IF(XYZ(1:2)==char_ZZ)IDIR=6
         IF(IDIR==0) THEN
            CALL ANCMSG(MSGID=881,
      .                 MSGTYPE=MSGERROR,
@@ -223,9 +223,9 @@ C-----------
 C-----------        
         NCURS=0
         DO J=1,NFUNCT
-          IF(NPC(NFUNCT+J+1).EQ.NCUR)NCURS=J
+          IF(NPC(NFUNCT+J+1)==NCUR)NCURS=J
         ENDDO
-        IF(NCURS.EQ.0)THEN
+        IF(NCURS==0)THEN
           CALL ANCMSG(MSGID=883,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -237,9 +237,9 @@ C-----------
         IF (FCX == ZERO) FCX = FAC_FCX
         IF (FCY == ZERO) FCY = FAC_FCY
 C-----------        
-        IF(IFRA .NE.0)THEN
+        IF(IFRA /=0)THEN
           DO J=0,NUMFRAM
-            IF(IFRA.EQ.IFRAME(4,J+1)) THEN
+            IF(IFRA==IFRAME(4,J+1)) THEN
               IFRAS=J
               EXIT
             ENDIF
@@ -259,11 +259,11 @@ C-----------
         ENDIF
 C-----------        
         TSENS = 0
-	IF(ISENS.NE.0) THEN
+	IF(ISENS/=0) THEN
           DO J=1,NSENSOR
-	    IF(ISENS.EQ.LSENSOR(1,J))TSENS=J
+	    IF(ISENS==LSENSOR(1,J))TSENS=J
 	  ENDDO
-	  IF(TSENS.EQ.0)THEN
+	  IF(TSENS==0)THEN
             CALL ANCMSG(MSGID=884,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,

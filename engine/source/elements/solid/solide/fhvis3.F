@@ -112,7 +112,7 @@ C-----------------------------------------------
 C        
        IF(UPWM > 1 .OR. JLAG == 1)THEN
          DO I=LFT,LLT
-           IF(VIS(I).GT.ZERO)THEN
+           IF(VIS(I)>ZERO)THEN
              FCQ(I)=ZERO
              FCL(I)=TEN*CAQ(I)*VIS(I)*DELTAX(I)
            ELSE
@@ -348,9 +348,9 @@ C FP 12/97
 C DANS LE CAS ALE ET EULERIEN, LE TRANSPORT DE l'ENERGIE d'HOURGLAS
 C N'EST PAS CALCULE, L'ENERGIE d'HOURGLASS CUMULE N'A PAS DE SENS
 C
-c      IF(JLAG.EQ.1)THEN
+c      IF(JLAG==1)THEN
 C
-c        IF (IVECTOR.EQ.0) THEN
+c        IF (IVECTOR==0) THEN
 c          DO I=LFT,LLT
 c            MX = IPARTS(I)
 c            PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
@@ -359,7 +359,7 @@ c        ELSE
 c          IC=1
 c          JST(IC)=LFT
 c          DO J=LFT+1,LLT
-c            IF (IPARTS(J).NE.IPARTS(J-1)) THEN
+c            IF (IPARTS(J)/=IPARTS(J-1)) THEN
 c              IC=IC+1
 c              JST(IC)=J
 c            ENDIF
@@ -367,7 +367,7 @@ c          ENDDO
 c          JST(IC+1)=LLT+1                 
 c          DO II=1,IC
 c            MX=IPARTS(JST(II))
-c            IF (JST(II+1)-JST(II).GT.15) THEN
+c            IF (JST(II+1)-JST(II)>15) THEN
 c              DO J=JST(II),JST(II+1)-1
 c                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(J)
 c              ENDDO
@@ -384,7 +384,7 @@ c          EHOUR = EHOUR + EHOURT
 c#include "atomend.inc"
 c      ENDIF
 cC
-c       IF((ANIM_E(25).EQ.1).OR.(OUTP_CS(25).EQ.1))THEN
+c       IF((ANIM_E(25)==1).OR.(OUTP_CS(25)==1))THEN
 c        DO I=LFT,LLT
 c          EANI(NFT+I) = EANI(NFT+I)+EHOU(I)/MAX(EM30,RHO(I)*VOL(I))
 c        ENDDO

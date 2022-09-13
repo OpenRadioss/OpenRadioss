@@ -86,12 +86,12 @@ C
       J22=J21+7*NSN
       JFI=J22+NMN
 C  version spmd avec plus d'un proc nsn = nsn_loc & nmn = nmn_loc
-c      IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+c      IF (IMACH==3.AND.NSPMD>1) THEN
 c        NSN = IPARI(16)
 c        NMN = IPARI(18)
 c      ENDIF
 C
-      IF(ILEV.EQ.1)THEN
+      IF(ILEV==1)THEN
         CALL I2UPDK1(NSN       ,NMN       ,INTBUF_TAB%IRECTM,
      1    INTBUF_TAB%DPARA,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
      2    MS        ,X         ,WEIGHT    ,ITAB      ,
@@ -189,9 +189,9 @@ C-----------------------------------------------
        M21=M12+2*NSN1
 C------supposant ILEV est le meme pour NI,NJ---
        ILEV  =IPARI(20,N1)
-       IF (NDOF(NI).GT.0.AND.NDOF(NJ).GT.0) THEN
+       IF (NDOF(NI)>0.AND.NDOF(NJ)>0) THEN
         CALL GET_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KDD,NDOF(NI),NDOF(NJ),IR)
-        IF(ILEV.EQ.1)THEN
+        IF(ILEV==1)THEN
          CALL I2UPDKM1(NS1,INTBUF_TAB(N1)%IRECTM,INTBUF_TAB(N1)%DPARA,INTBUF_TAB(N1)%NSV,INTBUF_TAB(N1)%IRTLM,
      .                 NS2,INTBUF_TAB(N2)%IRECTM,INTBUF_TAB(N2)%DPARA,INTBUF_TAB(N2)%NSV,INTBUF_TAB(N2)%IRTLM,
      .                 X  ,KDD       ,NDOF      ,IDDL      ,IADK      ,
@@ -269,7 +269,7 @@ C      FACM = ONE / NIR
       DO II=1,NSN
         I=NSV(II)
         L=IRTL(II)
-       IF (NDOF(I).GT.0) THEN
+       IF (NDOF(I)>0) THEN
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
          IKC(ID)=5 
@@ -288,7 +288,7 @@ C
         TT = MAX(NUN,TT)
         SP=ONE + SS
         SM=ONE - SS
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -317,7 +317,7 @@ C
          NDM = MAX(NDM,NDOF(NJ))
         ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (NDM.EQ.6) THEN
+        IF (NDM==6) THEN
          XS0(II)=ZERO
          YS0(II)=ZERO
          ZS0(II)=ZERO
@@ -348,7 +348,7 @@ CC-------Update K(main node),B---
            ND = MIN(ND,NDOF(NM))
            CALL UPDKDD(ND,KDD,KII,TM,0)
            CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KII,ND,ND,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
           ENDDO 
         ENDDO 
 C--------no diag--Kjm=sum(KjsCsm)--
@@ -356,20 +356,20 @@ C--------no diag--Kjm=sum(KjsCsm)--
           NI=NODS(J1+I1)
           NIDOF=NDOF(NI)
           CALL GET_KIJ(NI,I,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,NDOF(I),IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,2 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,2 )
 C------- Update ---
-          IF (NDM.EQ.6) CALL UPDKB_RB1(NIDOF,NDOF(I),XS,YS,ZS,KDD)
+          IF (NDM==6) CALL UPDKB_RB1(NIDOF,NDOF(I),XS,YS,ZS,KDD)
           DO J=1,NIR
            NJ=IRECT(J,L)
            NDI = MIN(NDM,NIDOF)
            NDJ = MIN(NDM,NDOF(NJ))
-           IF (NI.EQ.NJ.AND.NDJ.GT.0) THEN
+           IF (NI==NJ.AND.NDJ>0) THEN
             CALL UPDKDD1(NDI,NDOF(I),KDD,KII,H(J,II),1)
             CALL PUT_KII(NJ,IDDL ,IADK,DIAG_K,LT_K ,KII,NDJ)
-           ELSEIF (NDJ.GT.0) THEN
+           ELSEIF (NDJ>0) THEN
            CALL UPDKDD1(NDI,NDOF(I),KDD,KII,H(J,II),0)
            CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NDI,NDJ,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
            ENDIF 
           ENDDO 
         ENDDO
@@ -385,19 +385,19 @@ C--------due au coupled block KIJ--
        L=IRTL(II)
        L1=IRTL(JJ)
        CALL GET_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KDD,NDOF(NI),NDOF(NJ),IR)
-       IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
-       IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
+       IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
        ELSE
          NIR=4
        ENDIF
-       IF (L.EQ.L1) THEN
+       IF (L==L1) THEN
         NDM = 0
         DO J=1,NIR
          NM=IRECT(J,L)
          NDM = MAX(NDM,NDOF(NM))
         ENDDO
-        IF (NDM.EQ.6) THEN
+        IF (NDM==6) THEN
          XS=X(1,NI)-XS0(II)
          YS=X(2,NI)-YS0(II)
          ZS=X(3,NI)-ZS0(II)
@@ -414,21 +414,21 @@ C--------due au coupled block KIJ--
          DO J1=J+1,NIR
           NM1=IRECT(J1,L)
           NDM = MIN(NDOF(NM),NDOF(NM1))
-          IF (NDM.GT.0) THEN
+          IF (NDM>0) THEN
            TM=H(J,II)*H(J1,JJ)
            TP=H(J,JJ)*H(J1,II)
            CALL UPDKDD2(NDM,KDD,KII,TM,TP)
 C--------update --
            CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,
      .                 NDOF(NM),NDOF(NM1),IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
           ENDIF 
          ENDDO 
         ENDDO 
-C----- (L.NE.L1)-----
+C----- (L/=L1)-----
        ELSE
         NDM = 0
-        IF (IRECT(3,L1).EQ.IRECT(4,L1)) THEN
+        IF (IRECT(3,L1)==IRECT(4,L1)) THEN
          NIR1=3
         ELSE
          NIR1=4
@@ -438,7 +438,7 @@ C----- (L.NE.L1)-----
           NM1=IRECT(J,L1)
           NDM = MAX(NDM,NDOF(NM),NDOF(NM1))
         ENDDO
-        IF (NDM.EQ.6) THEN
+        IF (NDM==6) THEN
           XS=X(1,NI)-XS0(II)
           YS=X(2,NI)-YS0(II)
           ZS=X(3,NI)-ZS0(II)
@@ -454,14 +454,14 @@ C----- (L.NE.L1)-----
           TM=H(J,II)*H(J1,JJ)
 C--------update --
           NDM = MIN(NDOF(NM),NDOF(NM1))
-          IF (NM.EQ.NM1.AND.NDM.GT.0) THEN
+          IF (NM==NM1.AND.NDM>0) THEN
            CALL UPDKDD1(NDOF(NI),NDOF(NJ),KDD,KII,TM,1)
            CALL PUT_KII(NM ,IDDL ,IADK,DIAG_K,LT_K,KII,NDOF(NM))
-          ELSEIF (NDM.GT.0) THEN
+          ELSEIF (NDM>0) THEN
            CALL UPDKDD1(NDOF(NI),NDOF(NJ),KDD,KII,TM,0)
            CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,
      .                  NDOF(NM),NDOF(NM1),IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
           ENDIF 
          ENDDO 
         ENDDO 
@@ -521,7 +521,7 @@ C------------------------------------
         TT = MAX(NUN,TT)
         SP=ONE + SS
         SM=ONE - SS
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -555,7 +555,7 @@ C---------NJ------
         TT = MAX(NUN,TT)
         SP=ONE + SS
         SM=ONE - SS
-        IF (IRECT1(3,L1).EQ.IRECT1(4,L1)) THEN
+        IF (IRECT1(3,L1)==IRECT1(4,L1)) THEN
          NIR1=3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -589,7 +589,7 @@ C---------NJ------
           NDM = MAX(NDM,NDOF(NM),NDOF(NM1))
         ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (NDM.EQ.6) THEN
+        IF (NDM==6) THEN
          XS=X(1,NI)-XM0
          YS=X(2,NI)-YM0
          ZS=X(3,NI)-ZM0
@@ -604,7 +604,7 @@ C-------NDOF(M)> 3 comme rigid body---
           NM1=IRECT1(J1,L1)
           TM=H(J)*H1(J1)
 C--------update --
-          IF (NM.EQ.NM1) THEN
+          IF (NM==NM1) THEN
            CALL UPDKDD1(NDOF(NI),NDOF(NJ),KDD,KII,TM,1)
            CALL PUT_KII(NM ,IDDL ,IADK,DIAG_K,LT_K,KII,NDOF(NM))
           ELSE
@@ -675,7 +675,7 @@ C------------------------------------
       DO II=1,NSN
        I=NSV(II)
        IDOF=NDOF(I)
-       IF (IDOF.GT.0) THEN
+       IF (IDOF>0) THEN
         L=IRTL(II)
         DO K=1,IDOF
          ID = IDDL(I)+K
@@ -707,7 +707,7 @@ C-------Update K(main node),B---
           CALL UPDK1_IJ(IDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,I1,II),RJT(1,I1,II),KDD,KII,0)
           CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
          ENDDO 
         ENDDO 
 C--------no diag--Kmj=sum(KjsCsm)--
@@ -715,12 +715,12 @@ C--------no diag--Kmj=sum(KjsCsm)--
           NI=NODS(J1+I1)
           NIDOF=NDOF(NI)
           CALL GET_KIJ(NI,I,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,IDOF,IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,2 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,2 )
 C------- Update ---
           DO J=1,NIR(II)
            NJ=IRECT(J,L)
            ND=MIN(NDM,NDOF(NJ)) 
-           IF (NI.EQ.NJ.AND.ND.GT.0) THEN
+           IF (NI==NJ.AND.ND>0) THEN
             CALL UPDK1_JJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),KDD,KII)
             DO K=1,3 
              DO L1=1,3 
@@ -728,10 +728,10 @@ C------- Update ---
              ENDDO
             ENDDO
             CALL PUT_KII(NJ ,IDDL ,IADK,DIAG_K,LT_K ,KII,ND)
-           ELSEIF (ND.GT.0) THEN
+           ELSEIF (ND>0) THEN
            CALL UPDK1_JJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),KDD,KII)
            CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NIDOF,ND,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
            ENDIF 
           ENDDO 
         ENDDO
@@ -749,8 +749,8 @@ C--------due au coupled block KIJ-attension ISI different que rigid body-
        NIDOF=NDOF(NI)
        IDOF=NDOF(NJ)
        CALL GET_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,IDOF,IR)
-       IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
-       IF (L.EQ.L1) THEN
+       IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
+       IF (L==L1) THEN
         DO J=1,NIR(II)
          NM=IRECT(J,L)
 C--------update --
@@ -761,15 +761,15 @@ C--------update --
          DO J1=J+1,NIR(JJ)
           NM1=IRECT(J1,L)
           ND1=MIN(NDM,NDOF(NM1)) 
-          IF (ND1.GT.0) THEN
+          IF (ND1>0) THEN
           CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,J1,JJ),RJT(1,J1,JJ),KDD,KII,0)
           CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR) 
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
           CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J1,II),RJT(1,J1,II),
      1                  RJ(1,J,JJ),RJT(1,J,JJ),KDD,KII,0)
           CALL PUT_KIJ(NM1,NM,IDDL,IADK,JDIK,LT_K,KII,ND1,ND,IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NM1) ,ITAB(NM) ,2 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NM1) ,ITAB(NM) ,2 )
           ENDIF 
          ENDDO 
         ENDDO 
@@ -780,15 +780,15 @@ C--------update --
          DO J1=1,NIR(JJ)
           NM1=IRECT(J1,L1)
           ND1=MIN(NDM,NDOF(NM1)) 
-          IF (NM.EQ.NM1.AND.ND1.GT.0) THEN
+          IF (NM==NM1.AND.ND1>0) THEN
            CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,J1,JJ),RJT(1,J1,JJ),KDD,KII,1)
            CALL PUT_KII(NM ,IDDL ,IADK,DIAG_K,LT_K ,KII,ND)
-          ELSEIF (ND1.GT.0) THEN
+          ELSEIF (ND1>0) THEN
            CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,J1,JJ),RJT(1,J1,JJ),KDD,KII,0)
            CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
           ENDIF
          ENDDO 
         ENDDO 
@@ -839,7 +839,7 @@ C------------------------------------
          B(I)=RJT(1,I)*BD(1)+RJT(2,I)*BD(2)+RJT(3,I)*BD(3)
         ENDDO
 C
-       IF (NDL.EQ.6) THEN
+       IF (NDL==6) THEN
         DO I=1,3 
          DO J=1,3 
           K1(I,J)= RJT(1,I)*(KDD(1,4)*RJ(1,J)+
@@ -958,7 +958,7 @@ C------------------------------------
          ENDDO
         ENDDO
 C
-       IF (NDI.EQ.6) THEN
+       IF (NDI==6) THEN
         DO I=1,3 
          DO J=1,3 
           K(I,J)=K(I,J)+ R1J(1,I)*(KDD(4,1)*R2JT(1,J)+
@@ -970,7 +970,7 @@ C
          ENDDO
         ENDDO
        ENDIF 
-       IF (NDJ.EQ.6) THEN
+       IF (NDJ==6) THEN
         DO I=1,3 
          DO J=1,3 
           K(I,J)=K(I,J)+ R1JT(1,I)*(KDD(1,4)*R2J(1,J)+
@@ -982,7 +982,7 @@ C
          ENDDO
         ENDDO
        ENDIF 
-       IF (NDI.EQ.6.AND.NDJ.EQ.6) THEN
+       IF (NDI==6.AND.NDJ==6) THEN
         DO I=1,3 
          DO J=1,3 
           K(I,J)= K(I,J)+
@@ -996,7 +996,7 @@ C
         ENDDO
        ENDIF 
 C
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
          DO J=1,3 
           KII(I,J)=K(I,J)+K(J,I)
@@ -1047,7 +1047,7 @@ C----------K RJT--------------------------
          ENDDO
         ENDDO
 C
-       IF (NDJ.EQ.6) THEN
+       IF (NDJ==6) THEN
         DO I=1,3 
          DO J=1,3 
           K(I,J)=K(I,J)+KDD(I,4)*RJ(1,J)+
@@ -1055,7 +1055,7 @@ C
          ENDDO
         ENDDO
        ENDIF 
-       IF (NDI.EQ.6) THEN
+       IF (NDI==6) THEN
         DO I=1,3 
          MI=I+3
          DO J=1,3 
@@ -1064,7 +1064,7 @@ C
          ENDDO
         ENDDO
        ENDIF
-       IF (NDI.EQ.6.AND.NDJ.EQ.6) THEN
+       IF (NDI==6.AND.NDJ==6) THEN
         DO I=1,3 
          MI=I+3
          DO J=1,3 
@@ -1119,7 +1119,7 @@ C------------------------------------
           KII(I,J)=H2*KDD(I,J)
          ENDDO  
         ENDDO  
-       IF(ISYM.NE.1) THEN
+       IF(ISYM/=1) THEN
         DO I=1,NDL 
          DO J=I,NDL 
           KII(J,I)=KII(I,J)
@@ -1162,7 +1162,7 @@ C------------------------------------
            KII(I,J) = ZERO 
         ENDDO
         ENDDO
-        IF(ISYM.EQ.1) THEN
+        IF(ISYM==1) THEN
          DO I=1,NDI 
           DO J=1,NDJ 
            KII(I,J)=H*(KDD(I,J)+KDD(J,I))
@@ -1262,7 +1262,7 @@ C------------------------------------
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
        ENDDO 
-       IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIR=3
         XM(4)=ZERO
         YM(4)=ZERO
@@ -1399,7 +1399,7 @@ C------------------------------------
           NM=IRECT(J,L)
           DO J1=1,NIR1
            NM1=IRECT1(J1,L1)
-          IF (NM.EQ.NM1) THEN
+          IF (NM==NM1) THEN
            CALL UPDK1_IJ(NDOF(NI),NDOF(NJ),RJ(1,1,J),RJT(1,1,J),
      1                  RJ1(1,1,J1),RJT1(1,1,J1),KDD,KII,1)
            CALL PUT_KII(NM,IDDL,IADK,DIAG_K,LT_K,KII,3)
@@ -1459,7 +1459,7 @@ C------------------------------------
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
        ENDDO 
-       IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIR=3
         XM(4)=ZERO
         YM(4)=ZERO
@@ -1580,7 +1580,7 @@ C-----------------------------------------------
          YM(JJ)=X(2,J)
          ZM(JJ)=X(3,J)
         ENDDO 
-        IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF(IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
          YM(4)=ZERO
@@ -1688,7 +1688,7 @@ C
         SM=ONE - SS
         TP=FOURTH*(ONE + TT)
         TM=FOURTH*(ONE - TT)
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -1712,7 +1712,7 @@ C
          A(3,NJ)=A(3,NJ)+FZI*H(J)
          NDM = MAX(NDM,NDOF(J))
         ENDDO
-       IF(NDM.EQ.6)THEN
+       IF(NDM==6)THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -1781,7 +1781,7 @@ C
        TT=CRST(2,II)
        SP=ONE + SS
        SM=ONE - SS
-       IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF(IRECT(3,L)==IRECT(4,L)) THEN
 	 NIR = 3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -1802,7 +1802,7 @@ C
         ND = MAX(ND,NDOF(NJ))
        ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (ND.EQ.6) THEN
+        IF (ND==6) THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -1880,7 +1880,7 @@ C
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
        ENDDO 
-       IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+       IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIR=3
         XM(4)=ZERO
         YM(4)=ZERO
@@ -2001,7 +2001,7 @@ C
       J22=J21+7*NSN
       JFI=J22+NMN
 C
-      IF(ILEV.EQ.1)THEN
+      IF(ILEV==1)THEN
         CALL I2UPDB1(NSN       ,INTBUF_TAB%IRECTM,INTBUF_TAB%DPARA,
      1    INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,X         ,NDOF      ,IDDL      ,
      2    B        )
@@ -2057,7 +2057,7 @@ C-------on est oblige de distinque quand meme, sinon la matrice n'est plus posit
       DO II=1,NSN
         I=NSV(II)
         L=IRTL(II)
-       IF (NDOF(I).GT.0) THEN
+       IF (NDOF(I)>0) THEN
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
          BD(K)=B(ID) 
@@ -2074,7 +2074,7 @@ C
         TT = MAX(NUN,TT)
         SP=ONE + SS
         SM=ONE - SS
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -2096,7 +2096,7 @@ C
          NDM = MAX(NDM,NDOF(NJ))
         ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (NDM.EQ.6) THEN
+        IF (NDM==6) THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -2169,7 +2169,7 @@ C------------------------------------
       DO II=1,NSN
        I=NSV(II)
        IDOF=NDOF(I)
-       IF (IDOF.GT.0) THEN
+       IF (IDOF>0) THEN
         L=IRTL(II)
         DO K=1,IDOF
          ID = IDDL(I)+K
@@ -2222,7 +2222,7 @@ C------------------------------------
          B(I)=RJT(1,I)*BD(1)+RJT(2,I)*BD(2)+RJT(3,I)*BD(3)
         ENDDO
 C
-       IF (NDL.EQ.6) THEN
+       IF (NDL==6) THEN
         DO I=1,3 
          B(I)=B(I)+RJ(1,I)*BD(4)+RJ(2,I)*BD(5)+RJ(3,I)*BD(6)
         ENDDO
@@ -2291,7 +2291,7 @@ C
       J22=J21+7*NSN
       JFI=J22+NMN
 C
-      IF(ILEV.EQ.1)THEN
+      IF(ILEV==1)THEN
         CALL I2UPDB12(NSN       ,INTBUF_TAB%IRECTM,INTBUF_TAB%DPARA,
      1    INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,X         ,NDOF      ,IDDL      ,
      2    B         ,A         ,AR        )
@@ -2344,7 +2344,7 @@ C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
       NUN=-ONE 
       J1=0 
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
        ND = 6
       ELSE
        ND = 3
@@ -2352,11 +2352,11 @@ C-------on est oblige de distinque quand meme, sinon la matrice n'est plus posit
       DO II=1,NSN
         I=NSV(II)
         L=IRTL(II)
-       IF (NDOF(I).EQ.0) THEN
+       IF (NDOF(I)==0) THEN
         DO K=1,3
          BD(K)=A(K,I) 
         ENDDO 
-        IF (ND.EQ.3) THEN
+        IF (ND==3) THEN
          DO K=ND+1,6
           BD(K)=ZERO 
          ENDDO 
@@ -2374,7 +2374,7 @@ C
         TT = MAX(NUN,TT)
         SP=ONE + SS
         SM=ONE - SS
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=FOURTH*(ONE + TT)
          TM=FOURTH*(ONE - TT)
@@ -2391,7 +2391,7 @@ C
          H(4)=TP*SM
         ENDIF
 C-------comme rigid body---
-        IF (ND.EQ.6) THEN
+        IF (ND==6) THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -2409,11 +2409,11 @@ C-------comme rigid body---
 CC-------Update B---
         DO J=1,NIR
           NJ=IRECT(J,L)
-          IF (NDOF(NJ).EQ.0) THEN
+          IF (NDOF(NJ)==0) THEN
             DO K=1,3
              A(K,NJ)=A(K,NJ)+BD(K) 
             ENDDO 
-           IF (ND.EQ.6) THEN
+           IF (ND==6) THEN
             DO K=1,3
              AR(K,NJ)=AR(K,NJ)+BD(K+3) 
             ENDDO 
@@ -2470,7 +2470,7 @@ C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
        ND = 6
       ELSE
        ND = 3
@@ -2478,12 +2478,12 @@ C------------------------------------
       DO II=1,NSN
        I=NSV(II)
        IDOF=NDOF(I)
-       IF (IDOF.EQ.0) THEN
+       IF (IDOF==0) THEN
         L=IRTL(II)
         DO K=1,3
          BD(K)=A(K,I) 
         ENDDO 
-        IF (ND.EQ.3) THEN
+        IF (ND==3) THEN
          DO K=ND+1,6
           BD(K)=ZERO 
          ENDDO 
@@ -2496,7 +2496,7 @@ C-------Update B---
         DO J=1,NIR(II)
          NJ=IRECT(J,L)
          CALL UPDB1_II(ND,RJ(1,J,II),RJT(1,J,II),BD,BI)
-         IF (NDOF(NJ).EQ.0) THEN
+         IF (NDOF(NJ)==0) THEN
            DO K=1,3
             A(K,NJ)=A(K,NJ)+BI(K) 
            ENDDO 
@@ -2575,7 +2575,7 @@ C
         TT = MAX(NUN,TT)
         SP=ONE + SS
         SM=ONE - SS
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          TP=THIRD*(ONE + TT)
          TM=THIRD*(ONE - TT)
@@ -2597,7 +2597,7 @@ C
          NDM = MAX(NDM,NDOF(NJ))
         ENDDO
 C-------NDOF(M)> 3 comme rigid body---
-        IF (NDM.EQ.6) THEN
+        IF (NDM==6) THEN
          XS0=ZERO
          YS0=ZERO
          ZS0=ZERO
@@ -2611,9 +2611,9 @@ C-------NDOF(M)> 3 comme rigid body---
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
         ENDIF 
-       IF (ISS.GT.0) THEN
+       IF (ISS>0) THEN
 C-------Update KSS(main node),B---
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          H2(1)=H(1)*H(1)
          H2(2)=H(2)*H(2)
          H2(3)=H(3)*H(3)
@@ -2633,7 +2633,7 @@ C-------Update KSS(main node),B---
         KDD(1,2) = KSS(4)
         KDD(1,3) = KSS(5)
         KDD(2,3) = KSS(6)
-        IF (NDM.EQ.6) CALL UPDKB_RB(NDOFI,XS,YS,ZS,KDD,BD)
+        IF (NDM==6) CALL UPDKB_RB(NDOFI,XS,YS,ZS,KDD,BD)
         DO J=1,NIR
           NJ=IRECT(J,L)
           ND = MIN(NDM,NDOF(NJ))
@@ -2646,12 +2646,12 @@ C-------Update KSS(main node),B---
            CALL UPDKDD(ND,KDD,KII,TM,0)
            CALL PUT_KMIJ(IDLM(J) ,IDLM(I1) ,IADK,JDIK,LT_K,
      .                   KII,ND ,ND  ,IR )
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
           ENDDO 
         ENDDO 
        ENDIF 
 C
-       IF (ISM.GT.0) THEN
+       IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI
@@ -2659,12 +2659,12 @@ C--------no diag--Kjm=sum(KjsCsm)--
           ENDDO 
           ENDDO 
 C------- Update ---
-          IF (NDM.EQ.6) CALL UPDKB_RB1(NDOFI,NDOFI,XS,YS,ZS,KDD)
+          IF (NDM==6) CALL UPDKB_RB1(NDOFI,NDOFI,XS,YS,ZS,KDD)
           DO J=1,NIR
            NJ=IRECT(J,L)
            NDI = MIN(NDM,NDOFI)
            NDJ = MIN(NDM,NDOF(NJ))
-           IF (NDJ.GT.0)CALL UPDKDD1(NDI,NDJ,KDD,KII,H(J),0)
+           IF (NDJ>0)CALL UPDKDD1(NDI,NDJ,KDD,KII,H(J),0)
            DO K=1,NDOFI
            DO J1=1,NDOFI
             KNM(K,J1,J)=KII(J1,K)
@@ -2739,7 +2739,7 @@ C
          YM(J)=X(2,NJ)
          ZM(J)=X(3,NJ)
         ENDDO 
-        IF (IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
          YM(4)=ZERO
@@ -2812,7 +2812,7 @@ C-------RJT=1/4[I]+(Rs)RJ---
         ENDDO
 C
         NDM = 3
-       IF (ISS.GT.0) THEN
+       IF (ISS>0) THEN
 CC-------Update KSS(main node),B---
         DO K=1,NDOFI
          BD(K)=A(K,I) 
@@ -2836,12 +2836,12 @@ CC-------Update KSS(main node),B---
      1                  RJ(1,1,I1),RJT(1,1,I1),KDD,KII,0)
           CALL PUT_KMIJ(IDLM(J) ,IDLM(I1) ,IADK,JDIK,LT_K,
      .                  KII,ND ,ND1 ,IR )
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
          ENDDO 
         ENDDO 
        ENDIF 
 C
-       IF (ISM.GT.0) THEN
+       IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI
@@ -2852,7 +2852,7 @@ C------- Update ---
           DO J=1,NIR
            NJ=IRECT(J,L)
            NDJ = MIN(NDM,NDOF(NJ))
-           IF (NDJ.GT.0)THEN
+           IF (NDJ>0)THEN
             CALL UPDK1_JJ(NDOFI,NDOFI,RJ(1,1,J),RJT(1,1,J),KDD,KII)
             DO K=1,NDOFI
             DO J1=1,NDOFI

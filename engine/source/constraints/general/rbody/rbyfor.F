@@ -91,7 +91,7 @@ C-------------------------------------
       RBID = ZERO
       DO KK=1,NRBYKIN_L
         N=IRBKIN_L(KK)
-        IF(NPBY(7,N).LE.0) THEN
+        IF(NPBY(7,N)<=0) THEN
           DO K = 1, 6
             RBY6(1,K,N) = ZERO
             RBY6(2,K,N) = ZERO
@@ -114,8 +114,8 @@ C-------------------------------------
       DO KK=1,NRBYKIN_L
         N=IRBKIN_L(KK)
         K  = KIND(N)
-        IF (NPBY(4,N).NE.0) THEN
-          IF(NPBY(7,N).GT.0) THEN
+        IF (NPBY(4,N)/=0) THEN
+          IF(NPBY(7,N)>0) THEN
            N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
 C          A chaque instant (et a TT=0. dans le Starter),
@@ -125,7 +125,7 @@ C          ET
 C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
 C          sont calcules en ce point !!!
            ISU=NPBY(8,N)
-           IF(ISPMD.EQ.0.AND.ISU.NE.0) THEN
+           IF(ISPMD==0.AND.ISU/=0) THEN
             IM=NPBY(1,N)
             ADRSRF=IGRSURF(ISU)%IAD_BUFR
             A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
@@ -186,8 +186,8 @@ C-------------------------------------
       DO KK=1,NRBYKIN_L
         N = IRBKIN_L(KK)
         K  = KIND(N)
-        IF (NPBY(4,N).EQ.0) THEN
-          IF(NPBY(7,N).GT.0) THEN
+        IF (NPBY(4,N)==0) THEN
+          IF(NPBY(7,N)>0) THEN
            N2 = NINTER+NRWALL+N
 C          Cumul des Forces / Moments sur la surface :
 C          A chaque instant (et a TT=0. dans le Starter),
@@ -197,7 +197,7 @@ C          ET
 C          Dans l'Interface TYPE 14, Les forces, moments (et rigidites)
 C          sont calcules en ce point !!!
            ISU=NPBY(8,N)
-           IF(ISPMD.EQ.0.AND.ISU.NE.0) THEN
+           IF(ISPMD==0.AND.ISU/=0) THEN
             IM=NPBY(1,N)
             ADRSRF=IGRSURF(ISU)%IAD_BUFR
             A(1,IM) =A(1,IM) +BUFSF(ADRSRF+25)
@@ -249,7 +249,7 @@ c
 
 !$OMP SINGLE
 
-        IF (IMON.GT.0) CALL STARTIME(11,1)
+        IF (IMON>0) CALL STARTIME(11,1)
 C
 C Comm non multi-thread
 C
@@ -264,7 +264,7 @@ C routine G/S de calcul Parith/ON de A AR STIFN STIFR noeuds main RB
             CALL SPMD_EXCH_A_RB6G(NPBY,RBY6)
           END IF
 
-        IF (IMON.GT.0) CALL STOPTIME(11,1)
+        IF (IMON>0) CALL STOPTIME(11,1)
 
 !$OMP END SINGLE
 
@@ -278,7 +278,7 @@ C
         N = IRBKIN_L(KK)
         K  = KIND(N)
         N2 = NINTER+NRWALL+N
-        IF(NPBY(7,N).GT.0) THEN
+        IF(NPBY(7,N)>0) THEN
 c
            IPARSENS=0
            ISECT=0

@@ -222,7 +222,7 @@ C
       P32=FXBRPM(9)
       P33=FXBRPM(10)
 C
-      IF (NCYCLE.EQ.0) THEN
+      IF (NCYCLE==0) THEN
          MT(22,13)=ONE
          MT(23,14)=ONE
          MT(24,15)=ONE
@@ -256,7 +256,7 @@ C
          MT(24,15)=-ONE
       ENDIF
 C
-      IF (NCYCLE.EQ.0) THEN
+      IF (NCYCLE==0) THEN
          ST(22)=ZERO
          ST(23)=ZERO
          ST(24)=ZERO

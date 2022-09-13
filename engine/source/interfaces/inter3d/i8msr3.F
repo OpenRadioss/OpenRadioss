@@ -95,14 +95,14 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         JG=MSR(JL)
         L=IRTL(IL)
 
-        IF(XFACE(I).EQ.ZERO)THEN
+        IF(XFACE(I)==ZERO)THEN
          IRTL(IL)=MAX(L,1)
         ELSE
          BMAX=-EP30
          LSEG_OLD=L
          LSEG_NEW=0
 C
-         IF(L.LE.0) GOTO 100
+         IF(L<=0) GOTO 100
        ! IF this secnd has a main face from the previous cycle, 
        ! this one is checked first                                      
 
@@ -113,11 +113,11 @@ C
 
          DO JJJ=1,4
            JJ=JJJ
-           IF(IRECT(JJ,L).EQ.JL) EXIT
+           IF(IRECT(JJ,L)==JL) EXIT
          ENDDO
          J1=KM1(JJ)
          J2=KN1(JJ)
-         IF(JJ.EQ.3.AND.IRECT(3,L).EQ.IRECT(4,L)) J1=1
+         IF(JJ==3.AND.IRECT(3,L)==IRECT(4,L)) J1=1
          M=MSR(IRECT(J1,L))
          N=MSR(IRECT(J2,L))
          CALL I8_NEAREST_SEG(X, IG, JG, M, N, BMIN)
@@ -144,14 +144,14 @@ C
          DO LL=LL1,LL2
            LG=LMSR(LL)
            LSEG=LG
-           IF(L.EQ.LG) CYCLE
+           IF(L==LG) CYCLE
            DO JJJ=1,4
              JJ=JJJ
-             IF(IRECT(JJ,LG).EQ.JL) EXIT
+             IF(IRECT(JJ,LG)==JL) EXIT
            ENDDO
            J1=KM1(JJ)
            J2=KN1(JJ)
-           IF(JJ.EQ.3.AND.IRECT(3,LG).EQ.IRECT(4,LG)) J1=1
+           IF(JJ==3.AND.IRECT(3,LG)==IRECT(4,LG)) J1=1
            FACE_GLOB_ID(1)  =ITAB(MSR(IRECT(1,LG)))
            FACE_GLOB_ID(2)  =ITAB(MSR(IRECT(2,LG)))
            FACE_GLOB_ID(3)  =ITAB(MSR(IRECT(3,LG)))

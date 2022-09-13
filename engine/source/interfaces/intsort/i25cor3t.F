@@ -93,7 +93,7 @@ C
       IF(IGAP /= 3)THEN
         DO I=1,JLT
           J = CAND_N(I)
-          IF(J.LE.NSN) THEN
+          IF(J<=NSN) THEN
             GAPV(I)=GAP_S(J) + GAP_M(CAND_E(I))
           ELSE
             IG = J-NSN
@@ -104,7 +104,7 @@ C
       ELSE
         DO I=1,JLT
           J = CAND_N(I)
-          IF(J.LE.NSN) THEN
+          IF(J<=NSN) THEN
             GAPV(I)=GAP_S(J) + GAP_M(CAND_E(I))
             GAPV(I)=MIN(GAP_S_L(J)+GAP_M_L(CAND_E(I)),GAPV(I))
           ELSE
@@ -117,7 +117,7 @@ C
       END IF
       DO I=1,JLT
         J = CAND_N(I)
-        IF(J.LE.NSN) THEN
+        IF(J<=NSN) THEN
           IG = NSV(J)
           XI(I) = X(1,IG)
           YI(I) = X(2,IG)

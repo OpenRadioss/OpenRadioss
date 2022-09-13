@@ -65,9 +65,9 @@ C
         DO J = 1, NPROPG
           GEO_L(J,I) = GEO(J,I)
         END DO
-        IF(INT(GEO(12,I)).EQ.15)THEN
+        IF(INT(GEO(12,I))==15)THEN
           M=INT(GEO(29,I))
-          IF(M.NE.0)THEN
+          IF(M/=0)THEN
             M = NODLOCAL(M)
             GEO_L(29,I) = M
           END IF

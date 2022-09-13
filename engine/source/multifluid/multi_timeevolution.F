@@ -155,7 +155,7 @@ C     TEMPORAIRE
 C     ------------------------- 
 C     Deplacement des noeuds
 C     -------------------------  
-      IF (IALE .NE. 0 .AND. .NOT. PRED) THEN     ! IF CORRECTION : maillage en configuration tn+1/2 pour les flux a tn+1/2
+      IF (IALE /= 0 .AND. .NOT. PRED) THEN     ! IF CORRECTION : maillage en configuration tn+1/2 pour les flux a tn+1/2
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
             VDT = HALF * TIMESTEP * WGRID(1, NODE_ID)
             DNOD(1, NODE_ID) = DNOD(1, NODE_ID) + VDT
@@ -175,7 +175,7 @@ C     -------------------------
 C     ==========================================
 C     Face data computation (NX, NY, NZ, SURFACE)
 C     ==========================================
-      IF (IALE .NE. 0) THEN
+      IF (IALE /= 0) THEN
 C     Only ALE, since nodes have moved
          CALL MULTI_FACE_ELEM_DATA(ITASK, IPARG, IXS, IXQ, IXTG, XGRID, WGRID, MULTI_FVM)
       ENDIF
@@ -183,7 +183,7 @@ C     Only ALE, since nodes have moved
 C------------------
 C     MPI COM
 C------------------
-      IF (NSPMD .GT. 1) THEN
+      IF (NSPMD > 1) THEN
 !$OMP SINGLE
          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
 C     Temporary vars used for fluxes computation
@@ -207,7 +207,7 @@ C     Burnt fraction
          CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%BFRAC, 
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 C     SUBMAT VARTIABLES
-         IF (MULTI_FVM%NBMAT .GT. 1) THEN
+         IF (MULTI_FVM%NBMAT > 1) THEN
             CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_ALPHA, 
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_RHO, 
@@ -218,8 +218,8 @@ C     SUBMAT VARTIABLES
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDIF
 
-         IF (MULTI_FVM%MUSCL .GT. 0) THEN
-            IF (IALE .NE. 0) THEN
+         IF (MULTI_FVM%MUSCL > 0) THEN
+            IF (IALE /= 0) THEN
                CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             ENDIF
@@ -237,7 +237,7 @@ C------------------
 C     ==============================
 C     gradients computation for MUSCL
 C     ==============================
-      IF (MULTI_FVM%MUSCL .GT. 0) THEN
+      IF (MULTI_FVM%MUSCL > 0) THEN
          CALL MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .        PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, MULTI_FVM%NBMAT, 
      .        CURRENT_TIME, BUFMAT) 
@@ -245,10 +245,10 @@ C     ==============================
       CALL MY_BARRIER    
 
 C     Gradient communication
-      IF (NSPMD .GT. 1 .AND. MULTI_FVM%MUSCL .GT. 0) THEN
+      IF (NSPMD > 1 .AND. MULTI_FVM%MUSCL > 0) THEN
 !$OMP SINGLE
          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-         IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+         IF (MULTI_FVM%MUSCL == 1) THEN
 C     Velocity gradients
             CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_U, 
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
@@ -258,8 +258,8 @@ C     Velocity gradients
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDIF
 C     SUBMAT gradients
-         IF (MULTI_FVM%NBMAT .EQ. 1) THEN
-            IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+         IF (MULTI_FVM%NBMAT == 1) THEN
+            IF (MULTI_FVM%MUSCL == 1) THEN
                CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_RHO, 
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
                CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_PRES, 
@@ -268,7 +268,7 @@ C     SUBMAT gradients
          ELSE
             CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_ALPHA, 
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-            IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+            IF (MULTI_FVM%MUSCL == 1) THEN
                CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_RHO, 
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
                CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_PRES, 
@@ -281,12 +281,12 @@ C     SUBMAT gradients
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)
-         IF (MATLAW .EQ. 151) THEN
+         IF (MATLAW == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             ITY = IPARG(5, NG)
             GBUF => ELBUF_TAB(NG)%GBUF
-            IF (MULTI_FVM%MUSCL .GT. 0) THEN
+            IF (MULTI_FVM%MUSCL > 0) THEN
                CALL MULTI_MUSCL_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
@@ -312,7 +312,7 @@ C---------------------
 C     ------------------------- 
 C     Deplacement des noeuds
 C     -------------------------  
-      IF (IALE .NE. 0 .AND. .NOT. PRED) THEN    ! IF CORRECTION : maillage en configuration tn+1 pour les volumes
+      IF (IALE /= 0 .AND. .NOT. PRED) THEN    ! IF CORRECTION : maillage en configuration tn+1 pour les volumes
          DO NODE_ID = 1 + ITASK, NUMNOD, NTHREAD
             VDT = HALF * TIMESTEP * WGRID(1, NODE_ID)
             DNOD(1, NODE_ID) = DNOD(1, NODE_ID) + VDT
@@ -335,13 +335,13 @@ C---------------------
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)
-         IF (MATLAW .EQ. 151) THEN
+         IF (MATLAW == 151) THEN
 C     -------------------------  
 C     Multifluid law: update global values
 C     -------------------------
             CALL MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB, 
      .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, VERTEX)  
-            IF (NBMAT .GT. 1) THEN
+            IF (NBMAT > 1) THEN
 C     -------------------------  
 C     Multifluid law: evolve partial values
 C     -------------------------
@@ -349,12 +349,12 @@ C     -------------------------
      .              IPARG, ITASK, IXS, IXQ, IXTG,  MULTI_FVM, 
      .              PM, IPM, VERTEX, CURRENT_TIME)                  
             ENDIF
-         ENDIF                  !IF (MATLAW .EQ. 151) THEN
+         ENDIF                  !IF (MATLAW == 151) THEN
       ENDDO                     !NG = ITASK + 1, NGROUP, NTHREAD    
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)
-         IF (MATLAW .EQ. 151) THEN
+         IF (MATLAW == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             ITY = IPARG(5, NG)
@@ -370,16 +370,16 @@ C     -------------------------
             CALL MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
      .           PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW(1:NEL), PRED) 
 
-            IF (MULTI_FVM%SYM .EQ. 0) THEN
+            IF (MULTI_FVM%SYM == 0) THEN
                IX => IXS(1:NIXS, 1 + NFT:NEL + NFT)
                NIX = NIXS
                ELEMtYP = 0
-            ELSEIF (ITY .EQ. 2) THEN
+            ELSEIF (ITY == 2) THEN
 C     QUADS
                IX => IXQ(1:NIXQ, 1 + NFT:NEL + NFT)
                NIX = NIXQ
                ELEMTYP = 1
-            ELSEIF (ITY .EQ. 7) THEN
+            ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                IX => IXTG(1:NIXTG, 1 + NFT:NEL + NFT)
                NIX = NIXTG
@@ -388,8 +388,8 @@ C     TRIANGLES
 C     Check if rho is negative, then stop RADIOSS instance
             DO II = 1, NEL
                I = II + NFT
-               IF (MULTI_FVM%RHO(I) .LE. ZERO) THEN
-                  IF (ELEMTYP .EQ. 0) THEN
+               IF (MULTI_FVM%RHO(I) <= ZERO) THEN
+                  IF (ELEMTYP == 0) THEN
                      CALL ANCMSG(MSGID = 167, ANMODE = ANINFO, I1 = IX(NIX, II), 
      .                    R1 = MULTI_FVM%RHO(I))
                   ELSE
@@ -400,7 +400,7 @@ C     Check if rho is negative, then stop RADIOSS instance
                ENDIF
             ENDDO
 
-            IF (NBMAT .GT. 1) THEN
+            IF (NBMAT > 1) THEN
 C     -------------------------  
 C     Multifluid law: evolve partial values
 C     -------------------------
@@ -424,7 +424,7 @@ C     -------------------------
                   ENDDO
                ENDIF
             ENDIF
-         ENDIF                  !IF (MATLAW .EQ. 151) THEN
+         ENDIF                  !IF (MATLAW == 151) THEN
       ENDDO                     !NG = ITASK + 1, NGROUP, NTHREAD
       
       CALL MY_BARRIER

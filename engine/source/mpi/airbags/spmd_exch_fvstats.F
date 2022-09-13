@@ -66,10 +66,10 @@ C
       IFV = 0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6 .OR. ITYP.EQ.8) THEN
+         IF (ITYP==6 .OR. ITYP==8) THEN
            IFV = IFV + 1
            ID=MONVOL(K1-1+1)
-           IF((FVSPMD(IFV)%PMAIN-1 .EQ. ISPMD) .OR. (NSPMD .EQ. 1)) THEN
+           IF((FVSPMD(IFV)%PMAIN-1 == ISPMD) .OR. (NSPMD == 1)) THEN
              BUFS(1,IFV)=ID                       
              BUFS(2,IFV)=MONVOL(K1-1+49)
              BUFS(3,IFV)=MONVOL(K1-1+70)
@@ -110,7 +110,7 @@ C
         IFV = 0
         DO N=1,NVOLU
            ITYP=MONVOL(K1-1+2)
-           IF (ITYP.EQ.6 .OR. ITYP.EQ.8) THEN
+           IF (ITYP==6 .OR. ITYP==8) THEN
              IFV = IFV + 1
              MONVOL(K1-1+1)  = BUFR(1,IFV)
              MONVOL(K1-1+49) = BUFR(2,IFV)

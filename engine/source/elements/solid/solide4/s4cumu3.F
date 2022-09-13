@@ -65,9 +65,9 @@ C-----------------------------------------------
       DO I=LFT,LLT
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            F11(I)=ZERO
            F21(I)=ZERO
            F31(I)=ZERO
@@ -85,19 +85,19 @@ C-----------------------------------------------
         ENDDO
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,4
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              CONDE(I)=ZERO
           ENDIF
          ENDDO
@@ -251,12 +251,12 @@ C-----------------------------------------------
 C-----------------------------------------------
       OFF_L = 0.
       DO I=LFT,LLT
-Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-         IF(OFFG(I).LT.ZERO)THEN
+         IF(OFFG(I)<ZERO)THEN
            F11(I)=ZERO
            F21(I)=ZERO
            F31(I)=ZERO
@@ -274,19 +274,19 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
         ENDDO
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,4
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
              CONDE(I)=ZERO
           ENDIF
          ENDDO
@@ -304,7 +304,7 @@ C     because 2*Mnodal = 2*Melement/4
         END DO
       ENDIF
 C
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           II=I+NFT

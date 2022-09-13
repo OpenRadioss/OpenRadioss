@@ -148,7 +148,7 @@ C
 c
         EMPTY = 1
         DO K = 1,2*LFIELD
-          IF(CHVAR(K:K) .NE. ' ') EMPTY = 0
+          IF(CHVAR(K:K) /= ' ') EMPTY = 0
         ENDDO  
 c
         ! Checking the perturbed variable
@@ -384,7 +384,7 @@ c
         WRITE(IOUT,*) ' '
         NB_INTERV = 50
         SIZEY     = 20
-        IF (MINVAL .NE. -EP30 .AND. MAXVAL .NE. EP30)THEN
+        IF (MINVAL /= -EP30 .AND. MAXVAL /= EP30)THEN
           MIN_VALUE = MINVAL
           MAX_VALUE = MAXVAL
         ENDIF

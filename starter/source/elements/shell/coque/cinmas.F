@@ -250,9 +250,9 @@ c-----------------------------
             THKI(I)= THK(I)
           ENDIF ! IF (NDRAPE == 0)
 c      
-           IF (NPERTURB .NE. 0) THEN
+           IF (NPERTURB /= 0) THEN
             DO J=1,NPERTURB
-             IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) .NE. ZERO) THEN
+             IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) /= ZERO) THEN
                THK(I)  = THK(I)  * RNOISE(J,I+NFT)
                THKE(I) = THKE(I) * RNOISE(J,I+NFT)
                THKI(I) = THKI(I) * RNOISE(J,I+NFT)
@@ -262,7 +262,7 @@ c
 c      
            RHO(I)   = PM(89,IMID)
            RHOCP(I) = PM(69,IMID) 
-           IF(THK(I) == ZERO.AND.IGTYP.NE.0)THEN
+           IF(THK(I) == ZERO.AND.IGTYP/=0)THEN
               CALL ANCMSG(MSGID=495,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -289,9 +289,9 @@ c-----------------------------
            RHO(I)   = STACK%PM(1,ISUBSTACK)
            RHOCP(I) = STACK%PM(15,ISUBSTACK)* RHO(I)/STACK%PM(14,ISUBSTACK)
 c      
-           IF (NPERTURB .NE. 0) THEN
+           IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
-               IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) .NE. ZERO) THEN
+               IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) /= ZERO) THEN
                  THK(I)  = THK(I)  * RNOISE(J,I+NFT)
                  THKE(I) = THKE(I) * RNOISE(J,I+NFT)
                  THKI(I) = THKI(I) * RNOISE(J,I+NFT)
@@ -299,7 +299,7 @@ c
              ENDDO
            ENDIF
 c      
-           IF(THK(I) == ZERO.AND.IGTYP.NE.0)THEN
+           IF(THK(I) == ZERO.AND.IGTYP/=0)THEN
               CALL ANCMSG(MSGID=495,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -320,9 +320,9 @@ c-----------------------------
 c                            
             THKI(I) = GEO(1,IPROP)
 c      
-            IF (NPERTURB .NE. 0) THEN
+            IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
-                IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) .NE. ZERO) THEN
+                IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) /= ZERO) THEN
                   THK(I)  = THK(I)  * RNOISE(J,I+NFT)
                   THKE(I) = THKE(I) * RNOISE(J,I+NFT)
                   THKI(I) = THKI(I) * RNOISE(J,I+NFT)
@@ -332,7 +332,7 @@ c
 c
             RHO(I)   = PM(89,IMID)
             RHOCP(I) = PM(69,IMID)
-            IF(THK(I) == ZERO.AND.IGTYP.NE.0)THEN
+            IF(THK(I) == ZERO.AND.IGTYP/=0)THEN
                CALL ANCMSG(MSGID=495,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -363,8 +363,8 @@ C! for igty=11 ---> IGMAT=-1 (old G-mat), 1 for new g-mat
 C! for igtyp=16 --->IGMAT= 0
 C! for igtyp=17 --->IGMAT= 0
           IF(IGMAT <= 0) THEN
-             IF (DMS .GT. EM02) ERRM = 1
-             IF (DMS .GT. EM02) THEN
+             IF (DMS > EM02) ERRM = 1
+             IF (DMS > EM02) THEN
                 IDPROP = IGEO(1,IPROP)
                 CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
@@ -672,7 +672,7 @@ C     INERTIES ELEMENTS /4
 C----------------------------------------------
       IF(INER_9_12 /= ZERO)THEN
         FAC=INER_9_12
-      ELSEIF(IHBE.GE.11)THEN
+      ELSEIF(IHBE>=11)THEN
         FAC=TWELVE
       ELSE
         FAC=NINE
@@ -842,7 +842,7 @@ C---  check stability condition
          DO I=LFT,LLT
           INS = EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*ONE_OVER_12)
           DMS = ABS(XI(I)-INS)/INS
-          IF(DMS .GT. EM02) THEN
+          IF(DMS > EM02) THEN
             IDPROP = IGEO(1,IPROP)
             CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
@@ -857,7 +857,7 @@ C---  check stability condition
       ENDIF
 C----------------------------------------------
 C     initialisation inertie parith/on spmd
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
        IF(NADMESH == 0)THEN
         IF(IPARI0 == 3)THEN
           CALL DOUBLE_FLOT_IEEE(LFT,LLT,XI,XI,I8EMS)
@@ -1246,8 +1246,8 @@ C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
       IF (IGTYP == 52 .OR. 
      .  ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
-           IF(I7STIFS.NE.0)THEN
-            IF (IMACH.NE.3) THEN
+           IF(I7STIFS/=0)THEN
+            IF (IMACH/=3) THEN
              DO I=LFT,LLT
                ET= STACK%PM(2,ISUBSTACK)*THK(I)
                ETNOD(IX1(I))=ETNOD(IX1(I))+ET
@@ -1272,8 +1272,8 @@ C----------------------------------------------
            ENDIF
       ELSEIF(IGTYP == 11 .AND. IGMAT >  0) THEN
           IPGMAT = 700
-          IF(I7STIFS.NE.0)THEN
-            IF (IMACH.NE.3) THEN
+          IF(I7STIFS/=0)THEN
+            IF (IMACH/=3) THEN
              DO I=LFT,LLT
               ET=GEO(IPGMAT +2 ,IPROP)*THK(I)
               ETNOD(IX1(I))=ETNOD(IX1(I))+ET
@@ -1297,8 +1297,8 @@ C----------------------------------------------
            ENDIF
           ENDIF
       ELSE ! igmat  = 0
-         IF(I7STIFS.NE.0)THEN
-          IF (IMACH.NE.3) THEN
+         IF(I7STIFS/=0)THEN
+          IF (IMACH/=3) THEN
            DO I=LFT,LLT
              ET=PM(20,IMID)*THK(I)
              ETNOD(IX1(I))=ETNOD(IX1(I))+ET

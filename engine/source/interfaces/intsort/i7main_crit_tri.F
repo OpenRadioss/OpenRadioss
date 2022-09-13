@@ -82,11 +82,11 @@ C
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
 C test temporaire pour assurer la compatibilite restart en 51d et 51e
-       IF(INTBUF_TAB%VARIABLES(16).EQ.ZERO)
+       IF(INTBUF_TAB%VARIABLES(16)==ZERO)
      .     INTBUF_TAB%VARIABLES(16)=EP30
        CALL I7BUCE_CRIT(
      1  X            ,INTBUF_TAB%NSV ,INTBUF_TAB%MSR,NSN   ,NMN  ,

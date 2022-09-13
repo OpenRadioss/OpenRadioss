@@ -93,21 +93,21 @@ C noeuds locaux
         END DO
         KR_L = KR_L + 10
         KR = KR + 10
-        IF(TYP_S.GE.100) THEN
+        IF(TYP_S>=100) THEN
           DO J = 1, 12*NNOD_S_L
             SECBUF_L(KR_L+J) = ZERO
           END DO
           KR_L = KR_L + 12*NNOD_S_L
           KR = KR + 12*NNOD_S
         END IF
-        IF(TYP_S.GE.101) THEN
+        IF(TYP_S>=101) THEN
           DO J = 1, 12*NNOD_S_L
             SECBUF_L(KR_L+J) = ZERO
           END DO
           KR_L = KR_L + 12*NNOD_S_L
           KR = KR + 12*NNOD_S
         END IF
-        IF(TYP_S.GE.102) THEN
+        IF(TYP_S>=102) THEN
           DO J = 1, 6*NNOD_S_L
             SECBUF_L(KR_L+J) = ZERO
           END DO
@@ -119,7 +119,7 @@ C noeuds locaux
 C
       CALL WRITE_DB(SECBUF_L,LSECBUF_L)
       LEN_AM = LEN_AM + LSECBUF_L
-      if(LSECBUF_L.NE.KR_L)print*,'error secbuf',LSECBUF_L,KR_L,NNOD_S_L
+      if(LSECBUF_L/=KR_L)print*,'error secbuf',LSECBUF_L,KR_L,NNOD_S_L
 C
       RETURN
       END

@@ -96,16 +96,16 @@ C
       DO 5 I=LFT,LLT
    5  DD(I)=DD(I)- ONE_OVER_8*(D1(I,IPT)+D2(I,IPT)+D3(I,IPT))
 C
-      IF(IMPL.EQ.ZERO)THEN
+      IF(IMPL==ZERO)THEN
        DO 10 I=LFT,LLT
    10  CX(I)=SSP(I)+SQRT(VD2(I))
        VISI=1.
        FACQ=1.
-       IF(IMPL_S.GT.0.AND.IDYNA.EQ.0)THEN
+       IF(IMPL_S>0.AND.IDYNA==0)THEN
         VISI=ZERO
         FACQ=ZERO
        ENDIF
-       IF(IMCONV.LT.0) THEN
+       IF(IMCONV<0) THEN
         DO I=LFT,LLT
           VOL(I)= ABS(VOL(I))
         ENDDO
@@ -120,13 +120,13 @@ C
 C
       DO 20 I=LFT,LLT
       AD(I)=ZERO
-      IF(OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO) GO TO 20
+      IF(OFF(I)<ONE.OR.OFFG(I)<=ZERO) GO TO 20
       AL(I)=VOL(I)** THIRD
-      IF(N2D.GT.0) AL(I)=SQRT(VOL(I))
+      IF(N2D>0) AL(I)=SQRT(VOL(I))
       AD(I)= MAX(ZERO,DD(I))*AL(I)
    20 CONTINUE
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
         DO I=LFT,LLT
           QA =FACQ*GEO(14,PID(I))
           QB =FACQ*GEO(15,PID(I))
@@ -166,12 +166,12 @@ C
          BK2 = PM(78,MT)
          TLI = PM(80,MT)
         DO 40 I=LFT,LLT
-         IF(T(I).LT.TLI)THEN
+         IF(T(I)<TLI)THEN
           AKK=AK1+BK1*T(I)
          ELSE
           AKK=AK2+BK2*T(I)
          ENDIF
-         IF(JTUR.NE.0)THEN
+         IF(JTUR/=0)THEN
           XMU = RHO(I)*PM(24,MT)
           TMU = PM(81,MT)
           RPR = PM(95,MT)
@@ -196,8 +196,8 @@ C       [ STI(I) = FOURTH * OFF(I) * RHO(I) * VOL(I) / DTX(I)**2 for 8node brick
 C
        IF(NODADT==0)THEN
          DO I = LFT,LLT
-           IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
-           IF(DTX(I).LT.DT2T)THEN
+           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
+           IF(DTX(I)<DT2T)THEN
              DT2T    = DTX(I)
              NELTST  = NGL(I)
              ITYPTST = ITY
@@ -212,11 +212,11 @@ C
        END DO
       END IF
 C----
-      IF(IMCONV.EQ.1)THEN
-       IF(IDTMIN(ITY).EQ.1)THEN
+      IF(IMCONV==1)THEN
+       IF(IDTMIN(ITY)==1)THEN
         DO 70 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.OR.
-     .   OFFG(I).LT.ZERO)GO TO 70
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.OR.
+     .   OFFG(I)<ZERO)GO TO 70
           TSTOP = TT
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -225,10 +225,10 @@ C----
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
 #include "lockoff.inc"
    70   CONTINUE
-       ELSEIF(IDTMIN(ITY).EQ.2)THEN
+       ELSEIF(IDTMIN(ITY)==2)THEN
         DO 75 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.OR.
-     .   OFFG(I).LT.ZERO)GO TO 75
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.OR.
+     .   OFFG(I)<ZERO)GO TO 75
           OFF(I) = ZERO
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -238,10 +238,10 @@ C----
 #include "lockoff.inc"
           IDEL7NOK = 1
    75   CONTINUE
-       ELSEIF(IDTMIN(ITY).EQ.5)THEN
+       ELSEIF(IDTMIN(ITY)==5)THEN
         DO 570 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.OR.
-     .   OFFG(I).LT.ZERO)GO TO 570
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.OR.
+     .   OFFG(I)<ZERO)GO TO 570
           MSTOP = 2
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -251,7 +251,7 @@ C----
 #include "lockoff.inc"
   570   CONTINUE
        ENDIF
-      END IF ! IF(IMCONV.EQ.1)
+      END IF ! IF(IMCONV==1)
 C----
       IF(IDTMINS == 2 .AND. JSMS /= 0)THEN
        DO I=LFT,LLT
@@ -271,8 +271,8 @@ c       DTX(I)=MAX(DTX(I),DTMINS)
        ENDDO
 C
        DO I = LFT,LLT
-         IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
-         IF(DTX(I).LT.DT2T)THEN
+         IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
+         IF(DTX(I)<DT2T)THEN
            DT2T    = DTX(I)
            NELTST  = NGL(I)
            ITYPTST = ITY

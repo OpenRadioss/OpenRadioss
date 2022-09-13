@@ -88,7 +88,7 @@ C-----------------------------------------------
           K  = K  + NSN
           NK  = NK  + 2*NSC2(I)
         ENDDO 
-        IF (NMC2.GT.0) 
+        IF (NMC2>0) 
      .  CALL I2_IMPM(IPARI     ,INTBUF_TAB,NMC2   ,IMIJ2  , 
      .                X        ,MS     ,     IN,WEIGHT,
      .                NDOF     ,NDDL     ,IDDL   ,IADK   ,JDIK  ,
@@ -147,7 +147,7 @@ C-----------------------------------------------
         NN=1
         NSC2=0
         DO I=1,NINT2
-         IF (IAINT2(I).EQ.1) THEN
+         IF (IAINT2(I)==1) THEN
           N=IINT2(I)
           JI=IPARI(1,N)
           JB=IPARI(2,N)

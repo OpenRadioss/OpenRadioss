@@ -84,7 +84,7 @@ C-----------------------------------------------
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)
 C-----------------------------------------------
       DO I=1,JLT
-        IF(CAND_S(I).LE.NRTS) THEN
+        IF(CAND_S(I)<=NRTS) THEN
 
           ES    =CAND_S(I)
           IAS(I)=LEDGE(1,ES)
@@ -118,7 +118,7 @@ C-----------------------------------------------
       DO I=1,JLT
         GAPE_M(I)=ZERO ! Solids 
                        ! If edge is shared by solid and shell : edge is considered as a shell edge
-	IF(CAND_S(I).LE.NRTS) THEN
+	IF(CAND_S(I)<=NRTS) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
 	END IF
         GAPVE(I)=ZERO

@@ -162,7 +162,7 @@ C
               IFM   = IBFV(9,N)
               ICOOR = IBFV(10,N)
               J     = IBFV(2,N)
-              IF (IFM.LE.1) J=J-10*ISK
+              IF (IFM<=1) J=J-10*ISK
               IF(NODNX_SMS(I)==0)THEN
                 RW_SMS(IC)=ONE
               ELSE
@@ -196,7 +196,7 @@ C         sans sensor
               IFM = IBFV(9,N)
               ICOOR = IBFV(10,N)
               J=IBFV(2,N)
-              IF (IFM.LE.1) J=J-10*ISK
+              IF (IFM<=1) J=J-10*ISK
               IF(NODNX_SMS(I)==0)THEN
                 RW_SMS(IC)=ONE
               ELSE
@@ -325,7 +325,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
             I        = IABS(IBFV(1,N))
             ISK      = IBFV(2,N)/10
             SKEWGLOB = 0
-            IF(ISK.NE.0)THEN
+            IF(ISK/=0)THEN
               IF (SKEW(1,ISK) == ONE   .AND. SKEW(2,ISK) == ZERO .AND.
      .            SKEW(3,ISK) == ZERO .AND. SKEW(4,ISK) == ZERO .AND.
      .            SKEW(5,ISK) == ONE   .AND. SKEW(6,ISK) == ZERO .AND.
@@ -338,10 +338,10 @@ C dw was already counted in TFEXT, in sms_fixvel...
             SKDIR = ZERO
             FMDIR = ZERO
             R     = ONE
-            IF (IFM.LE.1) J=J-10*ISK
-           IF (J.LE.3) THEN
+            IF (IFM<=1) J=J-10*ISK
+           IF (J<=3) THEN
             AXI=ONE-AX+AX*X(2,I)
-            IF (ISK.LE.1.AND.IFM.LE.1.AND.ICOOR == 0) THEN
+            IF (ISK<=1.AND.IFM<=1.AND.ICOOR == 0) THEN
               IF (IBFV(7,N) == 2) THEN
                 IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
@@ -349,13 +349,13 @@ C dw was already counted in TFEXT, in sms_fixvel...
                   YC(II)=(YC(II)-D(J,I))/DT2_DOUBLE
                 ENDIF
               ENDIF
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=YC(II)
               DW = FOURTH*MS(I)*AXI*WEIGHT(I)
      .           * (A(J,I)*DT12 + TWO*V(J,I))*(A(J,I)-AOLD)
 
-            ELSEIF(ISK > 1.AND.IFM.LE.1.AND.ICOOR == 0.AND.
+            ELSEIF(ISK > 1.AND.IFM<=1.AND.ICOOR == 0.AND.
      .             SKEWGLOB == 1)THEN
               IF (IBFV(7,N) == 2) THEN
                 IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
@@ -364,7 +364,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                   YC(II)=(YC(II)-D(J,I))/DT2_DOUBLE
                 ENDIF
               ENDIF
-              IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
+              IF (IBFV(7,N)>=1) YC(II)=(YC(II)-V(J,I))/DT12
               AOLD=A(J,I)
               A(J,I)=YC(II)
               DW = FOURTH*MS(I)*AXI*WEIGHT(I)
@@ -398,7 +398,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
               A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
               A(3,I)=A(3,I)+SKEW(K3,ISK)*AA
               DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
-            ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR == 1) .OR.
+            ELSEIF ((ISK<=1.AND.IFM<=1.AND.ICOOR == 1) .OR.
      &               (ISK > 1 .AND. ICOOR == 1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &                (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
@@ -407,7 +407,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
               HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
               HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -450,7 +450,7 @@ c                ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
               VV = V(1,I)*SKDIR(1) + V(2,I)*SKDIR(2) + V(3,I)*SKDIR(3)
               A0 = A(1,I)*SKDIR(1) + A(2,I)*SKDIR(2) + A(3,I)*SKDIR(3)
               IF(IBFV(7,N) == 2) YC(II)=(YC(II)-YIMP)/DT2_DOUBLE
-              IF(IBFV(7,N).GE.1) THEN
+              IF(IBFV(7,N)>=1) THEN
                 IF (J == 2) THEN
 c                 YC(II)=(YC(II)-VV)/DT12
 c-----------------vitesse angulaire imposee--------
@@ -461,7 +461,7 @@ c----------------------------------------------------
                 ENDIF
               ENDIF
               AA = YC(II) - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               A(1,I)=A(1,I)+SKDIR(1)*AA
               A(2,I)=A(2,I)+SKDIR(2)*AA
               A(3,I)=A(3,I)+SKDIR(3)*AA
@@ -500,7 +500,7 @@ C             Fixed velocity in moving frame (transl)
               HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
               HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -558,15 +558,15 @@ c-------------------------------------------------
                 YC(II)=(YC(II)-VV+VF)/DT12
               ENDIF
               AA = YC(II) - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               A(1,I)=A(1,I)+FMDIR(1)*AA
               A(2,I)=A(2,I)+FMDIR(2)*AA
               A(3,I)=A(3,I)+FMDIR(3)*AA
               DW = FOURTH*MS(I)*(YC(II)*DT12+TWO*VV)*AA*AXI*WEIGHT(I)
             ENDIF
-          ELSEIF(J.LE.6)THEN
+          ELSEIF(J<=6)THEN
             J = J - 3
-            IF(ISK.LE.1.AND.IFM.LE.1.AND.ICOOR == 0)THEN
+            IF(ISK<=1.AND.IFM<=1.AND.ICOOR == 0)THEN
               IF (IBFV(7,N) == 2) THEN
                 IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
                   YC(II) = (YC(II)-YC0(II))/DT2_DOUBLE
@@ -574,7 +574,7 @@ c-------------------------------------------------
                   YC(II)=(YC(II)-DR(J,I))/DT2_DOUBLE
                 ENDIF
               ENDIF
-              IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-VR(J,I))/DT12
+              IF (IBFV(7,N)>=1) YC(II)=(YC(II)-VR(J,I))/DT12
               AOLD   = AR(J,I)
               AR(J,I)= YC(II)
               IF(IBFV(6,N) == 0)THEN
@@ -603,7 +603,7 @@ c-------------------------------------------------
      .             SKEW(K2,ISK)*AR(2,I) +
      .             SKEW(K3,ISK)*AR(3,I)
               IF (IBFV(7,N) == 2) YC(II)=(YC(II)-DD)/DT2_DOUBLE
-              IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+              IF (IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
               AA = YC(II) - A0
               AR(1,I)=AR(1,I)+SKEW(K1,ISK)*AA
               AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
@@ -623,7 +623,7 @@ c-------------------------------------------------
      .              +RBY(24,NR)*SKEW(K2,ISK)
      .              +RBY(25,NR)*SKEW(K3,ISK))*SKEW(K3,ISK))
               ENDIF
-            ELSEIF ((ISK.LE.1.AND.IFM.LE.1.AND.ICOOR == 1) .OR.
+            ELSEIF ((ISK<=1.AND.IFM<=1.AND.ICOOR == 1) .OR.
      &               (ISK > 1.AND.ICOOR == 1)) THEN
               COEF = (SKEW(10,ISK)-X(1,I))*SKEW(7,ISK) +
      &               (SKEW(11,ISK)-X(2,I))*SKEW(8,ISK) +
@@ -632,7 +632,7 @@ c-------------------------------------------------
               HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
               HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -662,9 +662,9 @@ c-------------------------------------------------
               IF(IBFV(7,N) == 2) YC(II)=(YC(II)-YIMP)/DT2_DOUBLE
               VV =VR(1,I)*SKDIR(1)+ VR(2,I)*SKDIR(2)+ VR(3,I)*SKDIR(3)
               A0 =AR(1,I)*SKDIR(1)+ AR(2,I)*SKDIR(2)+ AR(3,I)*SKDIR(3)
-              IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+              IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
               AA = YC(II) - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               AR(1,I)=AR(1,I)+SKDIR(1)*AA
               AR(2,I)=AR(2,I)+SKDIR(2)*AA
               AR(3,I)=AR(3,I)+SKDIR(3)*AA
@@ -724,7 +724,7 @@ C             Fixed velocity in moving frame (rota)
               HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
               HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
               R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-              IF(R.LE.EM20) THEN
+              IF(R<=EM20) THEN
                 CTH = ZERO
                 STH = ZERO
               ELSE
@@ -762,7 +762,7 @@ C             Fixed velocity in moving frame (rota)
      &             FMDIR(2)*AR(2,I) +
      &             FMDIR(3)*AR(3,I)
               AA = (YC(II)-VV+VF)/DT12 - A0
-              IF(R.LE.EM20) AA=ZERO
+              IF(R<=EM20) AA=ZERO
               AR(1,I)=AR(1,I)+FMDIR(1)*AA
               AR(2,I)=AR(2,I)+FMDIR(2)*AA
               AR(3,I)=AR(3,I)+FMDIR(3)*AA
@@ -820,7 +820,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
              I=IABS(IBFV(1,N))
              ISK=IBFV(2,N)/10
              J=IBFV(2,N)-10*ISK
-             IF(J.LE.3)THEN
+             IF(J<=3)THEN
                AXI=ONE-AX+AX*X(2,I)
                IF (IBFV(7,N) == 2) THEN
                  IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
@@ -829,12 +829,12 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    YC(II) = (YC(II)-D(J,I))/DT2_DOUBLE
                  ENDIF
                ENDIF
-               IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-V(J,I))/DT12
+               IF(IBFV(7,N)>=1) YC(II)=(YC(II)-V(J,I))/DT12
                AOLD=A(J,I)
                A(J,I)=YC(II)
                DW = FOURTH*MS(I)*AXI*WEIGHT(I)
      .           * (A(J,I)*DT12+TWO*V(J,I))*(A(J,I)-AOLD)
-             ELSEIF(J.LE.6)THEN
+             ELSEIF(J<=6)THEN
                J = J - 3
                IF (IBFV(7,N) == 2) THEN
                  IF (ISENS(II) > 0 .and. TS(II) > ZERO) THEN
@@ -843,7 +843,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    YC(II)=(YC(II)-DR(J,I))/DT2_DOUBLE
                  ENDIF
                ENDIF
-               IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-VR(J,I))/DT12
+               IF (IBFV(7,N)>=1) YC(II)=(YC(II)-VR(J,I))/DT12
                AOLD=AR(J,I)
                AR(J,I)= YC(II)
                IF(IBFV(6,N) == 0)THEN
@@ -893,7 +893,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
      .                SKEW(K2,ISK)*A(2,I) +
      .                SKEW(K3,ISK)*A(3,I)
                  IF (IBFV(7,N) == 2) YC(II)=(YC(II)-DD)/DT2_DOUBLE
-                 IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                 IF (IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                  AA = YC(II) - A0
                  A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
                  A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
@@ -906,7 +906,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                ENDIF
              ENDDO
            ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
@@ -936,7 +936,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      .                  SKEW(K2,ISK)*AR(2,I) +
      .                  SKEW(K3,ISK)*AR(3,I)
                    IF (IBFV(7,N) == 2) YC(II) = (YC(II)-DD)/DT2_DOUBLE
-                   IF (IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                   IF (IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                    AA = YC(II) - A0
                    AR(1,I)=AR(1,I)+SKEW(K1,ISK)*AA
                    AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
@@ -993,7 +993,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                  HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                  HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                  R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                 IF(R.LE.EM20) THEN
+                 IF(R<=EM20) THEN
                    CTH = ZERO
                    STH = ZERO
                  ELSE
@@ -1045,7 +1045,7 @@ c                  ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
      &                A(2,I)*SKDIR(2) +
      &                A(3,I)*SKDIR(3)
                  IF(IBFV(7,N) == 2) YC(II)=(YC(II)-YIMP)/DT2_DOUBLE
-                 IF(IBFV(7,N).GE.1) THEN
+                 IF(IBFV(7,N)>=1) THEN
                    IF (J == 2) THEN
 c                  YC(II)=(YC(II)-VV)/DT12
 c------------------vitesse angulaire imposee--------
@@ -1056,7 +1056,7 @@ c----------------------------------------------------
                    ENDIF
                  ENDIF
                  AA = YC(II) - A0
-                 IF(R.LE.EM20) AA=ZERO
+                 IF(R<=EM20) AA=ZERO
                  A(1,I)=A(1,I)+SKDIR(1)*AA
                  A(2,I)=A(2,I)+SKDIR(2)*AA
                  A(3,I)=A(3,I)+SKDIR(3)*AA
@@ -1068,7 +1068,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                ENDIF
              ENDDO
            ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
@@ -1095,7 +1095,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                    HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                    HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                    R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                   IF(R.LE.EM20) THEN
+                   IF(R<=EM20) THEN
                      CTH = ZERO
                      STH = ZERO
                    ELSE
@@ -1133,9 +1133,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                     A0 = AR(1,I)*SKDIR(1) +
      &                   AR(2,I)*SKDIR(2) +
      &                   AR(3,I)*SKDIR(3)
-                    IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                    IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                     AA = YC(II) - A0
-                    IF(R.LE.EM20) AA=ZERO
+                    IF(R<=EM20) AA=ZERO
                     AR(1,I)=AR(1,I)+SKDIR(1)*AA
                     AR(2,I)=AR(2,I)+SKDIR(2)*AA
                     AR(3,I)=AR(3,I)+SKDIR(3)*AA
@@ -1238,7 +1238,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
      .                  SKEW(K2,ISK)*A(2,I) +
      .                  SKEW(K3,ISK)*A(3,I)
                    IF(IBFV(7,N) == 2) YC(II)=(YC(II)-DD)/DT2_DOUBLE
-                   IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                   IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                    AA = YC(II) - A0
                    A(1,I)=A(1,I)+SKEW(K1,ISK)*AA
                    A(2,I)=A(2,I)+SKEW(K2,ISK)*AA
@@ -1252,7 +1252,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                ENDIF
              ENDDO
            ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
@@ -1330,7 +1330,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      .                    SKEW(K2,ISK)*AR(2,I) +
      .                    SKEW(K3,ISK)*AR(3,I)
                      IF(IBFV(7,N) == 2) YC(II)=(YC(II)-DD)/DT2_DOUBLE
-                     IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                     IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                      AA = YC(II) - A0
                      AR(1,I)=AR(1,I)+SKEW(K1,ISK)*AA
                      AR(2,I)=AR(2,I)+SKEW(K2,ISK)*AA
@@ -1385,7 +1385,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
                    HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
                    R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                   IF(R.LE.EM20) THEN
+                   IF(R<=EM20) THEN
                      CTH = ZERO
                      STH = ZERO
                    ELSE
@@ -1450,7 +1450,7 @@ c-------------------------------------------------
                      YC(II)=(YC(II)-VV+VF)/DT12
                    ENDIF
                    AA = YC(II) - A0
-                   IF(R.LE.EM20) AA=ZERO
+                   IF(R<=EM20) AA=ZERO
                    A(1,I)=A(1,I)+FMDIR(1)*AA
                    A(2,I)=A(2,I)+FMDIR(2)*AA
                    A(3,I)=A(3,I)+FMDIR(3)*AA
@@ -1486,7 +1486,7 @@ C dw was already counted in TFEXT, in sms_fixvel...
                    HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                    HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                    R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                   IF(R.LE.EM20) THEN
+                   IF(R<=EM20) THEN
                      CTH = ZERO
                      STH = ZERO
                    ELSE
@@ -1536,7 +1536,7 @@ c                    ALPHA=-YC(II)*DT2_DOUBLE/(TWO*R)
      &                  A(2,I)*SKDIR(2) +
      &                  A(3,I)*SKDIR(3)
                    IF(IBFV(7,N) == 2) YC(II)=(YC(II)-YIMP)/DT2_DOUBLE
-                   IF(IBFV(7,N).GE.1) THEN
+                   IF(IBFV(7,N)>=1) THEN
                      IF (J == 2) THEN
 c                    YC(II)=(YC(II)-VV)/DT12
 c--------------------vitesse angulaire imposee--------
@@ -1547,7 +1547,7 @@ c------------------------------------------------------
                      ENDIF
                    ENDIF
                    AA = YC(II) - A0
-                   IF(R.LE.EM20) AA=ZERO
+                   IF(R<=EM20) AA=ZERO
                    A(1,I)=A(1,I)+SKDIR(1)*AA
                    A(2,I)=A(2,I)+SKDIR(2)*AA
                    A(3,I)=A(3,I)+SKDIR(3)*AA
@@ -1561,7 +1561,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                ENDIF
              ENDDO
            ENDDO
-           IF (IRODDL.GE.0)THEN
+           IF (IRODDL>=0)THEN
              DO K=4,3+3*IRODDL
 #include "vectorize.inc"
                DO II=1,IC
@@ -1587,7 +1587,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      HY = COEF*XFRAME(8,IFM)+X(2,I)-XFRAME(11,IFM)
                      HZ = COEF*XFRAME(9,IFM)+X(3,I)-XFRAME(12,IFM)
                      R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                     IF(R.LE.EM20) THEN
+                     IF(R<=EM20) THEN
                        CTH = ZERO
                        STH = ZERO
                      ELSE
@@ -1625,7 +1625,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
      &                    FMDIR(2)*AR(2,I) +
      &                    FMDIR(3)*AR(3,I)
                      AA = (YC(II)-VV+VF)/DT12 - A0
-                     IF(R.LE.EM20) AA=ZERO
+                     IF(R<=EM20) AA=ZERO
                      AR(1,I)=AR(1,I)+FMDIR(1)*AA
                      AR(2,I)=AR(2,I)+FMDIR(2)*AA
                      AR(3,I)=AR(3,I)+FMDIR(3)*AA
@@ -1671,7 +1671,7 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                      HY = COEF*SKEW(8,ISK)+X(2,I)-SKEW(11,ISK)
                      HZ = COEF*SKEW(9,ISK)+X(3,I)-SKEW(12,ISK)
                      R  = SQRT(HX*HX+HY*HY+HZ*HZ)
-                     IF(R.LE.EM20) THEN
+                     IF(R<=EM20) THEN
                        CTH = ZERO
                        STH = ZERO
                      ELSE
@@ -1710,9 +1710,9 @@ C part of DT2_DOUBLE*dw was already computed and stored in sms_fixvel...
                       A0 = AR(1,I)*SKDIR(1) +
      &                     AR(2,I)*SKDIR(2) +
      &                     AR(3,I)*SKDIR(3)
-                      IF(IBFV(7,N).GE.1) YC(II)=(YC(II)-VV)/DT12
+                      IF(IBFV(7,N)>=1) YC(II)=(YC(II)-VV)/DT12
                       AA = YC(II) - A0
-                      IF(R.LE.EM20) AA=ZERO
+                      IF(R<=EM20) AA=ZERO
                       AR(1,I)=AR(1,I)+SKDIR(1)*AA
                       AR(2,I)=AR(2,I)+SKDIR(2)*AA
                       AR(3,I)=AR(3,I)+SKDIR(3)*AA

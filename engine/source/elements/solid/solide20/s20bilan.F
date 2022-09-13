@@ -152,7 +152,7 @@ C
         PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO
 C
-      IF(IEXPAN.NE.0)THEN
+      IF(IEXPAN/=0)THEN
         DO I=LFT,LLT
          M=IPARTS(I)
         PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL0G(I)
@@ -162,7 +162,7 @@ C
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         N=1
         DO I=LFT,LLT
           X1=X(I,N)

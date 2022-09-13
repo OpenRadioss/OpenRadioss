@@ -198,7 +198,7 @@ C-----------------------------------------------
       ENDIF
   
       ! En SPMD, pour inacti ou IFQ, retrouve ancienne numerotation des candidats non locaux
-      IF(NSPMD.GT.1.AND.(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0.OR.ITIED.NE.0)) THEN
+      IF(NSPMD>1.AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.ITIED/=0)) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
       END IF 
       
@@ -449,7 +449,7 @@ C=======================================================================
                        EXIT
                      ENDIF
                    ENDDO
-                   IF(DELNOD .NE. 0)GOTO 200
+                   IF(DELNOD /= 0)GOTO 200
                  ENDIF
 
                  XS = XREM(1,J)
@@ -499,7 +499,7 @@ C=======================================================================
      6              GAP_M ,GAPMIN ,GAPMAX,CURV_MAX,NIN  ,
      7              GAP_S_L,GAP_M_L,INTTH,DRAD,ITIED    ,
      8              CAND_F ,DGAPLOAD)
-                 IF(I_MEM.EQ.2)GOTO 100
+                 IF(I_MEM==2)GOTO 100
                  J_STOK = 0
                ENDIF
  200           CONTINUE
@@ -519,7 +519,7 @@ C=======================================================================
 C=======================================================================
 C 4   STORAGE 
 C=======================================================================
-      IF(J_STOK.NE.0)CALL I7STO(
+      IF(J_STOK/=0)CALL I7STO(
      1              J_STOK,IRECT  ,X     ,NSV   ,II_STOK,
      2              CAND_N,CAND_E ,MULNSN,NOINT ,MARGE  ,
      3              I_MEM ,PROV_N ,PROV_E,ESHIFT,INACTI ,

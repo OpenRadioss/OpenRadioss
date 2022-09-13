@@ -67,10 +67,10 @@ C
       KK1=1
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
            IFV=MONVOL(K1-1+45)
            IMESH=MONVOL(K1-1+56)
-           IF (IMESH.NE.0) THEN
+           IF (IMESH/=0) THEN
             NNS=MONVOL(K1-1+32)
             NTG=MONVOL(K1-1+33)
             NNI =MONVOL(K1-1+68)
@@ -92,7 +92,7 @@ C
             NBY=MONVOL(K1-1+55)          
             NBRIC=NBX*NBY          
             NNB=(NBX+1)*(NBY+1)*2
-            IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) THEN
+            IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) THEN
                ALLOCATE(FVDATA(IFV)%BRIC(8,0),
      .                  FVDATA(IFV)%TBRIC(13,0),
      .                  FVDATA(IFV)%XB(3,0),

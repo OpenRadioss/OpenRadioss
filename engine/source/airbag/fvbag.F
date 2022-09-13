@@ -1,25 +1,25 @@
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
-Copyright>
+Copyright>    
 Copyright>        This program is free software: you can redistribute it and/or modify
 Copyright>        it under the terms of the GNU Affero General Public License as published by
 Copyright>        the Free Software Foundation, either version 3 of the License, or
 Copyright>        (at your option) any later version.
-Copyright>
+Copyright>    
 Copyright>        This program is distributed in the hope that it will be useful,
 Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
 Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Copyright>        GNU Affero General Public License for more details.
-Copyright>
+Copyright>    
 Copyright>        You should have received a copy of the GNU Affero General Public License
 Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
-Copyright>
-Copyright>
-Copyright>        Commercial Alternative: Altair Radioss Software
-Copyright>
-Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss
-Copyright>        software under a commercial license.  Contact Altair to discuss further if the
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  FVBAG0                        source/airbag/fvbag.F         
 Chd|-- called by -----------
@@ -503,7 +503,7 @@ C
      .      CALL SPMD_FVB_IGATH(IFV, ICONTACT, ICONT)
 
 C
-         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 1000
+         IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) GOTO 1000
       END IF
 C
 
@@ -1516,7 +1516,7 @@ C---------------------------------------------------
         CASE(0,1)
 !$OMP DO SCHEDULE(GUIDED,1)
          DO I=1,NPOLH
-           IF(MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.GPOLH(I).LE.ONE) THEN
+           IF(MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO.OR.GPOLH(I)<=ONE) THEN
              DTPOLH(I)=EP30
              QVISC(I) =ZERO
            ELSE 
@@ -2227,9 +2227,9 @@ C Pentahedron
                  UA(2,JJ)=UA(2,JJ)+ONE_OVER_6*PU(2,I)*PVOLU(I)
                  UA(3,JJ)=UA(3,JJ)+ONE_OVER_6*PU(3,I)*PVOLU(I)
                 ENDDO           
-             ELSEIF(BRNA(5,II).EQ.BRNA(8,II).AND.
-     .              BRNA(6,II).EQ.BRNA(8,II).AND.
-     .              BRNA(7,II).EQ.BRNA(8,II))THEN
+             ELSEIF(BRNA(5,II)==BRNA(8,II).AND.
+     .              BRNA(6,II)==BRNA(8,II).AND.
+     .              BRNA(7,II)==BRNA(8,II))THEN
 C Pyramid
                 DO J=1,5
                  JJ=BRNA(J,II)
@@ -2332,8 +2332,8 @@ C
            TITREVENT(K)=IBAGHOL(14+K,IVENT)
            VENTTITLE(K:K) = ACHAR(TITREVENT(K))
          ENDDO
-         IF(ITTF.EQ.11.OR.ITTF.EQ.12.OR.ITTF.EQ.13) THEN
-          IF (IDEF.EQ.0.AND.PM_VENT(IVENT) > PDEF+PEXT
+         IF(ITTF==11.OR.ITTF==12.OR.ITTF==13) THEN
+          IF (IDEF==0.AND.PM_VENT(IVENT) > PDEF+PEXT
      .                 .AND.DTPDEFC > DTPDEFI
      .                 .AND.VOLPH > EM3*AREAP**THREE_HALF
      .                 .AND.TT < TSTOPE+TTF) THEN
@@ -2355,11 +2355,11 @@ C
             WRITE(ISTDO,'(2A)') ' ** VENTING STOPS ',VENTTITLE
           ENDIF
 
-         ELSE IF(ITTF.EQ.0) THEN
-          IF (IDEF.EQ.0.AND.PM_VENT(IVENT).GT.PDEF+PEXT
-     .                 .AND.DTPDEFC.GT.DTPDEFI
-     .                 .AND.VOLPH.GT.EM3*AREAP**THREE_HALF
-     .                 .AND.TT.LT.TSTOPE) THEN
+         ELSE IF(ITTF==0) THEN
+          IF (IDEF==0.AND.PM_VENT(IVENT)>PDEF+PEXT
+     .                 .AND.DTPDEFC>DTPDEFI
+     .                 .AND.VOLPH>EM3*AREAP**THREE_HALF
+     .                 .AND.TT<TSTOPE) THEN
             IDEF=1
             WRITE(IOUT,'(A)')' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1), ' VENT HOLE NUMBER',IVENT,' ',VENTTITLE

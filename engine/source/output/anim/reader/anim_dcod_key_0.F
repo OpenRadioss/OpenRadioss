@@ -78,160 +78,160 @@ C     and so on
       LAW51_PHASE3 = .FALSE.
       LAW51_PHASE4 = .FALSE.
 C-----------------------------------------------
-      IF(KEY2(1:4).EQ.'COMP')THEN
+      IF(KEY2(1:4)=='COMP')THEN
        IZIP=1
-      ELSEIF(KEY2(1:4).EQ.'GZIP')THEN
+      ELSEIF(KEY2(1:4)=='GZIP')THEN
        IZIP=2
-      ELSEIF(KEY2(1:4).EQ.'VERS')THEN
+      ELSEIF(KEY2(1:4)=='VERS')THEN
        READ(KEY3,'(I2)')ANIM_VERS
-      ELSEIF(KEY2(1:3).EQ.'MAT')THEN
+      ELSEIF(KEY2(1:3)=='MAT')THEN
        ANIM_MAT = 1
 C
-      ELSEIF(KEY2(1:4).EQ.'VECT')THEN
+      ELSEIF(KEY2(1:4)=='VECT')THEN
 C--------------------------
 C       VECTEUR
 C--------------------------
-        IF    (KEY3(1:3).EQ.'VEL')THEN
+        IF    (KEY3(1:3)=='VEL')THEN
           ANIM_V(1) = 1
-        ELSEIF(KEY3(1:3).EQ.'DIS')THEN
+        ELSEIF(KEY3(1:3)=='DIS')THEN
           ANIM_V(2) = 1
-        ELSEIF(KEY3(1:3).EQ.'ACC')THEN
+        ELSEIF(KEY3(1:3)=='ACC')THEN
           ANIM_V(3) = 1
-        ELSEIF(KEY3(1:4).EQ.'CONT' .AND. KEY3(1:5).NE.'CONT2'.AND.KEY4(1:3).NE.'MAX')THEN
+        ELSEIF(KEY3(1:4)=='CONT' .AND. KEY3(1:5)/='CONT2'.AND.KEY4(1:3)/='MAX')THEN
           ANIM_V(4) = 1
           ANIMCONT = ANIM_V(4)  
-        ELSEIF(KEY3(1:4).EQ.'FINT')THEN
+        ELSEIF(KEY3(1:4)=='FINT')THEN
           ANIM_V(5) = 1
-        ELSEIF(KEY3(1:4).EQ.'FEXT')THEN
+        ELSEIF(KEY3(1:4)=='FEXT')THEN
            ANIM_V(6) = 1
-        ELSEIF(KEY3(1:4).EQ.'FOPT')THEN
+        ELSEIF(KEY3(1:4)=='FOPT')THEN
           ANIM_V(7) = 1
           ANIM_V(8) = 1
 C         vitesses de rotations
-        ELSEIF(KEY3(1:4).EQ.'VROT')THEN
+        ELSEIF(KEY3(1:4)=='VROT')THEN
           ANIM_V(9) = 1
 C         vitesses fluides pour alebag et /bem/flow
-        ELSEIF(KEY3(1:4).EQ.'FVEL'.OR.KEY3(1:4).EQ.'VFLU')THEN
+        ELSEIF(KEY3(1:4)=='FVEL'.OR.KEY3(1:4)=='VFLU')THEN
 C         vitesses fluides pour alebag et /bem/flow
           ANIM_V(10) = 1
-        ELSEIF(KEY3(1:5).EQ.'FRES')THEN
-          IF ((ANIM_V(5).NE.1.OR.ANIM_V(6).NE.1).AND.IDTMINS==0.AND.IDTMINS_INT==0)THEN
+        ELSEIF(KEY3(1:5)=='FRES')THEN
+          IF ((ANIM_V(5)/=1.OR.ANIM_V(6)/=1).AND.IDTMINS==0.AND.IDTMINS_INT==0)THEN
             CALL ANCMSG(MSGID=190,MSGTYPE=MSGERROR,ANMODE=ANINFO)
             JERR   =JERR+1
             IXITKEY=IXITKEY+1
           ENDIF
           ANIM_V(11) = 1    
-        ELSEIF(KEY3(1:5).EQ.'PCONT'.AND. KEY3(1:6).NE.'PCONT2')THEN
+        ELSEIF(KEY3(1:5)=='PCONT'.AND. KEY3(1:6)/='PCONT2')THEN
          ANIM_V(12) = 1
-        ELSEIF(KEY3(1:5).EQ.'CONT2')THEN
+        ELSEIF(KEY3(1:5)=='CONT2')THEN
          ANIM_V(13) = 1
-        ELSEIF(KEY3(1:4).EQ.'DROT')THEN
+        ELSEIF(KEY3(1:4)=='DROT')THEN
          ANIM_V(14) = 1
-        ELSEIF(KEY3(1:5).EQ.'DXANC')THEN
+        ELSEIF(KEY3(1:5)=='DXANC')THEN
           ANIM_V(15) = 1
-        ELSEIF(KEY3(1:4).EQ.'GVEL')THEN
+        ELSEIF(KEY3(1:4)=='GVEL')THEN
           ANIM_V(16) = 1
-        ELSEIF(KEY3(1:5).EQ.'FREAC')THEN
+        ELSEIF(KEY3(1:5)=='FREAC')THEN
           ANIM_V(17) = 1
-        ELSEIF(KEY3(1:5).EQ.'MREAC')THEN
+        ELSEIF(KEY3(1:5)=='MREAC')THEN
           ANIM_V(18) = 1
-        ELSEIF (KEY3(1:5).EQ.'CLUST')THEN
-          IF(KEY4(1:5).EQ.'FORCE')THEN
+        ELSEIF (KEY3(1:5)=='CLUST')THEN
+          IF(KEY4(1:5)=='FORCE')THEN
             ANIM_V(19) = 1
-          ELSEIF  (KEY4(1:3).EQ.'MOM')THEN
+          ELSEIF  (KEY4(1:3)=='MOM')THEN
             ANIM_V(20) = 1
           ENDIF
-        ELSEIF (KEY3(1:4).EQ.'ZVEL')THEN  !inter22
+        ELSEIF (KEY3(1:4)=='ZVEL')THEN  !inter22
           ANIM_V(21) = 1    
-        ELSEIF (KEY3(1:5).EQ.'ZFVEL')THEN !inter22
+        ELSEIF (KEY3(1:5)=='ZFVEL')THEN !inter22
           ANIM_V(22) = 1 
-        ELSEIF (KEY3(1:4).EQ.'ZMOM')THEN  !inter22
+        ELSEIF (KEY3(1:4)=='ZMOM')THEN  !inter22
           ANIM_V(23) = 1   
-        ELSEIF (KEY3(1:3).EQ.'ZFP')THEN   !inter22
+        ELSEIF (KEY3(1:3)=='ZFP')THEN   !inter22
           ANIM_V(24) = 1    
-        ELSEIF (KEY3(1:5).EQ.'ZFINT')THEN !inter22
+        ELSEIF (KEY3(1:5)=='ZFINT')THEN !inter22
           ANIM_V(25) = 1    
-        ELSEIF (KEY3(1:4).EQ.'CONT'.AND.KEY4(1:3).EQ.'MAX')THEN 
+        ELSEIF (KEY3(1:4)=='CONT'.AND.KEY4(1:3)=='MAX')THEN 
           ANIM_V(26) = 1    
           ANIMCONT = ANIM_V(4)  
           ANIM_V(4) = 1     
-        ELSEIF(KEY3(1:6).EQ.'PCONT2')THEN
+        ELSEIF(KEY3(1:6)=='PCONT2')THEN
          ANIM_V(27) = 1
         ELSE
           IXITKEY=IXITKEY+1
         ENDIF
 C
-      ELSEIF(KEY2(1:4).EQ.'TENS')THEN
+      ELSEIF(KEY2(1:4)=='TENS')THEN
 C--------------------------
 C      TENSEUR OLD
 C--------------------------
-       IF    (KEY3(1:6).EQ.'STRESS')THEN
-         IF    (KEY4(1:4).EQ.'MEMB')THEN
+       IF    (KEY3(1:6)=='STRESS')THEN
+         IF    (KEY4(1:4)=='MEMB')THEN
            ANIM_T(1) = 1
            ANIM_CT(1) = 1
-         ELSEIF(KEY4(1:4).EQ.'BEND')THEN
+         ELSEIF(KEY4(1:4)=='BEND')THEN
            ANIM_T(2) = 1
            ANIM_CT(2) = 1
-         ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+         ELSEIF(KEY4(1:5)=='UPPER')THEN
            ANIM_T(3) = 1
            ANIM_CT(3) = 1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_T(4) = 1
            ANIM_CT(4) = 1
-         ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:3)=='ALL')THEN
            ISTRESALL =  1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF(N1.GT.0.AND.N1.LE.100)THEN
+           IF(N1>0.AND.N1<=100)THEN
              ANIM_T(100+N1) = 1
              ANIM_CT(100+N1) = 1
            ELSE
              IXITKEY=IXITKEY+1
            ENDIF
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'STRAI')THEN
-         IF    (KEY4(1:4).EQ.'MEMB')THEN
+       ELSEIF(KEY3(1:5)=='STRAI')THEN
+         IF    (KEY4(1:4)=='MEMB')THEN
            ANIM_T(5) = 1
            ANIM_CT(5) = 1
-         ELSEIF(KEY4(1:4).EQ.'BEND')THEN
+         ELSEIF(KEY4(1:4)=='BEND')THEN
            ANIM_T(6) = 1
            ANIM_CT(6) = 1
-         ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+         ELSEIF(KEY4(1:5)=='UPPER')THEN
            ANIM_T(7) = 1
            ANIM_CT(7) = 1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_T(8) = 1
            ANIM_CT(8) = 1
-         ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:3)=='ALL')THEN
            ISTRAIALL = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF(N1.GT.0.AND.N1.LE.100)THEN
+           IF(N1>0.AND.N1<=100)THEN
              ANIM_T(200+N1) = 1
              ANIM_CT(200+N1) = 1
            ELSE
              IXITKEY=IXITKEY+1
            ENDIF
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'EPSDO')THEN
+       ELSEIF(KEY3(1:5)=='EPSDO')THEN
          IEPSDOT = 1
-         IF    (KEY4(1:4).EQ.'MEMB')THEN
+         IF    (KEY4(1:4)=='MEMB')THEN
            ANIM_T(91) = 1
            ANIM_CT(91) = 1
-         ELSEIF(KEY4(1:4).EQ.'BEND')THEN
+         ELSEIF(KEY4(1:4)=='BEND')THEN
            ANIM_T(92) = 1
            ANIM_CT(92) = 1
-         ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+         ELSEIF(KEY4(1:5)=='UPPER')THEN
            ANIM_T(93) = 1
            ANIM_CT(93) = 1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_T(94) = 1
            ANIM_CT(94) = 1
-         ELSEIF(KEY4(1:4).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:4)=='ALL')THEN
            IEPSDOALL = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF(N1.GT.0.AND.N1.LE.100)THEN
+           IF(N1>0.AND.N1<=100)THEN
              ANIM_T(300+N1) = 1
              ANIM_CT(300+N1) = 1
            ELSE
@@ -244,16 +244,16 @@ C--------------------------
 C--------------------------
 C    COQUES
 C--------------------------
-      ELSEIF(KEY2(1:4).EQ.'SHEL')THEN
+      ELSEIF(KEY2(1:4)=='SHEL')THEN
 C
        FMT_ANI = 4
 C-----------------------------
 C    ply shell for composite with xfem ply formulation
 C-------------------------------
-      IF(KEY3(1:3).EQ.'PLY') THEN
+      IF(KEY3(1:3)=='PLY') THEN
          ANIM_PLY = 1
           !READ(KEY4,'(I5)')N1
-          ! IF(N1.GT.0.AND.N1.LE.200)THEN
+          ! IF(N1>0.AND.N1<=200)THEN
           !    ANIM_PLIES(N1) = 1
           !  ELSE
           !    IXITKEY=IXITKEY+1
@@ -261,29 +261,29 @@ C-------------------------------
 C----------------------------------------------------   
 C  ooutp for inter ply composites shell
 C---------------------------------------
-       ELSEIF(KEY3(1:4).EQ.'IPLY') THEN
-             IF(KEY4(1:3).EQ.'DAM' .OR. KEY4(1:5).EQ.'MINDA') THEN
+       ELSEIF(KEY3(1:4)=='IPLY') THEN
+             IF(KEY4(1:3)=='DAM' .OR. KEY4(1:5)=='MINDA') THEN
                  ANIM_CE(10240)  = 1
-             ELSEIF(KEY4(1:5).EQ.'SIGZZ') THEN
+             ELSEIF(KEY4(1:5)=='SIGZZ') THEN
                   ANIM_CE(10241) = 1
-             ELSEIF(KEY4(1:5).EQ.'SIGYZ') THEN
+             ELSEIF(KEY4(1:5)=='SIGYZ') THEN
                   ANIM_CE(10242) = 1
-             ELSEIF(KEY4(1:5).EQ.'SIGXZ') THEN
+             ELSEIF(KEY4(1:5)=='SIGXZ') THEN
                   ANIM_CE(10243) = 1
-             ELSEIF(KEY4(1:5).EQ.'EPSZZ') THEN
+             ELSEIF(KEY4(1:5)=='EPSZZ') THEN
                   ANIM_CE(10244) = 1
-             ELSEIF(KEY4(1:5).EQ.'EPSYZ') THEN
+             ELSEIF(KEY4(1:5)=='EPSYZ') THEN
                   ANIM_CE(10245) = 1
-             ELSEIF(KEY4(1:5).EQ.'EPSXZ') THEN
+             ELSEIF(KEY4(1:5)=='EPSXZ') THEN
                   ANIM_CE(10246) = 1
-             ELSEIF(KEY4(1:4).EQ.'EINT') THEN
+             ELSEIF(KEY4(1:4)=='EINT') THEN
                   ANIM_CE(10247)= 1
-             ELSEIF(KEY4(1:5).EQ.'MAXDA') THEN
+             ELSEIF(KEY4(1:5)=='MAXDA') THEN
                   ANIM_CE(10669)= 1
              ENDIF           
       !fin        
       ! XFEM for layered shell (real crack path visualisation)
-      ELSE IF(KEY3(1:3).EQ.'CRK') THEN
+      ELSE IF(KEY3(1:3)=='CRK') THEN
 c          ANIM_CRK = 1
 C--------------------------
 C    COQUES:TENSEUR
@@ -366,7 +366,7 @@ C------------
             ENDIF ! IF (N1 > 0 .AND. N1 <= 100)
           ENDIF ! IF (KEY5(1:4)
 C------------
-        ELSEIF(KEY4(1:5).EQ.'EPSDO')THEN
+        ELSEIF(KEY4(1:5)=='EPSDO')THEN
           IEPSDOT = 1
           N1 = 0
           N2 = 0
@@ -410,25 +410,25 @@ C------------
 C--------------------------
 C    COQUES:SCALAIRES
 C--------------------------
-       ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+       ELSEIF(KEY3(1:4)=='EPSP')THEN
          N1 = 0
          N2 = 0
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(2040)=1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_CE(2041)=1
-         ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:3)=='ALL')THEN
            IEPSPALL = 1 ! mean layer value
-           IF(KEY5(1:3).EQ.'ALL') IEPSPFULL =  2 ! all NPTT
+           IF(KEY5(1:3)=='ALL') IEPSPFULL =  2 ! all NPTT
          ELSE
            READ(KEY4(1:5),'(I5)')N1   !  layer
            IF (N1 > 0 .AND. N1 <= 100) THEN
              ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
-             IF(KEY5(1:5).EQ.'UPPER')THEN
+             IF(KEY5(1:5)=='UPPER')THEN
                ANIM_CE(10677+N1) = 1
-             ELSEIF(KEY5(1:5).EQ.'LOWER')THEN
+             ELSEIF(KEY5(1:5)=='LOWER')THEN
                ANIM_CE(10777+N1) = 1
-             ELSEIF(KEY5(1:3).EQ.'ALL')THEN
+             ELSEIF(KEY5(1:3)=='ALL')THEN
                IEPSPFULL = 1
                ANIM_EPSP(N1) = 1
              ELSE
@@ -444,621 +444,621 @@ C--------------------------
            ENDIF
          ENDIF
 C------------
-       ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+       ELSEIF(KEY3(1:4)=='DENS')THEN
          ANIM_CE(2) = 1
-       ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+       ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_CE(3) = 1
-       ELSEIF(KEY3(1:4).EQ.'TEMP')THEN
+       ELSEIF(KEY3(1:4)=='TEMP')THEN
          ANIM_CE(4) = 1
-       ELSEIF(KEY3(1:4).EQ.'THIC')THEN
+       ELSEIF(KEY3(1:4)=='THIC')THEN
          ANIM_CE(5) = 1
-       ELSEIF(KEY3(1:1).EQ.'P' .AND.  KEY3(1:3) .NE. 'PHI' .AND.  KEY3(1:5) .NE. 'PLA51')THEN
+       ELSEIF(KEY3(1:1)=='P' .AND.  KEY3(1:3) /= 'PHI' .AND.  KEY3(1:5) /= 'PLA51')THEN
          ANIM_CE(6) = 1
-       ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+       ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_CE(7) = 1
-       ELSEIF(KEY3(1:1).EQ.'K')THEN
+       ELSEIF(KEY3(1:1)=='K')THEN
          ANIM_CE(8) = 1
-       ELSEIF(KEY3(1:4).EQ.'TVIS')THEN
+       ELSEIF(KEY3(1:4)=='TVIS')THEN
          ANIM_CE(9) = 1
-       ELSEIF(KEY3(1:5).EQ.'VORTX')THEN
+       ELSEIF(KEY3(1:5)=='VORTX')THEN
          ANIM_CE(10) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAM1')THEN
+       ELSEIF(KEY3(1:5)=='DAM1')THEN
          ANIM_CE(11) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAM2')THEN
+       ELSEIF(KEY3(1:5)=='DAM2')THEN
          ANIM_CE(12) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAM3')THEN
+       ELSEIF(KEY3(1:5)=='DAM3')THEN
          ANIM_CE(13) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+       ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_CE(14) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+       ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_CE(15) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_CE(16) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_CE(17) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_CE(18) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_CE(19) = 1
-       ELSEIF(KEY3(1:5).EQ.'USR1 '.OR.KEY3(1:5).EQ.'USER1')THEN
+       ELSEIF(KEY3(1:5)=='USR1 '.OR.KEY3(1:5)=='USER1')THEN
          ANIM_CE(20) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(39+N1)=1
           ANIM_CE(20) = 0
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'USR2 '.OR.KEY3(1:5).EQ.'USER2')THEN
+       ELSEIF(KEY3(1:5)=='USR2 '.OR.KEY3(1:5)=='USER2')THEN
          ANIM_CE(21) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(139+N1)=1
           ANIM_CE(21) = 0
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'USR3 '.OR.KEY3(1:5).EQ.'USER3')THEN
+       ELSEIF(KEY3(1:5)=='USR3 '.OR.KEY3(1:5)=='USER3')THEN
          ANIM_CE(22) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(239+N1)=1
           ANIM_CE(22) = 0
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'USR4 '.OR.KEY3(1:5).EQ.'USER4')THEN
+       ELSEIF(KEY3(1:5)=='USR4 '.OR.KEY3(1:5)=='USER4')THEN
          ANIM_CE(23) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(339+N1)=1
           ANIM_CE(23) = 0
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'USR5 '.OR.KEY3(1:5).EQ.'USER5')THEN
+       ELSEIF(KEY3(1:5)=='USR5 '.OR.KEY3(1:5)=='USER5')THEN
          ANIM_CE(24) = 1
          READ(KEY4,'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(439+N1)=1
           ANIM_CE(24) = 0
          ENDIF
-       ELSEIF(KEY3(1:4).EQ.'HOUR')THEN
+       ELSEIF(KEY3(1:4)=='HOUR')THEN
          ANIM_CE(25) = 1
-       ELSEIF    (KEY3(1:4).EQ.'EPSD')THEN
+       ELSEIF    (KEY3(1:4)=='EPSD')THEN
          ANIM_CE(26) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR6 '.OR.KEY3(1:5).EQ.'USER6')THEN
+      ELSEIF(KEY3(1:5)=='USR6 '.OR.KEY3(1:5)=='USER6')THEN
          ANIM_CE(27) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(539+N1)=1
           ANIM_CE(27) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR7 '.OR.KEY3(1:5).EQ.'USER7')THEN
+      ELSEIF(KEY3(1:5)=='USR7 '.OR.KEY3(1:5)=='USER7')THEN
          ANIM_CE(28) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(639+N1)=1
           ANIM_CE(28) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR8 '.OR.KEY3(1:5).EQ.'USER8')THEN
+      ELSEIF(KEY3(1:5)=='USR8 '.OR.KEY3(1:5)=='USER8')THEN
          ANIM_CE(29) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(739+N1)=1
           ANIM_CE(29) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR9 '.OR.KEY3(1:5).EQ.'USER9')THEN
+      ELSEIF(KEY3(1:5)=='USR9 '.OR.KEY3(1:5)=='USER9')THEN
          ANIM_CE(30) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(839+N1)=1
           ANIM_CE(30) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR10')THEN
+      ELSEIF(KEY3(1:5)=='USR10')THEN
          ANIM_CE(31) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(939+N1)=1
           ANIM_CE(31) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR11')THEN
+      ELSEIF(KEY3(1:5)=='USR11')THEN
          ANIM_CE(32) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1039+N1)=1
           ANIM_CE(32) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR12')THEN
+      ELSEIF(KEY3(1:5)=='USR12')THEN
          ANIM_CE(33) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1139+N1)=1
           ANIM_CE(33) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR13')THEN
+      ELSEIF(KEY3(1:5)=='USR13')THEN
          ANIM_CE(34) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1239+N1)=1
           ANIM_CE(34) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR14')THEN
+      ELSEIF(KEY3(1:5)=='USR14')THEN
          ANIM_CE(35) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1339+N1)=1
           ANIM_CE(35) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR15')THEN
+      ELSEIF(KEY3(1:5)=='USR15')THEN
          ANIM_CE(36) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1439+N1)=1
           ANIM_CE(36) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR16')THEN
+      ELSEIF(KEY3(1:5)=='USR16')THEN
          ANIM_CE(37) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1539+N1)=1
           ANIM_CE(37) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR17')THEN
+      ELSEIF(KEY3(1:5)=='USR17')THEN
          ANIM_CE(38) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1639+N1)=1
           ANIM_CE(38) = 0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR18')THEN
+      ELSEIF(KEY3(1:5)=='USR18')THEN
          ANIM_CE(39) = 1
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1739+N1)=1
           ANIM_CE(39)=0
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR19')THEN
+      ELSEIF(KEY3(1:5)=='USR19')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR20')THEN
+      ELSEIF(KEY3(1:5)=='USR20')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(1939+N1)=1
          ENDIF
-       ELSEIF(KEY3(1:4).EQ.'FAIL')THEN
+       ELSEIF(KEY3(1:4)=='FAIL')THEN
          ANIM_CE(2142) = 1
          READ(KEY4(1:5),'(I5)')IFAILA
          IF(IFAILA == 0) IFAILA = 1
-       ELSEIF(KEY3(1:5).EQ.'CRMAS')THEN
+       ELSEIF(KEY3(1:5)=='CRMAS')THEN
          ANIM_CE(2143) = 1
-       ELSEIF(KEY3(1:5).EQ.'CRVEL')THEN
+       ELSEIF(KEY3(1:5)=='CRVEL')THEN
          ANIM_CE(2144) = 1
-       ELSEIF(KEY3(1:4).EQ.'THIN')THEN
+       ELSEIF(KEY3(1:4)=='THIN')THEN
          ANIM_CE(2155) = 1
-       ELSEIF(KEY3(1:5).EQ.'ERROR')THEN
-         IF(KEY4(1:5).EQ.'THICK')THEN
+       ELSEIF(KEY3(1:5)=='ERROR')THEN
+         IF(KEY4(1:5)=='THICK')THEN
            ANIM_CE(2156) = 1
          ELSE
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR21')THEN
+      ELSEIF(KEY3(1:5)=='USR21')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR22')THEN
+      ELSEIF(KEY3(1:5)=='USR22')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR23')THEN
+      ELSEIF(KEY3(1:5)=='USR23')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR24')THEN
+      ELSEIF(KEY3(1:5)=='USR24')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR25')THEN
+      ELSEIF(KEY3(1:5)=='USR25')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR26')THEN
+      ELSEIF(KEY3(1:5)=='USR26')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR27')THEN
+      ELSEIF(KEY3(1:5)=='USR27')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR28')THEN
+      ELSEIF(KEY3(1:5)=='USR28')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(2939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR29')THEN
+      ELSEIF(KEY3(1:5)=='USR29')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR30')THEN
+      ELSEIF(KEY3(1:5)=='USR30')THEN
          READ(KEY4,'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR31')THEN
+      ELSEIF(KEY3(1:5)=='USR31')THEN
          READ(KEY4,'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR32')THEN
+      ELSEIF(KEY3(1:5)=='USR32')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR33')THEN
+      ELSEIF(KEY3(1:5)=='USR33')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR34')THEN
+      ELSEIF(KEY3(1:5)=='USR34')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR35')THEN
+      ELSEIF(KEY3(1:5)=='USR35')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR36')THEN
+      ELSEIF(KEY3(1:5)=='USR36')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR37')THEN
+      ELSEIF(KEY3(1:5)=='USR37')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR38')THEN
+      ELSEIF(KEY3(1:5)=='USR38')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(3939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR39')THEN
+      ELSEIF(KEY3(1:5)=='USR39')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR40')THEN
+      ELSEIF(KEY3(1:5)=='USR40')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR41')THEN
+      ELSEIF(KEY3(1:5)=='USR41')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR42')THEN
+      ELSEIF(KEY3(1:5)=='USR42')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR43')THEN
+      ELSEIF(KEY3(1:5)=='USR43')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR44')THEN
+      ELSEIF(KEY3(1:5)=='USR44')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR45')THEN
+      ELSEIF(KEY3(1:5)=='USR45')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR46')THEN
+      ELSEIF(KEY3(1:5)=='USR46')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR47')THEN
+      ELSEIF(KEY3(1:5)=='USR47')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR48')THEN
+      ELSEIF(KEY3(1:5)=='USR48')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(4939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR49')THEN
+      ELSEIF(KEY3(1:5)=='USR49')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR50')THEN
+      ELSEIF(KEY3(1:5)=='USR50')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR51')THEN
+      ELSEIF(KEY3(1:5)=='USR51')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR52')THEN
+      ELSEIF(KEY3(1:5)=='USR52')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR53')THEN
+      ELSEIF(KEY3(1:5)=='USR53')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR54')THEN
+      ELSEIF(KEY3(1:5)=='USR54')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR55')THEN
+      ELSEIF(KEY3(1:5)=='USR55')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR56')THEN
+      ELSEIF(KEY3(1:5)=='USR56')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR57')THEN
+      ELSEIF(KEY3(1:5)=='USR57')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR58')THEN
+      ELSEIF(KEY3(1:5)=='USR58')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(5939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR59')THEN
+      ELSEIF(KEY3(1:5)=='USR59')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR60')THEN
+      ELSEIF(KEY3(1:5)=='USR60')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR61')THEN
+      ELSEIF(KEY3(1:5)=='USR61')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR62')THEN
+      ELSEIF(KEY3(1:5)=='USR62')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR63')THEN
+      ELSEIF(KEY3(1:5)=='USR63')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR64')THEN
+      ELSEIF(KEY3(1:5)=='USR64')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR65')THEN
+      ELSEIF(KEY3(1:5)=='USR65')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR66')THEN
+      ELSEIF(KEY3(1:5)=='USR66')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR67')THEN
+      ELSEIF(KEY3(1:5)=='USR67')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR68')THEN
+      ELSEIF(KEY3(1:5)=='USR68')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(6939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR69')THEN
+      ELSEIF(KEY3(1:5)=='USR69')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR70')THEN
+      ELSEIF(KEY3(1:5)=='USR70')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR71')THEN
+      ELSEIF(KEY3(1:5)=='USR71')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR72')THEN
+      ELSEIF(KEY3(1:5)=='USR72')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR73')THEN
+      ELSEIF(KEY3(1:5)=='USR73')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR74')THEN
+      ELSEIF(KEY3(1:5)=='USR74')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR75')THEN
+      ELSEIF(KEY3(1:5)=='USR75')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR76')THEN
+      ELSEIF(KEY3(1:5)=='USR76')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR77')THEN
+      ELSEIF(KEY3(1:5)=='USR77')THEN
          READ(KEY4,'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR78')THEN
+      ELSEIF(KEY3(1:5)=='USR78')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(7939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR79')THEN
+      ELSEIF(KEY3(1:5)=='USR79')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR80')THEN
+      ELSEIF(KEY3(1:5)=='USR80')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR81')THEN
+      ELSEIF(KEY3(1:5)=='USR81')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR82')THEN
+      ELSEIF(KEY3(1:5)=='USR82')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR83')THEN
+      ELSEIF(KEY3(1:5)=='USR83')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR84')THEN
+      ELSEIF(KEY3(1:5)=='USR84')THEN
          READ(KEY4,'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR85')THEN
+      ELSEIF(KEY3(1:5)=='USR85')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR86')THEN
+      ELSEIF(KEY3(1:5)=='USR86')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR87')THEN
+      ELSEIF(KEY3(1:5)=='USR87')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR88')THEN
+      ELSEIF(KEY3(1:5)=='USR88')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(8939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR89')THEN
+      ELSEIF(KEY3(1:5)=='USR89')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR90')THEN
+      ELSEIF(KEY3(1:5)=='USR90')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9139+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR91')THEN
+      ELSEIF(KEY3(1:5)=='USR91')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9239+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR92')THEN
+      ELSEIF(KEY3(1:5)=='USR92')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9339+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR93')THEN
+      ELSEIF(KEY3(1:5)=='USR93')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9439+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR94')THEN
+      ELSEIF(KEY3(1:5)=='USR94')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9539+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR95')THEN
+      ELSEIF(KEY3(1:5)=='USR95')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9639+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR96')THEN
+      ELSEIF(KEY3(1:5)=='USR96')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9739+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR97')THEN
+      ELSEIF(KEY3(1:5)=='USR97')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9839+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR98')THEN
+      ELSEIF(KEY3(1:5)=='USR98')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(9939+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'USR99')THEN
+      ELSEIF(KEY3(1:5)=='USR99')THEN
          READ(KEY4(1:5),'(I5)')N1
-         IF(N1.NE.0)THEN
+         IF(N1/=0)THEN
           ANIM_CE(10039+N1)=1
          ENDIF
-      ELSEIF(KEY3(1:3).EQ.'PHI')THEN
-         IF(KEY4(1:3).EQ.'ALL')THEN
+      ELSEIF(KEY3(1:3)=='PHI')THEN
+         IF(KEY4(1:3)=='ALL')THEN
            IPHIALL = 1
-         ELSEIF(KEY4(1:4).EQ.'MEMB')THEN
+         ELSEIF(KEY4(1:4)=='MEMB')THEN
            ANIM_CE(10673) = 1
-         ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+         ELSEIF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(10674) = 1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_CE(10675) = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF(N1.NE.0)THEN
+           IF(N1/=0)THEN
             ANIM_CE(10139+N1)=1
            ENDIF
          ENDIF
-      ELSEIF(KEY3(1:4).EQ.'DAMA')THEN
+      ELSEIF(KEY3(1:4)=='DAMA')THEN
         N1 = 0
         N2 = 0
         IDX = 11925 + 4*MX_PLY_ANIM + 6
         ! in addition DAMA for PID_51 and PID_52 - shell composite -
-        IF(KEY4(1:5).EQ.'UPPER')THEN
+        IF(KEY4(1:5)=='UPPER')THEN
           ANIM_CE(10257)=1
-        ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+        ELSEIF(KEY4(1:5)=='LOWER')THEN
           ANIM_CE(10258)=1
-        ELSEIF(KEY4(1:4).EQ.'MEMB')THEN
+        ELSEIF(KEY4(1:4)=='MEMB')THEN
           ANIM_CE(10259)=1
-        ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+        ELSEIF(KEY4(1:3)=='ALL')THEN
           IDAMAALL = 1 ! mean layer value
-          IF(KEY5(1:3).EQ.'ALL') IDAMAFULL =  2 ! all NPTT
+          IF(KEY5(1:3)=='ALL') IDAMAFULL =  2 ! all NPTT
         ELSE
           READ(KEY4(1:5),'(I5)')N1   !  layer
           IF (N1 > 0 .AND. N1 <= 100) THEN
@@ -1083,68 +1083,68 @@ C------------
           ELSE
             ANIM_CE(10256) = 1
           ENDIF
-        ENDIF ! IF(KEY4.EQ.'UPPER')THEN
-      ELSEIF(KEY3(1:4).EQ.'NXTF')THEN
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+        ENDIF ! IF(KEY4=='UPPER')THEN
+      ELSEIF(KEY3(1:4)=='NXTF')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(10360)=1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_CE(10361)=1
-         ELSEIF(KEY4(1:4).EQ.'MEMB')THEN
+         ELSEIF(KEY4(1:4)=='MEMB')THEN
            ANIM_CE(10362)=1
-         ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:3)=='ALL')THEN
            INXTFALL = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF (N1.NE.0) THEN
+           IF (N1/=0) THEN
              ANIM_CE(10362+N1) = 1
            ENDIF
         ENDIF
-      ELSEIF(KEY3(1:5).EQ.'SIG1H')THEN
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+      ELSEIF(KEY3(1:5)=='SIG1H')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(10463)=1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_CE(10464)=1
-         ELSEIF(KEY4(1:4).EQ.'MEMB')THEN
+         ELSEIF(KEY4(1:4)=='MEMB')THEN
            ANIM_CE(10465)=1
-         ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:3)=='ALL')THEN
            SIGH1ALL = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF (N1.NE.0) THEN
+           IF (N1/=0) THEN
              ANIM_CE(10465+N1) = 1
            ENDIF
         ENDIF
-      ELSEIF(KEY3(1:5).EQ.'SIG2H')THEN
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+      ELSEIF(KEY3(1:5)=='SIG2H')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(10566)=1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_CE(10567)=1
-         ELSEIF(KEY4(1:4).EQ.'MEMB')THEN
+         ELSEIF(KEY4(1:4)=='MEMB')THEN
            ANIM_CE(10568)=1
-         ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:3)=='ALL')THEN
            SIGH2ALL = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF (N1.NE.0) THEN
+           IF (N1/=0) THEN
              ANIM_CE(10568+N1) = 1
            ENDIF
         ENDIF
-      ELSEIF(KEY3(1:5).EQ.'TDEL')THEN
+      ELSEIF(KEY3(1:5)=='TDEL')THEN
          ANIM_CE(10670) = 1
-      ELSEIF(KEY3(1:3).EQ.'SSP')THEN
+      ELSEIF(KEY3(1:3)=='SSP')THEN
          ANIM_CE(10671) = 1     
-      ELSEIF(KEY3(1:5).EQ.'SCHLI')THEN !.OR. 'SCHLIEREN'
+      ELSEIF(KEY3(1:5)=='SCHLI')THEN !.OR. 'SCHLIEREN'
          ANIM_CE(10672) = 1        
-      ELSEIF(KEY3(1:5).EQ.'DOMAI')THEN 
+      ELSEIF(KEY3(1:5)=='DOMAI')THEN 
          ANIM_CE(10676) = 1    
       !C   element equivalent stress criteria
-      ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN
+      ELSEIF(KEY3(1:5)=='SIGEQ')THEN
          ANIM_CE(10677) = 1
-      ELSEIF(KEY3(1:4).EQ.'BULK' .OR. KEY3(1:4).EQ.'QVIS')THEN
+      ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
          ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)         
-      ELSEIF(KEY3(1:4).EQ.'TDET')THEN 
+      ELSEIF(KEY3(1:4)=='TDET')THEN 
          ANIM_CE(11889) = 1            
-      ELSEIF(KEY3(1:5).EQ.'LAW20')THEN
+      ELSEIF(KEY3(1:5)=='LAW20')THEN
          ANIM_CE(11890) = 1 !dens
          ANIM_CE(11891) = 1
          ANIM_CE(11892) = 0
@@ -1182,11 +1182,11 @@ C------------
          ANIM_CE(11924) = 0 
          ANIM_CE(11925) = 0
 
-      ELSEIF(KEY3(1:5).EQ.'IDPLY')THEN       
+      ELSEIF(KEY3(1:5)=='IDPLY')THEN       
         !ANIM_CE(11925) ->  ANIM_CE(11925+3*MX_PLY_ANIM)
         !ANIM_CT(1610) ->  ANIM_CT(1610+2*MX_PLY_ANIM)
          ! === /ANIM/SHELL/IDPLY/STRESS ===
-        IF(KEY4(1:5).EQ.'STRES')THEN
+        IF(KEY4(1:5)=='STRES')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             ISTRESALL_PLY = 1
           ELSE
@@ -1201,7 +1201,7 @@ C------------
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
           ENDIF  
         ! /ANIM/SHELL/IDPLY/STRAIN
-        ELSEIF(KEY4(1:5).EQ.'STRAI')THEN
+        ELSEIF(KEY4(1:5)=='STRAI')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             ISTRAINALL_PLY = 1
           ELSE
@@ -1216,7 +1216,7 @@ C------------
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
           ENDIF
         ! /ANIM/SHELL/IDPLY/EPSDOT
-        ELSEIF(KEY4(1:5).EQ.'EPSDO')THEN
+        ELSEIF(KEY4(1:5)=='EPSDO')THEN
           IEPSDOT = 1
           IF(KEY5(1:3) == 'ALL')THEN
             IEPSDOTALL_PLY = 1
@@ -1231,7 +1231,7 @@ C------------
             IF(NBPLY_ANIM_EPSDOT > MX_PLY_ANIM) 
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
           ENDIF
-        ELSEIF(KEY4(1:3).EQ.'PHI')THEN
+        ELSEIF(KEY4(1:3)=='PHI')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             ! /ANIM/SHELL/IDPLY/PHI/ALL
             IPHIALL_PLY = 1
@@ -1246,7 +1246,7 @@ C------------
             PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+3) = 0
             ANIM_CE( (11925 + MX_PLY_ANIM) + NBPLY_ANIM_PHI ) = 1  
           ENDIF
-        ELSEIF(KEY4(1:4).EQ.'EPSP')THEN
+        ELSEIF(KEY4(1:4)=='EPSP')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             ! /ANIM/SHELL/IDPLY/EPSP/ALL
             IEPSPALL_PLY = 1
@@ -1262,7 +1262,7 @@ C------------
             PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+3) = IPT
             ANIM_CE( (11925 + 2 * MX_PLY_ANIM) + NBPLY_ANIM_EPSP ) = 1  
           ENDIF
-        ELSEIF(KEY4(1:4).EQ.'DAMA')THEN
+        ELSEIF(KEY4(1:4)=='DAMA')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             ! /ANIM/SHELL/IDPLY/DAMA/ALL
             IDAMAALL_PLY = 1
@@ -1278,7 +1278,7 @@ C------------
             PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+3) = IPT
             ANIM_CE( (11925 + 3 * MX_PLY_ANIM) + NBPLY_ANIM_DAMA ) = 1  
           ENDIF
-        ELSEIF(KEY4(1:3).EQ.'ALL')THEN
+        ELSEIF(KEY4(1:3)=='ALL')THEN
           ! /ANIM/SHELL/IDPLY/ALL
           IPLYALL = 1
         ELSE
@@ -1321,23 +1321,23 @@ C------------
          N1 = 0
          N2 = 0
          IDX      = 13245 + 4*MX_PLY_ANIM 
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(IDX + 1)=1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_CE(IDX + 2)=1
-         ELSEIF(KEY4(1:5).EQ.'ALL')THEN
+         ELSEIF(KEY4(1:5)=='ALL')THEN
            IWPLAALL = 1 ! mean layer value
-           IF(KEY5(1:3).EQ.'ALL') IWPLAFULL =  2 ! all NPTT
+           IF(KEY5(1:3)=='ALL') IWPLAFULL =  2 ! all NPTT
          ELSE
            READ(KEY4(1:5),'(I5)')N1   !  layer
              IF (N1 > 0 .AND. N1 <= 100) THEN
              ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
                IDX = 13347 + 4*MX_PLY_ANIM 
-               IF(KEY5(1:5).EQ.'UPPER')THEN
+               IF(KEY5(1:5)=='UPPER')THEN
                   ANIM_CE(IDX  + N1) = 1
-               ELSEIF(KEY5(1:5).EQ.'LOWER')THEN
+               ELSEIF(KEY5(1:5)=='LOWER')THEN
                   ANIM_CE(IDX + 100 + N1) = 1
-               ELSEIF(KEY5(1:3).EQ.'ALL')THEN
+               ELSEIF(KEY5(1:3)=='ALL')THEN
                   IWPLAFULL = 1
                   ANIM_WPLA(N1) = 1
                ELSE
@@ -1368,13 +1368,13 @@ C------------
       ELSEIF(KEY3(1:4) == 'DAMG') THEN 
         IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 4
         N1 = 0
-        IF(KEY4(1:4).EQ.'MEAN')THEN
+        IF(KEY4(1:4)=='MEAN')THEN
           ANIM_CE(IDX) = 1  
-        ELSEIF(KEY4(1:5).EQ.'UPPER')THEN
+        ELSEIF(KEY4(1:5)=='UPPER')THEN
           ANIM_CE(IDX+1)=1
-        ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+        ELSEIF(KEY4(1:5)=='LOWER')THEN
           ANIM_CE(IDX+2)=1
-        ELSEIF(KEY4(1:4).EQ.'MEMB')THEN
+        ELSEIF(KEY4(1:4)=='MEMB')THEN
           ANIM_CE(IDX+3)=1
         ELSE
           READ(KEY4(1:5),'(I5)')N1   ! NPTT
@@ -1388,19 +1388,19 @@ C------------
 C--------------------------
 C    BRIQUES
 C--------------------------
-      ELSEIF(KEY2(1:4).EQ.'BRIC')THEN
+      ELSEIF(KEY2(1:4)=='BRIC')THEN
 C
       FMT_ANI = 4
 C--------------------------
 C     BRIQUES:TENSEUR
 C--------------------------
-      IF(KEY3(1:4).EQ.'TENS')THEN !ANIM/BRICK/TENS
-        IF(KEY4(1:5).EQ.'STRES')THEN
+      IF(KEY3(1:4)=='TENS')THEN !ANIM/BRICK/TENS
+        IF(KEY4(1:5)=='STRES')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             IBRICK_STRESSALL = 1
           ELSE
             READ(KEY5(1:5),'(I5)')N1
-            IF(N1.NE.0)THEN
+            IF(N1/=0)THEN
               IF ( MOD(ABS(N1)/10,10) == 0) THEN
                 READ(KEY6(1:5),'(I5)')N2
                   ANIM_ST(2010+MOD(ABS(N1),100)+
@@ -1412,12 +1412,12 @@ C--------------------------
               ANIM_ST(1) = 1 
             ENDIF
           ENDIF
-        ELSEIF(KEY4(1:5).EQ.'STRAI')THEN
+        ELSEIF(KEY4(1:5)=='STRAI')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             IBRICK_STRAINALL = 1
           ELSE
             READ(KEY5(1:5),'(I5)')N1
-            IF(N1.NE.0)THEN
+            IF(N1/=0)THEN
               IF ( MOD(ABS(N1)/10,10) == 0) THEN
                 READ(KEY6(1:5),'(I5)')N2
                 ANIM_ST(22110+MOD(ABS(N1),100)+
@@ -1429,17 +1429,17 @@ C--------------------------
               ANIM_ST(2) = 1
             ENDIF
           ENDIF
-        ELSEIF(KEY4(1:5).EQ.'EPSDO')THEN
+        ELSEIF(KEY4(1:5)=='EPSDO')THEN
 c           IEPSDOT = 1
 c           ANIM_ST(3) = 1
-        ELSEIF(KEY4(1:4).EQ.'DAMA')THEN
+        ELSEIF(KEY4(1:4)=='DAMA')THEN
            ANIM_ST(4) = 1
-        ELSEIF(KEY4(1:4).EQ.'EPSP')THEN
+        ELSEIF(KEY4(1:4)=='EPSP')THEN
           IF(KEY5(1:3) == 'ALL')THEN
             IBRICK_EPSPALL = 1
           ELSE
             READ(KEY5(1:5),'(I5)')N1
-            IF(N1.NE.0)THEN
+            IF(N1/=0)THEN
               IF ( MOD(ABS(N1)/10,10) == 0) THEN
                 READ(KEY6(1:5),'(I5)')N2
                 ANIM_ST(43210+MOD(ABS(N1),100)+
@@ -1454,37 +1454,37 @@ c           ANIM_ST(3) = 1
         ELSE
           IXITKEY=IXITKEY+1
         ENDIF
-      ELSE IF (KEY3(1:5) .EQ. 'LAW51') THEN
-        IF (KEY4(1:3) .EQ. 'ALL') THEN
+      ELSE IF (KEY3(1:5) == 'LAW51') THEN
+        IF (KEY4(1:3) == 'ALL') THEN
            LAW51_PHASE1 = .TRUE.
            LAW51_PHASE2 = .TRUE.
            LAW51_PHASE3 = .TRUE.
            LAW51_PHASE4 = .TRUE.
-        ELSE IF (KEY4(1:1) .EQ. '1') THEN
+        ELSE IF (KEY4(1:1) == '1') THEN
            LAW51_PHASE1 = .TRUE.
-        ELSE IF (KEY4(1:1) .EQ. '2') THEN
+        ELSE IF (KEY4(1:1) == '2') THEN
            LAW51_PHASE2 = .TRUE.
-        ELSE IF (KEY4(1:1) .EQ. '3') THEN
+        ELSE IF (KEY4(1:1) == '3') THEN
            LAW51_PHASE3 = .TRUE.
-        ELSE IF (KEY4(1:1) .EQ. '4') THEN
+        ELSE IF (KEY4(1:1) == '4') THEN
            LAW51_PHASE4 = .TRUE.
         ENDIF
 C--------------------------
 C     BRIQUES:SCALAIRES
 C--------------------------
-      ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+      ELSEIF(KEY3(1:4)=='EPSP')THEN
          ANIM_SE(1) = 1
          IF (LAW51_PHASE1) ANIM_SE(4913) = 1 !EPSP_law51-phase1
          IF (LAW51_PHASE2)   ANIM_SE(4914) = 1  !EPSP_law51-phase2
          IF (LAW51_PHASE3)  ANIM_SE(4915) = 1  !EPSP_law51-phase3
          IF (LAW51_PHASE4)  ANIM_SE(4916) = 1  !EPSP_law51-phase4           
-      ELSEIF(KEY3(1:5).EQ.'PLA51')THEN !obsolete      
+      ELSEIF(KEY3(1:5)=='PLA51')THEN !obsolete      
          ANIM_SE(1) = 1
-      ELSEIF(KEY3(1:5).EQ.'DENS3')THEN
+      ELSEIF(KEY3(1:5)=='DENS3')THEN
            !/ANIM/ELEM/DENS37          
            ANIM_SE(4935) = 1  !law37 -rho_liquid 
            ANIM_SE(4936) = 1  !law37 - rho_gas 
-      ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+      ELSEIF(KEY3(1:4)=='DENS')THEN
          ANIM_SE(2)    = 1
          IF (LAW51_PHASE1) ANIM_SE(4897) = 1 !DENS_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4898) = 1 !DENS_law51-phase2
@@ -1492,186 +1492,186 @@ C--------------------------
          IF (LAW51_PHASE4) ANIM_SE(4900) = 1 !DENS_law51-phase4             
            !ANIM_SE(4935) = 1  !law37 -rho_liquid
            !ANIM_SE(4936) = 1  !law37 - rho_gas             
-      ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+      ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_SE(3) = 1
          IF (LAW51_PHASE1) ANIM_SE(4901) = 1 !ENER_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4902) = 1  !ENER_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4903) = 1  !ENER_law51-phase3
          IF (LAW51_PHASE4) ANIM_SE(4904) = 1  !ENER_law51-phase4
-      ELSEIF(KEY3(1:4).EQ.'TEMP')THEN
+      ELSEIF(KEY3(1:4)=='TEMP')THEN
          ANIM_SE(4) = 1
          IF (LAW51_PHASE1) ANIM_SE(4905) = 1 !TEMP_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4906) = 1 !TEMP_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4907) = 1 !TEMP_law51-phase3
          IF (LAW51_PHASE4) ANIM_SE(4908) = 1 !TEMP_law51-phase4
-      ELSEIF(KEY3(1:5).EQ.'TEM51')THEN
+      ELSEIF(KEY3(1:5)=='TEM51')THEN
          ANIM_SE(4) = 1
-      ELSEIF(KEY3(1:1).EQ.'P'.AND.KEY3(1:5).NE.'PLA51')THEN
+      ELSEIF(KEY3(1:1)=='P'.AND.KEY3(1:5)/='PLA51')THEN
          ANIM_SE(6) = 1
          IF (LAW51_PHASE1) ANIM_SE(4909) = 1 !PRES_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4910) = 1 !PRES_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4911) = 1 !PRES_law51-phase3
          IF (LAW51_PHASE4) ANIM_SE(4912) = 1 !PRES_law51-phase4           
-      ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+      ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_SE(7) = 1
-      ELSEIF(KEY3(1:1).EQ.'K')THEN
+      ELSEIF(KEY3(1:1)=='K')THEN
          ANIM_SE(8) = 1
-      ELSEIF(KEY3(1:4).EQ.'TVIS')THEN
+      ELSEIF(KEY3(1:4)=='TVIS')THEN
          ANIM_SE(9) = 1
-      ELSEIF(KEY3(1:5).EQ.'VORTX')THEN
+      ELSEIF(KEY3(1:5)=='VORTX')THEN
          ANIM_SE(10) = 1
-      ELSEIF(KEY3(1:4).EQ.'DAM1')THEN
+      ELSEIF(KEY3(1:4)=='DAM1')THEN
          ANIM_SE(11) = 1
-      ELSEIF(KEY3(1:4).EQ.'DAM2')THEN
+      ELSEIF(KEY3(1:4)=='DAM2')THEN
          ANIM_SE(12) = 1
-      ELSEIF(KEY3(1:4).EQ.'DAM3')THEN
+      ELSEIF(KEY3(1:4)=='DAM3')THEN
          ANIM_SE(13) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+      ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_SE(14) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+      ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_SE(15) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+      ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_SE(16) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+      ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_SE(17) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+      ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_SE(18) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+      ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_SE(19) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR1 '.OR.KEY3(1:5).EQ.'USER1')THEN
+      ELSEIF(KEY3(1:5)=='USR1 '.OR.KEY3(1:5)=='USER1')THEN
          ANIM_SE(20) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR2 '.OR.KEY3(1:5).EQ.'USER2')THEN
+      ELSEIF(KEY3(1:5)=='USR2 '.OR.KEY3(1:5)=='USER2')THEN
          ANIM_SE(21) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR3 '.OR.KEY3(1:5).EQ.'USER3')THEN
+      ELSEIF(KEY3(1:5)=='USR3 '.OR.KEY3(1:5)=='USER3')THEN
          ANIM_SE(22) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR4 '.OR.KEY3(1:5).EQ.'USER4')THEN
+      ELSEIF(KEY3(1:5)=='USR4 '.OR.KEY3(1:5)=='USER4')THEN
          ANIM_SE(23) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR5 '.OR.KEY3(1:5).EQ.'USER5')THEN
+      ELSEIF(KEY3(1:5)=='USR5 '.OR.KEY3(1:5)=='USER5')THEN
          ANIM_SE(24) = 1
-      ELSEIF(KEY3(1:4).EQ.'HOUR')THEN
+      ELSEIF(KEY3(1:4)=='HOUR')THEN
          ANIM_SE(25) = 1
-      ELSEIF(KEY3(1:4).EQ.'EPSD')THEN
+      ELSEIF(KEY3(1:4)=='EPSD')THEN
          ANIM_SE(26) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR6 '.OR.KEY3(1:5).EQ.'USER6')THEN
+      ELSEIF(KEY3(1:5)=='USR6 '.OR.KEY3(1:5)=='USER6')THEN
          ANIM_SE(27) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR7 '.OR.KEY3(1:5).EQ.'USER7')THEN
+      ELSEIF(KEY3(1:5)=='USR7 '.OR.KEY3(1:5)=='USER7')THEN
          ANIM_SE(28) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR8 '.OR.KEY3(1:5).EQ.'USER8')THEN
+      ELSEIF(KEY3(1:5)=='USR8 '.OR.KEY3(1:5)=='USER8')THEN
          ANIM_SE(29) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR9 '.OR.KEY3(1:5).EQ.'USER9')THEN
+      ELSEIF(KEY3(1:5)=='USR9 '.OR.KEY3(1:5)=='USER9')THEN
          ANIM_SE(30) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR10')THEN
+      ELSEIF(KEY3(1:5)=='USR10')THEN
          ANIM_SE(31) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR11')THEN
+      ELSEIF(KEY3(1:5)=='USR11')THEN
          ANIM_SE(32) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR12')THEN
+      ELSEIF(KEY3(1:5)=='USR12')THEN
          ANIM_SE(33) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR13')THEN
+      ELSEIF(KEY3(1:5)=='USR13')THEN
          ANIM_SE(34) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR14')THEN
+      ELSEIF(KEY3(1:5)=='USR14')THEN
          ANIM_SE(35) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR15')THEN
+      ELSEIF(KEY3(1:5)=='USR15')THEN
          ANIM_SE(36) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR16')THEN
+      ELSEIF(KEY3(1:5)=='USR16')THEN
          ANIM_SE(37) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR17')THEN
+      ELSEIF(KEY3(1:5)=='USR17')THEN
          ANIM_SE(38) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR18')THEN
+      ELSEIF(KEY3(1:5)=='USR18')THEN
          ANIM_SE(39) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR19')THEN
+      ELSEIF(KEY3(1:5)=='USR19')THEN
          ANIM_SE(40) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR20')THEN
+      ELSEIF(KEY3(1:5)=='USR20')THEN
          ANIM_SE(41) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR21')THEN
+      ELSEIF(KEY3(1:5)=='USR21')THEN
          ANIM_SE(42) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR22')THEN
+      ELSEIF(KEY3(1:5)=='USR22')THEN
          ANIM_SE(43) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR23')THEN
+      ELSEIF(KEY3(1:5)=='USR23')THEN
          ANIM_SE(44) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR24')THEN
+      ELSEIF(KEY3(1:5)=='USR24')THEN
          ANIM_SE(45) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR25')THEN
+      ELSEIF(KEY3(1:5)=='USR25')THEN
          ANIM_SE(46) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR26')THEN
+      ELSEIF(KEY3(1:5)=='USR26')THEN
          ANIM_SE(47) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR27')THEN
+      ELSEIF(KEY3(1:5)=='USR27')THEN
          ANIM_SE(48) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR28')THEN
+      ELSEIF(KEY3(1:5)=='USR28')THEN
          ANIM_SE(49) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR29')THEN
+      ELSEIF(KEY3(1:5)=='USR29')THEN
          ANIM_SE(50) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR30')THEN
+      ELSEIF(KEY3(1:5)=='USR30')THEN
          ANIM_SE(51) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR31')THEN
+      ELSEIF(KEY3(1:5)=='USR31')THEN
          ANIM_SE(52) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR32')THEN
+      ELSEIF(KEY3(1:5)=='USR32')THEN
          ANIM_SE(52) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR33')THEN
+      ELSEIF(KEY3(1:5)=='USR33')THEN
          ANIM_SE(54) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR34')THEN
+      ELSEIF(KEY3(1:5)=='USR34')THEN
          ANIM_SE(55) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR35')THEN
+      ELSEIF(KEY3(1:5)=='USR35')THEN
          ANIM_SE(56) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR36')THEN
+      ELSEIF(KEY3(1:5)=='USR36')THEN
          ANIM_SE(57) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR37')THEN
+      ELSEIF(KEY3(1:5)=='USR37')THEN
          ANIM_SE(58) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR38')THEN
+      ELSEIF(KEY3(1:5)=='USR38')THEN
          ANIM_SE(59) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR39')THEN
+      ELSEIF(KEY3(1:5)=='USR39')THEN
          ANIM_SE(60) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR40')THEN
+      ELSEIF(KEY3(1:5)=='USR40')THEN
          ANIM_SE(61) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR41')THEN
+      ELSEIF(KEY3(1:5)=='USR41')THEN
          ANIM_SE(62) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR42')THEN
+      ELSEIF(KEY3(1:5)=='USR42')THEN
          ANIM_SE(63) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR43')THEN
+      ELSEIF(KEY3(1:5)=='USR43')THEN
          ANIM_SE(64) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR44')THEN
+      ELSEIF(KEY3(1:5)=='USR44')THEN
          ANIM_SE(65) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR45')THEN
+      ELSEIF(KEY3(1:5)=='USR45')THEN
          ANIM_SE(66) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR46')THEN
+      ELSEIF(KEY3(1:5)=='USR46')THEN
          ANIM_SE(67) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR47')THEN
+      ELSEIF(KEY3(1:5)=='USR47')THEN
          ANIM_SE(68) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR48')THEN
+      ELSEIF(KEY3(1:5)=='USR48')THEN
          ANIM_SE(69) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR49')THEN
+      ELSEIF(KEY3(1:5)=='USR49')THEN
          ANIM_SE(70) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR50')THEN
+      ELSEIF(KEY3(1:5)=='USR50')THEN
          ANIM_SE(71) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR51')THEN
+      ELSEIF(KEY3(1:5)=='USR51')THEN
          ANIM_SE(72) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR52')THEN
+      ELSEIF(KEY3(1:5)=='USR52')THEN
          ANIM_SE(73) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR53')THEN
+      ELSEIF(KEY3(1:5)=='USR53')THEN
          ANIM_SE(74) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR54')THEN
+      ELSEIF(KEY3(1:5)=='USR54')THEN
          ANIM_SE(75) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR55')THEN
+      ELSEIF(KEY3(1:5)=='USR55')THEN
          ANIM_SE(76) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR56')THEN
+      ELSEIF(KEY3(1:5)=='USR56')THEN
          ANIM_SE(77) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR57')THEN
+      ELSEIF(KEY3(1:5)=='USR57')THEN
          ANIM_SE(78) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR58')THEN
+      ELSEIF(KEY3(1:5)=='USR58')THEN
          ANIM_SE(79) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR59')THEN
+      ELSEIF(KEY3(1:5)=='USR59')THEN
          ANIM_SE(80) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR60')THEN
+      ELSEIF(KEY3(1:5)=='USR60')THEN
          ANIM_SE(81) = 1                 
-      ELSEIF(KEY3(1:4).EQ.'WPLA')THEN
+      ELSEIF(KEY3(1:4)=='WPLA')THEN
          READ(KEY4(1:5),'(I5)')N1
          IF (N1 /= 0 ) THEN
            ANIM_SE(81+N1) = 1
          ELSE
            ANIM_SE(4964) = 1 
          ENDIF  
-      ELSEIF(KEY3(1:4).EQ.'FLAY')THEN
+      ELSEIF(KEY3(1:4)=='FLAY')THEN
          ANIM_SE(282) = 1
-      ELSEIF(KEY3(1:5).EQ.'VFRAC')THEN
+      ELSEIF(KEY3(1:5)=='VFRAC')THEN
         !BIMAT(law20)
         !BIPHAS(law37)   : TRIMAT = -2
         !MULTIMAT(law51) : TRIMAT = 3|4
@@ -1681,41 +1681,41 @@ C--------------------------
         ANIM_SE(284) = 1 !vfrac phase2 USR4 (law51 & 37 & 20)
         ANIM_SE(285) = 1 !vfrac phase3 USR22 (law51)
         ANIM_SE(286) = 1 !vfrac phase4 USR48 (law51) 
-      ELSEIF(KEY3(1:5).EQ.'BFRAC' .OR. KEY3(1:4).EQ.'BF51')THEN
+      ELSEIF(KEY3(1:5)=='BFRAC' .OR. KEY3(1:4)=='BF51')THEN
          ANIM_SE(887) = 1
-      ELSEIF(KEY3(1:5).EQ.'ORTHD')THEN
-         IF(KEY4.EQ.'ALL')THEN
+      ELSEIF(KEY3(1:5)=='ORTHD')THEN
+         IF(KEY4=='ALL')THEN
            IORTHDALL = 1
          ELSE
            READ(KEY4(1:5),'(I5)')N1
-           IF(N1.NE.0)THEN
+           IF(N1/=0)THEN
             ANIM_SE(286+3*(N1-1)+1)=1
             ANIM_SE(286+3*(N1-1)+2)=1
             ANIM_SE(286+3*(N1-1)+3)=1
            ENDIF
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'VDAM1')THEN 
+      ELSEIF(KEY3(1:5)=='VDAM1')THEN 
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
             ANIM_SE(890+N1)=1
          ELSE
            ANIM_SE(888) = 1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'VDAM2')THEN 
+      ELSEIF(KEY3(1:5)=='VDAM2')THEN 
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
             ANIM_SE(1890+N1)=1
          ELSE
            ANIM_SE(889) = 1
          ENDIF
-      ELSEIF(KEY3(1:5).EQ.'VDAM3')THEN 
+      ELSEIF(KEY3(1:5)=='VDAM3')THEN 
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
             ANIM_SE(2890+N1)=1
          ELSE
            ANIM_SE(890) = 1
          ENDIF
-      ELSEIF(KEY3(1:4).EQ.'DAMA')THEN
+      ELSEIF(KEY3(1:4)=='DAMA')THEN
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
            IF ( MOD(ABS(N1)/10,10) == 0) THEN
@@ -1727,23 +1727,23 @@ C--------------------------
          ELSE
            ANIM_SE(3890) = 1
          ENDIF
-      ELSEIF(KEY3(1:4).EQ.'TDEL')THEN
+      ELSEIF(KEY3(1:4)=='TDEL')THEN
          ANIM_SE(4890)=1
-      ELSEIF(KEY3(1:3).EQ.'SSP')THEN
+      ELSEIF(KEY3(1:3)=='SSP')THEN
          ANIM_SE(4891)   = 1   
          IF (LAW51_PHASE1) ANIM_SE(4917) = 1 !SSP_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4918) = 1 !SSP_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4919) = 1 !SPP_law51-phase3
          IF (LAW51_PHASE4) ANIM_SE(4920) = 1 !SSP_law51-phase4              
-      ELSEIF(KEY3(1:5).EQ.'SCHLI')THEN
+      ELSEIF(KEY3(1:5)=='SCHLI')THEN
          ANIM_SE(4892)   = 1          
-      ELSEIF(KEY3(1:5).EQ.'DOMAI')THEN
+      ELSEIF(KEY3(1:5)=='DOMAI')THEN
          ANIM_SE(4893)   = 1                   
-      ELSEIF(KEY3(1:4).EQ.'FILL')THEN
+      ELSEIF(KEY3(1:4)=='FILL')THEN
          ANIM_SE(4894)   = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN  !   element equivalent stress criteria
+      ELSEIF(KEY3(1:5)=='SIGEQ')THEN  !   element equivalent stress criteria
          ANIM_SE(4895) = 1
-      ELSEIF(KEY3(1:4).EQ.'BULK' .OR. KEY3(1:4).EQ.'QVIS')THEN
+      ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
          ANIM_SE(4896) = 1
          IF (LAW51_PHASE1) ANIM_SE(4931) = 1              
          IF (LAW51_PHASE2) ANIM_SE(4932) = 1
@@ -1776,7 +1776,7 @@ C         ANIM_SE(4918) ==> !           phase2
 C         ANIM_SE(4919) ==> !           phase3
 C         ANIM_SE(4920) ==> !           phase4
 
-      ELSEIF(KEY3(1:3).EQ.'VOL' .OR. KEY3(1:4).EQ.'VOLU')THEN
+      ELSEIF(KEY3(1:3)=='VOL' .OR. KEY3(1:4)=='VOLU')THEN
           ANIM_SE(4921) = 1
           ANIM_SE(4922) = 1
           ANIM_SE(4923) = 1
@@ -1789,7 +1789,7 @@ C         ANIM_SE(4927) ==> !           phase2
 C         ANIM_SE(4928) ==> !           phase3
 C         ANIM_SE(4929) ==> !           phase4
 
-      ELSEIF(KEY3(1:4).EQ.'TDET')THEN
+      ELSEIF(KEY3(1:4)=='TDET')THEN
         ANIM_SE(4930) = 1
 
 CTTENTION : NUMEROS RESERVES ANIM_SE pour SOUS-MATERIAUX LOI51
@@ -1800,7 +1800,7 @@ C         ANIM_SE(4934) ==> !           phase4
 C         ANIM_SE(4935) ==> !   law37 - liquid
 C         ANIM_SE(4936) ==> !   law37 -    gas
 
-      ELSEIF(KEY3(1:5).EQ.'DT   ')THEN
+      ELSEIF(KEY3(1:5)=='DT   ')THEN
         ANIM_SE(4937) = 1
 
       ELSEIF(KEY3(1:3) == 'MOM' .OR. KEY3(2:4) == 'MOM')THEN
@@ -1875,27 +1875,27 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
         ELSEIF(KEY3(1:5) == '|FIN|')THEN
           ANIM_SE(4958)=1
         ENDIF  
-      ELSEIF(KEY3(1:3).EQ.'AMS')THEN
+      ELSEIF(KEY3(1:3)=='AMS')THEN
         ANIM_SE(4959) = 1
-      ELSEIF(KEY3(1:5).EQ.'VORTY')THEN
+      ELSEIF(KEY3(1:5)=='VORTY')THEN
         ANIM_E(4960)  = 1
         ANIM_SE(4960) = 1
-      ELSEIF(KEY3(1:5).EQ.'VORTZ')THEN
+      ELSEIF(KEY3(1:5)=='VORTZ')THEN
         ANIM_E(4961)  = 1
         ANIM_SE(4961) = 1  
-      ELSEIF(KEY3(1:4).EQ.'VORT')THEN
+      ELSEIF(KEY3(1:4)=='VORT')THEN
         ANIM_E(4962)  = 1
         ANIM_SE(4962) = 1            
-      ELSEIF(KEY3(1:4).EQ.'EINT')THEN
+      ELSEIF(KEY3(1:4)=='EINT')THEN
         ANIM_E(4963)  = 1
         ANIM_SE(4963) = 1  
       ELSEIF(KEY3(1:3) == 'OFF')THEN  
         ANIM_SE(4965) = 1         
-      ELSEIF(KEY3(1:4).EQ.'MACH')THEN
+      ELSEIF(KEY3(1:4)=='MACH')THEN
         ANIM_SE(4966) = 1   
-      ELSEIF(KEY3(1:5).EQ.'COLOR')THEN
+      ELSEIF(KEY3(1:5)=='COLOR')THEN
         ANIM_SE(4967) = 1   
-      ELSEIF(KEY3(1:4).EQ.'DAMG')THEN
+      ELSEIF(KEY3(1:4)=='DAMG')THEN
         ANIM_SE(4968) = 1   
         
 !D YOUR NEW ANIMATION CONTOUR HERE          
@@ -1907,49 +1907,49 @@ C
 C--------------------------
 C    FIL
 C--------------------------
-      ELSEIF(KEY2(1:4).EQ.'TRUS'.OR.KEY2(1:4).EQ.'BEAM'.OR.
-     .        KEY2(1:5).EQ.'SPRIN')THEN
+      ELSEIF(KEY2(1:4)=='TRUS'.OR.KEY2(1:4)=='BEAM'.OR.
+     .        KEY2(1:5)=='SPRIN')THEN
 C--------------------------
 C     FIL:TORSEUR
 C--------------------------
-      IF(KEY3(1:4).EQ.'FORC')THEN
+      IF(KEY3(1:4)=='FORC')THEN
            ANIM_FT(1) = 1
 C--------------------------
 C     FILS:SCALAIRES
 C--------------------------
-!       ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+!       ELSEIF(KEY3(1:4)=='EPSP')THEN
 !          ANIM_FE(1) = 1
-      ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+      ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_FE(3) = 1
-      ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+      ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_FE(7) = 1
-      ELSEIF(KEY3(1:5).EQ.'DAM1')THEN
+      ELSEIF(KEY3(1:5)=='DAM1')THEN
          ANIM_FE(11) = 1
-      ELSEIF(KEY3(1:5).EQ.'DAM2')THEN
+      ELSEIF(KEY3(1:5)=='DAM2')THEN
          ANIM_FE(12) = 1
-      ELSEIF(KEY3(1:5).EQ.'DAM3')THEN
+      ELSEIF(KEY3(1:5)=='DAM3')THEN
          ANIM_FE(13) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+      ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_FE(14) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+      ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_FE(15) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+      ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_FE(16) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+      ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_FE(17) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+      ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_FE(18) = 1
-      ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+      ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_FE(19) = 1
-      ELSEIF(KEY3(1:5).EQ.'DT   ')THEN
+      ELSEIF(KEY3(1:5)=='DT   ')THEN
          ANIM_FE(20) = 1
-      ELSEIF(KEY3(1:3).EQ.'AMS')THEN
+      ELSEIF(KEY3(1:3)=='AMS')THEN
          ANIM_FE(21) = 1        
-      ELSEIF(KEY3(1:3).EQ.'OFF')THEN
+      ELSEIF(KEY3(1:3)=='OFF')THEN
          ANIM_FE(22) = 1         
-      ELSEIF(KEY3(1:4).EQ.'EPSP')THEN
+      ELSEIF(KEY3(1:4)=='EPSP')THEN
         ANIM_FE(1) = 1 ! global element plastic strain
-        IF (KEY2(1:4).EQ.'BEAM') THEN
+        IF (KEY2(1:4)=='BEAM') THEN
           N1 = 0
           IF (KEY4(1:3) == 'ALL') THEN
             IBEAM_EPSPALL = 1
@@ -1957,35 +1957,35 @@ C--------------------------
             READ(KEY4(1:5),'(I5)')N1 !  ! global element plastic strain
             IF (N1 > 0)  ANIM_FE(22 + N1) = 1
           ENDIF
-        ENDIF ! IF (KEY2(1:4).EQ.'BEAM')
-      ELSEIF (KEY3(1:5).EQ.'EPSX ') THEN
-        IF (KEY2(1:5).EQ.'TRUSS') THEN
+        ENDIF ! IF (KEY2(1:4)=='BEAM')
+      ELSEIF (KEY3(1:5)=='EPSX ') THEN
+        IF (KEY2(1:5)=='TRUSS') THEN
           ANIM_FE(123) = 1
         ENDIF
       ELSE
         IXITKEY=IXITKEY+1
       ENDIF
 C
-      ELSEIF(KEY2(1:4).EQ.'ELEM')THEN
-        IF (KEY3(1:5) .EQ. 'LAW51') THEN
-           IF (KEY4(1:3) .EQ. 'ALL') THEN
+      ELSEIF(KEY2(1:4)=='ELEM')THEN
+        IF (KEY3(1:5) == 'LAW51') THEN
+           IF (KEY4(1:3) == 'ALL') THEN
               LAW51_PHASE1 = .TRUE.
               LAW51_PHASE2 = .TRUE.
               LAW51_PHASE3 = .TRUE.
               LAW51_PHASE4 = .TRUE.
-           ELSE IF (KEY4(1:1) .EQ. '1') THEN
+           ELSE IF (KEY4(1:1) == '1') THEN
               LAW51_PHASE1 = .TRUE.
-           ELSE IF (KEY4(1:1) .EQ. '2') THEN
+           ELSE IF (KEY4(1:1) == '2') THEN
               LAW51_PHASE2 = .TRUE.
-           ELSE IF (KEY4(1:1) .EQ. '3') THEN
+           ELSE IF (KEY4(1:1) == '3') THEN
               LAW51_PHASE3 = .TRUE.
-           ELSE IF (KEY4(1:1) .EQ. '4') THEN
+           ELSE IF (KEY4(1:1) == '4') THEN
               LAW51_PHASE4 = .TRUE.
            ENDIF
 C--------------------------
 C   GENERIQUE SCALAIRES
 C--------------------------
-        ELSE IF    (KEY3(1:4).EQ.'EPSP')THEN
+        ELSE IF    (KEY3(1:4)=='EPSP')THEN
          ANIM_E(1) = 1
          ANIM_SE(1) = 1
          ANIM_CE(1) = 1
@@ -1994,11 +1994,11 @@ C--------------------------
          IF (LAW51_PHASE2) ANIM_SE(4914) = 1 !EPSP_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4915) = 1 !EPSP_law51-phase3
          IF (LAW51_PHASE4) ANIM_SE(4916) = 1 !EPSP_law51-phase4             
-       ELSEIF(KEY3(1:5).EQ.'DENS3')THEN
+       ELSEIF(KEY3(1:5)=='DENS3')THEN
            !/ANIM/ELEM/DENS37
            ANIM_SE(4935) = 1  !law37 - rho_liquid
            ANIM_SE(4936) = 1  !law37 - rho_gas
-       ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+       ELSEIF(KEY3(1:4)=='DENS')THEN
          ANIM_E(2) = 1
          ANIM_SE(2) = 1
          ANIM_CE(2) = 1
@@ -2020,7 +2020,7 @@ C--------------------------
          ENDIF
            !ANIM_SE(4935) = 1  !law37 -rho_liquid
            !ANIM_SE(4936) = 1  !law37 - rho_gas
-       ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+       ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_E(3) = 1
          ANIM_SE(3) = 1
          ANIM_CE(3) = 1
@@ -2041,7 +2041,7 @@ C--------------------------
             ANIM_SE(4904) = 1 !ENER_law51-phase4
             ANIM_CE(11897) = 1
          ENDIF
-       ELSEIF(KEY3(1:4).EQ.'TEMP')THEN
+       ELSEIF(KEY3(1:4)=='TEMP')THEN
          ANIM_E(4) = 1
          ANIM_SE(4) = 1
          ANIM_CE(4) = 1
@@ -2061,10 +2061,10 @@ C--------------------------
             ANIM_SE(4908) = 1 !TEMP_law51-phase4
             ANIM_CE(11901) = 1
          ENDIF
-       ELSEIF(KEY3(1:4).EQ.'THIC')THEN
+       ELSEIF(KEY3(1:4)=='THIC')THEN
          ANIM_E(5) = 1
          ANIM_CE(5) = 1
-       ELSEIF(KEY3(1:1).EQ.'P'.AND.KEY3(1:5).NE.'PLA51')THEN
+       ELSEIF(KEY3(1:1)=='P'.AND.KEY3(1:5)/='PLA51')THEN
          ANIM_E(6) = 1
          ANIM_SE(6) = 1
          ANIM_CE(6) = 1
@@ -2084,234 +2084,234 @@ C--------------------------
             ANIM_SE(4912) = 1 !PRES_law51-phase4 
             ANIM_CE(11905) = 1
          ENDIF          
-       ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+       ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_E(7) = 1
          ANIM_SE(7) = 1
          ANIM_CE(7) = 1
          ANIM_FE(7) = 1
-       ELSEIF(KEY3(1:1).EQ.'K')THEN
+       ELSEIF(KEY3(1:1)=='K')THEN
          ANIM_E(8) = 1
          ANIM_SE(8) = 1
          ANIM_CE(8) = 1
-       ELSEIF(KEY3(1:4).EQ.'TVIS')THEN
+       ELSEIF(KEY3(1:4)=='TVIS')THEN
          ANIM_E(9) = 1
          ANIM_SE(9) = 1
          ANIM_CE(9) = 1
-       ELSEIF(KEY3(1:5).EQ.'VORTX')THEN
+       ELSEIF(KEY3(1:5)=='VORTX')THEN
          ANIM_E(10) = 1
          ANIM_SE(10) = 1
          ANIM_CE(10) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAM1')THEN
+       ELSEIF(KEY3(1:5)=='DAM1')THEN
          ANIM_E(11) = 1
          ANIM_SE(11) = 1
          ANIM_CE(11) = 1
          ANIM_FE(11) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAM2')THEN
+       ELSEIF(KEY3(1:5)=='DAM2')THEN
          ANIM_E(12) = 1
          ANIM_SE(12) = 1
          ANIM_CE(12) = 1
          ANIM_FE(12) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAM3')THEN
+       ELSEIF(KEY3(1:5)=='DAM3')THEN
          ANIM_E(13) = 1
          ANIM_SE(13) = 1
          ANIM_CE(13) = 1
          ANIM_FE(13) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+       ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_E(14) = 1
          ANIM_SE(14) = 1
          ANIM_CE(14) = 1
          ANIM_FE(14) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+       ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_E(15) = 1
          ANIM_SE(15) = 1
          ANIM_CE(15) = 1
          ANIM_FE(15) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_E(16) = 1
          ANIM_SE(16) = 1
          ANIM_CE(16) = 1
          ANIM_FE(16) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_E(17) = 1
          ANIM_SE(17) = 1
          ANIM_CE(17) = 1
          ANIM_FE(17) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_E(18) = 1
          ANIM_SE(18) = 1
          ANIM_CE(18) = 1
          ANIM_FE(18) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_E(19) = 1
          ANIM_SE(19) = 1
          ANIM_CE(19) = 1
          ANIM_FE(19) = 1
-       ELSEIF(KEY3(1:5).EQ.'USR1 '.OR.KEY3(1:5).EQ.'USER1'.OR.
-     .         KEY3(1:5).EQ.'PLA51')THEN
+       ELSEIF(KEY3(1:5)=='USR1 '.OR.KEY3(1:5)=='USER1'.OR.
+     .         KEY3(1:5)=='PLA51')THEN
          ANIM_E(20) = 1
          ANIM_SE(20) = 1
          ANIM_CE(20) = 1
-       ELSEIF(KEY3(1:5).EQ.'USR2 '.OR.KEY3(1:5).EQ.'USER2'.OR.
-     .         KEY3(1:5).EQ.'TEM51')THEN
+       ELSEIF(KEY3(1:5)=='USR2 '.OR.KEY3(1:5)=='USER2'.OR.
+     .         KEY3(1:5)=='TEM51')THEN
          ANIM_E(21) = 1
          ANIM_SE(21) = 1
          ANIM_CE(21) = 1
-       ELSEIF(KEY3(1:5).EQ.'USR3 '.OR.KEY3(1:5).EQ.'USER3'.OR.
-     .         KEY3(1:5).EQ.'BF51 ')THEN
+       ELSEIF(KEY3(1:5)=='USR3 '.OR.KEY3(1:5)=='USER3'.OR.
+     .         KEY3(1:5)=='BF51 ')THEN
          ANIM_E(22) = 1
          ANIM_SE(22) = 1
          ANIM_CE(22) = 1
-       ELSEIF(KEY3(1:5).EQ.'USR4 '.OR.KEY3(1:5).EQ.'USER4')THEN
+       ELSEIF(KEY3(1:5)=='USR4 '.OR.KEY3(1:5)=='USER4')THEN
          ANIM_E(23) = 1
          ANIM_SE(23) = 1
          ANIM_CE(23) = 1
-       ELSEIF(KEY3(1:5).EQ.'USR5 '.OR.KEY3(1:5).EQ.'USER5')THEN
+       ELSEIF(KEY3(1:5)=='USR5 '.OR.KEY3(1:5)=='USER5')THEN
          ANIM_E(24) = 1
          ANIM_SE(24) = 1
          ANIM_CE(24) = 1
-       ELSEIF(KEY3(1:4).EQ.'HOUR')THEN
+       ELSEIF(KEY3(1:4)=='HOUR')THEN
          ANIM_E(25) = 1
          ANIM_SE(25) = 1
          ANIM_CE(25) = 1
-       ELSEIF(KEY3(1:4).EQ.'EPSD')THEN
+       ELSEIF(KEY3(1:4)=='EPSD')THEN
          ANIM_CE(26) = 1
          ANIM_SE(26) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR6 '.OR.KEY3(1:5).EQ.'USER6')THEN
+      ELSEIF(KEY3(1:5)=='USR6 '.OR.KEY3(1:5)=='USER6')THEN
          ANIM_SE(27) = 1
          ANIM_CE(27) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR7 '.OR.KEY3(1:5).EQ.'USER7')THEN
+      ELSEIF(KEY3(1:5)=='USR7 '.OR.KEY3(1:5)=='USER7')THEN
          ANIM_SE(28) = 1
          ANIM_CE(28) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR8 '.OR.KEY3(1:5).EQ.'USER8')THEN
+      ELSEIF(KEY3(1:5)=='USR8 '.OR.KEY3(1:5)=='USER8')THEN
          ANIM_SE(29) = 1
          ANIM_CE(29) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR9 '.OR.KEY3(1:5).EQ.'USER9')THEN
+      ELSEIF(KEY3(1:5)=='USR9 '.OR.KEY3(1:5)=='USER9')THEN
          ANIM_SE(30) = 1
          ANIM_CE(30) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR10')THEN
+      ELSEIF(KEY3(1:5)=='USR10')THEN
          ANIM_SE(31) = 1
          ANIM_CE(31) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR11')THEN
+      ELSEIF(KEY3(1:5)=='USR11')THEN
          ANIM_SE(32) = 1
          ANIM_CE(32) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR12')THEN
+      ELSEIF(KEY3(1:5)=='USR12')THEN
          ANIM_SE(33) = 1
          ANIM_CE(33) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR13')THEN
+      ELSEIF(KEY3(1:5)=='USR13')THEN
          ANIM_SE(34) = 1
          ANIM_CE(34) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR14')THEN
+      ELSEIF(KEY3(1:5)=='USR14')THEN
          ANIM_SE(35) = 1
          ANIM_CE(35) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR15')THEN
+      ELSEIF(KEY3(1:5)=='USR15')THEN
          ANIM_SE(36) = 1
          ANIM_CE(36) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR16')THEN
+      ELSEIF(KEY3(1:5)=='USR16')THEN
          ANIM_SE(37) = 1
          ANIM_CE(37) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR17')THEN
+      ELSEIF(KEY3(1:5)=='USR17')THEN
          ANIM_SE(38) = 1
          ANIM_CE(38) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR18')THEN
+      ELSEIF(KEY3(1:5)=='USR18')THEN
          ANIM_SE(39) = 1
          ANIM_CE(39) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR19')THEN
+      ELSEIF(KEY3(1:5)=='USR19')THEN
          ANIM_SE(40) = 1
          ANIM_CE(40) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR20')THEN
+      ELSEIF(KEY3(1:5)=='USR20')THEN
          ANIM_SE(41) = 1
          ANIM_CE(41) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR21')THEN
+      ELSEIF(KEY3(1:5)=='USR21')THEN
          ANIM_SE(42) = 1
          ANIM_CE(42) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR22')THEN
+      ELSEIF(KEY3(1:5)=='USR22')THEN
          ANIM_SE(43) = 1
          ANIM_CE(43) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR23')THEN
+      ELSEIF(KEY3(1:5)=='USR23')THEN
          ANIM_SE(44) = 1
          ANIM_CE(44) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR24')THEN
+      ELSEIF(KEY3(1:5)=='USR24')THEN
          ANIM_SE(45) = 1
          ANIM_CE(45) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR25')THEN
+      ELSEIF(KEY3(1:5)=='USR25')THEN
          ANIM_SE(46) = 1
          ANIM_CE(46) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR26')THEN
+      ELSEIF(KEY3(1:5)=='USR26')THEN
          ANIM_SE(47) = 1
          ANIM_CE(47) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR27')THEN
+      ELSEIF(KEY3(1:5)=='USR27')THEN
          ANIM_SE(48) = 1
          ANIM_CE(48) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR28')THEN
+      ELSEIF(KEY3(1:5)=='USR28')THEN
          ANIM_SE(49) = 1
          ANIM_CE(49) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR29')THEN
+      ELSEIF(KEY3(1:5)=='USR29')THEN
          ANIM_SE(50) = 1
          ANIM_CE(50) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR30')THEN
+      ELSEIF(KEY3(1:5)=='USR30')THEN
          ANIM_SE(51) = 1
          ANIM_CE(51) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR31')THEN
+      ELSEIF(KEY3(1:5)=='USR31')THEN
          ANIM_SE(52) = 1
          ANIM_CE(52) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR32')THEN
+      ELSEIF(KEY3(1:5)=='USR32')THEN
          ANIM_SE(53) = 1
          ANIM_CE(53) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR33')THEN
+      ELSEIF(KEY3(1:5)=='USR33')THEN
          ANIM_SE(54) = 1
          ANIM_CE(54) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR34')THEN
+      ELSEIF(KEY3(1:5)=='USR34')THEN
          ANIM_SE(55) = 1
          ANIM_CE(55) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR35')THEN
+      ELSEIF(KEY3(1:5)=='USR35')THEN
          ANIM_SE(56) = 1
          ANIM_CE(56) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR36')THEN
+      ELSEIF(KEY3(1:5)=='USR36')THEN
          ANIM_SE(57) = 1
          ANIM_CE(57) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR37')THEN
+      ELSEIF(KEY3(1:5)=='USR37')THEN
          ANIM_SE(58) = 1
          ANIM_CE(58) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR38')THEN
+      ELSEIF(KEY3(1:5)=='USR38')THEN
          ANIM_SE(59) = 1
          ANIM_CE(59) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR39')THEN
+      ELSEIF(KEY3(1:5)=='USR39')THEN
          ANIM_SE(60) = 1
          ANIM_CE(60) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR40')THEN
+      ELSEIF(KEY3(1:5)=='USR40')THEN
          ANIM_SE(61) = 1
          ANIM_CE(61) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR41')THEN
+      ELSEIF(KEY3(1:5)=='USR41')THEN
          ANIM_SE(62) = 1
          ANIM_CE(62) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR42')THEN
+      ELSEIF(KEY3(1:5)=='USR42')THEN
          ANIM_SE(63) = 1
          ANIM_CE(63) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR43')THEN
+      ELSEIF(KEY3(1:5)=='USR43')THEN
          ANIM_SE(64) = 1
          ANIM_CE(64) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR44')THEN
+      ELSEIF(KEY3(1:5)=='USR44')THEN
          ANIM_SE(65) = 1
          ANIM_CE(65) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR45')THEN
+      ELSEIF(KEY3(1:5)=='USR45')THEN
          ANIM_SE(66) = 1
          ANIM_CE(66) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR46')THEN
+      ELSEIF(KEY3(1:5)=='USR46')THEN
          ANIM_SE(67) = 1
          ANIM_CE(67) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR47')THEN
+      ELSEIF(KEY3(1:5)=='USR47')THEN
          ANIM_SE(68) = 1
          ANIM_CE(68) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR48')THEN
+      ELSEIF(KEY3(1:5)=='USR48')THEN
          ANIM_SE(69) = 1
          ANIM_CE(69) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR49')THEN
+      ELSEIF(KEY3(1:5)=='USR49')THEN
          ANIM_SE(70) = 1
          ANIM_CE(70) = 1
-      ELSEIF(KEY3(1:5).EQ.'USR50')THEN
+      ELSEIF(KEY3(1:5)=='USR50')THEN
          ANIM_SE(71) = 1
          ANIM_CE(71) = 1
-      ELSEIF(KEY3(1:5).EQ.'VFRAC')THEN
+      ELSEIF(KEY3(1:5)=='VFRAC')THEN
         !BIMAT(law20)
         !BIPHAS(law37)   : TRIMAT = -2
         !MULTIMAT(law51) : TRIMAT = 3|4
@@ -2325,9 +2325,9 @@ C--------------------------
          ANIM_CE(10249) = 1 !vfrac phase2 (law20/51)
          ANIM_CE(10250) = 1 !vfrac phase3 (law20/51)
          ANIM_CE(10251) = 1 !vfrac phase4 (law20/51)           
-      ELSEIF(KEY3(1:5).EQ.'BFRAC')THEN
+      ELSEIF(KEY3(1:5)=='BFRAC')THEN
          ANIM_SE(887)   = 1                    
-      ELSEIF(KEY3(1:3).EQ.'SSP')THEN
+      ELSEIF(KEY3(1:3)=='SSP')THEN
          ANIM_SE(4891)   = 1              
          ANIM_CE(10671)  = 1 
          IF (LAW51_PHASE1) THEN 
@@ -2346,13 +2346,13 @@ C--------------------------
             ANIM_SE(4920) = 1 !           phase4
             ANIM_CE(11909) = 1
          ENDIF
-       ELSEIF(KEY3(1:5).EQ.'SCHLI')THEN
+       ELSEIF(KEY3(1:5)=='SCHLI')THEN
          ANIM_SE(4892)   = 1              
          ANIM_CE(10672)  = 1    
-       ELSEIF(KEY3(1:5).EQ.'DOMAI')THEN
+       ELSEIF(KEY3(1:5)=='DOMAI')THEN
          ANIM_SE(4893)   = 1              
          ANIM_CE(10676)  = 1    
-       ELSEIF(KEY3(1:3).EQ.'VOL' .OR. KEY3(1:4).EQ.'VOLU')THEN
+       ELSEIF(KEY3(1:3)=='VOL' .OR. KEY3(1:4)=='VOLU')THEN
          ANIM_SE(4921)   = 1 
          ANIM_CE(4*MX_PLY_ANIM + 14566)  = 1                        
          IF (LAW51_PHASE1) THEN 
@@ -2371,10 +2371,10 @@ C--------------------------
             ANIM_SE(4925) = 1 !           phase4
             ANIM_CE(11917) = 1
          ENDIF
-       ELSEIF(KEY3(1:4).EQ.'TDET')THEN
+       ELSEIF(KEY3(1:4)=='TDET')THEN
          ANIM_SE(4930)   = 1 
          ANIM_CE(11889)  = 1     
-      ELSEIF(KEY3(1:5).EQ.'LAW20')THEN
+      ELSEIF(KEY3(1:5)=='LAW20')THEN
          ANIM_CE(11890) = 1 !dens
          ANIM_CE(11891) = 1
          ANIM_CE(11892) = 0
@@ -2411,17 +2411,17 @@ C--------------------------
          ANIM_CE(11923) = 1  
          ANIM_CE(11924) = 0 
          ANIM_CE(11925) = 0                                                              
-       ELSEIF(KEY3(1:5).EQ.'SIGEQ')THEN    !   element equivalent stress criteria
+       ELSEIF(KEY3(1:5)=='SIGEQ')THEN    !   element equivalent stress criteria
          ANIM_SE(4895)  = 1
          ANIM_CE(10677) = 1
-       ELSEIF(KEY3(1:4).EQ.'BULK' .OR. KEY3(1:4).EQ.'QVIS')THEN
+       ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
          ANIM_SE(4896)  = 1
          IF (LAW51_PHASE1) ANIM_SE(4931)  = 1
          IF (LAW51_PHASE2) ANIM_SE(4932)  = 1
          IF (LAW51_PHASE3) ANIM_SE(4933)  = 1
          IF (LAW51_PHASE4) ANIM_SE(4934)  = 1                                            
          ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)  
-       ELSEIF(KEY3(1:5).EQ.'DT   ')THEN
+       ELSEIF(KEY3(1:5)=='DT   ')THEN
          IDX            = 13242 + 4*MX_PLY_ANIM  
          ANIM_SE(4937)  = 1 
          ANIM_CE(IDX)   = 1 
@@ -2498,39 +2498,39 @@ C--------------------------
          ELSEIF(KEY3(1:5) == '|FIN|')THEN
            ANIM_SE(4958)=1
          ENDIF
-       ELSEIF(KEY3(1:3).EQ.'AMS')THEN
+       ELSEIF(KEY3(1:3)=='AMS')THEN
          IDX           = 13242 + 4*MX_PLY_ANIM + 1  
          ANIM_SE(4959) = 1 
          ANIM_CE(IDX)  = 1 
          ANIM_FE(21)   = 1   
-       ELSEIF(KEY3(1:5).EQ.'VORTY')THEN
+       ELSEIF(KEY3(1:5)=='VORTY')THEN
          ANIM_E(4960)  = 1
          ANIM_SE(4960) = 1
-       ELSEIF(KEY3(1:5).EQ.'VORTZ')THEN
+       ELSEIF(KEY3(1:5)=='VORTZ')THEN
          ANIM_E(4961)  = 1
          ANIM_SE(4961) = 1
-        ELSEIF(KEY3(1:4).EQ.'VORT')THEN
+        ELSEIF(KEY3(1:4)=='VORT')THEN
          ANIM_E(4962)  = 1
          ANIM_SE(4962) = 1
-        ELSEIF(KEY3(1:4).EQ.'EINT')THEN
+        ELSEIF(KEY3(1:4)=='EINT')THEN
          ANIM_E(4963)  = 1
          ANIM_SE(4963) = 1 
          IDX           = 13242 + 4*MX_PLY_ANIM + 2  
          ANIM_CE(IDX)  = 1   
-        ELSEIF(KEY3(1:4).EQ.'WPLA')THEN
+        ELSEIF(KEY3(1:4)=='WPLA')THEN
          IDX           = 13242 + 4*MX_PLY_ANIM + 3 
          ANIM_CE(IDX)  = 1  
          ANIM_SE(4964) = 1 
-        ELSEIF(KEY3(1:3).EQ.'OFF')THEN
+        ELSEIF(KEY3(1:3)=='OFF')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 1
          ANIM_CE(IDX)  = 1  
          ANIM_SE(4965) = 1 
          ANIM_FE(22) = 1     
-        ELSEIF(KEY3(1:4).EQ.'MACH')THEN
+        ELSEIF(KEY3(1:4)=='MACH')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 2
          ANIM_CE(IDX)  = 1  
          ANIM_SE(4966) = 1 
-        ELSEIF(KEY3(1:5).EQ.'COLOR')THEN
+        ELSEIF(KEY3(1:5)=='COLOR')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 3
          ANIM_CE(IDX)  = 1  
          ANIM_SE(4967) = 1           
@@ -2540,40 +2540,40 @@ C--------------------------
 C--------------------------
 C    GPS : GRID POINT STRESS 1,2, use ANIM_N(101-301)
 C--------------------------
-      ELSEIF(KEY2(1:4).EQ.'GPS1')THEN
+      ELSEIF(KEY2(1:4)=='GPS1')THEN
       IADG = IAD_GPS
-       IF(KEY3(1:1).EQ.'P')THEN
+       IF(KEY3(1:1)=='P')THEN
          ANIM_N(IADG+1) = 1
-       ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+       ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_N(IADG+2) = 1
-       ELSEIF(KEY3(1:4).EQ.'TENS')THEN
+       ELSEIF(KEY3(1:4)=='TENS')THEN
          ANIM_N(IADG+3) = 1
          ANIM_N(IADG+4) = 1
          ANIM_N(IADG+5) = 1
          ANIM_N(IADG+6) = 1
          ANIM_N(IADG+7) = 1
          ANIM_N(IADG+8) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+       ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_N(IADG+3) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+       ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_N(IADG+4) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_N(IADG+5) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_N(IADG+6) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_N(IADG+7) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_N(IADG+8) = 1
-       ELSEIF(KEY3(1:5).EQ.'SHELL')THEN
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+       ELSEIF(KEY3(1:5)=='SHELL')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_N(IADG+9) = 1
            ANIM_N(IADG+10) = 1
            ANIM_N(IADG+11) = 1
            ANIM_N(IADG+12) = 1
            ANIM_N(IADG+13) = 1
            ANIM_N(IADG+14) = 1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_N(IADG+15) = 1
            ANIM_N(IADG+16) = 1
            ANIM_N(IADG+17) = 1
@@ -2586,40 +2586,40 @@ C--------------------------
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF
-      ELSEIF(KEY2(1:4).EQ.'GPS2')THEN
+      ELSEIF(KEY2(1:4)=='GPS2')THEN
       IADG = IAD_GPS+100
-       IF(KEY3(1:1).EQ.'P')THEN
+       IF(KEY3(1:1)=='P')THEN
          ANIM_N(IADG+1) = 1
-       ELSEIF(KEY3(1:4).EQ.'VONM')THEN
+       ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_N(IADG+2) = 1
-       ELSEIF(KEY3(1:4).EQ.'TENS')THEN
+       ELSEIF(KEY3(1:4)=='TENS')THEN
          ANIM_N(IADG+3) = 1
          ANIM_N(IADG+4) = 1
          ANIM_N(IADG+5) = 1
          ANIM_N(IADG+6) = 1
          ANIM_N(IADG+7) = 1
          ANIM_N(IADG+8) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+       ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_N(IADG+3) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+       ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_N(IADG+4) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_N(IADG+5) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_N(IADG+6) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_N(IADG+7) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_N(IADG+8) = 1
-       ELSEIF(KEY3(1:5).EQ.'SHELL')THEN
-         IF(KEY4(1:5).EQ.'UPPER')THEN
+       ELSEIF(KEY3(1:5)=='SHELL')THEN
+         IF(KEY4(1:5)=='UPPER')THEN
            ANIM_N(IADG+9) = 1
            ANIM_N(IADG+10) = 1
            ANIM_N(IADG+11) = 1
            ANIM_N(IADG+12) = 1
            ANIM_N(IADG+13) = 1
            ANIM_N(IADG+14) = 1
-         ELSEIF(KEY4(1:5).EQ.'LOWER')THEN
+         ELSEIF(KEY4(1:5)=='LOWER')THEN
            ANIM_N(IADG+15) = 1
            ANIM_N(IADG+16) = 1
            ANIM_N(IADG+17) = 1
@@ -2632,73 +2632,73 @@ C--------------------------
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF
-      ELSEIF(KEY2(1:3).EQ.'GPS')THEN
+      ELSEIF(KEY2(1:3)=='GPS')THEN
       IADG = IAD_GPS+200
-       IF(KEY3(1:4).EQ.'TENS')THEN
+       IF(KEY3(1:4)=='TENS')THEN
          ANIM_N(IADG+1) = 1
          ANIM_N(IADG+2) = 1
          ANIM_N(IADG+3) = 1
          ANIM_N(IADG+4) = 1
          ANIM_N(IADG+5) = 1
          ANIM_N(IADG+6) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+       ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_N(IADG+1) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+       ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_N(IADG+2) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_N(IADG+3) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_N(IADG+4) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_N(IADG+5) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_N(IADG+6) = 1
 c
-       ELSEIF(KEY3(1:5).EQ.'STRES')THEN
+       ELSEIF(KEY3(1:5)=='STRES')THEN
          IADG = IAD_GPS+200
-         IF(KEY4(1:4).EQ.'TENS')THEN
+         IF(KEY4(1:4)=='TENS')THEN
            ANIM_N(IADG+1) = 1
            ANIM_N(IADG+2) = 1
            ANIM_N(IADG+3) = 1
            ANIM_N(IADG+4) = 1
            ANIM_N(IADG+5) = 1
            ANIM_N(IADG+6) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGX ')THEN
+         ELSEIF(KEY4(1:5)=='SIGX ')THEN
            ANIM_N(IADG+1) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGY ')THEN
+         ELSEIF(KEY4(1:5)=='SIGY ')THEN
            ANIM_N(IADG+2) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGZ ')THEN
+         ELSEIF(KEY4(1:5)=='SIGZ ')THEN
            ANIM_N(IADG+3) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+         ELSEIF(KEY4(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
            ANIM_N(IADG+4) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+         ELSEIF(KEY4(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
            ANIM_N(IADG+5) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+         ELSEIF(KEY4(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
            ANIM_N(IADG+6) = 1
          ELSE
            IXITKEY=IXITKEY+1
          ENDIF
 c
-       ELSEIF(KEY3(1:5).EQ.'STRAI')THEN
+       ELSEIF(KEY3(1:5)=='STRAI')THEN
          IADG = IAD_GPS+400
-         IF(KEY4(1:4).EQ.'TENS')THEN
+         IF(KEY4(1:4)=='TENS')THEN
            ANIM_N(IADG+1) = 1
            ANIM_N(IADG+2) = 1
            ANIM_N(IADG+3) = 1
            ANIM_N(IADG+4) = 1
            ANIM_N(IADG+5) = 1
            ANIM_N(IADG+6) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGX ')THEN
+         ELSEIF(KEY4(1:5)=='SIGX ')THEN
            ANIM_N(IADG+1) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGY ')THEN
+         ELSEIF(KEY4(1:5)=='SIGY ')THEN
            ANIM_N(IADG+2) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGZ ')THEN
+         ELSEIF(KEY4(1:5)=='SIGZ ')THEN
            ANIM_N(IADG+3) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+         ELSEIF(KEY4(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
            ANIM_N(IADG+4) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+         ELSEIF(KEY4(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
            ANIM_N(IADG+5) = 1
-         ELSEIF(KEY4(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+         ELSEIF(KEY4(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
            ANIM_N(IADG+6) = 1
          ELSE
            IXITKEY=IXITKEY+1
@@ -2706,26 +2706,26 @@ c
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF
-      ELSEIF(KEY2(1:5).EQ.'ISOST')THEN
+      ELSEIF(KEY2(1:5)=='ISOST')THEN
       IADG = IAD_GPS+300
-       IF(KEY3(1:4).EQ.'TENS')THEN
+       IF(KEY3(1:4)=='TENS')THEN
          ANIM_N(IADG+1) = 1
          ANIM_N(IADG+2) = 1
          ANIM_N(IADG+3) = 1
          ANIM_N(IADG+4) = 1
          ANIM_N(IADG+5) = 1
          ANIM_N(IADG+6) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGX ')THEN
+       ELSEIF(KEY3(1:5)=='SIGX ')THEN
          ANIM_N(IADG+1) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGY ')THEN
+       ELSEIF(KEY3(1:5)=='SIGY ')THEN
          ANIM_N(IADG+2) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZ ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZ ')THEN
          ANIM_N(IADG+3) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGXY'.OR.KEY3(1:5).EQ.'SIGYX')THEN
+       ELSEIF(KEY3(1:5)=='SIGXY'.OR.KEY3(1:5)=='SIGYX')THEN
          ANIM_N(IADG+4) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGYZ'.OR.KEY3(1:5).EQ.'SIGZY')THEN
+       ELSEIF(KEY3(1:5)=='SIGYZ'.OR.KEY3(1:5)=='SIGZY')THEN
          ANIM_N(IADG+5) = 1
-       ELSEIF(KEY3(1:5).EQ.'SIGZX'.OR.KEY3(1:5).EQ.'SIGXZ')THEN
+       ELSEIF(KEY3(1:5)=='SIGZX'.OR.KEY3(1:5)=='SIGXZ')THEN
          ANIM_N(IADG+6) = 1
        ELSE
          IXITKEY=IXITKEY+1
@@ -2733,63 +2733,63 @@ c
 C-----------------------------
 C    NODAL SCALAIRE
 C-----------------------------
-      ELSEIF(KEY2(1:4).EQ.'NODA')THEN
-       IF    (KEY3(1:2).EQ.'DT')THEN
+      ELSEIF(KEY2(1:4)=='NODA')THEN
+       IF    (KEY3(1:2)=='DT')THEN
          ANIM_N(1) = 1
-       ELSEIF(KEY3(1:4).EQ.'DMAS')THEN
+       ELSEIF(KEY3(1:4)=='DMAS')THEN
          ANIM_N(2) = 1
-       ELSEIF(KEY3(1:1).EQ.'P')THEN
+       ELSEIF(KEY3(1:1)=='P')THEN
          ANIM_N(3) = 1
-       ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+       ELSEIF(KEY3(1:4)=='DENS')THEN
          ANIM_N(4) = 1
-       ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+       ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_N(5) = 1
-       ELSEIF(KEY3(1:4).EQ.'TEMP')THEN
+       ELSEIF(KEY3(1:4)=='TEMP')THEN
          ANIM_N(6) = 1
-       ELSEIF(KEY3(1:5).EQ.'NVAR1') THEN
+       ELSEIF(KEY3(1:5)=='NVAR1') THEN
          ANIM_N(7) = 1
-       ELSEIF(KEY3(1:5).EQ.'NVAR2') THEN
+       ELSEIF(KEY3(1:5)=='NVAR2') THEN
          ANIM_N(8) = 1
-       ELSEIF(KEY3(1:5).EQ.'NVAR3') THEN
+       ELSEIF(KEY3(1:5)=='NVAR3') THEN
          ANIM_N(9) = 1
-       ELSEIF(KEY3(1:5).EQ.'NVAR4') THEN
+       ELSEIF(KEY3(1:5)=='NVAR4') THEN
          ANIM_N(10) = 1
-       ELSEIF(KEY3(1:5).EQ.'NVAR5') THEN
+       ELSEIF(KEY3(1:5)=='NVAR5') THEN
          ANIM_N(11) = 1
-       ELSEIF(KEY3(1:5).EQ.'DINER')THEN
+       ELSEIF(KEY3(1:5)=='DINER')THEN
          ANIM_N(12) = 1
-       ELSEIF(KEY3(1:4).EQ.'FPOT')THEN
+       ELSEIF(KEY3(1:4)=='FPOT')THEN
          ANIM_N(13) = 1
-       ELSEIF(KEY3(1:5).EQ.'NDMAS')THEN
+       ELSEIF(KEY3(1:5)=='NDMAS')THEN
          ANIM_N(14) = 1
-       ELSEIF(KEY3(1:5).EQ.'DAMA2')THEN
+       ELSEIF(KEY3(1:5)=='DAMA2')THEN
          ANIM_N(15) = 1
          ANIM_N(16) = 1
-       ELSEIF(KEY3(1:5).EQ.'SCHLI')THEN
+       ELSEIF(KEY3(1:5)=='SCHLI')THEN
          ANIM_N(17) = 0 !currently unpluged
-       ELSEIF(KEY3(1:5).EQ.'STIFR')THEN
+       ELSEIF(KEY3(1:5)=='STIFR')THEN
          ANIM_N(18) = 1  
-       ELSEIF(KEY3(1:4).EQ.'STIF')THEN
+       ELSEIF(KEY3(1:4)=='STIF')THEN
          ANIM_N(19) = 1  
-       ELSEIF(KEY3(1:5).EQ.'VFRAC')THEN
+       ELSEIF(KEY3(1:5)=='VFRAC')THEN
          ANIM_N(20) = 1     
          ANIM_N(21) = 1   
          ANIM_N(22) = 1   
          ANIM_N(23) = 1 
-       ELSEIF(KEY3(1:5).EQ.'ZVFRA')THEN !inter22
+       ELSEIF(KEY3(1:5)=='ZVFRA')THEN !inter22
          ANIM_N(24) = 1     
          ANIM_N(25) = 1   
          ANIM_N(26) = 1   
          ANIM_N(27) = 1 
-       ELSEIF(KEY3(1:4).EQ.'ZVOL')THEN !inter22
+       ELSEIF(KEY3(1:4)=='ZVOL')THEN !inter22
          ANIM_N(28) = 1     
          ANIM_N(29) = 1  
-       ELSEIF(KEY3(1:3).EQ.'SSP')THEN
+       ELSEIF(KEY3(1:3)=='SSP')THEN
          ANIM_N(30) = 1                                                                            
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF
-      ELSEIF(KEY2(1:4).EQ.'MASS')THEN
+      ELSEIF(KEY2(1:4)=='MASS')THEN
          ANIM_M = 1
          IF (LAW51_PHASE1) THEN
             ANIM_SE(4926) = 1 !MASS_law51-phase1
@@ -2807,31 +2807,31 @@ C-----------------------------
             ANIM_SE(4929) = 1 !MASS_law51-phase4 
             ANIM_CE(11921) = 1
          ENDIF      
-      ELSEIF(KEY2(1:4).EQ.'NUMB')THEN
+      ELSEIF(KEY2(1:4)=='NUMB')THEN
          ANIM_U = 1
-      ELSEIF(KEY2(1:4).EQ.'KEEP')THEN
+      ELSEIF(KEY2(1:4)=='KEEP')THEN
          ANIM_K = 1
-      ELSEIF(KEY2(1:5).EQ.'ALEBA')THEN
+      ELSEIF(KEY2(1:5)=='ALEBA')THEN
        IFVANI=1
-       IF(KEY3(1:4).EQ.'MASS')THEN
+       IF(KEY3(1:4)=='MASS')THEN
           ANIM_CE(2145) = 1
-       ELSEIF(KEY3(1:4).EQ.'PRES')THEN
+       ELSEIF(KEY3(1:4)=='PRES')THEN
           ANIM_CE(2146) = 1
-       ELSEIF(KEY3(1:4).EQ.'MOMX')THEN
+       ELSEIF(KEY3(1:4)=='MOMX')THEN
           ANIM_CE(2147) = 1
-       ELSEIF(KEY3(1:4).EQ.'MOMY')THEN
+       ELSEIF(KEY3(1:4)=='MOMY')THEN
           ANIM_CE(2148) = 1
-       ELSEIF(KEY3(1:4).EQ.'MOMZ')THEN
+       ELSEIF(KEY3(1:4)=='MOMZ')THEN
           ANIM_CE(2149) = 1
-       ELSEIF(KEY3(1:4).EQ.'DENS')THEN
+       ELSEIF(KEY3(1:4)=='DENS')THEN
           ANIM_CE(2150) = 1
-       ELSEIF(KEY3(1:4).EQ.'ENER')THEN
+       ELSEIF(KEY3(1:4)=='ENER')THEN
           ANIM_CE(2151) = 1
-       ELSEIF(KEY3(1:4).EQ.'SSP')THEN
+       ELSEIF(KEY3(1:4)=='SSP')THEN
           ANIM_CE(2152) = 1
-       ELSEIF(KEY3(1:4).EQ.'GAMA')THEN
+       ELSEIF(KEY3(1:4)=='GAMA')THEN
           ANIM_CE(2153) = 1
-       ELSEIF(KEY3(1:4).EQ.'VISU')THEN
+       ELSEIF(KEY3(1:4)=='VISU')THEN
           ANIM_CE(2154) = 1
        ENDIF
       ELSE

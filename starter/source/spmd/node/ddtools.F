@@ -178,12 +178,12 @@ c if no proc set for this node
 c nothing to do as init has been done to -1 
 
 c only one proc
-      IF(IFRONT%P(2,IAD).EQ.0)THEN 
+      IF(IFRONT%P(2,IAD)==0)THEN 
         CPT = CPT+1     
         TAB(CPT)=IFRONT%P(1,IAD)
       ELSE     
 c list of procs for node N       
-        DO WHILE(IAD.NE.0)      
+        DO WHILE(IAD/=0)      
           CPT=CPT+1
           TAB(CPT)=IFRONT%P(1,IAD)
           IAD=IFRONT%P(2,IAD)
@@ -231,12 +231,12 @@ c nothing to do as init has been done to -1
         RETURN 
       ENDIF
       
-      IF(IFRONT%P(2,IAD).EQ.0)THEN
+      IF(IFRONT%P(2,IAD)==0)THEN
 c only one proc 
         CPT = CPT+1     
       ELSE     
 c list of procs for node N       
-        DO WHILE(IAD.NE.0)      
+        DO WHILE(IAD/=0)      
           CPT=CPT+1
           IAD=IFRONT%P(2,IAD)
         ENDDO
@@ -380,12 +380,12 @@ C-----------------------------------------------
       IF (IAD==0)RETURN
       
       DO WHILE(PSEARCH)
-        IF(IFRONT%P(1,IAD).EQ.P) THEN
+        IF(IFRONT%P(1,IAD)==P) THEN
           NLOCAL = 1
           PSEARCH = .FALSE.
         ENDIF
-        IF(IFRONT%P(1,IAD).GT.P) PSEARCH = .FALSE.
-        IF(IFRONT%P(2,IAD).EQ.0) PSEARCH = .FALSE.
+        IF(IFRONT%P(1,IAD)>P) PSEARCH = .FALSE.
+        IF(IFRONT%P(2,IAD)==0) PSEARCH = .FALSE.
         IAD = IFRONT%P(2,IAD)
       ENDDO       
            
@@ -503,7 +503,7 @@ C--------------------------------------------------------------
             ENDDO
             IF(Q > 1) THEN
               DO P = 1,NSPMD
-                 IF(TAG(P,K) .NE. 0) THEN
+                 IF(TAG(P,K) /= 0) THEN
                  IDX(P) = IDX(P) + 1
                  INDEX_IN_COMM(P,K)=IDX(P)                       
                  ENDIF
@@ -562,7 +562,7 @@ C--------------------------------------------------------------
               !If the node is has to be communicated by P
               IF(INDEX_IN_COMM(P,K) > 0) THEN 
                 DO Q = P+1,NSPMD
-                  IF(INDEX_IN_COMM(Q,K).NE.0) THEN
+                  IF(INDEX_IN_COMM(Q,K)/=0) THEN
 !                   Put the main node in the boundary of P with Q
                     LOCAL_ID = INDEX_IN_COMM(P,K)
                     NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM +1  
@@ -618,7 +618,7 @@ C--------------------------------------------------------------
               ENDIF
             ENDDO !NSN
            !DO Q = 1,NSPMD
-           ! IF(Q.NE.P) THEN
+           ! IF(Q/=P) THEN
            !   ! Total number of secnd node that have main nodes on processor
            !   ! P shared with processor Q
            !   II = T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT 
@@ -673,7 +673,7 @@ C--------------------------------------------------------------
 !         ENDDO
 !         DO P = 1,NSPMD
 !         DO Q = 1,NSPMD
-!            IF(P .NE. Q) THEN
+!            IF(P /= Q) THEN
 !              DO II = 1,T8(P,NBT8)%BUFFER(Q)%NBMAIN
 !                 WRITE(6,*) "EXCH",P,Q,II,T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II)
 !              ENDDO
@@ -756,7 +756,7 @@ C--------------------------------------------------------------
         !get generic values
         ITY    = IPARI(7,NI)
         
-        IF ((FLAG==0.AND.(ITY.EQ.24.OR.ITY.EQ.25)).OR.
+        IF ((FLAG==0.AND.(ITY==24.OR.ITY==25)).OR.
      .      (FLAG==1.AND.(ITY==7.OR.ITY==10.OR.
      .      ITY==22.OR.ITY==23)) )THEN
      
@@ -773,8 +773,8 @@ C Allocate CEP INTERFACE
              N2=INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
              N3=INTBUF_TAB(NI)%IRECTM(4*(K-1)+3)
              N4=INTBUF_TAB(NI)%IRECTM(4*(K-1)+4)
-             IF(N1.GT.NUMNOD.OR.N2.GT.NUMNOD.OR.
-     .          N3.GT.NUMNOD.OR.N4.GT.NUMNOD) THEN
+             IF(N1>NUMNOD.OR.N2>NUMNOD.OR.
+     .          N3>NUMNOD.OR.N4>NUMNOD) THEN
                INTERCEP(1,NI)%P(K) = 1
              ELSE
                !find first SPMD domain on which the 4 nodes of the surface are
@@ -1018,8 +1018,8 @@ C Allocate CEP INTERFACE
              N3=INTBUF_TAB(NI)%IRECTM(4*(K-1)+3)
              N4=INTBUF_TAB(NI)%IRECTM(4*(K-1)+4)
              !find first SPMD domain on which the 4 nodes of the surface are
-             IF(N1.GT.NUMNOD.OR.N2.GT.NUMNOD.OR.
-     .          N3.GT.NUMNOD.OR.N4.GT.NUMNOD) THEN
+             IF(N1>NUMNOD.OR.N2>NUMNOD.OR.
+     .          N3>NUMNOD.OR.N4>NUMNOD) THEN
                INTERCEP(1,NI)%P(K) = 1
              ELSE
                PROC = INTERSURFL(N1,N2,N3,N4)
@@ -1085,10 +1085,10 @@ C-----------------------------------------------
           SEARCH = .FALSE.
         ELSE
           PMAX = MAX(P1,P2,P3,P4)                  
-          IF(P1.LT.PMAX) IAD1 = IFRONT%P(2,IAD1)
-          IF(P2.LT.PMAX) IAD2 = IFRONT%P(2,IAD2)
-          IF(P3.LT.PMAX) IAD3 = IFRONT%P(2,IAD3)
-          IF(P4.LT.PMAX) IAD4 = IFRONT%P(2,IAD4)
+          IF(P1<PMAX) IAD1 = IFRONT%P(2,IAD1)
+          IF(P2<PMAX) IAD2 = IFRONT%P(2,IAD2)
+          IF(P3<PMAX) IAD3 = IFRONT%P(2,IAD3)
+          IF(P4<PMAX) IAD4 = IFRONT%P(2,IAD4)
         ENDIF
       ENDDO
 !     IF(INTERSURFL > 4) THEN
@@ -1244,12 +1244,12 @@ C-----------------------------------------------
         RETURN 
       ENDIF
       
-      IF(IDDCONNECT%PDOM(2,IAD).EQ.0)THEN
+      IF(IDDCONNECT%PDOM(2,IAD)==0)THEN
 !     only one connected node
         CPT = CPT+1     
       ELSE     
 !       list of connected nodes for node N        
-        DO WHILE(IAD.NE.0)      
+        DO WHILE(IAD/=0)      
           CPT=CPT+1
           IAD=IDDCONNECT%PDOM(2,IAD)
         ENDDO
@@ -1296,12 +1296,12 @@ C-----------------------------------------------
 !     nothing to do as init has been done to -1 
 
 !     only one connected node
-      IF(IDDCONNECT%PDOM(2,IAD).EQ.0)THEN 
+      IF(IDDCONNECT%PDOM(2,IAD)==0)THEN 
         CPT = CPT+1     
         ADJNCY(CPT)=IDDCONNECT%PDOM(1,IAD)
       ELSE     
 !       list of connected nodes for node N       
-        DO WHILE(IAD.NE.0)      
+        DO WHILE(IAD/=0)      
           CPT=CPT+1
           ADJNCY(CPT)=IDDCONNECT%PDOM(1,IAD)
           IAD=IDDCONNECT%PDOM(2,IAD)

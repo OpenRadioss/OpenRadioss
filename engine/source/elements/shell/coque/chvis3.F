@@ -121,7 +121,7 @@ C=======================================================================
       
 !!      IGTYP = IGEO(11,MAT(1))
 C
-      IF(ISMSTR.NE.1.AND.ISMSTR.NE.11.AND.IHBE.GE.1)THEN
+      IF(ISMSTR/=1.AND.ISMSTR/=11.AND.IHBE>=1)THEN
        DO I=JFT,JLT
          PX1V    = PX1(I)*VHX(I)
          PX2V    = PX2(I)*VHX(I)
@@ -181,7 +181,7 @@ C-----------------------------------
 C     TRIANGLES
 C-----------------------------------
       DO I=JFT,JLT
-        IF(IXC(4,I).EQ.IXC(5,I))THEN
+        IF(IXC(4,I)==IXC(5,I))THEN
           H1Q(I)=ZERO
           H1L(I)=ZERO
           H2Q(I)=ZERO
@@ -198,7 +198,7 @@ C-----------------------------------
       DO I=JFT,JLT
           SCALE(I) = ZERO
         ENDDO
-      IF(NODADT.NE.0.OR.IDT1SH.EQ.1.OR.IDTMINS==2)THEN
+      IF(NODADT/=0.OR.IDT1SH==1.OR.IDTMINS==2)THEN
          DO I=JFT,JLT
              SCALE(I) = MAX(GAMA1(I)*GAMA1(I),GAMA2(I)*GAMA2(I),
      .              GAMA3(I)*GAMA3(I),GAMA4(I)*GAMA4(I)) *
@@ -213,7 +213,7 @@ C
      .                                   .AND. IGMAT > 0 )) THEN
           IF(NADMESH==0)THEN
              DO I=JFT,JLT
-                IF (OFF(I).EQ.ZERO) THEN
+                IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
                   STIR(I) = ZERO          
                 ELSE
@@ -227,7 +227,7 @@ C
              ENDDO  
          ELSE
              DO I=JFT,JLT
-                IF (OFF(I).EQ.ZERO) THEN
+                IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
                   STIR(I) = ZERO          
                 ELSE
@@ -243,7 +243,7 @@ C
           IF(NADMESH==0)THEN
 #include   "simd.inc"
              DO I=JFT,JLT
-                IF (OFF(I).EQ.ZERO) THEN
+                IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
                   STIR(I) = ZERO          
                 ELSE
@@ -257,7 +257,7 @@ c     ..                   + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
          ELSE
 #include   "simd.inc"
              DO I=JFT,JLT
-                IF (OFF(I).EQ.ZERO) THEN
+                IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
                   STIR(I) = ZERO          
                 ELSE
@@ -273,7 +273,7 @@ c     ..                   + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
 C-----------------------------------
 C     FORCES ANTISABLIER DE MEMBRANE
 C-----------------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.11.OR.IHBE.LT.1)THEN
+      IF(ISMSTR==1.OR.ISMSTR==11.OR.IHBE<1)THEN
         DO I=JFT,JLT
          HG1(I)=(VX1(I)-VX2(I)+VX3(I)-VX4(I))*OFF(I)
          HG2(I)=(VY1(I)-VY2(I)+VY3(I)-VY4(I))*OFF(I)
@@ -305,7 +305,7 @@ C
 C----------------------------------
 C     FORCES ANTISABLIER DE FLEXION
 C----------------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.11.OR.IHBE.LT.1)THEN
+      IF(ISMSTR==1.OR.ISMSTR==11.OR.IHBE<1)THEN
         DO I=JFT,JLT
           HG1(I)=(VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I))*OFF(I)
         ENDDO
@@ -358,21 +358,21 @@ C
       IC=1
       JST(IC)=JFT
       DO J=JFT+1,JLT
-         IF (IPARTC(J).NE.IPARTC(J-1)) THEN
+         IF (IPARTC(J)/=IPARTC(J-1)) THEN
             IC=IC+1
             JST(IC)=J
          ENDIF
       ENDDO
       
       JST(IC+1)=JLT+1
-      IF(IC.EQ.1) THEN
+      IF(IC==1) THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT,JLT
           PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
         ENDDO
 
-      ELSEIF(IC.EQ.2.AND.KFTS.GT.0)THEN
+      ELSEIF(IC==2.AND.KFTS>0)THEN
         MX = IPARTC(JFT)
 #include "simd.inc"
         DO I=JFT, KFTS-1
@@ -388,7 +388,7 @@ C
 C                 
            DO II=1,IC
               MX=IPARTC(JST(II))
-              IF (JST(II+1)-JST(II).GT.15) THEN
+              IF (JST(II+1)-JST(II)>15) THEN
 #include "simd.inc"
                  DO J=JST(II),JST(II+1)-1
                     PARTSAV(8,MX)=PARTSAV(8,MX)+EHOU(J)
@@ -405,8 +405,8 @@ C
         EHOUR = EHOUR + EHOURT
 #include "atomend.inc"
 C
-      IF((ANIM_E(25).EQ.1).OR.(ANIM_CE(25).EQ.1).OR.
-     &             (OUTP_CS(25).EQ.1)) THEN
+      IF((ANIM_E(25)==1).OR.(ANIM_CE(25)==1).OR.
+     &             (OUTP_CS(25)==1)) THEN
         DO I=JFT,JLT
           EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I) + EHOU(I)
         ENDDO

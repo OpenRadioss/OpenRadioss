@@ -149,7 +149,7 @@ C---------------------------
       S6  = ZERO
       E7  = ZERO
 C---------------------------
-C     ISOTROPE ET ORTHOTROPE CONVECTE (JCVT.GT.0)
+C     ISOTROPE ET ORTHOTROPE CONVECTE (JCVT>0)
 C---------------------------
       DO I=LFT,LLT
        DE1(I) = D1(I)
@@ -222,7 +222,7 @@ C     .                   R21,R22,R23,
 C     .                   R31,R32,R33)
 C          ENDIF
 C ====================================================================
-      IF(MTN.EQ.35)THEN
+      IF(MTN==35)THEN
           CALL SIGEPS35(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      .                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      .                  RHO0,RHO ,VOLN,EINT,
@@ -233,7 +233,7 @@ C ====================================================================
      .                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
      .                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      .                  SSP ,VIS ,UVAR,OFF  )
-      ELSEIF(MTN.EQ.37)THEN
+      ELSEIF(MTN==37)THEN
           CALL SIGEPS37(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      .                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      .                  RHO0,RHO ,VOLN,EINT,
@@ -244,7 +244,7 @@ C ====================================================================
      .                  S1  ,S2  ,S3  ,S4   ,S5   ,S6  ,
      .                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      .                  SSP ,VIS ,UVAR,OFF  )     
-      ELSEIF(MTN.EQ.38)THEN
+      ELSEIF(MTN==38)THEN
           CALL SIGEPS38(LLT ,NPAR,NUVAR,NFUNC,IFUNC ,
      .                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      .                  RHO0,RHO ,VOLN ,EINT ,
@@ -257,7 +257,7 @@ C ====================================================================
      .                  SSP ,VIS ,UVAR,OFF  ,
      .                  RBID,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
      .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)
-      ELSEIF(MTN.EQ.42)THEN
+      ELSEIF(MTN==42)THEN
           CALL SIGEPS42(LLT ,NPAR,NUVAR,NFUNC,IFUNC ,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT(IADBUF),
      3                  RHO0,RHO ,VOLN ,EINT ,
@@ -270,7 +270,7 @@ C ====================================================================
      A                  SSP ,VIS ,UVAR,OFF  ,WXX  ,WYY ,
      .                  WZZ ,ISMSTR,MFXX,MFXY,MFXZ,MFYX, 
      .                  MFYY ,MFYZ ,MFZX ,MFZY,MFZZ)
-      ELSEIF(MTN.EQ.70)THEN
+      ELSEIF(MTN==70)THEN
         CALL SIGEPS70(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
      3                  RHO0,RHO ,VOLN,EINT,
@@ -282,7 +282,7 @@ C ====================================================================
      9                  SV1 ,SV2 ,SV3 ,SV4  ,SV5  ,SV6 ,
      A                  SSP ,VIS ,UVAR,OFF  ,NGL  ,
      B                  PM  ,IPM ,MAT ,EPSD )
-      ELSEIF(MTN.EQ.90)THEN
+      ELSEIF(MTN==90)THEN
         CALL SIGEPS90(LLT ,NPAR,NUVAR,NFUNC,IFUNC,
      2                  NPF ,TF  ,TIME,TIMESTEP,BUFMAT,
      3                  RHO0,RHO ,VOLN,EINT,

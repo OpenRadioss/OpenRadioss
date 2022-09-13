@@ -61,12 +61,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_REDUCE(V,VTMP,LEN,
      .                  MPI_INTEGER,MPI_MAX,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)
       ENDIF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=1,LEN
           V(I) = VTMP(I)
         END DO

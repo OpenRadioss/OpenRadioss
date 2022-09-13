@@ -94,7 +94,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV  ('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
-        IF (IGU .NE. 0) THEN
+        IF (IGU /= 0) THEN
           IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
         ELSE
           NN = NUMNOD

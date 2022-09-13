@@ -57,7 +57,7 @@ C-----------------------------------------------
       DO  I = NODFT,NODLT,1024
         NINDX = 0
         DO  N=I,MIN(NODLT,I+1023)
-          IF (ICODT(N).NE.0)THEN
+          IF (ICODT(N)/=0)THEN
             NINDX = NINDX + 1
             INDX(NINDX) = N
            ENDIF

@@ -357,7 +357,7 @@ C---     output of tied contact forces
 C                      
          IF (IRODDL == 0) THEN                               
            STIFN(I)=EM20                                    
-           IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)    
+           IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)    
            MS(I)=ZERO                                       
            A(1,I)=ZERO                                       
            A(2,I)=ZERO                                       

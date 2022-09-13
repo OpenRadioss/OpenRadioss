@@ -171,9 +171,9 @@ C-----------
        VY6(I)=V(2,NC6(I))
        VZ6(I)=V(3,NC6(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
             VX1(I)=ZERO
             VY1(I)=ZERO
             VZ1(I)=ZERO
@@ -198,7 +198,7 @@ C-----------
 C-----------
 C     Prepare les sorties par part.
 C-----------
-      IF(IOUTPRT.NE.0)THEN
+      IF(IOUTPRT/=0)THEN
        DO I=LFT,LLT
         VGAX(I)=VX1(I)+VX2(I)+VX3(I)+VX4(I)+VX5(I)+VX6(I)
         VGAY(I)=VY1(I)+VY2(I)+VY3(I)+VY4(I)+VY5(I)+VY6(I)
@@ -210,7 +210,7 @@ C-----------
      4         +VZ1(I)*VZ1(I)+VZ2(I)*VZ2(I)+VZ3(I)*VZ3(I)+VZ4(I)*VZ4(I)
      5         +VZ5(I)*VZ5(I)+VZ6(I)*VZ6(I)
        ENDDO
-       IF(IPARG(80).EQ.1) THEN
+       IF(IPARG(80)==1) THEN
          DO I=LFT,LLT
           XGAX(I)=X1(I)+X2(I)+X3(I)+X4(I)+X5(I)+X6(I)
           XGAY(I)=Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)
@@ -458,7 +458,7 @@ C
         YYXZ2 = RTR(2)*RTR(5)*RTR(5)
         ZZXY2 = RTR(3)*RTR(4)*RTR(4)
         DETA = ABC + TWO*RTR(4)*RTR(5)*RTR(6)-XXYZ2-YYXZ2-ZZXY2
-        IF (DETA.LT.EM20) THEN
+        IF (DETA<EM20) THEN
           DETA=ONE
         ELSE
          DETA=ONE/DETA

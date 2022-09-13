@@ -95,7 +95,7 @@ C-----------------------------------------------------------
 C-----------------------------------------------------------
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT.OR.TT.GT.STOPT) RETURN
+      IF(STARTT>TT.OR.TT>STOPT) RETURN
 C-----------------------------------------------------------
       NRTM   =IPARI(4,NIN)
       NSN   =IPARI(5,NIN)
@@ -110,7 +110,7 @@ C     Filtrage des candidats a l'impact
 C     (si candidat retenu, cand_n(i) = - cand_n(i))
 C-----------------------------------------------------------
        I_STOK_GLO = INTBUF_TAB%I_STOK(1)
-       IF (DEBUG(3).GE.1) THEN
+       IF (DEBUG(3)>=1) THEN
          IF(ITASK==0) NB_CANDT  = NB_CANDT  + I_STOK_GLO
        ENDIF
        SIZOPT = INTBUF_TAB%S_CAND_OPT_N

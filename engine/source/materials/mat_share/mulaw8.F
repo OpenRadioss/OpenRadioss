@@ -183,7 +183,7 @@ C
       DO I=1,NFUNC
         IFUNC(I)=IPM(10+I,MX)
       ENDDO
-      IF (ISMSTR.GE.10) ISMSTR=0
+      IF (ISMSTR>=10) ISMSTR=0
       BIDON = ZERO       
       BIDON1 = ZERO      
       BIDON2 = ZERO      
@@ -250,7 +250,7 @@ c
         ENDDO
 c
         ISRATE = IPM(3,MAT(LFT))
-        IF(ISRATE.GE.1)THEN
+        IF(ISRATE>=1)THEN
            DO I=1,LLT
             DAV = (EP1(I)+EP2(I)+EP3(I))/TWENTY4
             E1 = EP1(I)*ONE_OVER_8 - DAV
@@ -813,7 +813,7 @@ c
            IFAIL(IC) = IPM(111 +IP,MAT(I-1))
            MATF(IC) = MAT(I-1)
            IFLAG = IPM(111 +IP ,MAT(I-1))
-           IF(IPM(111 +IP ,MAT(I)).NE.IPM(111 +IP,MAT(I-1)))THEN
+           IF(IPM(111 +IP ,MAT(I))/=IPM(111 +IP,MAT(I-1)))THEN
              IC = IC+1
              MATF(IC)  = MAT(I)
              IFAIL(IC) = IPM(111 +IP,MAT(I))

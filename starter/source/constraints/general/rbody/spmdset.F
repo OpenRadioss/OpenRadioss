@@ -62,7 +62,7 @@ C-----------------------------------------------------------------
       S_FMAIN = 0
       DO P = 1, NSPMD
         DO J = 1, NSL
-          IF (NLOCAL(LPBY(J+K),P).NE.0)THEN
+          IF (NLOCAL(LPBY(J+K),P)/=0)THEN
             FMAIN(P) = 1
             S_FMAIN = S_FMAIN + 1
             GO TO 85
@@ -77,8 +77,8 @@ C rigid body // noeud main sur les procs ayant au moins 1 secnd
         ENDIF
       ENDDO
 C rigid body // les secnds nodes ne sont pas connectes, on affecte arbitrairement le main sur le proc0
-      IF (S_FMAIN.EQ.0) CALL IFRONTPLUS(NPBY(1,N),1)
-      IF(NPBY(8,N).NE.0)THEN
+      IF (S_FMAIN==0) CALL IFRONTPLUS(NPBY(1,N),1)
+      IF(NPBY(8,N)/=0)THEN
         CALL IFRONTPLUS(NPBY(1,N),1)
       ENDIF
 c-----------

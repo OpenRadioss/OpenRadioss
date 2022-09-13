@@ -81,7 +81,7 @@ C-----------------------------------------------
        ENDDO
       ENDDO
 
-      IF(IDTMIN(101).EQ.1)THEN
+      IF(IDTMIN(101)==1)THEN
        DO I=LFT,LLT
         DO J=1,NCTRL
          MMUNK(I)=EP10
@@ -90,7 +90,7 @@ C-----------------------------------------------
        ENDDO
       ENDIF 
 
-      IF(IDTMIN(101).EQ.2)THEN
+      IF(IDTMIN(101)==2)THEN
        DO I=LFT,LLT
         AFACE(1,I)=ZERO
         AFACE(2,I)=ZERO

@@ -101,7 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Boucle sur les retris
 C-----------------------------------------------
-      DO WHILE (CONT.NE.0)
+      DO WHILE (CONT/=0)
 C -------------------------------------------------------------
 C      CALCUL DES BORNES DU DOMAINE
 C      avant I17TRI pour detection candidats remote et allocation en SPMD
@@ -248,7 +248,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 c fait dans ICOMCRIT
-c      IF (DEBUG(3).GE.1) THEN
+c      IF (DEBUG(3)>=1) THEN
 c#include "lockon.inc"
 c          WRITE(ISTDO,*)'** NEW SORT FOR INTERFACE NUMBER ',NOINT,
 c     .                ' AT CYCLE ',NCYCLE
@@ -299,7 +299,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     Boucle sur les retris
 C-----------------------------------------------
-      DO WHILE (CONT.NE.0)
+      DO WHILE (CONT/=0)
 C -------------------------------------------------------------
 C      CALCUL DES BORNES DU DOMAINE
 C      avant I17TRI pour detection candidats remote et allocation en SPMD
@@ -321,9 +321,9 @@ C
           ZMAX = MAX( ZMAX , EMINXM(6,I) )
         ENDDO
 C
-        IF(ABS(ZMAX-ZMIN).GT.2*EP30.OR.
-     +     ABS(YMAX-YMIN).GT.2*EP30.OR.
-     +     ABS(XMAX-XMIN).GT.2*EP30)THEN
+        IF(ABS(ZMAX-ZMIN)>2*EP30.OR.
+     +     ABS(YMAX-YMIN)>2*EP30.OR.
+     +     ABS(XMAX-XMIN)>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                I1=NOINT)
           CALL ARRET(2)
@@ -343,7 +343,7 @@ C
         XYZM(5,I_ADD) = YMAX
         XYZM(6,I_ADD) = ZMAX
         NMESR = 0
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
 C
 C recuperation des noeuds remote NMESR stockes dans XREM
 C

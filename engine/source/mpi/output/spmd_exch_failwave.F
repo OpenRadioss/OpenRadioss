@@ -215,7 +215,7 @@ c--------------------------------------------------------------------
 c    MPI send
 c--------------------------------------------------------------------
       DO I=1,NSPMD
-        IF(FAILWAVE%FWAVE_IAD(I+1)-FAILWAVE%FWAVE_IAD(I).GT.0)THEN
+        IF(FAILWAVE%FWAVE_IAD(I+1)-FAILWAVE%FWAVE_IAD(I)>0)THEN
           MSGTYP = MSGOFF1
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)

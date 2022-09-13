@@ -88,7 +88,7 @@ C
 C---  Traitement specifique pour DMAS
 C
 C---  MMASS(II) initialise a MS(J) a t=0 dans starter
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
         DO II=1,NMN
           J=MSR(II)
           ADM(J) = ADM(J)*MMASS(II)
@@ -105,12 +105,12 @@ C     TRANSMISES AUX NOEUDS MAINS SOUS
 C     FORME DE MASSES 
 C------------------------------
 C
-      IF(IMPL_S.GT.0) THEN
+      IF(IMPL_S>0) THEN
       DO II=1,NSN
        K = INDXC(II)
        IF (K == 0) CYCLE
        I = NSV(K)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         S = CRST(1,II)  
@@ -132,7 +132,7 @@ C
          YM(JJ)=X(2,J)
          ZM(JJ)=X(3,J)
         ENDDO 
-        IF(IRECT(3,L).EQ.IRECT(4,L)) THEN
+        IF(IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
          YM(4)=ZERO
@@ -195,7 +195,7 @@ C
         FYS=A(2,I)*WEIGHT(I)
         FZS=A(3,I)*WEIGHT(I)
 C
-        IF (IRODDL.EQ.1) THEN
+        IF (IRODDL==1) THEN
           INS=IN(I)*WEIGHT(I)
           MX=AR(1,I)*WEIGHT(I) + YS*FZS - ZS*FYS
           MY=AR(2,I)*WEIGHT(I) + ZS*FXS - XS*FZS
@@ -238,7 +238,7 @@ C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
         XMSI=MAX(FACM*XMSI,MR)
         DMAST = DMAST + NIR*XMSI - MS(I)
-        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
          DO JJ=1,NIR
           J=IRECT(JJ,L)
           ADM(J) = ADM(J) + XMSI - FACM*MS(I)
@@ -259,19 +259,19 @@ C
          STIFN(J)=STIFN(J) + STF
         ENDDO 
 C
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         STIFN(I)=EM20
 C  
-        IF (IRODDL.EQ.1) THEN
-          IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF (IRODDL==1) THEN
+          IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
           IN(I)=ZERO
           STIFR(I)=EM20
         ENDIF
 C
        ENDIF
 C----
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
 C---     output of tied contact forces
  	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
@@ -287,7 +287,7 @@ C
        IF (K == 0) CYCLE
        I = NSV(K)
 C
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         S = CRST(1,II)  
@@ -382,7 +382,7 @@ C
         FXS=A(1,I)*WEIGHT(I)
         FYS=A(2,I)*WEIGHT(I)
         FZS=A(3,I)*WEIGHT(I)
-        IF (IRODDL.EQ.1) THEN
+        IF (IRODDL==1) THEN
           INS=IN(I)*WEIGHT(I)
           MX=AR(1,I)*WEIGHT(I) + YS*FZS - ZS*FYS
           MY=AR(2,I)*WEIGHT(I) + ZS*FXS - XS*FZS
@@ -431,8 +431,8 @@ C     MASSES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
 C
         FACT = ONE
-        IF (IRODDL.EQ.1) THEN
-        IF (MINER(J1).GT.ZERO.AND.MINER(J2).GT.ZERO.AND.MINER(J3).GT.ZERO.AND.MINER(J4).GT.ZERO) THEN
+        IF (IRODDL==1) THEN
+        IF (MINER(J1)>ZERO.AND.MINER(J2)>ZERO.AND.MINER(J3)>ZERO.AND.MINER(J4)>ZERO) THEN
 C--       Inertie transmise sous forme d'inertie
           FACT = ZERO
         ENDIF
@@ -441,7 +441,7 @@ C
         XMSI=FOURTH*XMSI+MR*FACT
 C
         DMAST = DMAST + FOUR*XMSI - MS(I)
-        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+        IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
          ADM(J1) = ADM(J1) + XMSI - FOURTH*MS(I)
          ADM(J2) = ADM(J2) + XMSI - FOURTH*MS(I)
          ADM(J3) = ADM(J3) + XMSI - FOURTH*MS(I)
@@ -466,26 +466,26 @@ C
         STIFN(J3)=STIFN(J3) + STF
         STIFN(J4)=STIFN(J4) + STF
 C
-        IF (IRODDL.EQ.1) THEN
+        IF (IRODDL==1) THEN
           IN(J1)=IN(J1)+INX*FOURTH*(ONE-FACT)
           IN(J2)=IN(J2)+INX*FOURTH*(ONE-FACT)
           IN(J3)=IN(J3)+INX*FOURTH*(ONE-FACT)
           IN(J4)=IN(J4)+INX*FOURTH*(ONE-FACT)
         ENDIF
 C
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         STIFN(I)=EM20
 C  
-        IF (IRODDL.EQ.1) THEN
-          IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF (IRODDL==1) THEN
+          IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
           IN(I)=ZERO
           STIFR(I)=EM20
         ENDIF
 C
        ENDIF
 C----
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
 C---     output of tied contact forces
  	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
@@ -498,7 +498,7 @@ C
 C
 C Traitement specifique pour ADM
 C
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0)THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0)THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)

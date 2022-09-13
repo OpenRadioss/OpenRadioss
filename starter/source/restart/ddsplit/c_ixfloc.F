@@ -132,14 +132,14 @@ C
       DO NG=1,NGROUP
        JTUR=IPARG(12,NG)
        JTHE=IPARG(13,NG)
-       IF(IPARG(32,NG).EQ.PROC) THEN
+       IF(IPARG(32,NG)==PROC) THEN
          NEL = IPARG(2,NG)
          NFT = IPARG(3,NG)
          ITY = IPARG(5,NG)
 Cel voir autres types solides
          ISOLNOD = IPARG(28,NG)
 Cel 3D
-         IF(ITY.EQ.1) THEN
+         IF(ITY==1) THEN
            DO I = 1, NEL
              IE = I+NFT
              IE_lOC = I+NFT_LOC
@@ -150,12 +150,12 @@ Cel IVOIS
              DO J = 1, LGTH
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IAD2 = ee_connect_l%iad_connect(IE_LOC) + J - 1
-               IF (IV.GT.0) THEN
+               IF (IV>0) THEN
                  PROC2 = CEP(IV)
                  IV_LOC = CEL(IV)
-                 IF(PROC2.NE.PROC) THEN
+                 IF(PROC2/=PROC) THEN
 Cel element frontiere
-                   IF(TAGE(IV).EQ.0) THEN
+                   IF(TAGE(IV)==0) THEN
                      IFS = IFS + 1
                      TAGE(IV) = NUMELS_L+IFS
 Cel recopie IXS + chgt no local des noeuds
@@ -192,7 +192,7 @@ Cel element interne
              ENDDO
            ENDDO
            NFT_LOC = NFT_LOC + NEL
-         ELSEIF(ITY.EQ.2) THEN
+         ELSEIF(ITY==2) THEN
 Cel 2D
            DO I = 1, NEL
              IE = I+NFT
@@ -204,12 +204,12 @@ Cel IVOIS
              DO J = 1, LGTH
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IAD2 = ee_connect_l%iad_connect(IE_LOC) + J - 1
-               IF (IV.GT.0) THEN
+               IF (IV>0) THEN
                  PROC2  = CEP(IV)
                  IV_LOC = CEL(IV)
-                 IF(PROC2.NE.PROC) THEN
+                 IF(PROC2/=PROC) THEN
 Cel element frontiere
-                   IF(TAGE(IV).EQ.0) THEN
+                   IF(TAGE(IV)==0) THEN
                      IFQ = IFQ + 1
                      TAGE(IV) = NUMELQ_L+IFQ
 Cel recopie IXQ + chgt no local des noeuds
@@ -245,7 +245,7 @@ Cel element interne
              ENDDO
            ENDDO
            NFT_LOC = NFT_LOC + NEL
-         ELSEIF(ITY.EQ.7 .AND. (N2D .NE. 0 .AND. MULTI_FVM%IS_USED)) THEN
+         ELSEIF(ITY==7 .AND. (N2D /= 0 .AND. MULTI_FVM%IS_USED)) THEN
 Cel 2D
            DO I = 1, NEL
              IE = I+NFT
@@ -257,12 +257,12 @@ Cel IVOIS
              DO J = 1, 3
                IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
                IAD2 = ee_connect_l%iad_connect(IE_LOC) + J - 1
-               IF (IV.GT.0) THEN
+               IF (IV>0) THEN
                  PROC2  = CEP(IV)
                  IV_LOC = CEL(IV)
-                 IF(PROC2.NE.PROC) THEN
+                 IF(PROC2/=PROC) THEN
 Cel element frontiere
-                   IF(TAGE(IV).EQ.0) THEN
+                   IF(TAGE(IV)==0) THEN
                      IFTG = IFTG + 1
                      TAGE(IV) = NUMELTG_L+IFTG
 Cel recopie IXQ + chgt no local des noeuds

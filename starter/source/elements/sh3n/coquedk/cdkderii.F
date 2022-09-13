@@ -135,7 +135,7 @@ c
      .       ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
           SSP = PM_STACK(9 ,ISUBSTACK)
         ELSE
-          IF(MTN.LE.28)THEN
+          IF(MTN<=28)THEN
           SSP=PM(27,IMAT)
          ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
           IADB = IPM(7,IMAT)-1                                               
@@ -286,7 +286,7 @@ C-----------------
       END IF
 C
 C---------------------------------------------------------
-      IF(ISMSTR.NE.3)THEN
+      IF(ISMSTR/=3)THEN
        DO 50 I=JFT,JLT
         PX2(I) = ZERO
         PY2(I) = ZERO

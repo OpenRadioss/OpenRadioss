@@ -154,16 +154,16 @@ C
         JCVT  = 0
         IFAIL = 0
         IEOS  = 0
-        IF (PID.NE.0) THEN
+        IF (PID/=0) THEN
           IGT  = IGEO(11,PID)
           IF (IGT /= 15) IPLAST = IGEO(9,PID)
-          IF (IGT.EQ.15)JPOR=2*NINT(GEO(28,PID))
+          IF (IGT==15)JPOR=2*NINT(GEO(28,PID))
           JCVT = IGEO(16,PID)
         ENDIF
         MLN = NINT(PM(19,ABS(MID)))
-        IF(MID.LT.0)THEN
-          IF(MLN.EQ.6.AND.JPOR.NE.2)MLN=17
-          IF(MLN.EQ.46)MLN=47
+        IF(MID<0)THEN
+          IF(MLN==6.AND.JPOR/=2)MLN=17
+          IF(MLN==46)MLN=47
           MID=IABS(MID)
         ENDIF
         IFAIL = IPM(220,MID)       
@@ -171,16 +171,16 @@ C
         JALE_FROM_PROP = IGEO(62,PID)
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
         JLAG=0
-        IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
+        IF(JALE==0.AND.MLN/=18)JLAG=1
         JEUL=0
-        IF(JALE.EQ.2)THEN
+        IF(JALE==2)THEN
           JALE=0
           JEUL=1
         ENDIF
         JTUR=NINT(PM(70,MID))
         JTHE=NINT(PM(71,MID))
         JMULT=0
-        IF(MLN.EQ.20)THEN
+        IF(MLN==20)THEN
           JMULT=NINT(PM(20,MID))
           MT1=NINT(PM(21,MID))
           MT2=NINT(PM(22,MID))
@@ -192,7 +192,7 @@ C
           ML2=0 
         ENDIF
 C
-        IF(JCVT.NE.0.AND.(JLAG.EQ.0.OR.MLN.EQ.20))THEN
+        IF(JCVT/=0.AND.(JLAG==0.OR.MLN==20))THEN
           ID=IGEO(1,PID)
           CALL FRETITL2(TITR,
      .                  IGEO(NPROPGI-LTITR+1,PID),LTITR)
@@ -247,7 +247,7 @@ C
         IPARTQ(I) =INUM(1,INDEX(I))
         IQUAOFF(I) = INUM(9,INDEX(I))
       ENDDO
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELQ
           CEP(I)=XEP(INDEX(I))
         ENDDO
@@ -301,11 +301,11 @@ C--------------------------------------------------------------
         JJ3=ITRI(4,INDEX(I-1))
         II4=ITRI(5,INDEX(I))
         JJ4=ITRI(5,INDEX(I-1))
-        IF(II.NE.JJ.OR.
-     .     II1.NE.JJ1.OR.
-     .     II4.NE.JJ4.OR.
-     .     II2.NE.JJ2.OR.
-     .     II3.NE.JJ3) THEN
+        IF(II/=JJ.OR.
+     .     II1/=JJ1.OR.
+     .     II4/=JJ4.OR.
+     .     II2/=JJ2.OR.
+     .     II3/=JJ3) THEN
               ND=ND+1
               EADD(ND)=I
         ENDIF

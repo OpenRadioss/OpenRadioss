@@ -82,61 +82,61 @@ C----------------------------------------------------------
 C ADD FOR SOLVER AUTO SELECTION
       IFSTRUN = 1
 
-      IF(IMPL_S.EQ.1.OR.NEIG.GT.0)THEN
+      IF(IMPL_S==1.OR.NEIG>0)THEN
        IDEFKZ=0
-       IF (NEIG.GT.0.AND.KZ_TOL.EQ.ZERO) IDEFKZ=1
+       IF (NEIG>0.AND.KZ_TOL==ZERO) IDEFKZ=1
        NNSIZ=1024
        IKPAT=0
        TREST=TSTOP-TT
-       IF (D_TOL.EQ.ZERO.AND.N_PAT.GT.1) D_TOL=-ONE
-       IF (D_TOL.EQ.ZERO) D_TOL=THREE*EM5
-       IF (IPREC.EQ.5)IKPAT=1
-       IF (IPREC.EQ.6) THEN
+       IF (D_TOL==ZERO.AND.N_PAT>1) D_TOL=-ONE
+       IF (D_TOL==ZERO) D_TOL=THREE*EM5
+       IF (IPREC==5)IKPAT=1
+       IF (IPREC==6) THEN
         IPREC=5
         IKPAT=2
        ENDIF
-       IF (SK_INT.EQ.ZERO) SK_INT=ONEP01
+       IF (SK_INT==ZERO) SK_INT=ONEP01
 C--------direct-----
-       IF (DT_IMP.EQ.ZERO.OR.DT_IMP.GE.TREST) DT_IMP=TREST
-       IF (ILINE.EQ.1) THEN
+       IF (DT_IMP==ZERO.OR.DT_IMP>=TREST) DT_IMP=TREST
+       IF (ILINE==1) THEN
         DT_IMP=TREST
-        IF (KZ_TOL.EQ.ZERO) KZ_TOL=TWO*EM4
+        IF (KZ_TOL==ZERO) KZ_TOL=TWO*EM4
        ELSE
 C--------non-linear-----
-        IF (KZ_TOL.EQ.ZERO) KZ_TOL=FIVE*EM4
+        IF (KZ_TOL==ZERO) KZ_TOL=FIVE*EM4
        ENDIF
-       IF (ISPRB.EQ.1.AND.IDYNA.EQ.0) THEN
+       IF (ISPRB==1.AND.IDYNA==0) THEN
          CALL ZEROR(V,NUMNOD)
-         IF (IRODDL.NE.0) CALL ZEROR(VR,NUMNOD)    
+         IF (IRODDL/=0) CALL ZEROR(VR,NUMNOD)    
        ENDIF
-       IF (NEXP.EQ.0.OR.IDYNA.EQ.1) NEXP=1
-       IF (INTP_C.GE.0)THEN
-        IF (IMACH.EQ.3.AND.NSPMD.GT.1)THEN
-         IF (ISOLV.GE.2) INTP_C = 1
+       IF (NEXP==0.OR.IDYNA==1) NEXP=1
+       IF (INTP_C>=0)THEN
+        IF (IMACH==3.AND.NSPMD>1)THEN
+         IF (ISOLV>=2) INTP_C = 1
         ELSE
          INTP_C = 0
         ENDIF
        ENDIF
       ENDIF
-      IF (NEIG.GT.0) THEN
-         IF (IDEFKZ.EQ.1) KZ_TOL=TEN
+      IF (NEIG>0) THEN
+         IF (IDEFKZ==1) KZ_TOL=TEN
 C         IKG=0
          IKPAT=0
-        IF (IMACH.EQ.3) IKPAT=1
-	       IF (IAUTSPC.EQ.1) IAUTSPC=0
+        IF (IMACH==3) IKPAT=1
+	       IF (IAUTSPC==1) IAUTSPC=0
       ENDIF
 
-      IF (IDYNA.GT.0)CALL DYNA_INI(1 ,NUMNOD ,HHT_A ,NEWM_A,NEWM_B,V,VR)
+      IF (IDYNA>0)CALL DYNA_INI(1 ,NUMNOD ,HHT_A ,NEWM_A,NEWM_B,V,VR)
 C
        NSPCL = 0
-       IF (B_MCORE.LT.0) THEN
+       IF (B_MCORE<0) THEN
         LMEMN=1000000
        ELSE
         LMEMN = 2*LMEMV/3
        ENDIF
 C       
-C      IF(INTP_C.LT.0) IRREF = MAX(2,IRREF)
-C      IF(IRREF.EQ.1.AND.IDYNA.GT.0) IRREF = 4
+C      IF(INTP_C<0) IRREF = MAX(2,IRREF)
+C      IF(IRREF==1.AND.IDYNA>0) IRREF = 4
 C      
       NDDL_SI = 0
       NDDL_SL = 0
@@ -147,13 +147,13 @@ C
       IF (IKT > 0 .OR.ISPRB==1) CALL KTBUF_INI(ELBUF_TAB,IPARG ,IPM ,IGEO)
 C
       IDTFIX=0     
-      IF (NITOL.EQ.123) THEN
+      IF (NITOL==123) THEN
        N_TOL=MAX(N_TOLE,N_TOLF,N_TOLU)
-      ELSEIF (NITOL.EQ.12) THEN
+      ELSEIF (NITOL==12) THEN
        N_TOL=MAX(N_TOLE,N_TOLF)
-      ELSEIF (NITOL.EQ.23) THEN
+      ELSEIF (NITOL==23) THEN
        N_TOL=MAX(N_TOLF,N_TOLU)
-      ELSEIF (NITOL.EQ.13) THEN
+      ELSEIF (NITOL==13) THEN
        N_TOL=MAX(N_TOLE,N_TOLU)
       ENDIF
 C
@@ -275,7 +275,7 @@ C--------add warning for HEPH-HSEPH-S8--
          ENDIF
         END IF
 C---- shell 3n,4n
-       ELSEIF(ITY.EQ.3.OR.ITY.EQ.7) THEN
+       ELSEIF(ITY==3.OR.ITY==7) THEN
 c       Compatibility :QEPH,QBAT,C3
         IF (JHBE==11) THEN
 C-------for the case when DKT18 was available for implicit
@@ -454,7 +454,7 @@ c----------------------------------------------------
          L_ETFAC=1
         ENDIF   ! el type
 C---- shell 3n,4n
-       ELSEIF(ITY.EQ.3.OR.ITY.EQ.7) THEN
+       ELSEIF(ITY==3.OR.ITY==7) THEN
         IF (MLW==2.OR.MLW==36.OR.MLW==78) L_ETFAC=1
        ENDIF   ! el type
 c -------------------------------------------------

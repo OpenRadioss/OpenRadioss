@@ -75,7 +75,7 @@ C-----------------------------------------------
 C
       IC =0
       NEL=0
-      IF (I .LE. 0) RETURN
+      IF (I <= 0) RETURN
       IF (SURF_ELTYP(I) /= 1) RETURN
 C
       NEL=SURF_ELEM(I)
@@ -108,19 +108,19 @@ C
        XC=XC*ONE_OVER_8
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
-       IF(IR.NE.0) RETURN
-       IF(IC.GE.2)RETURN
+       IF(IR/=0) RETURN
+       IF(IC>=2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-       IF(DDS.LT.0) RETURN
-       IF(IY(3).EQ.IY(4)) THEN
+       IF(DDS<0) RETURN
+       IF(IY(3)==IY(4)) THEN
         IRECT(1,I)=IY(2)
         IRECT(2,I)=IY(1)
        ELSE
         DO 120 KK=1,4
   120   IRECT(KK,I)=IY(4-KK+1)
        ENDIF
-       IF(NINT.GT.0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT.LT.0) WRITE (IOUT,1400) I,NOINT
+       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
  1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
@@ -226,7 +226,7 @@ C
       IC =0
       NEL=0
 
-      IF (I .LE. 0) RETURN
+      IF (I <= 0) RETURN
       IF (SURF_ELTYP(I) /= 1) RETURN
 C
       NEL=SURF_ELEM(I)
@@ -259,19 +259,19 @@ C
        XC=XC*ONE_OVER_8
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
-       IF(IR.NE.0) RETURN
-       IF(IC.GE.2)RETURN
+       IF(IR/=0) RETURN
+       IF(IC>=2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-       IF(DDS.LT.0) RETURN
-       IF(IY(3).EQ.IY(4)) THEN
+       IF(DDS<0) RETURN
+       IF(IY(3)==IY(4)) THEN
         IRECT(1)=IY(2)
         IRECT(2)=IY(1)
        ELSE
         DO 120 KK=1,4
   120   IRECT(KK)=IY(4-KK+1)
        ENDIF
-       IF(NINT.GT.0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT.LT.0) WRITE (IOUT,1400) I,NOINT
+       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
  1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,
@@ -378,15 +378,15 @@ C
        XC=XC*ONE_OVER_8
        YC=YC*ONE_OVER_8
        ZC=ZC*ONE_OVER_8
-       IF(IR.NE.0) RETURN
-       IF(IC.GE.2)RETURN
+       IF(IR/=0) RETURN
+       IF(IC>=2)RETURN
        DDS=N1*(XC-XS1)+N2*(YC-YS1)+N3*(ZC-ZS1)
-       IF(DDS.LT.0) RETURN
+       IF(DDS<0) RETURN
        DO  KK=1,4
          IRECT(KK,I)=IY(4-KK+1)
        ENDDO
-       IF(NINT.GT.0) WRITE (IOUT,1300) I,NOINT
-       IF(NINT.LT.0) WRITE (IOUT,1400) I,NOINT
+       IF(NINT>0) WRITE (IOUT,1300) I,NOINT
+       IF(NINT<0) WRITE (IOUT,1400) I,NOINT
        RETURN
 C
  1300 FORMAT(' NODE NUMBERING OF SECONDARY  SEGMENT',I5,' OF INTERFACE',I10,

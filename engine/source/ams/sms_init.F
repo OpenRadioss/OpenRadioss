@@ -185,7 +185,7 @@ C if msr secnd of lagrange wall => no ams
             K  =K+NSN
           END DO
  100      CONTINUE
-          IF(ISMS==0.AND.NPBY(7,M).GT.0 .AND. 
+          IF(ISMS==0.AND.NPBY(7,M)>0 .AND. 
      .       (KINET(MSR) <=1 
      .        .OR. IVF(KINET(MSR)) ==1
      .        .OR. IRLK(KINET(MSR))==1 
@@ -694,7 +694,7 @@ C     -----------------
 C
  250  CONTINUE
 #include "lockon.inc"
-      IF(NSGDONE.GT.NGROUP) THEN
+      IF(NSGDONE>NGROUP) THEN
 #include "lockoff.inc"
          GOTO 252
       ENDIF
@@ -704,7 +704,7 @@ C
 C
       IF(TAGREL_SMS(NG)==0)GOTO 250
       ITY   =IPARG(5,NG)
-      IF (IDDW.GT.0) CALL STARTIMEG(NG)
+      IF (IDDW>0) CALL STARTIMEG(NG)
 
       NEL     = IPARG(2,NG)
       NFT     = IPARG(3,NG)
@@ -996,7 +996,7 @@ C
          END DO
        END DO
       END IF
-      IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+      IF (IDDW>0) CALL STOPTIMEG(NG)
       GOTO 250
  252  CONTINUE
 C-------------------------------------------------------------------------
@@ -1182,7 +1182,7 @@ C
         ILAGM = IPARI(33,N)
         ILEV  = IPARI(20,N)
         NSN   = IPARI(5,N)
-        IF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.ILEV/=25 .and. ILEV/=26.AND. ILEV/=27 .and. ILEV/=28)THEN
+        IF(NTY==2 .AND. ILAGM==0 .AND.ILEV/=25 .and. ILEV/=26.AND. ILEV/=27 .and. ILEV/=28)THEN
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
             L=INTBUF_TAB(N)%IRTLM(II)
@@ -1202,10 +1202,10 @@ C
             T2MAIN_SMS(4,I)  = N3
             T2MAIN_SMS(5,I)  = N4
           ENDDO  
-        ELSEIF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.(ILEV==27.or.ILEV==28))THEN
+        ELSEIF(NTY==2 .AND. ILAGM==0 .AND.(ILEV==27.or.ILEV==28))THEN
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
-            IF (INTBUF_TAB(N)%IRUPT(II).EQ.0) THEN
+            IF (INTBUF_TAB(N)%IRUPT(II)==0) THEN
 C           Kinematic node
               L=INTBUF_TAB(N)%IRTLM(II)
               N1 = INTBUF_TAB(N)%IRECTM(4*(L-1)+1)
@@ -1232,7 +1232,7 @@ C
         NTY   = IPARI(7,N)
         ILAGM = IPARI(33,N)
         ILEV  = IPARI(20,N)
-        IF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.ILEV/=25 .and. ILEV/=26.AND. ILEV/=27 .and. ILEV/=28)THEN
+        IF(NTY==2 .AND. ILAGM==0 .AND.ILEV/=25 .and. ILEV/=26.AND. ILEV/=27 .and. ILEV/=28)THEN
           NSN=IPARI(5,N)
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
@@ -1259,7 +1259,7 @@ C-- Type2 crossed connection between main nodes
               IF ((T2MAIN_SMS(1,J) > 1).AND.(I > J)) THEN
                 DO K =2,5
                   DO KK =2,5
-                    IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                    IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                       NODNX_SMS(T2MAIN_SMS(K,I))=NODNX_SMS(T2MAIN_SMS(K,I))+1
                       NODNX_SMS(T2MAIN_SMS(KK,J))=NODNX_SMS(T2MAIN_SMS(KK,J))+1
                       NNZ_SMS = NNZ_SMS + 2
@@ -1269,7 +1269,7 @@ C-- Type2 crossed connection between main nodes
               ENDIF
             END DO
           END DO
-        ELSEIF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.(ILEV==25.or.ILEV==26))THEN
+        ELSEIF(NTY==2 .AND. ILAGM==0 .AND.(ILEV==25.or.ILEV==26))THEN
           NSN=IPARI(5,N)
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
@@ -1294,11 +1294,11 @@ C-- Type2 crossed connection between main nodes
             NODNX_SMS(N4)=NODNX_SMS(N4)+1
             NNZ_SMS = NNZ_SMS + 8
           END DO
-        ELSEIF(NTY.EQ.2 .AND. ILAGM.EQ.0 .AND.(ILEV==27.or.ILEV==28))THEN
+        ELSEIF(NTY==2 .AND. ILAGM==0 .AND.(ILEV==27.or.ILEV==28))THEN
           NSN=IPARI(5,N)
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
-            IF (INTBUF_TAB(N)%IRUPT(II).EQ.0) THEN
+            IF (INTBUF_TAB(N)%IRUPT(II)==0) THEN
 C           Kinematic node
               L=INTBUF_TAB(N)%IRTLM(II)
               N1 = INTBUF_TAB(N)%IRECTM(4*(L-1)+1)
@@ -1323,7 +1323,7 @@ C-- Type2 crossed connection between main nodes
                 IF ((T2MAIN_SMS(1,J) > 1).AND.(I > J)) THEN
                   DO K =2,5
                     DO KK =2,5
-                      IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                      IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                         NODNX_SMS(T2MAIN_SMS(K,I))=NODNX_SMS(T2MAIN_SMS(K,I))+1
                         NODNX_SMS(T2MAIN_SMS(KK,J))=NODNX_SMS(T2MAIN_SMS(KK,J))+1
                         NNZ_SMS = NNZ_SMS + 2
@@ -1522,7 +1522,7 @@ C-- Type2 crossed connection between main nodes
               IF ((T2MAIN_SMS(1,J) > 1).AND.(I > J)) THEN
                 DO K =2,5
                   DO KK =2,5
-                    IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                    IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                       JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
                       NAD_SMS(T2MAIN_SMS(K,I))=NAD_SMS(T2MAIN_SMS(K,I))+1
                       JDI_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=T2MAIN_SMS(K,I)
@@ -1578,7 +1578,7 @@ C
           NSN=IPARI(5,N)
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
-            IF (INTBUF_TAB(N)%IRUPT(II).EQ.0) THEN
+            IF (INTBUF_TAB(N)%IRUPT(II)==0) THEN
 C             Kinematic node
               L=INTBUF_TAB(N)%IRTLM(II)
               N1 = INTBUF_TAB(N)%IRECTM(4*(L-1)+1)
@@ -1618,7 +1618,7 @@ C-- Type2 crossed connection between main nodes
                 IF ((T2MAIN_SMS(1,J) > 1).AND.(I > J)) THEN
                   DO K =2,5
                     DO KK =2,5
-                      IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                      IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                         JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
                         NAD_SMS(T2MAIN_SMS(K,I))=NAD_SMS(T2MAIN_SMS(K,I))+1
                         JDI_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=T2MAIN_SMS(K,I)
@@ -1890,7 +1890,7 @@ C-- Type2 crossed connection between main nodes
               IF ((T2MAIN_SMS(1,J) > 1).AND.(I > J)) THEN
                 DO K =2,5
                   DO KK =2,5
-                    IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                    IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                       JSM_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=NAD_SMS(T2MAIN_SMS(KK,J))
                       JSM_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=NAD_SMS(T2MAIN_SMS(K,I))
                       JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
@@ -1960,7 +1960,7 @@ C
           NSN=IPARI(5,N)
           DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
-            IF (INTBUF_TAB(N)%IRUPT(II).EQ.0) THEN
+            IF (INTBUF_TAB(N)%IRUPT(II)==0) THEN
 C           Kinematic node
               IF(NODNX_SMS(I)/=0) LSMSPCG=LSMSPCG-1
  
@@ -2010,7 +2010,7 @@ C-- Type2 crossed connection between main nodes
                 IF ((T2MAIN_SMS(1,J) > 1).AND.(I > J)) THEN
                   DO K =2,5
                     DO KK =2,5
-                      IF (T2MAIN_SMS(K,I).NE.T2MAIN_SMS(KK,J)) THEN
+                      IF (T2MAIN_SMS(K,I)/=T2MAIN_SMS(KK,J)) THEN
                         JSM_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=NAD_SMS(T2MAIN_SMS(KK,J))
                         JSM_SMS(NAD_SMS(T2MAIN_SMS(KK,J)))=NAD_SMS(T2MAIN_SMS(K,I))
                         JDI_SMS(NAD_SMS(T2MAIN_SMS(K,I)))=T2MAIN_SMS(KK,J)
@@ -2091,19 +2091,19 @@ C-----------------------------------------------
           J=JDI_SMS(IJ)
           IF(J > I)THEN
             JI=JSM_SMS(IJ)
-            IF (IJ.NE.JSM_SMS(JI)) ERROR = 1
+            IF (IJ/=JSM_SMS(JI)) ERROR = 1
           END IF
         END DO
       END DO
 C
-      IF (ERROR.EQ.1) THEN
+      IF (ERROR==1) THEN
         CALL ANCMSG(MSGID=273,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
 C-----------------------------------------------
 C       COMMUNICATION 
 C-----------------------------------------------
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         SIZE = 1
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
 C
@@ -2120,7 +2120,7 @@ C-----------------------------------------------
        END IF
       END DO
       LSMSPCG=LSMSPCG+NINDX1_SMS
-      IF(NSPMD.GT.1) 
+      IF(NSPMD>1) 
      .  CALL SPMD_ALLGLOB_ISUM9(LSMSPCG,1)	
       NSMSPCG=MIN(NSMSPCG,3*LSMSPCG)
 C
@@ -2133,12 +2133,12 @@ C------------
           J=JDI_SMS(IJ)
           IF(J > I)THEN
             JI=JSM_SMS(IJ)
-            IF (IJ.NE.JSM_SMS(JI)) ERROR = 1
+            IF (IJ/=JSM_SMS(JI)) ERROR = 1
           END IF
         END DO
       END DO
 C
-      IF (ERROR.EQ.1) THEN
+      IF (ERROR==1) THEN
         CALL ANCMSG(MSGID=273,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -2590,7 +2590,7 @@ C
 C
      	  DO II=1,NSN	     
             J=INTBUF_TAB(N)%NSV(II)
-            IF ((ILEV==27.OR.ILEV==28).AND.INTBUF_TAB(N)%IRUPT(II).EQ.1) CYCLE
+            IF ((ILEV==27.OR.ILEV==28).AND.INTBUF_TAB(N)%IRUPT(II)==1) CYCLE
      	    TAG(J)=1
      	  ENDDO
      	ENDIF

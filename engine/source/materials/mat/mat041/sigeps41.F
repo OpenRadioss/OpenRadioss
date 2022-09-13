@@ -151,7 +151,7 @@ c     parametres et variables utilises par lee_tarver :
 c
       TFEXTT=0.
 C   I n i t i a l i s a t i o n s
-      if (TIME.eq.ZERO) then
+      if (TIME==ZERO) then
         do i=1,nel
           uvar(i,1) = ZERO
           uvar(i,3) = uparam(14)
@@ -211,14 +211,14 @@ c
         pold = pres
         artvisc = ZERO
         mt=RHO(I)*VOLUME(I)
-        IF (TIME .GT. ZERO .AND. IALE + IEULER .GT. 0) THEN
+        IF (TIME > ZERO .AND. IALE + IEULER > 0) THEN
            UVAR(I, 1) = UVAR(I, 1) / MT
            UVAR(I, 1) = MAX(ZERO, MIN(UVAR(I, 1), ONE))
         ENDIF
         fc   = uvar(i,1)
         cv   = uvar(i,3)
         tmp  = uparam(39)
-        if(TIME.gt.0. .and. mt.gt.em30) 
+        if(TIME>0. .and. mt>em30) 
      .     tmp  = EINT(I)/(mt*cv)
         dvol = vol - uvar(i,4)
         dedv = uvar(i,5)
@@ -251,9 +251,9 @@ c gw bug possible: tmp = tmp_old - .5*(tem2-tem1)*dvol
      .         tmp,heat,vol ,fc,cv,dedv,pres, beta)
 c
 c  reaction chimique
-      if (i_reac.eq.1) call burn1(rki,ex,ri,rkg,yg,zg,cappa,
+      if (i_reac==1) call burn1(rki,ex,ri,rkg,yg,zg,cappa,
      .                 artvisc,dt,pres,etar,fc,cburn,oldfc)
-      if (i_reac.eq.2) call burn2(rki,ex,ri,rkg,yg,zg,grow2,
+      if (i_reac==2) call burn2(rki,ex,ri,rkg,yg,zg,grow2,
      .                zg2,yg2,ex1,ex2,fmxig,fmxgr,fmngr,
      .                cappa,chi,ccrit,tol,
      .                artvisc,dt,pres,etar,fc,cburn,oldfc)
@@ -342,18 +342,18 @@ c
 c   controle du pas de temps (  faire)
       cburn = ZERO
 c   short cuts
-      if (pres.le.ZERO) return
-      if (artvisc.ge.(cappa*pres)) return
-      if (fc.eq.ONE) return
+      if (pres<=ZERO) return
+      if (artvisc>=(cappa*pres)) return
+      if (fc==ONE) return
 c
 c   ignition & growth
       ratei = rki * (ONE -fc)**ex * (etar-ONE)**ri
-      if ((etar - ONE).le.ZERO) ratei=ZERO
+      if ((etar - ONE)<=ZERO) ratei=ZERO
       dfci = ratei * dt
       rateg =  rkg * (ONE - fc)**ex * fc**yg * pres**zg
       dfcg = rateg * dt
       fc = oldfc + max(dfci,zero) + max(dfcg,zero)
-      if (fc.ge.ONE) fc = ONE
+      if (fc>=ONE) fc = ONE
 c
       return
       end
@@ -405,28 +405,28 @@ c   initialisations et short cuts
       grow1 = rkg
       yg1 = yg
       zg1 = zg
-      if (pres.le.ZERO) return
-      if (fc.eq.1.) return
-      if (artvisc.ge.(cappa*pres)) return
-      if (fc.le.fmxig) then
+      if (pres<=ZERO) return
+      if (fc==1.) return
+      if (artvisc>=(cappa*pres)) return
+      if (fc<=fmxig) then
 c
 c       ignition & growth
 c
         ratei = rki * (ONE-fc+tol)**ex * abs(etar-ONE-ccrit)**ri
-        if ((etar- ONE -ccrit).le.ZERO) ratei = ZERO
+        if ((etar- ONE -ccrit)<=ZERO) ratei = ZERO
         dfci = ratei * dt
         fc = oldfc + max(dfci,zero)
-        if (fc.gt.fmxig) fc = fmxig
+        if (fc>fmxig) fc = fmxig
       endif
       rateg1 = grow1 * (ONE -fc+tol)**ex1 * (fc+tol)**yg1 * pres**zg1
-      if (fc.gt.fmxgr) rateg1 = ZERO
+      if (fc>fmxgr) rateg1 = ZERO
       rateg2 = grow2 * (ONE -fc+tol)**ex2 * (fc+tol)**yg2 * pres**zg2
-      if (fc.lt.fmngr) rateg2 = ZERO
+      if (fc<fmngr) rateg2 = ZERO
       rateg = rateg1 + rateg2
       dfcg = rateg * dt
       fc = fc + max(dfcg,zero)
-      if ((fc-oldfc).gt.chi) fc = oldfc + chi
-      if (fc.ge.ONE) fc = ONE
+      if ((fc-oldfc)>chi) fc = oldfc + chi
+      if (fc>=ONE) fc = ONE
 c
       return
       end
@@ -477,7 +477,7 @@ c
 c   initialisations
       etac = ONE/vol
       fc1 = ONE -fc
-      if (fc.lt.check) then
+      if (fc<check) then
 c   que des reactifs, avant reaction
         etar = fc1 * etac
         call react(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
@@ -493,7 +493,7 @@ c   que des reactifs, avant reaction
         heat = enq-enp+enr
         return
 c
-      elseif (fc.gt.(ONE -check)) then
+      elseif (fc>(ONE -check)) then
 c   que des produits, apres reaction
         etap = fc * etac
         call react(ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
@@ -509,7 +509,7 @@ c
       endif
       guess = fc1 * etap/(fc1*etap+fc*etar)
       beta = guess
-      if (beta.eq.ONE) beta = fc1
+      if (beta==ONE) beta = fc1
 c
 c   debut iterations
 C=======================================================================
@@ -522,22 +522,22 @@ C=======================================================================
      .           tmp,dedvp,pprod,bthp,dpdtp,enp )
         pmax = max(preac,pprod)
         delta = preac-pprod
-        if (abs(delta/pmax).le.epsil) goto 800
+        if (abs(delta/pmax)<=epsil) goto 800
 c   Newton
         trans1 = bthr * etar/beta
         trans2 = bthp * etap/(ONE - beta)
         slope = -(trans1+trans2)
         beta = beta - delta/slope
 c       dans dyna2d :
-c       if ((beta.le.0.).or.(beta.ge.1.)) beta = fc1
+c       if ((beta<=0.).or.(beta>=1.)) beta = fc1
 c       mais pb si beta=fc1 redonne un beta > 1 ...
-        if (beta.le.ZERO) beta = - beta
-        if (beta.ge.ONE) beta = ONE/beta
+        if (beta<=ZERO) beta = - beta
+        if (beta>=ONE) beta = ONE/beta
       enddo
 C=======================================================================
       iter = 2
       beta=guess - EM01
-      if(beta.lt.EM5) beta=EM5
+      if(beta<EM5) beta=EM5
       tl=beta
       call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr,
@@ -554,7 +554,7 @@ C=======================================================================
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
       a=sign(ONE,delta)
-      if(a.ne.b) go to 300
+      if(a/=b) go to 300
       beta=ZEP9999
       tu=beta
       call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
@@ -563,7 +563,7 @@ C=======================================================================
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
       a=sign(ONE,delta)
-      if (delta.gt.ZERO) then
+      if (delta>ZERO) then
 cc        write(*,*)'  delta (beta=0.9999999) > 0.'
 cc        write(*,*)'  il faut augmenter check...'
         goto 900
@@ -579,7 +579,7 @@ C=======================================================================
      .           dedvp,pprod,bthp,dpdtp,enp, 
      .           beta,delta,fc1,etac,fc,epsil)
        b=sign(ONE,delta)
-       if(a.ne.b) goto 300
+       if(a/=b) goto 300
        tu=tl
       enddo
       goto 900
@@ -592,10 +592,10 @@ C=======================================================================
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
      .           dedvp,pprod,bthp,dpdtp,enp ,
      .           beta,delta,fc1,etac,fc,epsil)
-       if(delta.eq.ZERO) go to 800
+       if(delta==ZERO) go to 800
        c=sign(ONE,delta)
-       if(c.eq.b) tl=beta
-       if(c.eq.a) tu=beta
+       if(c==b) tl=beta
+       if(c==a) tu=beta
       enddo
       go to 900
 C=======================================================================
@@ -690,7 +690,7 @@ c
      .           tmp,dedvp,pprod,bthp,dpdtp,enp )
         pmax = max(preac,pprod)
         delta = preac - pprod
-        if (abs(delta/pmax).le.epsil) delta = ZERO
+        if (abs(delta/pmax)<=epsil) delta = ZERO
         return
         end
 c

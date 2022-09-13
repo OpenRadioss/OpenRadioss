@@ -125,12 +125,12 @@ C
       MX_CAND=MULTIMP*NSN
       STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
       STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C -------------------------------------------------------------
        NME_T=NME/NTHREAD
        ESH_T = ITASK*NME_T
-       IF(ITASK.EQ.NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
+       IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
        SIZE   = ZERO
        XSLVG(1) = -EP30
        XSLVG(2) = -EP30
@@ -164,7 +164,7 @@ C error in the estimation formula
        XY = MAX(XSLVG(2)-XMSRG(5),XMSRG(2)-XSLVG(5))
        XZ = MAX(XSLVG(3)-XMSRG(6),XMSRG(3)-XSLVG(6))
 C -------------------------------------------------------------
-       IF(XX**2 +  XY**2 + XZ**2 .GE. TZINF**2) THEN
+       IF(XX**2 +  XY**2 + XZ**2 >= TZINF**2) THEN
 C=======================================================================
 C        TRI
 C=======================================================================

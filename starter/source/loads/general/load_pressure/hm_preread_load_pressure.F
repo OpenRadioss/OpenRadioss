@@ -106,7 +106,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C-------
         IS = 0                                              
         DO J=1,NSURF
-          IF(ISU.EQ.IGRSURF(J)%ID)IS=J
+          IF(ISU==IGRSURF(J)%ID)IS=J
         ENDDO 
         IF(IS == 0)THEN
           CALL ANCMSG(MSGID=931,

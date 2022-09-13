@@ -64,7 +64,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         J=I+NFT
         USENS=IGEO(3,IX(1,J))
-        IF(USENS.LE.0)THEN
+        IF(USENS<=0)THEN
 C         no sensor or Isflag=1
           OFF(I)=ONE
         ELSE

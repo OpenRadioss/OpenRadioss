@@ -212,7 +212,7 @@ C
 C-------------
 C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
-      IF(EPIF.NE.ZERO)THEN
+      IF(EPIF/=ZERO)THEN
         DO I=LFT,LLT
           II=I+JPT
           EPD(I)=OFF(I)* 
@@ -223,20 +223,20 @@ C-------------
            EPD(I)= LOG(EPD(I)/EPDR)
            T(I) = T(I) +CP_1*EINT(I)/MAX(EM15,VOL(I))
         ENDDO
-        IF(NPIF.EQ.ZERO)THEN
+        IF(NPIF==ZERO)THEN
           MT=MAX(EM15,Z3_1)
           TM=Z4_1
-          IF(TM.EQ.ZERO)TM=EP30
+          IF(TM==ZERO)TM=EP30
             DO I=LFT,LLT
             TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)))
              EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE + CC * EPD(I))*(ONE - TSTAR(I)**MT)
-             IF(ICC.EQ.1)SIGMX(I)= SIGMX(I)*EPD(I)
+             IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
           ENDDO
-        ELSEIF(NPIF.EQ.LLT)THEN
+        ELSEIF(NPIF==LLT)THEN
           DO I=LFT,LLT
              EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
-             IF(ICC.EQ.1)SIGMX(I)= SIGMX(I) + EPD(I)
+             IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
              EPD(I)=ONE
           ENDDO
@@ -244,14 +244,14 @@ C-------------
           MT=Z3_1
           TM=Z4_1
           DO I=LFT,LLT
-           IF(IRTY.EQ.0)THEN
+           IF(IRTY==0)THEN
             TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-TWOHUNDRED98)/(TM-TWOHUNDRED98)))
             EPD(I)= MAX(ZERO,EPD(I))
              EPD(I)= (ONE +CC * EPD(I))*(1.-TSTAR(I)**MT)
-             IF(ICC.EQ.1)SIGMX(I)= SIGMX(I)*EPD(I)
+             IF(ICC==1)SIGMX(I)= SIGMX(I)*EPD(I)
            ELSE
              EPD(I)= CC*EXP((-Z3_1+Z4_1 * EPD(I))*T(I))
-             IF(ICC.EQ.1)SIGMX(I)= SIGMX(I) + EPD(I)
+             IF(ICC==1)SIGMX(I)= SIGMX(I) + EPD(I)
              CA(I) = CA(I) + EPD(I)
              EPD(I)=ONE
            ENDIF
@@ -266,13 +266,13 @@ C-------------
 C     CRITERE
 C-------------
       DO I=LFT,LLT
-       IF(CN.EQ.ONE) THEN
+       IF(CN==ONE) THEN
          AK(I)= CA(I)+CB_1*EPLA(I)
          QH(I)= CB_1*EPD(I)
        ELSE
-         IF(EPLA(I).GT.ZERO) THEN
+         IF(EPLA(I)>ZERO) THEN
            AK(I)=CA(I)+CB_1*EPLA(I)**CN
-           IF(CN.GT.ONE) THEN
+           IF(CN>ONE) THEN
              QH(I)= (CB_1*CN*EPLA(I)**(CN-ONE))*EPD(I)
            ELSE
              QH(I)= (CB_1*CN/EPLA(I)**(ONE - CN))*EPD(I)
@@ -283,10 +283,10 @@ C-------------
          ENDIF
        ENDIF
        AK(I)= MIN(AK(I)*EPD(I),SIGMX(I))
-       IF(EPLA(I).GT.EPMX)AK(I)=ZERO
+       IF(EPLA(I)>EPMX)AK(I)=ZERO
       ENDDO
 C
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO I=LFT,LLT
          II=I+JPT
          SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
@@ -300,7 +300,7 @@ C
      .                         / MAX(THREE*G(I)+QH(I),EM15)
          DPLA(II) =(ONE-SCALE)*AJ2(I)/ MAX(THREE*G(I)+QH(I),EM15)     
        ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
        DO I=LFT,LLT
          II=I+JPT
          SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
@@ -314,7 +314,7 @@ C
      .                         / MAX(THREE*G(I),EM15)
          DPLA(II) = (ONE -SCALE)*AJ2(I)/ MAX(THREE*G(I),EM15)     
        ENDDO
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
         DO I=LFT,LLT
          II=I+JPT
          SCALE= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))
@@ -374,10 +374,10 @@ C
         EINT(I)=EINT(I)/MAX(EM15,VOL(I))
       ENDDO
 C      
-      IF (IMPL_S.GT.0) THEN
+      IF (IMPL_S>0) THEN
        DO I=LFT,LLT
          II=I+JPT
-         IF(DPLA(II).GT.0) ETSE(I)= QH(I)/G2(I)
+         IF(DPLA(II)>0) ETSE(I)= QH(I)/G2(I)
        ENDDO
       ENDIF
 C

@@ -361,7 +361,7 @@ C     assemblage des Volumes nodaux et Modules nodaux
 C     (pour rigidites d'interface)
 C------------------------------------------
 C   attention : NC1, NC2 ... NC8 sont sous la forme NC(MVSIZ,8)
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         NCC=8
         CALL SBULK3(VOLU  ,NC1    ,NCC,MAT,PM ,
      2              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
@@ -386,8 +386,8 @@ C------------------------------------------
         STIFN(IXS(8,I+NFT))=STIFN(IXS(8,I+NFT))+STI(I)
         STIFN(IXS(9,I+NFT))=STIFN(IXS(9,I+NFT))+STI(I)
       ENDDO
-      IF (IGTYP.NE.29 .AND. IGTYP.NE.30 .AND. IGTYP.NE.31  .AND.
-     .    IGTYP.NE.43) THEN
+      IF (IGTYP/=29 .AND. IGTYP/=30 .AND. IGTYP/=31  .AND.
+     .    IGTYP/=43) THEN
         DO I=LFT,LLT
              IPID1=IXS(NIXS-1,I+NFT)
              CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)

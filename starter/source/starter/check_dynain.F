@@ -85,7 +85,7 @@ C-----------------------------------------------
       OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 C
-      IF (IO_ERR1.NE.0) THEN
+      IF (IO_ERR1/=0) THEN
          FILNAM=ROOTNAM(1:ROOTLEN)//'D01'
          TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
          LEN_TMP_NAME = INFILE_NAME_LEN+LEN_TRIM(FILNAM)
@@ -100,27 +100,27 @@ C
       IS_READ = 0
       DYNPART(1:NPART) = 0
       IPART_DYNAIN(1:NPART) = 0
-      IF (IO_ERR1.EQ.0) THEN
+      IF (IO_ERR1==0) THEN
 C
 10     READ(71,'(A)',END=20) KEYA
 
 
-        IF(KEYA(1:1).EQ.'#')GOTO 10
-        IF(KEYA(1:1).EQ.'$')GOTO 10
+        IF(KEYA(1:1)=='#')GOTO 10
+        IF(KEYA(1:1)=='$')GOTO 10
 
 C
 C--     Check dynain file is requested --
         DYNAIN_CHECK = 1
 
-        IF(KEYA(1:14).EQ.'/DYNAIN/DT/ALL') THEN
-          IF(NUMELC.NE.0)THEN
+        IF(KEYA(1:14)=='/DYNAIN/DT/ALL') THEN
+          IF(NUMELC/=0)THEN
             ALLOCATE(NELIDC(NUMELC),STAT=IERR2)
             DO I=1,NUMELC
                NELIDC(I) = IXC(NIXC,I)
             ENDDO
             NELC = NUMELC 
           ENDIF
-          IF(NUMELTG.NE.0)THEN
+          IF(NUMELTG/=0)THEN
             ALLOCATE(NELIDTG(NUMELTG),STAT=IERR2)
             DO I=1,NUMELTG
                NELIDTG(NELTG) = IXTG(NIXTG,I)
@@ -136,7 +136,7 @@ C--     Check dynain file is requested --
 
          IS_READ = 1
 
-        ELSEIF(KEYA(1:10).EQ.'/DYNAIN/DT') THEN
+        ELSEIF(KEYA(1:10)=='/DYNAIN/DT') THEN
           READ(71,*,END=20) T0,DT0
 
           READ(71,'(A)',END=20) CARTE
@@ -144,13 +144,13 @@ C--     Check dynain file is requested --
           NPRT = 0
 C
 C--     Couting and storing parts id --
-         IF(CARTE(1:1).NE.'#'.OR.CARTE(1:1).NE.'$') THEN
+         IF(CARTE(1:1)/='#'.OR.CARTE(1:1)/='$') THEN
 
-           DO WHILE(CARTE(1:1) .NE. '/'.OR.LEN_TRIM(CARTE).NE.0) 
-            DO WHILE (J.LE.LEN_TRIM(CARTE))
-               IF(CARTE(J:J).NE.' ') THEN
+           DO WHILE(CARTE(1:1) /= '/'.OR.LEN_TRIM(CARTE)/=0) 
+            DO WHILE (J<=LEN_TRIM(CARTE))
+               IF(CARTE(J:J)/=' ') THEN
                  K=J
-                 DO WHILE(CARTE(K:K)/=' '.AND.K.LE.LEN_TRIM(CARTE))
+                 DO WHILE(CARTE(K:K)/=' '.AND.K<=LEN_TRIM(CARTE))
                    K=K+1
                  ENDDO
                  NPRT = NPRT + 1
@@ -195,8 +195,8 @@ C--     parts id to local part --
                 END IF
                 IPART_DYNAIN(IP)=1
              ENDDO
-             IF(NUMELC.NE.0) ALLOCATE(NELIDC(NUMELC),STAT=IERR2)
-             IF(NUMELTG.NE.0) ALLOCATE(NELIDTG(NUMELTG),STAT=IERR2)
+             IF(NUMELC/=0) ALLOCATE(NELIDC(NUMELC),STAT=IERR2)
+             IF(NUMELTG/=0) ALLOCATE(NELIDTG(NUMELTG),STAT=IERR2)
 
           ENDIF
 C
@@ -226,7 +226,7 @@ C
 
       FLG_CHK = 0
 
-      IF(NELC.NE.0.AND.NELTG.NE.0) FLG_CHK = 1
+      IF(NELC/=0.AND.NELTG/=0) FLG_CHK = 1
 
       IF(FLG_CHK == 1 ) THEN ! IF check is needed
         IS_CHECK = 0
@@ -249,19 +249,19 @@ C
         END DO
         CALL MY_ORDERS(0,WORK,CLEFTG,INDXTG,NELTG,1)       
 
-        IF(NELIDTG(INDXTG(1)).GE.NELIDC(INDXC(1)).AND.NELIDTG(INDXTG(1)).LE.NELIDC(INDXC(NELC)))THEN
+        IF(NELIDTG(INDXTG(1))>=NELIDC(INDXC(1)).AND.NELIDTG(INDXTG(1))<=NELIDC(INDXC(NELC)))THEN
            IS_CHECK = 1
         ENDIF
 
-        IF(NELIDTG(INDXTG(NELTG)).GE.NELIDC(INDXC(1)).AND.NELIDTG(INDXTG(NELTG)).LE.NELIDC(INDXC(NELC)))THEN
+        IF(NELIDTG(INDXTG(NELTG))>=NELIDC(INDXC(1)).AND.NELIDTG(INDXTG(NELTG))<=NELIDC(INDXC(NELC)))THEN
            IS_CHECK = 1
         ENDIF
 
-        IF(NELIDC(INDXC(1)).GE.NELIDTG(INDXTG(1)).AND.NELIDC(INDXC(1)).LE.NELIDTG(INDXTG(NELTG)))THEN
+        IF(NELIDC(INDXC(1))>=NELIDTG(INDXTG(1)).AND.NELIDC(INDXC(1))<=NELIDTG(INDXTG(NELTG)))THEN
            IS_CHECK = 1
         ENDIF
 
-        IF(NELIDC(INDXC(NELC)).GE.NELIDTG(INDXTG(1)).AND.NELIDC(INDXC(NELC)).LE.NELIDTG(INDXTG(NELTG)))THEN
+        IF(NELIDC(INDXC(NELC))>=NELIDTG(INDXTG(1)).AND.NELIDC(INDXC(NELC))<=NELIDTG(INDXTG(NELTG)))THEN
            IS_CHECK = 1
         ENDIF
        
@@ -272,9 +272,9 @@ C
            ALLOCATE(IDWARN(MIN(NELC,NELTG)),STAT=IERR2)
            JWARN = 0
            DO I=1,NELC
-              IF(NELIDC(INDXC(I)).GE.NELMIN.AND.NELIDC(INDXC(I)).LE.NELMAX) THEN
+              IF(NELIDC(INDXC(I))>=NELMIN.AND.NELIDC(INDXC(I))<=NELMAX) THEN
                  DO J=1,NELTG
-                    IF(NELIDTG(INDXTG(J)).GE.NELMIN.AND.NELIDTG(INDXTG(J)).LE.NELMAX) THEN
+                    IF(NELIDTG(INDXTG(J))>=NELMIN.AND.NELIDTG(INDXTG(J))<=NELMAX) THEN
                        IF(NELIDC(INDXC(I))==NELIDTG(INDXTG(J))) THEN
                           JWARN = JWARN + 1
                           IDWARN(JWARN) = NELIDC(INDXC(I)) 
@@ -283,8 +283,8 @@ C
                  ENDDO
               ENDIF
            ENDDO
-           IF(JWARN.NE.0)THEN
-             IF(IPRI.GE.6)THEN
+           IF(JWARN/=0)THEN
+             IF(IPRI>=6)THEN
 
               WRITE(IOUT,'(A,A)')
      . ' ** ERROR : DYNAIN FILE CAN NOT BE WRITTEN',
@@ -313,8 +313,8 @@ C
       ENDIF
 
       IF(IS_READ > 0 ) THEN
-         IF(NUMELC.NE.0) DEALLOCATE(NELIDC,STAT=IERR2)
-         IF(NUMELTG.NE.0) DEALLOCATE(NELIDTG,STAT=IERR2)
+         IF(NUMELC/=0) DEALLOCATE(NELIDC,STAT=IERR2)
+         IF(NUMELTG/=0) DEALLOCATE(NELIDTG,STAT=IERR2)
       ENDIF
 
       RETURN

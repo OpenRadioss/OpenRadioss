@@ -145,10 +145,10 @@ C     elts belonging to non adapted parts
       DO NG=ITASK+1,NGROUP,NTHREAD
 
        ITY   =IPARG(5,NG)
-       IF(ITY.NE.3.AND.ITY.NE.7)GOTO 150
+       IF(ITY/=3.AND.ITY/=7)GOTO 150
        GBUF => ELBUF_TAB(NG)%GBUF
 
-       IF (IDDW.GT.0) CALL STARTIMEG(NG)
+       IF (IDDW>0) CALL STARTIMEG(NG)
 
        NEL   =IPARG(2,NG)
        NFT   =IPARG(3,NG)
@@ -268,7 +268,7 @@ C
          END DO
         END IF
        END IF
-       IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+       IF (IDDW>0) CALL STOPTIMEG(NG)
 C
  150   CONTINUE
       END DO
@@ -305,10 +305,10 @@ C
       DO NG=ITASK+1,NGROUP,NTHREAD
 
        ITY   =IPARG(5,NG)
-       IF(ITY.NE.3.AND.ITY.NE.7)GOTO 250
+       IF(ITY/=3.AND.ITY/=7)GOTO 250
        GBUF => ELBUF_TAB(NG)%GBUF
 
-       IF (IDDW.GT.0) CALL STARTIMEG(NG)
+       IF (IDDW>0) CALL STARTIMEG(NG)
 
        MLW   =IPARG(1,NG)
        NEL   =IPARG(2,NG)

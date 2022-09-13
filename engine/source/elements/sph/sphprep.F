@@ -172,7 +172,7 @@ C      /---------------/
 C      /---------------/
       END IF
 
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         ALLOCATE(WREDUCE(NUMSPH),STAT=IERROR)
         IF(.NOT.ALLOCATED(BOOL_SPH_SORT)) THEN
             ALLOCATE( BOOL_SPH_SORT(NUMSPH) )
@@ -184,10 +184,10 @@ C      /---------------/
           CALL ARRET(2)
         END IF
 
-        IF(NSPHIO.EQ.0)THEN
+        IF(NSPHIO==0)THEN
           NSP2SORT=0
           DO N=1,NUMSPH
-            IF(KXSP(2,N).NE.0)THEN
+            IF(KXSP(2,N)/=0)THEN
               NSP2SORT=NSP2SORT+1
               WSP2SORT(NSP2SORT)=N
             ENDIF
@@ -214,12 +214,12 @@ C  Communication Retri en SPMD (fin du cycle precedent) sur tache0
 C-----------------------------------------------
 C
 c globalize ISPHBUC
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
             CALL SPMD_ALLGLOB_ISUM9(ISPHBUC,1)
-            IF(ISPHBUC.GT.1)ISPHBUC=1
+            IF(ISPHBUC>1)ISPHBUC=1
         END IF
 
-        IF(TT.EQ.ZERO)ISPHBUC=1
+        IF(TT==ZERO)ISPHBUC=1
 C
         DXMIN= EP20
         DYMIN= EP20
@@ -237,7 +237,7 @@ C
 C
       ISORTSP=ISPHBUC
 C
-      IF(ISORTSP.EQ.0)THEN
+      IF(ISORTSP==0)THEN
 C       echange des particules reelles/symetriques si traversee.
         CALL SPECHAN(
      1   X       ,V       ,MS      ,SPBUF   ,ITAB      ,
@@ -293,7 +293,7 @@ C
         CALL MY_BARRIER
 C
         IF(ITASK==0)THEN
-          IF(NSPMD.GT.1)THEN
+          IF(NSPMD>1)THEN
             CALL SPMD_MIN_MAX(DXMIN,DYMIN,DZMIN,DXMAX,DYMAX,DZMAX)
           END IF	 
 C
@@ -305,7 +305,7 @@ C
           SPALINR=SQRT(ONE+SPATRUE)
           DO NS=1,NSP2SORT
             N=WSP2SORT(NS)
-            IF(SPALINR*SPBUF(8,N)-MAJORD.LE.SPBUF(1,N))THEN
+            IF(SPALINR*SPBUF(8,N)-MAJORD<=SPBUF(1,N))THEN
              ISORTSP=1
              GOTO 10
             ENDIF
@@ -314,15 +314,15 @@ C
 C-----------------------------------------------
 C  Communication Retri en SPMD sur tache0
 C-----------------------------------------------
-          IF(NSPMD.GT.1)THEN
+          IF(NSPMD>1)THEN
             CALL SPMD_ALLGLOB_ISUM9(ISORTSP,1)
-            IF(ISORTSP.GT.1)ISORTSP=1
+            IF(ISORTSP>1)ISORTSP=1
           END IF
 C
         ENDIF    ! fin tache 0
-      ENDIF ! IF(ISORTSP.EQ.0)THEN
+      ENDIF ! IF(ISORTSP==0)THEN
 C   
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         ISPHRED=0
         ISORTSPG = ISORTSP
       ENDIF    
@@ -339,8 +339,8 @@ C    /---------------/
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-      IF(ITASK.EQ.0)CALL STARTIME(90,1)
-      IF(ISORTSP.EQ.1)THEN
+      IF(ITASK==0)CALL STARTIME(90,1)
+      IF(ISORTSP==1)THEN
           IF(ISPMD==0.and.ITASK == 0)THEN
             WRITE(ISTDO,*)
      .      ' ** INFO ** SPH RE-SEARCH FOR NEIGHBOURS'
@@ -360,7 +360,7 @@ C init DBUC, MIN/MAX + recherche cell remote si spmd
 C
 C         Tri + Recherche des voisins non nuls
 C
-          IF(NSP2SORT.GT.0)
+          IF(NSP2SORT>0)
      1      CALL SPHTRI(X       ,SPBUF   ,KXSP   ,IXSP  ,NOD2SP,
      2                  IREDUCE ,WSP2SORT ,BMINMA ,NSP2SORTF,NSP2SORTL,
      3                  ITASK   ,WREDUCE ,LGAUGE ,GAUGE    )
@@ -373,8 +373,8 @@ C         /---------------/
           CALL MY_BARRIER
 C         /---------------/
 
-          IF(NSPMD.GT.1)THEN
-            IF(ITASK.EQ.0)THEN
+          IF(NSPMD>1)THEN
+            IF(ITASK==0)THEN
 C
               IF(IMONM == 2)THEN
                 CALL STARTIME(95,1)
@@ -392,7 +392,7 @@ C
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-      IF(ITASK.EQ.0)CALL STOPTIME(90,1)
+      IF(ITASK==0)CALL STOPTIME(90,1)
       ISPHBUC=ISORTSP
       IREDUCE=ISPHRED
 C
@@ -406,15 +406,15 @@ C    /---------------/
 C    /---------------/
 C
       ISORTSP=ISPHBUC
-      IF(ISORTSP.EQ.1)THEN
+      IF(ISORTSP==1)THEN
 C
-        IF(ITASK.EQ.0) CALL STARTIME(90,1)
+        IF(ITASK==0) CALL STARTIME(90,1)
 C
         IREDUCE  =ISPHRED
         MYSPATRUE=SPATRUE
 
-        IF(NSPMD.GT.1) THEN
-          IF(ITASK.EQ.0)THEN
+        IF(NSPMD>1) THEN
+          IF(ITASK==0)THEN
             IF(IMONM == 2)THEN
               CALL STARTIME(95,1)
               CALL SPMD_BARRIER()
@@ -448,17 +448,17 @@ C    /---------------/
      5    LGAUGE  ,GAUGE)
 
 #include "lockon.inc"
-        IF(IREDUCE.GT.ISPHRED)THEN
+        IF(IREDUCE>ISPHRED)THEN
           ISPHRED=IREDUCE
         ENDIF
 #include "lockoff.inc"
 
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
 C        /---------------/
           CALL MY_BARRIER
 C        /---------------/
 
-          IF(ITASK.EQ.0) THEN
+          IF(ITASK==0) THEN
 C
             IF(IMONM == 2)THEN
               CALL STARTIME(95,1)
@@ -488,13 +488,13 @@ C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
 C
-        IF(NSPMD.GT.1)THEN
-          IF(IMONM == 2.AND.ITASK.EQ.0)THEN
+        IF(NSPMD>1)THEN
+          IF(IMONM == 2.AND.ITASK==0)THEN
             CALL STARTIME(95,1)
             CALL SPMD_BARRIER()
             CALL STOPTIME(95,1)
           END IF
-          IF(ITASK.EQ.0) THEN
+          IF(ITASK==0) THEN
             CALL STARTIME(91,1)
             CALL SPMD_SPHGETISPH()
             CALL STOPTIME(91,1)
@@ -505,17 +505,17 @@ C      /---------------/
 C      /---------------/
 
 #include "lockon.inc"
-        IF(MYSPATRUE.LT.SPATRUE)THEN
+        IF(MYSPATRUE<SPATRUE)THEN
           SPATRUE=MYSPATRUE
           ENDIF
 #include "lockoff.inc"
 
-        IF(NSPMD.GT.1)THEN
+        IF(NSPMD>1)THEN
 C        /---------------/
           CALL MY_BARRIER
 C        /---------------/
 
-          IF(ITASK.EQ.0) THEN
+          IF(ITASK==0) THEN
 C
             IF(IMONM == 2)THEN
               CALL STARTIME(95,1)
@@ -533,14 +533,14 @@ C
 C       /---------------/
         CALL MY_BARRIER
 C       /---------------/
-        IF(ITASK.EQ.0) CALL STOPTIME(90,1)
+        IF(ITASK==0) CALL STOPTIME(90,1)
 
       ELSE
 C
-        IF(ITASK.EQ.0)CALL STARTIME(94,1)
+        IF(ITASK==0)CALL STARTIME(94,1)
 C
-        IF(NSPMD.GT.1)THEN
-          IF(ITASK.EQ.0) THEN
+        IF(NSPMD>1)THEN
+          IF(ITASK==0) THEN
 C
             CALL STARTIME(92,1)
 C Reception X cellules remotes
@@ -556,14 +556,14 @@ C         /---------------/
         END IF
 C
 C  Alloc SPSYM arrays in case of RESTART or /RERUN 
-        IF ((NCYCLE.EQ.0).OR.(IRUNN_BIS.GT.1).OR.(MCHECK/=0)) THEN
-          IF (ITASK.EQ.0) THEN
+        IF ((NCYCLE==0).OR.(IRUNN_BIS>1).OR.(MCHECK/=0)) THEN
+          IF (ITASK==0) THEN
             ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-            IF(IERROR.EQ.0) XSPSYM%BUF = 0
+            IF(IERROR==0) XSPSYM%BUF = 0
             ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-            IF(IERROR.EQ.0) VSPSYM%BUF = 0
+            IF(IERROR==0) VSPSYM%BUF = 0
             ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
-            IF(IERROR.EQ.0) WSMCOMP%BUF = 0
+            IF(IERROR==0) WSMCOMP%BUF = 0
             IRUNN_BIS = 0
           ENDIF
 C        /---------------/
@@ -591,8 +591,8 @@ C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
 C
-        IF(NSPMD.GT.1)THEN
-          IF(ITASK.EQ.0) THEN
+        IF(NSPMD>1)THEN
+          IF(ITASK==0) THEN
 C
             CALL STARTIME(92,1)
 C Envoi liste des cellules remotes actives courantes et reception V, M, RHO pour cellules remotes actives
@@ -617,15 +617,15 @@ C       /---------------/
         CALL MY_BARRIER
 C       /---------------/
 C
-        IF(ITASK.EQ.0)CALL STOPTIME(94,1)
+        IF(ITASK==0)CALL STOPTIME(94,1)
 C
       ENDIF
 C
 C-----------------------------------------------
 C       Traitement des OUTLETS.
 C-----------------------------------------------
-      IF(ITASK.EQ.0)THEN
-        IF(NSPHIO.NE.0)THEN
+      IF(ITASK==0)THEN
+        IF(NSPHIO/=0)THEN
          CALL SPONOF2(X   ,V       ,D       ,MS      ,SPBUF   ,
      2            ITAB    ,KXSP    ,IXSP    ,NOD2SP  ,NPC     ,
      3            PLD     ,IPARG   ,ELBUF_TAB,ISPHIO  ,VSPHIO  ,

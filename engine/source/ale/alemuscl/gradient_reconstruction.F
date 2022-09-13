@@ -115,7 +115,7 @@ C-----------------------------------------------
          LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1)-IAD2
          DO KK = 1, LGTH
             VOIS_ID = ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1)
-            !IF (VOIS_ID .NE. 0 .AND. VOIS_ID .LE. NUMELS) THEN
+            !IF (VOIS_ID /= 0 .AND. VOIS_ID <= NUMELS) THEN
             IF (VOIS_ID > 0) THEN
                !!! Value of the target function in the current neighboor
                VALL = VOLUME_FRACTION(ITRIMAT,VOIS_ID)

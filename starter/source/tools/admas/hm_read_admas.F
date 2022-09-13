@@ -239,7 +239,7 @@ C---
               NNOD = IGRNOD(IGRS)%NENTITY
 C-----------Multidomaines : on corrige la masse totale avec le nouveau nb de noeuds--------------
               IF (NSUBDOM > 0) THEN
-	         IF (IPID.EQ.0) NNOD = NNOD-IGRNOD(IGRS)%R2R_SHARE
+	         IF (IPID==0) NNOD = NNOD-IGRNOD(IGRS)%R2R_SHARE
 	         COEFF_R2R=(1.00*NNOD)/(1.00*MAX(1,IGRNOD(IGRS)%R2R_ALL))
               ENDIF
               AMAS = COEFF_R2R*AMAS/MAX(1,NNOD)

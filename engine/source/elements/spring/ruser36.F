@@ -327,7 +327,7 @@ C
      .                    +MX2*PMX2*PMX*GAMAC(I)**2
             IF (IFUNC /= 0) THEN
               DSIGY = -H(I)*YLD_I*TWO
-	    ELSEIF (UVAR(N0,I).GT.EM20) THEN 
+	    ELSEIF (UVAR(N0,I)>EM20) THEN 
               DSIGY = -(H(I)*YLD_I*M*(DPLA_I+UVAR(N0,I))**(M-1))*TWO
             ELSE
               DSIGY = ZERO

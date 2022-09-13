@@ -207,10 +207,10 @@ C-----il faut pas eliminer tiny penetration----
 C      PENMAX = MAX(PENSOL,GAP)
 C     END IF
 C Si IDDLEVEL = 0, alors 1er passage ici, avec la MARGE de l'ENGINE pour trouver les memes candidats
-      IF(IDDLEVEL.EQ.0) MARGE_ST = MARGE
+      IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
       BID = FOUR_OVER_5*DD
-      IF (INACTI.NE.7.AND.TZINF.GT.BID) THEN
+      IF (INACTI/=7.AND.TZINF>BID) THEN
         IBID = NINT(TZINF/DD0)
         IBID =(2*IBID+4)*IBID*2
       ENDIF
@@ -389,7 +389,7 @@ C
           
           DO I=1,NSN
             N=NSV(I)
-            IF(STFN(I).NE.ZERO) THEN
+            IF(STFN(I)/=ZERO) THEN
               EDGE_L2(I) = SQRT(EDGE_L2_TMP(N))
               IF(EDGE_L2(I) > LENGTH_TRESHOLD) THEN
 ! because of LEDGE_MAX, too many voxcell will be checked 
@@ -507,7 +507,7 @@ C
 C
       IF(I_MEM==2)RETURN
 C
-      IF(NSN.NE.0)THEN
+      IF(NSN/=0)THEN
        WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER, NSN:',I_STOK,NSN
 C
       ELSE
@@ -574,9 +574,9 @@ C-----------------------------------------------
 C
       NEL=0
 
-      IF(NUMELS.EQ.0) RETURN
+      IF(NUMELS==0) RETURN
 
-      IF(IRECT(1,I).GT.NUMNOD) RETURN
+      IF(IRECT(1,I)>NUMNOD) RETURN
 
       IC=0
       NUSERM = -1
@@ -586,13 +586,13 @@ C
          DO 210 JJ=1,4
            II=IRECT(JJ,I)
            DO K=1,8
-             IF(IXS(K+1,N).EQ.II) GOTO 210
+             IF(IXS(K+1,N)==II) GOTO 210
            ENDDO
            GOTO 230
   210    CONTINUE
          IC=IC+1
          NUSER = IXS(11,N)
-         IF (NUSER.GT.NUSERM) THEN
+         IF (NUSER>NUSERM) THEN
            NEL = N
            NUSERM = NUSER
          ENDIF
@@ -600,16 +600,16 @@ C
          DO 220 JJ=1,4
            II=IRECT(JJ,I)
            DO K=1,8
-             IF(IXS(K+1,N).EQ.II) GOTO 220
+             IF(IXS(K+1,N)==II) GOTO 220
            ENDDO
            DO K=1,6
-             IF(IXS10(K,N-NUMELS8).EQ.II) GOTO 220
+             IF(IXS10(K,N-NUMELS8)==II) GOTO 220
            ENDDO
            GOTO 230
   220    CONTINUE
          IC=IC+1
          NUSER = IXS(11,N)
-         IF (NUSER.GT.NUSERM) THEN
+         IF (NUSER>NUSERM) THEN
            NEL = N
            NUSERM = NUSER
          ENDIF
@@ -617,16 +617,16 @@ C
          DO 222 JJ=1,4
            II=IRECT(JJ,I)
            DO K=1,8
-             IF(IXS(K+1,N).EQ.II) GOTO 222
+             IF(IXS(K+1,N)==II) GOTO 222
            ENDDO
            DO K=1,12
-             IF(IXS20(K,N-NUMELS8-NUMELS10).EQ.II) GOTO 222
+             IF(IXS20(K,N-NUMELS8-NUMELS10)==II) GOTO 222
            ENDDO
            GOTO 230
   222    CONTINUE
          IC=IC+1
          NUSER = IXS(11,N)
-         IF (NUSER.GT.NUSERM) THEN
+         IF (NUSER>NUSERM) THEN
            NEL = N
            NUSERM = NUSER
          ENDIF
@@ -634,16 +634,16 @@ C
          DO 224 JJ=1,4
            II=IRECT(JJ,I)
            DO K=1,8
-             IF(IXS(K+1,N).EQ.II) GOTO 224
+             IF(IXS(K+1,N)==II) GOTO 224
            ENDDO
            DO K=1,8
-             IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20).EQ.II) GOTO 224
+             IF(IXS16(K,N-NUMELS8-NUMELS10-NUMELS20)==II) GOTO 224
            ENDDO
            GOTO 230
   224    CONTINUE
          IC=IC+1
          NUSER = IXS(11,N)
-         IF (NUSER.GT.NUSERM) THEN
+         IF (NUSER>NUSERM) THEN
            NEL = N
            NUSERM = NUSER
          ENDIF

@@ -135,7 +135,7 @@ C     Gather nodale coordinates, compute surface (and volume)
          NY(II) = ZERO
          NZ(II) = ZERO
          GBUF%AREA(II) = SQRT(NX(II) * NX(II) + NY(II) * NY(II) + NZ(II) * NZ(II))
-         IF (N2D .NE. 1) THEN
+         IF (N2D /= 1) THEN
             GBUF%VOL(II) = GBUF%AREA(II)
          ELSE
             GBUF%VOL(II) = (Y1(II) + Y2(II) + Y3(II)) * (
@@ -185,10 +185,10 @@ C     Material initialization
          PM(104,IXTG(1, 1 + NFT)) = PM(104,IXTG(1, 1 + NFT)) + VFRAC * PRES !global pressure
      
          MATLAW = IPM(2, MAT(1))
-         IF (MATLAW .EQ. 5) THEN
+         IF (MATLAW == 5) THEN
 ! JWL MAT
             IF (.NOT. ERROR_THROWN) THEN
-               IF (PM(44, MAT(1)) .EQ. ZERO) THEN
+               IF (PM(44, MAT(1)) == ZERO) THEN
                   CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .                 I1 = IPM(1, IXTG(1, 1 + NFT)), I2 = IPM(1, MAT(1)))
                ENDIF
@@ -198,7 +198,7 @@ C     Material initialization
          ENDIF
       ENDDO
 
-      IF (NLAY .GT. 1) THEN
+      IF (NLAY > 1) THEN
          
 C      Mass globalization
          GBUF%RHO(LFT:LLT)=ZERO                 

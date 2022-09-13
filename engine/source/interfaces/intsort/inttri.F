@@ -351,19 +351,19 @@ C        Look if interface is activated
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) 
      .    ISENS = IPARI(64,N)  
-        IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+        IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
-        IF(NTY == 24.AND.TT.GE.TS)THEN
+        IF(NTY == 24.AND.TT>=TS)THEN
          NSNE_MAX = MAX(NSNE_MAX,IPARI(55,N))
 C-- 
 ccc         NFIC = 3   
 ccc         CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
         END IF
 
-        IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+        IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             MAX_IGE = MAX(MAX_IGE,INTBUF_TAB(N)%S_NIGE)
         ENDIF
       END DO
@@ -424,17 +424,17 @@ C
         ! Look if interface is activated 
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+        IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
 C-----------------------------------------------
-        IF((NTY == 7.AND.TT.GE.TS).OR.NTY == 10.OR.NTY == 18)THEN
+        IF((NTY == 7.AND.TT>=TS).OR.NTY == 10.OR.NTY == 18)THEN
 C-----------------------------------------------
           I7KGLO = 1
           !IF(INTER18_AUTOPARAM == 1)I7KGLO = 0
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
             PTR_X => X_IGE
             V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
@@ -453,7 +453,7 @@ C-----------------------------------------------
      3      VMSR(1,N),INTBUF_TAB(N))
 
 C-----------------------------------------------
-        ELSEIF(NTY == 24.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 24.AND.TT>=TS)THEN
 C-----------------------------------------------
           I7KGLO = 1
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN  
@@ -478,7 +478,7 @@ C        ELSE
 C        END IF !(NSNE_MAX>0 ) THEN
 
 C-----------------------------------------------
-        ELSEIF(NTY == 25.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 25.AND.TT>=TS)THEN
 C-----------------------------------------------
           I7KGLO = 1
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN  
@@ -499,7 +499,7 @@ C ITHK = 1 : main gap should be modified as per change in thickness
           ENDIF
 C
 C-----------------------------------------------
-        ELSEIF(NTY == 11.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 11.AND.TT>=TS)THEN
 C-----------------------------------------------
           I7KGLO = 1
           CALL I11MAIN_CRIT_TRI(
@@ -568,14 +568,14 @@ C
       DO KK=1,NINTSTAMP
         N = INTSTAMP(KK)%NOINTER
         ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-        IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
         X21MSR(1:3,KK) = ZERO
         V21MSR(1:3,KK) = ZERO
-        IF(TT.GE.TS)THEN          ! INTERFACE SENSOR IS ACTIVATED
+        IF(TT>=TS)THEN          ! INTERFACE SENSOR IS ACTIVATED
           IPARI(29,N) = 0
           NTY   =IPARI(7,N)
           I7KGLO = 1
@@ -658,7 +658,7 @@ C Fin Partie non parallele smt
 
       ! ------------------------
       ! explicit part
-      IF(IMPL_S.NE.1)THEN
+      IF(IMPL_S/=1)THEN
             ! -----------
 !$OMP SINGLE
             CALL INTER_TRC_7( ITASK,NIN,IPARI,IND_IMP,
@@ -703,7 +703,7 @@ C=======================================================================
 C     non implicit options-------
 C=======================================================================
 C
-      IF(IMPL_S.NE.1)THEN
+      IF(IMPL_S/=1)THEN
        IDUM = 0
        DO KK=1,NBINTC
         N   = INTLIST(KK)
@@ -724,7 +724,7 @@ C
 
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -734,8 +734,8 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
             PTR_X => X_IGE
             V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
@@ -765,7 +765,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I10MAIN_TRI(
      1 IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
@@ -774,11 +774,11 @@ c-----------------------------------------------------------------------
      5 IDUM      ,NODNX_SMS    ,ITAB         ,INTBUF_TAB(N)      ,
      6 H3D_DATA   )
 c-----------------------------------------------------------------------
-        ELSEIF(NTY == 11.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 11.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I11MAIN_TRI(
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
@@ -808,7 +808,7 @@ C
             NME   =IGRBRIC(IGE)%NENTITY
             NME_T = NME/NTHREAD
             ESHIFT = ITASK*NME_T
-            IF(ITASK.EQ.NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
+            IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
             CALL I17MAIN_TRI(
      1 IPARI       ,INTBUF_TAB(N),X       ,N       ,
      2 ITASK       ,IGRBRIC      ,NME     ,NMES    ,
@@ -821,7 +821,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I20MAIN_TRI(
      1 IPARI   ,X       ,V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
@@ -834,7 +834,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------         
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I22MAIN_TRI(
      1                     IPARI       ,X            ,V            ,
      2                     MS          ,N            ,ITASK        ,WAG            ,WEIGHT       ,
@@ -884,7 +884,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I23MAIN_TRI(
      1 IPARI   ,X            ,INTBUF_TAB(N),V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
@@ -893,14 +893,14 @@ c-----------------------------------------------------------------------
      5 NSNFIOLD,ESHIFT       ,IDUM         ,IDUM    ,NODNX_SMS ,
      6 H3D_DATA,MULTI_FVM)
 c-----------------------------------------------------------------------
-        ELSEIF(NTY == 24.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 24.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
 c          NRTM_T = IPARI(4,N)/NTHREAD
 c          ESHIFT = ITASK*NRTM_T
-c          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           NRTM_T = (IPARI(4,N)-IPARI(42,N))/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
+          IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
          NSNE3 = 3*IPARI(55,N)
         IF (NSNE3 >0 ) THEN
@@ -926,15 +926,15 @@ c          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
      6 H3D_DATA,T2MAIN_SMS ,FORNEQS      ,T2FAC_SMS)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
-        ELSEIF(NTY == 25.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 25.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
           NEDGE_T = IPARI(68,N)/NTHREAD
           ESHIFT = ITASK*NEDGE_T
-          IF(ITASK.EQ.NTHREAD-1)NEDGE_T=IPARI(68,N)
+          IF(ITASK==NTHREAD-1)NEDGE_T=IPARI(68,N)
      +                                -(NTHREAD-1)*NEDGE_T
           NRTM_T = (IPARI(4,N)-IPARI(42,N))/NTHREAD
           SSHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
+          IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
           CALL I25MAIN_TRI(
      1      IPARI   ,X       ,V   ,INTBUF_TAB(N),
@@ -956,12 +956,12 @@ C
        DO KK=1,NINTSTAMP
           N = INTSTAMP(KK)%NOINTER
           ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-          IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
             TS = SENSOR(2,ISENS)
           ELSE
             TS = TT
           ENDIF
-          IF(TT.GE.TS)THEN
+          IF(TT>=TS)THEN
             RETRI21(N) = 0
             CALL I21MAIN_TRI(
      1          IPARI   ,X       ,N            ,
@@ -980,7 +980,7 @@ C=======================================================================
 C
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -991,12 +991,12 @@ C
         INACTI = IPARI(22,N)
         IF(NTY == 7 .AND. INACTI ==7)TYPE18=.TRUE.
 C-----------------------------------------------------------------------
-        IF((NTY == 7.AND.TT.GE.TS).OR.NTY == 18)THEN
+        IF((NTY == 7.AND.TT>=TS).OR.NTY == 18)THEN
 C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
             PTR_X => X_IGE
             V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
@@ -1023,14 +1023,14 @@ C-----------------------------------------------------------------------
      6 INTBUF_TAB(N),H3D_DATA,IXS,MULTI_FVM)
             IADI = IADI+NUM_IMP(N)
 c-----------------------------------------------------------------------
-        ELSEIF(NTY == 24.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 24.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
 c          NRTM_T = IPARI(4,N)/NTHREAD
 c          ESHIFT = ITASK*NRTM_T
-c          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+c          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           NRTM_T = (IPARI(4,N)-IPARI(42,N))/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
+          IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
 C-------  KINET,MS used for commu remot secnd, for the moment no need.   
          NSNE3 = 3*IPARI(55,N)
@@ -1059,15 +1059,15 @@ C-------  KINET,MS used for commu remot secnd, for the moment no need.
             IADI = IADI+NUM_IMP(N)
         END IF !(NSNE >0 ) THEN
 c-----------------------------------------------------------------------
-        ELSEIF(NTY == 25.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 25.AND.TT>=TS)THEN
 c-----------------------------------------------------------------------
           NEDGE_T = IPARI(68,N)/NTHREAD
           ESHIFT  = ITASK*NEDGE_T
-          IF(ITASK.EQ.NTHREAD-1)NEDGE_T=IPARI(68,N)
+          IF(ITASK==NTHREAD-1)NEDGE_T=IPARI(68,N)
      +                                -(NTHREAD-1)*NEDGE_T
           NRTM_T = (IPARI(4,N)-IPARI(42,N))/NTHREAD
           SSHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
+          IF(ITASK==NTHREAD-1)NRTM_T=(IPARI(4,N)-IPARI(42,N))
      +                                -(NTHREAD-1)*NRTM_T
 C-------  KINET,MS used for commu remot secnd, for the moment no need.   
           CALL I25MAIN_TRI(
@@ -1084,7 +1084,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I10MAIN_TRI(
      1 IPARI(1,N),X       ,V         ,
      2 MS        ,N            ,ITASK        ,WAG     ,WEIGHT    ,
@@ -1094,11 +1094,11 @@ C-----------------------------------------------------------------------
      6 H3D_DATA)
             IADI = IADI+NUM_IMP(N)
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 11.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 11.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I11MAIN_TRI(
      1 IPARI      ,X       ,V        ,
      2 MS         ,N            ,ITASK        ,WEIGHT  ,ISENDTO  ,
@@ -1115,7 +1115,7 @@ C-----------------------------------------------------------------------
             NME   =IGRBRIC(IGE)%NENTITY
             NME_T = NME/NTHREAD
             ESHIFT = ITASK*NME_T
-            IF(ITASK.EQ.NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
+            IF(ITASK==NTHREAD-1)NME_T=NME-(NTHREAD-1)*(NME/NTHREAD)
             CALL I17MAIN_TRI(
      1 IPARI       ,INTBUF_TAB(N),X       ,N       ,
      2 ITASK       ,IGRBRIC      ,NME     ,NMES    ,
@@ -1129,7 +1129,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
-          IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+          IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
           CALL I20MAIN_TRI(
      1 IPARI   ,X       ,V       ,
      2 MS      ,N            ,ITASK        ,WAG     ,WEIGHT  ,
@@ -1175,13 +1175,13 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
          ENDIF
 
          ISENS = IPARI(64,N)      
-         IF   (ISENS   .NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+         IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
          ENDIF
 C
-         IF(TT.GE.TS)THEN
+         IF(TT>=TS)THEN
 C-----------------------------------------------------------------------
           CALL I25MAIN_OPT_TRI(
      1       N       ,IPARI  ,INTBUF_TAB(N),X            ,V      ,
@@ -1203,7 +1203,7 @@ C
 C       il FAUT garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER
 C
-        IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+        IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(2,1)  
           CALL STARTIME(8,1)  
           CALL STARTIME(MACRO_TIMER_T25NORM,1)  
@@ -1216,7 +1216,7 @@ C
      4      ADDCSRECT,PROCNOR)
 
        CALL MY_BARRIER
-       IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+       IF (IMON>0 .AND. ITASK==0) THEN
          CALL STOPTIME(MACRO_TIMER_T25NORM,1)
          CALL STARTIME(MACRO_TIMER_T25STFE,1)
        ENDIF
@@ -1238,7 +1238,7 @@ C           Also needed in SMP for resetting STFE !
 !$OMP END SINGLE
 
 C
-        IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+        IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(MACRO_TIMER_T25STFE,1)
           CALL STOPTIME(8,1)  
           CALL STARTIME(2,1)  
@@ -1247,14 +1247,14 @@ C
 C=======================================================================
         CALL MY_BARRIER
 C
-        IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+        IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(2,1) 
           CALL STARTIME(8,1)  
           CALL STARTIME(MACRO_TIMER_T25SLIDING,1)
         END IF 
 C
 C statistique interface
-        IF (DEBUG(3).GE.1.AND.NCYCLE.EQ.0) THEN
+        IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
           NB25_CANDT(ITASK+1) = 0
           NB25_IMPCT(ITASK+1) = 0
           NB25_DST1(ITASK+1)  = 0
@@ -1274,7 +1274,7 @@ C statistique interface
 C
         CALL MY_BARRIER
 C
-        IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+        IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(MACRO_TIMER_T25SLIDING,1)
           CALL STOPTIME(8,1)  
           CALL STARTIME(2,1)  
@@ -1290,7 +1290,7 @@ C
       CALL MY_BARRIER()
       ! ------------------------
       ! explicit part
-      IF(IMPL_S.NE.1)THEN
+      IF(IMPL_S/=1)THEN
         CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
      1                                IRECVFROM,INTBUF_TAB,SENSOR,INTER_STRUCT,SORT_COMM )
       ENDIF
@@ -1351,7 +1351,7 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
 
 
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)      
-        IF   (ISENS   .NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -1362,10 +1362,10 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
         IF(NTY == 7 .AND. INACTI ==7)TYPE18=.TRUE.
 C
 C-----------------------------------------------------------------------
-        IF(NTY == 7.AND.TT.GE.TS)THEN
+        IF(NTY == 7.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
 
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             X_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
             PTR_X => X_IGE
             V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
@@ -1389,7 +1389,7 @@ C-----------------------------------------------------------------------
      1       IPARI(1,N),X  ,V  ,
      2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N))
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 11.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 11.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
           CALL I11MAIN_OPT_TRI(
      1       IPARI     ,INTBUF_TAB(N),X  ,V  ,
@@ -1412,7 +1412,7 @@ C-----------------------------------------------------------------------
      1      IPARI     ,INTBUF_TAB(N),N   ,ITASK  ,
      2      COUNT_REMSLV,X          )
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 24.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 24.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
          NSNE3 = 3*IPARI(55,N)
          IF (NSNE3 >0 ) THEN
@@ -1430,7 +1430,7 @@ C-----------------------------------------------------------------------
      2       N         ,ITASK        ,COUNT_REMSLV, T2MAIN_SMS,LSKYI_SMS_NEW)
          ENd IF !(NSNE >0 ) THEN
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 25.AND.TT.GE.TS)THEN
+        ELSEIF(NTY == 25.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
 C          CALL I25MAIN_OPT_TRI(
 C     1       N       ,IPARI  ,INTBUF_TAB(N),X            ,V      ,
@@ -1447,8 +1447,8 @@ C-----------------------------------------------------------------------
 
       ENDDO     
 C
-      IF (NINTSTAMP.NE.0) THEN
-         IF (DEBUG(3).GE.1.AND.NCYCLE.EQ.0) THEN
+      IF (NINTSTAMP/=0) THEN
+         IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
             NB_STOK_N(ITASK+1)=0
             NB_JLT(ITASK+1)=0
          ENDIF
@@ -1458,12 +1458,12 @@ C
           N = INTSTAMP(KK)%NOINTER
 C
           ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-          IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
            TS = SENSOR(2,ISENS)
          ELSE
            TS = TT
          ENDIF
-        IF(TT.GE.TS)THEN          ! INTERFACE SENSOR IS ACTIVATED
+        IF(TT>=TS)THEN          ! INTERFACE SENSOR IS ACTIVATED
 C
           CALL I21MAIN_OPT_TRI(
      1      IPARI     ,INTBUF_TAB(N),N   ,ITASK  ,
@@ -1472,10 +1472,10 @@ C
        ENDIF
       ENDDO
 
-      IF (NINTSTAMP.NE.0) THEN
-       IF (DEBUG(3).GE.1) THEN
-          IF(MOD(NCYCLE+1,DEBUG(3)).EQ.0)THEN
-           IF (NB_JLT(ITASK+1).EQ.0) THEN
+      IF (NINTSTAMP/=0) THEN
+       IF (DEBUG(3)>=1) THEN
+          IF(MOD(NCYCLE+1,DEBUG(3))==0)THEN
+           IF (NB_JLT(ITASK+1)==0) THEN
             PCT1= ZERO
            ELSE
             PCT1 = HUNDRED - HUNDRED*NB_STOK_N(ITASK+1)/NB_JLT(ITASK+1)
@@ -1516,7 +1516,7 @@ C
 C       il FAUT garder une barriere apres i25main_opt_tri !!!
         CALL MY_BARRIER()
 C
-        IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+        IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(2,1) 
           CALL STARTIME(8,1)  
         END IF 
@@ -1528,7 +1528,7 @@ C
 C 
 C       CALL MY_BARRIER() ! Barrier vs timer only     
 C
-        IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+        IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(8,1)  
           CALL STARTIME(2,1)
         END IF

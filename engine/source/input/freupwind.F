@@ -82,7 +82,7 @@ C-----------------------------------------------
       UPWOG2     = 0
       UPWSM2     = 0
       IKEY=KUPWM
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
 !       READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A)',ERR=9990)KEY2
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC2,*,ERR=9990)UPWMG2, UPWOG2, UPWSM2
@@ -94,7 +94,7 @@ C-----------------------------------------------
        IF(UPWSM2==ZERO)UPWSM2=ONE 
 
        !Upwind coefficient for Momentum Advection
-       IF(UPWMG2.LE.ZERO.OR.UPWMG2.GT.ONE)THEN
+       IF(UPWMG2<=ZERO.OR.UPWMG2>ONE)THEN
          WRITE(ISTDO,*)
      .    ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
@@ -103,7 +103,7 @@ C-----------------------------------------------
        ENDIF
 
        !Upwind coefficient for Mass and Energy Advection
-       IF(UPWOG2.LT.ZERO.OR.UPWOG2.GT.ONE)THEN
+       IF(UPWOG2<ZERO.OR.UPWOG2>ONE)THEN
          WRITE(ISTDO,*)
      .    ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
@@ -112,7 +112,7 @@ C-----------------------------------------------
        ENDIF
        
        !Upwind coefficient for Wet Surface (Mulimaterial specific advection)
-       IF(UPWSM2.LT.-ONE.OR.UPWSM2.GT.ONE)THEN
+       IF(UPWSM2<-ONE.OR.UPWSM2>ONE)THEN
          WRITE(ISTDO,*)
      .   ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)

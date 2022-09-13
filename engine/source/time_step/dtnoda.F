@@ -94,10 +94,10 @@ C     TAG NODAL GROUP
 C----------------------------------------------------------
       IF (NCYCLE == 0) THEN
 !$OMP SINGLE
-        IF(IDTGR(11).LT.0)THEN
+        IF(IDTGR(11)<0)THEN
           IOK = 0
           DO N=1,NGRNOD
-            IF (-IDTGR(11).EQ.IGRNOD(N)%ID) THEN
+            IF (-IDTGR(11)==IGRNOD(N)%ID) THEN
               IDTGR(11)=N
               IOK = 1
             ENDIF
@@ -111,7 +111,7 @@ C----------------------------------------------------------
 !$OMP END SINGLE
       ENDIF
       
-      IF(IDTGR(11).NE.0)THEN   
+      IF(IDTGR(11)/=0)THEN   
         DO N=NODFT,NODLT                                             
           TAG(N) = 0                                                 
         ENDDO                                                        
@@ -125,10 +125,10 @@ C----------------------------------------------------------
       ENDIF
       
       !ALE or EULER grid points are not concerned about /DT/NODA & /DT/NODA/CST options
-      IF(IALE+IEULER.NE.0 .AND. I_DT_NODA_ALE_ON.EQ.0 .AND. NODADT.NE.0)THEN
+      IF(IALE+IEULER/=0 .AND. I_DT_NODA_ALE_ON==0 .AND. NODADT/=0)THEN
         !NOD_LAG_COUNT = 0
         DO N=NODFT,NODLT
-          IF(IABS(NALE(N)).EQ.1 .OR. IABS(NALE(N)).EQ.2)THEN
+          IF(IABS(NALE(N))==1 .OR. IABS(NALE(N))==2)THEN
             TAG(N) = 0     
          ! ELSE
          !   NOD_LAG_COUNT = NOD_LAG_COUNT + 1
@@ -147,7 +147,7 @@ C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
 cc      IMSCH = 0
-      IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+      IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
         DO NN=NODFT,NODLT
           ADT(NN) = EP06
@@ -169,10 +169,10 @@ C----------------------------------------------------------
 C true dependency
          DO N=I,MIN(NODLT,I+1023)
           MCP(N) = MCP(N) * MCP_OFF(N)
-          IF(MCP(N) .LT. EM10) MCP(N) = ZERO
-          IF(CONDN(N).LE.ZERO)THEN
+          IF(MCP(N) < EM10) MCP(N) = ZERO
+          IF(CONDN(N)<=ZERO)THEN
              ISTOP = -ITAB(N)
-          ELSEIF(MCP(N).GT.ZERO)THEN
+          ELSEIF(MCP(N)>ZERO)THEN
              K = K + 1
              INDTN(K) = N
           ENDIF
@@ -186,20 +186,20 @@ C vectorize sqrt
            DTNOD = MIN(DTNOD,DTN(K))   
          END DO
 C
-         IF(DTNOD.LT.DTMIN1(11))THEN
+         IF(DTNOD<DTMIN1(11))THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   ISTOP = ITAB(N)
               ENDIF
             ENDDO
          ENDIF
 C
-         IF(DTNOD.LT.DT2T)THEN
+         IF(DTNOD<DT2T)THEN
 #include      "vectorize.inc"
           DO K=1,KMAX
-              IF(DTN(K).LT.DT2T)THEN
+              IF(DTN(K)<DT2T)THEN
                 N = INDTN(K) 
                 NELTST  = ITAB(N)
                 ITYPTST = 11
@@ -214,7 +214,7 @@ C
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
-         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
            DO K=1,KMAX
              ADT(INDTN(K))=DTN(K)
@@ -228,7 +228,7 @@ C--------------------------------
 
       ELSE ! Mechanical Time step
 
-       IF(NODADT.GT.0)THEN
+       IF(NODADT>0)THEN
 
         DT2S=DT2T
 C----------------------------------------------------------
@@ -238,21 +238,21 @@ C----------------------------------------------------------
          K = 0
          DTNOD = EP20
 C true dependency
-         IF(IALE+IEULER .EQ. 0 .OR. I_DT_NODA_ALE_ON.EQ.1)THEN
+         IF(IALE+IEULER == 0 .OR. I_DT_NODA_ALE_ON==1)THEN
            DO N=I,MIN(NODLT,I+1023)
-             IF(STIFN(N).LE.ZERO)THEN                             
+             IF(STIFN(N)<=ZERO)THEN                             
                 ISTOP = -ITAB(N)                                  
-             ELSEIF(MS(N).GT.ZERO)THEN                            
+             ELSEIF(MS(N)>ZERO)THEN                            
                 K = K + 1                                         
                 INDTN(K) = N                                      
              ENDIF                                                
            ENDDO
          ELSE
            DO N=I,MIN(NODLT,I+1023)
-             IF(STIFN(N).LE.ZERO)THEN                             
+             IF(STIFN(N)<=ZERO)THEN                             
                 ISTOP = -ITAB(N)                                  
-             ELSEIF(MS(N).GT.ZERO)THEN
-               IF(NALE(N).EQ.0.OR.NALE(N).EQ.3)THEN                            
+             ELSEIF(MS(N)>ZERO)THEN
+               IF(NALE(N)==0.OR.NALE(N)==3)THEN                            
                 K        = K + 1                                         
                 INDTN(K) = N 
                ENDIF                                     
@@ -270,26 +270,26 @@ C vectorize sqrt
            DTNOD  = MIN(DTNOD,DTN(K))
          END DO
 C
-         IF(DTNOD.LT.DTMIN1(11))THEN
-          IF(IDTMIN(11).EQ.1.OR.IDTMIN(11).EQ.5)THEN
+         IF(DTNOD<DTMIN1(11))THEN
+          IF(IDTMIN(11)==1.OR.IDTMIN(11)==5)THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                   N     = INDTN(K) 
                   ISTOP = ITAB(N)
               ENDIF
             ENDDO
           ELSEIF(IDTMIN(11)==3.OR.IDTMIN(11)==8)THEN
 C----------------------------------------------------------
-            IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+            IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
 #include      "vectorize.inc"
               DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
-                  IF(TAG(N).EQ.1)THEN
-                    IF(WEIGHT_MD(N).EQ.1) THEN
+                  IF(TAG(N)==1)THEN
+                    IF(WEIGHT_MD(N)==1) THEN
                       DMAST =  DMAST + MAS - MS(N)
                       ! In 2D, MS(N) is re-written to its initial value at each timestep
                       IF (N2D /= 0) THEN
@@ -306,11 +306,11 @@ C----------------------------------------------------------
             ELSE
 #include      "vectorize.inc"
               DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
-                  IF(TAG(N).EQ.1)THEN
+                  IF(TAG(N)==1)THEN
                     DMAST =  DMAST + (MAS - MS(N))*WEIGHT_MD(N)
                     MS(N) = MAS
                     IMSCH = 1
@@ -318,10 +318,10 @@ C----------------------------------------------------------
                 ENDIF
               ENDDO
             ENDIF
-          ELSEIF(IDTMIN(11).EQ.4)THEN
+          ELSEIF(IDTMIN(11)==4)THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P 
@@ -334,10 +334,10 @@ C----------------------------------------------------------
             ENDDO
           ENDIF
          ENDIF
-         IF(DTNOD.LT.DT2T)THEN
+         IF(DTNOD<DT2T)THEN
 #include      "vectorize.inc"
           DO K=1,KMAX
-              IF(DTN(K).LT.DT2T)THEN
+              IF(DTN(K)<DT2T)THEN
                 N = INDTN(K) 
                 NELTST  = ITAB(N)
                 ITYPTST = 11
@@ -352,7 +352,7 @@ C
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
-         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
            DO K=1,KMAX
              ADT(INDTN(K))=DTN(K)
@@ -372,10 +372,10 @@ C true dependency
            DTNOD = EP20
            MASS = RBYM(1,I)
            STI  = RBYM(27,I)
-           IF(STI.LE.ZERO)THEN
+           IF(STI<=ZERO)THEN
 c le rigi materiau
               ISTOP = -(I+ NUMNOD)
-           ELSEIF(MASS.GT. ZERO)THEN
+           ELSEIF(MASS> ZERO)THEN
               K = K + 1
 C              DTN(K) = DTFAC1(11)*SQRT(2. * MASS / STI)
 C              DTNOD = MIN(DTNOD,DTN(K))
@@ -391,8 +391,8 @@ C vectorize sqrt
             DTNOD = MIN(DTNOD,DTN(K))
          END DO
 C
-         IF(DTNOD.LT.DTMIN1(11))THEN
-          IF(IDTMIN(11).EQ.1.OR.IDTMIN(11).EQ.5)THEN
+         IF(DTNOD<DTMIN1(11))THEN
+          IF(IDTMIN(11)==1.OR.IDTMIN(11)==5)THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K) < DTMIN1(11))THEN
@@ -404,14 +404,14 @@ C
 C----------------------------------------------------------
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                 N = INDTN(K) 
                 MASS = RBYM(1,N)
                 STI = RBYM(27,N)                   
                 DT2P = DTMIN1(11)/DTFAC1(11)
                 MAS = HALF * STI * DT2P * DT2P * ONEP00001
-c                IF(TAG(N).EQ.1)THEN
-c                  IF(WEIGHT(N).EQ.1) THEN
+c                IF(TAG(N)==1)THEN
+c                  IF(WEIGHT(N)==1) THEN
 c                    DMAST =  DMAST + MAS - MS(N)
 c                    ADM(N) = MAS*(ONE+ADM(N))/MS(N)  - ONE
 c                  ENDIF
@@ -420,10 +420,10 @@ c                  IMSCH = 1
 c                ENDIF
               ENDIF
             ENDDO
-          ELSEIF(IDTMIN(11).EQ.4)THEN
+          ELSEIF(IDTMIN(11)==4)THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   MASS = RBYM(1,N)
                   STI = RBYM(27,N)
@@ -438,10 +438,10 @@ c                ENDIF
             ENDDO
           ENDIF
          ENDIF
-         IF(DTNOD.LT.DT2T)THEN
+         IF(DTNOD<DT2T)THEN
 #include      "vectorize.inc"
           DO K=1,KMAX
-              IF(DTN(K).LT.DT2T)THEN
+              IF(DTN(K)<DT2T)THEN
                 N = INDTN(K) 
                 NELTST  = N + NUMNOD
                 ITYPTST = 11
@@ -452,7 +452,7 @@ c                ENDIF
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
-         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
            DO K=1,KMAX
              ADT(INDTN(K))=DTN(K)
@@ -464,15 +464,15 @@ C end rigid material
 C----------------------------------------------------------
 C       NODAL TIME STEP (ROTATION)
 C----------------------------------------------------------
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
           DO 350 I=NODFT,NODLT,1024
            DTNOD = 1.E20
            K = 0
 C true dependency
            DO N=I,MIN(NODLT,I+1023)
-             IF(STIFR(N).LE.ZERO)THEN
+             IF(STIFR(N)<=ZERO)THEN
                ISTOP=-ITAB(N)
-             ELSEIF(IN(N).GT.ZERO)THEN
+             ELSEIF(IN(N)>ZERO)THEN
                K = K + 1
                INDTN(K) = N
              ENDIF
@@ -486,26 +486,26 @@ C vectorize sqrt
               DTNOD = MIN(DTNOD,DTN(K))            
            END DO
 C
-           IF(DTNOD.LT.DTMIN1(11))THEN
-            IF(IDTMIN(11).EQ.1.OR.IDTMIN(11).EQ.5)THEN
+           IF(DTNOD<DTMIN1(11))THEN
+            IF(IDTMIN(11)==1.OR.IDTMIN(11)==5)THEN
 #include      "vectorize.inc"
               DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   ISTOP = ITAB(N)
                 ENDIF
               ENDDO
             ELSEIF(IDTMIN(11)==3.OR.IDTMIN(11)==8)THEN
-              IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER .GT.0) THEN
+              IF (ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER >0) THEN
 #include      "vectorize.inc"
                 DO K=1,KMAX
-                  IF(DTN(K).LT.DTMIN1(11))THEN
+                  IF(DTN(K)<DTMIN1(11))THEN
                     N = INDTN(K) 
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
                     INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
-                    IF(TAG(N).EQ.1)THEN
-                      IF(WEIGHT_MD(N).EQ.1)THEN
+                    IF(TAG(N)==1)THEN
+                      IF(WEIGHT_MD(N)==1)THEN
                        DINERT = DINERT + ( INER - IN(N))
                        ADI(N) = INER*(ONE+ADI(N))/IN(N)  - ONE
                       END IF
@@ -517,12 +517,12 @@ C
               ELSE
 #include      "vectorize.inc"
                 DO K=1,KMAX
-                  IF(DTN(K).LT.DTMIN1(11))THEN
+                  IF(DTN(K)<DTMIN1(11))THEN
                     N = INDTN(K) 
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
                     INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
-                    IF(TAG(N).EQ.1)THEN
+                    IF(TAG(N)==1)THEN
                       DINERT = DINERT + ( INER - IN(N))*WEIGHT_MD(N)
                       IN(N) = MAX(INER,IN(N))
                       IMSCH = 1
@@ -530,10 +530,10 @@ C
                   ENDIF
                 ENDDO
               ENDIF
-            ELSEIF(IDTMIN(11).EQ.4)THEN
+            ELSEIF(IDTMIN(11)==4)THEN
 #include      "vectorize.inc"
              DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFR(N) * DT2P * DT2P 
@@ -546,10 +546,10 @@ C
              ENDDO
             ENDIF
            ENDIF
-           IF(DTNOD.LT.DT2T)THEN
+           IF(DTNOD<DT2T)THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DT2T)THEN
+              IF(DTN(K)<DT2T)THEN
                 N = INDTN(K) 
                 NELTST  = ITAB(N)
                 ITYPTST = 11
@@ -564,7 +564,7 @@ C
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
-           IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+           IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
              DO K=1,KMAX
                N = INDTN(K) 
@@ -582,9 +582,9 @@ C true dependency
              DTNOD = 1.E20
              INER  = RBYM(17, I)
              STI = RBYM(28,I)
-               IF(STI.LE.ZERO)THEN
+               IF(STI<=ZERO)THEN
                  ISTOP=-(I + NUMNOD)
-               ELSEIF(IN(N).GT.ZERO)THEN
+               ELSEIF(IN(N)>ZERO)THEN
                  K = K + 1
                  INDTN(K) = I 
                  DTN(K) = DTFAC1(11)*SQRT(TWO * INER / STI)
@@ -600,11 +600,11 @@ C vectorize sqrt
               DTNOD = MIN(DTNOD,DTN(K))            
            END DO
 C
-           IF(DTNOD.LT.DTMIN1(11))THEN
-            IF(IDTMIN(11).EQ.1.OR.IDTMIN(11).EQ.5)THEN
+           IF(DTNOD<DTMIN1(11))THEN
+            IF(IDTMIN(11)==1.OR.IDTMIN(11)==5)THEN
 #include      "vectorize.inc"
               DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   ISTOP = NODFT + N
                 ENDIF
@@ -612,12 +612,12 @@ C
             ELSEIF(IDTMIN(11)==3.OR.IDTMIN(11)==8)THEN
 #include      "vectorize.inc"
               DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   STI = RBYM(28,N)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   INER = HALF * STI * DT2P * DT2P * ONEP00001
-c                    IF(WEIGHT(N).EQ.1)THEN
+c                    IF(WEIGHT(N)==1)THEN
 c                     DINERT = DINERT + ( INER - IN(N))
 c                    ADI(N) = INER*(ONE+ADI(N))/IN(N)  - ONE
 c                    END IF
@@ -626,10 +626,10 @@ c                    END IF
                 ENDIF
               ENDDO
 C
-            ELSEIF(IDTMIN(11).EQ.4)THEN
+            ELSEIF(IDTMIN(11)==4)THEN
 #include      "vectorize.inc"
              DO K=1,KMAX
-              IF(DTN(K).LT.DTMIN1(11))THEN
+              IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K)
                   STI = RBYM(28,N)  
                   DT2P = DTMIN1(11)/DTFAC1(11)
@@ -643,10 +643,10 @@ C
              ENDDO
             ENDIF
            ENDIF
-           IF(DTNOD.LT.DT2T)THEN
+           IF(DTNOD<DT2T)THEN
 #include "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DT2T)THEN
+              IF(DTN(K)<DT2T)THEN
                 N = INDTN(K) 
                 NELTST  = N + NUMNOD
                 ITYPTST = 11
@@ -657,7 +657,7 @@ C
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
-           IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+           IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
              DO K=1,KMAX
                N = INDTN(K) 
@@ -675,7 +675,7 @@ C --end rigid material
 C----------------------------------------------------------
 C       INTERFACES 7
 C----------------------------------------------------------
-      ELSEIF(I7KGLO.GT.0)THEN
+      ELSEIF(I7KGLO>0)THEN
 
         DT2S=DT2T
 
@@ -684,9 +684,9 @@ C----------------------------------------------------------
          DTNOD = EP20
 C true dependency
          DO N=I,MIN(NODLT,I+1023)
-           IF(STIFN(N).LE.ZERO)THEN   
+           IF(STIFN(N)<=ZERO)THEN   
               ISTOP=-ITAB(N)          
-           ELSEIF(MS(N).GT.ZERO)THEN  
+           ELSEIF(MS(N)>ZERO)THEN  
               K = K + 1               
               INDTN(K) = N            
            ENDIF                      
@@ -701,26 +701,26 @@ C vectorize sqrt
          END DO
 
 C
-         IF(DTNOD.LT.DTMIN1(11))THEN
-           IF(IDTMIN(11).EQ.1.OR.IDTMIN(11).EQ.5)THEN
+         IF(DTNOD<DTMIN1(11))THEN
+           IF(IDTMIN(11)==1.OR.IDTMIN(11)==5)THEN
 #include      "vectorize.inc"
               DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   ISTOP = ITAB(N)
                 ENDIF
               ENDDO
            ELSEIF(IDTMIN(11)==3.OR.IDTMIN(11)==8)THEN
 C----------------------------------------------------------
-             IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+             IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
 #include      "vectorize.inc"
                DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
-                  IF(TAG(N).EQ.1)THEN
-                    IF(WEIGHT_MD(N).EQ.1) THEN
+                  IF(TAG(N)==1)THEN
+                    IF(WEIGHT_MD(N)==1) THEN
                       DMAST = DMAST + MAS - MS(N)
                       ADM(N) = MAS*(ONE+ADM(N))/MS(N)  - ONE
                     ENDIF
@@ -732,11 +732,11 @@ C----------------------------------------------------------
              ELSE
 #include      "vectorize.inc"
                DO K=1,KMAX
-                IF(DTN(K).LT.DTMIN1(11))THEN
+                IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K) 
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
-                  IF(TAG(N).EQ.1)THEN
+                  IF(TAG(N)==1)THEN
                     DMAST = DMAST + (MAS - MS(N))*WEIGHT_MD(N)
                     MS(N) = MAS
                     IMSCH = 1
@@ -747,10 +747,10 @@ C----------------------------------------------------------
            ENDIF
          ENDIF
 C----------------------------------------------------------
-         IF(DTNOD.LT.DT2T)THEN
+         IF(DTNOD<DT2T)THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
-              IF(DTN(K).LT.DT2T)THEN
+              IF(DTN(K)<DT2T)THEN
                 N = INDTN(K) 
                 NELTST  = ITAB(N)
                 ITYPTST = 11
@@ -762,7 +762,7 @@ C
            DO N=I,MIN(NODLT,I+1023)
              STIFN(N) = EM20
            ENDDO
-           IF (IRODDL.NE.0) THEN
+           IF (IRODDL/=0) THEN
              DO N=I,MIN(NODLT,I+1023)
                STIFR(N) = EM20
              ENDDO
@@ -770,7 +770,7 @@ C
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
-        IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT .GT.0)THEN
+        IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
           DO K=1,KMAX
             N = INDTN(K) 
@@ -788,7 +788,7 @@ C--------------------------------
         DO N = NODFT, NODLT
           STIFN(N) = EM20
         ENDDO
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
           DO N = NODFT, NODLT
             STIFR(N) = EM20
           ENDDO
@@ -796,8 +796,8 @@ C--------------------------------
 C--------------------------------
       ENDIF
 C--------------------------------
-       IF (IDTMIN(11).NE.5.AND.INCONV.EQ.1)THEN
-        IF(ISTOP.GT.0)THEN
+       IF (IDTMIN(11)/=5.AND.INCONV==1)THEN
+        IF(ISTOP>0)THEN
           TSTOP = TT
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -805,7 +805,7 @@ C--------------------------------
           WRITE(ISTDO,*)
      .     ' **ERROR : NODAL TIME STEP LESS OR EQUAL DTMIN N=',ISTOP
 #include "lockoff.inc"
-        ELSEIF(ISTOP.LT.0)THEN
+        ELSEIF(ISTOP<0)THEN
           TSTOP = TT
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -828,8 +828,8 @@ C--------------------------------
 	     ENDIF
 #include "lockoff.inc"
         ENDIF
-       ELSEIF (INCONV.EQ.1)THEN
-        IF(ISTOP.GT.0)THEN
+       ELSEIF (INCONV==1)THEN
+        IF(ISTOP>0)THEN
           MSTOP = 2
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -837,7 +837,7 @@ C--------------------------------
           WRITE(ISTDO,*)
      .     ' **ERROR : NODAL TIME STEP LESS OR EQUAL DTMIN N=',ISTOP
 #include "lockoff.inc"
-        ELSEIF(ISTOP.LT.0)THEN
+        ELSEIF(ISTOP<0)THEN
           MSTOP = 2
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -862,8 +862,8 @@ C--------------------------------
         ENDIF
        ENDIF
 C
-       IF(IPARIT.EQ.0) THEN
-         IF(IRODDL.EQ.0) THEN
+       IF(IPARIT==0) THEN
+         IF(IRODDL==0) THEN
            DO N = NODFT, NODLT
              STIFN(N) = STIFN(N)*WEIGHT(N)
            ENDDO

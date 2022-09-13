@@ -85,7 +85,7 @@ C               FORNEQS = SUM(PHI*STRESSMEAN*Facet_Normal*Facet_Area)
 C-----------------------------------------------
       ALLOCATE(ITAG(NUMNOD))
       ITAG(1:NUMNOD)=0
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
        DO NI=1,NBINTC
 	 NIN = INTLIST(NI)
          NTY   = IPARI(7,NIN)

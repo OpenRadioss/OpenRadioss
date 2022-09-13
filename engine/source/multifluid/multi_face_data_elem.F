@@ -73,15 +73,15 @@ C-----------------------------------------------
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MTN = IPARG(1, NG)
-         IF (MTN .EQ. 151) THEN
+         IF (MTN == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             ITY = IPARG(5, NG)
             JALE = IPARG(7, NG)
             ISOLNOD = IPARG(28, NG)
-            IF (ITY .EQ. 1) THEN
+            IF (ITY == 1) THEN
 C     Solid
-               IF (ISOLNOD .EQ. 4) THEN
+               IF (ISOLNOD == 4) THEN
 C     TETRA
                   CALL SNORM3T(NEL, NFT, JALE, IXS, XGRID, WGRID, 
      .                 MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:6, 1 + NFT : NEL + NFT), 
@@ -105,7 +105,7 @@ C
      .                    MULTI_FVM%FACE_DATA%CENTROID(:, :, 1 + NFT : NEL + NFT))
                   ENDIF
                ENDIF
-            ELSE IF (ITY .EQ. 2) THEN
+            ELSE IF (ITY == 2) THEN
 C     QUAD
                CALL QNORM2(NEL, NFT, JALE, MULTI_FVM%SYM, IXQ, XGRID, WGRID, 
      .              MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:4, 1 + NFT : NEL + NFT), 
@@ -116,7 +116,7 @@ C     QUAD
      .                 MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT), 
      .                 MULTI_FVM%FACE_DATA%CENTROID(:, :, 1 + NFT : NEL + NFT))
                ENDIF
-            ELSE IF (ITY .EQ. 7) THEN
+            ELSE IF (ITY == 7) THEN
 C     TRIANGLE
                CALL QNORM2T(NEL, NFT, JALE, MULTI_FVM%SYM, IXTG, XGRID, WGRID, 
      .              MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:3, 1 + NFT : NEL + NFT), 

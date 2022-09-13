@@ -114,7 +114,7 @@ C-----------------------------------------------
       IF(IALEFVM==0)RETURN
       IMAT        = IXS(1,LFT+NFT)
       IALEFVM_FLG = IPM(251,IMAT)  
-      IF(IALEFVM_FLG .LE. 1)RETURN       
+      IF(IALEFVM_FLG <= 1)RETURN       
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -144,7 +144,7 @@ C-----------------------------------------------
       ! STORAGE
       DO I=LFT,LLT                           
         IB = NINT(IAD22(I))                  
-        IF(IB.LE.0) CYCLE 
+        IF(IB<=0) CYCLE 
         BRICK_LIST(NIN,IB)%RHOC   = RHO(I)*SSP(I)                   
         BRICK_LIST(NIN,IB)%SIG(0) = P(I)     
         BRICK_LIST(NIN,IB)%SIG(1) = S1(I)    
@@ -162,7 +162,7 @@ C-----------------------------------------------
       DO I=LFT,LLT                          
       II      = I + NFT                     
       IB      = NINT(IAD22(I))              
-      IF(IB.LE.0)CYCLE                      
+      IF(IB<=0)CYCLE                      
         ! Face-1                            
         N1X(I) = BRICK_LIST(NIN,IB)%N(1,1)  
         N1Y(I) = BRICK_LIST(NIN,IB)%N(1,2)  
@@ -198,21 +198,21 @@ C-----------------------------------------------
         !WARNING : Normal vectors computed in EPXLE3() if IALEFVM>0
         II                                               = I + NFT
         IB                                               = NINT(IAD22(I))
-        IF(IB.LE.0)CYCLE 
+        IF(IB<=0)CYCLE 
         NBCUT                                            = BRICK_LIST(NIN,IB)%NBCUT
         MCELL                                            = BRICK_LIST(NIN,IB)%MainID
         NCELL                                            = NBCUT
         ICELL                                            = MCELL
         BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%U_N     = ZERO
         !---face-0  
-        IF(NBCUT.GT.0)THEN
+        IF(NBCUT>0)THEN
           S(1:6)                                         = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Surf                                                            
           S(0)                                           = BRICK_LIST(NIN,IB)%PCUT(ICELL)%SCUT(1)                                                                   
           IBM                                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)                                                          
           NGM                                            = BRICK_LIST(NIN,IBM)%NG                                                                                   
           IDLOCM                                         = BRICK_LIST(NIN,IBM)%IDLOC                                                                                                                                                                                                                              
           ISGN                                           = ONE                                                                                                                      
-          IF(ICELL.EQ.9)ISGN = -ONE                                                                                                                                                  
+          IF(ICELL==9)ISGN = -ONE                                                                                                                                                  
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE0%U_N(1:9)  = ZERO                                                                                                                   
           DO K=1,NBCUT                                                                                                                                                           
             ICUT                                         = K                                                                                                                      
@@ -263,7 +263,7 @@ C-----------------------------------------------
           ISGN                                           = ONE    
           IDEB                                           = ICELLs
           IFIN                                           = ICELLs                                                                                                                                         
-          IF(ICELLs.EQ.9)THEN
+          IF(ICELLs==9)THEN
             ISGN                                         = -ONE                                                                                                                                                         
             IDEB                                         = 1
             IFIN                                         = NBCUTv
@@ -333,11 +333,11 @@ C-----------------------------------------------
           do i=idbf,idbl
             ii = nft + i
             IB               = NINT(IAD22(I))
-            if(ib.le.0)CYCLE
+            if(ib<=0)CYCLE
             NBCUT            = BRICK_LIST(NIN,IB)%NBCUT
-            IF(NBCUT.GT.0)THEN
+            IF(NBCUT>0)THEN
              ICELL                 =  BRICK_LIST(NIN,IB)%mainID
-             IF(ICELL.EQ.0)CYCLE                        
+             IF(ICELL==0)CYCLE                        
                         
                print *,                    "      brique=", ixs(11,nft+i), "icell=", ICELL
                print *,                    "        vold=", brick_list(nin,ib)%vold_scell
@@ -386,7 +386,7 @@ C-----------------------------------------------
      .                                      "#-------- face_3 ---------","#-------- face_4 ---------",
      .                                      "#-------- face_5 ---------","#-------- face_6 --------#"  
                write (*,FMT='(A,1E26.14)')    "    <U,N>                  =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%U_N          
-            ENDIF!(NBCUT.GT.0)   
+            ENDIF!(NBCUT>0)   
              
              NUM = BRICK_LIST(NIN,IB)%SecndList%Num
              IBM = IB

@@ -51,9 +51,9 @@ C-----------------------------------------------
      .        I,J,K
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-      IF (ISPMD.NE.0) GOTO 100
+      IF (ISPMD/=0) GOTO 100
 C-----------------------------------------------
-c      IF (IMACH.NE.3) THEN
+c      IF (IMACH/=3) THEN
 c        N1 = NUMNOD + NODCUT + NSECT + NRWALL + NNWL
 c      ELSE
         N1 = NUMNODG + NODCUT + NSECT + NRWALL + NNWL

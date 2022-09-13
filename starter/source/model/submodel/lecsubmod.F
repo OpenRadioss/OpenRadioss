@@ -102,7 +102,7 @@ C=======================================================================
       TAGNODSUB = 0
       NUMNUSR = 0
 
-      IF(IS_DYNA .NE. 0)THEN
+      IF(IS_DYNA /= 0)THEN
         CALL CPP_NODES_COUNT(NUMNUSR,NUMNUSR2)
         ALLOCATE( INDEX(2*NUMNOD))
         DO I=1,2*NUMNOD
@@ -124,7 +124,7 @@ C=======================================================================
 C--------------------------------------------------
 C      TAG SUBMODEL NODES DYNA
 C-------------------------------------------------- 
-      IF(IS_DYNA .NE. 0)THEN
+      IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_SUB_TAG_DYNA(TAGNODSUB_TMP,IDNODSUB)
 
         CALL MY_ORDERS( 0, WORK, IDNODSUB, INDEX, NUMNOD , 1)
@@ -157,7 +157,7 @@ C-------------------------
 
         CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
 
-        IF (ITRANSSUB .NE. 0) THEN
+        IF (ITRANSSUB /= 0) THEN
           ISUBOK = 0
           DO J=1,NSUBMOD
             IF (LSUBMODEL(J)%NOSUBMOD == ITRANSSUB) THEN
@@ -186,7 +186,7 @@ C-------------------------
      .                       OPTION_TITR = TITR)
 C----
         CALL HM_GET_INTV('SUBMODEL',ITRANSSUB,IS_AVAILABLE,LSUBMODEL)
-        IF (ITRANSSUB .NE. 0) THEN
+        IF (ITRANSSUB /= 0) THEN
           ISUBOK = 0
           DO J=1,NSUBMOD
             IF (LSUBMODEL(J)%NOSUBMOD == ITRANSSUB) THEN
@@ -197,7 +197,7 @@ C----
             ENDIF 
           ENDDO
         ENDIF
-        IF (ITRANSSUB .NE. 0 .AND. ISUBOK == 0) THEN
+        IF (ITRANSSUB /= 0 .AND. ISUBOK == 0) THEN
           CALL ANCMSG(MSGID=915,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -213,8 +213,8 @@ C-------------------------
       DO I=1,NSUBMOD
        CUR_SUBMOD = I
        SUB_LEVEL = LSUBMODEL(I)%LEVEL
-       DO WHILE (SUB_LEVEL .NE. 0)
-        IF (LSUBMODEL(CUR_SUBMOD)%NBTRANS .NE. 0) THEN 
+       DO WHILE (SUB_LEVEL /= 0)
+        IF (LSUBMODEL(CUR_SUBMOD)%NBTRANS /= 0) THEN 
          DO J = 1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
           ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),2)
           IF(ITY == 1)THEN
@@ -284,7 +284,7 @@ C-------------------------
        ENDDO
       ENDDO
 C-------------------------
-      IF(IS_DYNA .NE. 0)THEN
+      IF(IS_DYNA /= 0)THEN
         IF (ALLOCATED(INDEX)) DEALLOCATE(INDEX)
         IF (ALLOCATED(INDEX1)) DEALLOCATE(INDEX1)
         IF (ALLOCATED(TAGNODSUB_TMP)) DEALLOCATE(TAGNODSUB_TMP)

@@ -247,7 +247,7 @@ C Pre-traitement ploads
 C
       CLOAD = 0
       DO I = 1, NCONLD
-        IF(IB(4,I).EQ.-1)THEN
+        IF(IB(4,I)==-1)THEN
           ITAGIB(I) = 1
           CLOAD = 1
         ELSE
@@ -266,7 +266,7 @@ C
 C
 C Pre-traitement mv
 C
-      IF (NVOLU.GT.0) THEN
+      IF (NVOLU>0) THEN
         DO I = 1, NUMELC
           ITAGC(I) = 0
         ENDDO
@@ -294,17 +294,17 @@ C
           DO J = 1, NN
             ITY = IGRSURF(IS)%ELTYP(J)
             I   = IGRSURF(IS)%ELEM(J)
-            IF (ITY.EQ.3) THEN
+            IF (ITY==3) THEN
               ITAGC(I) = 1
-              IF(CEP(I+OFFC).EQ.PROC-1) THEN
+              IF(CEP(I+OFFC)==PROC-1) THEN
                 J_L = J_L + 1
                 IADMV2(J_L) = J
 C sauvegarde du no local J correspondant a I
                 ITAGC(I) = J_L - J0
               END IF
-            ELSEIF (ITY.EQ.7) THEN
+            ELSEIF (ITY==7) THEN
               ITAGTG(I) = 1
-              IF(CEP(I+OFFTG).EQ.PROC-1) THEN
+              IF(CEP(I+OFFTG)==PROC-1) THEN
                 J_L = J_L + 1
                 IADMV2(J_L) = J
 C sauvegarde du no local J correspondant a I
@@ -319,19 +319,19 @@ C
           IF(ITYP==3.OR.ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9) THEN
             DO IV = 1, NVENT
               IPVENT = MONVOL(IADHOL+NIBHOL*(IV-1)+2-1)
-              IF(IPVENT.NE.0) THEN
+              IF(IPVENT/=0) THEN
                 NNC=IGRSURF(IPVENT)%NSEG
                 DO J = 1, NNC
                   ITY = IGRSURF(IPVENT)%ELTYP(J)
                   I   = IGRSURF(IPVENT)%ELEM(J)
-                  IF (ITY.EQ.3) THEN
-                    IF(CEP(I+OFFC).EQ.PROC-1) THEN
+                  IF (ITY==3) THEN
+                    IF(CEP(I+OFFC)==PROC-1) THEN
                       K0 = K0 + 1
 C restitution du no local J (surface) correspondant a I
                       IADMV3(K0) = ITAGC(I)
                     END IF
-                  ELSEIF (ITY.EQ.7) THEN
-                    IF(CEP(I+OFFTG).EQ.PROC-1) THEN
+                  ELSEIF (ITY==7) THEN
+                    IF(CEP(I+OFFTG)==PROC-1) THEN
                       K0 = K0 + 1
 C restitution du no local J (surface) correspondant a I
                       IADMV3(K0) = ITAGTG(I)
@@ -344,19 +344,19 @@ C restitution du no local J (surface) correspondant a I
           IF(ITYP==4.OR.ITYP==5.OR.ITYP==7.OR.ITYP==9)THEN
             DO IV = 1, NAV
               IPVENT = MONVOL(K2+NICBAG*(IV-1)+2-1)
-              IF(IPVENT.NE.0) THEN
+              IF(IPVENT/=0) THEN
                 NNC=IGRSURF(IPVENT)%NSEG
                 DO J = 1, NNC
                   ITY = IGRSURF(IPVENT)%ELTYP(J)
                   I   = IGRSURF(IPVENT)%ELEM(J)
-                  IF (ITY.EQ.3) THEN
-                    IF(CEP(I+OFFC).EQ.PROC-1) THEN
+                  IF (ITY==3) THEN
+                    IF(CEP(I+OFFC)==PROC-1) THEN
                       K0 = K0 + 1
 C restitution du no local J (surface) correspondant a I
                       IADMV3(K0) = ITAGC(I)
                     END IF
-                  ELSEIF (ITY.EQ.7) THEN
-                    IF(CEP(I+OFFTG).EQ.PROC-1) THEN
+                  ELSEIF (ITY==7) THEN
+                    IF(CEP(I+OFFTG)==PROC-1) THEN
                       K0 = K0 + 1
 C restitution du no local J (surface) correspondant a I
                       IADMV3(K0) = ITAGTG(I)
@@ -380,7 +380,7 @@ C
 C
 C Elts penta
 C
-      IF(NUMELTG6_L.GT.0)THEN
+      IF(NUMELTG6_L>0)THEN
         DO I = 1, NUMELTG6_L
           DO K = 1,3
             IADTG1(K,I)=0
@@ -418,50 +418,50 @@ C
 C
 C Remplissage IADX si elt interne
 C
-          IF (PROC.EQ.PROC_L) THEN
+          IF (PROC==PROC_L) THEN
 C proc loc
-           IF (NUMG.LE.NUMELS) THEN
+           IF (NUMG<=NUMELS) THEN
              DO K = 1,8
                SHFT = ISHFT(IUN,K-1)
                TESTVAL = IAND(SOLTAG(NUMG),SHFT)
-               IF (IXS(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXS(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADS(K,NUML) = CC_L
                  SOLTAG(NUMG)=SOLTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
 C
-             IF(NUMELS10.GT.0.AND.NUMG.GT.NUMELS8.AND.
-     +          NUMG.LE.NUMELS8+NUMELS10) THEN
+             IF(NUMELS10>0.AND.NUMG>NUMELS8.AND.
+     +          NUMG<=NUMELS8+NUMELS10) THEN
                NUMG=NUMG-NUMELS8
                DO K=1,6
                  SHFT = ISHFT(IUN,K-1)
                  TESTVAL = IAND(SOL10TAG(NUMG),SHFT)
-                 IF (IXS10(K,NUMG).EQ.N.AND.TESTVAL==0) THEN
+                 IF (IXS10(K,NUMG)==N.AND.TESTVAL==0) THEN
                    IADS10(K,NUML-NUMELS8_L) = CC_L
                    SOL10TAG(NUMG)=SOL10TAG(NUMG)+SHFT
                    GOTO 100
                  ENDIF
                ENDDO
-             ELSEIF(NUMELS20.GT.0.AND.NUMG.GT.NUMELS8+NUMELS10.AND.
-     +          NUMG.LE.NUMELS8+NUMELS10+NUMELS20)THEN
+             ELSEIF(NUMELS20>0.AND.NUMG>NUMELS8+NUMELS10.AND.
+     +          NUMG<=NUMELS8+NUMELS10+NUMELS20)THEN
                NUMG=NUMG-NUMELS8-NUMELS10
                DO K=1,12
                  SHFT = ISHFT(IUN,K-1)
                  TESTVAL = IAND(SOL20TAG(NUMG),SHFT)
-                 IF (IXS20(K,NUMG).EQ.N.AND.TESTVAL==0 ) THEN
+                 IF (IXS20(K,NUMG)==N.AND.TESTVAL==0 ) THEN
                    IADS20(K,NUML-NUMELS8_L-NUMELS10_L) = CC_L
                    SOL20TAG(NUMG)=SOL20TAG(NUMG)+SHFT
                    GOTO 100
                  ENDIF
                ENDDO
-             ELSEIF(NUMELS16.GT.0.AND.
-     +              NUMG.GT.NUMELS8+NUMELS10+NUMELS20)THEN
+             ELSEIF(NUMELS16>0.AND.
+     +              NUMG>NUMELS8+NUMELS10+NUMELS20)THEN
                NUMG=NUMG-NUMELS8-NUMELS10-NUMELS20
                DO K=1,8
                  SHFT = ISHFT(IUN,K-1)
                  TESTVAL =IAND(SOL16TAG(NUMG),SHFT)
-                 IF (IXS16(K,NUMG).EQ.N.AND.TESTVAL==0 ) THEN
+                 IF (IXS16(K,NUMG)==N.AND.TESTVAL==0 ) THEN
                    IADS16(K,NUML-NUMELS8_L-NUMELS10_L-NUMELS20_L) = CC_L
                    SOL16TAG(NUMG)=SOL16TAG(NUMG)+SHFT
                    GOTO 100
@@ -469,30 +469,30 @@ C
                ENDDO
              ENDIF
 C
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ) THEN
+           ELSEIF(NUMG<=NUMELS+NUMELQ) THEN
              DO K=1,4
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(QUADTAG(NUMG),SHFT)
-               IF (IXQ(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXQ(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADQ(K,NUML) = CC_L
                  QUADTAG(NUMG)=QUADTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC) THEN
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC) THEN
              NUMG = NUMG - (NUMELS+NUMELQ)
              DO K=1,4
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(SHTAG(NUMG),SHFT)
-               IF (IXC(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXC(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADC(K,NUML) = CC_L
                  SHTAG(NUMG) = SHTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
 C mv coque
-             IF (NVOLU.GT.0) THEN
-               IF(ITAGC(NUMG).GT.0) THEN
+             IF (NVOLU>0) THEN
+               IF(ITAGC(NUMG)>0) THEN
                  K1 = 1
                  K6 = 0
                  DO NV = 1, NVOLU
@@ -502,21 +502,21 @@ C mv coque
                    DO J = 1, NN
                      ITY = IGRSURF_PROC(IS,PROC)%ELTYP(J)
                      II = IGRSURF_PROC(IS,PROC)%ELEM(J)
-                     IF(ITY.EQ.3) THEN
-                       IF(CEP(OFFC+II).EQ.PROC-1) THEN
+                     IF(ITY==3) THEN
+                       IF(CEP(OFFC+II)==PROC-1) THEN
                          JJ = JJ+1
-                         IF (II.EQ.NUMG) THEN
+                         IF (II==NUMG) THEN
                            DO K = 2,5
-                             IF(IXC(K,II).EQ.N.AND.
-     .                          IADMV(K-1,K6+JJ).EQ.0) THEN
+                             IF(IXC(K,II)==N.AND.
+     .                          IADMV(K-1,K6+JJ)==0) THEN
                                IADMV(K-1,K6+JJ) = CC_L
                                GOTO 100
                              END IF
                            END DO
                          END IF
                        END IF
-                     ELSEIF(ITY.EQ.7)THEN
-                       IF(CEP(OFFTG+II).EQ.PROC-1) THEN
+                     ELSEIF(ITY==7)THEN
+                       IF(CEP(OFFTG+II)==PROC-1) THEN
                          JJ = JJ+1
                        END IF
                      END IF
@@ -527,72 +527,72 @@ C mv coque
                ENDIF
              ENDIF
 C
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT) THEN
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT) THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC)
              DO K=1,2
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(TTAG(NUMG),SHFT)
-               IF (IXT(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXT(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADT(K,NUML) = CC_L
                  TTAG(NUMG)=TTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT)
              DO K=1,2
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(PTAG(NUMG),SHFT)
-               IF (IXP(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXP(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADP(K,NUML) = CC_L
                  PTAG(NUMG)=PTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR) THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP)
              DO K=1,2
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(RTAG(NUMG),SHFT)
-               IF (IXR(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXR(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADR(K,NUML) = CC_L
                  RTAG(NUMG)=RTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
-             IF(IGEO(11,IXR(1,NUMG)).EQ.12) THEN
+             IF(IGEO(11,IXR(1,NUMG))==12) THEN
                SHFT = ISHFT(IUN,3)
                TESTVAL =IAND(RTAG(NUMG),SHFT)
-               IF (IXR(4,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXR(4,NUMG)==N.AND.TESTVAL==0) THEN
                  IADR(3,NUML) = CC_L
                  RTAG(NUMG)=RTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDIF
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG) THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR)
              DO K=1,3
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(TGTAG(NUMG),SHFT)
-               IF (IXTG(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXTG(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADTG(K,NUML) = CC_L
                  TGTAG(NUMG)=TGTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
 C
-             IF(NUMELTG6.GT.0.AND.
-     .          NUMG.GT.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+             IF(NUMELTG6>0.AND.
+     .          NUMG>NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .                  NUMELR+NUMELTG-NUMELTG6.AND.
-     .          NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+     .          NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .                  NUMELR+NUMELTG)THEN
                NUMG=NUMG-NUMELTG+NUMELTG6
                DO K=1,3
                  SHFT = ISHFT(IUN,K-1)
                  TESTVAL =IAND(TG6TAG(NUMG),SHFT)
-                 IF (IXTG6(K,NUMG).EQ.N.AND.TESTVAL==0) THEN
+                 IF (IXTG6(K,NUMG)==N.AND.TESTVAL==0) THEN
                    IADTG1(K,NUML-NUMELTG_L+NUMELTG6_L) = CC_L
                    TG6TAG(NUMG)=TG6TAG(NUMG)+SHFT
                    GOTO 100
@@ -601,8 +601,8 @@ C
              ENDIF
 C
 C mv coque triangle
-             IF (NVOLU.GT.0) THEN
-               IF(ITAGTG(NUMG).GT.0) THEN
+             IF (NVOLU>0) THEN
+               IF(ITAGTG(NUMG)>0) THEN
                  K1 = 1
                  K6 = 0
                  DO NV = 1, NVOLU
@@ -612,21 +612,21 @@ C mv coque triangle
                    DO J = 1, NN
                      ITY = IGRSURF_PROC(IS,PROC)%ELTYP(J)
                      II  = IGRSURF_PROC(IS,PROC)%ELEM(J)
-                     IF(ITY.EQ.7) THEN
-                       IF(CEP(OFFTG+II).EQ.PROC-1) THEN
+                     IF(ITY==7) THEN
+                       IF(CEP(OFFTG+II)==PROC-1) THEN
                          JJ = JJ+1
-                         IF (II.EQ.NUMG) THEN
+                         IF (II==NUMG) THEN
                            DO K = 2,4
-                             IF(IXTG(K,II).EQ.N.AND.
-     .                          IADMV(K-1,K6+JJ).EQ.0) THEN
+                             IF(IXTG(K,II)==N.AND.
+     .                          IADMV(K-1,K6+JJ)==0) THEN
                                IADMV(K-1,K6+JJ) = CC_L
                                GOTO 100
                              END IF
                            END DO
                          END IF
                        END IF
-                     ELSEIF(ITY.EQ.3) THEN
-                       IF(CEP(OFFC+II).EQ.PROC-1) THEN
+                     ELSEIF(ITY==3) THEN
+                       IF(CEP(OFFC+II)==PROC-1) THEN
                          JJ = JJ+1
                        END IF
                      END IF
@@ -637,26 +637,26 @@ C mv coque triangle
                ENDIF
              ENDIF
 C
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR) THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      +                      NUMELTG)
              DO K=1,4
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(URTAG(NUMG),SHFT)
-               IF (IXUR(K+1,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXUR(K+1,NUMG)==N.AND.TESTVAL==0) THEN
                  IADUR(K,NUML) = CC_L
                  URTAG(NUMG)=URTAG(NUMG)+SHFT
                  GOTO 100
                ENDIF
              ENDDO
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR+NUMELX+NCONLD)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      +                      NUMELTG+NUMELUR+NUMELX)
-             IF(ITAGIB(NUMG).EQ.0.AND.N2D.EQ.0)THEN
+             IF(ITAGIB(NUMG)==0.AND.N2D==0)THEN
                KN = 4
-             ELSEIF(ITAGIB(NUMG).EQ.0.AND.N2D.NE.0)THEN
+             ELSEIF(ITAGIB(NUMG)==0.AND.N2D/=0)THEN
                KN = 2
              ELSE
                KN = 1
@@ -664,7 +664,7 @@ C
              DO K=1,KN
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(IBTAG(NUMG),SHFT)
-               IF (IB(K,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IB(K,NUMG)==N.AND.TESTVAL==0) THEN
                  IADIB(K,NUML) = CC_L
                  IBTAG(NUMG)=IBTAG(NUMG)+SHFT
                  GOTO 100
@@ -672,13 +672,13 @@ C
                ENDIF
              ENDDO
 C
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR+NUMELX+ NCONLD + NUMCONV)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      +                      NUMELTG+NUMELUR+NUMELX+NCONLD)
-             IF(N2D.EQ.0)THEN
+             IF(N2D==0)THEN
                KN = 4
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
                KN = 2
              ELSE
                KN = 1
@@ -686,7 +686,7 @@ C
              DO K=1,KN
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(IBCVTAG(NUMG),SHFT)
-               IF (IBCV(K,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IBCV(K,NUMG)==N.AND.TESTVAL==0) THEN
                  IADIBCV(K,NUML) = CC_L
                  IBCVTAG(NUMG)=IBCVTAG(NUMG)+SHFT
                  GOTO 100
@@ -694,14 +694,14 @@ C
                ENDIF
              ENDDO
 C
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR+NUMELX+ NCONLD + NUMCONV +
      .            NUMRADIA)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      +                      NUMELTG+NUMELUR+NUMELX+NCONLD+NUMCONV)
-             IF(N2D.EQ.0)THEN
+             IF(N2D==0)THEN
                KN = 4
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
                KN = 2
              ELSE
                KN = 1
@@ -709,7 +709,7 @@ C
              DO K=1,KN
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(IBCRTAG(NUMG),SHFT)
-               IF (IBCR(K,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IBCR(K,NUMG)==N.AND.TESTVAL==0) THEN
                  IADIBCR(K,NUML) = CC_L
                  IBCRTAG(NUMG)= IBCRTAG(NUMG)+SHFT
                  GOTO 100
@@ -717,14 +717,14 @@ C
                ENDIF
              ENDDO
 C             
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR+NUMELX+ NCONLD + NUMCONV +
      .            NUMRADIA+NFXFLUX)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      +                      NUMELTG+NUMELUR+NUMELX+NCONLD+NUMCONV+NUMRADIA)
-             IF(N2D.EQ.0)THEN
+             IF(N2D==0)THEN
                KN = 4
-             ELSEIF(N2D.NE.0)THEN
+             ELSEIF(N2D/=0)THEN
                KN = 2
              ELSE
                KN = 1
@@ -732,7 +732,7 @@ C
              DO K=1,KN
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(IBFXTAG(NUMG),SHFT)
-               IF (IBFFLUX(K,NUMG).EQ.N.AND.TESTVAL==0) THEN
+               IF (IBFFLUX(K,NUMG)==N.AND.TESTVAL==0) THEN
                  IADIBFX(K,NUML) = CC_L
                  IBFXTAG(NUMG)= IBFXTAG(NUMG)+SHFT
                  GOTO 100
@@ -740,15 +740,15 @@ C
                ENDIF
              ENDDO
 C
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR+NUMELX+ NCONLD + NUMCONV +
      .            NUMRADIA+NFXFLUX+SLLOADP/4)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
      .                      NUMELTG+NUMELUR+NUMELX+NCONLD+NUMCONV+
      .                      NUMRADIA+NFXFLUX)
-             IF(ITAGLOADP(NUMG).EQ.0.AND.N2D.EQ.0)THEN
+             IF(ITAGLOADP(NUMG)==0.AND.N2D==0)THEN
                KN = 4
-             ELSEIF(ITAGLOADP(NUMG).EQ.0.AND.N2D.NE.0)THEN
+             ELSEIF(ITAGLOADP(NUMG)==0.AND.N2D/=0)THEN
                KN = 2
              ELSE
                KN = 1
@@ -756,7 +756,7 @@ C
              DO K=1,KN
                SHFT = ISHFT(IUN,K-1)
                TESTVAL =IAND(ILTAG(NUMG),SHFT)
-               IF (LLOADP(4*(NUMG-1)+K).EQ.N.AND.TESTVAL==0) THEN
+               IF (LLOADP(4*(NUMG-1)+K)==N.AND.TESTVAL==0) THEN
                  IADLOAD(K,NUML) = CC_L
                  ILTAG(NUMG)=ILTAG(NUMG)+SHFT
                  GOTO 100
@@ -764,7 +764,7 @@ C
                ENDIF
              ENDDO
 C             
-           ELSEIF(NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
+           ELSEIF(NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .            NUMELR+NUMELTG+NUMELUR+NUMELX+ NCONLD + NUMCONV +
      .            NUMRADIA+NFXFLUX+SLLOADP/4+NUMELIG3D)THEN
              NUMG = NUMG - (NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+
@@ -773,7 +773,7 @@ C
              DO K = 1,20
                SHFT = ISHFT(IUN,K-1)
                TESTVAL = IAND(TAGIG3D(NUMG),SHFT)
-               IF (IXIG3D(KXIG3D(4,NUMG)+K-1).EQ.N.AND.TESTVAL==0) THEN
+               IF (IXIG3D(KXIG3D(4,NUMG)+K-1)==N.AND.TESTVAL==0) THEN
                  IADIG3D(K,NUML) = CC_L
                  TAGIG3D(NUMG)=TAGIG3D(NUMG)+SHFT
                  GOTO 100
@@ -821,14 +821,14 @@ C
 C
 C Remplissage IADX si elt interne
 C
-             IF (PROC.EQ.PROC_L) THEN
+             IF (PROC==PROC_L) THEN
 C procloc
-               IF(NUMG.LE.NUMELS+NUMELQ+NUMELC) THEN
+               IF(NUMG<=NUMELS+NUMELQ+NUMELC) THEN
                  NUMG = NUMG - (NUMELS+NUMELQ)
                  DO K=1,4
                   SHFT = ISHFT(IUN,K-1)
                   TESTVAL =IAND(SHTAG(NUMG),SHFT)
-                   IF (IXC(K+1,NUMG).EQ.NG.AND.TESTVAL/=0) THEN
+                   IF (IXC(K+1,NUMG)==NG.AND.TESTVAL/=0) THEN
                       IADC_PXFEM(K,NUML) = CC_L
                       SHTAG(NUMG)=SHTAG(NUMG)-SHFT
 cc                     GOTO 100
@@ -919,7 +919,7 @@ C
         N3 = 2*NRWALL+N
         NSL=NPRW(N)
         MSR = NPRW(N3)
-        IF(MSR.NE.0) THEN
+        IF(MSR/=0) THEN
           IF(NLOCAL(MSR,PROC)==1) THEN
             NSL_L = 0
             DO KK = 1, NSL
@@ -933,7 +933,7 @@ C
                   ENDIF
                 ENDDO
                 main = 1
- 200            IF(MAIN.EQ.1) THEN
+ 200            IF(MAIN==1) THEN
                   IADWAL(K_L+NSL_L) = KK
                 ELSE
                   IADWAL(K_L+NSL_L) = 0
@@ -948,7 +948,7 @@ C
 C
 C RBY specifique
 C
-      IF(NSKYRBK_L.GT.0)THEN
+      IF(NSKYRBK_L>0)THEN
        DO P = 1, NSPMD
         IDEBRBK(P) = 0
        ENDDO
@@ -970,7 +970,7 @@ C
                 ENDIF
               ENDDO
               main = 1
- 300          IF(MAIN.EQ.1) THEN
+ 300          IF(MAIN==1) THEN
 C numerotation fonction du pmain des rby precedents
                 IADRBK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
@@ -987,7 +987,7 @@ CC
 C
 C Rigid material specifique
 C
-      IF(NSKYRBMK_L.GT.0)THEN
+      IF(NSKYRBMK_L>0)THEN
        DO P = 1, NSPMD
         IDEBRBK(P) = 0
        ENDDO
@@ -997,7 +997,7 @@ C
         MSR=IRBYM(1,N)
         NSL=IRBYM(2,N)
         PMAIN = ABS(DD_RBYM2(3,N))
-        IF(MOD(FRONT_RM(MSR,PROC),10).EQ.1) THEN
+        IF(MOD(FRONT_RM(MSR,PROC),10)==1) THEN
           DO KK = 1, NSL
             NN = LCRBYM(K+KK)
             IF(NLOCAL(NN,PROC)==1)THEN
@@ -1009,7 +1009,7 @@ C
                 ENDIF
               ENDDO
               main = 1
- 333          IF(MAIN.EQ.1) THEN
+ 333          IF(MAIN==1) THEN
 C numerotation fonction du pmain des rigid material precedents
                 IADRBMK(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
@@ -1028,11 +1028,11 @@ C
 C Int 2 specifique
 C
 Cpseudo elt type 2
-      IF(I2NSNT.GT.0) THEN
+      IF(I2NSNT>0) THEN
         NSN_L = 0
         DO N = 1, NINTER
           NTY = IPARI(7,N)
-          IF (NTY.EQ.2) THEN
+          IF (NTY==2) THEN
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             NSN   = IPARI(5,N)
@@ -1055,7 +1055,7 @@ C                  I2TMP(J,I+OFF) = KK
             END DO
           END IF
         END DO
-        if(nsn_l.ne.I2NSN_L)print *,'error decomp i2 p/on'
+        if(nsn_l/=I2NSN_L)print *,'error decomp i2 p/on'
 C
         ADDCNI2_L(1) = 1
         CC_L = 0
@@ -1073,9 +1073,9 @@ C
 C
 C Remplissage IADI2 si elt interne
 C
-            IF (PROC.EQ.PROC_L) THEN
+            IF (PROC==PROC_L) THEN
               DO K = 1, NIR
-                IF(I2TMP(K,NUML).EQ.N) THEN
+                IF(I2TMP(K,NUML)==N) THEN
                   IADI2(K,NUML) = CC_L
                   I2TMP(K,NUML) = -N
                   GO TO 222
@@ -1107,7 +1107,7 @@ C
 C
 C RBM specifique
 C
-      IF(NSKYRBM_L.GT.0)THEN
+      IF(NSKYRBM_L>0)THEN
        DO P = 1, NSPMD
         IDEBRBK(P) = 0
        ENDDO
@@ -1129,7 +1129,7 @@ C
                 ENDIF
               ENDDO
               main = 1
- 3000         IF(MAIN.EQ.1) THEN
+ 3000         IF(MAIN==1) THEN
 C numerotation fonction du pmain des rby precedents
                 IADRBM(NSL_L) = KK+IDEBRBK(PMAIN)
               ELSE
@@ -1145,14 +1145,14 @@ C numerotation fonction du pmain des rby precedents
 C
 C RBE3 specifique----plus tard---
 C
-      IF(NSKYRBE3_L.GT.0)THEN
+      IF(NSKYRBE3_L>0)THEN
       ENDIF
 CC
 C
 C Itet=2 of S10 specifique
 C
 C-----------------------------------------------
-      IF(NS10E.GT.0) THEN
+      IF(NS10E>0) THEN
 C: N_L :NS10E_L, NSN_L compacted w/o sharering
         N_L = 0   
         NSN_L = 0
@@ -1174,7 +1174,7 @@ c              END IF
  332         CONTINUE
             END IF
         END DO
-        if(n_l.ne.NS10E_L)print *,'error decomp Itet2of S10 p/on',n_l,NS10E_L
+        if(n_l/=NS10E_L)print *,'error decomp Itet2of S10 p/on',n_l,NS10E_L
 c       print *,'NSN_L,NS10E_L,LCNCND_L,NS10E=',NSN_L,NS10E_L,LCNCND_L,NS10E
 C
         IADCND(1:2,1:NS10E_L) = 0
@@ -1195,9 +1195,9 @@ C
 
 C Remplissage IADCND si elt interne
 
-            IF (PROC.EQ.PROC_L) THEN
+            IF (PROC==PROC_L) THEN
               DO K = 1, 2
-                IF(ICNDTMP(K,NUML).EQ.N) THEN
+                IF(ICNDTMP(K,NUML)==N) THEN
                   N_L = ICNDTMP(3,NUML)
                   IADCND(K,N_L) = CC_L
                   ICNDTMP(K,NUML) = -N
@@ -1212,12 +1212,12 @@ C Remplissage IADCND si elt interne
 C
 C Interface 18
 C
-      IF(NBI18_L.GT.0)THEN
+      IF(NBI18_L>0)THEN
         NN = 0
         DO N=1,NINTER
           ITY = IPARI(7,N)
           INACTI = IPARI(22,N)
-          IF((ITY.EQ.7.OR.ITY.EQ.22).AND.INACTI.EQ.7)THEN  ! interface 18   ! ON PASSE PAR PAR LA (INTER 18 ou 22)
+          IF((ITY==7.OR.ITY==22).AND.INACTI==7)THEN  ! interface 18   ! ON PASSE PAR PAR LA (INTER 18 ou 22)
             NRTS  = IPARI(3,N)
             NRTM  = IPARI(4,N)
             DO K=1,NRTM
@@ -1245,7 +1245,7 @@ Cel TAGE flag servant pour inacti
             END DO
           END IF
         END DO
-        if(nn.ne.nskyi18_l)print*,'error in type18 decomp'
+        if(nn/=nskyi18_l)print*,'error in type18 decomp'
       END IF
 C-----------------------------------------------
 C Ecriture tableaux P/ON propre au SPMD
@@ -1257,14 +1257,14 @@ C elements
       CALL WRITE_I_C(PROCNE,LCNE_L)
       LEN_IA = LEN_IA + LCNE_L
 C int 2
-      IF(I2NSNT.GT.0) THEN
+      IF(I2NSNT>0) THEN
         CALL WRITE_I_C(ADDCNI2_L,NUMNOD_L+1)
       LEN_IA = LEN_IA + NUMNOD_L+1
       ENDIF
       CALL WRITE_I_C(PROCNI2,LCNI2_L)
       LEN_IA = LEN_IA + LCNI2_L
 C itet=2 of s10
-      IF(NS10E_L.GT.0) THEN
+      IF(NS10E_L>0) THEN
        CALL WRITE_I_C(ADDCNCND_L,NUMNOD_L+1)
        LEN_IA = LEN_IA + NUMNOD_L+1
       ENDIF

@@ -304,9 +304,9 @@ C=======================================================================
       ENDDO
 
 
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).LT.ZERO)THEN
+          IF(OFFG(I)<ZERO)THEN
             VX1(I)=ZERO
             VY1(I)=ZERO
             VZ1(I)=ZERO
@@ -346,8 +346,8 @@ C=======================================================================
        !        ale   : must also take w on polyedra brick nodes whcih are moving too
 
 
-      IF(INT22.EQ.0)THEN
-        IF(JALE.NE.0)THEN
+      IF(INT22==0)THEN
+        IF(JALE/=0)THEN
           DO I=LFT,LLT
             WDX(I) = ONE_OVER_8*( W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC6(I))+W(1,NC7(I))+W(1,NC8(I)))
             WDY(I) = ONE_OVER_8*( W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC6(I))+W(2,NC7(I))+W(2,NC8(I)))
@@ -357,7 +357,7 @@ C=======================================================================
             VDZ(I) = MOM(I,3)/RHO(I) - WDZ(I)
             VD2(I) = VDX(I)*VDX(I)+VDY(I)*VDY(I)+VDZ(I)*VDZ(I)
           ENDDO
-        ELSEIF(JEUL.NE.0)THEN
+        ELSEIF(JEUL/=0)THEN
           DO I=LFT,LLT
             VDX(I) = MOM(I,1)/RHO(I)
             VDY(I) = MOM(I,2)/RHO(I)
@@ -365,8 +365,8 @@ C=======================================================================
             VD2(I) = VDX(I)*VDX(I)+VDY(I)*VDY(I)+VDZ(I)*VDZ(I)
           ENDDO
         ENDIF
-      ELSEIF(INT22.NE.0)THEN
-       IF(JEUL.NE.0)THEN
+      ELSEIF(INT22/=0)THEN
+       IF(JEUL/=0)THEN
          DO I=LFT,LLT
            WDX(I) = ZERO
            WDY(I) = ZERO
@@ -376,12 +376,12 @@ C=======================================================================
            VDZ(I) = MOM(I,3)/RHO(I) - WDZ(I)
            VD2(I) = VDX(I)*VDX(I)+VDY(I)*VDY(I)+VDZ(I)*VDZ(I)
           ENDDO !next I
-       ELSEIF(JALE.NE.0)THEN
+       ELSEIF(JALE/=0)THEN
          DO I=LFT,LLT
           IB = 0
-          IF(INT22.NE.0)IB = NINT(TAG22(I))
+          IF(INT22/=0)IB = NINT(TAG22(I))
           IsCutCell = .FALSE.
-          IF(IB.NE.0)THEN
+          IF(IB/=0)THEN
             NBCUT=BRICK_LIST(NIN,IB)%NBCUT
             IF(NBCUT>0)IsCutCell=.TRUE.
           ENDIF
@@ -428,7 +428,7 @@ C=======================================================================
               VD2(I) = VWN
               DO J=1,6
                 SURF   = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%SURF
-                IF(SURF.GT.ZERO)THEN
+                IF(SURF>ZERO)THEN
                   SUM_SURF = SUM_SURF + SURF
                   VW1 = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%Vel(1)
                   VW2 = BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(J)%Vel(2)
@@ -446,7 +446,7 @@ C=======================================================================
                   VD2(I) = MAX(VD2(I),VWN)
                 ENDIF
               ENDDO
-              IF(SUM_SURF.GT.ZERO)THEN
+              IF(SUM_SURF>ZERO)THEN
                  VDX(I) = VDX(I) / SUM_SURF
                  VDY(I) = VDY(I) / SUM_SURF
                  VDZ(I) = VDZ(I) / SUM_SURF

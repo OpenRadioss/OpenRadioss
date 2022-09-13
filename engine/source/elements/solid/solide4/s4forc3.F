@@ -290,7 +290,7 @@ C-----------
      .   RX,  RY,  RZ,  SX,  SY,  SZ, TX , TY , TZ  ,
      .   PM,VOLDP )
        ELSE
-        IF (ISMSTR == 12.AND.IDTMIN(1).EQ.3.AND.ISM12_11==0) THEN
+        IF (ISMSTR == 12.AND.IDTMIN(1)==3.AND.ISM12_11==0) THEN
 C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un) 
           CALL S4RCOOR12(GBUF%OFF,NC1  ,NC2  ,NC3  ,NC4   ,
      .                   X     ,XDP   ,D     ,
@@ -340,7 +340,7 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
          ENDIF
       ENDIF
 C
-      IF(JALE+JLAG.NE.0)THEN
+      IF(JALE+JLAG/=0)THEN
        IF (ISMSTR /= 11) THEN
 C!!!!!!add excetion also for ismstr10+offg>un       
         CALL S4DERI3(OFF,VOLN,NGL,DELTAX,MXT,
@@ -370,7 +370,7 @@ C
         ENDIF
        END IF !(ISMSTR /= 11) THEN
 C
-      ELSEIF(JEUL.NE.0)THEN
+      ELSEIF(JEUL/=0)THEN
         CALL E4PXLE3(GBUF%VOL,VEUL,
      .       X1, X2, X3, X4, Y1, Y2, Y3, Y4,
      .       Z1, Z2, Z3, Z4, PX1, PX2, PX3, PX4,
@@ -404,7 +404,7 @@ C-----------------------------------------------------
       IF(JALE > 0.AND.ISROT == 3.AND.MTN /= 37.AND.MTN /= 51.AND.
      .   MTN /= 18.AND.MTN /= 11) THEN
         DO I=LFT,LLT
-         IF(OFF(I) .NE. 0) THEN
+         IF(OFF(I) /= 0) THEN
          SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
          VOLN(I)=FOURTH*SUM*GBUF%RHO(I)/PM(1,MXT(I))
          ENDIF

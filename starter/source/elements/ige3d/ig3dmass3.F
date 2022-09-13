@@ -133,7 +133,7 @@ C
         DO ITNCTRL=1,NCTRL
           MSSF(ITNCTRL,I)=MASSF(I)
         ENDDO
-      ELSEIF(JALE+JEUL.GT.0)THEN
+      ELSEIF(JALE+JEUL>0)THEN
         DO ITNCTRL=1,NCTRL
           MSSF(ITNCTRL,I)=MASS(I)
         ENDDO
@@ -145,8 +145,8 @@ c           DO ITNCTRL=1,NCTRL
 c             MCPS(ITNCTRL,I) =RCP
 c           ENDDO 
 c       ENDIF
-c       IF(ISROT.EQ.1)THEN
-c        IF(IRODDL.EQ.0)THEN
+c       IF(ISROT==1)THEN
+c        IF(IRODDL==0)THEN
 C prov gw
 c          STOP 1119
 c        ENDIF

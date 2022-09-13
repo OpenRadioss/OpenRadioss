@@ -110,14 +110,14 @@ C-----------------------------------------------
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)
-         IF (MATLAW .EQ. 151) THEN
+         IF (MATLAW == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
             ITY = IPARG(5, NG)
             ISOLNOD = IPARG(28, NG)
 
             GBUF => ELBUF_TAB(NG)%GBUF
-            IF (MULTI_FVM%SYM .EQ. 0) THEN
+            IF (MULTI_FVM%SYM == 0) THEN
                VOLUME => GBUF%VOL(1:NEL)
             ELSE
                VOLUME => GBUF%AREA(1:NEL)
@@ -137,7 +137,7 @@ C-----------------------------------------------
 C     Solids
                NB_FACE = 6
                NB_FACE2 = 6
-               IF (ISOLNOD .EQ. 4) THEN
+               IF (ISOLNOD == 4) THEN
 C     Tetra
                   NB_FACE = 4
                   FACE_LIST(1) = 5
@@ -148,11 +148,11 @@ C     Tetra
                   FACE_LIST(6) = -1
                ENDIF
             CASE (1, 2)
-               IF (ITY .EQ. 2) THEN
+               IF (ITY == 2) THEN
 C     QUADS
                   NB_FACE = 4
                   NB_FACE2 = 4
-               ELSEIF (ITY .EQ. 7) THEN
+               ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                   NB_FACE = 3
                   NB_FACE2 = 3
@@ -180,7 +180,7 @@ C     Matrice
                   KFACE = FACE_LIST(IFACE)
                   J = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)
                   XF(1:3, KFACE) = MULTI_FVM%FACE_DATA%CENTROID(1:3, KFACE, I)
-                  IF (J .GT. 0) THEN
+                  IF (J > 0) THEN
                      VOIS(KFACE) = J
                      XL(1:3, KFACE) = MULTI_FVM%ELEM_DATA%CENTROID(1:3, J)
                   ELSE
@@ -200,7 +200,7 @@ C     Matrice
                   MAT(3, 3) = MAT(3, 3) + (XL(3, KFACE) - XK(3)) * (XL(3, KFACE) - XK(3))
                ENDDO
 
-               IF (MULTI_FVM%SYM .NE. 0) THEN
+               IF (MULTI_FVM%SYM /= 0) THEN
                   MAT(1, 1) = ONE
                   MAT(1, 2) = ZERO
                   MAT(1, 3) = ZERO
@@ -211,7 +211,7 @@ C     Matrice
                DET = MAT(1, 1) * MAT(2, 2) * MAT(3, 3) - MAT(1, 1) * MAT(2, 3)**2 
      .              - MAT(2, 2) * MAT(1, 3)**2 - MAT(3, 3) * MAT(1, 2)**2
      .              + TWO * MAT(1, 2) * MAT(1, 3) * MAT(2, 3)
-               IF (DET .NE. ZERO) THEN
+               IF (DET /= ZERO) THEN
                   DET = ONE / DET
                ELSE
                   CALL ARRET(2)
@@ -231,9 +231,9 @@ C     Matrice
 
 C               MATTEST(1:3, 1:3) = MATMUL(MAT(1:3, 1:3), MATM1(1:3, 1:3))
                
-               IF (MULTI_FVM%SYM .EQ. 1) THEN
+               IF (MULTI_FVM%SYM == 1) THEN
 C     Use planar surface here
-                  IF (ITY .EQ. 2) THEN
+                  IF (ITY == 2) THEN
 C     QUADS
                      NODE1 = IXQ(2, I)
                      NODE2 = IXQ(3, I)
@@ -243,7 +243,7 @@ C     QUADS
                      X2(1:3) = XGRID(1:3, NODE2)
                      X3(1:3) = XGRID(1:3, NODE3)
                      X4(1:3) = XGRID(1:3, NODE4)
-                 ELSE IF (ITY .EQ. 7) THEN
+                 ELSE IF (ITY == 7) THEN
 C     TRIANGLES
                      NODE1 = IXTG(2, I)
                      NODE2 = IXTG(3, I)
@@ -262,7 +262,7 @@ C     Velocity gradient
                MAXVAL_W = MULTI_FVM%VEL(3, I)
                MINVAL_W = MAXVAL_W
 
-               IF (NBMAT .EQ. 1) THEN
+               IF (NBMAT == 1) THEN
 C     =========
 C     MONOFLUID
 C     =========
@@ -289,7 +289,7 @@ C     Volume fraction gradient
                   ENDDO
                ENDIF
 
-               IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+               IF (MULTI_FVM%MUSCL == 1) THEN
 C     Velocity gradient -> X component
                   VALK = MULTI_FVM%VEL(1, I)
                   RHS(1:3) = ZERO
@@ -297,7 +297,7 @@ C     Velocity gradient -> X component
                      KFACE = FACE_LIST(IFACE)
                      J = VOIS(KFACE)
                      VALL = VALK
-                     IF (J .GT. 0) THEN
+                     IF (J > 0) THEN
                         VALL = MULTI_FVM%VEL(1, J)
                         MAXVAL_U = MAX(MAXVAL_U, VALL)
                         MINVAL_U = MIN(MINVAL_U, VALL)
@@ -318,9 +318,9 @@ C     Component X limitation
                      DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                    SUMY * (XF(2, KFACE) - XK(2)) +
      .                    SUMZ * (XF(3, KFACE) - XK(3))  
-                     IF (DELTA .GT. ZERO) THEN
+                     IF (DELTA > ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MAXVAL_U - VALK) / DELTA
-                     ELSE IF (DELTA .LT. ZERO) THEN
+                     ELSE IF (DELTA < ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MINVAL_U - VALK) / DELTA
                      ENDIF
                      CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -336,7 +336,7 @@ C     Velocity gradient -> Y component
                      KFACE = FACE_LIST(IFACE)
                      J = VOIS(KFACE)
                      VALL = VALK
-                     IF (J .GT. 0) THEN
+                     IF (J > 0) THEN
                         VALL = MULTI_FVM%VEL(2, J)
                         MAXVAL_V = MAX(MAXVAL_V, VALL)
                         MINVAL_V = MIN(MINVAL_V, VALL)
@@ -356,9 +356,9 @@ C     Component Y limitation
                      DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                    SUMY * (XF(2, KFACE) - XK(2)) +
      .                    SUMZ * (XF(3, KFACE) - XK(3))  
-                     IF (DELTA .GT. ZERO) THEN
+                     IF (DELTA > ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MAXVAL_V - VALK) / DELTA
-                     ELSE IF (DELTA .LT. ZERO) THEN
+                     ELSE IF (DELTA < ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MINVAL_V - VALK) / DELTA
                      ENDIF
                      CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -374,7 +374,7 @@ C     Velocity gradient -> Z component
                      KFACE = FACE_LIST(IFACE)
                      J = VOIS(KFACE)
                      VALL = VALK
-                     IF (J .GT. 0) THEN
+                     IF (J > 0) THEN
                         VALL = MULTI_FVM%VEL(3, J)
                         MAXVAL_W = MAX(MAXVAL_W, VALL)
                         MINVAL_W = MIN(MINVAL_W, VALL)
@@ -394,9 +394,9 @@ C     Component Z limitation
                      DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                    SUMY * (XF(2, KFACE) - XK(2)) +
      .                    SUMZ * (XF(3, KFACE) - XK(3))  
-                     IF (DELTA .GT. ZERO) THEN
+                     IF (DELTA > ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MAXVAL_W - VALK) / DELTA
-                     ELSE IF (DELTA .LT. ZERO) THEN
+                     ELSE IF (DELTA < ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MINVAL_W - VALK) / DELTA
                      ENDIF
                      CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -405,21 +405,21 @@ C     Component Z limitation
                   MULTI_FVM%GRAD_W(1, I) = SUMX * LIM_VELZ 
                   MULTI_FVM%GRAD_W(2, I) = SUMY * LIM_VELZ 
                   MULTI_FVM%GRAD_W(3, I) = SUMZ * LIM_VELZ 
-               ENDIF !MUSCL .EQ. 1
+               ENDIF !MUSCL == 1
 
-               IF (NBMAT .EQ. 1) THEN
+               IF (NBMAT == 1) THEN
 C     ==========
 C     MONOFLUID
 C     ==========
 C     Density gradient
-                  IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+                  IF (MULTI_FVM%MUSCL == 1) THEN
                      VALK = MULTI_FVM%RHO(I)
                      RHS(1:3) = ZERO
                      DO IFACE = 1, NB_FACE
                         KFACE = FACE_LIST(IFACE)
                         J = VOIS(KFACE)
                         VALL = VALK
-                        IF (J .GT. 0) THEN
+                        IF (J > 0) THEN
                            VALL = MULTI_FVM%RHO(J)
                            MAXVAL_RHO = MAX(MAXVAL_RHO, VALL)
                            MINVAL_RHO = MIN(MINVAL_RHO, VALL)
@@ -439,9 +439,9 @@ C     Density gradient limitation
                         DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                       SUMY * (XF(2, KFACE) - XK(2)) +
      .                       SUMZ * (XF(3, KFACE) - XK(3)) 
-                        IF (DELTA .GT. ZERO) THEN
+                        IF (DELTA > ZERO) THEN
                            LIMFACE(KFACE) = HALF * (MAXVAL_RHO - VALK) / DELTA
-                        ELSE IF (DELTA .LT. ZERO) THEN
+                        ELSE IF (DELTA < ZERO) THEN
                            LIMFACE(KFACE) = HALF * (MINVAL_RHO - VALK) / DELTA
                         ENDIF
                         CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -457,7 +457,7 @@ C     Pressure gradient
                         KFACE = FACE_LIST(IFACE)
                         J = VOIS(KFACE)
                         VALL = VALK
-                        IF (J .GT. 0) THEN
+                        IF (J > 0) THEN
                            VALL = MULTI_FVM%EINT(J)
                            MAXVAL_PRES = MAX(MAXVAL_PRES, VALL)
                            MINVAL_PRES = MIN(MINVAL_PRES, VALL)
@@ -478,9 +478,9 @@ C     pressure limitation
                         DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                       SUMY * (XF(2, KFACE) - XK(2)) +
      .                       SUMZ * (XF(3, KFACE) - XK(3)) 
-                        IF (DELTA .GT. ZERO) THEN
+                        IF (DELTA > ZERO) THEN
                            LIMFACE(KFACE) = HALF * (MAXVAL_PRES - VALK) / DELTA
-                        ELSE IF (DELTA .LT. ZERO) THEN
+                        ELSE IF (DELTA < ZERO) THEN
                            LIMFACE(KFACE) = HALF * (MINVAL_PRES - VALK) / DELTA
                         ENDIF
                         CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -489,7 +489,7 @@ C     pressure limitation
                      MULTI_FVM%GRAD_PRES(1, I) = SUMX * LIM_PRES
                      MULTI_FVM%GRAD_PRES(2, I) = SUMY * LIM_PRES
                      MULTI_FVM%GRAD_PRES(3, I) = SUMZ * LIM_PRES
-                  ENDIF         ! MUSCL .EQ. 1
+                  ENDIF         ! MUSCL == 1
                ELSE
 C     ==========
 C     MULTIFLUID
@@ -502,7 +502,7 @@ C     Volume fraction gradient
                         KFACE = FACE_LIST(IFACE)
                         J = VOIS(KFACE)
                         VALL = VALK
-                        IF (J .GT. 0) THEN
+                        IF (J > 0) THEN
                            VALL = MULTI_FVM%PHASE_ALPHA(IMAT, J)
                            PHASE_MAXVAL_ALPHA(IMAT) = MAX(PHASE_MAXVAL_ALPHA(IMAT), VALL)
                            PHASE_MINVAL_ALPHA(IMAT) = MIN(PHASE_MINVAL_ALPHA(IMAT), VALL)
@@ -522,9 +522,9 @@ C     Volume fraction gradient limitation
                         DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                       SUMY * (XF(2, KFACE) - XK(2)) +
      .                       SUMZ * (XF(3, KFACE) - XK(3)) 
-                        IF (DELTA .GT. ZERO) THEN
+                        IF (DELTA > ZERO) THEN
                            LIMFACE(KFACE) = HALF * (PHASE_MAXVAL_ALPHA(IMAT) - VALK) / DELTA
-                        ELSE IF (DELTA .LT. ZERO) THEN
+                        ELSE IF (DELTA < ZERO) THEN
                            LIMFACE(KFACE) = HALF * (PHASE_MINVAL_ALPHA(IMAT) - VALK) / DELTA
                         ENDIF
                         CALL LIMITER(LIMFACE(KFACE), MULTI_FVM%BETA)
@@ -534,14 +534,14 @@ C     Volume fraction gradient limitation
                      MULTI_FVM%PHASE_GRAD_ALPHA(2, IMAT, I) = SUMY * PHASE_LIM_ALPHA(IMAT)
                      MULTI_FVM%PHASE_GRAD_ALPHA(3, IMAT, I) = SUMZ * PHASE_LIM_ALPHA(IMAT)
 C     Density gradient
-                     IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+                     IF (MULTI_FVM%MUSCL == 1) THEN
                         VALK = MULTI_FVM%PHASE_RHO(IMAT, I)
                         RHS(1:3) = ZERO
                         DO IFACE = 1, NB_FACE
                            KFACE = FACE_LIST(IFACE)
                            J = VOIS(KFACE)
                            VALL = VALK
-                           IF (J .GT. 0) THEN
+                           IF (J > 0) THEN
                               VALL = MULTI_FVM%PHASE_RHO(IMAT, J)
                               PHASE_MAXVAL_RHO(IMAT) = MAX(PHASE_MAXVAL_RHO(IMAT), VALL)
                               PHASE_MINVAL_RHO(IMAT) = MIN(PHASE_MINVAL_RHO(IMAT), VALL)
@@ -561,12 +561,12 @@ C     Density gradient limitation
                            DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                          SUMY * (XF(2, KFACE) - XK(2)) +
      .                          SUMZ * (XF(3, KFACE) - XK(3)) 
-                           IF (DELTA .GT. ZERO) THEN
+                           IF (DELTA > ZERO) THEN
                               LIMFACE(KFACE) = HALF * (PHASE_MAXVAL_RHO(IMAT) - VALK) / DELTA
-                           ELSE IF (DELTA .LT. ZERO) THEN
+                           ELSE IF (DELTA < ZERO) THEN
                               LIMFACE(KFACE) = HALF * (PHASE_MINVAL_RHO(IMAT) - VALK) / DELTA
                            ENDIF
-                           IF (VALK + DELTA .LE. ZERO) THEN
+                           IF (VALK + DELTA <= ZERO) THEN
                               LIMFACE(KFACE) = ZERO
                            ELSE
                               CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -583,7 +583,7 @@ C     Pressure gradient
                            KFACE = FACE_LIST(IFACE)
                            J = VOIS(KFACE)
                            VALL = VALK
-                           IF (J .GT. 0) THEN
+                           IF (J > 0) THEN
                               VALL = MULTI_FVM%PHASE_EINT(IMAT, J)
                               PHASE_MAXVAL_PRES(IMAT) = MAX(PHASE_MAXVAL_PRES(IMAT), VALL)
                               PHASE_MINVAL_PRES(IMAT) = MIN(PHASE_MINVAL_PRES(IMAT), VALL)
@@ -603,9 +603,9 @@ C     Pressure gradient limitation
                            DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                          SUMY * (XF(2, KFACE) - XK(2)) +
      .                          SUMZ * (XF(3, KFACE) - XK(3)) 
-                           IF (DELTA .GT. ZERO) THEN
+                           IF (DELTA > ZERO) THEN
                               LIMFACE(KFACE) = HALF * (PHASE_MAXVAL_PRES(IMAT) - VALK) / DELTA
-                           ELSE IF (DELTA .LT. ZERO) THEN
+                           ELSE IF (DELTA < ZERO) THEN
                               LIMFACE(KFACE) = HALF * (PHASE_MINVAL_PRES(IMAT) - VALK) / DELTA
                            ENDIF
                            CALL LIMITER(LIMFACE(KFACE), ONE)
@@ -614,7 +614,7 @@ C     Pressure gradient limitation
                         MULTI_FVM%PHASE_GRAD_PRES(1, IMAT, I) = SUMX * PHASE_LIM_PRES(IMAT)
                         MULTI_FVM%PHASE_GRAD_PRES(2, IMAT, I) = SUMY * PHASE_LIM_PRES(IMAT)
                         MULTI_FVM%PHASE_GRAD_PRES(3, IMAT, I) = SUMZ * PHASE_LIM_PRES(IMAT)
-                     ENDIF      ! MUSCL .EQ. 1
+                     ENDIF      ! MUSCL == 1
                   ENDDO         ! IMAT
                ENDIF            ! NBMAT
             ENDDO               !II = 1, NEL

@@ -115,7 +115,7 @@ c
              TRUEAXE= 1
              N1 = NQ(L1)
              N2 = NQ(L2)
-             IF (N2D==1.AND.X(2,N1).LE.EM10.AND.X(2,N2).LE.EM10) THEN ! Case Axi ommit nodes of revolution axe z ( y=0)
+             IF (N2D==1.AND.X(2,N1)<=EM10.AND.X(2,N2)<=EM10) THEN ! Case Axi ommit nodes of revolution axe z ( y=0)
                TRUEAXE= 0
              ENDIF
 
@@ -128,20 +128,20 @@ C           normal computation
                   NY = -DZ
                   NZ = DY
                   PVECT = DY*DZ
-                  IF (PVECT.LT.ZERO) THEN
+                  IF (PVECT<ZERO) THEN
                     NY = DZ
                     NZ = -DY
                   ENDIF
 C           check external normal 
                   PSCA = NY*(Y1-YG)+NZ*(Z1-ZG)
                   ISEG = NSEG
-                  IF (PSCA.LE.ZERO) THEN
+                  IF (PSCA<=ZERO) THEN
                     CALL SURF_SEGMENT(N1         ,N2       ,0   ,0    ,JQ,
      .                                BUFTMPSURF ,IAD_SURF ,2   )
                   ELSE
                     CALL SURF_SEGMENT(N2         ,N1       ,0   ,0    ,JQ,
      .                                BUFTMPSURF ,IAD_SURF ,2   )
-                 ENDIF ! IF (PSCA.LE.ZERO)
+                 ENDIF ! IF (PSCA<=ZERO)
 
                ENDIF
 

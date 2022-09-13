@@ -59,15 +59,15 @@ C     NVAR = NUPARAM = IPM(9,IM)
 C
       DEPLA= 9+(IM-1)*NPROPMI
       CALL GET_VAR_USER_I(19,DEPLA,NVAR)
-      IF(IVAR.EQ.0)THEN
+      IF(IVAR==0)THEN
 C       GET_U_MAT = PM(1,IM)
         DEPLA=1+(IM-1)*NPROPM
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
            CALL GET_VAR_USER_F_SP(1,DEPLA,GET_U_MAT)
         ELSE
            CALL GET_VAR_USER_F(1,DEPLA,GET_U_MAT)
         ENDIF
-      ELSEIF(IVAR.GT.NVAR)THEN
+      ELSEIF(IVAR>NVAR)THEN
         WRITE(IOUT,*)
      .      ' **ERROR USER MATERIAL PARAMETER INDEX(',IVAR,
      .      ') EXCEED NUPARAM(',NVAR,')'
@@ -80,7 +80,7 @@ C       GET_U_MAT = BUFMAT(IADBUF-1+IVAR)
         DEPLA = 7+(IM-1)*NPROPMI
         CALL GET_VAR_USER_I(19,DEPLA,IADBUF)
         DEPLA = IADBUF-1+IVAR
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(2,DEPLA,GET_U_MAT)
         ELSE
           CALL GET_VAR_USER_F(2,DEPLA,GET_U_MAT)
@@ -131,14 +131,14 @@ C     BUFGEO(I) == LOCA(ISH4+I)
 C
 C
       DEPLA=26+(IP-1)*NPROPG
-      IF (IRESP .EQ. 1) THEN
+      IF (IRESP == 1) THEN
         CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
       ELSE
         CALL GET_VAR_USER_F(3,DEPLA,NV)
       ENDIF
       NVAR = NINT(NV)
 C     NVAR = NINT(GEO(26,IP))
-      IF(IVAR.GT.NVAR)THEN
+      IF(IVAR>NVAR)THEN
         WRITE(IOUT,*)
      .      ' **ERROR USER PROPERTY PARAMETER INDEX(',IVAR,
      .      ') EXCEED NUPARAG(',NVAR,')'
@@ -147,7 +147,7 @@ C     NVAR = NINT(GEO(26,IP))
      .      ') EXCEED NUPARAG(',NVAR,')'
       ELSE
         DEPLA=27+(IP-1)*NPROPG
-        IF (IRESP .EQ. 1) THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
           DEPLA=NINT(NV)-1+IVAR
           CALL GET_VAR_USER_F_SP(4,DEPLA,GET_U_GEO)
@@ -194,14 +194,14 @@ C
 C
 C
       DEPLA=K-1+(IP-1)*NPROPG
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
       ELSE
         CALL GET_VAR_USER_F(3,DEPLA,NV)
       ENDIF
       NVAR=NINT(NV)
 C     NVAR = NINT(GEO(K-1,IP))
-      IF(IVAR.GT.NVAR)THEN
+      IF(IVAR>NVAR)THEN
         WRITE(IOUT,*)
      .      ' **ERROR IN FUNCTION GET_U_PNU(INDEX,IP,GEO,BUFGEO,',
      .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NVAR,')'
@@ -210,7 +210,7 @@ C     NVAR = NINT(GEO(K-1,IP))
      .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NVAR,')'
       ELSE
         DEPLA=K+(IP-1)*NPROPG
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
           DEPLA=NINT(NV)-1+IVAR
           CALL GET_VAR_USER_F_SP(4,DEPLA,NV)
@@ -256,7 +256,7 @@ C
         WRITE(ISTDO,*)
      .      ' **ERROR IN FUNCTION GET_U_MNU(INDEX,IP,GEO,BUFGEO,',
      .      K,'), INDEX(',IVAR,') EXCEED ALLOCATED VALUE(',NFUNC,')'
-      ELSEIF(K.EQ.KFUNC) THEN
+      ELSEIF(K==KFUNC) THEN
 C       GET_U_MNU = IFUNC = IPM(10+IVAR,IM))
         DEPLA = 10+IVAR+(IM-1)*NPROPMI
         CALL GET_VAR_USER_I(19,DEPLA,GET_U_MNU)
@@ -327,7 +327,7 @@ Chd|====================================================================
 C
       GET_U_M = 0
       DO I=1,NUMMAT
-        IF(GET_U_MID(I).EQ.MID)THEN
+        IF(GET_U_MID(I)==MID)THEN
           GET_U_M = I
           RETURN
         ENDIF
@@ -348,7 +348,7 @@ Chd|====================================================================
 C
       GET_U_P = 0
       DO I=1,NUMGEO
-        IF(GET_U_PID(I).EQ.PID)THEN
+        IF(GET_U_PID(I)==PID)THEN
           GET_U_P = I
           RETURN
         ENDIF

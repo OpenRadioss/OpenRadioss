@@ -112,7 +112,7 @@ C-----------------------------------------------
       DT1D2=0.5*DT1
       DO 10 I=LFT,LLT
        N    =NFT+I
-       IF(KXSP(2,N).LE.0)GOTO 10
+       IF(KXSP(2,N)<=0)GOTO 10
        INOD =KXSP(3,N)
        XI=X(1,INOD)
        YI=X(2,INOD)
@@ -150,7 +150,7 @@ C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
         JNOD=IXSP(J,N)
-        IF(JNOD.GT.0)THEN
+        IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
@@ -262,7 +262,7 @@ C      partie symetrique.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)
-        IF(JS.GT.0)THEN
+        IF(JS>0)THEN
           SM=JS/(NSPCOND+1)
           NC=MOD(JS,NSPCOND+1)
           JS=ISPSYM(NC,SM)

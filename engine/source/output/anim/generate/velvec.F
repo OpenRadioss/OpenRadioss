@@ -91,16 +91,16 @@ C
         ENDDO
        ENDIF
       ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
            BUF = NUMNODG
         ELSE
            BUF = 1
          ENDIF
          CALL SPMD_VGATH(V,NODGLOB,WEIGHT,BUF)     
       ENDIF
-      IF(NODCUT.GT.0)THEN
+      IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             PRINT *, '** NODCUT NON PARALLELIZED OPTION!'
           END IF
           GO TO 211
@@ -129,7 +129,7 @@ C  node ply xfem
 C
       IF(ANIM_PLY > 0 ) THEN
        IF (NSPMD == 1) THEN 
-         IF (NFNOD_PXFEM.GT.0) THEN
+         IF (NFNOD_PXFEM>0) THEN
             IF(IFUNC == 1) THEN    
               ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
               DO JJ =1,NPLYPART
@@ -211,7 +211,7 @@ c----------------------------
       ENDIF                             
 c----------------------------    
       IF (ISPMD==0)THEN          
-        IF (NFVNOD.GT.0) THEN      
+        IF (NFVNOD>0) THEN      
            R4 = 0.                 
            DO I=1,NFVNOD+3         
               CALL WRITE_R_C(R4,1) 
@@ -281,7 +281,7 @@ C
        V(3,I) = ZERO        
       ENDDO
 C
-      IF (NSPMD.EQ.1) THEN
+      IF (NSPMD==1) THEN
         DO N=1,NRBODY
          I = NPBY(1,N)
          V(1,I) = FOPT(1,NSECT+N)
@@ -298,8 +298,8 @@ C
       ELSE
          DO N=1,NRBODY
            I = NPBY(1,N)
-           IF (I.GT.0) THEN
-             IF (WEIGHT(I).EQ.1) THEN
+           IF (I>0) THEN
+             IF (WEIGHT(I)==1) THEN
                 V(1,I) = FOPT(1,NSECT+N)
                 V(2,I) = FOPT(2,NSECT+N)
                 V(3,I) = FOPT(3,NSECT+N)
@@ -309,7 +309,7 @@ C
 
          DO N=1,NUMELUR
            I = IXUR(3,N)
-           IF (WEIGHT(I).EQ.1) THEN
+           IF (WEIGHT(I)==1) THEN
              V(1,I) = V(1,I) + FOPT(1,NSECT+NRBODY+NRWALL+N)
              V(2,I) = V(2,I) + FOPT(2,NSECT+NRBODY+NRWALL+N)
              V(3,I) = V(3,I) + FOPT(3,NSECT+NRBODY+NRWALL+N)
@@ -337,7 +337,7 @@ C
          ENDDO
         ENDIF
       ELSE
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           RBUF = NUMNODM
           NNG = NUMNODG
         ELSE
@@ -349,9 +349,9 @@ C
 
 C
 C nodcut non parallelises
-      IF(NODCUT.GT.0)THEN
+      IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
-          IF (ISPMD.EQ.0)THEN
+          IF (ISPMD==0)THEN
             PRINT *, '** NODCUT NON PARALLELIZED OPTION'
           ENDIF
           GOTO 211
@@ -367,7 +367,7 @@ C nodcut non parallelises
  211    CONTINUE
       ENDIF
 C
-      IF (NSPMD.EQ.1) THEN
+      IF (NSPMD==1) THEN
         DO I=1,NSECT
          R4 = FOPT(1,I)
          CALL WRITE_R_C(R4,1)
@@ -379,7 +379,7 @@ C
       ELSE
         DO I=1,NSECT
          PMAIN = FR_SEC(NSPMD+1,I)
-          IF (PMAIN .EQ.LOC_PROC) THEN
+          IF (PMAIN ==LOC_PROC) THEN
            RWA(1,I) = FOPT(1,I)
            RWA(2,I) = FOPT(2,I)
            RWA(3,I) = FOPT(3,I)
@@ -389,9 +389,9 @@ C
            RWA(3,I) = ZERO
           ENDIF
         ENDDO
-        IF(NSECT.GT.0)
+        IF(NSECT>0)
      .    CALL SPMD_GLOB_DSUM9(RWA,3*NSECT)
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           DO I=1,NSECT
             R4 = RWA(1,I)
             CALL WRITE_R_C(R4,1)
@@ -403,7 +403,7 @@ C
         ENDIF
       ENDIF
 C
-      IF (NSPMD.EQ.1) THEN
+      IF (NSPMD==1) THEN
         DO I=1,NRWALL
           R4 = FOPT(1,NSECT+NRBODY+I)
           CALL WRITE_R_C(R4,1)
@@ -418,9 +418,9 @@ C
           RWAL(2,I) = FOPT(2,NSECT+NRBODY+I)
           RWAL(3,I) = FOPT(3,NSECT+NRBODY+I)
         ENDDO
-        IF (NRWALL.GT.0)
+        IF (NRWALL>0)
      .    CALL SPMD_GLOB_DSUM9(RWAL,3*NRWALL)
-        IF (ISPMD.EQ.0) THEN 
+        IF (ISPMD==0) THEN 
           DO I=1,NRWALL
             R4 = RWAL(1,I)
             CALL WRITE_R_C(R4,1)
@@ -431,7 +431,7 @@ C
           ENDDO
         ENDIF
       ENDIF
-      IF (ISPMD.NE.0) GO TO 300
+      IF (ISPMD/=0) GO TO 300
       R4 = 0.
       DO I=1,NNWL
        CALL WRITE_R_C(R4,1)
@@ -446,7 +446,7 @@ C
         ENDDO
 C
       IF(ANIM_PLY > 0 ) THEN
-        IF(ISPMD==0 .AND. NFNOD_PXFEMG.GT.0) THEN
+        IF(ISPMD==0 .AND. NFNOD_PXFEMG>0) THEN
            R4 = ZERO
            DO I=1,NFNOD_PXFEMG
              CALL WRITE_R_C(R4,1)
@@ -469,7 +469,7 @@ c----------------------------
         ENDIF                           
       ENDIF                             
 c----------------------------    
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
          R4=ZERO
          DO I=1,NFVNOD+3
             CALL WRITE_R_C(R4,1)
@@ -557,7 +557,7 @@ C-----------------------------------------------
 
         CALL SPMD_GLOB_FSUM9(VG,3*NUMNODG)
 
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
          DO I=1,NUMNODG
            CALL WRITE_R_C(VG(1,I),1)
            CALL WRITE_R_C(VG(2,I),1)
@@ -568,9 +568,9 @@ C-----------------------------------------------
 
 C
 C option non parallelisee !
-      IF(NODCUT.GT.0)THEN
+      IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             PRINT *, '** NODCUT NON PARALLELIZED OPTION'
           END IF
           GO TO 211
@@ -588,7 +588,7 @@ C option non parallelisee !
 C
       IF(ANIM_PLY > 0 ) THEN
 
-       IF(ISPMD==0 .AND. NFNOD_PXFEMG.GT.0) THEN
+       IF(ISPMD==0 .AND. NFNOD_PXFEMG>0) THEN
          R4 = ZERO
          DO I=1,NFNOD_PXFEMG
             CALL WRITE_R_C(R4,1)
@@ -611,14 +611,14 @@ c----------------------------
         ENDIF                           
       ENDIF                             
 c----------------------------    
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         R4 = 0.
         DO I=1,NSECT+NRWALL+NNWL+NNSRG
          CALL WRITE_R_C(R4,1)
          CALL WRITE_R_C(R4,1)
          CALL WRITE_R_C(R4,1)
         ENDDO
-        IF (NFVNOD.GT.0) THEN
+        IF (NFVNOD>0) THEN
            R4 = 0.
            DO I=1,NFVNOD+3
               CALL WRITE_R_C(R4,1)
@@ -626,7 +626,7 @@ c----------------------------
               CALL WRITE_R_C(R4,1)
            ENDDO
         ENDIF
-      ENDIF!(ISPMD.EQ.0) 
+      ENDIF!(ISPMD==0) 
 c----------------------------  
  300  CONTINUE
       RETURN
@@ -727,9 +727,9 @@ C
       ENDIF
 C
 C option non parallelisee !
-      IF(NODCUT.GT.0)THEN
+      IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             PRINT *, '** NODCUT NON PARALLELIZED OPTION'
           END IF
           GO TO 211
@@ -747,7 +747,7 @@ C option non parallelisee !
 C
       IF(ANIM_PLY > 0 ) THEN
 
-       IF(ISPMD==0 .AND. NFNOD_PXFEMG.GT.0) THEN
+       IF(ISPMD==0 .AND. NFNOD_PXFEMG>0) THEN
          R4 = ZERO
          DO I=1,NFNOD_PXFEMG
             CALL WRITE_R_C(R4,1)
@@ -770,7 +770,7 @@ c----------------------------
         ENDIF                           
       ENDIF                             
 c----------------------------    
-      IF (ISPMD.NE.0) GOTO 300
+      IF (ISPMD/=0) GOTO 300
       R4 = 0.
       DO I=1,NSECT+NRWALL+NNWL+NNSRG
        CALL WRITE_R_C(R4,1)
@@ -778,7 +778,7 @@ c----------------------------
        CALL WRITE_R_C(R4,1)
       ENDDO
 C
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
          R4 = 0.
          DO I=1,NFVNOD+3
             CALL WRITE_R_C(R4,1)
@@ -834,7 +834,7 @@ C-----------------------------------------------
         ENDDO
       ELSE
 
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
 
            DO I=1,NUMNODG
               R4 = VMAX(1,I)
@@ -849,9 +849,9 @@ C-----------------------------------------------
 
 C
 C option non parallelisee !
-      IF(NODCUT.GT.0)THEN
+      IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             PRINT *, '** NODCUT NON PARALLELIZED OPTION'
           END IF
           GO TO 211
@@ -869,7 +869,7 @@ C option non parallelisee !
 C
       IF(ANIM_PLY > 0 ) THEN
 
-       IF(ISPMD==0 .AND. NFNOD_PXFEMG.GT.0) THEN
+       IF(ISPMD==0 .AND. NFNOD_PXFEMG>0) THEN
          R4 = ZERO
          DO I=1,NFNOD_PXFEMG
             CALL WRITE_R_C(R4,1)
@@ -892,7 +892,7 @@ c----------------------------
         ENDIF                           
       ENDIF                             
 c----------------------------    
-      IF (ISPMD.NE.0) GOTO 300
+      IF (ISPMD/=0) GOTO 300
       R4 = 0.
       DO I=1,NSECT+NRWALL+NNWL+NNSRG
        CALL WRITE_R_C(R4,1)
@@ -900,7 +900,7 @@ c----------------------------
        CALL WRITE_R_C(R4,1)
       ENDDO
 C
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
          R4 = 0.
          DO I=1,NFVNOD+3
             CALL WRITE_R_C(R4,1)
@@ -958,7 +958,7 @@ C-----------------------------------------------
       S3000 = 3000.
       S = 0.
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          BUF = NUMNODG
       ELSE
          BUF = 1
@@ -993,13 +993,13 @@ C
       ENDIF
 C
 C option non parallelisee !
-      IF(NODCUT.GT.0)THEN
-        IF (ISPMD.EQ.0) THEN
+      IF(NODCUT>0)THEN
+        IF (ISPMD==0) THEN
           PRINT *, '** NODCUT NON PARALLELIZED OPTION'
         END IF
       ENDIF
 C
-      IF (ISPMD.NE.0) GOTO 300
+      IF (ISPMD/=0) GOTO 300
       R4 = 0.
       DO I=1,NSECT+NRWALL+NNWL+NNSRG
        CALL WRITE_R_C(R4,1)
@@ -1008,7 +1008,7 @@ C
       ENDDO
 C      
       IF(ANIM_PLY > 0 ) THEN
-       IF(ISPMD.EQ.0 .AND. NFNOD_PXFEMG.GT.0) THEN
+       IF(ISPMD==0 .AND. NFNOD_PXFEMG>0) THEN
         R4 = ZERO
         DO I=1,NFNOD_PXFEMG
            CALL WRITE_R_C(R4,1)
@@ -1031,7 +1031,7 @@ c----------------------------
         ENDIF                           
       ENDIF                             
 c----------------------------    
-      IF (ISPMD.EQ.0.AND.NFVNOD.GT.0) THEN
+      IF (ISPMD==0.AND.NFVNOD>0) THEN
          R4 = 0.
          DO I=1,NFVNOD+3
             CALL WRITE_R_C(R4,1)
@@ -1117,7 +1117,7 @@ C-----------------------------------------------
        DO IB=NBF,NBL    
          ICELL               =  0                                                                
          NCELL               = BRICK_LIST(NIN,IB)%NBCUT                                                                                                          
-         DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
+         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
            ICELL             = ICELL +1                                                                                                                        
            IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9   
            IBM               = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
@@ -1151,7 +1151,7 @@ C-----------------------------------------------
               rho_cell       = GBUF%RHO(IDLOCM)
            ENDIF
            NODE_ID           = BRICK_LIST(NIN,IB)%POLY(ICELL)%ID_FREE_NODE  
-           IF(NODE_ID.LE.0)CYCLE ! not enough nodes in the group or SMP disabling
+           IF(NODE_ID<=0)CYCLE ! not enough nodes in the group or SMP disabling
            IF(IFLG==1)THEN       
              !velocity vector : U                                                          
              BUFFER(1,NODE_ID) = GBUF%MOM(NELm*(1-1) + IDLOCm) / rho_cell                                                                               

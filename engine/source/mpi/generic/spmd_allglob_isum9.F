@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (LEN .GT. 0) THEN
+      IF (LEN > 0) THEN
         CALL MPI_ALLREDUCE(V,VTMP,LEN,
      .                  MPI_INTEGER,MPI_SUM,
      .                  MPI_COMM_WORLD,IERROR)

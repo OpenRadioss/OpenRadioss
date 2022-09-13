@@ -56,7 +56,7 @@ C-----------------------------------------------
       DATA MSGOFF/7053/
 C-----------------------------------------------
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          DO I=1,NSPMD-1
             ITAG=MSGOFF
             CALL MPI_IRECV(IDCMAXP(I), 1, MPI_INTEGER, IT_SPMD(I+1),

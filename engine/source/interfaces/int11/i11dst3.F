@@ -179,7 +179,7 @@ C
         IF(INTFRIC == 0) THEN
 #include      "vectorize.inc"
           DO I=1,JLT
-             IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+             IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
                JLT_NEW = JLT_NEW + 1
                CAND_S(JLT_NEW) = CAND_S(I)
                CAND_M(JLT_NEW) = CAND_M(I)
@@ -218,7 +218,7 @@ C
         ELSE
 #include      "vectorize.inc"
           DO I=1,JLT
-             IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+             IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
                JLT_NEW = JLT_NEW + 1
                CAND_S(JLT_NEW) = CAND_S(I)
                CAND_M(JLT_NEW) = CAND_M(I)
@@ -261,7 +261,7 @@ C
         IF(INTFRIC == 0) THEN
 #include      "vectorize.inc"
           DO I=1,JLT
-            IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
               JLT_NEW = JLT_NEW + 1
               CAND_S(JLT_NEW) = CAND_S(I)
               CAND_M(JLT_NEW) = CAND_M(I)
@@ -301,7 +301,7 @@ C
         ELSE
 #include      "vectorize.inc"
           DO I=1,JLT
-            IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
               JLT_NEW = JLT_NEW + 1
               CAND_S(JLT_NEW) = CAND_S(I)
               CAND_M(JLT_NEW) = CAND_M(I)

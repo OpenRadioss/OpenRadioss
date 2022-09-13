@@ -115,7 +115,7 @@ C-----------------------------------------------
        NSEG = MIN(MSEG,LAST-JS)
 
        NLS = NSEG
-       IF(IGAP.EQ.0)THEN
+       IF(IGAP==0)THEN
         DO IS=1,NSEG
           GAPV(IS)=GAP
           LISTI(IS)=IS
@@ -124,13 +124,13 @@ C-----------------------------------------------
         DO IS=1,NSEG
           I=JS+IS
           GAPV(IS)=GAP_S(CAND_N(I))
-          IF(GAPMAX.NE.ZERO)GAPV(IS)=MIN(GAPV(IS),GAPMAX)
+          IF(GAPMAX/=ZERO)GAPV(IS)=MIN(GAPV(IS),GAPMAX)
           GAPV(IS)=MAX(GAPV(IS),GAP)
           LISTI(IS)=IS
         ENDDO
        ENDIF
 C
-       IF (DEBUG(3).GE.1) NB_JLT(ITASK+1) = NB_JLT(ITASK+1) + NLS
+       IF (DEBUG(3)>=1) NB_JLT(ITASK+1) = NB_JLT(ITASK+1) + NLS
 C
        NLF = 1
        NLT = NLS
@@ -141,7 +141,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
            IG(IS) = CAND_N(I)
            XI = XLOC(1,IG(IS))
            YI = XLOC(2,IG(IS))
@@ -190,7 +190,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN ! Contact sorting optimization
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN ! Contact sorting optimization
            IG(IS) = CAND_N(I)
            GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
 C          
@@ -323,7 +323,7 @@ C
           ENDIF
         ENDDO
 C        
-        IF (DEBUG(3).GE.1) NB_STOK_N(ITASK+1) = NB_STOK_N(ITASK+1) + NLS
+        IF (DEBUG(3)>=1) NB_STOK_N(ITASK+1) = NB_STOK_N(ITASK+1) + NLS
 C
         IF (IMONM > 0 .AND. ITASK+1 == 1) CALL STARTIME(77,1) ! Counting DST time
 C

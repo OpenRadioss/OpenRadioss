@@ -180,13 +180,13 @@ C----------------------
       IF(ITET10 == 0) ITET10 = ITET10_D
 C
 C
-      IF (SUB_ID .NE. 0)
+      IF (SUB_ID /= 0)
      .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 c
       IPARTSPH=0
       IF(ID_PARTSPH > 0) THEN
         DO J=1,NPART
-          IF(IPART(4,J).EQ.ID_PARTSPH) THEN
+          IF(IPART(4,J)==ID_PARTSPH) THEN
            IPARTSPH=J
            GOTO 175
           ENDIF
@@ -473,7 +473,7 @@ C
 C
       PROP_TAG(IGTYP)%G_FILL = 1
       PROP_TAG(IGTYP)%L_STRA = 6 
-      IF (N2D .NE. 0 .AND. MULTI_FVM%IS_USED) THEN
+      IF (N2D /= 0 .AND. MULTI_FVM%IS_USED) THEN
 !     2D analysis
         PROP_TAG(IGTYP)%G_AREA = 1
       ENDIF

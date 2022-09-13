@@ -84,13 +84,13 @@ C---------------------------------------------------------------------
       
       DO I=LFT,LLT
         NFAC=0
-        IF(AREA(1,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(2,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(3,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(4,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(5,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(AREA(6,I).LT.ATEST(I)) NFAC=NFAC+1
-        IF(NFAC.GE.3) XIOFF(I)=EP03
+        IF(AREA(1,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(2,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(3,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(4,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(5,I)<ATEST(I)) NFAC=NFAC+1
+        IF(AREA(6,I)<ATEST(I)) NFAC=NFAC+1
+        IF(NFAC>=3) XIOFF(I)=EP03
       ENDDO
       
       DO I=LFT,LLT

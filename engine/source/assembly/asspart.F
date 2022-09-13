@@ -70,7 +70,7 @@ C
       NUM7 = NPSAV*NGPE
 C
       KM = 0
-      IF (NTHPART .GT. 0) THEN
+      IF (NTHPART > 0) THEN
         DO 970 K=1,NTHREAD-1
           KM = KM + NUM7
 #include "vectorize.inc"

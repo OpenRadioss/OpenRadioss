@@ -129,7 +129,7 @@ C-----------------------------------------------
             IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
             ! ---------------------------
             ! interface activated by a a sensor 
-            IF(ISENS.NE.0) THEN    
+            IF(ISENS/=0) THEN    
                 TS = SENSOR(2,ISENS)
             ELSE
                 TS = TT
@@ -138,10 +138,10 @@ C-----------------------------------------------
 
             ! -----------------------------------------------------
             ! type 7
-            IF((NTY==7.AND.TT.GE.TS).AND.(.NOT.TYPE18))THEN
+            IF((NTY==7.AND.TT>=TS).AND.(.NOT.TYPE18))THEN
                 NRTM_T = IPARI(4,N)/NTHREAD
                 ESHIFT = ITASK*NRTM_T
-                IF(ITASK.EQ.NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
+                IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
                 CALL INTER_SORT_07( IPARI,X,N,ITASK,ISENDTO,
      1                              IRECVFROM,RETRI,ITAB,NRTM_T,RENUM,RENUM_SIZ,
      2                              NSNFIOLD,ESHIFT,MULTI_FVM,INTBUF_TAB(N),H3D_DATA,

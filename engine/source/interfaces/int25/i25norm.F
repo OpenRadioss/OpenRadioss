@@ -95,7 +95,7 @@ C
       NRTMLT= JTASK*NRTM/NTHREAD
       ACTNOR(NRTMFT:NRTMLT)=0
 C
-      IF(IEDGE .NE. 0) THEN
+      IF(IEDGE /= 0) THEN
         SOL_EDGE =IEDGE/10 ! solids
         IF(SOL_EDGE/=0) THEN
           NADMSRFT= 1+(JTASK-1)*NADMSR/ NTHREAD
@@ -285,7 +285,7 @@ C     Force le calcul le long des free edges necessaire a vtx_bisector
         END DO
       END DO
 C
-      IF(IEDGE .NE. 0) THEN
+      IF(IEDGE /= 0) THEN
 
         SOL_EDGE =IEDGE/10 ! solids
         SH_EDGE  =IEDGE-10*SOL_EDGE ! shells
@@ -337,7 +337,7 @@ C
         ENDIF
       ENDIF
 C
-      IF(IEDGE .NE. 0) THEN
+      IF(IEDGE /= 0) THEN
 
         SOL_EDGE =IEDGE/10 ! solids
 C
@@ -557,7 +557,7 @@ C
           END IF
 
 C
-          IF(STIFM(IRM) .NE. ZERO) THEN
+          IF(STIFM(IRM) /= ZERO) THEN
 C
             X1=X(1,IX1)
             Y1=X(2,IX1)
@@ -572,8 +572,8 @@ C
             Y4=X(2,IX4)
             Z4=X(3,IX4)
 C           
-C           IF(I3.NE.I4)THEN
-            IF(IX3.NE.IX4)THEN
+C           IF(I3/=I4)THEN
+            IF(IX3/=IX4)THEN
              X0 = (X1+X2+X3+X4)/4.0
              Y0 = (Y1+Y2+Y3+Y4)/4.0
              Z0 = (Z1+Z2+Z3+Z4)/4.0 
@@ -740,7 +740,7 @@ C
           END IF
         END DO
 
-      IF(SOL_EDGE .NE. 0) THEN
+      IF(SOL_EDGE /= 0) THEN
 
         DO I=1,LLT
 C
@@ -753,7 +753,7 @@ C
           I3=ADMSR(3,IRM)
           I4=ADMSR(4,IRM)
 C
-C         IF(I3.NE.I4)THEN
+C         IF(I3/=I4)THEN
           IF(IS_QUAD(I))THEN
             IAD = IADNOR(1,IRM)
             FSKYT(1,IAD) =  XN4(I)+XN1(I)
@@ -949,7 +949,7 @@ C
 
 C
       IF(NSPMD > 1)THEN
-        IF(JTASK.EQ.1)THEN
+        IF(JTASK==1)THEN
           SIZE = 3
           CALL SPMD_EXCH_NOR(
      1      NI25,IAD_FREDG,FR_EDG , NOD_NORMAL,WNOD_NORMAL,SIZE ,NADMSR,
@@ -1017,7 +1017,7 @@ C               ENDIF
 C
       CALL MY_BARRIER
       IF(NSPMD > 1)THEN
-        IF(JTASK.EQ.1)THEN
+        IF(JTASK==1)THEN
           SIZE = 3
           CALL SPMD_EXCH_NOR(
      1      NI25,IAD_FREDG,FR_EDG , NOD_NORMAL,WNOD_NORMAL,SIZE , NADMSR,
@@ -1060,7 +1060,7 @@ C the main segment.
 C In that case, the ordering of (JEDG) should be the one on the side that is not
 C broken
           ELSE ! JRM >= 0 .OR. STIFM /= 0 
-            IF( JRM .NE. 0) THEN
+            IF( JRM /= 0) THEN
               NX=NOD_NORMAL(1,J,IRM)+WNOD_NORMAL(1,J,IRM)
               NY=NOD_NORMAL(2,J,IRM)+WNOD_NORMAL(2,J,IRM)
               NZ=NOD_NORMAL(3,J,IRM)+WNOD_NORMAL(3,J,IRM)

@@ -413,8 +413,8 @@ C
         CALL MY_BARRIER
 C
 C-----------------------------------
-        IF(ITASK.EQ.0)THEN
-         IF (IMON.GT.0) CALL STARTIME(5,1)
+        IF(ITASK==0)THEN
+         IF (IMON>0) CALL STARTIME(5,1)
          DW = ZERO
          DO ND=1,NDAMP
           IGR   = NINT(DAMPR(2,ND))
@@ -423,10 +423,10 @@ C-----------------------------------
           DAMPT  = MIN(DT1,DT2)*FACTB
           D_TSTART = DAMPR(17,ND)
           D_TSTOP  = DAMPR(18,ND)
-          IF (TT.GE.D_TSTART .AND. TT.LE.D_TSTOP) THEN
-            IF(ISK.LE.1)THEN
+          IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
+            IF(ISK<=1)THEN
 C----- Damping sur dof rotation et seulement -----
-             IF (DAMPR(19,ND).GT.0) CYCLE
+             IF (DAMPR(19,ND)>0) CYCLE
              DAMPA = DAMPR(3,ND)
              DAMPB = DAMPR(4,ND)
              BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
@@ -589,7 +589,7 @@ C             2nd order error
 #include "lockon.inc"
          TFEXT = TFEXT + DW
 #include "lockoff.inc"
-         IF (IMON.GT.0) CALL STOPTIME(5,1)
+         IF (IMON>0) CALL STOPTIME(5,1)
         END IF
 C
         CALL MY_BARRIER
@@ -611,7 +611,7 @@ C-----------------------------------
              END DO
           END DO
 		ELSE
-         IF(ISTATG.LT.0)THEN
+         IF(ISTATG<0)THEN
           ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
          ENDIF
          DO J= 1,3
@@ -639,7 +639,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2.GT.0.OR.R2SIZE.GT.0) THEN      
+      IF (NRBE2>0.OR.R2SIZE>0) THEN      
         IF(ITASK==0)THEN
           CALL SMS_RBE_CNDS(
      1     IRBE2 ,LRBE2 ,X      ,A      ,AM     ,
@@ -653,7 +653,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
         IF(ITASK==0)THEN
           CALL SMS_RBE3T1(
      1      IRBE3 ,LRBE3  ,X        ,A       ,FRBE3    ,

@@ -73,7 +73,7 @@ C-
       Q2= ZERO
       Q3=0
       DTOFF(1:NEL) = DT1*OFF(1:NEL)
-      IF(JCVT.GT.0)THEN 
+      IF(JCVT>0)THEN 
         DO I=LFT,LLT
           STRAIN(I,1)=STRAIN(I,1)+DXX(I)*DTOFF(I)
           STRAIN(I,2)=STRAIN(I,2)+DYY(I)*DTOFF(I)

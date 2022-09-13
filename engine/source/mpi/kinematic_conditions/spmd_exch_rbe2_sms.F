@@ -75,7 +75,7 @@ C
       L = 0
       DO I = 1, NSPMD
         LEN = IAD_M(I+1)-IAD_M(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           SIZ = LEN*ISIZE6
           L=L+1
           INDEXI(L)=I

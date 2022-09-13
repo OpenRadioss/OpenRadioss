@@ -147,8 +147,8 @@ C---------otherwise quadratic cycling---------
       DO I=1,NRBE3
         NRB=NRB+1
 C----------Multidomaines --> on ignore les rbe3 non tages---------
-        IF(NSUBDOM.GT.0)THEN
-          IF(TAGRB3(NRB).EQ.0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
+        IF(NSUBDOM>0)THEN
+          IF(TAGRB3(NRB)==0)CALL HM_SZ_R2R(TAGRB3,NRB,LSUBMODEL)
         END IF
 C--------------------------------------------------
 C EXTRACT DATAS OF /RBE3/... LINE
@@ -174,13 +174,13 @@ C
         IRBE3(10,I)=I
         NUSER = ID
 C
-        IF (IMODIF.EQ.0) IMODIF =1
+        IF (IMODIF==0) IMODIF =1
         IRBE3(8,I) = IMODIF
         NS = USR2SYS(NSL,ITABM1,MESS,NUSER)
         IC1=J6(1)*4 +J6(2)*2 +J6(3)
         IC2=J6(4)*4 +J6(5)*2 +J6(6)
         IC =IC1*512+IC2*64
-        IF (IC.EQ.0) IC =7*512+7*64
+        IF (IC==0) IC =7*512+7*64
         IF (NS10E > 0.AND.ITAGND(NS)/=0) THEN
 C------- error out      
           CALL ANCMSG(MSGID=1208,
@@ -205,7 +205,7 @@ C------- error out
          CALL HM_GET_INT_ARRAY_INDEX('rz',J6(6),J,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,J,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INT_ARRAY_INDEX('independentnodesets',INGU,J,IS_AVAILABLE,LSUBMODEL)
-         IF (W.EQ.ZERO.OR.IMODIF.EQ.3) W=ONE
+         IF (W==ZERO.OR.IMODIF==3) W=ONE
          NM = 0
          IF(INGU > 0) THEN
           CALL C_HASH_FIND(GRNOD_UID,INGU,IGM) 
@@ -222,14 +222,14 @@ C------- error out
          END IF !(INGU > 0)
 
          ISKS = 0
-         IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6)).EQ.0) THEN
+         IF ((J6(1)+J6(2)+J6(3)+J6(4)+J6(5)+J6(6))==0) THEN
           J6(1)=1
           J6(2)=1
           J6(3)=1
          ENDIF
-         IF (ISK.NE.0) THEN
+         IF (ISK/=0) THEN
           DO JJ=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-           IF(ISK.EQ.ISKN(4,JJ+1)) THEN
+           IF(ISK==ISKN(4,JJ+1)) THEN
             ISKS=JJ+1
             GO TO 10
            ENDIF
@@ -250,9 +250,9 @@ C------- error out
           ISKEW0(IAD+K)=ISK
           DO JJ=1,6
            II = J6(JJ)
-           IF (II.GT.ZERO) THEN
-            IF (JJ.GT.3) IROT=1
-            IF (WI(JJ,NI).EQ.ZERO) THEN
+           IF (II>ZERO) THEN
+            IF (JJ>3) IROT=1
+            IF (WI(JJ,NI)==ZERO) THEN
                    WI(JJ,NI) = W
             ELSE
              CALL ANCMSG(MSGID=705,
@@ -429,15 +429,15 @@ C----- re-ordering by hierrrchy (only 1 level)
         CALL RBE3CHK(LRBE3(IAD+1),LRBE3(NMT+IAD+1) ,NS     ,X      ,
      .               FRBE3(6*IAD+1),SKEW    ,NM   ,IROT  ,IMO, WMIN,
      .               IERR1 )
-        IF (IERR1.GT.0) THEN
+        IF (IERR1>0) THEN
              ID= IRBE3(2,I)
              CALL ANCMSG(MSGID=706,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
      .                   I1=ID,
      .                   C1=TITR)
-        ELSEIF (IERR1.LT.0) THEN
-           IF (IMO.EQ.2) THEN
+        ELSEIF (IERR1<0) THEN
+           IF (IMO==2) THEN
              ID= IRBE3(2,I)
              CALL ANCMSG(MSGID=749,
      .                   MSGTYPE=MSGWARNING,
@@ -463,16 +463,16 @@ C------ remove JR of NS if no dof of rotation
         DO J=1,NM
           M= LRBE3(IAD+J)
           FRBE3(IADS+J) =MS(M)
-          IF (IRODDL.NE.0) FRBE3(IADS+NMT+J) =IN(M)
+          IF (IRODDL/=0) FRBE3(IADS+NMT+J) =IN(M)
         ENDDO
 C------IF NS not in any proc : done already in domdec2
         DO P = 1, NSPMD
-         IF (NLOCAL(NS,P).EQ.0) THEN
+         IF (NLOCAL(NS,P)==0) THEN
            GO TO 200
          ENDIF
          DO J=1,NM
           M= LRBE3(IAD+J)
-          IF (NSPMD.GT.1) CALL IFRONTPLUS(M,P)
+          IF (NSPMD>1) CALL IFRONTPLUS(M,P)
          ENDDO
 C optimisation possible
  200     CONTINUE
@@ -526,14 +526,14 @@ C========================================================================|
           M= LRBE3(IAD+II)
           IXINT(J,NELEMINT)=M
          ENDDO
-         IF (JLT.EQ.1) THEN
+         IF (JLT==1) THEN
           IXINT(2,NELEMINT)=IXINT(1,NELEMINT)
           IXINT(3,NELEMINT)=IXINT(1,NELEMINT)
           IXINT(4,NELEMINT)=IXINT(1,NELEMINT)
-         ELSEIF (JLT.EQ.2) THEN
+         ELSEIF (JLT==2) THEN
           IXINT(3,NELEMINT)=IXINT(1,NELEMINT)
           IXINT(4,NELEMINT)=IXINT(2,NELEMINT)
-         ELSEIF (JLT.EQ.3) THEN
+         ELSEIF (JLT==3) THEN
           IXINT(4,NELEMINT)=IXINT(3,NELEMINT)
          ENDIF
          IXINT(5,NELEMINT)=NS
@@ -637,7 +637,7 @@ C     ERROR OUT IF RBE3 ELEMENT HAS TWO INDEPENDENT NODES WITH
 C     NO ROTATIONAL WEIGHTS SET (THIS MEANS THE ELEMENT CANNOT
 C     SUPPORT A MOMENT ALONG ITS AXIS)
 C
-      IF (NG .EQ. 2.AND.IROT.EQ.0) THEN
+      IF (NG == 2.AND.IROT==0) THEN
             IERR = 322
             GOTO 999
       ENDIF
@@ -646,7 +646,7 @@ C     CALCULATE DIRECTION COSINES OF LOCAL COORDINATE SYSTEMS, IF ANY
 C
         DO K = 1, NG
             IELSUB = ILRBE3(K)
-            IF (IELSUB .GT. 0) THEN
+            IF (IELSUB > 0) THEN
                DO I = 1, 3
                      EL(I,1,K) = SKEW(I,IELSUB)
                      EL(I,2,K) = SKEW(I+3,IELSUB)
@@ -665,7 +665,7 @@ C
       DO 70 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF GRID POINT HAS A LOCAL COORDINATE SYSTEM
 C
@@ -685,20 +685,20 @@ C
      *                              (XYZ(3,KG) - REFPT(3))**2 )
  70   CONTINUE
 C
-      IF (ABS(DENFX) .LE. EM20) THEN
+      IF (ABS(DENFX) <= EM20) THEN
          IERR = 326
       ENDIF
 C
-      IF (ABS(DENFY) .LE. EM20) THEN
+      IF (ABS(DENFY) <= EM20) THEN
          IERR = 327
       ENDIF
 C
-      IF (ABS(DENFZ) .LE. EM20) THEN
+      IF (ABS(DENFZ) <= EM20) THEN
          IERR = 328
       ENDIF
-      IF (IERR .GT. 0) GOTO 999
+      IF (IERR > 0) GOTO 999
          AVEREF = AVEREF/NG
-         IF (AVEREF .EQ. ZERO) AVEREF = 1.0D0
+         IF (AVEREF == ZERO) AVEREF = 1.0D0
 C--- IMODIF=4: normalized TW;       
        IF (IMODIF==4) THEN
          DO K = 1, NG
@@ -717,7 +717,7 @@ C
       DO 40 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF THERE IS A LOCAL COORDINATE SYSTEM AT THE GRID POINT
 C
@@ -769,7 +769,7 @@ C              WEIGHTS WITH THE SQUARE OF THE AVERAGE DISTANCE OF THE
 C              INDEPENDENT GRID POINTS FROM THE REFERENCE POINT TO
 C              RENDER THE RBE3 CALCULATIONS UNIT INDEPENDENT
 C
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF GRID POINT HAS A LOCAL COORDINATE SYSTEM
 C
@@ -804,24 +804,24 @@ C     PERFORM SOME CHECKS ON WEIGHTS, TO MAKE SURE THAT THE RBE3
 C     ELEMENT HAS NO UNCONSTRAINED DEGREES OF FREEDOM
 C
 C
-      IF (ABS(DENMX) .LE. EM20) THEN
+      IF (ABS(DENMX) <= EM20) THEN
          IERR = 329
       ENDIF
 C
-      IF (ABS(DENMY) .LE. EM20) THEN
+      IF (ABS(DENMY) <= EM20) THEN
          IERR = 330
       ENDIF
 C
-      IF (ABS(DENMZ) .LE. EM20) THEN
+      IF (ABS(DENMZ) <= EM20) THEN
          IERR = 331
       ENDIF
 C
       SMIN = MIN(ABS(DENMX),ABS(DENMY),ABS(DENMZ))
       SMAX = MAX(ABS(DENMX),ABS(DENMY),ABS(DENMZ))
 C
-      IF (IERR .GT. 0) GOTO 999
+      IF (IERR > 0) GOTO 999
 C
-      IF (IROT.EQ.0 .AND.(SMAX/SMIN).GT.THIRTY) IERR = -100
+      IF (IROT==0 .AND.(SMAX/SMIN)>THIRTY) IERR = -100
 C     CALCULATE 3 FORCE DISTRIBUTIONS THAT CREATE NET X, Y AND Z FORCES
 C     OF 1 (BESIDES OTHER NONZERO FORCES/MOMENTS IN ALL THE DIRECTIONS)
 C
@@ -880,16 +880,16 @@ C     INVERT THE 6X6 MATRIX
 C
       NSNGLR  = 0
       CALL INVERT(A,C,6,NSNGLR)
-      IF (NSNGLR .NE. 0) THEN
+      IF (NSNGLR /= 0) THEN
          IERR = 332
          GOTO 999
       ENDIF
-      IF (KDIAG .GE. 1) THEN
+      IF (KDIAG >= 1) THEN
          CALL WRRINF('C(i,1)=',c(1,1),3)
          CALL WRRINF('C(i,2)=',c(1,2),3)
          CALL WRRINF('C(i,3)=',c(1,3),3)
       ENDIF
-      IF (KDIAG.EQ.0.AND.IERR.EQ.0) RETURN
+      IF (KDIAG==0.AND.IERR==0) RETURN
 C
 C     LINEARLY COMBINE FORCE/MOMENT DISTRIBUTIONS FOR THE 6 CASES
 C
@@ -924,23 +924,23 @@ C
  260        CONTINUE
  270     CONTINUE
 C--------------special case with Imodif
-       IF (IERR.EQ.-100) THEN
+       IF (IERR==-100) THEN
         MMAX=ZERO
          DO J = 4, 6
             DO K = 1, NG
               DO I = 1, 3
-               IF (MMAX.LT.ABS(FDSTNB(I,K,J))) MMAX = ABS(FDSTNB(I,K,J))
+               IF (MMAX<ABS(FDSTNB(I,K,J))) MMAX = ABS(FDSTNB(I,K,J))
               END DO
             END DO
          END DO
-        IF (MMAX.LE.ONE) THEN
+        IF (MMAX<=ONE) THEN
          IERR=0
         ELSE
          TMAX=ZERO
-         IF (IMODIF.NE.2) THEN
+         IF (IMODIF/=2) THEN
            DO K = 1, NG
             DO I = 1, 3
-              IF (TMAX.LT.TW(I,K)) TMAX=TW(I,K)
+              IF (TMAX<TW(I,K)) TMAX=TW(I,K)
             ENDDO
            ENDDO
          ENDIF
@@ -957,10 +957,10 @@ C
 C
 C     DIAGNOSTIC INFORMATION
 C
-      IF (KDIAG .GE. 2) THEN
+      IF (KDIAG >= 2) THEN
 c         CALL WRRINF('REF_POINT',REFPT,3)
 c         CALL WRRINF('INDPT_GRDS',INRBE3,NG)
-c      IF (SMAX/SMIN .GT. THIRTY) print *,'SMAX/SMIN=',SMAX/SMIN
+c      IF (SMAX/SMIN > THIRTY) print *,'SMAX/SMIN=',SMAX/SMIN
          CALL WRRINF('TRAN_WGHTS',TW,3*NG)
          CALL WRRINF('ROT_WGHTS',RW,3*NG)
          CALL WRRINF('CGMX',CGMX,3)
@@ -974,7 +974,7 @@ c      IF (SMAX/SMIN .GT. THIRTY) print *,'SMAX/SMIN=',SMAX/SMIN
          CALL WRRINF('DENMZ',DENMZ,1)
          CALL WRRINF('AVEREF',AVEREF,1)
 C
-            IF (KDIAG .EQ. 9.or.IERR.NE.0) THEN
+            IF (KDIAG == 9.or.IERR/=0) THEN
                CALL WRRINF('FDSTNB_ULFX@REF',FDSTNB(1,1,1),3*NG)
                CALL WRRINF('FDSTNB_ULFY@REF',FDSTNB(1,1,2),3*NG)
                CALL WRRINF('FDSTNB_ULFZ@REF',FDSTNB(1,1,3),3*NG)
@@ -988,7 +988,7 @@ C
                CALL WRRINF('MDSTNB_ULMY@REF',MDSTNB(1,1,5),3*NG)
                CALL WRRINF('MDSTNB_ULMZ@REF',MDSTNB(1,1,6),3*NG)
             ENDIF
-         IF (KDIAG .GE. 30) THEN
+         IF (KDIAG >= 30) THEN
             CALL WRRINF('FDSTNL_ULFX@REF',FDSTNL(1,1,1),3*NG)
             CALL WRRINF('FDSTNL_ULFY@REF',FDSTNL(1,1,2),3*NG)
             CALL WRRINF('FDSTNL_ULFZ@REF',FDSTNL(1,1,3),3*NG)
@@ -1057,7 +1057,7 @@ C
       DO 50 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           FORCES AT GRID POINT ALONG GRID POINT'S LOCAL (OUTPUT)
 C           COORDINATE AXES
@@ -1182,7 +1182,7 @@ C
       DO 50 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           FORCES  AT GRID POINT ALONG GRID POINT'S LOCAL
 C           (OUTPUT) COORDINATE AXES
@@ -1252,11 +1252,11 @@ C
 C
  50   CONTINUE
 C
-      IF (IROT.GT.0) THEN
+      IF (IROT>0) THEN
        DO K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           MOMENTS AT GRID POINT ALONG GRID POINT'S LOCAL
 C           (OUTPUT) COORDINATE AXES

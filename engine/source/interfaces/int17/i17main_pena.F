@@ -115,8 +115,8 @@ C-----------------------------------------------
       MX_CAND=MULTIMP*IPARI(18,NIN)
       STARTT = INTBUF_TAB%VARIABLES(3)
       STOPT  = INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C -------------------------------------------------------------
 C=======================================================================
 C      TEST pour savoir s'il faut retrier + initialisation
@@ -256,8 +256,8 @@ C
       MX_CAND=MULTIMP*IPARI(18,NIN)
       STARTT = INTBUF_TAB%VARIABLES(3)
       STOPT  = INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C -------------------------------------------------------------
 C -------------------------------------------------------------
 C-----------------------------------------------
@@ -271,7 +271,7 @@ C=======================================================================
       DIST = INTBUF_TAB%VARIABLES(5)
       CALL MY_BARRIER
 C -------------------------------------------------------------
-      IF(DIST.LT.ZERO) THEN
+      IF(DIST<ZERO) THEN
          RETRI=1
          TZINF  = INTBUF_TAB%VARIABLES(8)
          MINBOX = INTBUF_TAB%VARIABLES(12)
@@ -307,10 +307,10 @@ C -------------------------------------------------------------
 #include "lockoff.inc"
 C BARRIER BMINMA
          CALL MY_BARRIER
-         IF(ITASK.EQ.0)THEN
-           IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +        ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +        ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+         IF(ITASK==0)THEN
+           IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +        ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +        ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
              CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .            I1=NOINT)
              CALL ARRET(2)
@@ -322,7 +322,7 @@ C BARRIER BMINMA
            BMINMA(5) = BMINMA(5) + TZINF
            BMINMA(6) = BMINMA(6) + TZINF
            NMESR = 0
-           IF(NSPMD.GT.1)THEN
+           IF(NSPMD>1)THEN
 C -------------------------------------------------------------
 C recuperation des noeuds remote NMESR stockes dans XREM
 C -------------------------------------------------------------
@@ -347,7 +347,7 @@ C -------------------------------------------------------------
 C -------------------------------------------------------------
          CALL MY_BARRIER
 C -------------------------------------------------------------
-         IF(NSPMD.GT.1)THEN
+         IF(NSPMD>1)THEN
 !$OMP SINGLE
           IF (IMONM > 0) CALL STARTIME(26,1)
           INTBUF_TAB%VARIABLES(5) = -INTBUF_TAB%VARIABLES(5)
@@ -461,12 +461,12 @@ C-----------------------------------------------
       NMES  =IGRBRIC(IGN)%NENTITY
       NME   =IGRBRIC(IGE)%NENTITY
 C
-      IF(IMACH.EQ.3)THEN
+      IF(IMACH==3)THEN
         MX_CAND=MULTIMP*IPARI(18,NIN)
       ELSE
         MX_CAND=MULTIMP*NMES
       END IF
-      IF(IPARIT.NE.0)THEN
+      IF(IPARIT/=0)THEN
 C        LSKYI17=MX_CAND
 C LSKYI17 fonction de IMAXIMP : nombre d'impacts max defini dans starter/lecint
         LSKYI17=MAX(MX_CAND,MULTIMP*IPARI(5,NIN)*8)
@@ -475,8 +475,8 @@ C LSKYI17 fonction de IMAXIMP : nombre d'impacts max defini dans starter/lecint
       END IF
       STARTT = INTBUF_TAB%VARIABLES(3)
       STOPT  = INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C -------------------------------------------------------------
 C -------------------------------------------------------------
        CALL MY_BARRIER 

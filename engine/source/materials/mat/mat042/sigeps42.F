@@ -156,7 +156,7 @@ C         for a simple precision executing
 *ISMSTR=2-SMALL STRAIN OPTION:STRAINS ARE ENGINEERING, STRESS IS BIOT
 *ISMSTR=3-NO SMALL STRAIN OPTION:STRESS IS BIOT
 
-      IF (ISMSTR.EQ.0.OR.ISMSTR.EQ.2.OR.ISMSTR.EQ.4) THEN
+      IF (ISMSTR==0.OR.ISMSTR==2.OR.ISMSTR==4) THEN
         DO I=1,NEL
 C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))
@@ -335,11 +335,11 @@ C---- see if many QA return for HEPH
 * TENSION CUT
       DO J=1,3
           DO I=1,NEL
-          IF(OFF(I).EQ.ZERO.OR.T1(I,J).GT.ABS(TENSIONCUT))THEN
+          IF(OFF(I)==ZERO.OR.T1(I,J)>ABS(TENSIONCUT))THEN
             SIGPRV(I,1)=ZERO
             SIGPRV(I,2)=ZERO
             SIGPRV(I,3)=ZERO
-            IF(OFF(I).NE.ZERO) IDEL7NOK = 1
+            IF(OFF(I)/=ZERO) IDEL7NOK = 1
             OFF(I)=ZERO
           ENDIF
           ENDDO

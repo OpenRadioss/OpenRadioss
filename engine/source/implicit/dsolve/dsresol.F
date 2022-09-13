@@ -100,7 +100,7 @@ C
          ITAG(I)=0
          ITAGI(I)=0
       ENDDO
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          NMOD=0
          DO I=1,NSPROC
             DO J=1,GRAPHE(I)%DGRAPH(1)%NDDL_F
@@ -112,15 +112,15 @@ C
          N=0
          DO I=1,NDDL
             N=N+ITAG(I)
-            IF (N.GT.0.AND.ITAG(I).NE.0) ITAGI(N)=I
+            IF (N>0.AND.ITAG(I)/=0) ITAGI(N)=I
             ITAG(I)=N
          ENDDO
          IADM=N
          NN=N
          N=N+NMOD
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
-         IF (IPMESS.NE.0) THEN
+         IF (IPMESS/=0) THEN
             WRITE(IOUT,'(A)') TITRE(1:LTITR1)
             WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
          ENDIF
@@ -131,7 +131,7 @@ C
                RIGI(I,J)=ZERO
             ENDDO
          ENDDO
-         IF (IOPT.EQ.1) THEN
+         IF (IOPT==1) THEN
             ALLOCATE(F(NSCM,N))
             DO I=1,NSCM
                DO J=1,N
@@ -140,7 +140,7 @@ C
                ENDDO
             ENDDO
          ENDIF
-         IF (IOPT.EQ.2) THEN
+         IF (IOPT==2) THEN
             ALLOCATE(MASS(N,N))
             DO I=1,N
                DO J=1,N
@@ -148,7 +148,7 @@ C
                ENDDO
             ENDDO
          ENDIF
-      ELSEIF (ISPMD.EQ.0) THEN
+      ELSEIF (ISPMD==0) THEN
 C SPMD - Tags :
 C Requetes entieres : parametres : MSGOFF + IPROC
 C                     liste ddls : MSGOFF + (NSPMD-1) + IPROC
@@ -160,7 +160,7 @@ C                     liste ddls : MSGOFF + (NSPMD-1) + IPROC
          ENDDO
 C Tous les pros ont finis leur condensation : on affiche le titre
 C de la resolution
-         IF (IPMESS.NE.0) THEN
+         IF (IPMESS/=0) THEN
             WRITE(IOUT,'(A)') TITRE(1:LTITR1)
             WRITE(ISTDO,*)
             WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
@@ -186,14 +186,14 @@ C
          N=0
          DO I=1,NDDL
             N=N+ITAG(I)
-            IF (N.GT.0.AND.ITAG(I).NE.0) ITAGI(N)=I
+            IF (N>0.AND.ITAG(I)/=0) ITAGI(N)=I
             ITAG(I)=N
          ENDDO
          IADM=N
          NN=N
          N=N+NMOD
          CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
          ALLOCATE(RIGI(N,N))
          DO I=1,N
@@ -201,7 +201,7 @@ C
                RIGI(I,J)=ZERO
             ENDDO
          ENDDO
-         IF (IOPT.EQ.1) THEN
+         IF (IOPT==1) THEN
             ALLOCATE(F(NSCM,N), BL(NDFMAX*NSCM))
             DO I=1,NSCM
                DO J=1,N
@@ -234,7 +234,7 @@ C
 C
             DEALLOCATE(BL)
          ENDIF
-         IF (IOPT.EQ.2) THEN
+         IF (IOPT==2) THEN
             ALLOCATE(MASS(N,N))
             DO I=1,N
                DO J=1,N
@@ -257,9 +257,9 @@ C
          CALL SPMD_DS_ISEND(PDDLS, IPARAM(1,1), IRQTAG, 1)
 C
          CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
-         IF (IOPT.EQ.1) THEN
+         IF (IOPT==1) THEN
             ALLOCATE(BL(IPARAM(1,1)*NSCM))
             IAD1=0
             DO I=1,NSCM
@@ -276,7 +276,7 @@ C
          ENDIF
       ENDIF
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          IM=0
          DO I=1,NSPROC
             IFILE=GRAPHE(I)%IFILE
@@ -293,7 +293,7 @@ C Assemblage de la rigidite
                IREC=IREC+1
             ENDDO
             NR=LEN-(LEN/10)*10
-            IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+            IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C            
             DO J=1,NDF
                JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -327,7 +327,7 @@ C
             ENDDO
             DEALLOCATE(KL)       
 C Assemblage des seconds membres
-            IF (IOPT.EQ.1) THEN
+            IF (IOPT==1) THEN
                DO J=1,NSCM
                   DO K=1,NDF
                      KK=GRAPHE(I)%DGRAPH(1)%DDLS(K)
@@ -347,7 +347,7 @@ C Assemblage de la masse
                IREC=IREC+1
             ENDDO
             NR=LEN-(LEN/10)*10
-            IF (NR.GT.0) READ(IFILE,REC=IREC) (ML(IMC+J),J=1,NR)
+            IF (NR>0) READ(IFILE,REC=IREC) (ML(IMC+J),J=1,NR)
 C            
             DO J=1,NDF
                JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -401,9 +401,9 @@ C Assemblage de la rigidite
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C            
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
             IM=0
             DO J=1,NDF
@@ -488,8 +488,8 @@ C Autres processeurs : envoient
             DEALLOCATE(KL)
          ENDIF
 C Assemblage des seconds membres
-         IF (IOPT.EQ.1) THEN
-            IF (ISPMD.EQ.0) THEN
+         IF (IOPT==1) THEN
+            IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
                DO J=1,NSCM
                   DO K=1,NDF
@@ -542,9 +542,9 @@ C Assemblage de la masse
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (ML(IMC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (ML(IMC+J),J=1,NR)
 C            
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
             IM=0
             DO J=1,NDF
@@ -632,8 +632,8 @@ C
 C
       ENDIF           
 C     
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
-         IF (IOPT.EQ.1) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
+         IF (IOPT==1) THEN
 C Resolution systeme lineaire pour NSCM seconds membres
             ALLOCATE(V(N,NSCM), S(N), IPIV(N))
 C Block size query
@@ -649,7 +649,7 @@ C Factorization
                ENDDO
                NRHS=1
                CALL DSYTRS('U', N, NRHS, RIGI, N, IPIV, S, N, INFRES)
-               IF (INFRES.NE.0) THEN
+               IF (INFRES/=0) THEN
                    CALL ANCMSG(MSGID=62,ANMODE=ANINFO)
                    CALL ARRET(2)
                ENDIF
@@ -660,7 +660,7 @@ C Factorization
             DEALLOCATE(S, IPIV, FACW)
             NDEPL=NSCM
 C               
-         ELSEIF (IOPT.EQ.2) THEN
+         ELSEIF (IOPT==2) THEN
 C Resolution probleme aux valeurs propres
             MAXNCV=NM*NSVMAXT
             ALLOCATE(VECT(N,MAXNCV), V(N,NSVMAXT), RIGIS(N,N),
@@ -679,7 +679,7 @@ C
             NBLF0=NBLF
             NBLF=MIN(NBLF0,N-2)
 C
-            DO WHILE (ISTOP.EQ.0)
+            DO WHILE (ISTOP==0)
                NVD0=NVD
                INOPRI=0
                TSHIFT0=TSHIFT
@@ -702,19 +702,19 @@ C
      .                    N     )
 C
                NUV=NEV-1
-               IF (NEV.EQ.NVAL-NVD) NUV=NEV
+               IF (NEV==NVAL-NVD) NUV=NEV
 C
                DO I=1,NUV
                   PULS=MAX(ZERO,FREQ(I,1))
                   FRQ=SQRT(PULS)/TWO/PI
-                  IF (FRQ.LE.CUTFRQ.AND.NVD.LT.NSVMAXT.
-     .                AND.NVD.LT.NVAL) THEN
+                  IF (FRQ<=CUTFRQ.AND.NVD<NSVMAXT.
+     .                AND.NVD<NVAL) THEN
                      NVD=NVD+1
                      FREQ2(NVD)=FRQ
                      DO II=1,N
                         V(II,NVD)=VECT(II,I)
                      ENDDO
-                     IF (NVD.EQ.NSVMAXT) THEN
+                     IF (NVD==NSVMAXT) THEN
 *                        WRITE(ISTDO,'(A84,I5)') 
 *     .    ' ** WARNING : MAXIMAL DYNAMIC MODES NUMBER REACHED FOR'//
 *     .    ' CONDENSED PROBLEM - NSVMAXT: ',NSVMAXT
@@ -728,22 +728,22 @@ C
                   ENDIF
                ENDDO
 C
-               IF (NVD.EQ.NVAL) ISTOP=1
+               IF (NVD==NVAL) ISTOP=1
 C
-               IF (ISTOP.EQ.0) THEN
+               IF (ISTOP==0) THEN
                   FR1=FREQ(NEV,1)
                   IDBL=0
                   IDF=2
-                  DO WHILE (IDBL.EQ.0.AND.IDF.LE.NEV)
+                  DO WHILE (IDBL==0.AND.IDF<=NEV)
                      FR2=FREQ(NEV-IDF+1,1)
-                     IF (ABS((FR2-FR1)/FR1).LE.EM01) THEN
+                     IF (ABS((FR2-FR1)/FR1)<=EM01) THEN
                         IDF=IDF+1
                         NVD=NVD-1
                      ELSE
                         IDBL=1
                      ENDIF
                   ENDDO
-                  IF (IDF.EQ.NEV+1) THEN
+                  IF (IDF==NEV+1) THEN
                      NBLF=2*NBLF
                      SHIFT=ZERO
                      INOPRI=1
@@ -755,7 +755,7 @@ C
                   TSHIFT=TSHIFT+SHIFT
                ENDIF
 C
-               IF (INOPRI.EQ.0) THEN
+               IF (INOPRI==0) THEN
                   NIB=NIB+1
                   WRITE(IOUT,*)
                   WRITE(IOUT,FMT='(A7,I10,A7,1PG11.4,A23,I10)') 
@@ -779,7 +779,7 @@ C
 C
 C Redescente des deplacements
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          IM0=0
          DO I=1,NSPROC
             NDF=GRAPHE(I)%DGRAPH(1)%NDDL_F
@@ -798,7 +798,7 @@ C
             ENDDO
             IM0=IM0+NMDYN
          ENDDO
-      ELSEIF (ISPMD.EQ.0) THEN
+      ELSEIF (ISPMD==0) THEN
          NDF=GRAPHE(1)%DGRAPH(1)%NDDL_F
          NMDYN=GRAPHE(1)%DGRAPH(1)%NMDYN
          DO J=1,NDEPL
@@ -868,11 +868,11 @@ C
          DEALLOCATE(VL, PDDLS)
       ENDIF
 C
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
          DEALLOCATE(V)
 C
-         IF (IOPT.EQ.1) DEALLOCATE(F)
-         IF (IOPT.EQ.2) DEALLOCATE(MASS)
+         IF (IOPT==1) DEALLOCATE(F)
+         IF (IOPT==2) DEALLOCATE(MASS)
          DEALLOCATE(RIGI)
       ENDIF
 C
@@ -947,7 +947,7 @@ C
          ITAG(I)=0
          ITAGI(I)=0
       ENDDO
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          DO I=1,NSPROC
             DO J=1,GRAPHE(I)%DGRAPH(1)%NDDL_F
                JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -957,17 +957,17 @@ C
          N=0
          DO I=1,NDDL
             N=N+ITAG(I)
-            IF (N.GT.0.AND.ITAG(I).NE.0) ITAGI(N)=I
+            IF (N>0.AND.ITAG(I)/=0) ITAGI(N)=I
             ITAG(I)=N
          ENDDO
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
-         IF (IPMESS.NE.0) THEN
+         IF (IPMESS/=0) THEN
             WRITE(IOUT,'(A)') TITRE(1:LTITR1)
             WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
          ENDIF
 C
-         IF (IDSC.EQ.1) THEN
+         IF (IDSC==1) THEN
             DO I=1,N
                DO J=1,N
                   RIGI(I,J)=ZERO
@@ -981,7 +981,7 @@ C
                F(I,J)=B(I,JJ)
             ENDDO
          ENDDO
-      ELSEIF (ISPMD.EQ.0) THEN
+      ELSEIF (ISPMD==0) THEN
 C SPMD - Tags :
 C Requetes entieres : parametres : MSGOFF + IPROC
 C                     liste ddls : MSGOFF + (NSPMD-1) + IPROC
@@ -1010,20 +1010,20 @@ C
          N=0
          DO I=1,NDDL
             N=N+ITAG(I)
-            IF (N.GT.0.AND.ITAG(I).NE.0) ITAGI(N)=I
+            IF (N>0.AND.ITAG(I)/=0) ITAGI(N)=I
             ITAG(I)=N
          ENDDO
          CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C Tous les pros ont finis leur condensation : on affiche le titre
 C de la resolution
-         IF (IPMESS.NE.0) THEN
+         IF (IPMESS/=0) THEN
             WRITE(IOUT,'(A)') TITRE(1:LTITR1)
             WRITE(ISTDO,*)
             WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
          ENDIF
 C
-         IF (IDSC.EQ.1) THEN
+         IF (IDSC==1) THEN
             DO I=1,N
                DO J=1,N
                   RIGI(I,J)=ZERO
@@ -1070,7 +1070,7 @@ C
          CALL SPMD_DS_ISEND(PDDLS, IPARAM(1,1), IRQTAG, 1)
 C
          CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
          ALLOCATE(BL(IPARAM(1,1)*NSCM))
          IAD1=0
@@ -1087,13 +1087,13 @@ C
          DEALLOCATE(BL)
       ENDIF
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          DO I=1,NSPROC
             IFILE=GRAPHE(I)%IFILE
             NDF=GRAPHE(I)%DGRAPH(1)%NDDL_F
             LEN=(NDF)*(NDF+1)/2
 C Assemblage de la rigidite
-            IF (IDSC.EQ.1) THEN
+            IF (IDSC==1) THEN
                ALLOCATE(KL(LEN))
                IREC=GRAPHE(I)%DGRAPH(1)%KREC
                IKC=0
@@ -1103,7 +1103,7 @@ C Assemblage de la rigidite
                   IREC=IREC+1
                ENDDO
                NR=LEN-(LEN/10)*10
-               IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+               IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C               
                DO J=1,NDF
                   JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -1138,7 +1138,7 @@ C                     matrice masse     : MSGOFF2 + 3*(NSPMD-1) + IPROC
          NDF=GRAPHE(1)%DGRAPH(1)%NDDL_F
          LEN=(NDF)*(NDF+1)/2
 C Assemblage de la rigidite
-         IF (IDSC.EQ.1) THEN
+         IF (IDSC==1) THEN
             ALLOCATE(KL(LEN))
             IREC=GRAPHE(1)%DGRAPH(1)%KREC
             IKC=0
@@ -1148,9 +1148,9 @@ C Assemblage de la rigidite
                IREC=IREC+1
             ENDDO
             NR=LEN-(LEN/10)*10
-            IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+            IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C            
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
                DO J=1,NDF
                   JJ=GRAPHE(1)%DGRAPH(1)%DDLS(J)
@@ -1197,7 +1197,7 @@ C Autres processeurs : envoient
             ENDIF
          ENDIF
 C Assemblage des seconds membres
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
             DO J=1,NSCM
                DO K=1,NDF
@@ -1241,10 +1241,10 @@ C Autres processeurs : envoient
 C
       ENDIF
 C     
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
 C Resolution systeme lineaire pour NSCM seconds membres
          ALLOCATE(V(N,NSCM), S(N))
-         IF (IDSC.EQ.1) THEN
+         IF (IDSC==1) THEN
 C Block size query
             LFACW=-1
             CALL DSYTRF('U', N, RIGI, NK, IPIV, RLFACW, LFACW, INFFAC)
@@ -1260,7 +1260,7 @@ C Factorization
             ENDDO
             NRHS=1
             CALL DSYTRS('U', N, NRHS, RIGI, NK, IPIV, S, N, INFRES)
-            IF (INFRES.NE.0) THEN
+            IF (INFRES/=0) THEN
                 CALL ANCMSG(MSGID=62,ANMODE=ANINFO)
                 CALL ARRET(2)
             ENDIF
@@ -1275,7 +1275,7 @@ C
 C
 C Redescente des deplacements
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          DO I=1,NSPROC
             NDF=GRAPHE(I)%DGRAPH(1)%NDDL_F
             DO J=1,NDEPL
@@ -1286,7 +1286,7 @@ C
                ENDDO
             ENDDO
          ENDDO
-      ELSEIF (ISPMD.EQ.0) THEN
+      ELSEIF (ISPMD==0) THEN
          NDF=GRAPHE(1)%DGRAPH(1)%NDDL_F
          DO J=1,NDEPL
             DO K=1,NDF
@@ -1339,7 +1339,7 @@ C
          DEALLOCATE(VL, PDDLS)
       ENDIF
 C
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) DEALLOCATE(V, F)
+      IF (IMACH/=3.OR.ISPMD==0) DEALLOCATE(V, F)
 C
       RETURN
       END
@@ -1412,7 +1412,7 @@ C
          ITAGI(I)=0
       ENDDO
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          NMOD=0
          DO I=1,NSPROC
             DO J=1,GRAPHE(I)%DGRAPH(1)%NDDL_F
@@ -1424,15 +1424,15 @@ C
          N=0
          DO I=1,NDDL
             N=N+ITAG(I)
-            IF (N.GT.0.AND.ITAG(I).NE.0) ITAGI(N)=I
+            IF (N>0.AND.ITAG(I)/=0) ITAGI(N)=I
             ITAG(I)=N
          ENDDO
          IADM=N
          NN=N
          N=N+NMOD
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
-         IF (IPMESS.NE.0) THEN
+         IF (IPMESS/=0) THEN
             WRITE(IOUT,'(A)') TITRE(1:LTITR1)
             WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
          ENDIF
@@ -1444,7 +1444,7 @@ C
                RIGIG(I,J)=ZERO
             ENDDO
          ENDDO
-      ELSEIF (ISPMD.EQ.0) THEN
+      ELSEIF (ISPMD==0) THEN
 C SPMD - Tags :
 C Requetes entieres : parametres : MSGOFF + IPROC
 C                     liste ddls : MSGOFF + (NSPMD-1) + IPROC
@@ -1456,7 +1456,7 @@ C                     liste ddls : MSGOFF + (NSPMD-1) + IPROC
          ENDDO
 C Tous les pros ont finis leur condensation : on affiche le titre
 C de la resolution
-         IF (IPMESS.NE.0) THEN
+         IF (IPMESS/=0) THEN
             WRITE(IOUT,'(A)') TITRE(1:LTITR1)
             WRITE(ISTDO,*)
             WRITE(ISTDO,'(A)') TITRE(1:LTITR1)
@@ -1482,14 +1482,14 @@ C
          N=0
          DO I=1,NDDL
             N=N+ITAG(I)
-            IF (N.GT.0.AND.ITAG(I).NE.0) ITAGI(N)=I
+            IF (N>0.AND.ITAG(I)/=0) ITAGI(N)=I
             ITAG(I)=N
          ENDDO
          IADM=N
          NN=N
          N=N+NMOD
          CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
          ALLOCATE(RIGI(N,N), RIGIG(N,N))
          DO I=1,N
@@ -1513,11 +1513,11 @@ C
          CALL SPMD_DS_ISEND(PDDLS, IPARAM(1,1), IRQTAG, 1)
 C
          CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
-         IF (N.EQ.0) RETURN
+         IF (N==0) RETURN
 C
       ENDIF
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          IM=0
          DO I=1,NSPROC
             IFILE=GRAPHE(I)%IFILE
@@ -1534,7 +1534,7 @@ C Assemblage de la rigidite
                IREC=IREC+1
             ENDDO
             NR=LEN-(LEN/10)*10
-            IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+            IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C            
             DO J=1,NDF
                JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -1577,7 +1577,7 @@ C Assemblage de la rigidite geometrique
                IREC=IREC+1
             ENDDO
             NR=LEN-(LEN/10)*10
-            IF (NR.GT.0) READ(IFILE,REC=IREC) (KGL(IMC+J),J=1,NR)
+            IF (NR>0) READ(IFILE,REC=IREC) (KGL(IMC+J),J=1,NR)
 C            
             DO J=1,NDF
                JJ=GRAPHE(I)%DGRAPH(1)%DDLS(J)
@@ -1632,9 +1632,9 @@ C Assemblage de la rigidite
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (KL(IKC+J),J=1,NR)
 C            
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
             IM=0
             DO J=1,NDF
@@ -1728,9 +1728,9 @@ C Assemblage de la rigidite geometrique
             IREC=IREC+1
          ENDDO
          NR=LEN-(LEN/10)*10
-         IF (NR.GT.0) READ(IFILE,REC=IREC) (KGL(IMC+J),J=1,NR)
+         IF (NR>0) READ(IFILE,REC=IREC) (KGL(IMC+J),J=1,NR)
 C            
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
 C Processeur zero : recoit et assemble       
             IM=0
             DO J=1,NDF
@@ -1816,7 +1816,7 @@ C Autres processeurs : envoient
 C
       ENDIF
 C     
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
          NM=BINCV
          NMMAX=BMAXNCV
          MAXITR=BNITER
@@ -1869,7 +1869,7 @@ C
 C
 C Redescente des deplacements
 C
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
          IM0=0
          DO I=1,NSPROC
             NDF=GRAPHE(I)%DGRAPH(1)%NDDL_F
@@ -1888,7 +1888,7 @@ C
             ENDDO
             IM0=IM0+NMDYN
          ENDDO
-      ELSEIF (ISPMD.EQ.0) THEN
+      ELSEIF (ISPMD==0) THEN
          NDF=GRAPHE(1)%DGRAPH(1)%NDDL_F
          NMDYN=GRAPHE(1)%DGRAPH(1)%NMDYN
          DO J=1,NDEPL
@@ -1957,7 +1957,7 @@ C
          DEALLOCATE(VL, PDDLS)
       ENDIF
 C
-      IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+      IF (IMACH/=3.OR.ISPMD==0) THEN
          DEALLOCATE(V)
 C
          DEALLOCATE(RIGI, RIGIG)

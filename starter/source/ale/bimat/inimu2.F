@@ -55,7 +55,7 @@ C-----------------------------------------------
       DO I=1,NUMELQ
         MAT=IABS(IX(1,I))
         LAW=PM(19,MAT)
-        IF(LAW.NE.20)CYCLE !I
+        IF(LAW/=20)CYCLE !I
         DO M=1,NMULT
           ALPH=PM(30+M,MAT)
           DO J=2,5

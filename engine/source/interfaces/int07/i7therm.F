@@ -162,7 +162,7 @@ C ---
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            IF(FHEATS.NE.ZERO) PHI(I) = PHI(I) + FHEATS * EFRICT(I)
+            IF(FHEATS/=ZERO) PHI(I) = PHI(I) + FHEATS * EFRICT(I)
           ELSE
 C-------------------------------------------------
 C   EXCHANGE BETWEEN SECONDARY NODE AND MAIN SURFACE  
@@ -185,7 +185,7 @@ C
 C                              
             AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
 C
-            IF (AREAS(I).GT.ZERO) THEN
+            IF (AREAS(I)>ZERO) THEN
               AREAC = MIN(AREA,AREAS(I))
             ELSE
               AREAC = AREA

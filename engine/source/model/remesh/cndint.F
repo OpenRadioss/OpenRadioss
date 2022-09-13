@@ -211,7 +211,7 @@ C
 C
           MC=IXC(3,SON+3)
 
-          IF(TAGNOD(MC).EQ.0)THEN
+          IF(TAGNOD(MC)==0)THEN
 
              TAGNOD(MC)=1
              DO J=1,3
@@ -233,7 +233,7 @@ C
           M3=IXC(5,SON+2)
           M4=IXC(2,SON+3)
 
-          IF(TAGNOD(M1).EQ.0)THEN
+          IF(TAGNOD(M1)==0)THEN
              TAGNOD(M1)=1
              NA=MIN(N1,N2)
              NB=MAX(N1,N2)
@@ -250,7 +250,7 @@ C
 
           END IF
 
-          IF(TAGNOD(M2).EQ.0)THEN
+          IF(TAGNOD(M2)==0)THEN
              TAGNOD(M2)=1
              NA=MIN(N2,N3)
              NB=MAX(N2,N3)
@@ -267,7 +267,7 @@ C
 
           END IF
 
-          IF(TAGNOD(M3).EQ.0)THEN
+          IF(TAGNOD(M3)==0)THEN
              TAGNOD(M3)=1
              NA=MIN(N3,N4)
              NB=MAX(N3,N4)
@@ -284,7 +284,7 @@ C
 
           END IF
 
-          IF(TAGNOD(M4).EQ.0)THEN
+          IF(TAGNOD(M4)==0)THEN
              TAGNOD(M4)=1
              NA=MIN(N4,N1)
              NB=MAX(N4,N1)
@@ -320,7 +320,7 @@ C
           M2=IXTG(2,SON+3)
           M3=IXTG(3,SON+3)
 
-          IF(TAGNOD(M1).EQ.0)THEN
+          IF(TAGNOD(M1)==0)THEN
             TAGNOD(M1)=1
             NA=MIN(N1,N2)
             NB=MAX(N1,N2)
@@ -336,7 +336,7 @@ C
 
           END IF
 
-          IF(TAGNOD(M2).EQ.0)THEN
+          IF(TAGNOD(M2)==0)THEN
             TAGNOD(M2)=1
             NA=MIN(N2,N3)
             NB=MAX(N2,N3)
@@ -351,7 +351,7 @@ C
 
           END IF
 
-          IF(TAGNOD(M3).EQ.0)THEN
+          IF(TAGNOD(M3)==0)THEN
             TAGNOD(M3)=1
             NA=MIN(N3,N1)
             NB=MAX(N3,N1)
@@ -374,7 +374,7 @@ C-------
       END DO
 C
 C-------
-      IF(NODADT /= 0.OR.I7KGLO/=0.AND.(IDTMIN(11).EQ.3.OR.IDTMIN(11)==8))THEN
+      IF(NODADT /= 0.OR.I7KGLO/=0.AND.(IDTMIN(11)==3.OR.IDTMIN(11)==8))THEN
         DT2P = DTMIN1(11)/DTFAC1(11)
         DO N=NODFT,NODLT
           IF(TAGNOD(N)/=0)THEN
@@ -383,7 +383,7 @@ C-------
           END IF
         END DO
       END IF
-      IF(NODADT /= 0.AND.(IDTMIN(11).EQ.3.OR.IDTMIN(11)==8))THEN
+      IF(NODADT /= 0.AND.(IDTMIN(11)==3.OR.IDTMIN(11)==8))THEN
         DT2P = DTMIN1(11)/DTFAC1(11)
         DO N=NODFT,NODLT
           IF(TAGNOD(N)/=0)THEN

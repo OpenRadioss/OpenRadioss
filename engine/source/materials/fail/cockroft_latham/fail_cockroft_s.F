@@ -153,7 +153,7 @@ c!  ***********************
 C-----------------------------------------------
 c! fast degradation
         DO I=1,NEL
-         IF(OFF(I).LT.ONE .AND. OFF(I) .GT. ZERO) THEN 
+         IF(OFF(I)<ONE .AND. OFF(I) > ZERO) THEN 
            SIGNXX(I) = SIGNXX(I) * OFF(I)
            SIGNYY(I) = SIGNYY(I) * OFF(I)
            SIGNZZ(I) = SIGNZZ(I) * OFF(I)
@@ -162,13 +162,13 @@ c! fast degradation
            SIGNZX(I) = SIGNZX(I) * OFF(I)
            OFF(I)    = OFF(I) * FOUR_OVER_5
          ENDIF
-         IF(OFF(I).LT.EM01) OFF(I) = ZERO
+         IF(OFF(I)<EM01) OFF(I) = ZERO
         END DO
 C-------------------  
       
       
       DO I=1,NEL
-        IF(OFF(I).EQ.ONE) THEN
+        IF(OFF(I)==ONE) THEN
         
 c!          COCKROFT = UVAR(I,2)
 c! equivalent strain calculation (negative = total strain ; positive = plastic strain)
@@ -186,7 +186,7 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
 
             D_EEQ = EEQ - UVAR(I,1)
-            IF (D_EEQ .LE. ZERO) D_EEQ = ZERO
+            IF (D_EEQ <= ZERO) D_EEQ = ZERO
             UVAR(I,1) = EEQ  
           ELSE
             D_EEQ = DPLA(I)
@@ -211,23 +211,23 @@ c!   principal stress calculation
           S22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
           S33 = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
 
-          IF (S11.LT.S22) THEN 
+          IF (S11<S22) THEN 
             R_INTER = S11
             S11     = S22
             S22     = R_INTER
           ENDIF 
-          IF (S22.LT.S33)THEN
+          IF (S22<S33)THEN
             R_INTER = S22
             S22     = S33
             S33     = R_INTER
           ENDIF
-          IF (S11.LT.S22)THEN
+          IF (S11<S22)THEN
             R_INTER = S11
             S11     = S22
             S22     = R_INTER
           ENDIF
           
-          IF(S11 .GT. ZERO) THEN
+          IF(S11 > ZERO) THEN
             S11       = S11 * EMA + (ONE-EMA)* UVAR(I,3)
             UVAR(I,3) = S11
 
@@ -237,7 +237,7 @@ c!   principal stress calculation
           DFMAX(I) = UVAR(I,2) / MAX(ABS(C0),EM20)
           DFMAX(I) = MIN(ONE,DFMAX(I))
          
-          IF (UVAR(I,2) .GE. ABS(C0)) THEN
+          IF (UVAR(I,2) >= ABS(C0)) THEN
             TDELE(I)    = TIME  
             NINDX       = NINDX+1
             INDX(NINDX) = I              

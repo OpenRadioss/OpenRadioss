@@ -121,27 +121,27 @@ C-----------------------------------------------
 C      
       DO I=1,NEL
         ISPALL = 1
-        IF(IFLAG.EQ.2)THEN
+        IF(IFLAG==2)THEN
           IDEL = 1
-        ELSEIF(IFLAG.EQ.3)THEN
+        ELSEIF(IFLAG==3)THEN
           IDEV = 1  
-        ELSEIF(IFLAG.EQ.4)THEN
+        ELSEIF(IFLAG==4)THEN
          IDEL = 1
          ISPALL = 2
         END IF
       END DO
 C
         DO I=1,NEL
-          IF(OFF(I).LT.EM01) OFF(I)=ZERO
-          IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+          IF(OFF(I)<EM01) OFF(I)=ZERO
+          IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
         END DO
 C      
-      IF(IDEL.EQ.1)THEN
+      IF(IDEL==1)THEN
        NINDX=0  
        DO I=1,NEL
-        IF((IFLAG.EQ.2.OR.IFLAG.EQ.4).
-     .                AND.OFF(I).EQ.ONE.AND.DPLA(I).NE.ZERO
-     .                .AND.OFFG(I).GT.ZERO)THEN
+        IF((IFLAG==2.OR.IFLAG==4).
+     .                AND.OFF(I)==ONE.AND.DPLA(I)/=ZERO
+     .                .AND.OFFG(I)>ZERO)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          SXX = SIGNXX(I) - P
          SYY = SIGNYY(I) - P
@@ -154,8 +154,8 @@ C
      .           D2*EXP(EPSF))*(ONE 
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
-         IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF       
-         IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+         IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF       
+         IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
@@ -164,7 +164,7 @@ C
          ENDIF
         ENDIF 
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
 #include "lockon.inc"
          WRITE(IOUT, 1000) NGL(INDX(J))
@@ -174,13 +174,13 @@ C
        END IF         
       ENDIF
 Cc deviatoric will be vanished      
-      IF(IDEV.EQ.1)THEN
+      IF(IDEV==1)THEN
        NINDX=0 
        NINDEX = 0 
        DO I=1,NEL
-        IF(IFLAG.EQ.3.AND.OFF(I).EQ.ONE.AND.DPLA(I).NE.ZERO.AND.
-     .         OFFG(I).GT.ZERO)THEN
-         IF(DFMAX(I).LT.ONE)THEN
+        IF(IFLAG==3.AND.OFF(I)==ONE.AND.DPLA(I)/=ZERO.AND.
+     .         OFFG(I)>ZERO)THEN
+         IF(DFMAX(I)<ONE)THEN
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
           SYY = SIGNYY(I) - P
@@ -193,8 +193,8 @@ Cc deviatoric will be vanished
      .           D2*EXP(EPSF))*(ONE 
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
-          IF(EPSF.GT.ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-          IF(DFMAX(I).GE.ONE.AND.OFF(I).EQ.ONE) THEN
+          IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =   P
@@ -215,7 +215,7 @@ Cc deviatoric will be vanished
          ENDIF
         ENDIF  
        ENDDO
-       IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+       IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
          I = INDX(J)
 #include "lockon.inc"
@@ -230,8 +230,8 @@ C...Spalling
         NINDX  = 0
         DO I=1,NEL
          P= -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-         IF(ISPALL.EQ.1.AND.OFFG(I).GT.ZERO) THEN
-          IF(UVAR(I,1).EQ.ZERO.AND.P.LE.PMIN)THEN
+         IF(ISPALL==1.AND.OFFG(I)>ZERO) THEN
+          IF(UVAR(I,1)==ZERO.AND.P<=PMIN)THEN
            UVAR(I,1) = ONE
            SIGNXX(I)= ZERO
            SIGNYY(I)= ZERO
@@ -241,7 +241,7 @@ C...Spalling
            SIGNYZ(I)= ZERO
            NINDX=NINDX+1
            INDX(NINDX)=I 
-          ELSEIF(UVAR(I,1).EQ.ONE)THEN
+          ELSEIF(UVAR(I,1)==ONE)THEN
            SIGNXX(I) = -MAX(P , ZERO)
            SIGNYY(I) = -MAX(P , ZERO)
            SIGNZZ(I) = -MAX(P , ZERO)
@@ -249,8 +249,8 @@ C...Spalling
            SIGNZX(I)= ZERO
            SIGNYZ(I)= ZERO
           ENDIF
-        ELSEIF(ISPALL.EQ.2.AND.P.LE.PMIN.AND.OFF(I).EQ.ONE.AND.
-     .         OFFG(I).GT.ZERO)THEN
+        ELSEIF(ISPALL==2.AND.P<=PMIN.AND.OFF(I)==ONE.AND.
+     .         OFFG(I)>ZERO)THEN
           OFF(I)= FOUR_OVER_5
           NINDEX=NINDEX+1
           INDEX(NINDEX)=I
@@ -259,7 +259,7 @@ C...Spalling
         ENDIF 
         ENDDO
 C
-        IF(NINDX.GT.0.AND.IMCONV.EQ.1)THEN
+        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
 #include "lockon.inc"
         WRITE(IOUT, 3000) NGL(INDX(J))
@@ -268,7 +268,7 @@ C
         END DO
        END IF
 C       
-        IF(NINDEX.GT.0.AND.IMCONV.EQ.1)THEN
+        IF(NINDEX>0.AND.IMCONV==1)THEN
         DO J=1,NINDEX
 #include "lockon.inc"
         WRITE(IOUT, 3200) NGL(INDEX(J))

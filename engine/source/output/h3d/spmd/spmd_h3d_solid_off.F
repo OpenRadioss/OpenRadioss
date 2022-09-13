@@ -65,7 +65,7 @@ C-----------------------------------------------
 
         OFFSET = 0
 c
-        IF(ITY.EQ.1)THEN
+        IF(ITY==1)THEN
           DO I=1,NEL 
             ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 1

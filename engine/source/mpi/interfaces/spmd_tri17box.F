@@ -94,8 +94,8 @@ C-----------------------------------------------
 C
 Cel boite minmax pour le tri provenant de i7buce BMINMA
 C
-      IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.
-     .   ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
+      IF(IRCVFROM(NIN,LOC_PROC)==0.AND.
+     .   ISENDTO(NIN,LOC_PROC)==0) RETURN
       BMINMA(1,LOC_PROC) = BMINMAL(1)
       BMINMA(2,LOC_PROC) = BMINMAL(2)
       BMINMA(3,LOC_PROC) = BMINMAL(3)
@@ -105,10 +105,10 @@ C
 C
 Cel envoi boite
 C
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
-          IF(ISENDTO(NIN,P).NE.0) THEN
-            IF(P.NE.LOC_PROC) THEN
+          IF(ISENDTO(NIN,P)/=0) THEN
+            IF(P/=LOC_PROC) THEN
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
@@ -120,11 +120,11 @@ C
 C
 Cel reception des boites min-max
 C
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         NBIRECV=0
         DO P = 1, NSPMD
-          IF(IRCVFROM(NIN,P).NE.0) THEN
-            IF(LOC_PROC.NE.P) THEN
+          IF(IRCVFROM(NIN,P)/=0) THEN
+            IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
@@ -139,19 +139,19 @@ C
 Cel envoi de XREM
 C
       SIZ = 112
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
           P=IRINDEXI(INDEXI)
 C
           NB = 0
           DO I=1,NMES
-            IF(EMINXS(4,I).GT.BMINMA(1,P).AND.
-     .         EMINXS(5,I).GT.BMINMA(2,P).AND.
-     .         EMINXS(6,I).GT.BMINMA(3,P).AND.
-     .         EMINXS(1,I).LT.BMINMA(4,P).AND.
-     .         EMINXS(2,I).LT.BMINMA(5,P).AND.
-     .         EMINXS(3,I).LT.BMINMA(6,P))THEN
+            IF(EMINXS(4,I)>BMINMA(1,P).AND.
+     .         EMINXS(5,I)>BMINMA(2,P).AND.
+     .         EMINXS(6,I)>BMINMA(3,P).AND.
+     .         EMINXS(1,I)<BMINMA(4,P).AND.
+     .         EMINXS(2,I)<BMINMA(5,P).AND.
+     .         EMINXS(3,I)<BMINMA(6,P))THEN
               NB = NB + 1
               INDEX(NB) = I
             ENDIF
@@ -166,9 +166,9 @@ C
 C
 C Alloc buffer
 C
-          IF (NB.GT.0) THEN
+          IF (NB>0) THEN
             ALLOCATE(BUF(P)%P(SIZ*NB),STAT=IERROR)
-            IF(IERROR.NE.0) THEN
+            IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
@@ -323,17 +323,17 @@ C
 C
 Cel reception  des donnees XREM
 C
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         NMESR = 0
         L=0
         DO P = 1, NSPMD
           NSNFI(NIN)%P(P) = 0
-          IF(ISENDTO(NIN,P).NE.0) THEN
-            IF(LOC_PROC.NE.P) THEN
+          IF(ISENDTO(NIN,P)/=0) THEN
+            IF(LOC_PROC/=P) THEN
               MSGTYP = MSGOFF2
               CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
      .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
-              IF(NSNFI(NIN)%P(P).GT.0) THEN
+              IF(NSNFI(NIN)%P(P)>0) THEN
                 L=L+1
                 ISINDEXI(L)=P
                 NMESR = NMESR + NSNFI(NIN)%P(P)
@@ -345,9 +345,9 @@ C
 C
 C Allocate total size
 C
-        IF(NMESR.GT.0) THEN
+        IF(NMESR>0) THEN
           ALLOCATE(XREM(SIZ,NMESR),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -368,22 +368,22 @@ C           P=ISINDEXI(INDEXI)
         ENDIF
       ENDIF
 C
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
-          IF(ISENDTO(NIN,P).NE.0) THEN
-            IF(P.NE.LOC_PROC) THEN
+          IF(ISENDTO(NIN,P)/=0) THEN
+            IF(P/=LOC_PROC) THEN
               CALL MPI_WAIT(REQ_SB(P),STATUS,IERROR)
             ENDIF
           ENDIF
         ENDDO
       ENDIF
 C
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO P = 1, NSPMD
-          IF(IRCVFROM(NIN,P).NE.0) THEN
-            IF(P.NE.LOC_PROC) THEN
+          IF(IRCVFROM(NIN,P)/=0) THEN
+            IF(P/=LOC_PROC) THEN
               CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
-              IF(NBOX(P).NE.0) THEN
+              IF(NBOX(P)/=0) THEN
                 CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
                 DEALLOCATE(BUF(P)%p)
               END IF

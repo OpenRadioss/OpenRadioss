@@ -92,19 +92,19 @@ C-----------------------------------------------------------
       LFT = 1
       LLT = NEL
 C
-      IF (JEUL .NE. 0) THEN
+      IF (JEUL /= 0) THEN
 C     Euler : volume does not change
          DO II = 1, NEL
             VOLNEW(II) = GBUF%VOL(II)
          ENDDO
       ELSE
 C     ALE : compute new volumes
-         IF (SYM .EQ. 0) THEN
+         IF (SYM == 0) THEN
 C     =======
 C     3D case
 C     =======
             IX => IXS(1:NIXS, 1 + NFT:NEL + NFT)
-            IF (ISOLNOD .NE. 4) THEN
+            IF (ISOLNOD /= 4) THEN
                DO II = 1, NEL
 C     Node 1
                   X1(II) = XGRID(1, IX(2, II))
@@ -207,7 +207,7 @@ C
 C     =======
 C     2D case
 C     =======
-            IF (ITY .EQ. 2) THEN
+            IF (ITY == 2) THEN
 C     QUADS
                IX => IXQ(1:NIXQ, 1 + NFT:NEL + NFT)
                DO II = 1, NEL
@@ -228,10 +228,10 @@ C     Node 4
                CALL QVOLU2(GBUF%OFF, GBUF%AREA, VOLNEW, NGL, 
      .              Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, 
      .              DUMMY, DUMMY) 
-            ELSEIF (ITY .EQ. 7) THEN
+            ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                IX => IXTG(1:NIXTG, 1 + NFT:NEL + NFT)
-               IF (SYM .EQ. 2) THEN
+               IF (SYM == 2) THEN
                   DO II = 1, NEL
                      Y1(II) = XGRID(2, IX(1 + 1, II))
                      Z1(II) = XGRID(3, IX(1 + 1, II))
@@ -243,7 +243,7 @@ C     TRIANGLES
      .                    (Z2(II) - Z1(II)) * (Y3(II) - Y1(II))))
                      VOLNEW(II) = GBUF%AREA(II)
                   ENDDO            
-               ELSE IF (SYM .EQ. 1) THEN
+               ELSE IF (SYM == 1) THEN
 C     Axisymmetric case
                   DO II = 1, NEL
                      Y1(II) = XGRID(2, IX(1 + 1, II))

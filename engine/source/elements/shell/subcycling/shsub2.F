@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER N,I
 C-----------------------------------------------
 C     on stocke dans ASAVE meme en Parith/ON
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
         DO N=NODFT,NODLT
           A(1,N) =A(1,N)+ASAVE(1,N)
           A(2,N) =A(2,N)+ASAVE(2,N)

@@ -79,7 +79,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       ALLOCATE(WAR(BUF+1))
 
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
         CALL MPI_SEND(WAL,NBF_L,MPI_REAL4,IT_SPMD(1),MSGTYP,
      .                MPI_COMM_WORLD,ierror)
@@ -107,7 +107,7 @@ C
         END DO
         DO N = 1, NBPART
           DO K = 1, NSPMD
-            IF (N.GT.1) THEN
+            IF (N>1) THEN
               LEN = (IADG(K,N) - IADG(K,N-1))*SIZE
             ELSE
               LEN = IADG(K,N)*SIZE

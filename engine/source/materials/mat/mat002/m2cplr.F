@@ -268,7 +268,7 @@ C-------------------------
             END DO
           END IF !(IMPL_S > 0.AND.IKT > 0) THEN
           RETURN
-        END IF !(NINDX.EQ.0) THEN
+        END IF !(NINDX==0) THEN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------

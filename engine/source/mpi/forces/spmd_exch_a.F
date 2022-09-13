@@ -103,7 +103,7 @@ C-----------------------------------------------
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = (SIZE+NFACNIT+LENC)*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
@@ -146,8 +146,8 @@ C
       DO I=1,NSPMD
 C preparation envoi  partie fixe (elem) a proc I
         IF(INTHEAT == 0 .AND. ITHERM_FE == 0 )THEN
-         IF (N2D.EQ.0.AND.IFSUBM.EQ.0) THEN
-          IF(IRODDL.NE.0) THEN
+         IF (N2D==0.AND.IFSUBM==0) THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -173,8 +173,8 @@ C preparation envoi  partie fixe (elem) a proc I
             END DO
           ENDIF
 C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
-        ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.1)THEN
-          IF(IRODDL.NE.0) THEN
+        ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -203,8 +203,8 @@ C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
               L = L + SIZE
             END DO
           ENDIF
-        ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.0)THEN
-          IF(IRODDL.NE.0) THEN
+        ELSEIF(N2D/=0.AND.IFSUBM==0)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -232,8 +232,8 @@ C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
             END DO
           ENDIF
 
-        ELSEIF(N2D.EQ.0.AND.IFSUBM.EQ.1)THEN
-          IF(IRODDL.NE.0) THEN
+        ELSEIF(N2D==0.AND.IFSUBM==1)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -267,8 +267,8 @@ C
 C -- plus la thermique
 C
       ELSE
-         IF (N2D.EQ.0.AND.IFSUBM.EQ.0) THEN
-          IF(IRODDL.NE.0) THEN
+         IF (N2D==0.AND.IFSUBM==0) THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -316,8 +316,8 @@ C
             ENDIF
           ENDIF
 C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
-        ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.1)THEN
-          IF(IRODDL.NE.0) THEN
+        ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -350,8 +350,8 @@ C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
               L = L + SIZE
             END DO
           ENDIF
-        ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.0)THEN
-          IF(IRODDL.NE.0) THEN
+        ELSEIF(N2D/=0.AND.IFSUBM==0)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -382,8 +382,8 @@ C cas 2D la masse est recalculee a chaque cycle, il faut la cumuler
               L = L + SIZE
             END DO
           ENDIF
-        ELSEIF(N2D.EQ.0.AND.IFSUBM.EQ.1)THEN
-          IF(IRODDL.NE.0) THEN
+        ELSEIF(N2D==0.AND.IFSUBM==1)THEN
+          IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
               NOD = FR_ELEM(J)
@@ -433,7 +433,7 @@ C --- NITSCHE
           END DO
        ENDIF
 C --- /CONT/MAX output
-      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
@@ -453,7 +453,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF 
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -472,7 +472,7 @@ C
        IF(INTHEAT /= 0 .OR. ITHERM_FE /= 0 )IADMSPH=IADMSPH+1
        DO I = 1, NSPMD
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include        "vectorize.inc"
@@ -488,13 +488,13 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 C cas 3D
           IF(ITHERM_FE == 0 .AND. INTHEAT == 0 ) THEN
-            IF (N2D.EQ.0.AND.IFSUBM.EQ.0) THEN
-              IF(IRODDL.NE.0) THEN
+            IF (N2D==0.AND.IFSUBM==0) THEN
+              IF(IRODDL/=0) THEN
 #include        "vectorize.inc"
                 DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                   NOD = FR_ELEM(J)
@@ -520,8 +520,8 @@ C cas 3D
                 END DO
               ENDIF
 C cas 2D
-            ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.1)THEN
-              IF(IRODDL.NE.0) THEN
+            ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
+              IF(IRODDL/=0) THEN
 #include        "vectorize.inc"
                 DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                   NOD = FR_ELEM(J)
@@ -550,8 +550,8 @@ C cas 2D
                   L = L + SIZE
                 END DO
               ENDIF
-            ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.0)THEN
-              IF(IRODDL.NE.0) THEN
+            ELSEIF(N2D/=0.AND.IFSUBM==0)THEN
+              IF(IRODDL/=0) THEN
 #include        "vectorize.inc"
                 DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                   NOD = FR_ELEM(J)
@@ -578,8 +578,8 @@ C cas 2D
                   L = L + SIZE
                 END DO
               ENDIF
-            ELSEIF(N2D.EQ.0.AND.IFSUBM.EQ.1)THEN
-              IF(IRODDL.NE.0) THEN
+            ELSEIF(N2D==0.AND.IFSUBM==1)THEN
+              IF(IRODDL/=0) THEN
 #include        "vectorize.inc"
                 DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                   NOD = FR_ELEM(J)
@@ -613,8 +613,8 @@ C
 C ----plus la thermique
 C
          ELSE
-          IF (N2D.EQ.0.AND.IFSUBM.EQ.0) THEN
-            IF(IRODDL.NE.0) THEN
+          IF (N2D==0.AND.IFSUBM==0) THEN
+            IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
@@ -662,8 +662,8 @@ C
               ENDIF
             ENDIF
 C cas 2D
-          ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.1)THEN
-            IF(IRODDL.NE.0) THEN
+          ELSEIF(N2D/=0.AND.IFSUBM==1)THEN
+            IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
@@ -696,8 +696,8 @@ C cas 2D
                 L = L + SIZE
               END DO
             ENDIF
-          ELSEIF(N2D.NE.0.AND.IFSUBM.EQ.0)THEN
-            IF(IRODDL.NE.0) THEN
+          ELSEIF(N2D/=0.AND.IFSUBM==0)THEN
+            IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
@@ -728,8 +728,8 @@ C cas 2D
                 L = L + SIZE
               END DO
             ENDIF
-          ELSEIF(N2D.EQ.0.AND.IFSUBM.EQ.1)THEN
-            IF(IRODDL.NE.0) THEN
+          ELSEIF(N2D==0.AND.IFSUBM==1)THEN
+            IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
               DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                 NOD = FR_ELEM(J)
@@ -794,7 +794,7 @@ C --- NITSCHE
           END DO
        ENDIF
 C --- /CONT/MAX output
-      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+      IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
@@ -816,7 +816,7 @@ C
       IF(IRESP==1) THEN
         DO I = 1, NSPMD
             NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-            IF(NB_NOD.GT.0)THEN
+            IF(NB_NOD>0)THEN
                 DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                     NOD = FR_ELEM(J)
                     A(1,NOD) = ACC_POINTER(1,NOD)
@@ -828,7 +828,7 @@ C
       ENDIF
 
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

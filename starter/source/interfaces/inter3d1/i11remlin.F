@@ -113,7 +113,7 @@ C
             DO K=1,2
               IF(TAGSECND(IRECTM(K,I)) == 1) CPT = CPT + 1
             END DO
-            IF (CPT .NE. 0 ) THEN
+            IF (CPT /= 0 ) THEN
               DO K=1,2
                 N = IRECTM(K,I)
                 KNOD2LIN(N) = KNOD2LIN(N) + 1
@@ -132,7 +132,7 @@ C
             DO K=1,2
               IF(TAGSECND(IRECTM(K,I)) == 1) CPT = CPT + 1
             END DO
-            IF (CPT .NE. 0) THEN
+            IF (CPT /= 0) THEN
               DO K=1,2
                 N = IRECTM(K,I)
                 NOD2LIN(KNOD2LIN(N)) = I

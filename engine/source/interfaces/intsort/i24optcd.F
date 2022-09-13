@@ -101,7 +101,7 @@ C-----------------------------------------------
 
 C-----------------------------------------------
       IG(1:MVSIZ) = 0
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
          PREC = (SEVEN+HALF)*EM06
       ELSE
          PREC = EM8
@@ -161,7 +161,7 @@ C initialize PMAX_GAP to Zero for future treatments in force computation.
        NSEG = MIN(MSEG,LAST-JS)
        NLS=0
 
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -169,7 +169,7 @@ C
          NLS2 = NSEG+1
          DO IS = 1, NSEG
            I=JS+IS
-           IF(CAND_N(I).LE.NSN)THEN
+           IF(CAND_N(I)<=NSN)THEN
              NLS=NLS+1
              LISTI(NLS)=IS
            ELSE
@@ -220,7 +220,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
            IG(IS) = NSV(CAND_N(I))
            XI = X(1,IG(IS))
            YI = X(2,IG(IS))
@@ -317,7 +317,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           L  = CAND_E(I)
           IRTLM(1,CAND_N(I)) = IABS(IRTLM(1,CAND_N(I)))
           MG = IRTLM(1,CAND_N(I))
-          IF(STF(L).NE.ZERO.AND.STFN(CAND_N(I)).NE.ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
             IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
 c secnd in contact on an other main don't keep candidate
                TIME_S(CAND_N(I))=ZERO
@@ -348,7 +348,7 @@ c PMAX_GAP is not used here (node not in contact)
              TZINF = MAX(PREC,TZINF)
              ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
              ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
-             IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+             IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
               NLS=NLS+1
               LIST(NLS)=IS
              ELSE
@@ -402,7 +402,7 @@ c PMAX_GAP is not used here (node not in contact)
             TZINF = MAX(PREC,TZINF)
             YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
             YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
-            IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+            IF (YMIN<=YI.AND.YMAX>=YI) THEN
               NLS=NLS+1
               LIST(NLS)=IS
             ELSE
@@ -468,7 +468,7 @@ c PMAX_GAP is not used here (node not in contact)
             TZINF = MAX(PREC,TZINF)
             XMIN = MIN(X1,X2,X3,X4)-TZINF
             XMAX = MAX(X1,X2,X3,X4)+TZINF
-            IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+            IF (XMIN<=XI.AND.XMAX>=XI) THEN
               CAND_N(I) = -CAND_N(I)
               IF ((IDTMINS /= 2).AND.(IDTMINS_INT == 0)) THEN
                 COUNT_CAND = COUNT_CAND+1
@@ -500,7 +500,7 @@ CC--         Count of contact connections for AMS (+ addtional connections relat
         ENDDO
        ENDIF
 c      write(iout,*)'i24optcd 2'
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
           NLF = NLS2
           NLT = NSEG
           IF(IEDGE==0)THEN
@@ -526,7 +526,7 @@ c a faire     EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
              ZI = XFI(NIN)%P(3,II)
@@ -623,7 +623,7 @@ CC--             Count of contact connections for AMS (+ addtional connections r
             L  = CAND_E(I)
             IRTLM_FI(NIN)%P(1,II)=IABS(IRTLM_FI(NIN)%P(1,II))
             MG = IRTLM_FI(NIN)%P(1,II)
-            IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
               IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
 c secnd in contact on a remote main don't keep candidate
                  TIME_SFI(NIN)%P(II)=ZERO 
@@ -653,7 +653,7 @@ c PMAX_GAP is not used here (node not in contact)
                TZINF = MAX(PREC,TZINF)
                ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
                ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
-               IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN                       
+               IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN                       
                  NLS=NLS+1                                               
                  LIST(NLS)=IS                                            
                ELSE
@@ -707,7 +707,7 @@ c PMAX_GAP is not used here (node not in contact)
              TZINF = MAX(PREC,TZINF)
              YMIN = MIN(Y1,Y2,Y3,Y4)-TZINF
              YMAX = MAX(Y1,Y2,Y3,Y4)+TZINF
-             IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+             IF (YMIN<=YI.AND.YMAX>=YI) THEN
                NLS=NLS+1
                LIST(NLS)=IS
              ELSE
@@ -772,7 +772,7 @@ c PMAX_GAP is not used here (node not in contact)
              TZINF = MAX(PREC,TZINF)
              XMIN = MIN(X1,X2,X3,X4)-TZINF
              XMAX = MAX(X1,X2,X3,X4)+TZINF
-             IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+             IF (XMIN<=XI.AND.XMAX>=XI) THEN
                CAND_N(I) = -CAND_N(I)
                COUNT_CAND = COUNT_CAND+1
                IF ((IDTMINS /= 2).AND.(IDTMINS_INT == 0)) THEN

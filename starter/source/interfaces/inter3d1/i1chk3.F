@@ -96,8 +96,8 @@ C-----------------------------------------------
      .              NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
      .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .              PM_STACK , IWORKSH )
-        IF(NELS+NELC+NELTG.EQ.0)THEN
-           IF(NINT.GT.0) THEN
+        IF(NELS+NELC+NELTG==0)THEN
+           IF(NINT>0) THEN
               CALL ANCMSG(MSGID=92,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -105,7 +105,7 @@ C-----------------------------------------------
      .                    C1=TITR,
      .                    I2=I)
            ENDIF
-           IF(NINT.LT.0) THEN
+           IF(NINT<0) THEN
               CALL ANCMSG(MSGID=93,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,

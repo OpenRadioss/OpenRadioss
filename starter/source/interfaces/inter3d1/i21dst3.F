@@ -113,7 +113,7 @@ C-----------------------------------------------
       my_real
      .     CMAJ(MVSIZ), CSTS_L(2,MVSIZ)
 C--------------------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=GAP
         END DO
@@ -169,7 +169,7 @@ C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
 C--------------------------------------------------------
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
@@ -202,7 +202,7 @@ C--------------------------------------------------------
 
        DO I=1,JLT
 
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           NNX0(I)=FOURTH*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
           NNY0(I)=FOURTH*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))
           NNZ0(I)=FOURTH*(NNZ1(I)+NNZ2(I)+NNZ3(I)+NNZ4(I))
@@ -538,7 +538,7 @@ C
 C------
        N4N=0
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           N4N = N4N+1
           I4N(N4N)=I
         ELSE

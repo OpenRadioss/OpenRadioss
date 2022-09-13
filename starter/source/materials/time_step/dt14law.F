@@ -67,7 +67,7 @@ C=======================================================================
 C------------------------------
 C     CALCUL DU DT ELEM
 C------------------------------
-      IF(JSPH.EQ.0)THEN
+      IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
       ELSE
          CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, VOL, DTX)

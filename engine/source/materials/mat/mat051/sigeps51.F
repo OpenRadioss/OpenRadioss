@@ -288,7 +288,7 @@ C
       DATA ICF3D/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
       DATA ICF2D/1,2,2,3,3,4,4,1/
 C
-      IF(TIMESTEP.GT.ZERO)THEN
+      IF(TIMESTEP>ZERO)THEN
         UNDT = ONE/TIMESTEP
       ELSE
         UNDT = ZERO
@@ -492,13 +492,13 @@ C===========================================================================C
         E02  = ONE
         E03  = ONE
         E04  = ONE
-        IF(IRHO1.NE.0)RHO1 = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
-        IF(IRHO2.NE.0)RHO2 = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
-        IF(IRHO3.NE.0)RHO3 = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
-        IF(IE1.NE.0)E01 = FINTER(IE1,ABCS,NPF,TF,DYDX)
-        IF(IE2.NE.0)E02 = FINTER(IE2,ABCS,NPF,TF,DYDX)
-        IF(IE3.NE.0)E03 = FINTER(IE3,ABCS,NPF,TF,DYDX)
-        IF(IVEL.NE.0)VEL_IN = VEL_IN*FINTER(IVEL,ABCS,NPF,TF,DYDX)
+        IF(IRHO1/=0)RHO1 = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
+        IF(IRHO2/=0)RHO2 = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
+        IF(IRHO3/=0)RHO3 = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
+        IF(IE1/=0)E01 = FINTER(IE1,ABCS,NPF,TF,DYDX)
+        IF(IE2/=0)E02 = FINTER(IE2,ABCS,NPF,TF,DYDX)
+        IF(IE3/=0)E03 = FINTER(IE3,ABCS,NPF,TF,DYDX)
+        IF(IVEL/=0)VEL_IN = VEL_IN*FINTER(IVEL,ABCS,NPF,TF,DYDX)
 
 
         K1 = N0PHAS
@@ -511,21 +511,21 @@ C===========================================================================C
           P2=UVAR(I,4)
           P3=UVAR(I,4)
           MU1=UVAR(I,K1+20)*RHO1/RHO10 - ONE
-          IF(UVAR(I,K1+20).NE.ZERO)THEN
+          IF(UVAR(I,K1+20)/=ZERO)THEN
             P1 = ( C01 + C11*MU1
      .      	   + MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1)
      .      	   + (C41 + C51*MU1)*E01*UVAR(I,K1+21)*RHO10/RHO1/UVAR(I,K1+20) )
           ENDIF
           P1 = MAX(P1,PM1)
           MU2=UVAR(I,K2+20)*RHO2/RHO20 - ONE
-          IF(UVAR(I,K2+20).NE.ZERO)THEN
+          IF(UVAR(I,K2+20)/=ZERO)THEN
             P2 = ( C02 + C12*MU2
      .    	   + MAX(MU2,ZERO)*(C22*MU2 + C32*MU2*MU2)
      .    	   + (C42 + C52*MU2)*E02*UVAR(I,K2+21)*RHO20/RHO2/UVAR(I,K2+20) )
           ENDIF
           P2 = MAX(P2,PM2)
           MU3=UVAR(I,K3+20)*RHO3/RHO30 - ONE
-          IF(UVAR(I,K3+20).NE.ZERO)THEN
+          IF(UVAR(I,K3+20)/=ZERO)THEN
             P3 = ( C03 + C13*MU3
      .    	   + MAX(MU3,ZERO)*(C23*MU3 + C33*MU3*MU3)
      .    	   + (C43 + C53*MU3)*E03*UVAR(I,K3+21)*RHO30/RHO3/UVAR(I,K3+20) )
@@ -953,12 +953,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 	E01f  = ONE
 	E02f  = ONE
 	E03f  = ONE
-        IF(IRHO1.NE.0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
-        IF(IRHO2.NE.0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
-        IF(IRHO3.NE.0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
-        IF(IE1.NE.0)E01f = FINTER(IE1,ABCS,NPF,TF,DYDX)
-        IF(IE2.NE.0)E02f = FINTER(IE2,ABCS,NPF,TF,DYDX)
-        IF(IE3.NE.0)E03f = FINTER(IE3,ABCS,NPF,TF,DYDX)
+        IF(IRHO1/=0)RHO1f = FINTER(IRHO1,ABCS,NPF,TF,DYDX)
+        IF(IRHO2/=0)RHO2f = FINTER(IRHO2,ABCS,NPF,TF,DYDX)
+        IF(IRHO3/=0)RHO3f = FINTER(IRHO3,ABCS,NPF,TF,DYDX)
+        IF(IE1/=0)E01f = FINTER(IE1,ABCS,NPF,TF,DYDX)
+        IF(IE2/=0)E02f = FINTER(IE2,ABCS,NPF,TF,DYDX)
+        IF(IE3/=0)E03f = FINTER(IE3,ABCS,NPF,TF,DYDX)
         DO I=1,NEL
           E01=E01f
           E02=E02f
@@ -1054,7 +1054,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             !---LIQUID
             ELSE
               FAC = (C11 + HALF*RHO10*U2)
-              IF(FAC.NE.ZERO)THEN
+              IF(FAC/=ZERO)THEN
                 RHO1 = RHO1A*C11/FAC
                 P1   = P1A - HALF*RHO1*U2
                 E01  = E01A + (ONE - RHO1/RHO1A)*P1
@@ -1110,7 +1110,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               ENDIF
             ELSE
               FAC = (C12 + HALF*RHO20*U2)
-              IF(FAC.NE.ZERO)THEN
+              IF(FAC/=ZERO)THEN
                 RHO2 = RHO2A*C12/FAC
                 P2   = P2A - HALF*RHO2*U2
                 E02  = E02A + (ONE - RHO2/RHO2A)*P2
@@ -1166,7 +1166,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               ENDIF
             ELSE
               FAC = (C13 + HALF*RHO30*U2)
-              IF(FAC.NE.ZERO)THEN
+              IF(FAC/=ZERO)THEN
                 RHO3 = RHO3A*C13/FAC
                 P3   = P3A - HALF*RHO3*U2
                 E03  = E03A + (ONE - RHO3/RHO3A)*P3
@@ -1468,10 +1468,10 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             RHOC2(3)  = MAX(EM20,RHOV(3,I)*SSPV(3,I)*SSPV(3,I))
             RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I))
             RHOC20    = ZERO
-            IF(AVV(1,I).GT.EM06)RHOC20=RHOC20 + AVV(1,I)/RHOC2(1)
-            IF(AVV(2,I).GT.EM06)RHOC20=RHOC20 + AVV(2,I)/RHOC2(2)
-            IF(AVV(3,I).GT.EM06)RHOC20=RHOC20 + AVV(3,I)/RHOC2(3)
-            IF(AVV(4,I).GT.EM06)RHOC20=RHOC20 + AVV(4,I)/RHOC2(4)
+            IF(AVV(1,I)>EM06)RHOC20=RHOC20 + AVV(1,I)/RHOC2(1)
+            IF(AVV(2,I)>EM06)RHOC20=RHOC20 + AVV(2,I)/RHOC2(2)
+            IF(AVV(3,I)>EM06)RHOC20=RHOC20 + AVV(3,I)/RHOC2(3)
+            IF(AVV(4,I)>EM06)RHOC20=RHOC20 + AVV(4,I)/RHOC2(4)
             RHOC20=ONE/RHOC20 !average stiffness
             RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)  
             !RHOC2(1)  = MAX(EM20,RHOV(1,I)*SSPV(1,I)*SSPV(1,I))
@@ -1483,21 +1483,21 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             SOUNDSP(I)  = SSPV(0,I)
             MACH        = VEL_N(I) / SOUNDSP(I)
             ISUPERSONIC = 0
-            IF(MACH.GE.ONE .AND. VEL_N(I).GT.ZERO)THEN
+            IF(MACH>=ONE .AND. VEL_N(I)>ZERO)THEN
              !vitesse sortante supersonique : etat = etat voisin
               ISUPERSONIC = 1
               P           = PV(0,I)
               EINT(I)     = EIV(0,I)
               RHO(I)      = RHOV(0,I)
             ELSE
-              !IF(VEL_N(I).LE.ZERO)P=P0_NRF-HALF*RHO(I)*VEL_N(I)**2 !Bernouilli
+              !IF(VEL_N(I)<=ZERO)P=P0_NRF-HALF*RHO(I)*VEL_N(I)**2 !Bernouilli
               ROC   =SQRT(RHO(I)*RHOC20)
               POLD  = -THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
               DP0   = (P0_NRF-P0_NRFv(I)) ! assuming rho0*g(t)*(z-zvois) = cst ; otherwise complicated: get g(t) and compute z-zvois
               P     = ONE/(ONE+ALPHA)*(POLD+ROC*(VEL_N(I)-VEL_O(I)))+ALPHA*(PV(0,I)+DP0)/(ALPHA + ONE)
             ENDIF
             
-            IF(VEL_N(I).LT.ZERO)THEN     !flux rentrant relaxation du pourcentage volumique  
+            IF(VEL_N(I)<ZERO)THEN     !flux rentrant relaxation du pourcentage volumique  
                KK = N0PHAS 
                AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)                                                                        
                KK = N0PHAS + NVPHAS
@@ -2596,16 +2596,16 @@ C---------------------------------------------------
              !!! of its previous value
 
              STEP = ONE
-             IF (DV1 .LT. ZERO) THEN
+             IF (DV1 < ZERO) THEN
                 STEP = MIN(STEP, -HALF * V1 / DV1)
              ENDIF
-             IF (DV2 .LT. ZERO) THEN
+             IF (DV2 < ZERO) THEN
                 STEP = MIN(STEP, -HALF * V2 / DV2)
              ENDIF
-             IF (DV3 .LT. ZERO) THEN
+             IF (DV3 < ZERO) THEN
                 STEP = MIN(STEP, -HALF * V3 / DV3)
              ENDIF
-             IF (DV4 .LT. ZERO) THEN
+             IF (DV4 < ZERO) THEN
                 STEP = MIN(STEP, -HALF * V4 / DV4)
              ENDIF
 
@@ -2737,12 +2737,12 @@ c$$$             P = V1 * P1 + V2 * P2 + V3 * P3 + V4 * P4
 c$$$             P = P / VOLUME(I)
           ENDIF
           AA = (V1 + V2 + V3 + V4) / VOLUME(I)
-          IF (IDBG.EQ.1 .AND. ABS(AA - ONE) .GT. EM14) THEN
+          IF (IDBG==1 .AND. ABS(AA - ONE) > EM14) THEN
              PRINT*, "**WARNING : CONVERGENCE ISSUE", AA
           ENDIF
 C     Sanity check
           ERROR2 = ABS(EINT(I) - EINT1 - EINT2 - EINT3 - EINT4)
-          IF (IDBG.EQ.1 .AND. ERROR2 .GT. EM13 * (ONE + ABS(EINT(I)))) THEN
+          IF (IDBG==1 .AND. ERROR2 > EM13 * (ONE + ABS(EINT(I)))) THEN
              PRINT*, "**Warning : Conversgence Issue", ERROR2
           ENDIF
           Q1 = Q1OLD
@@ -2759,7 +2759,7 @@ C=======================================================================
 
 
         ELSEIF(UNEPHASE == 0) THEN
-          !! This case should not occur.It means that MASS.LE.ZERO
+          !! This case should not occur.It means that MASS<=ZERO
           !print *, "Warning, empty element"
            SOUNDSP(I)=EM20
 

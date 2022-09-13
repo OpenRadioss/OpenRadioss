@@ -67,8 +67,8 @@ C
       !===================!
       !   NO MATERIAL     !
       !===================!
-      IF( (C0.EQ.ZERO).AND.(C1.EQ.ZERO).AND.(C2.EQ.ZERO).AND.
-     .    (C3.EQ.ZERO).AND.(C4.EQ.ZERO).AND.(C5.EQ.ZERO)     )THEN
+      IF( (C0==ZERO).AND.(C1==ZERO).AND.(C2==ZERO).AND.
+     .    (C3==ZERO).AND.(C4==ZERO).AND.(C5==ZERO)     )THEN
         IE_BOUND = ZERO
         RETURN      
       END IF      
@@ -78,7 +78,7 @@ C
       !  =>Einf = E0      ! 
       ! dE=-(dP+Pext)dV=0 !           
       !===================!
-      IF(ABS(P0+C4*E0).LT.EM20)THEN
+      IF(ABS(P0+C4*E0)<EM20)THEN
         IE_BOUND = E0
         RETURN      
       END IF 
@@ -88,7 +88,7 @@ C
       ! IE_BOUND DOES NOT !
       ! EXISTS            !
       !===================!
-      IF ((PM+PEXT).GT.EM20) THEN
+      IF ((PM+PEXT)>EM20) THEN
       !In this case extremum does not exists. Pressure (P+Pext) will never be zero, then dE>0 is never zero and E has no extremum. limit E(->-1) = -INFINITY
         IE_BOUND=-INFINITY         
         RETURN
@@ -103,10 +103,10 @@ C
       !===================!
       !    PERFECT GAS    !
       !===================!
-      IF((C2.EQ.ZERO).AND.(C3.EQ.ZERO).AND.(P0.EQ.C1).AND.
-     .                    (C4.NE.ZERO).AND.(C4.EQ.C5))THEN
+      IF((C2==ZERO).AND.(C3==ZERO).AND.(P0==C1).AND.
+     .                    (C4/=ZERO).AND.(C4==C5))THEN
        !this condition describes all formulation possible for a perfect gas, included relative pressure and relative energy.
-        IF (C1.EQ.0)THEN
+        IF (C1==0)THEN
         !total energy
           IE_BOUND = ZERO
         ELSE
@@ -120,9 +120,9 @@ C
       ! INCOMPRESSIBLE GAS   !
       ! LINEAR ELASTIC SOLID !      
       !======================! 
-      IF((C2.EQ.ZERO).AND.(C3.EQ.ZERO).AND.(C4.EQ.ZERO).AND.
-     .                    (C5.EQ.ZERO).AND.(C1.NE.ZERO))THEN 
-        IF (P0.LT.C1)THEN
+      IF((C2==ZERO).AND.(C3==ZERO).AND.(C4==ZERO).AND.
+     .                    (C5==ZERO).AND.(C1/=ZERO))THEN 
+        IF (P0<C1)THEN
              x=-P0/C1  !C1-P0>0 donc x est plus grand que -1, l'extremum est bien defini
              IE_BOUND = -1/(1+x)*P0+C1/(1+x)+C1*LOG(1+x)+E0+P0-C1
         ELSE
@@ -141,36 +141,36 @@ C
       ! MIE-GRUNEISEN        !
       ! GAMMA CONSTANT       !      
       !======================! 
-      IF((C1.GT.ZERO).AND.(C4.GE.C5).AND.(C5.GT.ZERO))THEN
+      IF((C1>ZERO).AND.(C4>=C5).AND.(C5>ZERO))THEN
       !on se ramene a E0=0
       !P=P0      +        C1x + C2x+C3x+(C4+C5x)(dE+E0)
       !P=P0+C4E0 + (C1+C5E0)x + C2x+C3x+(C4+C5x) dE    : on resouds dE puis on ajoute E0
         E0_ref=E0
         C1_ref=C1
         P0_ref=P0
-        IF(E0.NE.ZERO)THEN
+        IF(E0/=ZERO)THEN
           E0=ZERO
           P0=P0+C4*E0_ref
           C1=C1+C4*E0_ref
         END IF
       
       ! condition d'existence pour C4/=1 et C4/=2
-      IF((C4.NE.1).AND.(C4.NE.2))THEN
+      IF((C4/=1).AND.(C4/=2))THEN
         !test diverge en expansion
-        IF(C1-P0.LT.ZERO)THEN
+        IF(C1-P0<ZERO)THEN
           IE_BOUND=-INFINITY
           GOTO 100
         END IF
         !test diverge en compression
         x=(-4*C2+2*C1+2*C4*P0+2*C4*C2-3*C4*C1-3*C4**2*P0+
      .                        6*C3+C4**2*C1+C4**3*P0)/(2+C4**2-3*C4)
-        IF(x.LT.ZERO)THEN
+        IF(x<ZERO)THEN
           IE_BOUND=-INFINITY
           GOTO 100
         END IF
         !extremum en expansion
-        IF(P0.GE.ZERO)THEN
-          IF (C1.EQ.P0)THEN
+        IF(P0>=ZERO)THEN
+          IF (C1==P0)THEN
             IE_BOUND=-C1/C4   !limite en mu=-1
             GOTO 100
           ELSE !extremum entre -1 et 0 strictement
@@ -179,10 +179,10 @@ C
             IE_BOUND=(-(1+x)**(-1-C4)*(C4*P0+C1+C1*x+C4*C1*x)/
      .              C4/(1+C4)+(C4*P0+C1)/C4/(1+C4))*(1+x)**C4
             GOTO 100
-            END IF !(C1.EQ.P0)
-          END IF !(P0.GE.ZERO)
+            END IF !(C1==P0)
+          END IF !(P0>=ZERO)
         !extremum en compression
-        IF(P0.LT.ZERO)THEN
+        IF(P0<ZERO)THEN
         !estimation de l'extremum en compression (C2,C3 interviennent) :
         IE_BOUND=-INFINITY ! ameliorer
           !trouver une estimation
@@ -190,35 +190,35 @@ C
           GOTO 100
         END IF
         
-      ELSEIF((C4.EQ.ONE).OR.(C4.EQ.TWO))THEN
+      ELSEIF((C4==ONE).OR.(C4==TWO))THEN
         !test diverge en expansion
-        IF(C1-P0.LT.ZERO)THEN
+        IF(C1-P0<ZERO)THEN
           IE_BOUND=-INFINITY
           GOTO 100
         END IF
         !test de divergence en compression
           !diverge si coefficient dominant negatif
-        IF (C3.LT.ZERO)THEN
+        IF (C3<ZERO)THEN
           IE_BOUND = -INFINITY
           GOTO 100
         END IF
           !diverge si coefficient dominant negatif
-        IF(C3.EQ.ZERO)THEN
-          IF (C2.LT.ZERO)THEN
+        IF(C3==ZERO)THEN
+          IF (C2<ZERO)THEN
             IE_BOUND=-INFINITY
             GOTO 100
           END IF
         END IF
         ! Sinon l'extremum existe
         !en expansion si P0>0
-        IF(P0.GE.ZERO)THEN
+        IF(P0>=ZERO)THEN
            !C1**2-P0^2 est ici forcemment positif car C1-P0>0 C1>0 P0>0
           x=-(C1+P0-SQRT(C1**2-P0**2))/(C1+P0)
           IE_BOUND=(1+x)*(1/2*C1+1/2*P0)-1/2*(C1+2*C1*x+P0)/(1+x)
           GOTO 100
         END IF
         !en compression
-        IF(P0.LT.ZERO)THEN
+        IF(P0<ZERO)THEN
         !estimation de l'extremum en compression (C2,C3 interviennent) :
         IE_BOUND=-INFINITY ! ameliorer
           !trouver une estimation
@@ -228,8 +228,8 @@ C
       END IF !condition sur C4 (1 ou 2)
       END IF !mie gruneisen gamma constant
       
-  100 IF (E0_ref.NE.ZERO)THEN !si l'energie a ete translatee.
-        IF(IE_BOUND.NE.-INFINITY)IE_BOUND=IE_BOUND+E0_ref   !inutile de translater l'infini
+  100 IF (E0_ref/=ZERO)THEN !si l'energie a ete translatee.
+        IF(IE_BOUND/=-INFINITY)IE_BOUND=IE_BOUND+E0_ref   !inutile de translater l'infini
         C1=C1_ref !retablissement
         E0=E0_ref !retablissement
       END IF

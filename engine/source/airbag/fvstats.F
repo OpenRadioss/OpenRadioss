@@ -61,7 +61,7 @@ C
 C	  
       IF (NSPMD > 1) THEN
         IWIOUT = 0
-        IF(ISPMD .NE. 0 ) CALL SPMD_CHKW(IWIOUT,IOUT)          
+        IF(ISPMD /= 0 ) CALL SPMD_CHKW(IWIOUT,IOUT)          
         CALL SPMD_ALLGLOB_ISUM9(IWIOUT,1)
         CALL SPMD_WIOUT(IOUT,IWIOUT)
       ENDIF

@@ -99,17 +99,17 @@ C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJE STOCKES (PENE INITIALE)
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             N  = PROV_N(I)
             NE = PROV_E(I)+ESHIFT
-            IF(N.GT.NSN) THEN
+            IF(N>NSN) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
               N = OLDNUM(N-NSN)+NSN
-              IF(N.EQ.NSN) N = NSN+NSNROLD+1
+              IF(N==NSN) N = NSN+NSNROLD+1
             END IF
             J = CAND_A(N)
-            DO WHILE(J.LE.CAND_A(N+1)-1)
-              IF(CAND_E(J).EQ.NE)THEN
+            DO WHILE(J<=CAND_A(N+1)-1)
+              IF(CAND_E(J)==NE)THEN
         	PENE(I)=ZERO
         	J=CAND_A(N+1)
               ELSE
@@ -121,13 +121,13 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
 C-----------------------------------------------
         K_STOK = 0
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO) K_STOK = K_STOK + 1
+          IF(PENE(I)/=ZERO) K_STOK = K_STOK + 1
         ENDDO
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
           I_STOK = II_STOK
-          IF(I_STOK+K_STOK.GT.MULNSN) THEN
+          IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -136,7 +136,7 @@ C
 #include "lockoff.inc"
 C-----------------------------------------------
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -148,7 +148,7 @@ C-----------------------------------------------
 
 C a refaire
 c        DO I=1,J_STOK
-c          IF(PENE(I).NE.ZERO)THEN
+c          IF(PENE(I)/=ZERO)THEN
 c            I_STOK = I_STOK + 1
 c            CAND_N(I_STOK) = PROV_N(I)
 c            CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -163,19 +163,19 @@ c	    ITAGP(N1)=1
 c	    ITAGP(N2)=1
 c	    ITAGP(N3)=1
 c	    ITAGP(N4)=1
-c            IF(N.GT.NSN) THEN
+c            IF(N>NSN) THEN
 cC numerotation tris precedent pour les noeuds non locaux (SPMD)
 c              N = OLDNUM(N-NSN)+NSN
-c              IF(N.EQ.NSN) N = NSN+NSNROLD+1
+c              IF(N==NSN) N = NSN+NSNROLD+1
 c            END IF
 c            IFPEN(I_STOK)  = 0
 c            CAND_P(I_STOK) = ZERO
 cC
 cC look for a previous contact w/neighbour
 c            J = CAND_A(N)
-c            DO WHILE(J.LE.CAND_A(N+1)-1)
+c            DO WHILE(J<=CAND_A(N+1)-1)
 c              ME=CAND_E(J)
-c              IF(ME.NE.NE)THEN
+c              IF(ME/=NE)THEN
 c                M1 = IRECTG(1,ME)
 c                M2 = IRECTG(2,ME)
 c                M3 = IRECTG(3,ME)

@@ -84,7 +84,7 @@ C
         EINT(1,I) = DEGMB(I)*HALF*THK(I)*AREA(I)
         EINT(2,I) = DEGFX(I)*HALF*THK(I)*THK(I)*AREA(I)
       ENDDO
-      IF(ITHK.EQ.1) THEN
+      IF(ITHK==1) THEN
         DO I=JFT,JLT
           EZZ = -NU(I) * (EXX(I) + EYY(I)) / (ONE-NU(I))
           THK(I) = THK(I) * (ONE + EZZ)

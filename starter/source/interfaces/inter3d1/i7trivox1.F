@@ -474,14 +474,14 @@ c    sousestimation de la distance**2 pour elimination de candidats
      2                  NY2  ,NZ2 ,NX3,NY3,NZ3,
      3                  NX4  ,NY4 ,NZ4,P1 ,P2 ,
      4                  P3   ,P4)
-                   IF(I_STOK+NVSIZ.LT.MULTIMP*NSN) THEN
+                   IF(I_STOK+NVSIZ<MULTIMP*NSN) THEN
                      CALL I7CMP3(I_STOK,CAND_E  ,CAND_N,1,PENE,
      1                           PROV_N,PROV_E)
                    ELSE
                      I_BID = 0
                      CALL I7CMP3(I_BID,CAND_E,CAND_N,0,PENE,
      1                           PROV_N,PROV_E)
-                     IF(I_STOK+I_BID.LT.MULTIMP*NSN) THEN
+                     IF(I_STOK+I_BID<MULTIMP*NSN) THEN
                        CALL I7CMP3(I_STOK,CAND_E,CAND_N,1,PENE,
      1                             PROV_N,PROV_E)
                      ELSE

@@ -83,11 +83,11 @@ C-----------------------------------------------
      .            1, 4, 2, 3, 8, 9, 5, 7,10, 6,
      .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
 C-----------------------------------------------
-      IF(NPT.EQ.4)THEN
+      IF(NPT==4)THEN
         ALPH = ZEP5854102
         BETA  = ZEP1381966
         W = FOURTH
-      ELSEIF(NPT.EQ.5)THEN
+      ELSEIF(NPT==5)THEN
         ALPH = HALF
         BETA  = ONE_OVER_6
         W = NINE_OVER_20
@@ -169,7 +169,7 @@ c
       ENDDO
 C
 C
-      IF(NPT.EQ.5)THEN
+      IF(NPT==5)THEN
         ALPH = FOURTH
         BETA  = FOURTH
         A4 = ONE
@@ -223,7 +223,7 @@ C
       DO IP=1,NPT
         DO I=LFT,LLT
 
-          IF(IP.LE.4.AND.VOL(I,IP).LE.ZERO)THEN
+          IF(IP<=4.AND.VOL(I,IP)<=ZERO)THEN
               NBAD(I)=NBAD(I)+1
               VOL(I,IP)=ZERO
           ENDIF
@@ -233,7 +233,7 @@ C
       ENDDO
 
       DO I=LFT,LLT
-       IF(NBAD(I).GT.0)THEN
+       IF(NBAD(I)>0)THEN
          CALL ANCMSG(MSGID=489,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -381,25 +381,25 @@ C
        VOL(I) = VOLDP(I)
 C
       ENDDO
-C      IF(IDTMIN(1).EQ.1)THEN
+C      IF(IDTMIN(1)==1)THEN
 C       DO I=LFT,LLT
-C        IF(OFF(I) .EQ.0.)THEN
+C        IF(OFF(I) ==0.)THEN
 C          DET(I)=1.
-C        ELSEIF(DET(I).LE.VOLMIN)THEN
+C        ELSEIF(DET(I)<=VOLMIN)THEN
 C          DET(I)=1.
 C          OFF(I)=0.
 C          WRITE(ISTDO,2000) NGL(I)
 C          WRITE(IOUT ,2000) NGL(I)
-C        ELSEIF(DET(I).LE.0.0)THEN
+C        ELSEIF(DET(I)<=0.0)THEN
 C          WRITE(ISTDO,1000) NGL(I)
 C          WRITE(IOUT ,1000) NGL(I)
 C        ENDIF
 C       ENDDO
-C      ELSEIF(IDTMIN(1).EQ.2)THEN
+C      ELSEIF(IDTMIN(1)==2)THEN
 C       DO I=LFT,LLT
-C        IF(OFF(I) .EQ.0.)THEN
+C        IF(OFF(I) ==0.)THEN
 C           DET(I)=1.
-C        ELSEIF(DET(I).LE.VOLMIN.OR.DET(I).LE.0.0)THEN
+C        ELSEIF(DET(I)<=VOLMIN.OR.DET(I)<=0.0)THEN
 C           DET(I)=1.
 C           OFF(I)=0.
 C           WRITE(ISTDO,2000) NGL(I)
@@ -408,7 +408,7 @@ C        ENDIF
 C       ENDDO
 C      ELSE
 C        DO I=LFT,LLT
-C          IF(OFF(I) .EQ.0.)DET(I)=1.
+C          IF(OFF(I) ==0.)DET(I)=1.
 C        ENDDO
 C      ENDIF
 CC

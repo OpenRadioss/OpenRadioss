@@ -58,7 +58,7 @@ C-----------------------------------------------
      .       D1,D2,D3,D4,D12,D23,D34,D41,PS,N12,
      .       NX,NY,NZ   
 C-----------------------------------------------
-           IF (FLAG.EQ.1) DPS(NP) = 1.E+20
+           IF (FLAG==1) DPS(NP) = 1.E+20
            NORMSEG=0
            X1 = XX(1)
            Y1 = XX(2)
@@ -73,7 +73,7 @@ C-----------------------------------------------
            Y4 = XX(11)
            Z4 = XX(12)
 C----------
-           IF (TFLAG.EQ.0) THEN
+           IF (TFLAG==0) THEN
              XC=FOURTH*(X1+X2+X3+X4)
              YC=FOURTH*(Y1+Y2+Y3+Y4)
              ZC=FOURTH*(Z1+Z2+Z3+Z4)
@@ -111,24 +111,24 @@ C          triangle 1,2,C
            NXH=Y12*Z1H-Z12*Y1H
            NYH=Z12*X1H-X12*Z1H
            NZH=X12*Y1H-Y12*X1H
-           IF(NXH*NX1+NYH*NY1+NZH*NZ1.GE.ZERO)K=K+1
+           IF(NXH*NX1+NYH*NY1+NZH*NZ1>=ZERO)K=K+1
            X1H=XH-X2
            Y1H=YH-Y2
            Z1H=ZH-Z2
            NXH=Y23*Z1H-Z23*Y1H
            NYH=Z23*X1H-X23*Z1H
            NZH=X23*Y1H-Y23*X1H
-           IF(NXH*NX1+NYH*NY1+NZH*NZ1.GE.ZERO)K=K+1
+           IF(NXH*NX1+NYH*NY1+NZH*NZ1>=ZERO)K=K+1
            X1H=XH-XC
            Y1H=YH-YC
            Z1H=ZH-ZC
            NXH=Y31*Z1H-Z31*Y1H
            NYH=Z31*X1H-X31*Z1H
            NZH=X31*Y1H-Y31*X1H
-           IF(NXH*NX1+NYH*NY1+NZH*NZ1.GE.ZERO)K=K+1
-           IF(K.EQ.3)THEN
+           IF(NXH*NX1+NYH*NY1+NZH*NZ1>=ZERO)K=K+1
+           IF(K==3)THEN
 C           XH interieur a 1,2,C
-            IF(ABS(D1).LT.ABS(DPS(NP)))THEN
+            IF(ABS(D1)<ABS(DPS(NP)))THEN
               DPS(NP)=D1
               NORMSEG=1
 C             WPROJ(1,LONFSPH(IXP(NP)))=XH
@@ -138,7 +138,7 @@ C             WPROJ(3,LONFSPH(IXP(NP)))=ZH
             GOTO 101
            ENDIF
 C
-           IF (TFLAG.EQ.0) THEN
+           IF (TFLAG==0) THEN
 C----------
 C          triangle 2,3,C
            K  =0
@@ -168,24 +168,24 @@ C          triangle 2,3,C
            NXH=Y12*Z1H-Z12*Y1H
            NYH=Z12*X1H-X12*Z1H
            NZH=X12*Y1H-Y12*X1H
-           IF(NXH*NX2+NYH*NY2+NZH*NZ2.GE.ZERO)K=K+1
+           IF(NXH*NX2+NYH*NY2+NZH*NZ2>=ZERO)K=K+1
            X1H=XH-X3
            Y1H=YH-Y3
            Z1H=ZH-Z3
            NXH=Y23*Z1H-Z23*Y1H
            NYH=Z23*X1H-X23*Z1H
            NZH=X23*Y1H-Y23*X1H
-           IF(NXH*NX2+NYH*NY2+NZH*NZ2.GE.ZERO)K=K+1
+           IF(NXH*NX2+NYH*NY2+NZH*NZ2>=ZERO)K=K+1
            X1H=XH-XC
            Y1H=YH-YC
            Z1H=ZH-ZC
            NXH=Y31*Z1H-Z31*Y1H
            NYH=Z31*X1H-X31*Z1H
            NZH=X31*Y1H-Y31*X1H
-           IF(NXH*NX2+NYH*NY2+NZH*NZ2.GE.ZERO)K=K+1
-           IF(K.EQ.3)THEN
+           IF(NXH*NX2+NYH*NY2+NZH*NZ2>=ZERO)K=K+1
+           IF(K==3)THEN
 C           XH interieur a 2,3,C
-            IF(ABS(D2).LT.ABS(DPS(NP)))THEN
+            IF(ABS(D2)<ABS(DPS(NP)))THEN
               DPS(NP)=D2
               NORMSEG=1
 C             WPROJ(1,LONFSPH(IXP(NP)))=XH
@@ -223,24 +223,24 @@ C          triangle 3,4,C
            NXH=Y12*Z1H-Z12*Y1H
            NYH=Z12*X1H-X12*Z1H
            NZH=X12*Y1H-Y12*X1H
-           IF(NXH*NX3+NYH*NY3+NZH*NZ3.GE.ZERO)K=K+1
+           IF(NXH*NX3+NYH*NY3+NZH*NZ3>=ZERO)K=K+1
            X1H=XH-X4
            Y1H=YH-Y4
            Z1H=ZH-Z4
            NXH=Y23*Z1H-Z23*Y1H
            NYH=Z23*X1H-X23*Z1H
            NZH=X23*Y1H-Y23*X1H
-           IF(NXH*NX3+NYH*NY3+NZH*NZ3.GE.ZERO)K=K+1
+           IF(NXH*NX3+NYH*NY3+NZH*NZ3>=ZERO)K=K+1
            X1H=XH-XC
            Y1H=YH-YC
            Z1H=ZH-ZC
            NXH=Y31*Z1H-Z31*Y1H
            NYH=Z31*X1H-X31*Z1H
            NZH=X31*Y1H-Y31*X1H
-           IF(NXH*NX3+NYH*NY3+NZH*NZ3.GE.ZERO)K=K+1
-           IF(K.EQ.3)THEN
+           IF(NXH*NX3+NYH*NY3+NZH*NZ3>=ZERO)K=K+1
+           IF(K==3)THEN
 C           XH interieur a 3,4,C
-            IF(ABS(D3).LT.ABS(DPS(NP)))THEN
+            IF(ABS(D3)<ABS(DPS(NP)))THEN
               DPS(NP)=D3
               NORMSEG=1
 C             WPROJ(1,LONFSPH(IXP(NP)))=XH
@@ -278,24 +278,24 @@ C          triangle 4,1,C
            NXH=Y12*Z1H-Z12*Y1H
            NYH=Z12*X1H-X12*Z1H
            NZH=X12*Y1H-Y12*X1H
-           IF(NXH*NX4+NYH*NY4+NZH*NZ4.GE.ZERO)K=K+1
+           IF(NXH*NX4+NYH*NY4+NZH*NZ4>=ZERO)K=K+1
            X1H=XH-X1
            Y1H=YH-Y1
            Z1H=ZH-Z1
            NXH=Y23*Z1H-Z23*Y1H
            NYH=Z23*X1H-X23*Z1H
            NZH=X23*Y1H-Y23*X1H
-           IF(NXH*NX4+NYH*NY4+NZH*NZ4.GE.ZERO)K=K+1
+           IF(NXH*NX4+NYH*NY4+NZH*NZ4>=ZERO)K=K+1
            X1H=XH-XC
            Y1H=YH-YC
            Z1H=ZH-ZC
            NXH=Y31*Z1H-Z31*Y1H
            NYH=Z31*X1H-X31*Z1H
            NZH=X31*Y1H-Y31*X1H
-           IF(NXH*NX4+NYH*NY4+NZH*NZ4.GE.ZERO)K=K+1
-           IF(K.EQ.3)THEN
+           IF(NXH*NX4+NYH*NY4+NZH*NZ4>=ZERO)K=K+1
+           IF(K==3)THEN
 C           XH interieur a 4,1,C
-            IF(ABS(D4).LT.ABS(DPS(NP)))THEN
+            IF(ABS(D4)<ABS(DPS(NP)))THEN
               DPS(NP)=D4
               NORMSEG=1
 C             WPROJ(1,LONFSPH(IXP(NP)))=XH
@@ -317,14 +317,14 @@ C          distances aux cotes.
            Y12=Y12*NN
            Z12=Z12*NN
            PS=(XI-X1)*X12+(YI-Y1)*Y12+(ZI-Z1)*Z12
-           IF(PS.GE.ZERO.AND.PS.LE.N12)THEN
+           IF(PS>=ZERO.AND.PS<=N12)THEN
             XH =X1+PS*X12
             YH =Y1+PS*Y12
             ZH =Z1+PS*Z12
             X1H=XI-XH
             Y1H=YI-YH
             Z1H=ZI-ZH
-           ELSEIF(PS.LT.ZERO)THEN
+           ELSEIF(PS<ZERO)THEN
             X1H=XI-X1
             Y1H=YI-Y1
             Z1H=ZI-Z1
@@ -334,13 +334,13 @@ C          distances aux cotes.
             Z1H=ZI-Z2
            ENDIF
            D12=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D12.LE.ONEP001*ABS(DPS(NP)).AND.D1.NE.ZERO)THEN
-             IF(D12.LT.ZEP999*ABS(DPS(NP)))THEN
+           IF(D12<=ONEP001*ABS(DPS(NP)).AND.D1/=ZERO)THEN
+             IF(D12<ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
-             ELSEIF (FLAG.EQ.0) THEN
+             ELSEIF (FLAG==0) THEN
               NORMSEG=2
              ENDIF
-             IF(D12.LT.ABS(DPS(NP)))DPS(NP)=SIGN(D12,D1)
+             IF(D12<ABS(DPS(NP)))DPS(NP)=SIGN(D12,D1)
 C            WPROJ(1,LONFSPH(IXP(NP)))=XI-X1H
 C            WPROJ(2,LONFSPH(IXP(NP)))=YI-Y1H
 C            WPROJ(3,LONFSPH(IXP(NP)))=ZI-Z1H
@@ -355,14 +355,14 @@ C
            Y12=Y12*NN
            Z12=Z12*NN
            PS=(XI-X2)*X12+(YI-Y2)*Y12+(ZI-Z2)*Z12
-           IF(PS.GE.ZERO.AND.PS.LE.N12)THEN
+           IF(PS>=ZERO.AND.PS<=N12)THEN
             XH =X2+PS*X12
             YH =Y2+PS*Y12
             ZH =Z2+PS*Z12
             X1H=XI-XH
             Y1H=YI-YH
             Z1H=ZI-ZH
-           ELSEIF(PS.LT.ZERO)THEN
+           ELSEIF(PS<ZERO)THEN
             X1H=XI-X2
             Y1H=YI-Y2
             Z1H=ZI-Z2
@@ -372,19 +372,19 @@ C
             Z1H=ZI-Z3
            ENDIF
            D23=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D23.LE.ONEP001*ABS(DPS(NP)).AND.D2.NE.ZERO)THEN
-             IF(D23.LT.ZEP999*ABS(DPS(NP)))THEN
+           IF(D23<=ONEP001*ABS(DPS(NP)).AND.D2/=ZERO)THEN
+             IF(D23<ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
-             ELSEIF (FLAG.EQ.0) THEN
+             ELSEIF (FLAG==0) THEN
               NORMSEG=2
              ENDIF
-             IF(D23.LT.ABS(DPS(NP)))DPS(NP)=SIGN(D23,D2)
+             IF(D23<ABS(DPS(NP)))DPS(NP)=SIGN(D23,D2)
 C            WPROJ(1,LONFSPH(IXP(NP)))=XI-X1H
 C            WPROJ(2,LONFSPH(IXP(NP)))=YI-Y1H
 C            WPROJ(3,LONFSPH(IXP(NP)))=ZI-Z1H
            ENDIF
 C
-           IF (TFLAG.EQ.0) THEN
+           IF (TFLAG==0) THEN
            X12=X4-X3
            Y12=Y4-Y3
            Z12=Z4-Z3
@@ -394,14 +394,14 @@ C
            Y12=Y12*NN
            Z12=Z12*NN
            PS=(XI-X3)*X12+(YI-Y3)*Y12+(ZI-Z3)*Z12
-           IF(PS.GE.ZERO.AND.PS.LE.N12)THEN
+           IF(PS>=ZERO.AND.PS<=N12)THEN
             XH =X3+PS*X12
             YH =Y3+PS*Y12
             ZH =Z3+PS*Z12
             X1H=XI-XH
             Y1H=YI-YH
             Z1H=ZI-ZH
-           ELSEIF(PS.LT.ZERO)THEN
+           ELSEIF(PS<ZERO)THEN
             X1H=XI-X3
             Y1H=YI-Y3
             Z1H=ZI-Z3
@@ -411,13 +411,13 @@ C
             Z1H=ZI-Z4
            ENDIF
            D34=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D34.LE.ONEP001*ABS(DPS(NP)).AND.D3.NE.ZERO)THEN
-             IF(D34.LT.ZEP999*ABS(DPS(NP)))THEN
+           IF(D34<=ONEP001*ABS(DPS(NP)).AND.D3/=ZERO)THEN
+             IF(D34<ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
-             ELSEIF (FLAG.EQ.0) THEN
+             ELSEIF (FLAG==0) THEN
               NORMSEG=2
              ENDIF
-             IF(D34.LT.ABS(DPS(NP)))DPS(NP)=SIGN(D34,D3)
+             IF(D34<ABS(DPS(NP)))DPS(NP)=SIGN(D34,D3)
 C            WPROJ(1,LONFSPH(IXP(NP)))=XI-X1H
 C            WPROJ(2,LONFSPH(IXP(NP)))=YI-Y1H
 C            WPROJ(3,LONFSPH(IXP(NP)))=ZI-Z1H
@@ -433,14 +433,14 @@ C
            Y12=Y12*NN
            Z12=Z12*NN
            PS=(XI-X4)*X12+(YI-Y4)*Y12+(ZI-Z4)*Z12
-           IF(PS.GE.ZERO.AND.PS.LE.N12)THEN
+           IF(PS>=ZERO.AND.PS<=N12)THEN
             XH =X4+PS*X12
             YH =Y4+PS*Y12
             ZH =Z4+PS*Z12
             X1H=XI-XH
             Y1H=YI-YH
             Z1H=ZI-ZH
-           ELSEIF(PS.LT.ZERO)THEN
+           ELSEIF(PS<ZERO)THEN
             X1H=XI-X4
             Y1H=YI-Y4
             Z1H=ZI-Z4
@@ -450,19 +450,19 @@ C
             Z1H=ZI-Z1
            ENDIF
            D41=SQRT(X1H*X1H+Y1H*Y1H+Z1H*Z1H)
-           IF(D41.LE.ONEP001*ABS(DPS(NP)).AND.D4.NE.ZERO)THEN
-             IF(D41.LT.ZEP999*ABS(DPS(NP)))THEN
+           IF(D41<=ONEP001*ABS(DPS(NP)).AND.D4/=ZERO)THEN
+             IF(D41<ZEP999*ABS(DPS(NP)))THEN
               NORMSEG=1
-             ELSEIF (FLAG.EQ.0) THEN
+             ELSEIF (FLAG==0) THEN
               NORMSEG=2
              ENDIF
-             IF(D41.LT.ABS(DPS(NP)))DPS(NP)=SIGN(D41,D4)
+             IF(D41<ABS(DPS(NP)))DPS(NP)=SIGN(D41,D4)
 C            WPROJ(1,LONFSPH(IXP(NP)))=XI-X1H
 C            WPROJ(2,LONFSPH(IXP(NP)))=YI-Y1H
 C            WPROJ(3,LONFSPH(IXP(NP)))=ZI-Z1H
            ENDIF
  101       CONTINUE
-           IF(NORMSEG.EQ.1)THEN
+           IF(NORMSEG==1)THEN
 C             normale sortante au segment.
               X12=HALF*(X2+X3-X1-X4)
               Y12=HALF*(Y2+Y3-Y1-Y4)
@@ -477,7 +477,7 @@ C             normale sortante au segment.
               WNORMAL(1,LONFSPH(IXP(NP)))=-NN*NX
               WNORMAL(2,LONFSPH(IXP(NP)))=-NN*NY
               WNORMAL(3,LONFSPH(IXP(NP)))=-NN*NZ
-           ELSEIF(NORMSEG.EQ.2)THEN
+           ELSEIF(NORMSEG==2)THEN
 C             cumule normale sortante au segment.
               X12=HALF*(X2+X3-X1-X4)
               Y12=HALF*(Y2+Y3-Y1-Y4)

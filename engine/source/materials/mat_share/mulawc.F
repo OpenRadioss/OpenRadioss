@@ -674,7 +674,7 @@ C
                 EPSXY(I)= GSTR(I,3)+ZT*GSTR(I,8)
              ENDDO
             ENDIF
-           END IF!(ISMSTR.EQ.10)
+           END IF!(ISMSTR==10)
 !       -------------------------------
 !       IGTYP = 16
 !       -------------------------------
@@ -921,7 +921,7 @@ C--------   - [F]=[F_DEF]+[1]; [B]=[F][F]^t strain-----
                 TENS(I,4)= HALF*GSTR(I,4)
                 TENS(I,5)= HALF*GSTR(I,5)          
               ENDDO
-            END IF!(ISMSTR.EQ.10)
+            END IF!(ISMSTR==10)
 C
              IF (ILAW /= 27 . and. ILAW /= 32) THEN
                CALL ROTOV(JFT,JLT,TENS,DIR_A(JDIR),NEL)

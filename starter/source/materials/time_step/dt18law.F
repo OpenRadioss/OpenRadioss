@@ -72,7 +72,7 @@ C=======================================================================
       DO I=LFT,LLT
       T0=PM(79,MAT(I))
       ITFUN = IPM(11,MAT(I))
-      IF(ITFUN.NE.0)THEN
+      IF(ITFUN/=0)THEN
        THETA(I) = T0 ! missing function value !
       ENDIF
       END DO

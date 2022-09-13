@@ -256,7 +256,7 @@ c
       CALL HM_OPTION_COUNT('/BEGIN',IS_BEGIN)
 
       SCHAR = 20
-      IF (IS_BEGIN .NE. 0) THEN
+      IF (IS_BEGIN /= 0) THEN
         CALL HM_OPTION_START('/BEGIN')
         CALL HM_OPTION_NEXT()
 
@@ -306,7 +306,7 @@ C-------------------------------------------------------------------
 C
       IGNORE_SPMD=0
       IF (GOT_NCPU ==1) THEN
-        IF (NSPMD.NE.0) THEN
+        IF (NSPMD/=0) THEN
           IGNORE_SPMD=1
         END IF
         NSPMD = NCPU
@@ -326,7 +326,7 @@ C nthread1 : nombre de threads fixe par la variable environnememt
         NTHREAD = NTHREAD1
       ENDIF
       IF (GOT_NTH ==1) THEN
-        IF (NTHREAD.NE.0) THEN
+        IF (NTHREAD/=0) THEN
           IGNORE_THREADS=1
         END IF
         NTHREAD = NTH
@@ -345,7 +345,7 @@ C cas ou ni -nt, ni OMP_NUM_THREADS, ni /SPMD sont renseignes
 c else (open mp non defined)
 #elif 1
       IF (GOT_NTH ==1) THEN
-        IF (NTHREAD.NE.0) THEN
+        IF (NTHREAD/=0) THEN
           IGNORE_THREADS=1
         END IF
         NTHREAD = NTH
@@ -454,13 +454,13 @@ C----------------------------------------------
       IF(IFRAME_DS == 0) IFRAME_DS = IFRAME_DDS  
       IS17OLD = 1 ! To be cleaned
 C-----
-      IF(IHBE_D.EQ.0)IHBE_D = IHBE_DD
-      IF(ISH3N_D.EQ.0)ISH3N_D = ISH3N_DD
-      IF(INSH.EQ.1)INER_9_12 = TWELVE      
-      IF(INSH.EQ.2)INER_9_12 = SIXTEEN      
-      IF(INSH.EQ.3)INER_9_12 = FOURTY8  
-      IF(INSH.EQ.4)INER_9_12 = THIRTY     
-      IF(INSH.EQ.5)INER_9_12 = NINE       
+      IF(IHBE_D==0)IHBE_D = IHBE_DD
+      IF(ISH3N_D==0)ISH3N_D = ISH3N_DD
+      IF(INSH==1)INER_9_12 = TWELVE      
+      IF(INSH==2)INER_9_12 = SIXTEEN      
+      IF(INSH==3)INER_9_12 = FOURTY8  
+      IF(INSH==4)INER_9_12 = THIRTY     
+      IF(INSH==5)INER_9_12 = NINE       
 C-------------------------------------------------------------------
 C     READING OF INTERFACES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -497,7 +497,7 @@ C-------------------------------------------------------------------
 C=======================================================================
 C     Initialisations vs DOMDEC (Must stay after reading the control cards, because of output to STDO)
 C=======================================================================
-      IF(DECNEQ.EQ.0) DECNEQ = 100
+      IF(DECNEQ==0) DECNEQ = 100
       IF(DECTYP < 0) THEN
         DECTYP = - DECTYP
         EDGE_FILTERING = 0
@@ -509,7 +509,7 @@ C=======================================================================
          DECTYP=0
          OLD_RSB=1
       ENDIF
-      IF(DECTYP.EQ.0)THEN
+      IF(DECTYP==0)THEN
         IF(NB_AMS==0.AND.IIMPLICIT==0) THEN
           DECTYP = 3
         ELSE
@@ -535,7 +535,7 @@ C maximum number of SMP threads equal to NTHMAX
       IF(NTHREAD > NTHMAX) NTHREAD=NTHMAX
 C
       IF (GOT_INSPIRE_ALM == 1)THEN
-        IF (NTHREAD_S.EQ.1)THEN
+        IF (NTHREAD_S==1)THEN
           WRITE(ISTDO,'(A,I4,A)')' .. SOLVER RUNNING ON ',NTHREAD_S,
      .    ' THREAD'
         ELSE
@@ -543,7 +543,7 @@ C
      .    ' THREADS'
         ENDIF
       ELSE
-        IF (NTHREAD_S.EQ.1)THEN
+        IF (NTHREAD_S==1)THEN
           WRITE(ISTDO,'(A,I4,A)')' .. STARTER RUNNING ON ',NTHREAD_S,
      .    ' THREAD'
         ELSE
@@ -553,7 +553,7 @@ C
       ENDIF
     
 c warning if stacksize value lower than 512 M
-      IF (STACKSIZ.GT.0 .AND. STACKSIZ.LE.512)THEN
+      IF (STACKSIZ>0 .AND. STACKSIZ<=512)THEN
           CALL ANCMSG(MSGID=1032,
      .        MSGTYPE=MSGWARNING,
      .        ANMODE=ANINFO_BLIND_1)
@@ -704,7 +704,7 @@ C---------------------------------------------------
       NUMELTG0 = NUMELTG
       ISTATCND = 0
       IADMERRT = 0
-      IF(NADMESH.NE.0)THEN
+      IF(NADMESH/=0)THEN
 C
 C       NUMNOD, NUMELC, NUMELTG will be changed
         CALL NBADMESH(LSUBMODEL,NUMNUSR,UNITAB)
@@ -712,7 +712,7 @@ C       NUMNOD, NUMELC, NUMELTG will be changed
 C-----
       IF(NSPMD > 1)THEN
 C       Tests option non disponible en SPMD (ie NSPMD > 1)
-        IF(NADMESH.NE.0)THEN
+        IF(NADMESH/=0)THEN
           CALL ANCMSG(MSGID=704,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO)
@@ -723,7 +723,7 @@ C     LOOKING FOR IGE REFINEMENT and COUNTING ADDITIONAL NODES & ELEMENTS
 C---------------------------------------------------
       NUMNODIGE0 = NUMNOD
       NUMELIG3D0 = NUMELIG3D
-      IF(NRAFMAX.NE.0)THEN
+      IF(NRAFMAX/=0)THEN
 C
 C       NUMNOD, NUMELIG3D will be changed, SIXIG3D and KXIG3D too
         CALL NBADIGEMESH(LSUBMODEL,NUMNUSR)
@@ -988,7 +988,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/EULER/MAT', JEUL)
       JEUL=MIN(JEUL,1)
       LVEUL=32
-      IF(INTEG8.EQ.1)LVEUL=52
+      IF(INTEG8==1)LVEUL=52
 C---------------------------------------------------
       JALE=0
       CALL HM_OPTION_COUNT('/ALE/MAT', JALE)
@@ -1118,17 +1118,17 @@ C
       NUMNOD=NUMNOD+NSPHSOL
       NUMSPH=NUMSPH+NSPHSOL
 C-----
-      IF(NUMSPH.NE.0)THEN
+      IF(NUMSPH/=0)THEN
         CALL HM_READ_SPHGLO(LSUBMODEL)
       ENDIF
 C----------------------------------------------------------
       CALL CONTRBE2(ICR,LSUBMODEL)
-      IF(IISROT.EQ.1.OR.ICR.GT.0)IRODDL = 1
+      IF(IISROT==1.OR.ICR>0)IRODDL = 1
 C----------------------------------------------------------
       CALL HM_OPTION_COUNT('/USERWI',   IUSERWI)
       NCPRI=1
-      IF(DTINI.EQ.ZERO)DTINI=EP06
-      IF(VOLMIN.EQ.ZERO)VOLMIN=-EP30
+      IF(DTINI==ZERO)DTINI=EP06
+      IF(VOLMIN==ZERO)VOLMIN=-EP30
       DT2OLD=DTINI/ONEP1
       TT=ZERO
       DT1=ZERO
@@ -1172,27 +1172,27 @@ C
       ENDDO
 C      
       N2D = NANALY
-      IF(DTFAC.EQ.ZERO.AND.N2D.NE.0)DTFAC=0.67 !0.67 => 0.670000016689301     !ZEP67 => 0.670000000000000     
-      IF(DTFAC.EQ.ZERO.AND.N2D.EQ.0)DTFAC=0.90 !0.90 => 0.899999976158142     !ZEP9  => 0.900000000000000 
+      IF(DTFAC==ZERO.AND.N2D/=0)DTFAC=0.67 !0.67 => 0.670000016689301     !ZEP67 => 0.670000000000000     
+      IF(DTFAC==ZERO.AND.N2D==0)DTFAC=0.90 !0.90 => 0.899999976158142     !ZEP9  => 0.900000000000000 
 C=======================================================================
 C     Opening of some input files (.sty, etc...)
 C=======================================================================
-      IF(ISIGI.EQ.1.OR.ISIGI.EQ.2) THEN
+      IF(ISIGI==1.OR.ISIGI==2) THEN
 C--     Lecture fichier S00 supprimee
-      ELSEIF(ISIGI.EQ.3.OR.ISIGI.EQ.4.OR.ISIGI.EQ.5) THEN
+      ELSEIF(ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
 C--     Lecture fichier Y00/Ynn
-        IF(S0FILE.EQ.' ') THEN
+        IF(S0FILE==' ') THEN
           ISIGI=-ISIGI
         ELSE
           J = 0
-          IF(IROOTYY_R.EQ.2)THEN
+          IF(IROOTYY_R==2)THEN
            DO  I=1,ncharline
-            IF(S0FILE(I:I).NE.' ')J = J + 1
+            IF(S0FILE(I:I)/=' ')J = J + 1
            ENDDO
            N = J - 3
            TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:len_trim(S0FILE))    
            LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(S0FILE)
-           IF(S0FILE(N:N).EQ.'Y')THEN
+           IF(S0FILE(N:N)=='Y')THEN
             OPEN(UNIT=IIN4,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .       FORM='FORMATTED',STATUS='OLD')
 
@@ -1215,14 +1215,14 @@ C--     Lecture fichier Y00/Ynn
           ELSE
             J = 0
             I = 1
-            DO WHILE(S0FILE(I:I).NE.' ')
+            DO WHILE(S0FILE(I:I)/=' ')
              J = J + 1
              I = I + 1
             ENDDO
             N = J-3
             TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:len_trim(S0FILE))    
             LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(S0FILE)
-            IF(S0FILE(N:N+4).EQ.'.sty')THEN
+            IF(S0FILE(N:N+4)=='.sty')THEN
               OPEN(UNIT=IIN4,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .        FORM='FORMATTED',STATUS='OLD')
 
@@ -1255,11 +1255,11 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/INIBEAM',  NB_INIBEAM)
       CALL HM_OPTION_COUNT('/INITRUSS', NB_INITRUSS)
       CALL HM_OPTION_COUNT('/INISPRI',  NB_INISPRIG)
-      IF(ISIGI.EQ.0.AND.
+      IF(ISIGI==0.AND.
      .   (NB_INISHE+NB_INISH3
      .   +NB_INIBRI+NB_INIQUAD
      .   +NB_INIBEAM+NB_INITRUSS
-     .   +NB_INISPRIG).NE.0) ISIGI=-3
+     .   +NB_INISPRIG)/=0) ISIGI=-3
 C=======================================================================
 C     Writing to 0000.out FILE
 C=======================================================================
@@ -1301,19 +1301,19 @@ C=======================================================================
       WRITE (IOUT,'(A,I10)')
      .'    NSPHIO : NUMBER OF SPH INLET/OUTLET CONDITIONS. . . .',
      .                                                      NSPHIO
-      IF(NSPHRES.NE.0)THEN
+      IF(NSPHRES/=0)THEN
        WRITE (IOUT,'(A,/,A,I10)')
      .'    NSPHRES:NUMBER OF PARTICLES FROM SPH RESERVES AMONG NUMSPH,',
      .'            NUMBER OF NODES FROM SPH RESERVES AMONG NUMNOD. . .',
      .  NSPHRES
       ENDIF
-      IF(NSPHSOL.NE.0)THEN
+      IF(NSPHSOL/=0)THEN
        WRITE (IOUT,'(A,/,A,I10)')
      .'    NSPHSOL:NUMBER OF PARTICLES & NODES CREATED FROM SOLIDS .',
      .'            (AMONG NUMSPH & NUMNOD) . . . . . . . . . . . . .',
      .  NSPHSOL
       ENDIF
-      IF(NUMELUR.GT.0) THEN
+      IF(NUMELUR>0) THEN
         WRITE (IOUT,'(A,I10)')
      .  '    NUMELUR: NUMBER OF USER ELEMENTS. . . . . . . . . . .',
      .  NUMELUR
@@ -1335,7 +1335,7 @@ C=======================================================================
      .NINIMAP1D,
      .'    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .',
      .NINIMAP2D     
-      IF(NPRELOAD.GT.0) THEN
+      IF(NPRELOAD>0) THEN
         WRITE (IOUT,'(A,I10)')
      .  '    NPRELOAD: NUMBER OF BOLT PRELOADINGS. . . . . . . . .',
      .  NPRELOAD
@@ -1395,7 +1395,7 @@ C
      . '                                          FLAG ISIGI. . .',
      . ISIGI
 C
-      IF (IREFSTA.NE.0) THEN
+      IF (IREFSTA/=0) THEN
        WRITE (IOUT,'(2A/A,I10/A,I10)')
      . '    REFERENCE METRIC FILE =',XRFILE,
      . '                                          FLAG IREFSTA. .',
@@ -1404,15 +1404,15 @@ C
      . NITRS
       ENDIF
       
-      IF(JALE+JEUL.NE.0)THEN         
+      IF(JALE+JEUL/=0)THEN         
         WRITE(IOUT,'(A,I10)')
      . '    ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .',
      . ISFINT
       ENDIF 
-      IF(ICAA.EQ.1)THEN
+      IF(ICAA==1)THEN
         WRITE(IOUT,5380)
       END IF            
-      IF(JALE.NE.0)THEN
+      IF(JALE/=0)THEN
         WRITE (IOUT,5100)NWALE
         SELECT CASE (NWALE)
           CASE(0);WRITE (IOUT,5199) ALPHA,GAMMA, VGX,VGY,VGZ,VOLMIN
@@ -1426,7 +1426,7 @@ C
 
       IF(I_ALE_SOLVER /= 0)IALEMUSCL=0 !muscl not compatible with FVM solver for int22
       CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)     
-      IF( UPWSM.NE.ONE)THEN
+      IF( UPWSM/=ONE)THEN
        IF(NALEMUSCL>0 .OR. IALEMUSCL>0)THEN
          NALEMUSCL=0 
          IALEMUSCL=0     
@@ -1435,23 +1435,23 @@ C
         ENDIF
       ENDIF
             
-      IF(JALE+JEUL.NE.0)THEN
-        IF(IALEMUSCL .EQ. 1 .AND. JUPW.NE.0 ) THEN   !eta3 + muscl(law51) : conflict
+      IF(JALE+JEUL/=0)THEN
+        IF(IALEMUSCL == 1 .AND. JUPW/=0 ) THEN   !eta3 + muscl(law51) : conflict
            CALL ANCMSG(MSGID=1564, MSGTYPE=MSGWARNING, ANMODE=ANINFO)
-        ELSEIF(IALEMUSCL .EQ. 0 .OR. JUPW.NE.0)THEN
+        ELSEIF(IALEMUSCL == 0 .OR. JUPW/=0)THEN
           WRITE (IOUT,5360)UPWMG,UPWOG !,UPWSM
         END IF
-        IF (IALEMUSCL .EQ. 1 .OR. IALEMUSCL.EQ.2) THEN
+        IF (IALEMUSCL == 1 .OR. IALEMUSCL==2) THEN
            WRITE (IOUT, 5504) I_BETA,IALEMUSCL-1
         ENDIF
       ENDIF
       
       WRITE (IOUT,'(//,A,I10)')  TITRE(130)(1:57),NANALY
       
-      IF(IHBE_DS.EQ.0) IHBE_DS = IHBE_DD
-      IF(N2D.NE.0) IHBE_DS = 2
-      IF(N2D.EQ.0)THEN
-        IF(NUMELQ.NE.0. OR. (NUMELTG.NE.0.AND.N2D.NE.0) )THEN
+      IF(IHBE_DS==0) IHBE_DS = IHBE_DD
+      IF(N2D/=0) IHBE_DS = 2
+      IF(N2D==0)THEN
+        IF(NUMELQ/=0. OR. (NUMELTG/=0.AND.N2D/=0) )THEN
           CALL ANCMSG(MSGID   = 286,
      .                MSGTYPE = MSGERROR,
      .                ANMODE  = ANINFO)
@@ -1463,31 +1463,31 @@ C                                                                    012
      .      IPLA_D,ISTR_D,ISHEA_D,INSH,ISH3N_D, NPTS_D, IFRAME_DS
       WRITE(IOUT,5501)ISHFRAM
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
-      IF(JALE.NE.0 .AND. IALEFVM.NE.0)WRITE(IOUT,5502)I_ALE_SOLVER
-      IF(JALE.NE.0 .AND. ISFINT.NE.0) WRITE(IOUT,5503)ISFINT      
+      IF(JALE/=0 .AND. IALEFVM/=0)WRITE(IOUT,5502)I_ALE_SOLVER
+      IF(JALE/=0 .AND. ISFINT/=0) WRITE(IOUT,5503)ISFINT      
       WRITE(IOUT,5700)LAGM_TOL
       WRITE(IOUT,5800)IMAS_DS
-      IF ((NUMSPH.GT.0).AND.(NSPHSOL.EQ.0)) WRITE (IOUT,5600) SPASORT,LVOISPH,KVOISPH
-      IF ((NUMSPH.GT.0).AND.(NSPHSOL.GT.0)) THEN
-        IF (ITSOL2SPH.EQ.1) WRITE (IOUT,5610) SPASORT,LVOISPH,KVOISPH,ITSOL2SPH
-        IF (ITSOL2SPH.EQ.2) WRITE (IOUT,5620) SPASORT,LVOISPH,KVOISPH,ITSOL2SPH
+      IF ((NUMSPH>0).AND.(NSPHSOL==0)) WRITE (IOUT,5600) SPASORT,LVOISPH,KVOISPH
+      IF ((NUMSPH>0).AND.(NSPHSOL>0)) THEN
+        IF (ITSOL2SPH==1) WRITE (IOUT,5610) SPASORT,LVOISPH,KVOISPH,ITSOL2SPH
+        IF (ITSOL2SPH==2) WRITE (IOUT,5620) SPASORT,LVOISPH,KVOISPH,ITSOL2SPH
       ENDIF
 C-------------------------------------------------------------------
       WRITE(IOUT,1000)
-      IF(IEXPM.EQ.1) THEN
-      ELSE IF(IMOT.NE.0) THEN
+      IF(IEXPM==1) THEN
+      ELSE IF(IMOT/=0) THEN
         WRITE(IOUT,*)'MEMORY REQUEST NOT EFFICIENT ON THIS COMPUTER'
       ENDIF
-      IF(ICRAY.LT.2) THEN
+      IF(ICRAY<2) THEN
 C 
         IPCT=NINT(REEL*100)
 c        WRITE(IOUT,3000) LMA,LAM,IPCT
-      ELSE IF(ICRAY.EQ.2) THEN
+      ELSE IF(ICRAY==2) THEN
 C       MasPar Special
 c        WRITE(IOUT,3002) LMA,LAM
       ENDIF
 
-      IF(NTHREAD_S.GT.1)THEN
+      IF(NTHREAD_S>1)THEN
         STR_NBTHREADS = 'THREADS'
       ELSE
         STR_NBTHREADS = 'THREAD'
@@ -1769,7 +1769,7 @@ C-----------------------------------------------
       OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 C
-      IF (IO_ERR1.NE.0) THEN
+      IF (IO_ERR1/=0) THEN
          FILNAM=ROOTNAM(1:ROOTLEN)//'D01'
          TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+3)
          LEN_TMP_NAME = INFILE_NAME_LEN+ROOTLEN+3
@@ -1777,19 +1777,19 @@ C
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
       ENDIF      
 
-      IF (IO_ERR1.EQ.0) THEN
+      IF (IO_ERR1==0) THEN
 C
  10     READ(71,'(A)',END=20) KEYA
 C
-        IF(KEYA(1:10).EQ.'/DT1/BRICK') THEN
+        IF(KEYA(1:10)=='/DT1/BRICK') THEN
           IDT1SOL=1
-        ELSEIF(KEYA(1:9).EQ.'/DT1TET10') THEN
+        ELSEIF(KEYA(1:9)=='/DT1TET10') THEN
           NITER=0
           READ(KEYA(11:20),'(I10)',ERR=30) NITER
  30       CONTINUE
           IF(NITER == 0)NITER=1
           IDT1TET10=NITER+1
-        ELSEIF(KEYA(1:6).EQ.'/DTTSH') THEN
+        ELSEIF(KEYA(1:6)=='/DTTSH') THEN
           IDTTSH=1
         ENDIF
 C

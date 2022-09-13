@@ -301,10 +301,10 @@ C     Fill partial volumes
          PM(104,IXS(1, 1 + NFT)) = PM(104,IXS(1, 1 + NFT)) + VFRAC * PRES !global pressure
 
          MATLAW = IPM(2, MAT(1))
-         IF (MATLAW .EQ. 5) THEN
+         IF (MATLAW == 5) THEN
 ! JWL material
             IF (.NOT. ERROR_THROWN) THEN
-               IF (PM(44, MAT(1)) .EQ. ZERO) THEN
+               IF (PM(44, MAT(1)) == ZERO) THEN
                   CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .                 I1 = IPM(1, IXS(1, 1 + NFT)), I2 = IPM(1, MAT(1)))
                ENDIF
@@ -320,7 +320,7 @@ C     Fill partial volumes
 
       ENDDO                     ! ILAY = 1, NLAY
 
-      IF (NLAY .GT. 1) THEN
+      IF (NLAY > 1) THEN
 
 C      Mass globalization                 
          DO ILAY = 1, NLAY
@@ -349,7 +349,7 @@ C----------------------------------------
 C----------------------------------------
 C Masses initialization
 C----------------------------------------
-      IF(JLAG+JALE+JEUL.NE.0) THEN
+      IF(JLAG+JALE+JEUL/=0) THEN
          CALL SMASS3(
      .        GBUF%RHO   ,MAS        ,PARTSAV    ,X          ,V        ,
      .        IPARTS(NF1),MSS(1,NF1) ,VOLU       ,
@@ -366,9 +366,9 @@ C------------------------------------------
      .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, VOLU, DTX, IGEO)
 C     
       DO I=LFT,LLT
-         IF(IXS(10,I+NFT).NE.0) THEN
-            IF(     IGTYP.NE.0 .AND.IGTYP.NE.6 .AND. IGTYP.NE.14
-     .           .AND.IGTYP.NE.15.AND. IGTYP.NE.29) THEN
+         IF(IXS(10,I+NFT)/=0) THEN
+            IF(     IGTYP/=0 .AND.IGTYP/=6 .AND. IGTYP/=14
+     .           .AND.IGTYP/=15.AND. IGTYP/=29) THEN
                IPID1=IXS(NIXS-1,I+NFT)
                CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
                CALL ANCMSG(MSGID=226,

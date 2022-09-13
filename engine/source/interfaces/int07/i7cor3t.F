@@ -86,11 +86,11 @@ C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD
 C-----------------------------------------------
 C
-      IF(IMACH.NE.3) THEN
-       IF(IGAP.EQ.3) THEN
+      IF(IMACH/=3) THEN
+       IF(IGAP==3) THEN
         IADD = 9
        ENDIF
-       IF(IGAP.EQ.0)THEN
+       IF(IGAP==0)THEN
          DO I=1,JLT
            GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
          END DO
@@ -138,7 +138,7 @@ C
 C
  100   CONTINUE
       ELSE
-       IF(IGAP.EQ.0)THEN
+       IF(IGAP==0)THEN
          DO I=1,JLT
            GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
          END DO
@@ -146,7 +146,7 @@ C
          IADD = 9 
          DO I=1,JLT
            J = CAND_N(I)
-           IF(J.LE.NSN) THEN 
+           IF(J<=NSN) THEN 
              GAPV(I)=GAP_S(J)+GAP_M(CAND_E(I))
              GAPV(I)=MIN(GAP_S_L(J)+GAP_M_L(CAND_E(I)),GAPV(I))
            ELSE
@@ -161,7 +161,7 @@ C
        ELSE
          DO I=1,JLT
            J = CAND_N(I)
-           IF(J.LE.NSN) THEN
+           IF(J<=NSN) THEN
              GAPV(I)=GAP_S(J)+GAP_M(CAND_E(I))
            ELSE
              IG = J-NSN
@@ -174,7 +174,7 @@ C
        END IF
        DO I=1,JLT
          J = CAND_N(I)
-         IF(J.LE.NSN) THEN
+         IF(J<=NSN) THEN
            IG = NSV(J)
            XI(I) = X(1,IG)
            YI(I) = X(2,IG)

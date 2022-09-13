@@ -80,7 +80,7 @@ C
              N=BRNA(REDIR(J),I)
              JJ=IBRCO(1,N)
              JJ=JJ+1
-             IF(JJ.GT.30) CYCLE
+             IF(JJ>30) CYCLE
              IBRCO(1,N)=JJ
              IBRCO(JJ+1,N)=I         
            ENDDO
@@ -95,7 +95,7 @@ C
              N=BRNA(REDIR(J),I)
              JJ=IBRCO(1,N)
              JJ=JJ+1
-             IF(JJ.GT.12) CYCLE
+             IF(JJ>12) CYCLE
              IBRCO(1,N)=JJ
              IBRCO(JJ+1,N)=I         
            ENDDO
@@ -104,7 +104,7 @@ C
              N=BRNA(J,I)
              JJ=IBRCO(1,N)
              JJ=JJ+1
-             IF(JJ.GT.12) CYCLE
+             IF(JJ>12) CYCLE
              IBRCO(1,N)=JJ
              IBRCO(JJ+1,N)=I         
            ENDDO
@@ -113,7 +113,7 @@ C
              N=BRNA(J,I)
              JJ=IBRCO(1,N)
              JJ=JJ+1
-             IF(JJ.GT.12) CYCLE
+             IF(JJ>12) CYCLE
              IBRCO(1,N)=JJ
              IBRCO(JJ+1,N)=I         
            ENDDO
@@ -140,14 +140,14 @@ C
       ENDDO
       DO I=1,NNA
         J=IBUFA(I)
-        IF(JTAG(J).EQ.1) NCONA(2,I)=1
+        IF(JTAG(J)==1) NCONA(2,I)=1
       ENDDO
 C
 C  Noeuds voisins pour calcul de la vitesse de grille
 C
       NNAI=0
       DO I=1,NNA
-         IF(NCONA(2,I).NE.0) CYCLE
+         IF(NCONA(2,I)/=0) CYCLE
          NNAI=NNAI+1
          II=IBRCO(1,I)
          DO N=1,NNA
@@ -195,12 +195,12 @@ C
             IMAX=TAG(II)
          ENDIF
          DO N=1,NNA
-         IF(N.EQ.I) CYCLE
-         IF(ITAG(N).GE.IMAX) THEN
+         IF(N==I) CYCLE
+         IF(ITAG(N)>=IMAX) THEN
 C  Le noeud N appartient a au moins IMAX solides voisins
            NN=NCONA(1,I)
            NN=NN+1
-           IF(NN.GT.14) GO TO 100
+           IF(NN>14) GO TO 100
            NCONA(1,I)=NN
            NCONA(NN+2,I)=N
          ENDIF
@@ -216,8 +216,8 @@ C Initial velocity of internal gas nodes
          DO I=1,NNT
             J=IBUF(I)
             VEL=V(1,J)*V(1,J)+V(2,J)*V(2,J)+V(3,J)*V(3,J)
-            IF(VEL .GT. VMAX) VMAX=VEL
-            IF(VEL .LT. VMIN) VMIN=VEL		 
+            IF(VEL > VMAX) VMAX=VEL
+            IF(VEL < VMIN) VMIN=VEL		 
          ENDDO
          IF(VMIN == VMAX) THEN
             IF(VMIN > ZERO) THEN
@@ -244,7 +244,7 @@ C
 C Set to zero initial velocity of internal brick nodes (kmesh=1)
       IF(NNAI > 0 .AND. IVINI == 1 .AND. KMESH == 1) THEN
         DO I=1,NNA
-          IF(NCONA(2,I).NE.0) CYCLE
+          IF(NCONA(2,I)/=0) CYCLE
           J=IBUFA(I)
           V(1,J)=ZERO
           V(2,J)=ZERO
@@ -256,7 +256,7 @@ C
       IF(ILVOUT >= 3) THEN
         WRITE(IOUT,1000)
         DO I=1,NNA
-          IF(NCONA(2,I).NE.0) CYCLE
+          IF(NCONA(2,I)/=0) CYCLE
 C Noeud interne
           N=ITAB(IBUFA(I))
           K=NCONA(1,I)

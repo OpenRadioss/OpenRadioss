@@ -106,8 +106,8 @@ C       Engine file is checked for automatic element selection activation
         DT_SMS_SWITCH = ZERO
         CALL FIND_YIELD_ENGINE(DT_SMS_SWITCH)
 C
-        IF (DT_SMS_SWITCH.EQ.ZERO) THEN
-          IF (IDTGRS.EQ.0) THEN
+        IF (DT_SMS_SWITCH==ZERO) THEN
+          IF (IDTGRS==0) THEN
             WRITE(IOUT,2100)
             ISMS_SELEC = 1
           ELSE
@@ -115,7 +115,7 @@ C
             ISMS_SELEC = 2
           ENDIF
         ELSE
-          IF (IDTGRS.EQ.0) THEN
+          IF (IDTGRS==0) THEN
             ISMS_SELEC = 3
           ELSE
             WRITE(IOUT,2200) IDTGRS
@@ -192,7 +192,7 @@ C-----------------------------------------------
       OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 C
-      IF (IO_ERR1.NE.0) THEN
+      IF (IO_ERR1/=0) THEN
          FILNAM=ROOTNAM(1:ROOTLEN)//'D01'
       LEN_TMP_NAME = INFILE_NAME_LEN+ROOTLEN+9
       TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+3)
@@ -200,13 +200,13 @@ C
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
       ENDIF      
 
-      IF (IO_ERR1.EQ.0) THEN
+      IF (IO_ERR1==0) THEN
 C
  10     READ(71,'(A)',END=20) KEYA
 C
-        IF(KEYA(1:11).EQ.'/DT/CST_AMS') THEN
+        IF(KEYA(1:11)=='/DT/CST_AMS') THEN
  30       READ(71,'(A)',END=20) KEYA
-          IF ((KEYA(1:1).EQ.'#').OR.(KEYA(1:1).EQ.'$')) THEN
+          IF ((KEYA(1:1)=='#').OR.(KEYA(1:1)=='$')) THEN
             GOTO 30
           ELSE
             BACKSPACE(71)
@@ -306,7 +306,7 @@ C------
           END DO       
         END IF
 C------
-      ELSEIF (ISMS_SELEC.NE.3) THEN
+      ELSEIF (ISMS_SELEC/=3) THEN
 C------
         DO IP=1,NPART
           TAGPRT_SMS(IP)=1

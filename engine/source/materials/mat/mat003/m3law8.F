@@ -153,13 +153,13 @@ C       MODULE ECROUISSAGE
 C-----------------------
         DO I=LFT,LLT
          II=I+JPT
-         IF(CN.EQ.ONE) THEN
+         IF(CN==ONE) THEN
           QH(I)= CB
          ELSE
-          IF(CN.GT.ONE) THEN
+          IF(CN>ONE) THEN
            QH(I)= CB*CN*EPLA(I)**(CN-ONE)
           ELSE
-           IF(EPLA(I).NE.ZERO)THEN
+           IF(EPLA(I)/=ZERO)THEN
             QH(I)= CB*CN/EPLA(I)**(ONE - CN)
            ELSE
             QH(I)=ZERO
@@ -175,10 +175,10 @@ C
           SJ2(I)=SQRT(THREE*AJ2(I))
         ENDDO
 C
-      IF(IPLA.EQ.0)THEN
+      IF(IPLA==0)THEN
        DO I=LFT,LLT
         II=I+JPT
-        IF (YLD(I).EQ.ZERO) CYCLE
+        IF (YLD(I)==ZERO) CYCLE
           SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
           SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
           SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
@@ -189,10 +189,10 @@ C
           EPLA(I) = EPLA(I)+(ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))
           DPLA(II)= (ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))       
         ENDDO
-      ELSEIF(IPLA.EQ.2)THEN
+      ELSEIF(IPLA==2)THEN
        DO 110 I=LFT,LLT
         II=I+JPT
-        IF(YLD(I).EQ.ZERO)    GO TO 110
+        IF(YLD(I)==ZERO)    GO TO 110
           SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
           SIGP(JJ(1)+I)=SCALE*SIGP(JJ(1)+I)
           SIGP(JJ(2)+I)=SCALE*SIGP(JJ(2)+I)
@@ -203,10 +203,10 @@ C
           EPLA(I)=EPLA(I)+(ONE-SCALE)*SJ2(I)/(THREE*G)
           DPLA(II)=(ONE-SCALE)*SJ2(I)/(THREE*G)         
   110  CONTINUE
-      ELSEIF(IPLA.EQ.1)THEN
+      ELSEIF(IPLA==1)THEN
        DO 120 I=LFT,LLT
         II=I+JPT
-        IF(YLD(I).EQ.ZERO)    GO TO 120
+        IF(YLD(I)==ZERO)    GO TO 120
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
 C       plastic strain increment.
         DPLA(II)=(ONE - SCALE)*SJ2(I)/(THREE*G+QH(I))
@@ -235,22 +235,22 @@ C----------------------------
 C     TEST DE RUPTURE DUCTILE
 C---------------------------
       DO I=LFT,LLT
-        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<EM01) OFF(I)=ZERO
+        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 C
       IWR=0
       DO I=LFT,LLT
-        IF(EPMX .EQ.ZERO)    CYCLE
-        IF(OFF(I)  .LT.ONE)      CYCLE
-        IF(EPSEQ(I).LT.EPMX) CYCLE
+        IF(EPMX ==ZERO)    CYCLE
+        IF(OFF(I)  <ONE)      CYCLE
+        IF(EPSEQ(I)<EPMX) CYCLE
         IWR=1
       ENDDO
-      IF(IWR.EQ.1) THEN
+      IF(IWR==1) THEN
         DO I=LFT,LLT
-          IF(EPMX .EQ.ZERO)    CYCLE
-          IF(OFF(I)  .LT.ONE)      CYCLE
-          IF(EPSEQ(I).LT.EPMX) CYCLE
+          IF(EPMX ==ZERO)    CYCLE
+          IF(OFF(I)  <ONE)      CYCLE
+          IF(EPSEQ(I)<EPMX) CYCLE
           OFF(I)=OFF(I)*FOUR_OVER_5
 #include "lockon.inc"
           WRITE(IOUT,1000) NGL(I)

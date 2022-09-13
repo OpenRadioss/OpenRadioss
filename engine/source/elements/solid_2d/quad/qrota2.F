@@ -65,7 +65,7 @@ C-----------------------------------------------
       S5(I)=SIG(I,5)
    10 S6(I)=SIG(I,6)
 C
-      IF(JCVT.NE.0) RETURN
+      IF(JCVT/=0) RETURN
 C---------------------------------
       DO 20 I=LFT,LLT
    20 Q1(I)=TWO*S4(I)*WYZ(I)

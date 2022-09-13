@@ -170,7 +170,7 @@ Clef 5---------------------------------
         INUM(11,I)=IXS(10,I)
         INUM(12,I)=IXS(11,I)
         INUM(13,I)=ISOLNOD(I)
-        IF (NSUBDOM.GT.0) INUM_R2R(I) = TAG_ELSF(I)
+        IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELSF(I)
         IF (NPERTURB > 0) THEN
           DO IPERT = 1, NPERTURB
             XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
@@ -185,7 +185,7 @@ Clef 5---------------------------------
         ENDDO
       END IF
 C
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELS
           XEP(I)=CEP(I)
         ENDDO
@@ -199,8 +199,8 @@ C
         MID = IXS(1,II)
         MLN = NINT(PM(19,ABS(MID)))
         IF (MID < 0) THEN
-          IF (MLN.EQ.6.AND.JPOR.NE.2) MLN=17
-          IF (MLN.EQ.46) MLN=47
+          IF (MLN==6.AND.JPOR/=2) MLN=17
+          IF (MLN==46) MLN=47
           MID = IABS(MID)
         ENDIF	
         IF (MLN == 36 .or. MLN == 47) THEN
@@ -222,7 +222,7 @@ C
         NLAY  = 1
         TSHELL = 0
         ISVIS = 0
-        IF (PID.NE.0) THEN
+        IF (PID/=0) THEN
           NPN  = IGEO(4,PID)
           ISSN = IABS(IGEO(5,PID))
           IREP = IGEO(6,PID)
@@ -249,15 +249,15 @@ C IVISCO0 cannot put in the PID because is for MID (it can be used in IGEO)
           IGEO(34,PID) = IVISC0
 c----------            
           IF (IGT /= 15) IPLAST = IGEO(9,PID)
-          IF (IGT.EQ.15) JPOR=2*NINT(GEO(28,PID))
+          IF (IGT==15) JPOR=2*NINT(GEO(28,PID))
           JCLOS=0
-          IF (GEO(130,PID).GT.0.) JCLOS=1
+          IF (GEO(130,PID)>0.) JCLOS=1
 C--------------Navier Storks Vis          
           IF (GEO(16,PID)/=ZERO.OR.GEO(17,PID)/=ZERO) ISVIS=1
         ENDIF
         IF((JHBE == 14 .OR. JHBE == 222).AND.ISO==8) NUMELS8A=NUMELS8A+1
         IF (JHBE == 12)  JHBE = 4
-        IF (JHBE.EQ.2)   JHBE = 0
+        IF (JHBE==2)   JHBE = 0
 c        
         JALE_FROM_MAT = NINT(PM(72,MID))
         JALE_FROM_PROP = IGEO(62,PID)
@@ -265,17 +265,17 @@ c
         JLAG=0
         IF(JALE == 0 .AND. MLN /= 18)JLAG=1
         JEUL=0
-        IF(JALE.EQ.2)THEN
+        IF(JALE==2)THEN
           JALE=0
           JEUL=1
         ELSEIF(JALE == 3) THEN
           JLAG = 1
           JALE = 1
         ENDIF
-        IF(MLN.NE.50)JTUR=NINT(PM(70,MID))
+        IF(MLN/=50)JTUR=NINT(PM(70,MID))
         JTHE=NINT(PM(71,MID))
         JTHE = ABS(JTHE)
-        IF (JLAG==0 .AND. PID.NE.0) ISSN=4
+        IF (JLAG==0 .AND. PID/=0) ISSN=4
 C tri sur elem delete des rigidbody
 C IRB = 0 : elem actif
 C IRB = 1 : elem inactif et optimise pour en SPMD
@@ -305,7 +305,7 @@ C
 Clef 1---------------------------------
 C
 C     classer les shell16 apres les brick20
-        IF(ISO.EQ.16)ISO=21
+        IF(ISO==16)ISO=21
 C       IGT =MY_SHIFTL(IGT,0)
         JSMS=MY_SHIFTL(JSMS,26)
         ISO =MY_SHIFTL(ISO,27)
@@ -366,14 +366,14 @@ C
       DO I=1,NUMELS
         IPARTS(I) =INUM(1,INDEX(I))
         ISOLNOD(I)=INUM(13,INDEX(I))
-        IF (NSUBDOM.GT.0) TAG_ELSF(I)=INUM_R2R(INDEX(I))
+        IF (NSUBDOM>0) TAG_ELSF(I)=INUM_R2R(INDEX(I))
         IF (NPERTURB > 0) THEN
           DO IPERT = 1, NPERTURB
             RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
           ENDDO
         ENDIF
       ENDDO
-c     IF (IMACH.EQ.3) THEN
+c     IF (IMACH==3) THEN
         DO I=1,NUMELS
           CEP(I)=XEP(INDEX(I))
           PERMUTATION%SOLID(I)=INDEX2(INDEX(I))
@@ -568,8 +568,8 @@ C--------------------------------------------------------------
         JJ4=ITRI(6,INDEX(I-1))
         II5=ITRI(7,INDEX(I))
         JJ5=ITRI(7,INDEX(I-1))
-        IF(II0.NE.JJ0.OR.II.NE.JJ.OR.II1.NE.JJ1.OR.II2.NE.JJ2.OR.
-     .     II5.NE.JJ5.OR.II3.NE.JJ3.OR.II4.NE.JJ4) THEN
+        IF(II0/=JJ0.OR.II/=JJ.OR.II1/=JJ1.OR.II2/=JJ2.OR.
+     .     II5/=JJ5.OR.II3/=JJ3.OR.II4/=JJ4) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF

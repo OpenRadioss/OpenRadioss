@@ -81,11 +81,11 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       PMAIN = FR(NSPMD+2)
       LOC_PROC = ISPMD+1
-      IF(LOC_PROC.EQ.PMAIN) THEN
+      IF(LOC_PROC==PMAIN) THEN
         IDEB = 1
         L = 0
         DO P = 1, NSPMD
-          IF(LOC_PROC.NE.P.AND.FR(P).NE.0)THEN
+          IF(LOC_PROC/=P.AND.FR(P)/=0)THEN
             L=L+1
 C           INDEXI(L)=P
             MSGTYP = MSGOFF
@@ -106,7 +106,7 @@ C            P = INDEXI(INDEX)
         ENDDO
 C
         DO P = 1, NSPMD
-          IF(LOC_PROC.NE.P.AND.FR(P).NE.0)THEN
+          IF(LOC_PROC/=P.AND.FR(P)/=0)THEN
             MSGTYP = MSGOFF 
             CALL MPI_SEND(FS6   ,LEN ,MPI_DOUBLE_PRECISION,IT_SPMD(P),
      .                    MSGTYP,MPI_COMM_WORLD,IERROR)

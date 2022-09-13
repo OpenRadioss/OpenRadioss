@@ -103,7 +103,7 @@ C
      .              KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .              PM_STACK  , IWORKSH )
 C
-        IF(NELS+NELC+NELTG.EQ.0)THEN
+        IF(NELS+NELC+NELTG==0)THEN
            CALL ANCMSG(MSGID=93,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_2,

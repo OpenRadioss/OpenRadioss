@@ -72,7 +72,7 @@ C-----------------------------------------------
       my_real DT_LOC(9)
 C-----------------------------------------------
 
-      IF (ISPMD.EQ.0) THEN    
+      IF (ISPMD==0) THEN    
         CALL SEND_SOCK_IBUF_C(SOCK0,IDDOM,1)
         CALL SEND_SOCK_IBUF_C(SOCK0,TH_VERS,1) 
         CALL SEND_SOCK_IBUF_C(SOCK0,ITFORM,1)
@@ -82,7 +82,7 @@ C-----------------------------------------------
         CALL SEND_SOCK_RBUF_C(SOCK0,DTHIS,1)
         DO I=1,9
           DT_LOC(I)= EP30
-          IF (NTHGRP01(I).GT.0) DT_LOC(I)=DTHIS1(I)
+          IF (NTHGRP01(I)>0) DT_LOC(I)=DTHIS1(I)
         END DO
         CALL SEND_SOCK_RBUF_C(SOCK0,DT_LOC,9)       
         CALL SEND_SOCK_IBUF_C(SOCK0,AFORM,9)
@@ -93,7 +93,7 @@ C-----------------------------------------------
         CALL GET_SOCK_RBUF_C(SOCK0,DTHIS1,9)
       ENDIF
       
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
         CALL SPMD_IBCAST(TH_VERS,TH_VERS,1,1,0,2)
         CALL SPMD_RBCAST(DTHIS,DTHIS,1,1,0,2)
         CALL SPMD_RBCAST(DTHIS1,DTHIS1,9,1,0,2)     

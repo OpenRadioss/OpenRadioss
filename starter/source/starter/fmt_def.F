@@ -41,7 +41,7 @@ C   G l o b a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INVERS,IFIX
 C======================================================================|
-      IF (INVERS.LT.50.OR.IFIX.EQ.2) THEN
+      IF (INVERS<50.OR.IFIX==2) THEN
         LFIELD                    = 8
         FMT_I                     = "(I8)"
         FMT_2I                    = "(2I8)"

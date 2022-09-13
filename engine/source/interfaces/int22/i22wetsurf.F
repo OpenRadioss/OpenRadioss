@@ -270,7 +270,7 @@ C  REFERENCE POINT : QUADRAGLE CENTROID OR TRIA THIRD NODE
 C--------------------------------------------------------
 
        DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          NP_RECT(I) = 4
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
@@ -406,7 +406,7 @@ C--------------------------------------------------------
        !SUBROUTINE OUTPUT
 C--------------------------------------------------------
 c      DO I=1,JLT
-c        IF(IX3(I).NE.IX4(I))THEN
+c        IF(IX3(I)/=IX4(I))THEN
 c          !moyenne issue des 4 triangles
 c          NX1(I)  = FOURTH*(NNX1(I)+NNX2(I)+NNX3(I)+NNX4(I))
 c          NY1(I)  = FOURTH*(NNY1(I)+NNY2(I)+NNY3(I)+NNY4(I))          
@@ -532,7 +532,7 @@ C--------------------------------------------------------
         DO ICUT = 8+1,8+6
           J                     =  ICUT - 8
           NP                    = BRICK_LIST(NIN,IB)%PCUT(ICUT)%NP 
-          IF(NP.LE.0)CYCLE 
+          IF(NP<=0)CYCLE 
           NBCUT_ADD             =  NBCUT_ADD + 1
           delta(1:4,ICUT,I)     =  ZERO
           NORMAL(1:3)           =  BRICK_LIST(NIN,IB)%PCUT(ICUT)%N(1:3)                                        
@@ -578,7 +578,7 @@ C          ICUT                  = 1
 C          VAL                   =  DIST_PCUT(ICUT,J,I)
 C          !loop on cut planes in current cut cell IB = CB_LOC(I)
 C          DO ICUT=1,NBCUT                                                                                   
-C            IF(DIST_PCUT(ICUT,J,I) .LE. VAL)THEN                                                           
+C            IF(DIST_PCUT(ICUT,J,I) <= VAL)THEN                                                           
 C              TAG_NOD(J, ICUT)  = 1                                                                       
 C              VAL               =   DIST_PCUT(ICUT,J,I)                                                                
 C            ENDIF                                                                                            
@@ -592,7 +592,7 @@ C            ICUT                = 8+1
 C            VAL                 =  DIST_PCUT(ICUT,J,I)
 C            !loop on cut planes in current cut cell IB = CB_LOC(I)
 C            DO ICUT=8+1,8+NBCUT_ADD
-C              IF(DIST_PCUT(ICUT,J,I) .LE. VAL)THEN                                                           
+C              IF(DIST_PCUT(ICUT,J,I) <= VAL)THEN                                                           
 C                TAG_NOD(J, ICUT)= 1                                                                       
 C                VAL             =   DIST_PCUT(ICUT,J,I)                                                                
 C              ENDIF                                                                                           
@@ -606,14 +606,14 @@ C        IF(NBCUT>0)THEN
 C          DO ICUT=1,NBCUT                                                                                                                                                     
 C            TAG_EL(ICUT) = SUM(TAG_NOD(:,ICUT)) 
 C               if(IBUG22_Swet==-1 .AND. INT22>0 )write (*,FMT='(A,I10,A)')   "   |---COUPLE:",I,"-----------|"             
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.1)print *, "   TAG_EL(ICUT=1)=" ,TAG_EL(1)
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.2)print *, "   TAG_EL(ICUT=2)=" ,TAG_EL(2)     
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.3)print *, "   TAG_EL(ICUT=3)=" ,TAG_EL(3)
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.4)print *, "   TAG_EL(ICUT=4)=" ,TAG_EL(4)
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.5)print *, "   TAG_EL(ICUT=5)=" ,TAG_EL(5)
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.6)print *, "   TAG_EL(ICUT=6)=" ,TAG_EL(6)
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.7)print *, "   TAG_EL(ICUT=7)=" ,TAG_EL(7)
-C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT.LE.8)print *, "   TAG_EL(ICUT=8)=" ,TAG_EL(8)                                                                                          
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=1)print *, "   TAG_EL(ICUT=1)=" ,TAG_EL(1)
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=2)print *, "   TAG_EL(ICUT=2)=" ,TAG_EL(2)     
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=3)print *, "   TAG_EL(ICUT=3)=" ,TAG_EL(3)
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=4)print *, "   TAG_EL(ICUT=4)=" ,TAG_EL(4)
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=5)print *, "   TAG_EL(ICUT=5)=" ,TAG_EL(5)
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=6)print *, "   TAG_EL(ICUT=6)=" ,TAG_EL(6)
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=7)print *, "   TAG_EL(ICUT=7)=" ,TAG_EL(7)
+C               if(IBUG22_Swet==-1 .AND. INT22>0 .AND. NBCUT<=8)print *, "   TAG_EL(ICUT=8)=" ,TAG_EL(8)                                                                                          
 C          ENDDO!next ICUT 
 C       ENDIF
 
@@ -644,7 +644,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             V1               = (/ ZERO,ONE,ZERO /)
             V2               = (/ ZERO,ZERO,ONE /) 
           ELSE
-           IF(a.NE.ZERO)THEN
+           IF(a/=ZERO)THEN
              V1              = (/ -b, a   , ZERO /)
              V2              = (/ -c, ZERO, a    /)       
            ELSE
@@ -695,7 +695,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
           DO ICUT=8+1,8+6
             J                  =  ICUT - 8
             NP                 = BRICK_LIST(NIN,IB)%PCUT(ICUT)%NP         
-            IF(NP.LE.0)CYCLE 
+            IF(NP<=0)CYCLE 
 C            if(TAG_EL(ICUT)==0)CYCLE
             IB                 = CB_LOC(I)
             NORMAL(1:3)        = BRICK_LIST(NIN,IB)%PCUT(ICUT)%N(1:3) 
@@ -712,7 +712,7 @@ C            if(TAG_EL(ICUT)==0)CYCLE
               V1               = (/ ZERO,ONE,ZERO /)
               V2               = (/ ZERO,ZERO,ONE /) 
             ELSE
-             IF(a.NE.ZERO)THEN
+             IF(a/=ZERO)THEN
                V1              = (/ -b, a   , ZERO /)
                V2              = (/ -c, ZERO, a    /)       
              ELSE
@@ -779,11 +779,11 @@ C          if(TAG_EL(ICUT)==0)CYCLE
           ENDDO
           PolySCUT%node(NP+1,:)     = PolySCUT%node(1,:)
           CALL SetCounterClockWisePolyg( PolySCUT, VAL2 )
-          IF(VAL2.EQ.ZERO)CYCLE
+          IF(VAL2==ZERO)CYCLE
           ITYP                      = GetProjectedFaceType( 
      .                                 Ph(1:2,ICUT,1), Ph(1:2,ICUT,2), Ph(1:2,ICUT,3), Ph(1:2,ICUT,4), InterP, ListP    ) 
           NTRIA                     = 4
-          IF(ITYP.NE.0)NTRIA        = 2 
+          IF(ITYP/=0)NTRIA        = 2 
           IF(NP_RECT(I)==3) THEN
             ITYP                    = 0
             NTRIA                   = 1
@@ -901,7 +901,7 @@ c                P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + POLYresult%node(k,2)
             P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + PGrav(2)            
             NumGrav          = Numgrav + ONE
            
-            IF(POLYresult%NumNodes > 0 .AND. STria(J).NE.ZERO)THEN          
+            IF(POLYresult%NumNodes > 0 .AND. STria(J)/=ZERO)THEN          
               pt1(1:2)   = PolyTria(J)%node(1,1:2) ; pt1(3)=ZERO
               pt2(1:2)   = PolyTria(J)%node(2,1:2) ; pt2(3)=ZERO
               pt3(1:2)   = PolyTria(J)%node(3,1:2) ; pt3(3)=ZERO          
@@ -915,7 +915,7 @@ c                P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + POLYresult%node(k,2)
               
               !post-condition testing
               WET_RATIO(J) = VAL/Stria(J)
-              IF(WET_RATIO(J).LT.-EM06 .OR. WET_RATIO(J)-ONE.GT.EM06)THEN
+              IF(WET_RATIO(J)<-EM06 .OR. WET_RATIO(J)-ONE>EM06)THEN
                 print *, "***error: inter22 topology issue while computing wet surface",WET_RATIO(J),VAL1,VAL2
               ENDIF   
             ENDIF
@@ -923,7 +923,7 @@ c                P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + POLYresult%node(k,2)
 
           WET_RATIO(0) = Cumul_VAL1 !sum of wet surfaces for all triangles composing the lagrangian face.
                    
-          IF(WET_RATIO(0) == ZERO .OR. Cumul_VAL2.EQ.ZERO)THEN
+          IF(WET_RATIO(0) == ZERO .OR. Cumul_VAL2==ZERO)THEN
             SEFF(ICUT,I) = ZERO
             CYCLE
           ELSE
@@ -1066,7 +1066,7 @@ c          write (*,FMT='(A,4E30.16)')  "delta= ", delta(1:4,ICUT,I)
           SEFF(ICUT,I)       = ZERO 
 C          print *, "I=", I, "  ICUT= ",ICUT  
           NP                 = BRICK_LIST(NIN,IB)%PCUT(ICUT)%NP 
-          IF(NP.LE.0)CYCLE           
+          IF(NP<=0)CYCLE           
           P_Grav(1:3,ICUT,I) = ZERO 
           NumGrav            = ZERO
             
@@ -1078,12 +1078,12 @@ C          if(TAG_EL(ICUT)==0)CYCLE
           PolySCUT%node(NP+1,:)  = PolySCUT%node(1,:)
           CALL SetCounterClockWisePolyg( PolySCUT, VAL2 )
           
-          IF(VAL2.EQ.ZERO)CYCLE
+          IF(VAL2==ZERO)CYCLE
 
           ITYP = GetProjectedFaceType(Ph(1:2,ICUT,1), Ph(1:2,ICUT,2), Ph(1:2,ICUT,3), Ph(1:2,ICUT,4), InterP, ListP) 
           
           NTRIA              = 4
-          IF(ITYP.NE.0)NTRIA = 2 
+          IF(ITYP/=0)NTRIA = 2 
           IF(NP_RECT(I)==3) THEN
             ITYP  = 0
             NTRIA = 1
@@ -1201,7 +1201,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
             P_Grav(2,ICUT,I) = P_Grav(2,ICUT,I) + PGrav(2)            
             NumGrav          = Numgrav + ONE
            
-            IF(POLYresult%NumNodes > 0 .AND. STria(J).NE.ZERO)THEN          
+            IF(POLYresult%NumNodes > 0 .AND. STria(J)/=ZERO)THEN          
               pt1(1:2)   = PolyTria(J)%node(1,1:2) ; pt1(3)=ZERO
               pt2(1:2)   = PolyTria(J)%node(2,1:2) ; pt2(3)=ZERO
               pt3(1:2)   = PolyTria(J)%node(3,1:2) ; pt3(3)=ZERO          
@@ -1215,7 +1215,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
               
               !post-condition testing
               WET_RATIO(J) = VAL/Stria(J)
-              IF(WET_RATIO(J).LT.-EM06 .OR. WET_RATIO(J)-ONE.GT.EM06)THEN
+              IF(WET_RATIO(J)<-EM06 .OR. WET_RATIO(J)-ONE>EM06)THEN
                 print *, "***error: inter22 topology issue while computing wet surface",WET_RATIO(J),VAL1,VAL2
               ENDIF   
             ENDIF
@@ -1223,7 +1223,7 @@ C          if(TAG_EL(ICUT)==0)CYCLE
 
           WET_RATIO(0) = Cumul_VAL1 !sum of wet surfaces for all triangles composing the lagrangian face.
                    
-          IF(WET_RATIO(0) == ZERO .OR. Cumul_VAL2.EQ.ZERO)THEN
+          IF(WET_RATIO(0) == ZERO .OR. Cumul_VAL2==ZERO)THEN
             SEFF(ICUT,I) = ZERO
             CYCLE
           ELSE
@@ -1425,12 +1425,12 @@ C-----------------------------------------------
        PA(1:2)               = intersectP( P1, P2, P3, P4 ,0) ! [P1P2] & (P3P4)    
        PB(1:2)               = intersectP( P1, P4, P2, P3 ,0) ! [P1P4] & (P2P3)  
              
-       IF    (PA(1).NE.EP30 .AND. PB(1).EQ.EP30)THEN
+       IF    (PA(1)/=EP30 .AND. PB(1)==EP30)THEN
         GetProjectedFaceType = 2
         I(:)                 = PA(:)
         ListP(1:2)           = (/1,4/) !defining tiangles
         ListP(3:4)           = (/2,3/)        
-       ELSEIF(PA(1).EQ.EP30 .AND. PB(1).NE.EP30)THEN
+       ELSEIF(PA(1)==EP30 .AND. PB(1)/=EP30)THEN
         GetProjectedFaceType = 1
         I(:)                 = PB(:) 
         ListP(1:2)           = (/1,2/) !defining tiangles

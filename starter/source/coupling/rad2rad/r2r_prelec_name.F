@@ -80,7 +80,7 @@ C
       CALL HM_OPTION_START('/SUBDOMAIN')
       NB_PART_SUB = 0
 C
-      IF (IPID.EQ.0) THEN
+      IF (IPID==0) THEN
 C--------------------------------------------------------------------C
 C------Prereading of domain names --> Child process -----------------C
 C--------------------------------------------------------------------C

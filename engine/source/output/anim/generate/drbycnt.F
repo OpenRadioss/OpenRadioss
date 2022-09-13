@@ -58,7 +58,7 @@ C-----------------------------------------------
         ENDDO
       ELSE
         DO I=1,NRBODY
-         IF (ABS(FR_RBY2(3,I)).EQ.LOC_PROC)
+         IF (ABS(FR_RBY2(3,I))==LOC_PROC)
      .    NERBY = NERBY + FR_RBY2(2,I)
         ENDDO
         CALL SPMD_GLOB_ISUM9(NERBY,1)

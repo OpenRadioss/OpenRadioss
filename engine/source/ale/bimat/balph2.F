@@ -139,10 +139,10 @@ C-----------------------------------------------
          ALPD4=ABS(FILL(NC4(I),1))
          ALPD=ALPD1+ALPD2+ALPD3+ALPD4
          ALPN=ALPN1+ALPN2+ALPN3+ALPN4
-         IF (ALPD.GT.EM20) ALPH1N(I)=ALPN/ALPD
+         IF (ALPD>EM20) ALPH1N(I)=ALPN/ALPD
        ENDDO
 
-       IF(JMULT.GT.1)THEN
+       IF(JMULT>1)THEN
          DO I=LFT,LLT
            ALPN1= MAX(ZERO,FILL(NC1(I),2))
            ALPN2= MAX(ZERO,FILL(NC2(I),2))
@@ -154,7 +154,7 @@ C-----------------------------------------------
            ALPD4=ABS(FILL(NC4(I),2))
            ALPD=ALPD1+ALPD2+ALPD3+ALPD4
            ALPN=ALPN1+ALPN2+ALPN3+ALPN4
-           IF(ALPD.GT.EM20)ALPH2N(I)=ALPN/ALPD  
+           IF(ALPD>EM20)ALPH2N(I)=ALPN/ALPD  
          ENDDO
        ENDIF
 
@@ -162,21 +162,21 @@ C-----------------------------------------------
        SOFF1=ZERO
        SOFF2=ZERO
 
-      IF(JMULT.EQ.1)THEN
+      IF(JMULT==1)THEN
        IALPH1 = 0
        DO I=LFT,LLT
          DALPH1(I)=ZERO
-         IF(ALPH1N(I).NE.ZERO.AND.ALPH1N(I).NE.ONE)THEN
+         IF(ALPH1N(I)/=ZERO.AND.ALPH1N(I)/=ONE)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
      .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
-          IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3)).GT.ZERO)THEN	
+          IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3))>ZERO)THEN	
            ALPHN= MIN(ALPHN,ALPHNN)
           ELSE
            ALPHN= MAX(ALPHN,ALPHNN)
           ENDIF
-          IF(ALPHN.LE.ZEP99.AND.ALPHN.GT.ZERO.AND.RHON1(I).LE.ZERO)THEN
-           IF(RHON1(I).NE.ZERO)THEN
+          IF(ALPHN<=ZEP99.AND.ALPHN>ZERO.AND.RHON1(I)<=ZERO)THEN
+           IF(RHON1(I)/=ZERO)THEN
 #include "lockon.inc"
             WRITE(6,*)' ***NEGATIVE RHO****ALPH1,RHON1'
             WRITE(6,*)I+NFT,ALPH1N(I),RHON1(I)
@@ -188,17 +188,17 @@ C-----------------------------------------------
           DALPH1(I)=ALPHN-ALPH1N(I)
           ALPH1(I)= MIN(ONE,ALPHN)
           ALPH1(I)= MAX(ZERO,ALPH1(I))
-         ELSEIF(ALPH1N(I).EQ.ONE.AND.ALPH1(I).LT.ZEP999)THEN
+         ELSEIF(ALPH1N(I)==ONE.AND.ALPH1(I)<ZEP999)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
      .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
           ALPHN= MAX(ALPHN,ALPHNN,ALPH1(I))
-          IF(RHON1(I).LE.ZERO)THEN
+          IF(RHON1(I)<=ZERO)THEN
            RHON1(I)=ZERO
            ALPHN=ZERO
           ENDIF
           ALPH1(I)= MIN(ONE,ALPHN)
-         ELSEIF(ALPH1N(I).EQ.ZERO.AND.ALPH1(I).GT.EM3)THEN
+         ELSEIF(ALPH1N(I)==ZERO.AND.ALPH1(I)>EM3)THEN
           ALPH1(I)=ALPH1N(I)
          ELSE
           ALPH1(I)=ALPH1N(I)
@@ -206,7 +206,7 @@ C-----------------------------------------------
        ENDDO !next I
 
        DO I=LFT,LLT
-         IF(ALPH1(I).LT.EPS)THEN
+         IF(ALPH1(I)<EPS)THEN
           ALPH1(I)=ZERO
           OFF1(I) =ZERO
           VOLO1(I)=ZERO
@@ -215,24 +215,24 @@ C-----------------------------------------------
           OFF1(I)=ONE
          ENDIF
          SOFF1=SOFF1+OFF1(I)
-         IF(ALPH1(I).EQ.ZERO)THEN
+         IF(ALPH1(I)==ZERO)THEN
          DALPH1(I)=ZERO
           IALPH1=1
-         ELSEIF(ALPH1(I).EQ.ONE)THEN
+         ELSEIF(ALPH1(I)==ONE)THEN
           DALPH1(I)=ZERO
           IALPH1=1
          ENDIF
        ENDDO
 
-       IF(IALPH1.EQ.1) THEN
+       IF(IALPH1==1) THEN
          CALL IDP_LOCK(2)
          DO I=LFT,LLT
-           IF(ALPH1(I).EQ.ZERO)THEN
+           IF(ALPH1(I)==ZERO)THEN
              FILL(NC1(I),1)= MIN(ZERO,FILL(NC1(I),1))
              FILL(NC2(I),1)= MIN(ZERO,FILL(NC2(I),1))
              FILL(NC3(I),1)= MIN(ZERO,FILL(NC3(I),1))
              FILL(NC4(I),1)= MIN(ZERO,FILL(NC4(I),1))
-           ELSEIF(ALPH1(I).EQ.ONE)THEN
+           ELSEIF(ALPH1(I)==ONE)THEN
              FILL(NC1(I),1)= MAX(ZERO,FILL(NC1(I),1))
              FILL(NC2(I),1)= MAX(ZERO,FILL(NC2(I),1))
              FILL(NC3(I),1)= MAX(ZERO,FILL(NC3(I),1))
@@ -242,7 +242,7 @@ C-----------------------------------------------
          CALL IDP_FREE(2)
        ENDIF
 
-      ELSEIF(JMULT.EQ.2)THEN
+      ELSEIF(JMULT==2)THEN
        IALPH1 = 0
        IALPH2 = 0
        DO I=LFT,LLT
@@ -252,17 +252,17 @@ C-----------------------------------------------
          C11 =PM(32,MX1)
          MX2=NINT(PM(22,MAT(I)))
          C12 =PM(32,MX2)
-         IF(ALPH1N(I).NE.ZERO.AND.ALPH1N(I).NE.ONE)THEN
+         IF(ALPH1N(I)/=ZERO.AND.ALPH1N(I)/=ONE)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
      .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
-          IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3)).GT.ZERO)THEN
+          IF((SIG1(I,1)+SIG1(I,2)+SIG1(I,3))>ZERO)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
           ELSE
            ALPHN= MAX(ALPHN,ALPHNN)
           ENDIF
-          IF(ALPHN.LE.ZEP99.AND.ALPHN.GT.ZERO.AND.RHON1(I).LE.ZERO)THEN
-           IF(RHON1(I).NE.ZERO)THEN
+          IF(ALPHN<=ZEP99.AND.ALPHN>ZERO.AND.RHON1(I)<=ZERO)THEN
+           IF(RHON1(I)/=ZERO)THEN
 #include "lockon.inc"
             WRITE(6,*)' ***NEGATIVE RHO****ALPH1,RHON1'
             WRITE(6,*)I+NFT,ALPH1N(I),RHON1(I)
@@ -274,32 +274,32 @@ C-----------------------------------------------
           DALPH1(I)=ALPHN-ALPH1N(I)
           ALPH1(I)= MIN(ONE,ALPHN)
           ALPH1(I)= MAX(ZERO,ALPH1(I))
-         ELSEIF(ALPH1N(I).EQ.ONE.AND.ALPH1(I).LT.ZEP999)THEN
+         ELSEIF(ALPH1N(I)==ONE.AND.ALPH1(I)<ZEP999)THEN
           ALPHN=(VOLO1(I)-DT1*HALF*(FLU11(I)
      .    +FLUX1(1,I)+FLUX1(2,I)+FLUX1(3,I)+FLUX1(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE + (D1(I)+D2(I)+D3(I))*DT1)
           ALPHN= MAX(ALPHN,ALPHNN,ALPH1(I))
-          IF(RHON1(I).LE.ZERO)THEN
+          IF(RHON1(I)<=ZERO)THEN
            RHON1(I)=ZERO
            ALPHN=ZERO
           ENDIF
           ALPH1(I)= MIN(ONE,ALPHN)
-         ELSEIF(ALPH1N(I).EQ.ZERO.AND.ALPH1(I).GT.EM3)THEN
+         ELSEIF(ALPH1N(I)==ZERO.AND.ALPH1(I)>EM3)THEN
           ALPH1(I)=ALPH1N(I)
          ELSE
           ALPH1(I)=ALPH1N(I)
          ENDIF
-         IF(ALPH2N(I).NE.ZERO.AND.ALPH2N(I).NE.ONE)THEN
+         IF(ALPH2N(I)/=ZERO.AND.ALPH2N(I)/=ONE)THEN
           ALPHN=(VOLO2(I)-DT1*HALF*(FLU12(I)
      .    +FLUX2(1,I)+FLUX2(2,I)+FLUX2(3,I)+FLUX2(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE+(D1(I)+D2(I)+D3(I))*DT1)
-          IF((SIG2(I,1)+SIG2(I,2)+SIG2(I,3)).GT.ONE)THEN
+          IF((SIG2(I,1)+SIG2(I,2)+SIG2(I,3))>ONE)THEN
            ALPHN= MIN(ALPHN,ALPHNN)
           ELSE
            ALPHN= MAX(ALPHN,ALPHNN)
           ENDIF
-          IF(ALPHN.LE.ZEP99.AND.ALPHN.GT.ZERO.AND.RHON2(I).LE.ZERO)THEN
-           IF(RHON2(I).NE.ZERO)THEN
+          IF(ALPHN<=ZEP99.AND.ALPHN>ZERO.AND.RHON2(I)<=ZERO)THEN
+           IF(RHON2(I)/=ZERO)THEN
 #include "lockon.inc"
             WRITE(6,*)' ***NEGATIVE RHO****ALPH2,RHON2'
             WRITE(6,*)I+NFT,ALPH2N(I),RHON2(I)
@@ -311,23 +311,23 @@ C-----------------------------------------------
           DALPH2(I)=ALPHN-ALPH2N(I)
           ALPH2(I)= MIN(ONE,ALPHN)
           ALPH2(I)= MAX(ZERO,ALPH2(I))
-         ELSEIF(ALPH2N(I).EQ.ONE.AND.ALPH2(I).LE.ZEP999)THEN
+         ELSEIF(ALPH2N(I)==ONE.AND.ALPH2(I)<=ZEP999)THEN
           ALPHN=(VOLO2(I)-DT1*HALF*(FLU12(I)
      .    +FLUX2(1,I)+FLUX2(2,I)+FLUX2(3,I)+FLUX2(4,I)))/VOLN(I)
           ALPHNN=ALPHN*(ONE + (D1(I)+D2(I)+D3(I))*DT1)
           ALPHN= MAX(ALPHN,ALPHNN,ALPH2(I))
-          IF(RHON2(I).LE.ZERO)THEN
+          IF(RHON2(I)<=ZERO)THEN
            RHON2(I)=ZERO
            ALPHN=ZERO
           ENDIF
           ALPH2(I)= MIN(ONE,ALPHN)
-         ELSEIF(ALPH2N(I).EQ.ZERO.AND.ALPH2(I).GT.EM3)THEN
+         ELSEIF(ALPH2N(I)==ZERO.AND.ALPH2(I)>EM3)THEN
           ALPH2(I)=ALPH2N(I)
          ELSE
           ALPH2(I)=ALPH2N(I)
          ENDIF
          ALPHT=ALPH1(I)+ALPH2(I)
-         IF(ALPHT.GT.ONE)THEN
+         IF(ALPHT>ONE)THEN
            DA=(ALPHT-ONE)/(C11*ALPH2(I)+C12*ALPH1(I))
            ALPH1(I)=ALPH1(I)*(ONE -C12*DA)
            ALPH2(I)=ALPH2(I)*(ONE -C11*DA)
@@ -337,7 +337,7 @@ C-----------------------------------------------
        ENDDO
 
        DO I=LFT,LLT
-         IF(ALPH1(I).LT.EPS)THEN
+         IF(ALPH1(I)<EPS)THEN
           ALPH1(I)=ZERO
           OFF1(I) =ZERO
           VOLO1(I)=ZERO
@@ -346,7 +346,7 @@ C-----------------------------------------------
           OFF1(I) =ONE
          ENDIF
          SOFF1=SOFF1+OFF1(I)
-         IF(ALPH2(I).LT.EPS)THEN
+         IF(ALPH2(I)<EPS)THEN
           ALPH2(I)=ZERO
           OFF2(I) =ZERO
           VOLO2(I)=ZERO
@@ -355,31 +355,31 @@ C-----------------------------------------------
           OFF2(I)=ONE
          ENDIF
          SOFF2=SOFF2+OFF2(I)
-         IF(ALPH1(I).EQ.ZERO)THEN
+         IF(ALPH1(I)==ZERO)THEN
           DALPH1(I)=ZERO
           IALPH1 = 1
-         ELSEIF(ALPH1(I).EQ.ONE)THEN
+         ELSEIF(ALPH1(I)==ONE)THEN
           DALPH1(I)=ZERO
           IALPH1 = 1
          ENDIF
-         IF(ALPH2(I).EQ.ZERO)THEN
+         IF(ALPH2(I)==ZERO)THEN
           DALPH2(I)=ZERO
           IALPH2 = 1
-         ELSEIF(ALPH2(I).EQ.ONE)THEN
+         ELSEIF(ALPH2(I)==ONE)THEN
           DALPH2(I)=ZERO
           IALPH2 = 1
          ENDIF
        ENDDO
 
-       IF(IALPH1.EQ.1) THEN
+       IF(IALPH1==1) THEN
          CALL IDP_LOCK(2)
          DO I=LFT,LLT
-           IF(ALPH1(I).EQ.ZERO)THEN
+           IF(ALPH1(I)==ZERO)THEN
              FILL(NC1(I),1)= MIN(ZERO,FILL(NC1(I),1))
              FILL(NC2(I),1)= MIN(ZERO,FILL(NC2(I),1))
              FILL(NC3(I),1)= MIN(ZERO,FILL(NC3(I),1))
              FILL(NC4(I),1)= MIN(ZERO,FILL(NC4(I),1))
-           ELSEIF(ALPH1(I).EQ.ONE)THEN
+           ELSEIF(ALPH1(I)==ONE)THEN
              FILL(NC1(I),1)= MAX(ZERO,FILL(NC1(I),1))
              FILL(NC2(I),1)= MAX(ZERO,FILL(NC2(I),1))
              FILL(NC3(I),1)= MAX(ZERO,FILL(NC3(I),1))
@@ -389,15 +389,15 @@ C-----------------------------------------------
          CALL IDP_FREE(2)
        ENDIF
 
-       IF(IALPH2.EQ.1) THEN
+       IF(IALPH2==1) THEN
          CALL IDP_LOCK(2)
          DO I=LFT,LLT
-           IF(ALPH2(I).EQ.ZERO)THEN
+           IF(ALPH2(I)==ZERO)THEN
              FILL(NC1(I),2)= MIN(ZERO,FILL(NC1(I),2))
              FILL(NC2(I),2)= MIN(ZERO,FILL(NC2(I),2))
              FILL(NC3(I),2)= MIN(ZERO,FILL(NC3(I),2))
              FILL(NC4(I),2)= MIN(ZERO,FILL(NC4(I),2))
-           ELSEIF(ALPH2(I).EQ.ONE)THEN
+           ELSEIF(ALPH2(I)==ONE)THEN
              FILL(NC1(I),2)= MAX(ZERO,FILL(NC1(I),2))
              FILL(NC2(I),2)= MAX(ZERO,FILL(NC2(I),2))
              FILL(NC3(I),2)= MAX(ZERO,FILL(NC3(I),2))

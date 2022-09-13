@@ -70,179 +70,179 @@ C     Number of submaterials
            MULTI_FVM%NELEM = LEN
 C     Face datas
            ALLOCATE(MULTI_FVM%FACE_DATA%SURF(6, LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF 
            ALLOCATE(MULTI_FVM%FACE_DATA%NORMAL(3, 6, LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF 
            ALLOCATE(MULTI_FVM%FACE_DATA%WFAC(3, 6, LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF 
 C     fluxes
            ALLOCATE(MULTI_FVM%FLUXES(6, 6, LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF     
 C     submaterial fluxes
 C     Volume fluxes
-           IF (NBMAT .GT. 1) THEN
+           IF (NBMAT > 1) THEN
               ALLOCATE(MULTI_FVM%SUBVOL_FLUXES(NBMAT, 6, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF 
               ALLOCATE(MULTI_FVM%SUBMASS_FLUXES(NBMAT, 6, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%SUBENER_FLUXES(NBMAT, 6, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF  
               
               ALLOCATE(MULTI_FVM%PHASE_ALPHA(NBMAT, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF 
               ALLOCATE(MULTI_FVM%PHASE_PRES(NBMAT, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF 
               ALLOCATE(MULTI_FVM%PHASE_RHO(NBMAT, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%PHASE_EINT(NBMAT, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
            ENDIF
 C     Allocation of centroid velocities
            ALLOCATE(MULTI_FVM%VEL(3, LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF     
            MULTI_FVM%VEL(:, :) = ZERO
 C     Allocation of soud speed
            ALLOCATE(MULTI_FVM%SOUND_SPEED(LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF         
            MULTI_FVM%SOUND_SPEED(:) = ZERO
 C     Allocation of TBURN
            ALLOCATE(MULTI_FVM%TBURN(LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF           
            MULTI_FVM%TBURN(:) = ZERO  
 C     Allocation of BFRAC
            ALLOCATE(MULTI_FVM%BFRAC(NBMAT, LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF           
            MULTI_FVM%BFRAC(:, :) = ZERO  
 C     Allocation of temporary var 1
            ALLOCATE(MULTI_FVM%RHO(LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF        
            MULTI_FVM%RHO(:) = ZERO     
 C     Allocation of temporary var 2
            ALLOCATE(MULTI_FVM%EINT(LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF       
            MULTI_FVM%EINT(:) = ZERO
 C     Allocation of temporary var 3
            ALLOCATE(MULTI_FVM%PRES(LEN), STAT = IERR)
-           IF (IERR .NE. 0) THEN
+           IF (IERR /= 0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
            ENDIF       
            MULTI_FVM%PRES(:) = ZERO
 C     MUSCL Variables
-           IF (MULTI_FVM%MUSCL .EQ. 1) THEN
+           IF (MULTI_FVM%MUSCL == 1) THEN
               ALLOCATE(MULTI_FVM%GRAD_RHO(3, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%GRAD_U(3, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%GRAD_V(3, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%GRAD_W(3, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%GRAD_PRES(3, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
-              IF (NBMAT .GT. 1) THEN                 
+              IF (NBMAT > 1) THEN                 
                  ALLOCATE(MULTI_FVM%PHASE_GRAD_RHO(3, NBMAT, LEN), STAT = IERR)
-                 IF (IERR .NE. 0) THEN
+                 IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
                  ENDIF
                  ALLOCATE(MULTI_FVM%PHASE_GRAD_ALPHA(3, NBMAT, LEN), STAT = IERR)
-                 IF (IERR .NE. 0) THEN
+                 IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
                  ENDIF
                  ALLOCATE(MULTI_FVM%PHASE_GRAD_PRES(3, NBMAT, LEN), STAT = IERR)
-                 IF (IERR .NE. 0) THEN
+                 IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
                  ENDIF
               ENDIF
            ENDIF
              
-           IF (MULTI_FVM%MUSCL .EQ. 2) THEN
+           IF (MULTI_FVM%MUSCL == 2) THEN
 C     Only volume fraction
-              IF (NBMAT .GT. 1) THEN                 
+              IF (NBMAT > 1) THEN                 
                  ALLOCATE(MULTI_FVM%PHASE_GRAD_ALPHA(3, NBMAT, LEN), STAT = IERR)
-                 IF (IERR .NE. 0) THEN
+                 IF (IERR /= 0) THEN
                     CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                     CALL ARRET(2)
                  ENDIF
               ENDIF
            ENDIF
-           IF (MULTI_FVM%MUSCL .GT. 0) THEN
+           IF (MULTI_FVM%MUSCL > 0) THEN
               ALLOCATE(MULTI_FVM%FACE_DATA%CENTROID(3, 6, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF
               ALLOCATE(MULTI_FVM%ELEM_DATA%CENTROID(3, LEN), STAT = IERR)
-              IF (IERR .NE. 0) THEN
+              IF (IERR /= 0) THEN
                  CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                  CALL ARRET(2)
               ENDIF

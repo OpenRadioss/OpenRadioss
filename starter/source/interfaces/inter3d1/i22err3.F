@@ -113,7 +113,7 @@ C     #######################################################
 C     #   CHECKING DEGENERATED ELEMENTS IN LAGRAGIAN SIDE  ##
 C     #######################################################
       IDEB=0
-      DO WHILE(IDEB.LT.NRTM)
+      DO WHILE(IDEB<NRTM)
 C
        !NRTM : nombre de faces mains
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
@@ -179,7 +179,7 @@ C
        ENDDO
 C
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
-        IF(IX3(I).NE.IX4(I)) THEN
+        IF(IX3(I)/=IX4(I)) THEN
          XN3(I) = YY3(I)*ZZ4(I) - YY4(I)*ZZ3(I)
          YN3(I) = ZZ3(I)*XX4(I) - ZZ4(I)*XX3(I)
          ZN3(I) = XX3(I)*YY4(I) - XX4(I)*YY3(I)
@@ -214,7 +214,7 @@ C
         Z0(I)=(N1(I)*XN3(I)+N2(I)*YN3(I)+N3(I)*ZN3(I))
 C
         ! Si element d
-        IF(Z0(I).EQ.ZERO.AND.X0(I).EQ.ZERO)THEN
+        IF(Z0(I)==ZERO.AND.X0(I)==ZERO)THEN
           CALL ANCMSG(MSGID=558,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -247,20 +247,20 @@ C     #######################################################
         I22LAW06 = 0
         I22LAW37 = 0
         I22LAW51 = 0
-        IF(ILAW .EQ. 37) I22LAW37 = 5               ! UVAR buffer size
-        IF(ILAW .EQ. 51) I22LAW51 = N0PHAS+4*NVPHAS ! UVAR buffer size
+        IF(ILAW == 37) I22LAW37 = 5               ! UVAR buffer size
+        IF(ILAW == 51) I22LAW51 = N0PHAS+4*NVPHAS ! UVAR buffer size
 
-	IF((ILAW.NE.0).AND.(ILAW.NE.11).AND.(ILAW.NE.51).AND.(ILAW.NE.6).AND.(ILAW.NE.37))THEN
+	IF((ILAW/=0).AND.(ILAW/=11).AND.(ILAW/=51).AND.(ILAW/=6).AND.(ILAW/=37))THEN
           IMESG = 97
 	  EXIT
 	END IF
       END DO! next I
       
-      IF(I22LAW06*I22LAW37.NE.0 .OR. I22LAW06*I22LAW51.NE.0 .OR. I22LAW37*I22LAW51.NE.0 )THEN
+      IF(I22LAW06*I22LAW37/=0 .OR. I22LAW06*I22LAW51/=0 .OR. I22LAW37*I22LAW51/=0 )THEN
         IMESG = 91
       ENDIF
       
-      IF(IMESG.NE.0)THEN
+      IF(IMESG/=0)THEN
           CALL ANCMSG(MSGID   = IMESG,
      .                MSGTYPE = MSGERROR,
      .                ANMODE  = ANINFO_BLIND_1,

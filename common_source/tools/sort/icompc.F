@@ -48,9 +48,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         ICOMPC=1
-        IF(TAB(I).LT.TAB(J)) THEN
+        IF(TAB(I)<TAB(J)) THEN
         ICOMPC=-1
-        ELSE IF(TAB(I).EQ.TAB(J)) THEN
+        ELSE IF(TAB(I)==TAB(J)) THEN
         ICOMPC=0
         ENDIF
       RETURN

@@ -148,7 +148,7 @@ C     non optimise (plusieurs fois / noeud).
 C----------------------------------------------------------
       DO 100 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 100
+      IF (IACTIV(1,IL)<=0) GOTO 100
       I  =NLS-NDEB
 C------
        IN1=KSI(1,IL)
@@ -180,7 +180,7 @@ C     Force normale.
 C----------------------------------------------------------
       DO 200 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 200
+      IF (IACTIV(1,IL)<=0) GOTO 200
       I  =NLS-NDEB
 C       STF(I)=STFAC*DEPTH(I)/MAX(DEPTH(I)-PENET(I),EM20)
       STF(I)=STFAC*DEPTH(I)**2/MAX((DEPTH(I)-PENET(I))**2,EM20)
@@ -193,7 +193,7 @@ C     Extraction du pt de contact au cycle precedent.
 C-------------------------------
       DO 250 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 250
+      IF (IACTIV(1,IL)<=0) GOTO 250
       I  =NLS-NDEB
 C     Point sur le triangle tq D(P,L) etait maximum au cycle precedent.
       L1(I)=IOLD(1,4*(IL-1)+1)
@@ -206,7 +206,7 @@ C----------------------------------------------------------
 #include "vectorize.inc"
       DO 275 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 275
+      IF (IACTIV(1,IL)<=0) GOTO 275
       I  =NLS-NDEB
 C------------------------------
       FXT(I)=ZERO
@@ -215,12 +215,12 @@ C------------------------------
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
-      IF (IACTIV(1,IL).GT.2) THEN
+      IF (IACTIV(1,IL)>2) THEN
        DELTX=DOLD(1,4*(IL-1)+1)
        DELTY=DOLD(2,4*(IL-1)+1)
        DELTZ=DOLD(3,4*(IL-1)+1)
        ND =SQRT(DELTX*DELTX+DELTY*DELTY+DELTZ*DELTZ)
-       IF (ND.NE.ZERO) THEN
+       IF (ND/=ZERO) THEN
         PN=DELTX*NXI(I)+DELTY*NYI(I)+DELTZ*NZI(I)
         DELTX=DELTX-PN*NXI(I)
         DELTY=DELTY-PN*NYI(I)
@@ -253,7 +253,7 @@ C-------------------------------
       VXH(I)=VXM+V1
       VYH(I)=VYM+V2
       VZH(I)=VZM+V3
-      IF (IACTIV(1,IL).GE.2) THEN
+      IF (IACTIV(1,IL)>=2) THEN
        VXK=L1(I)*VX1(I)+L2(I)*VX2(I)+L3(I)*VX3(I)
        VYK=L1(I)*VY1(I)+L2(I)*VY2(I)+L3(I)*VY3(I)
        VZK=L1(I)*VZ1(I)+L2(I)*VZ2(I)+L3(I)*VZ3(I)
@@ -285,7 +285,7 @@ C------------------------------------------------------------
 #include "vectorize.inc"
       DO 625 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 625
+      IF (IACTIV(1,IL)<=0) GOTO 625
       I  =NLS-NDEB
 C-----
       FTX=FXT(I)
@@ -297,7 +297,7 @@ C-----
       FTN=SQRT(FTX*FTX+FTY*FTY+FTZ*FTZ)
       FN =SQRT(FNX*FNX+FNY*FNY+FNZ*FNZ)
       FMAX= MAX(VFRIC*FN,ZERO)
-      IF (FTN.GT.FMAX) THEN
+      IF (FTN>FMAX) THEN
         SCALE =FMAX/FTN
         FTX=SCALE*FTX
         FTY=SCALE*FTY
@@ -305,7 +305,7 @@ C-----
       ELSE
         SCALE=1.
       ENDIF
-      IF (IACTIV(1,IL).GT.1) THEN
+      IF (IACTIV(1,IL)>1) THEN
 C      Glissement DELTA=scale.DELTA
        DELTX=SCALE*DOLD(1,4*(IL-1)+1)
        DELTY=SCALE*DOLD(2,4*(IL-1)+1)
@@ -325,7 +325,7 @@ C------------------------------------------------------------
 C#include "vectorize.inc"
       DO 650 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 650
+      IF (IACTIV(1,IL)<=0) GOTO 650
       I  =NLS-NDEB
 C-----
       DX2=XP2(1,I)-XTK(I)
@@ -364,7 +364,7 @@ C------------------------------------------------------------
 #include "vectorize.inc"
       DO 700 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 700
+      IF (IACTIV(1,IL)<=0) GOTO 700
       I  =NLS-NDEB
 C-----
       HOLD(1,4*(IL-1)+1)=XI(I)
@@ -381,7 +381,7 @@ C------------------------------------------------------------
 C     non vectoriel.
       DO 600 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 600
+      IF (IACTIV(1,IL)<=0) GOTO 600
       I  =NLS-NDEB
 C-----
       IN1=KSI(1,IL)
@@ -397,7 +397,7 @@ C------------------------------------------------------------
 C     non vectoriel.
       DO 800 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 800
+      IF (IACTIV(1,IL)<=0) GOTO 800
       I  =NLS-NDEB
 C-----
       IN1=KSI(1,IL)
@@ -436,7 +436,7 @@ C------------------------------------------------------------
 C     non vectoriel.
       DO 825 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (iactiv(1,IL).LE.0) GOTO 825
+      IF (iactiv(1,IL)<=0) GOTO 825
       I  =NLS-NDEB
 C-----
       IN1=KSI(1,IL)
@@ -477,13 +477,13 @@ C------------------------------------------------------------
       DTI=EP20
       DO 900 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 900
+      IF (IACTIV(1,IL)<=0) GOTO 900
       I  =NLS-NDEB
       DVX=VX1(I)-VXH(I)
       DVY=VY1(I)-VYH(I)
       DVZ=VZ1(I)-VZH(I)
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
-      IF (PN.LT.ZERO) THEN
+      IF (PN<ZERO) THEN
         H  =XP1(1,I)*NXI(I)+XP1(2,I)*NYI(I)+XP1(3,I)*NZI(I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
@@ -491,7 +491,7 @@ C------------------------------------------------------------
       DVY=VY2(I)-VYH(I)
       DVZ=VZ2(I)-VZH(I)
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
-      IF (PN.LT.ZERO) THEN
+      IF (PN<ZERO) THEN
         H  =XP2(1,I)*NXI(I)+XP2(2,I)*NYI(I)+XP2(3,I)*NZI(I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
@@ -499,11 +499,11 @@ C------------------------------------------------------------
       DVY=VY3(I)-VYH(I)
       DVZ=VZ3(I)-VZH(I)
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
-      IF (PN.LT.ZERO) THEN
+      IF (PN<ZERO) THEN
         H  =XP3(1,I)*NXI(I)+XP3(2,I)*NYI(I)+XP3(3,I)*NZI(I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
-      IF(DTI.LT.DT2T)THEN
+      IF(DTI<DT2T)THEN
         DT2T    = DTI
         NELTST  = NOINT
         ITYPTST = 10
@@ -511,17 +511,17 @@ C------------------------------------------------------------
 C-----
  900  CONTINUE
 C----------------------------------
-      IF (DTI.LE.0.) THEN
+      IF (DTI<=0.) THEN
       DTI=EP20
       DO 950 NLS=NDEB+1,MIN(NDEB+MVSIZ,NTC)
       IL =KTC(NLS)
-      IF (IACTIV(1,IL).LE.0) GOTO 950
+      IF (IACTIV(1,IL)<=0) GOTO 950
       I  =NLS-NDEB
       DVX=VX1(I)-VXH(I)
       DVY=VY1(I)-VYH(I)
       DVZ=VZ1(I)-VZH(I)
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
-      IF (PN.LT.ZERO) THEN
+      IF (PN<ZERO) THEN
         H  =XP1(1,I)*NXI(I)+XP1(2,I)*NYI(I)+XP1(3,I)*NZI(I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
@@ -529,7 +529,7 @@ C----------------------------------
       DVY=VY2(I)-VYH(I)
       DVZ=VZ2(I)-VZH(I)
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
-      IF (PN.LT.ZERO) THEN
+      IF (PN<ZERO) THEN
         H  =XP2(1,I)*NXI(I)+XP2(2,I)*NYI(I)+XP2(3,I)*NZI(I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
@@ -537,11 +537,11 @@ C----------------------------------
       DVY=VY3(I)-VYH(I)
       DVZ=VZ3(I)-VZH(I)
       PN=DVX*NXI(I)+DVY*NYI(I)+DVZ*NZI(I)
-      IF (PN.LT.ZERO) THEN
+      IF (PN<ZERO) THEN
         H  =XP3(1,I)*NXI(I)+XP3(2,I)*NYI(I)+XP3(3,I)*NZI(I)
         DTI=MIN(DTI,HALF*H/MAX(EM20,-PN))
       ENDIF
-      IF(DTI.LE.ZERO)THEN
+      IF(DTI<=ZERO)THEN
          IN1=KSI(1,IL)
          IN2=KSI(2,IL)
          IN3=KSI(3,IL)

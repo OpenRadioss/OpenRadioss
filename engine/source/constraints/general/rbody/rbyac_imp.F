@@ -53,10 +53,10 @@ C-----------------------------------------------
          NRBYAC=0
          NSMAX=0
          DO N=1,NRBYKIN
-         IF (NPBY(1,N).GT.0) THEN
+         IF (NPBY(1,N)>0) THEN
           IACTI=NPBY(7,N)
           ISENS=NPBY(4,N)
-          IF(IACTI.GT.0)THEN
+          IF(IACTI>0)THEN
            NRBYAC=NRBYAC+1
            IRBYAC(NRBYAC)=N
            IRBYAC(NRBYAC+NRBYKIN)=K

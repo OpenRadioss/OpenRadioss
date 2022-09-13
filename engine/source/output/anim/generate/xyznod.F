@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   le proc 0 a besoin d un tableau de taille numnodg pour reconstruire 
 C   le tableau global des X. LEs autres non. Cela evite une allocation dynamique
 
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
            CALL SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,NUMNODG)
          ELSE
            CALL SPMD_WRT_XYZNOD(X,WEIGHT,NODGLOB,1)

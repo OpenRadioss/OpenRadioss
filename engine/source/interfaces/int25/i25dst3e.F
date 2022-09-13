@@ -232,7 +232,7 @@ C
 C
 #include      "vectorize.inc"
           DO I=1,JLT
-             IF(PENE2(I).NE.ZERO.AND.STIF(I).NE.ZERO)THEN
+             IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
                JLT_NEW = JLT_NEW + 1
 
                EDGE_ID(1,JLT_NEW) = EDGE_ID(1,I)

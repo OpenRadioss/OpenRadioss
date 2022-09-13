@@ -77,7 +77,7 @@ C-----------------------------------------------
         AREAM(I) = EM20
       ENDDO
 
-      IF((ICAA.EQ.1 .OR. ISFINT.GE.2) .AND. JALE+JEUL.NE.0)THEN
+      IF((ICAA==1 .OR. ISFINT>=2) .AND. JALE+JEUL/=0)THEN
         CALL SLENA(
      .     N1X, N2X, N3X, N4X, N5X, N6X,
      .     N1Y, N2Y, N3Y, N4Y, N5Y, N6Y,
@@ -95,26 +95,26 @@ C-----------------------------------------------
         CALL SLEN(X2,X3,X7,X6,Y2,Y3,Y7,Y6,Z2,Z3,Z7,Z6,4,AREA,AREAM)
         CALL SLEN(X3,X4,X8,X7,Y3,Y4,Y8,Y7,Z3,Z4,Z8,Z7,5,AREA,AREAM)
         CALL SLEN(X4,X1,X5,X8,Y4,Y1,Y5,Y8,Z4,Z1,Z5,Z8,6,AREA,AREAM)
-        IF (IDTS6.GT.0) THEN
+        IF (IDTS6>0) THEN
           CALL SLDEGE(
      .     X1, X2, X3, X4, X5, X6, X7, X8,
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .     AREA,AREAM, VOLN)
         ENDIF
-        IF(MTN.EQ.5.OR.MTN.EQ.41)THEN
+        IF(MTN==5.OR.MTN==41)THEN
           DO I=LFT,LLT
             ATEST(I)=EM4*AREAM(I)
           ENDDO       
           DO I=LFT,LLT                            
             NFAC=0                                
-            IF(AREA(I,1).LT.ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,2).LT.ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,3).LT.ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,4).LT.ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,5).LT.ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,6).LT.ATEST(I)) NFAC=NFAC+1 
-            IF(NFAC.GE.3) XIOFF(I)=EP03           
+            IF(AREA(I,1)<ATEST(I)) NFAC=NFAC+1 
+            IF(AREA(I,2)<ATEST(I)) NFAC=NFAC+1 
+            IF(AREA(I,3)<ATEST(I)) NFAC=NFAC+1 
+            IF(AREA(I,4)<ATEST(I)) NFAC=NFAC+1 
+            IF(AREA(I,5)<ATEST(I)) NFAC=NFAC+1 
+            IF(AREA(I,6)<ATEST(I)) NFAC=NFAC+1 
+            IF(NFAC>=3) XIOFF(I)=EP03           
           ENDDO                                          
        END IF
        DO  I=LFT,LLT
@@ -170,7 +170,7 @@ C-----------------------------------------------
       IDEG(1:MVSIZ)=0
       DO J=1,6
        DO I=LFT,LLT
-        IF(AREA(I,J).LT.EM30) IDEG(I)=IDEG(I)+1
+        IF(AREA(I,J)<EM30) IDEG(I)=IDEG(I)+1
        ENDDO
       ENDDO
 C
@@ -267,23 +267,23 @@ C-----------------------------------------------
                 X12 = X2(I) - X1(I)
                 Y12 = Y2(I) - Y1(I)
                 Z12 = Z2(I) - Z1(I)
-                IF (X12.EQ.ZERO.AND.Y12.EQ.ZERO.AND.Z12.EQ.ZERO) IDE(I) = 1
+                IF (X12==ZERO.AND.Y12==ZERO.AND.Z12==ZERO) IDE(I) = 1
 C       
                 X23 = X2(I) - X3(I)
                 Y23 = Y2(I) - Y3(I)
                 Z23 = Z2(I) - Z3(I)
-                IF (X23.EQ.ZERO.AND.Y23.EQ.ZERO.AND.Z23.EQ.ZERO) IDE(I) = 1
+                IF (X23==ZERO.AND.Y23==ZERO.AND.Z23==ZERO) IDE(I) = 1
 C       
                 X34 = X4(I) - X3(I)
                 Y34 = Y4(I) - Y3(I)
                 Z34 = Z4(I) - Z3(I)
-                IF (X34.EQ.ZERO.AND.Y34.EQ.ZERO.AND.Z34.EQ.ZERO) IDE(I) = 1
+                IF (X34==ZERO.AND.Y34==ZERO.AND.Z34==ZERO) IDE(I) = 1
 C       
                 X41 = X4(I) - X1(I)
                 Y41 = Y4(I) - Y1(I)
                 Z41 = Z4(I) - Z1(I)
-                IF (X41.EQ.ZERO.AND.Y41.EQ.ZERO.AND.Z41.EQ.ZERO) IDE(I) = 1
-                IF (IDE(I).EQ.0) IT4(I) =0
+                IF (X41==ZERO.AND.Y41==ZERO.AND.Z41==ZERO) IDE(I) = 1
+                IF (IDE(I)==0) IT4(I) =0
                 IF (A(I) > AMAX(I) )THEN
                         IT(I)=IDE(I)
                         AMAX(I) = A(I)
@@ -383,7 +383,7 @@ C----6---------------------------------------------------------------7---------8
 	    XIJ=XYZ(1,J)-X
 	    YIJ=XYZ(2,J)-Y
 	    ZIJ=XYZ(3,J)-Z
-        IF (XIJ.EQ.ZERO.AND.YIJ.EQ.ZERO.AND.ZIJ.EQ.ZERO) RETURN
+        IF (XIJ==ZERO.AND.YIJ==ZERO.AND.ZIJ==ZERO) RETURN
        END DO !J=1,NN
 	     NN = NN + 1
 	     XYZ(1,NN)=X
@@ -602,7 +602,7 @@ C--------A: (2*AREA)^2-----
        X12 = X2 - X1
        Y12 = Y2 - Y1
        Z12 = Z2 - Z1
-       IF (X12.EQ.ZERO.AND.Y12.EQ.ZERO.AND.Z12.EQ.ZERO) THEN
+       IF (X12==ZERO.AND.Y12==ZERO.AND.Z12==ZERO) THEN
         IDE = 1
 	GOTO 10
        ENDIF
@@ -610,7 +610,7 @@ C
        X23 = X2 - X3
        Y23 = Y2 - Y3
        Z23 = Z2 - Z3
-       IF (X23.EQ.ZERO.AND.Y23.EQ.ZERO.AND.Z23.EQ.ZERO) THEN
+       IF (X23==ZERO.AND.Y23==ZERO.AND.Z23==ZERO) THEN
         IDE = 1
 	GOTO 10
        ENDIF
@@ -618,7 +618,7 @@ C
        X34 = X4 - X3
        Y34 = Y4 - Y3
        Z34 = Z4 - Z3
-       IF (X34.EQ.ZERO.AND.Y34.EQ.ZERO.AND.Z34.EQ.ZERO) THEN
+       IF (X34==ZERO.AND.Y34==ZERO.AND.Z34==ZERO) THEN
         IDE = 1
 	GOTO 10
        ENDIF
@@ -626,7 +626,7 @@ C
        X41 = X4 - X1
        Y41 = Y4 - Y1
        Z41 = Z4 - Z1
-       IF (X41.EQ.ZERO.AND.Y41.EQ.ZERO.AND.Z41.EQ.ZERO) THEN
+       IF (X41==ZERO.AND.Y41==ZERO.AND.Z41==ZERO) THEN
         IDE = 1
 	GOTO 10
        ENDIF

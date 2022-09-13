@@ -98,12 +98,12 @@ C----------------
       CALL WRITE_I_C(LBVTMP,LLRBE2_L)
       LEN_IA = LEN_IA + NRBE2L*KL + LLRBE2_L
 C
-      IF(NBDDRBE2.GT.0) THEN
+      IF(NBDDRBE2>0) THEN
           ITABRBE2M(1:NUMNOD_L) = 0
           ILP=0
           DO K = 1, KL
             N = IBVTMP(3,K)
-             IF(ITABRBE2M(N).EQ.0) THEN
+             IF(ITABRBE2M(N)==0) THEN
               ILP = ILP + 1
 c              ITABRBE2M(N) = ILP
               ITABRBE2M(N) = N

@@ -64,7 +64,7 @@ C
 C
       ICMAX=0
       DO I=1,NPOLB
-         IF (ITAG(I).EQ.0) THEN
+         IF (ITAG(I)==0) THEN
             ICMAX=ICMAX+1
             ITAG(I)=ICMAX
             ICUR=ICMAX
@@ -73,7 +73,7 @@ C
          ENDIF
          II=POLB(I)
          DO J=1,IPOLY(2,II)
-            IF (J.NE.IPOLY(2,II)) THEN
+            IF (J/=IPOLY(2,II)) THEN
                JJ=J+1
             ELSE
                JJ=1
@@ -85,13 +85,13 @@ C
             Y2=RPOLY(4+3*(JJ-1)+2,II)
             Z2=RPOLY(4+3*(JJ-1)+3,II)
             DO K=1,NPOLB
-               IF (K.EQ.I) CYCLE
+               IF (K==I) CYCLE
                KK=POLB(K)
                ISTOP=0
                L=0
-               DO WHILE (ISTOP.EQ.0.AND.L.LT.IPOLY(2,KK))
+               DO WHILE (ISTOP==0.AND.L<IPOLY(2,KK))
                   L=L+1
-                  IF (L.NE.IPOLY(2,KK)) THEN
+                  IF (L/=IPOLY(2,KK)) THEN
                      LL=L+1
                   ELSE
                      LL=1
@@ -106,17 +106,17 @@ C
                   DD21=(XX2-X1)**2+(YY2-Y1)**2+(ZZ2-Z1)**2
                   DD12=(XX1-X2)**2+(YY1-Y2)**2+(ZZ1-Z2)**2
                   DD22=(XX2-X2)**2+(YY2-Y2)**2+(ZZ2-Z2)**2
-                  IF ((DD11.LE.TOLE.AND.DD22.LE.TOLE).OR.
-     .                (DD21.LE.TOLE.AND.DD12.LE.TOLE)) ISTOP=L
+                  IF ((DD11<=TOLE.AND.DD22<=TOLE).OR.
+     .                (DD21<=TOLE.AND.DD12<=TOLE)) ISTOP=L
                ENDDO
-               IF (ISTOP.NE.0) THEN
-                  IF (ITAG(K).EQ.0) THEN
+               IF (ISTOP/=0) THEN
+                  IF (ITAG(K)==0) THEN
                      ITAG(K)=ICUR
                   ELSE
                      ICUR_OLD=ICUR
                      ICUR=ITAG(K)
                      DO L=1,NPOLB
-                        IF (ITAG(L).EQ.ICUR_OLD) ITAG(L)=ICUR
+                        IF (ITAG(L)==ICUR_OLD) ITAG(L)=ICUR
                      ENDDO
                   ENDIF
                ENDIF
@@ -128,11 +128,11 @@ C
       DO I=1,ICMAX
          II=0
          DO J=1,NPOLB
-            IF (ITAG(J).EQ.I) II=II+1
+            IF (ITAG(J)==I) II=II+1
          ENDDO
-         IF (II.NE.0) NPOLH=NPOLH+1
+         IF (II/=0) NPOLH=NPOLH+1
       ENDDO
-      IF (NPOLH.GT.NPOLHMAX) THEN
+      IF (NPOLH>NPOLHMAX) THEN
          INFO=1
          NPOLHMAX=NPOLH
          RETURN
@@ -142,24 +142,24 @@ C
       DO I=1,ICMAX
          II=0
          DO J=1,NPOLB
-            IF (ITAG(J).EQ.I) II=II+1
+            IF (ITAG(J)==I) II=II+1
          ENDDO
-         IF (II.NE.0) THEN
+         IF (II/=0) THEN
             NPOLH=NPOLH+1
             POLH(1,NPOLH)=II
             POLH(2,NPOLH)=IBRIC
             II=0
             DO J=1,NPOLB
-               IF (ITAG(J).EQ.I) THEN
+               IF (ITAG(J)==I) THEN
                   II=II+1
                   JJ=POLB(J)
                   POLH(2+II,NPOLH)=JJ
                   ITY=IPOLY(1,JJ)
-                  IF (ITY.EQ.1) THEN
+                  IF (ITY==1) THEN
                      IPOLY(5,JJ)=NPOLH
                      CYCLE
                   ENDIF
-                  IF (IPOLY(5,JJ).EQ.0) THEN
+                  IF (IPOLY(5,JJ)==0) THEN
                      IPOLY(5,JJ)=NPOLH
                   ELSE
                      IPOLY(6,JJ)=NPOLH
@@ -171,7 +171,7 @@ C Tri par ordre croissant de polh
                JMIN=J
                PMIN=POLH(2+J,NPOLH)
                DO K=J+1,POLH(1,NPOLH)
-                  IF (POLH(2+K,NPOLH).LT.PMIN) THEN
+                  IF (POLH(2+K,NPOLH)<PMIN) THEN
                      JMIN=K
                      PMIN=POLH(2+K,NPOLH)
                   ENDIF

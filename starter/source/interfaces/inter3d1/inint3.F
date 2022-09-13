@@ -324,10 +324,10 @@ C=======================================================================
       TYPE18=.FALSE.
       IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.      
 
-      IF (IT19.LE.0) THEN
+      IF (IT19<=0) THEN
       INT_TYP = MAX(NTY,ABS(IT19)*19)
       IF (RESORT == 0)THEN
-       IF((NTY.EQ.7.AND.INACTI.EQ.7).AND.(NTY.NE.22))THEN
+       IF((NTY==7.AND.INACTI==7).AND.(NTY/=22))THEN
          WRITE(IOUT,2181)NOINT
        ELSE
          WRITE(IOUT,2001)NOINT,INT_TYP
@@ -335,7 +335,7 @@ C=======================================================================
       END IF
       ENDIF
 C-----------------------------------------------------------------------
-      IF(NTY.EQ.1) THEN
+      IF(NTY==1) THEN
 C-----------------------------------------------------------------------
        L17=1
        L20=L17+NMN
@@ -374,7 +374,7 @@ C
      3    IKINE1           ,ID                 ,TITR             ,ILEV           ,NTY           ,
      4    INTBUF_TAB%CSTS_BIS)
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.2.AND.ISEARCH.EQ.1) THEN
+      ELSEIF(NTY==2.AND.ISEARCH==1) THEN
 C-----------------------------------------------------------------------
        L16 = 1
        L17 = L16+NSN
@@ -436,7 +436,7 @@ C
 
        ENDIF
 C
-       IF (IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1)THEN
+       IF (IDDLEVEL==0.OR.NDSOLV==1)THEN
          IF ( ((NELEMINT+NSN))*6 > SIXINT)
      .     CALL UPGRADE_IXINT(SIXINT,NELEMINT,NSN)
            NULLIFY(pIXINT)
@@ -447,15 +447,15 @@ C
            CALL I2NINTDD(NELEMINT       ,pIXINT           ,INTBUF_TAB%IRECTM,
      .                   INTBUF_TAB%NSV ,INTBUF_TAB%IRTLM ,NSN              ,IFIEND )
        ENDIF
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     +    (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL I2WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCIN2,
      2                   NSN2T     ,NMN2T     )
        END IF
 C
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.2.AND.ISEARCH.EQ.2) THEN
+      ELSEIF(NTY==2.AND.ISEARCH==2) THEN
 C-----------------------------------------------------------------------
        TZINF=INTBUF_TAB%VARIABLES(4)
 C j21 utilise en tmp dans i2chk3, i2buc3 et i2tied3
@@ -518,7 +518,7 @@ c       IF ((ILEV >=10 .AND. ILEV < 23) ) THEN
      .    ID               ,TITR              ,INTTH    )
        ENDIF
 C
-       IF (IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1)THEN
+       IF (IDDLEVEL==0.OR.NDSOLV==1)THEN
          IF ( (NELEMINT+NSN)*6 >  SIXINT)CALL UPGRADE_IXINT(SIXINT,NELEMINT,NSN)
          NULLIFY(pIXINT)
          IF(SIXINT>0)THEN
@@ -529,15 +529,15 @@ C
      .                 INTBUF_TAB%NSV ,INTBUF_TAB%IRTLM ,NSN              ,IFIEND )
        ENDIF
 C
-       IF(IDDLEVEL.EQ.0.OR.(NDSOLV.EQ.1).AND.
-     +   (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF(IDDLEVEL==0.OR.(NDSOLV==1).AND.
+     +   (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL I2WCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCIN2,
      +                 NSN2T        ,NMN2T        )
        END IF
 C
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.3) THEN
+      ELSEIF(NTY==3) THEN
 C-----------------------------------------------------------------------
       !must be flushed to 0 (in old code INBUF and BUFIN 
       !flushed between 2 domain decomposition
@@ -597,7 +597,7 @@ C-----------------------------------------------------------------------
 C
 
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.5) THEN
+      ELSEIF(NTY==5) THEN
 C-----------------------------------------------------------------------
       !must be flushed to 0 (in old code INBUF and BUFIN 
       !flushed between 2 domain decomposition
@@ -636,12 +636,12 @@ C-----------------------------------------------------------------------
 C
 
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.7) THEN
+      ELSEIF(NTY==7) THEN
 C-----------------------------------------------------------------------
 C       I_STOK = 0
        DRAD = INTBUF_TAB%VARIABLES(32)
 
-       IF(INTBUF_TAB%S_NIGE.NE.0) THEN
+       IF(INTBUF_TAB%S_NIGE/=0) THEN
          ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB%S_NIGE)))
          XE(1:3*NUMNOD) = X(1:3*NUMNOD)
          XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB%S_NIGE)) = INTBUF_TAB%XIGE(1:3*INTBUF_TAB%S_NIGE)
@@ -728,7 +728,7 @@ C I_STOK sauvegarde a sa place pour optimisation tri
 C
 C----------------
 C
-      IF (IDDLEVEL.EQ.0)THEN
+      IF (IDDLEVEL==0)THEN
        IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
          CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
        ENDIF
@@ -745,7 +745,7 @@ C
      .                                                                      INTBUF_TAB%VARIABLES(46))
       ENDIF
 
-      IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.(DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+      IF((IDDLEVEL==0.OR.NDSOLV==1).AND.(DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
           CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN_FE,NMN_FE,
      .         IWCONT,NSNT,NMNT)
@@ -759,7 +759,7 @@ C
         NGROUS=1+(I_STOK-1)/NVSIZ
 C
        DO NG=1,NGROUS
-        IF(IPRI.GE.1) WRITE(IOUT,2007)
+        IF(IPRI>=1) WRITE(IOUT,2007)
         NFT = (NG-1) * NVSIZ
         LFT = 1
         LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -806,7 +806,7 @@ C
      8      Z3  ,Z4     ,XI     ,YI     ,ZI     ,
      9      N11 ,N21    ,N31    ,PENE   )
          ENDIF
-         IF(IWPENE.NE.0.AND.INACTI.EQ.3.OR.INACTI.EQ.4) IWRN = 1
+         IF(IWPENE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
         ENDDO
         CALL ANCMSG(MSGID=1164,
      .          MSGTYPE=MSGWARNING,
@@ -817,12 +817,12 @@ C
         DO I=1,NUMNOD+NUMFAKENODIGEO
          INPENE=INPENE+MIN(MWA(I),1)
         ENDDO
-        IF(ISTOK.EQ.0.AND.(INACTI.EQ.5.OR.INACTI.EQ.6))
+        IF(ISTOK==0.AND.(INACTI==5.OR.INACTI==6))
      .   IPARI(22) = -INACTI ! passage en negatif pour dimensionnenment
         INTBUF_TAB%I_STOK(1)=ISTOK
        ENDIF
 C
-      ELSEIF(NTY.EQ.8) THEN
+      ELSEIF(NTY==8) THEN
        CALL ININT0_8(X,INTBUF_TAB%IRECTM,INTBUF_TAB%NSEGM,INTBUF_TAB%LMSR,
      .               INTBUF_TAB%MSR,
      1    INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,NSN ,NMN       ,NRTM   ,
@@ -847,7 +847,7 @@ C
      2   INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRTLOM,INTBUF_TAB%VARIABLES(2),NSN ,
      3   ITAB            ,IWPENE    ,ID,TITR)
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.9) THEN
+      ELSEIF(NTY==9) THEN
 C-----------------------------------------------------------------------
 
       !must be flushed to 0 (in old code INBUF and BUFIN 
@@ -886,7 +886,7 @@ C-----------------------------------------------------------------------
      1    X,INTBUF_TAB%IRECTS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,INTBUF_TAB%MSR,
      2    INTBUF_TAB%ILOCM,INTBUF_TAB%IRTLS,INTBUF_TAB%NSEGS,NMN       ,NSN ,
      3    ITAB,ID,TITR,NRTS)
-       IF(NMN.GT.0)THEN
+       IF(NMN>0)THEN
          WRITE(IOUT,2002)
          CALL I3PEN3(
      1    X,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%ILOCS,
@@ -900,7 +900,7 @@ C-----------------------------------------------------------------------
 C
        ENDIF
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.10) THEN
+      ELSEIF(NTY==10) THEN
 C-----------------------------------------------------------------------
 C      K14 = ELEMS CANDIDATS A L'IMPACT...
 C      K15 = NOEUDS CANDIDATS A L'IMPACT + ADRESSE ELEMS CORRES.
@@ -962,7 +962,7 @@ C
        NGROUS=1+(I_STOK-1)/NVSIZ
 C
        DO NG=1,NGROUS
-        IF(IPRI.GE.1) WRITE(IOUT,2007)
+        IF(IPRI>=1) WRITE(IOUT,2007)
         NFT = (NG-1) * NVSIZ
         LFT = 1
         LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -1001,7 +1001,7 @@ C
      7      Y2 ,Y3 ,Y4 ,Z1 ,Z2  ,
      8      Z3 ,Z4 ,XI ,YI ,ZI  ,
      9      N11,N21,N31,PENE)
-        IF(IWPENE.NE.0.AND.INACTI.EQ.3.OR.INACTI.EQ.4) IWRN = 1
+        IF(IWPENE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
        ENDDO
        CALL ANCMSG(MSGID=1164,
      .          MSGTYPE=MSGWARNING,
@@ -1013,14 +1013,14 @@ C
        DO I=1,NUMNOD
          INPENE=INPENE+MIN(MWA(I),1)
        ENDDO
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     +    (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .                   NSNT,NMNT)
        END IF
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.11) THEN
+      ELSEIF(NTY==11) THEN
 C-----------------------------------------------------------------------
 C      CALCUL DES RIGIDITES ELEMENTTAIRES 
 C
@@ -1129,7 +1129,7 @@ C
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
 C
-       IF (IDDLEVEL.EQ.0)THEN
+       IF (IDDLEVEL==0)THEN
          IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
            CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
          ENDIF
@@ -1144,8 +1144,8 @@ C
      .     X                 ,INTBUF_TAB%VARIABLES(1) ,DRAD              ,INTBUF_TAB%VARIABLES(46))
        ENDIF
 
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     +    (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .                 NSNT,NMNT)
@@ -1155,7 +1155,7 @@ C      PUIS CALCULER LES PENETRATIONS INITIALES AVEC ONE I11PEN3
 C
        NGROUS=1+(I_STOK-1)/NVSIZ
 C
-       IF(IPRI.GE.1) WRITE(IOUT,2011)
+       IF(IPRI>=1) WRITE(IOUT,2011)
 C
        
        PRINT_WARNING = .TRUE.
@@ -1177,20 +1177,20 @@ C
      3    N1        ,N2        ,M1     ,M2        ,NX        ,
      4    NY        ,NZ        ,GAPV   ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      5    INTBUF_TAB%PENIS,INTBUF_TAB%PENIM,IGAP,PRINT_WARNING)
-        IF(IWPENE.NE.0.AND.INACTI.EQ.3.OR.INACTI.EQ.4) IWRN = 1
+        IF(IWPENE/=0.AND.INACTI==3.OR.INACTI==4) IWRN = 1
 
        ENDDO
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     +    (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     +    (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .                 NSNT,NMNT)
        END IF
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.12) THEN
+      ELSEIF(NTY==12) THEN
 C-----------------------------------------------------------------------
         ITIED=INT(INTBUF_TAB%VARIABLES(1))
-        IF(INT(INTBUF_TAB%VARIABLES(1)).EQ.2)
+        IF(INT(INTBUF_TAB%VARIABLES(1))==2)
      .  CALL IN12R(X,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,NSN,1)
 
         !flushed between 2 domain decomposition
@@ -1209,14 +1209,14 @@ C-----------------------------------------------------------------------
      2          IXTG,GEO,PM,INTBUF_TAB%IELES, ALE_CONNECTIVITY,
      3          IPARI(30),INTBUF_TAB%FCOUNT,ITIED, ITAB,KNOD2ELS,
      4          NOD2ELS,NTY,ID,TITR)
-       IF(IPARI(30).EQ.0)THEN
+       IF(IPARI(30)==0)THEN
           CALL ANCMSG(MSGID=1250,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND,
      .                I1=ID,
      .                C1=TITR)
 
-       ELSEIF(ITIED.EQ.3)THEN
+       ELSEIF(ITIED==3)THEN
          IPARI(30)=0
        ENDIF
         CALL INVOI3(
@@ -1228,7 +1228,7 @@ C-----------------------------------------------------------------------
      1     X,INTBUF_TAB%IRECTM,INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV  ,
      2     INTBUF_TAB%ILOCS,INTBUF_TAB%IRTLM,NSN    ,ITAB   ,INTBUF_TAB%VARIABLES(2),
      3     ID,TITR)
-       IF(INT(INTBUF_TAB%VARIABLES(1)).EQ.2)
+       IF(INT(INTBUF_TAB%VARIABLES(1))==2)
      .  CALL IN12R(X,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,NSN,2)
 C
 C-----------------------------------------------------------------------
@@ -1245,7 +1245,7 @@ C
      1 IXS     ,PM        ,NME    ,NMES  ,IGRBRIC(IGE)%ENTITY,IGRBRIC(IGN)%ENTITY,
      2 INTBUF_TAB%KM,INTBUF_TAB%KS)
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.20) THEN
+      ELSEIF(NTY==20) THEN
 C-----------------------------------------------------------------------
        CALL I20INI3(X       ,IXS    ,IXC     ,
      2              PM      ,GEO     ,IPARI   ,NUMINT ,ITAB    ,
@@ -1262,12 +1262,12 @@ C-----------------------------------------------------------------------
      D              LELX    ,INTBUF_TAB , PM_STACK , IWORKSH)
        IF (I_MEM ==2) RETURN
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.21) THEN
+      ELSEIF(NTY==21) THEN
 C-----------------------------------------------------------------------
        !must be flushed to 0 (in old code INBUF and BUFIN 
        !flushed between 2 domain decomposition)
        INTBUF_TAB%AREAS(1:NSN) = 0
-       IF(INTTH.NE.0)THEN
+       IF(INTTH/=0)THEN
          INTBUF_TAB%AS(1:NSN) = 0
          INTBUF_TAB%BS(1:NSN) = 0
        ENDIF
@@ -1301,13 +1301,13 @@ C
 C   ...CALCUL DU GAP et des PENETRATIONS INITIALES, apres INITIA (lecture des epaisseurs). 
 C
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.22) THEN
+      ELSEIF(NTY==22) THEN
 C-----------------------------------------------------------------------
 C     #########################################
 C     #     FAIRE UNE VERIFIACTION ICI        #
 C     #     Verifier si loi 51 ou 37 utilise.#
 C     #########################################
-      IF(ISU1.GT.0)THEN
+      IF(ISU1>0)THEN
         CALL I22ERR3(
      1    X         ,NRTM     ,INTBUF_TAB%IRECTM  ,NOINT                   ,ITAB      ,
      2    PM        ,IXS      ,IGRBRIC(ISU1)%NENTITY ,IGRBRIC(ISU1)%ENTITY   ,ID        ,
@@ -1342,7 +1342,7 @@ C
        IPARI(21) = IGAP
        IAD       = IPARI(39)
        ISU1      = IPARI(45)
-       IF(ISU1.GT.0)THEN
+       IF(ISU1>0)THEN
          NBRIC     = IGRBRIC(ISU1)%NENTITY
        ELSE
          NBRIC     = 0
@@ -1360,7 +1360,7 @@ C
      7   INTBUF_TAB%VARIABLES(16),INACTI         ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML  ,I_MEM     ,
      8   ID              ,TITR           ,IGRBRIC(ISU1)%ENTITY ,NBRIC          ,IXS              ) 
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.23) THEN
+      ELSEIF(NTY==23) THEN
 C-----------------------------------------------------------
 C      detecte les segments de surface nulle.
        CALL I7ERR3(
@@ -1414,7 +1414,7 @@ C
        IF (I_MEM == 2 ) RETURN
        INTBUF_TAB%VARIABLES(9) = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
-       IF (IDDLEVEL.EQ.0)THEN
+       IF (IDDLEVEL==0)THEN
            IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
              CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
            ENDIF
@@ -1430,8 +1430,8 @@ C
      .                                                                        INTBUF_TAB%VARIABLES(46))
        ENDIF
 
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     .  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
       CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .       NSNT,NMNT)
@@ -1443,7 +1443,7 @@ C
 C
        DO 723 NG=1,NGROUS
 
-        IF(IPRI.GE.1) WRITE(IOUT,2007)
+        IF(IPRI>=1) WRITE(IOUT,2007)
         NFT = (NG-1) * NVSIZ
         LFT = 1
         LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -1468,7 +1468,7 @@ C
  723   CONTINUE
 
 C
-       IF(IWPENE.NE.0) THEN
+       IF(IWPENE/=0) THEN
           CALL ANCMSG(MSGID=499,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -1477,14 +1477,14 @@ C
      .                I2=IWPENE)
        ENDIF
 C
-       IF(IWPENE.EQ.0.AND.(INACTI.EQ.5.OR.INACTI.EQ.6))
+       IF(IWPENE==0.AND.(INACTI==5.OR.INACTI==6))
      .   IPARI(22) = -INACTI     ! passage en negatif pour dimensionnenment
        INTBUF_TAB%I_STOK(1)=IWPENE
 C
 C   ...CALCUL DU GAP et des PENETRATIONS INITIALES, apres INITIA (lecture des epaisseurs). 
 C
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.24) THEN
+      ELSEIF(NTY==24) THEN
 C-----------------------------------------------------------------------
        IPEN0 = IPARI(54)
        NRTSE = IPARI(52)
@@ -1654,7 +1654,7 @@ C      CLOSE(67)
          IF (I_MEM == 2) RETURN
        INTBUF_TAB%VARIABLES(9)  = MAXBOX
        INTBUF_TAB%VARIABLES(12) = MINBOX
-       IF (IDDLEVEL.EQ.0)THEN
+       IF (IDDLEVEL==0)THEN
          IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
            CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
          ENDIF
@@ -1669,8 +1669,8 @@ C      CLOSE(67)
      .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      .         INTBUF_TAB%VARIABLES(46))
        ENDIF
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     .  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN0,NMN,IWCONT,
      .                 NSNT,NMNT)
@@ -1692,7 +1692,7 @@ C---------PENE_OLD(5,NI)=ZERO
        PENMIN=EP10
        IWPENE0 = 0
        DO NG=1,NGROUS
-        IF(IPRI.GE.5) WRITE(IOUT,2007)
+        IF(IPRI>=5) WRITE(IOUT,2007)
         NFT = (NG-1) * NVSIZ
         LFT = 1
         LLT = MIN0( NVSIZ, I_STOK - NFT )
@@ -1847,7 +1847,7 @@ C Initialize ISPT2 Arrays for cycle 0 in case of INACTI
            INTBUF_TAB%I_STOK(1)=0
         ENDIF
 C-----------------------------------------------------------------------
-      ELSEIF(NTY.EQ.25) THEN
+      ELSEIF(NTY==25) THEN
 C-----------------------------------------------------------------------
 C
 C      Sorting NSV (Retrier les structures vs NSN, cf sub-interfaces, etc !)
@@ -2084,7 +2084,7 @@ C
          END IF
        ENDIF
 C
-       IF (IDDLEVEL.EQ.0)THEN
+       IF (IDDLEVEL==0)THEN
          IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
            CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
          ENDIF
@@ -2099,8 +2099,8 @@ C
      .         X              ,INTBUF_TAB%VARIABLES(2) ,DRAD,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      .         INTBUF_TAB%VARIABLES(46))
        ENDIF
-       IF((IDDLEVEL.EQ.0.OR.NDSOLV.EQ.1).AND.
-     .  (DECTYP.GE.3.AND.DECTYP.LE.6))THEN
+       IF((IDDLEVEL==0.OR.NDSOLV==1).AND.
+     .  (DECTYP>=3.AND.DECTYP<=6))THEN
 C Appel routine poids noeuds interfaces
          CALL IWCONTDD(INTBUF_TAB%NSV,INTBUF_TAB%MSR,NSN,NMN,IWCONT,
      .                 NSNT,NMNT)
@@ -2166,21 +2166,21 @@ C-------------------------------------------------------------
      .            PRMOD=MSG_PRINT)
 C
          IF(IWPENE /= 0.AND. IDDLEVEL == 1)THEN
-           IF(INACTI.EQ.0)THEN
+           IF(INACTI==0)THEN
              CALL ANCMSG(MSGID=1166,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=IWPENE)
-           ELSEIF(INACTI.EQ.5.AND. IDDLEVEL == 1)THEN
+           ELSEIF(INACTI==5.AND. IDDLEVEL == 1)THEN
              CALL ANCMSG(MSGID=1167,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=ID,
      .                   C1=TITR,
      .                   I2=IWPENE)
-           ELSEIF(INACTI.EQ.-1.AND. IDDLEVEL == 1)THEN
+           ELSEIF(INACTI==-1.AND. IDDLEVEL == 1)THEN
              CALL ANCMSG(MSGID=1168,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_1,
@@ -2309,21 +2309,21 @@ C------------------------------------------------------------
      .             PRMOD=MSG_PRINT)
 C
           IF(IWPENE /= 0 .AND. IDDLEVEL == 1)THEN
-            IF(INACTI.EQ.0)THEN
+            IF(INACTI==0)THEN
               CALL ANCMSG(MSGID=1632,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=IWPENE)
-            ELSEIF(INACTI.EQ.5)THEN
+            ELSEIF(INACTI==5)THEN
               CALL ANCMSG(MSGID=1633,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=IWPENE)
-            ELSEIF(INACTI.EQ.-1)THEN
+            ELSEIF(INACTI==-1)THEN
               CALL ANCMSG(MSGID=1634,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,
@@ -2346,8 +2346,8 @@ C
 C-----------------------------------------------------------------------
       ENDIF
 C-----------------------------------------------------------------------
-      IF(IWPENE.NE.0) THEN
-         IF(INPENE.NE.0 .AND. IDDLEVEL == 1)THEN
+      IF(IWPENE/=0) THEN
+         IF(INPENE/=0 .AND. IDDLEVEL == 1)THEN
           IF(.NOT.TYPE18)CALL ANCMSG(MSGID=343,
      .                               MSGTYPE=MSGWARNING,
      .                               ANMODE=ANINFO_BLIND_1,
@@ -2389,7 +2389,7 @@ C-----------------------------------------------------------------------
      .                 I2=IWPENE,
      .                 I3=IWPENE0)
          END SELECT
-       IF(IPRI.GE.5.AND. IDDLEVEL == 1) CALL ANCMSG(MSGID=1164,
+       IF(IPRI>=5.AND. IDDLEVEL == 1) CALL ANCMSG(MSGID=1164,
      .          MSGTYPE=MSGWARNING,
      .          ANMODE=ANINFO_BLIND_1,
      .          I1=ID,

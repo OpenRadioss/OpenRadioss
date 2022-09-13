@@ -73,7 +73,7 @@ C-----------------------------
 C----------------------------------
 C     CALCUL DES DT ELEMENTAIRES
 C----------------------------------
-      IF(JSPH.EQ.0)THEN
+      IF(JSPH==0)THEN
          CALL DT70EL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX,IGEO)
       ELSE
          CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, VOL, DTX)

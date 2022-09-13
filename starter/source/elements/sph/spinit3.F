@@ -132,7 +132,7 @@ c
           MP    =GET_U_GEO(1,IG)
           RHO(I)=PM(1,IMAT)
           VOL(I)=MP/RHO(I)
-          IF(NSPCOND.NE.0) VOL(I)=VOL(I)/ISPTAG(N)
+          IF(NSPCOND/=0) VOL(I)=VOL(I)/ISPTAG(N)
           MASS(I)   =RHO(I)*VOL(I)
           SPBUF(2,N) =RHO(I)
           SPBUF(12,N)=MASS(I)
@@ -193,7 +193,7 @@ C--------------------------------------------------
         Z1(I)=X(3,INOD)
        ENDDO
 C--------------------------------------------------
-       IF(ISORTH.NE.0)THEN
+       IF(ISORTH/=0)THEN
          CALL SPORTH3(IPART ,IPARTSP(NFT+1) ,IGEO ,GBUF%GAMA,SKEW,
      .                NEL   )
        END IF
@@ -212,11 +212,11 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      Diametre initial (Fichiers Y)
 C--------------------------------------------------
-       IF(ISIGI.EQ.3.OR.ISIGI.EQ.4.OR.ISIGI.EQ.5)THEN
+       IF(ISIGI==3.OR.ISIGI==4.OR.ISIGI==5)THEN
          DO I=LFT,LLT
            N = I+NFT
            JJ=PTSPH(N)
-           IF(JJ.NE.0.AND.SIGSPH(11,JJ).NE.0.)THEN
+           IF(JJ/=0.AND.SIGSPH(11,JJ)/=0.)THEN
              SPBUF(1,N)=SIGSPH(11,JJ)
            END IF
            SPBUF(2,N) = GBUF%RHO(I)

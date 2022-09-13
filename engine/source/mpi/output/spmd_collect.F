@@ -78,10 +78,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         N = 0
         DO I = 1, NUMNOD
-          IF (WEIGHT(I).EQ.1) THEN
+          IF (WEIGHT(I)==1) THEN
            N = N+1
            SDNODG(N) = NODGLOB(I)
            AGLOB(1,N) = ITAB(I)
@@ -111,7 +111,7 @@ C-----------------------------------------------
       FILEN = ROOTLEN+17
 
         DO I=1,NUMNOD
-          IF (WEIGHT(I).EQ.1) THEN
+          IF (WEIGHT(I)==1) THEN
             EMPL = NODGLOB(I)
             RECGLOB(1,EMPL) = ITAB(I)
             RECGLOB(2,EMPL) =  A(1,I)

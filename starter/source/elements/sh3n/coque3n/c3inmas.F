@@ -184,10 +184,10 @@ C=======================================================================
             THKI(I)= THK(I)
           ENDIF ! IF (NDRAPE == 0)
 c      
-            IF (NPERTURB .NE. 0) THEN
+            IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
               IF (PERTURB(J) == 1 .AND. 
-     .             RNOISE(J,NUMELC+I+NFT) .NE. ZERO)  THEN
+     .             RNOISE(J,NUMELC+I+NFT) /= ZERO)  THEN
                 THK(I)  = THK(I)  * RNOISE(J,NUMELC+I+NFT)
                 THKE(I) = THKE(I) * RNOISE(J,NUMELC+I+NFT)
                 THKI(I) = THKI(I) * RNOISE(J,NUMELC+I+NFT)
@@ -197,7 +197,7 @@ c
 c
             RHO(I)= PM(89,IMAT)
             RHOCP(I) =  PM(69,IMAT) 
-            IF(THK(I).EQ.ZERO.AND.IGTYP.NE.0)THEN
+            IF(THK(I)==ZERO.AND.IGTYP/=0)THEN
                CALL ANCMSG(MSGID=495,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -220,10 +220,10 @@ c
             THKI(I)= THK(I)
           ENDIF ! IF (NDRAPE == 0)
 c      
-            IF (NPERTURB .NE. 0) THEN
+            IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
               IF (PERTURB(J) == 1 .AND. 
-     .             RNOISE(J,NUMELC+I+NFT) .NE. ZERO) THEN
+     .             RNOISE(J,NUMELC+I+NFT) /= ZERO) THEN
                 THK(I)  = THK(I)  * RNOISE(J,NUMELC+I+NFT)
                 THKE(I) = THKE(I) * RNOISE(J,NUMELC+I+NFT)
                 THKI(I) = THKI(I) * RNOISE(J,NUMELC+I+NFT)
@@ -242,7 +242,7 @@ c
           ENDDO
       ELSE
           DO I=LFT,LLT
-            IF(THKE(I).EQ.ZERO)THEN
+            IF(THKE(I)==ZERO)THEN
               THK(I) =GEO(1,IPROP)
               THKE(I)=THK(I)
             ELSE
@@ -250,10 +250,10 @@ c
             ENDIF
             THKI(I) =GEO(1,IPROP)
 c      
-            IF (NPERTURB .NE. 0) THEN
+            IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
               IF (PERTURB(J) == 1 .AND. 
-     .             RNOISE(J,NUMELC+I+NFT) .NE. ZERO) THEN
+     .             RNOISE(J,NUMELC+I+NFT) /= ZERO) THEN
                 THK(I)  = THK(I)  * RNOISE(J,NUMELC+I+NFT)
                 THKE(I) = THKE(I) * RNOISE(J,NUMELC+I+NFT)
                 THKI(I) = THKI(I) * RNOISE(J,NUMELC+I+NFT)
@@ -263,7 +263,7 @@ c
 c
             RHO(I)= PM(89,IMAT)
             RHOCP(I) =  PM(69,IMAT) 
-            IF(THK(I).EQ.ZERO.AND.IGTYP.NE.0)THEN
+            IF(THK(I)==ZERO.AND.IGTYP/=0)THEN
                CALL ANCMSG(MSGID=495,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -274,7 +274,7 @@ c
 C----------------------------------------------
 C     MASSES ELEMENTAIRES
 C----------------------------------------------
-      IF (IGTYP.EQ.11 .OR. IGTYP.EQ.16) THEN
+      IF (IGTYP==11 .OR. IGTYP==16) THEN
         IPTHK = 300
         IPPOS = 400
         IPMAT = 100
@@ -295,7 +295,7 @@ C! for igty=11 ---> IGMAT=-1 (old G-mat), 1 for new g-mat
 C! for igtyp=16 --->IGMAT= 0 
 C! for igtyp=17 --->IGMAT= 0
           IF(IGMAT <= 0) THEN
-            IF (DMS .GT. EM02) THEN               
+            IF (DMS > EM02) THEN               
 	              IDPROP = NINT(GEO(40,IPROP))       
                CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
@@ -347,7 +347,7 @@ C---      Test stability condition for mass
           MST = RHO(I)*THK(I)*AREA(I)
           DMS = ABS(EM(I)-MST)/MST    
           IF(IGMAT < 0) THEN         
-            IF (DMS .GT. EM02) THEN               
+            IF (DMS > EM02) THEN               
 	             IDPROP = NINT(GEO(40,IPROP))       
               CALL FRETITL2(TITR,
      .                      IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
@@ -441,7 +441,7 @@ C---      Test stability condition for mass
 C----------------------------------------------
 C     INERTIES ELEMENTAIRES
 C----------------------------------------------
-      IF (IGTYP.EQ.11 .OR. IGTYP.EQ.16) THEN
+      IF (IGTYP==11 .OR. IGTYP==16) THEN
         DO I=LFT,LLT
           XI(I)=ZERO
           DO N=1,NPT
@@ -460,7 +460,7 @@ C---      Test stability condition for inertia
           IF(IGMAT <= 0) THEN ! 
             INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
             DMS = ABS(XI(I)-INS)/INS
-            IF(DMS .GT. EM02) THEN
+            IF(DMS > EM02) THEN
 	             IDPROP = NINT(GEO(40,IPROP))       
               CALL FRETITL2(TITR,
      .                  IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
@@ -522,7 +522,7 @@ C---      Test stability condition for inertia
           DMS = ABS(XI(I)-INS)/INS
           
           IF(IGMAT <= 0) THEN ! 
-            IF(DMS .GT. EM02) THEN
+            IF(DMS > EM02) THEN
               IDPROP = NINT(GEO(40,IPROP))       
               CALL FRETITL2(TITR,
      .                      IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
@@ -670,8 +670,8 @@ C
      .       ( (A2 + B2 - C2)/(TWO * AA * BB) >= ONE) .OR.
      .       ( (B2 + C2 - A2)/(TWO * BB * CC) <= -ONE) .OR.
      .       ( (B2 + C2 - A2)/(TWO * BB * CC) >= ONE)) .AND.
-     .              LSH3TRIM .NE. 0    ) THEN      
-         IF (SH3TRIM(NFT+I) .NE. -1) CALL ANCMSG(MSGID=750,
+     .              LSH3TRIM /= 0    ) THEN      
+         IF (SH3TRIM(NFT+I) /= -1) CALL ANCMSG(MSGID=750,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=IXTG(6,NFT+I))
@@ -690,7 +690,7 @@ C
       END DO
 C
 C-----
-      IF(NADMESH.EQ.0)THEN
+      IF(NADMESH==0)THEN
        IF (NXREF == 0) THEN
          DO I=LFT,LLT
           P1 = PTG(1,I)
@@ -1053,8 +1053,8 @@ C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
       IF (IGTYP == 52 .OR. 
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN     
-           IF(I7STIFS.NE.0)THEN
-            IF (IMACH.NE.3) THEN
+           IF(I7STIFS/=0)THEN
+            IF (IMACH/=3) THEN
              DO I=LFT,LLT
                ET=STACK%PM(2,ISUBSTACK)*THK(I)
                ETNOD(IX1(I))=ETNOD(IX1(I))+ET
@@ -1076,8 +1076,8 @@ C----------------------------------------------
            ENDIF
        ELSEIF(IGTYP == 11 .AND. IGMAT >  0) THEN
            IPGMAT = 700
-           IF(I7STIFS.NE.0)THEN
-            IF (IMACH.NE.3) THEN
+           IF(I7STIFS/=0)THEN
+            IF (IMACH/=3) THEN
              DO I=LFT,LLT
                ET=GEO(IPGMAT +2 ,IPROP)*THK(I)
                ETNOD(IX1(I))=ETNOD(IX1(I))+ET
@@ -1098,8 +1098,8 @@ C----------------------------------------------
             ENDIF
            ENDIF
         ElSE
-          IF(I7STIFS.NE.0)THEN
-            IF (IMACH.NE.3) THEN
+          IF(I7STIFS/=0)THEN
+            IF (IMACH/=3) THEN
              DO I=LFT,LLT
                ET=PM(20,IMAT)*THK(I)
                ETNOD(IX1(I))=ETNOD(IX1(I))+ET

@@ -118,7 +118,7 @@ C                                                                     12
      .         PY3(I)*VZ35(I)+PY4(I)*VZ46(I)
       ENDDO
 C
-      IF (JCVT.NE.0) THEN
+      IF (JCVT/=0) THEN
        DO I=LFT,LLT
         D4(I)   = DXY(I)+DYX(I)
      .           -(DXX(I)*DXY(I)+DYX(I)*DYY(I)+DZX(I)*DZY(I))

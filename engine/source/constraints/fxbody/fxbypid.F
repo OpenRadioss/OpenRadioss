@@ -204,7 +204,7 @@ C Test group elimination
 C----------------------------------------
         IGOF = 1
         DO I = 1,NEL
-         IF(OFFG(I).GT.ZERO) IGOF=0
+         IF(OFFG(I)>ZERO) IGOF=0
         ENDDO
         IPARG(8,NG) = IGOF
 C-----------------------
@@ -263,14 +263,14 @@ C----------------------------------------
 C----------------------------------------
        ENDIF
       ENDDO
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
 C
 C Recovery of active or de-activated elements in the right order
         IWIOUT = 0
         IF (ISPMD /= 0) CALL SPMD_CHKW(IWIOUT,IOUT)
         CALL SPMD_GLOB_ISUM9(IWIOUT,1)
         CALL SPMD_IBCAST(IWIOUT,IWIOUT,1,1,0,2)
-        IF (IWIOUT.GT.0) THEN
+        IF (IWIOUT>0) THEN
           CALL SPMD_WIOUT(IOUT,IWIOUT)
           IWIOUT = 0
         ENDIF

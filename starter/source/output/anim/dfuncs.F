@@ -136,7 +136,7 @@ C
                 ENDDO                                                   
               ELSEIF (IFUNC == 4) THEN                                       
                 DO I=LFT,LLT                                            
-                  IF (IPARG(1,NG) .EQ. 2 .AND. JTHE .EQ. 0) THEN       
+                  IF (IPARG(1,NG) == 2 .AND. JTHE == 0) THEN       
                     EVAR(I) = PM(54,IXS(1,NFT+I)) + GBUF%EINT(I)*     
      .                        GBUF%VOL(I) * PM(53,IXS(1,NFT+I))      
                   ELSEIF (GBUF%G_TEMP > 0) THEN                                                  
@@ -173,7 +173,7 @@ c-----------
               IF (ISOLNOD == 16) THEN                                        
                 DO I=LFT,LLT                                               
                   N = NN2 + I + NFT                                        
-                  IF(EL2FA(N).NE.0)THEN                                    
+                  IF(EL2FA(N)/=0)THEN                                    
                      FUNC(EL2FA(N))   = EVAR(I)                             
                      FUNC(EL2FA(N)+1) = EVAR(I)                             
                      FUNC(EL2FA(N)+2) = EVAR(I)                             
@@ -183,7 +183,7 @@ c-----------
               ELSE                                                         
                 DO I=LFT,LLT                                               
                   N = NN2 + I + NFT                                         
-                  IF(EL2FA(N).NE.0)THEN                                     
+                  IF(EL2FA(N)/=0)THEN                                     
                     FUNC(EL2FA(N)) = EVAR(I)                                
                   ENDIF                                                     
                 ENDDO                                                      
@@ -198,14 +198,14 @@ C-----------------------------------------------
             IF (IFUNC >= 14 .AND. IFUNC <= 19) THEN                         
               DO I=LFT,LLT                                               
                 N = I + NFT                                              
-                IF (EL2FA(NN3+N).NE.0) THEN                                
+                IF (EL2FA(NN3+N)/=0) THEN                                
                   FUNC(EL2FA(NN3+N)) = GBUF%SIG(II(IFUNC-13) + I)
                 ENDIF                                                    
               ENDDO                                                      
             ELSE                                                         
              DO I=LFT,LLT                                                
               N = I + NFT                                                
-              IF(EL2FA(NN3+N).NE.0)THEN                                  
+              IF(EL2FA(NN3+N)/=0)THEN                                  
                   FUNC(EL2FA(NN3+N)) = ZERO                              
               ENDIF                                                      
              ENDDO                                                       

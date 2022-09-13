@@ -84,7 +84,7 @@ C============================================================================
 C       READING INTERFACES DEFAULT VALUES
 C============================================================================
 
-      IF(HM_NINTER_DEF .NE. 0) WRITE(IOUT,5900)
+      IF(HM_NINTER_DEF /= 0) WRITE(IOUT,5900)
 
 C--------------------------------------------------
 C START BROWSING MODEL INTERFACES
@@ -108,27 +108,27 @@ c Default values definition
 
         IF(SUB_ID == 0) THEN
 
-         IF(KEY2(1:LEN_TRIM(KEY2)).EQ.'TYPE2')THEN
+         IF(KEY2(1:LEN_TRIM(KEY2))=='TYPE2')THEN
            NTYP = 2
            CALL HM_READ_DEFINTER_TYPE02(NTYP,DEF_INTER,LSUBMODEL)
 
-         ELSEIF(KEY2(1:LEN_TRIM(KEY2)).EQ.'TYPE7')THEN
+         ELSEIF(KEY2(1:LEN_TRIM(KEY2))=='TYPE7')THEN
            NTYP = 7
            CALL HM_READ_DEFINTER_TYPE07(NTYP,DEF_INTER,LSUBMODEL)
 
-         ELSEIF(KEY2(1:LEN_TRIM(KEY2)).EQ.'TYPE11')THEN
+         ELSEIF(KEY2(1:LEN_TRIM(KEY2))=='TYPE11')THEN
            NTYP=11
            CALL HM_READ_DEFINTER_TYPE11(NTYP,DEF_INTER,LSUBMODEL)
 
-         ELSEIF(KEY2(1:LEN_TRIM(KEY2)).EQ.'TYPE19')THEN
+         ELSEIF(KEY2(1:LEN_TRIM(KEY2))=='TYPE19')THEN
            NTYP=19
            CALL HM_READ_DEFINTER_TYPE19(NTYP,DEF_INTER,LSUBMODEL)
 
-         ELSEIF(KEY2(1:LEN_TRIM(KEY2)).EQ.'TYPE24')THEN
+         ELSEIF(KEY2(1:LEN_TRIM(KEY2))=='TYPE24')THEN
            NTYP=24
            CALL HM_READ_DEFINTER_TYPE24(NTYP,DEF_INTER,LSUBMODEL)
 
-         ELSEIF(KEY2(1:LEN_TRIM(KEY2)).EQ.'TYPE25')THEN
+         ELSEIF(KEY2(1:LEN_TRIM(KEY2))=='TYPE25')THEN
            NTYP=25
            CALL HM_READ_DEFINTER_TYPE25(NTYP,DEF_INTER,LSUBMODEL)
 

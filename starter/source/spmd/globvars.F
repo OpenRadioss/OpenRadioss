@@ -101,18 +101,18 @@ C   calcul nu nombre Elts 1D pour animations.
         NSKEWAG = NUMELP + NUMELT + NUMSKW
 
         DO I=1,NUMELR
-          IF(IGEO(11,IXR(1,I)).EQ.4 .OR.
-     .       IGEO(11,IXR(1,I)).EQ.26.OR.
-     .       IGEO(11,IXR(1,I)).EQ.13.OR.
-     .       IGEO(11,IXR(1,I)).EQ.25.OR.
-     .       IGEO(11,IXR(1,I)).EQ.45.OR.     
-     .         IGEO(11,IXR(1,I)).GE.29.AND.
-     .         IGEO(11,IXR(1,I)).LE.33 .OR.
-     .       IGEO(11,IXR(1,I)).EQ.23)THEN
+          IF(IGEO(11,IXR(1,I))==4 .OR.
+     .       IGEO(11,IXR(1,I))==26.OR.
+     .       IGEO(11,IXR(1,I))==13.OR.
+     .       IGEO(11,IXR(1,I))==25.OR.
+     .       IGEO(11,IXR(1,I))==45.OR.     
+     .         IGEO(11,IXR(1,I))>=29.AND.
+     .         IGEO(11,IXR(1,I))<=33 .OR.
+     .       IGEO(11,IXR(1,I))==23)THEN
 
             NSKEWAG=NSKEWAG+1
 
-          ELSEIF(IGEO(11,IXR(1,I)).EQ.12)THEN
+          ELSEIF(IGEO(11,IXR(1,I))==12)THEN
 
             NSKEWAG=NSKEWAG+2
             NB1DG =NB1DG+1
@@ -123,7 +123,7 @@ C   pour les sections et pour le proc0 on calcule le max
 C   des nombres d'elements coques pour toutes les sections
 cow
       SECTIOM = 0
-      IF (NSECT.GT.0) THEN
+      IF (NSECT>0) THEN
         K0 = NSTRF(25)
 
         DO I=1,NSECT

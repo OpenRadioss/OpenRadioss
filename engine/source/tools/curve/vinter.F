@@ -75,13 +75,13 @@ C
        ICONT = 0
        DO I=1,NEL0
          J1 = IPOS(I)+IAD(I)+1
-         IF(J.LE.ILEN(I)-1.AND.X(I).GT.TF(1,J1))THEN
+         IF(J<=ILEN(I)-1.AND.X(I)>TF(1,J1))THEN
            IPOS(I)=IPOS(I)+1
            ICONT = 1
          ENDIF
        ENDDO
 C
-      IF(ICONT.EQ.1)GOTO 100
+      IF(ICONT==1)GOTO 100
 C
       DO I=1,NEL0
         J1   =IPOS(I)+IAD(I)
@@ -134,16 +134,16 @@ C
 C
       J = 0
       ICONT = 1
-      DO WHILE(ICONT.EQ.1)
+      DO WHILE(ICONT==1)
 C 
        J = J+1
        ICONT = 0
        DO I=1,NEL0
          J1 = IPOS(I)+IAD(I)+1
-         IF(J.LE.ILEN(I)-1.AND.X(I).GT.TF(1,J1))THEN
+         IF(J<=ILEN(I)-1.AND.X(I)>TF(1,J1))THEN
            IPOS(I)=IPOS(I)+1
            ICONT = 1
-         ELSEIF(IPOS(I).GE.1.AND.X(I).LT.TF(1,J1-1))THEN
+         ELSEIF(IPOS(I)>=1.AND.X(I)<TF(1,J1-1))THEN
            IPOS(I)=IPOS(I)-1
            ICONT = 1
          ENDIF
@@ -200,16 +200,16 @@ C
 C
       J = 0
       ICONT = 1
-      DO WHILE(ICONT.EQ.1)
+      DO WHILE(ICONT==1)
 C 
        J = J+1
        ICONT = 0
        DO I=1,NEL0
          J1 = IPOS(I)+IAD(I)+1
-         IF(J.LE.ILEN(I)-1.AND.X(I).GT.TF(1,J1))THEN
+         IF(J<=ILEN(I)-1.AND.X(I)>TF(1,J1))THEN
            IPOS(I)=IPOS(I)+1
            ICONT = 1
-         ELSEIF(IPOS(I).GE.1.AND.X(I).LT.TF(1,J1-1))THEN
+         ELSEIF(IPOS(I)>=1.AND.X(I)<TF(1,J1-1))THEN
            IPOS(I)=IPOS(I)-1
            ICONT = 1
          ENDIF
@@ -258,14 +258,14 @@ C-----------------------------------------------
 C
       J = 0
       ICONT = 1
-      DO WHILE(ICONT.EQ.1)
+      DO WHILE(ICONT==1)
         J = J+1
         ICONT = 0
         J1 = IPOS+IAD+1
-        IF(J.LE.ILEN-1.AND.XX.GT.TF(1,J1))THEN
+        IF(J<=ILEN-1.AND.XX>TF(1,J1))THEN
           IPOS=IPOS+1
           ICONT = 1
-        ELSEIF(IPOS.GE.1.AND.XX.LT.TF(1,J1-1))THEN
+        ELSEIF(IPOS>=1.AND.XX<TF(1,J1-1))THEN
           IPOS=IPOS-1
           ICONT = 1
         ENDIF

@@ -81,7 +81,7 @@ C-----------------------------------------------
             A(2,N)    = ZERO
             A(3,N)    = ZERO
         ENDDO
-        IF (IRODDL.NE.0) THEN
+        IF (IRODDL/=0) THEN
 #include "vectorize.inc"
           !---TROTATIONS---!
           DO N=NODFT,NODLT

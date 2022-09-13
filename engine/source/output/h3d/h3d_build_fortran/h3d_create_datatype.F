@@ -63,7 +63,7 @@ C-----------------------------------------------
 c-------noda
               IF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE ==  1) THEN
 c------------scalar
-                  IF(H3D_DATA%OUTPUT_LIST(I)%INTER .NE. 0 )THEN
+                  IF(H3D_DATA%OUTPUT_LIST(I)%INTER /= 0 )THEN
                     INTER_ID = IPARI(15,H3D_DATA%OUTPUT_LIST(I)%INTER)
                   ELSE
                     INTER_ID = 0

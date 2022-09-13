@@ -95,7 +95,7 @@ C
         DO N=9,16
           N1=IPERM1(N)
           N2=IPERM2(N)
-          IF(NC(I,N).NE.0)THEN
+          IF(NC(I,N)/=0)THEN
             MSSX(N-8,I)=BM
             STIFN(NC(I,N))=STIFN(NC(I,N))+STI(I)
           ELSE

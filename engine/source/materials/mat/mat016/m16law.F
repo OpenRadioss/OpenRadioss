@@ -102,13 +102,13 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        IF(THETA(I).GE.TMELT(I)) CYCLE
+        IF(THETA(I)>=TMELT(I)) CYCLE
 C
         TSTAR=ZERO
         CT=ONE
-        IF(THETA(I).LE.THREE100) GOTO 60
+        IF(THETA(I)<=THREE100) GOTO 60
         TSTAR=(THETA(I)-THREE100)/(TMELT(I)-THREE100)
-        IF(THETA(I).GT.THETL(I)) CMX(I)=ONE
+        IF(THETA(I)>THETL(I)) CMX(I)=ONE
         CT=ONE-TSTAR**CMX(I)
 C
    60   CE=ONE
@@ -116,21 +116,21 @@ C
         EPD(I)=OFF(I) * MAX(   ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
      .          HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
 C----------------------------------------------------------
-        IF(EPD(I).LE.EPDR(I)) GOTO 70
+        IF(EPD(I)<=EPDR(I)) GOTO 70
         CE=ONE+CC(I) * LOG(EPD(I)/EPDR(I))
 C
    70   CH=CA(I)
-        IF(EPXE(I).LE.ZERO) GOTO 80
+        IF(EPXE(I)<=ZERO) GOTO 80
         CH=CA(I)+CB(I)*EPXE(I)**CN(I)
-        IF(EPXE(I).GT.EPMX(I)) CH=CA(I)+CB(I)*EPMX(I)**CN(I)
+        IF(EPXE(I)>EPMX(I)) CH=CA(I)+CB(I)*EPMX(I)**CN(I)
 C
    80   AK(I)= MIN(SIGMX(I),CH)*CE*CT
 C-----------------------
 C     MODULE ECROUISSAGE
 C-----------------------
-        IF(CN(I).GE.1) THEN
+        IF(CN(I)>=1) THEN
           QH(I)= (CB(I)*CN(I)*EPXE(I)**(CN(I)-ONE))*CE*CT
-        ELSEIF(EPXE(I).NE.ZERO)THEN
+        ELSEIF(EPXE(I)/=ZERO)THEN
           QH(I)= (CB(I)*CN(I)/EPXE(I)**(ONE-CN(I)))*CE*CT
         ELSE
           QH(I)=ZERO
@@ -138,9 +138,9 @@ C-----------------------
 C-------------------------------
 C     PROJECTION
 C-------------------------------
-        IF(AJ2(I).LE.AK(I)) THEN
+        IF(AJ2(I)<=AK(I)) THEN
           SCALE(I)=ONE
-        ELSEIF(AJ2(I).NE.ZERO) THEN
+        ELSEIF(AJ2(I)/=ZERO) THEN
           SCALE(I)=AK(I)/AJ2(I)
         ELSE
           SCALE(I)=ZERO
@@ -148,7 +148,7 @@ C-------------------------------
       ENDDO
 C
       DO I=LFT,LLT
-        IF(THETA(I).GE.TMELT(I) .OR. XIST(I).NE.ZERO) THEN
+        IF(THETA(I)>=TMELT(I) .OR. XIST(I)/=ZERO) THEN
           EPXE(I)=ZERO
           SIG(I,1)=ZERO
           SIG(I,2)=ZERO
@@ -156,7 +156,7 @@ C
           SIG(I,4)=ZERO
           SIG(I,5)=ZERO
           SIG(I,6)=ZERO    
-        ELSEIF(AJ2(I).GT.AK(I)) THEN
+        ELSEIF(AJ2(I)>AK(I)) THEN
           DPLA(I)=(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))
           AK(I)=AK(I)+DPLA(I)*QH(I)
           SCALE(I)= MIN(ONE,AK(I)/ MAX(AJ2(I),EM15))

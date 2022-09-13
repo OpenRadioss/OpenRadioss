@@ -110,7 +110,7 @@ C-----------------------------------------------
                reduc_factor(ITRIMAT) = ZERO
             ENDIF 
          ENDDO  ! ITRIMAT = 1, TRIMAT
-         !!!IF (NNUM .GE. 3) THEN
+         !!!IF (NNUM >= 3) THEN
          !!!   reduc_factor = 0.
          !!!ENDIF
          DO ITRIMAT = 1, TRIMAT

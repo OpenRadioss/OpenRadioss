@@ -174,7 +174,7 @@ C-----------------------------------------------
      .   RBUF(2)
       DOUBLE PRECISION R6T(6), G6T(6), S6T(6), DBUF(12)
 C--------------INITIALISATION--------------------------
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
 
       NCPRIA=ABS(NCPRISMS)
       NLIM  =MAX(NSMSPCG,2)
@@ -216,7 +216,7 @@ C-----------------------------------
 C RBE2
 C-----------------------------------
       IF(NRBE2+R2SIZE+NRBE3/=0)THEN
-        IF (NRBE2.GT.0.OR.R2SIZE.GT.0) THEN      
+        IF (NRBE2>0.OR.R2SIZE>0) THEN      
 C
           CALL MY_BARRIER
 C
@@ -229,7 +229,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-        IF (NRBE3.GT.0)THEN
+        IF (NRBE3>0)THEN
 C
           CALL MY_BARRIER
 C
@@ -271,12 +271,12 @@ C
         CALL MY_BARRIER
 C
         IDOWN=0
-        IF(NRLINK.GT.0)CALL SMS_RLINK10(
+        IF(NRLINK>0)CALL SMS_RLINK10(
      1   MS    ,R ,ILINK ,LLINK,SKEW,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3   ITAB  ,FRL   )
 C
-        IF(NLINK.GT.0) CALL SMS_RLINK11(
+        IF(NLINK>0) CALL SMS_RLINK11(
      1   MS    ,R ,NNLINK,LNLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3   V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -298,8 +298,8 @@ C
 C
 C------PCG(PROJECTION)----place here to have the same reference value
       IF (M_VS_SMS > 0 ) THEN
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(70,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STARTIME(70,1)
 C
         CALL SMS_INISI(
      1           IADK  ,JDIK  ,DIAG_SMS,LT_K  ,ITASK ,
@@ -325,8 +325,8 @@ C      /---------------/
         CALL SMS_INIX(NODFT,NODLT,NUMNOD,X_SMS,R   ,WEIGHT,ITASK ,
      .                DIAG_SMS   )
 C
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(70,1)
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(70,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
 C
       ELSE
 C
@@ -341,7 +341,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
 C
         CALL MY_BARRIER
 C
@@ -353,7 +353,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2.GT.0) THEN      
+      IF (NRBE2>0) THEN      
 C
         CALL MY_BARRIER
 C
@@ -372,12 +372,12 @@ C
         CALL MY_BARRIER
 C
         IDOWN=1
-        IF(NRLINK.GT.0)CALL SMS_RLINK10(
+        IF(NRLINK>0)CALL SMS_RLINK10(
      1   MS    ,X_SMS ,ILINK ,LLINK,SKEW,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3   ITAB  ,FRL   )
 C
-        IF(NLINK.GT.0) CALL SMS_RLINK11(
+        IF(NLINK>0) CALL SMS_RLINK11(
      1   MS    ,X_SMS ,NNLINK,LNLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3   V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -448,7 +448,7 @@ C
       CALL MY_BARRIER
 C
 C-----------------------------------
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
       CALL SMS_MAV_LT(
      1           NODFT   ,NODLT  ,NUMNOD ,IADK  ,JDIK  ,
      2           ITASK   ,DIAG_SMS,LT_K   ,X_SMS  ,Z_SMS ,
@@ -459,7 +459,7 @@ C-----------------------------------
      7           MV6       ,MW6       ,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
      8           NODII_SMS )
 C
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
 C
       IF(IPARIT==0)THEN
         RES0_SMS = ZERO
@@ -485,7 +485,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2.GT.0.OR.R2SIZE.GT.0) THEN      
+      IF (NRBE2>0.OR.R2SIZE>0) THEN      
 C
         CALL MY_BARRIER
 C
@@ -506,7 +506,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
 C
         CALL MY_BARRIER
 C
@@ -591,12 +591,12 @@ C
         CALL MY_BARRIER
 C
         IDOWN=0
-        IF(NRLINK.GT.0)CALL SMS_RLINK10(
+        IF(NRLINK>0)CALL SMS_RLINK10(
      1   MS    ,Z_SMS ,ILINK ,LLINK,SKEW,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3   ITAB  ,FRL   )
 C
-        IF(NLINK.GT.0) CALL SMS_RLINK11(
+        IF(NLINK>0) CALL SMS_RLINK11(
      1   MS    ,Z_SMS ,NNLINK,LNLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3   V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -673,7 +673,7 @@ C-----------------------------------
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
 C
         CALL MY_BARRIER
 C
@@ -685,7 +685,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2.GT.0) THEN      
+      IF (NRBE2>0) THEN      
 C
         CALL MY_BARRIER
 C
@@ -704,12 +704,12 @@ C
         CALL MY_BARRIER
 C
         IDOWN=1
-        IF(NRLINK.GT.0)CALL SMS_RLINK10(
+        IF(NRLINK>0)CALL SMS_RLINK10(
      1   MS    ,Z_SMS ,ILINK ,LLINK,SKEW,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3   ITAB  ,FRL   )
 C
-        IF(NLINK.GT.0) CALL SMS_RLINK11(
+        IF(NLINK>0) CALL SMS_RLINK11(
      1   MS    ,Z_SMS ,NNLINK,LNLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3   V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -765,10 +765,10 @@ C
             R6T(K) = ZERO
             G6T(K) = ZERO
           ENDDO 
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(62,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STARTIME(62,1)
           CALL SUM_6_FLOAT(1,LLT,R2,R6T,1)
           CALL SUM_6_FLOAT(1,LLT,G,G6T,1)
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(62,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(62,1)
 #include "lockon.inc"
           DO K=1,6
             R6SMS(K)=R6SMS(K)+R6T(K)
@@ -789,17 +789,17 @@ C
      .             G6SMS(4)+G6SMS(5)+G6SMS(6)
         END IF
       ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
-        IF(IPARIT.EQ.0)THEN
-          IF(IMONM.GT.0) CALL STARTIME(63,1)
+        IF(IPARIT==0)THEN
+          IF(IMONM>0) CALL STARTIME(63,1)
           RBUF(1)=RES0_SMS
           RBUF(2)=G0_SMS
           CALL SPMD_GLOB_DSUM9(RBUF,2)
           CALL SPMD_RBCAST(RBUF,RBUF,2,1,0,2)
           RES0_SMS=RBUF(1)
           G0_SMS  =RBUF(2)
-          IF(IMONM.GT.0) CALL STOPTIME(63,1)
+          IF(IMONM>0) CALL STOPTIME(63,1)
         ELSE
-          IF(IMONM.GT.0) CALL STARTIME(63,1)
+          IF(IMONM>0) CALL STARTIME(63,1)
           DO K=1,6
             DBUF(K)  =R6SMS(K)
             DBUF(K+6)=G6SMS(K)
@@ -812,7 +812,7 @@ C
           CALL SPMD_RBCAST(RBUF,RBUF,2,1,0,2)
           RES0_SMS=RBUF(1)
           G0_SMS  =RBUF(2)
-          IF(IMONM.GT.0) CALL STOPTIME(63,1)
+          IF(IMONM>0) CALL STOPTIME(63,1)
         END IF
       END IF
 C-----------------------------------
@@ -840,8 +840,8 @@ C-----------------------------------
 C
       CALL MY_BARRIER
 C
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
-      IF (RES0_SMS.LT.EM10) GOTO 200
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
+      IF (RES0_SMS<EM10) GOTO 200
       TOLN=RES0_SMS*TOL_SMS
 
  100  CONTINUE
@@ -852,7 +852,7 @@ C
 C
 C------PCG(PROJECTION)----
        IF (M_VS_SMS > 0 ) THEN
-         IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(70,1)
+         IF(IMONM>0.AND.ITASK==0)CALL STARTIME(70,1)
 C
          CALL SMS_PRO_P(NODFT ,NODLT ,NUMNOD ,P_SMS,WEIGHT,ITASK ,
 C z as work array
@@ -861,7 +861,7 @@ C       /---------------/
          CALL MY_BARRIER
 C       /---------------/
 C
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(70,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(70,1)
        END IF
 C
 c      CALL MY_BARRIER
@@ -876,7 +876,7 @@ C
      7           MV6       ,MW6      ,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
      8           NODII_SMS )
 C
-       IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
+       IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
        IF(IPARIT==0)THEN
          RES1_SMS= ZERO
          G1_SMS  = ZERO
@@ -906,7 +906,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-       IF (NRBE2.GT.0.OR.R2SIZE.GT.0) THEN      
+       IF (NRBE2>0.OR.R2SIZE>0) THEN      
 C
          CALL MY_BARRIER
 C
@@ -927,7 +927,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
 C
         CALL MY_BARRIER
 C
@@ -1017,12 +1017,12 @@ C
         CALL MY_BARRIER
 C
         IDOWN=0
-        IF(NRLINK.GT.0)CALL SMS_RLINK10(
+        IF(NRLINK>0)CALL SMS_RLINK10(
      1   MS    ,Y_SMS ,ILINK ,LLINK,SKEW,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3   ITAB  ,FRL   )
 C
-        IF(NLINK.GT.0) CALL SMS_RLINK11(
+        IF(NLINK>0) CALL SMS_RLINK11(
      1   MS    ,Y_SMS ,NNLINK,LNLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3   V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -1070,9 +1070,9 @@ C
           DO K=1,6
             S6T(K) = ZERO
           ENDDO 
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(62,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STARTIME(62,1)
           CALL SUM_6_FLOAT(1,LLT,S,S6T,1)
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(62,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(62,1)
 #include "lockon.inc"
           DO K=1,6
             S6SMS(K)=S6SMS(K)+S6T(K)
@@ -1090,13 +1090,13 @@ C
      .           S6SMS(4)+S6SMS(5)+S6SMS(6)
          END IF
        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
-        IF(IPARIT.EQ.0)THEN
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(63,1)
+        IF(IPARIT==0)THEN
+          IF(IMONM>0.AND.ITASK==0)CALL STARTIME(63,1)
           CALL SPMD_GLOB_DSUM9(S_SMS,1)
           CALL SPMD_RBCAST(S_SMS,S_SMS,1,1,0,2)
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(63,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(63,1)
         ELSE
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(63,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STARTIME(63,1)
           DO K=1,6
             DBUF(K)  =S6SMS(K)
           END DO
@@ -1104,7 +1104,7 @@ C
           S_SMS  = DBUF(1)+DBUF(2)+DBUF(3)+
      .             DBUF(4)+DBUF(5)+DBUF(6)
           CALL SPMD_RBCAST(S_SMS,S_SMS,1,1,0,2)
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(63,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(63,1)
         END IF
       END IF
 C
@@ -1148,7 +1148,7 @@ C-----------------------------------
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
 C
         CALL MY_BARRIER
 C
@@ -1160,7 +1160,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2.GT.0) THEN      
+      IF (NRBE2>0) THEN      
 C
         CALL MY_BARRIER
 C
@@ -1179,12 +1179,12 @@ C
         CALL MY_BARRIER
 C
         IDOWN=1
-        IF(NRLINK.GT.0)CALL SMS_RLINK10(
+        IF(NRLINK>0)CALL SMS_RLINK10(
      1   MS    ,Z_SMS ,ILINK ,LLINK,SKEW,
      2   FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3   ITAB  ,FRL   )
 C
-        IF(NLINK.GT.0) CALL SMS_RLINK11(
+        IF(NLINK>0) CALL SMS_RLINK11(
      1   MS    ,Z_SMS ,NNLINK,LNLINK,SKEW  ,
      2   FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3   V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -1234,10 +1234,10 @@ C
             R6T(K) = ZERO
             G6T(K) = ZERO
           ENDDO 
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(62,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STARTIME(62,1)
           CALL SUM_6_FLOAT(1,LLT,R2,R6T,1)
           CALL SUM_6_FLOAT(1,LLT,G,G6T,1)
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(62,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(62,1)
 #include "lockon.inc"
           DO K=1,6
             R6SMS(K)=R6SMS(K)+R6T(K)
@@ -1258,17 +1258,17 @@ C
      .             G6SMS(4)+G6SMS(5)+G6SMS(6)
          END IF
        ELSEIF(ITASK==0)THEN     ! communication sur un seul thread
-         IF(IPARIT.EQ.0)THEN
-           IF(IMONM.GT.0) CALL STARTIME(63,1)
+         IF(IPARIT==0)THEN
+           IF(IMONM>0) CALL STARTIME(63,1)
            RBUF(1)=RES1_SMS
            RBUF(2)=G1_SMS
            CALL SPMD_GLOB_DSUM9(RBUF,2)
            CALL SPMD_RBCAST(RBUF,RBUF,2,1,0,2)
            RES1_SMS =RBUF(1)
            G1_SMS  =RBUF(2)
-           IF(IMONM.GT.0) CALL STOPTIME(63,1)
+           IF(IMONM>0) CALL STOPTIME(63,1)
          ELSE
-           IF(IMONM.GT.0) CALL STARTIME(63,1)
+           IF(IMONM>0) CALL STARTIME(63,1)
            DO K=1,6
              DBUF(K)  =R6SMS(K)
              DBUF(K+6)=G6SMS(K)
@@ -1281,7 +1281,7 @@ C
            CALL SPMD_RBCAST(RBUF,RBUF,2,1,0,2)
            RES1_SMS=RBUF(1)
            G1_SMS =RBUF(2)
-           IF(IMONM.GT.0) CALL STOPTIME(63,1)
+           IF(IMONM>0) CALL STOPTIME(63,1)
          END IF
        END IF
 C
@@ -1296,9 +1296,9 @@ C
        end if
        endif
 C
-       IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
-       IF(IT.GE.NLIM.OR.RES1_SMS.LE.TOLN) GO TO 200
-       IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
+       IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
+       IF(IT>=NLIM.OR.RES1_SMS<=TOLN) GO TO 200
+       IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
 
        BETA=G1_SMS/MAX(EM30,G0_SMS)
 c      print *,'beta',G0_SMS,G1_SMS
@@ -1338,7 +1338,7 @@ C-----------------------------------
 C
        CALL MY_BARRIER
 C
-       IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
+       IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
        GO TO 100
  200  CONTINUE
 c      if(itask==0.and.ispmd==0)then
@@ -1346,10 +1346,10 @@ c     .           .and.mod(ncycle,npri_sms)==0)then
 c        print *,ncycle,'nit=',it,nlim,res1_sms,toln
 c      end if
 
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
-      IF(IT.GE.NLIM)THEN
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
+      IF(IT>=NLIM)THEN
         MSTOP = 2
-        IF(ISPMD.EQ.0.AND.ITASK.EQ.0)THEN
+        IF(ISPMD==0.AND.ITASK==0)THEN
 #include "lockon.inc"
         WRITE(ISTDO,*)
      . ' ** ERROR : AMS IS LIKELY DIVERGING '
@@ -1377,7 +1377,7 @@ C-----------------------------------
 C
         CALL MY_BARRIER
 C
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
         CALL SMS_MAV_LT(
      1           NODFT   ,NODLT  ,NUMNOD ,IADK  ,JDIK  ,
      2           ITASK   ,DIAG_SMS,LT_K   ,X_SMS  ,Z_SMS ,
@@ -1388,7 +1388,7 @@ C
      7           MV6       ,MW6       ,NODFT2_SMS,NODLT2_SMS,INDX2_SMS,
      8           NODII_SMS )
 C
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(61,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STARTIME(61,1)
 C
         CALL MY_BARRIER
 C
@@ -1404,7 +1404,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-        IF (NRBE2.GT.0.OR.R2SIZE.GT.0) THEN      
+        IF (NRBE2>0.OR.R2SIZE>0) THEN      
 C
           CALL MY_BARRIER
 C
@@ -1425,7 +1425,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-        IF (NRBE3.GT.0)THEN
+        IF (NRBE3>0)THEN
 C
           CALL MY_BARRIER
 C
@@ -1512,12 +1512,12 @@ C
           CALL MY_BARRIER
 C
           IDOWN=0
-          IF(NRLINK.GT.0)CALL SMS_RLINK10(
+          IF(NRLINK>0)CALL SMS_RLINK10(
      1     MS    ,Z_SMS ,ILINK ,LLINK,SKEW,
      2     FR_RL ,WEIGHT,FRL6  ,IDOWN,TAG_LNK_SMS,
      3     ITAB  ,FRL   )
 C
-          IF(NLINK.GT.0) CALL SMS_RLINK11(
+          IF(NLINK>0) CALL SMS_RLINK11(
      1     MS    ,Z_SMS ,NNLINK,LNLINK,SKEW  ,
      2     FR_LL ,WEIGHT,FNL6  ,X     ,XFRAME,
      3     V     ,IDOWN ,TAG_LNK_SMS,ITAB,FNL)
@@ -1617,10 +1617,10 @@ C-------X->R--------
        R(2,I) = X_SMS(2,I)
        R(3,I) = X_SMS(3,I)
       ENDDO
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(61,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(61,1)
 C--------PCG (PROJECTION)
       IF (M_VS_SMS > 0 .AND. IT > 0) THEN
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(70,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STARTIME(70,1)
         CALL SMS_UPDST(
      1           IADK  ,JDIK  ,DIAG_SMS,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
@@ -1633,13 +1633,13 @@ C----------------------
         CALL MY_BARRIER
 C----------------------
         IF (ITASK == 0) NCG_RUN_SMS = NCG_RUN_SMS + 1
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(70,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(70,1)
       END IF
 C
       if(ncpria > 0) then
       if(itask==0.and.ispmd==0
      .   .and.(ncprisms/=0.and.mod(ncycle,ncpria)==0))then
-        IF(TOTIT.EQ.0)THEN
+        IF(TOTIT==0)THEN
           write(iout,1000) ncycle,totit
         ELSE
           write(iout,1001) ncycle,totit,res1_sms,toln
@@ -1736,25 +1736,25 @@ C-----------------------------
 C
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
 C
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C
           CALL MY_BARRIER
 C
           IF(ITASK==0)THEN   ! comm sur 1er thread
 C
             SIZE = 3
-            IF(IMONM.GT.0) CALL STARTIME(65,1)
+            IF(IMONM>0) CALL STARTIME(65,1)
             CALL SPMD_VFI_SMS(V,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS,LIST_SMS,1,
      .                       IAD_SEND,IAD_RECV,REQ_R,REQ_S,RBUF,SBUF)
-            IF(IMONM.GT.0) CALL STOPTIME(65,1)
+            IF(IMONM>0) CALL STOPTIME(65,1)
 
           END IF
         END IF
       END IF
 C
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(64,1)
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(74,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(64,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(74,1)
 C
       KMV= 0
       IF(IPARIT==0.OR.DEBUG(9)==0)THEN
@@ -1841,7 +1841,7 @@ C
       CALL MY_BARRIER ! barriere avt NODFT2_SMS,NODLT2_SMS
 C
       IF(ITASK==0)THEN
-        IF(IMONM.GT.0)CALL STOPTIME(74,1)
+        IF(IMONM>0)CALL STOPTIME(74,1)
       END IF
 C
       IF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
@@ -1868,17 +1868,17 @@ c           W(K1) = W(K1) +L_K*V(I1)
           END DO
         END IF
 C
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C
           IF(ITASK==0)THEN   ! comm sur 1er thread
-            IF(IMONM.GT.0)CALL STOPTIME(64,1)
+            IF(IMONM>0)CALL STOPTIME(64,1)
 C
             SIZE = 3
-            IF(IMONM.GT.0) CALL STARTIME(65,1)
+            IF(IMONM>0) CALL STARTIME(65,1)
             CALL SPMD_VFI_SMS(V,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS,LIST_SMS,2,
      .                       IAD_SEND,IAD_RECV,REQ_R,REQ_S,RBUF,SBUF)
-            IF(IMONM.GT.0) CALL STOPTIME(65,1)
+            IF(IMONM>0) CALL STOPTIME(65,1)
 
           END IF
 C
@@ -1888,13 +1888,13 @@ C
 C
           CALL MY_BARRIER
 C
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(64,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(64,1)
         END IF
 C
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(64,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STARTIME(64,1)
 C
         IF(IPARIT==0)THEN
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
             IF(ITASK==0)THEN
               KK = 0
               LOC_PROC=ISPMD+1
@@ -1940,14 +1940,14 @@ C
             CALL MY_BARRIER
 C
             IF(ITASK==0)THEN   ! comm sur 1er thread
-              IF(IMONM.GT.0)CALL STOPTIME(64,1)
+              IF(IMONM>0)CALL STOPTIME(64,1)
 C
               SIZE = 3
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-              IF(IMONM.GT.0) CALL STARTIME(80,1)
+              IF(IMONM>0) CALL STARTIME(80,1)
               CALL SPMD_EXCH_SMS(W,NODNX_SMS,IAD_ELEM,FR_ELEM,SIZE,
      .                           LENR)
-              IF(IMONM.GT.0) CALL STOPTIME(80,1)
+              IF(IMONM>0) CALL STOPTIME(80,1)
             END IF
 C
 C BARRIER before RETURN
@@ -1958,7 +1958,7 @@ C
 C BARRIER before RETURN
             CALL MY_BARRIER
 C
-            IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(64,1)
+            IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(64,1)
 C
           END IF
 C
@@ -1985,7 +1985,7 @@ C---------------------------------------------------------------------
            END DO
           END DO
 C
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 C
 Cafter gather VFI
             CALL MY_BARRIER
@@ -2074,19 +2074,19 @@ C
      .    	   +MW6(4,1,I)+MW6(5,1,I)+MW6(6,1,I)
           END DO
 C
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 C
             CALL MY_BARRIER
 C
             IF(ITASK==0)THEN   ! comm sur 1er thread
-              IF(IMONM.GT.0)CALL STOPTIME(64,1)
+              IF(IMONM>0)CALL STOPTIME(64,1)
 C
               SIZE = 3
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-              IF(IMONM.GT.0) CALL STARTIME(80,1)
+              IF(IMONM>0) CALL STARTIME(80,1)
               CALL SPMD_EXCH_SMS(W,NODNX_SMS,IAD_ELEM,FR_ELEM,SIZE,
      .                          LENR)
-              IF(IMONM.GT.0) CALL STOPTIME(80,1)
+              IF(IMONM>0) CALL STOPTIME(80,1)
             END IF
 C
 C BARRIER before RETURN
@@ -2097,7 +2097,7 @@ C
 C BARRIER before RETURN
             CALL MY_BARRIER
 C
-            IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(64,1)
+            IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(64,1)
 C
           END IF
 C
@@ -2124,7 +2124,7 @@ C---------------------------------------------------------------------
            END DO
           END DO
 C
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 C
 Cafter gather VFI
             CALL MY_BARRIER
@@ -2197,26 +2197,26 @@ C
             END DO
           END DO
 C
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 C
            CALL MY_BARRIER
 C
            IF(ITASK==0)THEN   ! comm sur 1er thread
-             IF(IMONM.GT.0)CALL STOPTIME(64,1)
+             IF(IMONM>0)CALL STOPTIME(64,1)
 C
              SIZE = 3
              LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-             IF(IMONM.GT.0) CALL STARTIME(80,1)
+             IF(IMONM>0) CALL STARTIME(80,1)
              CALL SPMD_EXCH_SMS6(MW6,NODNX_SMS,IAD_ELEM,FR_ELEM,SIZE,
      .                          LENR)
-             IF(IMONM.GT.0) CALL STOPTIME(80,1)
+             IF(IMONM>0) CALL STOPTIME(80,1)
            END IF
 C
            CALL MY_BARRIER
 C
           END IF
 C
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(64,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STARTIME(64,1)
 C
           DO N=NODFT1_SMS,NODLT1_SMS
             I=INDX1_SMS(N)
@@ -2234,7 +2234,7 @@ C
 C BARRIER before RETURN
           CALL MY_BARRIER
 C
-          IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(64,1)
+          IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(64,1)
 C
         END IF
 
@@ -2243,15 +2243,15 @@ C
         CALL MY_BARRIER
 C
         IF(ITASK==0)THEN   ! comm sur 1er thread
-          IF(IMONM.GT.0)CALL STOPTIME(64,1)
+          IF(IMONM>0)CALL STOPTIME(64,1)
 C
           IF(NSPMD > 1)THEN
             SIZE = 3
             LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-            IF(IMONM.GT.0) CALL STARTIME(65,1)
+            IF(IMONM>0) CALL STARTIME(65,1)
             CALL SPMD_EXCH_SMS(W,NODNX_SMS,IAD_ELEM,FR_ELEM,SIZE,
      .                         LENR)
-            IF(IMONM.GT.0) CALL STOPTIME(65,1)
+            IF(IMONM>0) CALL STOPTIME(65,1)
           END IF
         END IF
 C BARRIER before RETURN
@@ -2349,23 +2349,23 @@ c           W(K) = W(K) +L_K*V(I)
           END DO
         END IF
 C
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C
           CALL MY_BARRIER
 C
           IF(ITASK==0)THEN   ! comm sur 1er thread
 C
             SIZE = 1
-            IF(IMONM.GT.0) CALL STARTIME(65,1)
+            IF(IMONM>0) CALL STARTIME(65,1)
             CALL SPMD_FI_SMS(V,NODNX_SMS,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS,LIST_SMS)
-            IF(IMONM.GT.0) CALL STOPTIME(65,1)
+            IF(IMONM>0) CALL STOPTIME(65,1)
 
           END IF
         END IF
 C
         IF(IPARIT==0)THEN
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
             IF(ITASK==0)THEN
               KK = 0
               LOC_PROC=ISPMD+1
@@ -2407,7 +2407,7 @@ C
            END DO
           END DO
 C
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 C
 Cafter gather VFI
             CALL MY_BARRIER
@@ -2471,7 +2471,7 @@ C
 
       END IF
 C
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
 C
         CALL MY_BARRIER
 C
@@ -2479,10 +2479,10 @@ C
 C
           SIZE = 1
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-          IF(IMONM.GT.0) CALL STARTIME(65,1)
+          IF(IMONM>0) CALL STARTIME(65,1)
           CALL SPMD_EXCH_SMS(W,NODNX_SMS,IAD_ELEM,FR_ELEM,SIZE,
      .                       LENR)
-          IF(IMONM.GT.0) CALL STOPTIME(65,1)
+          IF(IMONM>0) CALL STOPTIME(65,1)
         END IF
       END IF
 C
@@ -2590,23 +2590,23 @@ c             W(K) = W(K) +L_K*V(I)
           END DO
         END IF
 C
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C
           CALL MY_BARRIER
 C
           IF(ITASK==0)THEN   ! comm sur 1er thread
 C
             SIZE = 1
-            IF(IMONM.GT.0) CALL STARTIME(65,1)
+            IF(IMONM>0) CALL STARTIME(65,1)
             CALL SPMD_FI_SMS(V,NODNX_SMS,SIZE,VFI,FR_RMS,
      .                       FR_SMS,LIST_RMS,LIST_SMS)
-            IF(IMONM.GT.0) CALL STOPTIME(65,1)
+            IF(IMONM>0) CALL STOPTIME(65,1)
 
           END IF
         END IF
 C
         IF(IPARIT==0)THEN
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
             IF(ITASK==0)THEN
               KK = 0
               LOC_PROC=ISPMD+1
@@ -2652,7 +2652,7 @@ C
            END DO
           END DO
 C
-          IF(NSPMD.GT.1) THEN
+          IF(NSPMD>1) THEN
 C
 Cafter gather VFI
             CALL MY_BARRIER
@@ -2716,7 +2716,7 @@ C
 
       END IF
 C
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
 C
         CALL MY_BARRIER
 C
@@ -2724,10 +2724,10 @@ C
 C
           SIZE = 1
           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-          IF(IMONM.GT.0) CALL STARTIME(65,1)
+          IF(IMONM>0) CALL STARTIME(65,1)
           CALL SPMD_EXCH_SMS(W,NODNX_SMS,IAD_ELEM,FR_ELEM,SIZE,
      .                       LENR)
-          IF(IMONM.GT.0) CALL STOPTIME(65,1)
+          IF(IMONM>0) CALL STOPTIME(65,1)
         END IF
       END IF
 C

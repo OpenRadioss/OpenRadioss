@@ -392,7 +392,7 @@ C Failure model initialization
 C------------------------------------------ 
 C  Assemble nodal volumes and moduli for interface stiffness
 C  Warning : IX1, IX2 ... IX6 <=> NC(MVSIZ,6)
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         NCC=6
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
      2              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,

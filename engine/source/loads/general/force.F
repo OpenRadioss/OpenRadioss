@@ -109,7 +109,7 @@ C=======================================================================
       IANIM  = ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
      .         ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT
 C
-      IF(IMACH.NE.3.OR.IPARIT.EQ.0) THEN
+      IF(IMACH/=3.OR.IPARIT==0) THEN
 C code SPMD Parith/OFF ou SMP NE PAS OUBLIER LE CODE P/ON !
        ! en parith/on pour le spmd il faut calculer sur chaque proc
        ! en parith/off pour le spmd il ne faut calculer qu'une fois
@@ -128,9 +128,9 @@ C
        ISENS   = 0
        XSENS   = ONE
        DO K=1,NSENSOR
-         IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+         IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
        ENDDO
-       IF(ISENS.EQ.0)THEN
+       IF(ISENS==0)THEN
           TS=TT
        ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
          IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
@@ -140,11 +140,11 @@ C
           IF(TS < ZERO) GOTO 10
        ENDIF
 C
-       IF(N4.EQ.-1)THEN
+       IF(N4==-1)THEN
 C----------------
 C       FORCE CONCENTREE
 C----------------
-        IF(N_OLD.NE.N3.OR.X_OLD.NE.TS) THEN
+        IF(N_OLD/=N3.OR.X_OLD/=TS) THEN
           ISMOOTH = 0
           IF (N3 > 0) ISMOOTH = NPC(2*NFUNCT+N3+1)
 !!          F1    = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
@@ -163,22 +163,22 @@ C----------------
         AA  = FCY*F2
         ISK = IB(2,NL)/10
         N2  = IB(2,NL)-10*ISK
-        IF(N2.LE.3)THEN
-         IF(N2D.NE.1)THEN
+        IF(N2<=3)THEN
+         IF(N2D/=1)THEN
           AXI=ONE
          ELSE
           AXI=X(2,N1)
          ENDIF
-         IF(ISK.LE.1)THEN
+         IF(ISK<=1)THEN
           A(N2,N1)=A(N2,N1)+AA
 !
           IF (CPTREAC > 0)  THEN
-            IF(NODREAC(N1).NE.0) THEN
+            IF(NODREAC(N1)/=0) THEN
               FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
             ENDIF
           ENDIF
 !
-          IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+          IF(IANIM >0 .AND.IMPL_S==0) THEN
             FEXT(N2,N1)=FEXT(N2,N1)+AA
           ENDIF
            TFEXC = TFEXC+HALF*(A0+AA)*V(N2,N1)*AXI
@@ -190,7 +190,7 @@ C----------------
           A(1,N1)=A(1,N1)+SKEW(K1,ISK)*AA
           A(2,N1)=A(2,N1)+SKEW(K2,ISK)*AA
           A(3,N1)=A(3,N1)+SKEW(K3,ISK)*AA
-          IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+          IF(IANIM >0 .AND.IMPL_S==0) THEN
             FEXT(1,N1) = FEXT(1,N1)+SKEW(K1,ISK)*AA
             FEXT(2,N1) = FEXT(2,N1)+SKEW(K2,ISK)*AA
             FEXT(3,N1) = FEXT(3,N1)+SKEW(K3,ISK)*AA
@@ -198,7 +198,7 @@ C----------------
 !
 !
           IF (CPTREAC > 0 ) THEN
-            IF(NODREAC(N1).NE.0) THEN
+            IF(NODREAC(N1)/=0) THEN
               FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
               FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
               FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
@@ -206,14 +206,14 @@ C----------------
           ENDIF!
 !
          ENDIF
-        ELSEIF(N2.LE.6)THEN
+        ELSEIF(N2<=6)THEN
          N2 = N2 - 3
-         IF(ISK.LE.1)THEN
+         IF(ISK<=1)THEN
           AR(N2,N1)=AR(N2,N1)+AA
           TFEXC=TFEXC+HALF*(A0+AA)*VR(N2,N1)
 !
           IF (CPTREAC > 0) THEN
-            IF(NODREAC(N1).NE.0) THEN
+            IF(NODREAC(N1)/=0) THEN
               FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
             ENDIF
           ENDIF!
@@ -228,7 +228,7 @@ C----------------
           AR(3,N1) = AR(3,N1)+SKEW(K3,ISK)*AA
 !
           IF (CPTREAC > 0) THEN 
-            IF(NODREAC(N1).NE.0) THEN
+            IF(NODREAC(N1)/=0) THEN
               FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
               FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
               FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
@@ -246,7 +246,7 @@ C----------------
 
         IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
 
-        IF(N_OLD.NE.N5.OR.X_OLD.NE.TS) THEN
+        IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
           ISMOOTH = 0
           IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
 !!          F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
@@ -260,9 +260,9 @@ C----------------
         ENDIF
         AA = FCY*F1*XSENS
 C
-        IF(N2D.EQ.0)THEN
+        IF(N2D==0)THEN
 C        ANALYSE 3D
-         IF(N4.NE.0)THEN
+         IF(N4/=0)THEN
            NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
            NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
            NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
@@ -273,14 +273,14 @@ C
            A(1,N1)=A(1,N1)+FX
            A(2,N1)=A(2,N1)+FY
            A(3,N1)=A(3,N1)+FZ
-           IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+           IF(IANIM >0 .AND.IMPL_S==0) THEN
              FEXT(1,N1) = FEXT(1,N1)+FX
              FEXT(2,N1) = FEXT(2,N1)+FY
              FEXT(3,N1) = FEXT(3,N1)+FZ
            ENDIF
 !
           IF (CPTREAC > 0) THEN
-            IF(NODREAC(N1).NE.0) THEN
+            IF(NODREAC(N1)/=0) THEN
               FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
               FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
               FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
@@ -291,14 +291,14 @@ C
            A(1,N2)=A(1,N2)+FX
            A(2,N2)=A(2,N2)+FY
            A(3,N2)=A(3,N2)+FZ
-           IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+           IF(IANIM >0 .AND.IMPL_S==0) THEN
              FEXT(1,N2) = FEXT(1,N2)+FX
              FEXT(2,N2) = FEXT(2,N2)+FY
              FEXT(3,N2) = FEXT(3,N2)+FZ
            ENDIF
 !
           IF (CPTREAC > 0) THEN
-            IF(NODREAC(N2).NE.0) THEN
+            IF(NODREAC(N2)/=0) THEN
               FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
               FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
               FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
@@ -309,14 +309,14 @@ C
            A(1,N3)=A(1,N3)+FX
            A(2,N3)=A(2,N3)+FY
            A(3,N3)=A(3,N3)+FZ
-           IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+           IF(IANIM >0 .AND.IMPL_S==0) THEN
              FEXT(1,N3) = FEXT(1,N3)+FX
              FEXT(2,N3) = FEXT(2,N3)+FY
              FEXT(3,N3) = FEXT(3,N3)+FZ
            ENDIF
 !
           IF (CPTREAC > 0) THEN
-            IF(NODREAC(N3).NE.0) THEN
+            IF(NODREAC(N3)/=0) THEN
               FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
               FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
               FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
@@ -327,14 +327,14 @@ C
            A(1,N4)=A(1,N4)+FX
            A(2,N4)=A(2,N4)+FY
            A(3,N4)=A(3,N4)+FZ
-           IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+           IF(IANIM >0 .AND.IMPL_S==0) THEN
              FEXT(1,N4) = FEXT(1,N4)+FX
              FEXT(2,N4) = FEXT(2,N4)+FY
              FEXT(3,N4) = FEXT(3,N4)+FZ
            ENDIF
 !
           IF (CPTREAC > 0) THEN
-            IF (NODREAC(N4).NE.0) THEN
+            IF (NODREAC(N4)/=0) THEN
               FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
               FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
               FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
@@ -359,14 +359,14 @@ C
           A(1,N1)=A(1,N1)+FX
           A(2,N1)=A(2,N1)+FY
           A(3,N1)=A(3,N1)+FZ
-          IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+          IF(IANIM >0  .AND.IMPL_S==0) THEN
             FEXT(1,N1) = FEXT(1,N1)+FX
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
           ENDIF
 !
           IF (CPTREAC > 0) THEN
-            IF (NODREAC(N1).NE.0) THEN
+            IF (NODREAC(N1)/=0) THEN
               FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
               FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
               FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
@@ -377,14 +377,14 @@ C
           A(1,N2) = A(1,N2)+FX
           A(2,N2) = A(2,N2)+FY
           A(3,N2) = A(3,N2)+FZ
-          IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+          IF(IANIM >0 .AND.IMPL_S==0) THEN
             FEXT(1,N2) = FEXT(1,N2)+FX
             FEXT(2,N2) = FEXT(2,N2)+FY
             FEXT(3,N2) = FEXT(3,N2)+FZ
           ENDIF
 !
           IF (CPTREAC > 0) THEN 
-             IF(NODREAC(N2).NE.0) THEN
+             IF(NODREAC(N2)/=0) THEN
                FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
@@ -395,14 +395,14 @@ C
           A(1,N3) = A(1,N3)+FX
           A(2,N3) = A(2,N3)+FY
           A(3,N3) = A(3,N3)+FZ
-          IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+          IF(IANIM >0  .AND.IMPL_S==0) THEN
             FEXT(1,N3) = FEXT(1,N3)+FX
             FEXT(2,N3) = FEXT(2,N3)+FY
             FEXT(3,N3) = FEXT(3,N3)+FZ
           ENDIF
 !
           IF (CPTREAC > 0 ) THEN
-            IF (NODREAC(N3).NE.0) THEN
+            IF (NODREAC(N3)/=0) THEN
               FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
               FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
               FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
@@ -426,7 +426,7 @@ C
          A(2,N2) = A(2,N2)+FY
          A(3,N2) = A(3,N2)+FZ
 C
-         IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+         IF(IANIM >0 .AND.IMPL_S==0) THEN
             FEXT(2,N1) = FEXT(2,N1)+FY
             FEXT(3,N1) = FEXT(3,N1)+FZ
 c
@@ -435,18 +435,18 @@ c
          ENDIF
 !
           IF (CPTREAC > 0) THEN
-            IF(NODREAC(N1).NE.0) THEN
+            IF(NODREAC(N1)/=0) THEN
               FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
               FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
             ENDIF
-            IF (NODREAC(N2).NE.0) THEN
+            IF (NODREAC(N2)/=0) THEN
               FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
               FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
             ENDIF
           ENDIF
 !
 C
-         IF(N2D.EQ.1)THEN
+         IF(N2D==1)THEN
           AX     = HALF*(X(2,N1)+X(2,N2))
          ELSE
           AX     = ONE
@@ -466,7 +466,7 @@ C-------------------------
 C code SPMD Parith/ON
 Code non vectoriel
 C-------------------------
-       IF(IVECTOR.EQ.0) THEN
+       IF(IVECTOR==0) THEN
         DO 100 NL=1,NCONLD
          N1  = IB(1,NL)
          N2  = IB(2,NL)
@@ -479,12 +479,12 @@ C-------------------------
          UP_BOUND = 4
          ! -------------
          ! flush sky array to 0.
-         IF(N4.EQ.-1) THEN
+         IF(N4==-1) THEN
             UP_BOUND = 1
          ELSE
-            IF(N2D.EQ.0)THEN
+            IF(N2D==0)THEN
                 !  3D
-                IF(N4.NE.0)THEN
+                IF(N4/=0)THEN
                     UP_BOUND = 4
                 ELSE
                     UP_BOUND = 3
@@ -499,20 +499,20 @@ C-------------------------
 
          ISENS=0
          DO K=1,NSENSOR
-           IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+           IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
          ENDDO
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS==0)THEN
            TS=TT
          ELSE
            TS = TT-SENSOR(2,ISENS)
-           IF(TS.LT.ZERO)GOTO 100
+           IF(TS<ZERO)GOTO 100
          ENDIF
 C
-         IF(N4.EQ.-1)THEN
+         IF(N4==-1)THEN
 C-------------------------
 C        FORCE CONCENTREE
 C-------------------------
-           IF(N_OLD.NE.N3.OR.X_OLD.NE.TS) THEN
+           IF(N_OLD/=N3.OR.X_OLD/=TS) THEN
              ISMOOTH = 0
              IF (N3 > 0) ISMOOTH = NPC(2*NFUNCT+N3+1)
 !!             F1    = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
@@ -531,20 +531,20 @@ C-------------------------
            AA  = FCY*F2
            ISK = IB(2,NL)/10
            N2  = IB(2,NL)-10*ISK
-           IF(N2.LE.3)THEN
-             IF(N2D.NE.1)THEN
+           IF(N2<=3)THEN
+             IF(N2D/=1)THEN
                AXI=ONE
              ELSE
                AXI=X(2,N1)
              ENDIF
-             IF(ISK.LE.1)THEN
+             IF(ISK<=1)THEN
                FSKY(N2,IADC(1,NL)) = AA
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(N2,N1)=FEXT(N2,N1)+AA
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
                 ENDIF
                ENDIF
@@ -559,14 +559,14 @@ C-------------------------
                FSKY(1,IAD)  = SKEW(K1,ISK)*AA
                FSKY(2,IAD)  = SKEW(K2,ISK)*AA
                FSKY(3,IAD)  = SKEW(K3,ISK)*AA
-               IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0  .AND.IMPL_S==0) THEN
                  FEXT(1,N1) = FEXT(1,N1)+SKEW(K1,ISK)*AA
                  FEXT(2,N1) = FEXT(2,N1)+SKEW(K2,ISK)*AA
                  FEXT(3,N1) = FEXT(3,N1)+SKEW(K3,ISK)*AA
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
                    FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
@@ -575,13 +575,13 @@ C-------------------------
 !
                TFEXC = TFEXC+HALF*(A0+AA)*VV*AXI
              ENDIF
-           ELSEIF(N2.LE.6)THEN
+           ELSEIF(N2<=6)THEN
              N2 = N2 - 3
-             IF(ISK.LE.1)THEN
+             IF(ISK<=1)THEN
                FSKY(3+N2,IADC(1,NL)) = AA
 !
                IF (CPTREAC > 0) THEN 
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
                  ENDIF
                ENDIF
@@ -598,7 +598,7 @@ C-------------------------
                FSKY(6,IAD) = SKEW(K3,ISK)*AA
 !
                IF (CPTREAC > 0) THEN 
-                IF(NODREAC(N1).NE.0) THEN
+                IF(NODREAC(N1)/=0) THEN
                  FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
                  FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
                  FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
@@ -616,7 +616,7 @@ C--------------------
 
            IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
 
-           IF(N_OLD.NE.N5.OR.X_OLD.NE.TS) THEN
+           IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
              ISMOOTH = 0
              IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
 !!             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
@@ -629,9 +629,9 @@ C--------------------
              X_OLD = TS
            ENDIF
            AA = FCY*F1
-           IF(N2D.EQ.0)THEN
+           IF(N2D==0)THEN
              !  3D
-             IF(N4.NE.0)THEN
+             IF(N4/=0)THEN
                NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                NZ = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
@@ -644,14 +644,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N1) = FEXT(1,N1)+FX
                  FEXT(2,N1) = FEXT(2,N1)+FY
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN 
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                    FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
@@ -663,14 +663,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0  .AND.IMPL_S==0) THEN
                  FEXT(1,N2) = FEXT(1,N2)+FX
                  FEXT(2,N2) = FEXT(2,N2)+FY
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN 
-                 IF(NODREAC(N2).NE.0) THEN
+                 IF(NODREAC(N2)/=0) THEN
                    FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                    FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                    FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
@@ -682,14 +682,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N3) = FEXT(1,N3)+FX
                  FEXT(2,N3) = FEXT(2,N3)+FY
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N3).NE.0) THEN
+                 IF(NODREAC(N3)/=0) THEN
                    FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
                    FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
                    FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
@@ -701,14 +701,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0  .AND.IMPL_S==0) THEN
                  FEXT(1,N4) = FEXT(1,N4)+FX
                  FEXT(2,N4) = FEXT(2,N4)+FY
                  FEXT(3,N4) = FEXT(3,N4)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N4).NE.0) THEN
+                 IF(NODREAC(N4)/=0) THEN
                    FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
                    FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
                    FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
@@ -733,14 +733,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N1) = FEXT(1,N1)+FX
                  FEXT(2,N1) = FEXT(2,N1)+FY
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                    FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
@@ -752,14 +752,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N2) = FEXT(1,N2)+FX
                  FEXT(2,N2) = FEXT(2,N2)+FY
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N2).NE.0) THEN
+                 IF(NODREAC(N2)/=0) THEN
                    FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                    FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                    FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
@@ -771,14 +771,14 @@ C
                FSKY(1,IAD) = FX
                FSKY(2,IAD) = FY
                FSKY(3,IAD) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N3) = FEXT(1,N3)+FX
                  FEXT(2,N3) = FEXT(2,N3)+FY
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN 
-                 IF(NODREAC(N3).NE.0) THEN
+                 IF(NODREAC(N3)/=0) THEN
                    FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
                    FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
                    FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
@@ -804,7 +804,7 @@ C
              FSKY(2,IAD) = FY
              FSKY(3,IAD) = FZ
 C
-             IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+             IF(IANIM >0 .AND.IMPL_S==0) THEN
                FEXT(2,N1) = FEXT(2,N1)+FY
                FEXT(3,N1) = FEXT(3,N1)+FZ
 c
@@ -813,18 +813,18 @@ c
              ENDIF
 !
              IF (CPTREAC > 0) THEN
-               IF(NODREAC(N1).NE.0) THEN
+               IF(NODREAC(N1)/=0) THEN
                  FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                  FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
                ENDIF
-               IF (NODREAC(N2).NE.0) THEN
+               IF (NODREAC(N2)/=0) THEN
                  FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                  FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
                ENDIF
              ENDIF
 !
 C
-             IF(N2D.EQ.1)THEN
+             IF(N2D==1)THEN
                AX=HALF*(X(2,N1)+X(2,N2))
              ELSE
                AX=ONE
@@ -848,20 +848,20 @@ C---------------------
          FCX = FAC(2,NL)
          ISENS=0
          DO K=1,NSENSOR
-           IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+           IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
          ENDDO
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS==0)THEN
            TS=TT
          ELSE
            TS = TT-SENSOR(2,ISENS)
-           IF(TS.LT.ZERO)GOTO 1000
+           IF(TS<ZERO)GOTO 1000
          ENDIF
 C
-         IF(N4.EQ.-1)THEN
+         IF(N4==-1)THEN
 C---------------------
 C          FORCE CONCENTREE
 C---------------------
-           IF(N_OLD.NE.N3.OR.X_OLD.NE.TS) THEN
+           IF(N_OLD/=N3.OR.X_OLD/=TS) THEN
              ISMOOTH = 0
              IF (N3 > 0) ISMOOTH = NPC(2*NFUNCT+N3+1)
 !!             F1    = FINTER(N3,(TS-DT1)*FCX,NPC,TF,DYDX)
@@ -880,20 +880,20 @@ C---------------------
            AA  = FCY*F2
            ISK = IB(2,NL)/10
            N2=IB(2,NL)-10*ISK
-           IF(N2.LE.3)THEN
-             IF(N2D.NE.1)THEN
+           IF(N2<=3)THEN
+             IF(N2D/=1)THEN
                AXI=ONE
              ELSE
                AXI=X(2,N1)
              ENDIF
-             IF(ISK.LE.1)THEN
+             IF(ISK<=1)THEN
                FSKYV(IADC(1,NL),N2) = AA
-               IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0  .AND.IMPL_S==0) THEN
                  FEXT(N2,N1)=FEXT(N2,N1)+AA
                ENDIF
 !
                IF (CPTREAC > 0) THEN 
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
                  ENDIF
                ENDIF
@@ -908,14 +908,14 @@ C---------------------
                FSKYV(IAD,1) = SKEW(K1,ISK)*AA
                FSKYV(IAD,2) = SKEW(K2,ISK)*AA
                FSKYV(IAD,3) = SKEW(K3,ISK)*AA
-               IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0  .AND.IMPL_S==0) THEN
                  FEXT(1,N1) = FEXT(1,N1)+SKEW(K1,ISK)*AA
                  FEXT(2,N1) = FEXT(2,N1)+SKEW(K2,ISK)*AA
                  FEXT(3,N1) = FEXT(3,N1)+SKEW(K3,ISK)*AA
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
                    FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
@@ -924,13 +924,13 @@ C---------------------
 !
                TFEXC = TFEXC+HALF*(A0+AA)*VV*AXI
              ENDIF
-           ELSEIF(N2.LE.6)THEN
+           ELSEIF(N2<=6)THEN
              N2 = N2 - 3
-             IF(ISK.LE.1)THEN
+             IF(ISK<=1)THEN
                FSKYV(IADC(1,NL),3+N2) = AA
 !
                IF (CPTREAC > 0 ) THEN
-                 IF( NODREAC(N1).NE.0) THEN
+                 IF( NODREAC(N1)/=0) THEN
                    FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
                  ENDIF
                ENDIF
@@ -947,7 +947,7 @@ C---------------------
                FSKYV(IAD,6) = SKEW(K3,ISK)*AA
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
                    FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
                    FTHREAC(6,NODREAC(N1)) = FTHREAC(6,NODREAC(N1)) + SKEW(K3,ISK)*AA*DT1
@@ -965,7 +965,7 @@ C---------------------
 
            IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
 
-           IF(N_OLD.NE.N5.OR.X_OLD.NE.TS) THEN
+           IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
              ISMOOTH = 0
              IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
 !!             F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
@@ -978,9 +978,9 @@ C---------------------
              X_OLD = TS
            ENDIF
            AA = FCY*F1
-           IF(N2D.EQ.0)THEN
+           IF(N2D==0)THEN
 C            ANALYSE 3D
-             IF(N4.NE.0)THEN
+             IF(N4/=0)THEN
                NX  = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                NY  = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
                NZ  = (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2)) - (X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
@@ -992,14 +992,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N1) = FEXT(1,N1)+FX
                  FEXT(2,N1) = FEXT(2,N1)+FY
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                    FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
@@ -1011,14 +1011,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N2) = FEXT(1,N2)+FX
                  FEXT(2,N2) = FEXT(2,N2)+FY
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N2).NE.0) THEN
+                 IF(NODREAC(N2)/=0) THEN
                    FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                    FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                    FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
@@ -1030,14 +1030,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N3) = FEXT(1,N3)+FX
                  FEXT(2,N3) = FEXT(2,N3)+FY
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N3).NE.0) THEN
+                 IF(NODREAC(N3)/=0) THEN
                    FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
                    FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
                    FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
@@ -1049,14 +1049,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N4) = FEXT(1,N4)+FX
                  FEXT(2,N4) = FEXT(2,N4)+FY
                  FEXT(3,N4) = FEXT(3,N4)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N4).NE.0) THEN
+                 IF(NODREAC(N4)/=0) THEN
                    FTHREAC(1,NODREAC(N4)) = FTHREAC(1,NODREAC(N4)) + FX*DT1
                    FTHREAC(2,NODREAC(N4)) = FTHREAC(2,NODREAC(N4)) + FY*DT1
                    FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
@@ -1081,14 +1081,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0  .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0  .AND.IMPL_S==0) THEN
                  FEXT(1,N1) = FEXT(1,N1)+FX
                  FEXT(2,N1) = FEXT(2,N1)+FY
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N1).NE.0) THEN
+                 IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                    FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
@@ -1100,14 +1100,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N2) = FEXT(1,N2)+FX
                  FEXT(2,N2) = FEXT(2,N2)+FY
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N2).NE.0) THEN
+                 IF(NODREAC(N2)/=0) THEN
                    FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                    FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                    FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
@@ -1119,14 +1119,14 @@ C
                FSKYV(IAD,1) = FX
                FSKYV(IAD,2) = FY
                FSKYV(IAD,3) = FZ
-               IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+               IF(IANIM >0 .AND.IMPL_S==0) THEN
                  FEXT(1,N3) = FEXT(1,N3)+FX
                  FEXT(2,N3) = FEXT(2,N3)+FY
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
                IF (CPTREAC > 0) THEN
-                 IF(NODREAC(N3).NE.0) THEN
+                 IF(NODREAC(N3)/=0) THEN
                    FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
                    FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
                    FTHREAC(3,NODREAC(N3)) = FTHREAC(3,NODREAC(N3)) + FZ*DT1
@@ -1152,7 +1152,7 @@ C
              FSKYV(IAD,2) = FY
              FSKYV(IAD,3) = FZ
 C
-             IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+             IF(IANIM >0 .AND.IMPL_S==0) THEN
                FEXT(2,N1) = FEXT(2,N1)+FY
                FEXT(3,N1) = FEXT(3,N1)+FZ
 c
@@ -1161,18 +1161,18 @@ c
              ENDIF
 !
              IF (CPTREAC > 0) THEN 
-               IF(NODREAC(N1).NE.0) THEN
+               IF(NODREAC(N1)/=0) THEN
                  FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                  FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1
                ENDIF
-               IF (NODREAC(N2).NE.0) THEN
+               IF (NODREAC(N2)/=0) THEN
                  FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
                  FTHREAC(3,NODREAC(N2)) = FTHREAC(3,NODREAC(N2)) + FZ*DT1
                ENDIF
              ENDIF
 !
 C
-             IF(N2D.EQ.1)THEN
+             IF(N2D==1)THEN
                AX=HALF*(X(2,N1)+X(2,N2))
              ELSE
                AX=ONE

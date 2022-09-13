@@ -369,7 +369,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
 C     allocation tag
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         TAGNOD=0
       END IF
 C
@@ -393,7 +393,7 @@ C-------
           N4=IXC(5,N)
 C
           MC=IXC(4,SON)
-          IF(TAGNOD(MC).EQ.0)THEN
+          IF(TAGNOD(MC)==0)THEN
             TAGNOD(MC)=1
             DO J=1,3
               A(J,MC)= FOURTH*(A(J,N1)+A(J,N2)+A(J,N3)+A(J,N4))

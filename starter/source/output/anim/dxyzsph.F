@@ -54,7 +54,7 @@ C-----------------------------------------------
      4   XQ(3),FACT
       REAL R4,R4NP(3*NNSPH)
 C-----------------------------------------------
-      IF (NUMSPH+MAXPJET.EQ.0) GOTO 100
+      IF (NUMSPH+MAXPJET==0) GOTO 100
 C-----------------------------------------------
       CNT = 0
       FACT =(THREE/(FOUR*SQRT(TWO)))**THIRD

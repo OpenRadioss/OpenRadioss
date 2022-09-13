@@ -116,17 +116,17 @@ C
         L2(3) = GJBUFR(16,I)
         NC_INI  = NC
         COMFLAG = 0
-        IF (COMNTAG(N0).GT.1) COMFLAG = 1
-        IF (COMNTAG(N1).GT.1) COMFLAG = 1
-        IF (COMNTAG(N2).GT.1) COMFLAG = 1
+        IF (COMNTAG(N0)>1) COMFLAG = 1
+        IF (COMNTAG(N1)>1) COMFLAG = 1
+        IF (COMNTAG(N2)>1) COMFLAG = 1
 C---
-        IF (JTYP.EQ.1) THEN
+        IF (JTYP==1) THEN
           NCL = 11
           CALL GJNT_GEAR(P      ,L1     ,L2     ,ALPHA  ,X      ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                   N0     ,N1     ,N2     ,NC     )  
-        ELSEIF (JTYP.EQ.2) THEN
-          IF (COMNTAG(N3).GT.1) COMFLAG = 1
+        ELSEIF (JTYP==2) THEN
+          IF (COMNTAG(N3)>1) COMFLAG = 1
           NCL = 13
           L3(1) = GJBUFR(17,I)
           L3(2) = GJBUFR(18,I)
@@ -135,7 +135,7 @@ C---
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                   X      ,N0     ,N1     ,N2     ,N3     ,
      4                   NC     )  
-        ELSEIF (JTYP.EQ.3) THEN
+        ELSEIF (JTYP==3) THEN
           NCL = 9
           CALL GJNT_RACK(P      ,L1     ,L2     ,ALPHA  ,X      ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
@@ -147,7 +147,7 @@ C---    Solving local Lagrange multipliers
      1           IADLL    ,LLL      ,JLL      ,XLL      ,LTSM     ,
      2           V        ,VR       ,A        ,AR       ,MS       ,
      3           IN       ,NC_INI   ,NCL      )
-        IF (COMFLAG.EQ.0) THEN
+        IF (COMFLAG==0) THEN
           ISKIP  = ISKIP + NCL
           NC = NC_INI
         ELSE

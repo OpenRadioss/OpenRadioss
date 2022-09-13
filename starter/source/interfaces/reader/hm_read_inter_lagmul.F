@@ -144,7 +144,7 @@ C---------------------------------------------------------------
       END SELECT
 C---------------------------------------------------------------
       USR_TYP = NTYP
-      IF (USR_TYP.NE.2.AND.USR_TYP.NE.7.AND.USR_TYP.NE.16.AND.USR_TYP.NE.17) THEN
+      IF (USR_TYP/=2.AND.USR_TYP/=7.AND.USR_TYP/=16.AND.USR_TYP/=17) THEN
          CALL ANCMSG(MSGID=486,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .               I1=NOINT,
      .               C1=TITR,

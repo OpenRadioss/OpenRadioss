@@ -122,7 +122,7 @@ C
         INUM(7,I)=IXP(6,I)
         INUM(8,I)=IPOUOFF(I)
       ENDDO
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELP
           XEP(I)=CEP(I)
         ENDDO
@@ -135,7 +135,7 @@ C
         MLN= PM(19,MID)
         PID= IXP(5,II)
         ISSN = 0
-        IF(GEO(5,PID).NE.ZERO) ISSN=1
+        IF(GEO(5,PID)/=ZERO) ISSN=1
         NPG   = IGEO(3,PID)
         IGTYP = IGEO(11,PID)
         JTHE = ABS(NINT(PM(71,MID)))
@@ -171,7 +171,7 @@ C
         IPARTP(I) = INUM(1,INDEX(I))
         IPOUOFF(I)= INUM(8,INDEX(I))
       ENDDO
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELP
           CEP(I)=XEP(INDEX(I))
         ENDDO
@@ -218,7 +218,7 @@ C--------------------------------------------------------------
         JJ2=ITRI(2,INDEX(I-1))
         II3=ITRI(3,INDEX(I))
         JJ3=ITRI(3,INDEX(I-1))
-        IF(II.NE.JJ.OR.II2.NE.JJ2.OR.II3.NE.JJ3) THEN
+        IF(II/=JJ.OR.II2/=JJ2.OR.II3/=JJ3) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF

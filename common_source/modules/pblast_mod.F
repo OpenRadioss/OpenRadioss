@@ -133,11 +133,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      IF(NLOADP_B.LE.0)RETURN
+      IF(NLOADP_B<=0)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
-      ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
+      ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); IF (IERR1/=0) GOTO 1000
       !--------------------------------------
       !     READING NUMBER OF LOCAL SEGMENTS
       !--------------------------------------
@@ -149,13 +149,13 @@ C-----------------------------------------------
       !--------------------------------------
       DO I=1,NLOADP_B
         SIZ = PBLAST_TAB(I)%SIZ
-        ALLOCATE (   PBLAST_TAB(I)%cos_theta(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%P_inci(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%P_refl(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%ta(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%t0(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%decay_inci(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%decay_refl(SIZ),STAT=IERR1); IF (IERR1.NE.0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%cos_theta(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%P_inci(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%P_refl(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%ta(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%t0(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%decay_inci(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE (   PBLAST_TAB(I)%decay_refl(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE(RTMP(7*SIZ))
         CALL READ_DB(RTMP,7*SIZ)
         IAD = 0
@@ -173,7 +173,7 @@ C-----------------------------------------------
       ENDDO
 C-----------------------------------------------
  1000 CONTINUE
-       IF (IERR1.NE.0) THEN
+       IF (IERR1/=0) THEN
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
          CALL ARRET(2)
@@ -225,7 +225,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      IF(NLOADP_B.LE.0)RETURN
+      IF(NLOADP_B<=0)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
@@ -237,7 +237,7 @@ C-----------------------------------------------
       DO I=1,NLOADP_B
         NSEG_LOC=0
         DO JJ=1,PBLAST_TAB(I)%SIZ
-          IF(CEP(JJ+OFF).EQ.PROC)THEN  !check if segment is on local domain
+          IF(CEP(JJ+OFF)==PROC)THEN  !check if segment is on local domain
             NSEG_LOC=NSEG_LOC+1
           ENDIF
         ENDDO
@@ -255,7 +255,7 @@ C-----------------------------------------------
         ALLOCATE(RTMP(7*NSEGL(I)))
         IAD=0
         DO JJ=1,PBLAST_TAB(I)%SIZ
-          IF(CEP(JJ+OFF).EQ.PROC)THEN !write buffer if segment is on local domain
+          IF(CEP(JJ+OFF)==PROC)THEN !write buffer if segment is on local domain
             RTMP(IAD+1) = PBLAST_TAB(I)%cos_theta(JJ)
             RTMP(IAD+2) = PBLAST_TAB(I)%P_inci(JJ)
             RTMP(IAD+3) = PBLAST_TAB(I)%P_refl(JJ)
@@ -317,7 +317,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      IF(NLOADP_B.LE.0)RETURN
+      IF(NLOADP_B<=0)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------

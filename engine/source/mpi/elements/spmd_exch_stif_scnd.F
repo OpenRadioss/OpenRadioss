@@ -74,7 +74,7 @@ C
 c      ISIZE = 1
       DO I = 1, NSPMD
         LEN = IAD_CDNS(I+1)-IAD_CDNS(I)
-        IF(LEN.GT.0) THEN
+        IF(LEN>0) THEN
           SIZ = LEN
           L=L+1
           INDEXI(L)=I

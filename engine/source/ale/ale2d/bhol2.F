@@ -70,7 +70,7 @@ C       ALE ON / OFF
            MX=IXQ(1,J)
            BHOLE(NM,J)=MX
           ENDDO
-C       ELSEIF(JMUL.LT.NM)THEN
+C       ELSEIF(JMUL<NM)THEN
 C         DO I=LFT,LLT
 C          J=I+NFT
 C          MX=IXQ(1,J)

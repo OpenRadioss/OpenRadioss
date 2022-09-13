@@ -63,7 +63,7 @@ C Nouvelle liste de ddls (locale au processeur)
       NDDL_NEW=0
       DO I=1,NDDL
          INO=PGRAPH%LSDDL(1,I)
-         IF (NODLOCAL(INO).NE.0) THEN
+         IF (NODLOCAL(INO)/=0) THEN
             NDDL_NEW=NDDL_NEW+1
             LSDDL_NEW(1,NDDL_NEW)=NODLOCAL(INO)
             LSDDL_NEW(2,NDDL_NEW)=PGRAPH%LSDDL(2,I)
@@ -107,7 +107,7 @@ C Correction du tableau IFAC au niveau le plus bas pour chaque processeur
             FAC2=0
             DO K=1,FAC
                KK=PGRAPH%DGRAPH(ISD)%IFAC(K+1,J)
-               IF (KK.GE.NMIN.AND.KK.LE.NMAX) THEN
+               IF (KK>=NMIN.AND.KK<=NMAX) THEN
                   FAC2=FAC2+1
                   IFAC2(FAC2)=KK
                ENDIF
@@ -123,7 +123,7 @@ C Correction du tableau IFAC au niveau le plus bas pour chaque processeur
          ENDDO
       ENDDO
 C Memoire pour stockage des champs de deplacements
-      IF (NEIG.GT.0) MEMORY(1)=NSVMAXT*NDDL_NEW
+      IF (NEIG>0) MEMORY(1)=NSVMAXT*NDDL_NEW
       MEMORY(1)=MEMORY(1)+2*NSBMAX*NDDL_NEW
 C
       RETURN

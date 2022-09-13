@@ -60,7 +60,7 @@ C-----------------------------------------------
         IMAT=IPART(1,IPRT)
         I0  =IPART(2,IPRT)
         DIST=GET_U_GEO(6,I0)
-        IF(DIST.EQ.ZERO) THEN
+        IF(DIST==ZERO) THEN
           MP	=GET_U_GEO(1,I0)
           RHO=PM(1,IMAT)
           VOL=MP/RHO

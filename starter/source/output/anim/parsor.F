@@ -91,17 +91,17 @@ C
         LFT=1
         LLT=NEL
 C  test si proc doit traiter ce groupe
-        IF (P.NE.PROC) GOTO 790
+        IF (P/=PROC) GOTO 790
 C-----------------------------------------------
 C       SOLID 8N
 C-----------------------------------------------
-        IF(ITY.EQ.1)THEN
+        IF(ITY==1)THEN
          IALEL=IPARG(7,NG)+IPARG(11,NG)
-         IF(IALEL.EQ.0)THEN
+         IF(IALEL==0)THEN
          DO 610 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I-1)
-C         IF(OFF.EQ.0.)GOTO 610
+C         IF(OFF==0.)GOTO 610
              II(1) = IXS(3,N)
              II(2) = IXS(2,N)
              II(3) = IXS(5,N)
@@ -168,11 +168,11 @@ C         IF(OFF.EQ.0.)GOTO 610
 C-----------------------------------------------
 C       QUAD
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.2)THEN
+        ELSEIF(ITY==2)THEN
          DO 620 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I-1)
-C         IF(OFF.EQ.0.)GOTO 620
+C         IF(OFF==0.)GOTO 620
              II(1) = IXQ(2,N)
              II(2) = IXQ(3,N)
              II(3) = IXQ(4,N)
@@ -191,12 +191,12 @@ C         IF(OFF.EQ.0.)GOTO 620
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.3)THEN
+        ELSEIF(ITY==3)THEN
          KPT   =IPARG(6,NG)
          DO 630 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I+16*NEL-1)
-C         IF(OFF.EQ.0.)GOTO 630
+C         IF(OFF==0.)GOTO 630
              II(1) = IXC(2,N)
              II(2) = IXC(3,N)
              II(3) = IXC(4,N)
@@ -212,11 +212,11 @@ C         IF(OFF.EQ.0.)GOTO 630
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.4)THEN
+        ELSEIF(ITY==4)THEN
          DO 640 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I-1)
-C         IF(OFF.EQ.0.)GOTO 640
+C         IF(OFF==0.)GOTO 640
              II(1) = IXT(2,N)-1
              II(2) = IXT(3,N)-1
              II(3) = IXT(3,N)-1
@@ -228,11 +228,11 @@ C         IF(OFF.EQ.0.)GOTO 640
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
          DO 650 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I-1)
-C         IF(OFF.EQ.0.)GOTO 650
+C         IF(OFF==0.)GOTO 650
              II(1) = IXP(2,N)-1
              II(2) = IXP(3,N)-1
              II(3) = IXP(3,N)-1
@@ -244,14 +244,14 @@ C         IF(OFF.EQ.0.)GOTO 650
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
          DO 660 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I-1)
-C         IF(OFF.EQ.0.)GOTO 660
+C         IF(OFF==0.)GOTO 660
              II(1) = IXR(2,N)-1
              II(2) = IXR(3,N)-1
-             IF(MTN.EQ.3)THEN
+             IF(MTN==3)THEN
                II(3) = IXR(4,N)-1
                II(4) = IXR(3,N)-1
              ELSE
@@ -265,12 +265,12 @@ C         IF(OFF.EQ.0.)GOTO 660
 C-----------------------------------------------
 C       COQUES 3 NOEUDS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.7)THEN
+        ELSEIF(ITY==7)THEN
          KPT   =IPARG(6,NG)
          DO 670 I=LFT,LLT
           N = I + NFT
 C         OFF = BUFEL(IAD+I+16*NEL-1)
-C         IF(OFF.EQ.0.)GOTO 670
+C         IF(OFF==0.)GOTO 670
              II(1) = IXTG(2,N)
              II(2) = IXTG(3,N)
              II(3) = IXTG(4,N)
@@ -286,7 +286,7 @@ C         IF(OFF.EQ.0.)GOTO 670
 C-----------------------------------------------
 C       SPH Particules
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.51)THEN
+        ELSEIF(ITY==51)THEN
 C idem poutre pour visualisation domdec SPH
           DO I=LFT,LLT
              N = I + NFT

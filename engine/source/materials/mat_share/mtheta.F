@@ -61,7 +61,7 @@ C=======================================================================
        EINT0   =PM(23,MX)
        THETA(I)=PM(79,MX)
        PLIM    =PC(I)-C1(I)-PSH(I)
-       IF(C2(I).GT.ABS(PLIM/EP36))THEN
+       IF(C2(I)>ABS(PLIM/EP36))THEN
          DMU = MIN(AMU(I)-PLIM/C2(I),ZERO)
        ELSE
          DMU =ZERO

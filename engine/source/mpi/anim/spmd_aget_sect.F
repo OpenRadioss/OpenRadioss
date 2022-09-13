@@ -92,24 +92,24 @@ C-----------------------------------------------
             N1 = NSTRF(K1+1)
             N2 = NSTRF(K1+2)
             N3 = NSTRF(K1+3)
-            IF (N1.GT.0) THEN
-              IF (WEIGHT(N1).EQ.1) THEN
+            IF (N1>0) THEN
+              IF (WEIGHT(N1)==1) THEN
                 XSECTMP(1,1,I) = X(1,N1)
                 XSECTMP(1,2,I) = X(2,N1)
                 XSECTMP(1,3,I) = X(3,N1)
               ENDIF
             ENDIF
 
-            IF (N2.GT.0) THEN
-              IF (WEIGHT(N2).EQ.1) THEN
+            IF (N2>0) THEN
+              IF (WEIGHT(N2)==1) THEN
                 XSECTMP(2,1,I) = X(1,N2)
                 XSECTMP(2,2,I) = X(2,N2)
                 XSECTMP(2,3,I) = X(3,N2)
               ENDIF
             ENDIF
 
-            IF (N3.GT.0) THEN
-              IF (WEIGHT(N3).EQ.1) THEN
+            IF (N3>0) THEN
+              IF (WEIGHT(N3)==1) THEN
                 XSECTMP(3,1,I) = X(1,N3)
                 XSECTMP(3,2,I) = X(2,N3)
                 XSECTMP(3,3,I) = X(3,N3)
@@ -128,7 +128,7 @@ C-----------------------------------------------
 
 
 C  
-C           IF (ISPMD.EQ.0) THEN
+C           IF (ISPMD==0) THEN
 C             DO I=1,NSECT
 C               print*,I,'XSEC N1= ',XSEC(1,1,I),XSEC(1,2,I),XSEC(1,3,I)
 C               print*,I,'XSEC N2= ',XSEC(2,1,I),XSEC(2,2,I),XSEC(2,3,I)

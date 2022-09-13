@@ -156,7 +156,7 @@ C-----------
      .       Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .       Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .       RX, RY, RZ, SX, SY, SZ, TX, TY, TZ )
-      IF (KHBE.EQ.15) THEN
+      IF (KHBE==15) THEN
        CALL SCORTHO3(
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .       R11, R12, R13, R21, R22, R23, R31, R32, R33)
@@ -198,11 +198,11 @@ C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
 C     X=RX' <=> X'=t(R)X chgt de base.
-      IF((ISMSTR.EQ.1.OR.ISMSTR.EQ.3).OR.
-     .   (ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
-       IF (JHBE.EQ.14.OR.JHBE.EQ.24.OR.JHBE.EQ.15.OR.JHBE.EQ.222) THEN
+      IF((ISMSTR==1.OR.ISMSTR==3).OR.
+     .   (ISMSTR==2.AND.IDTMIN(1)==3))THEN
+       IF (JHBE==14.OR.JHBE==24.OR.JHBE==15.OR.JHBE==222) THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.ONE)THEN
+       IF(OFFG(I)>ONE)THEN
         X1(I)=SAV(I,1)
         Y1(I)=SAV(I,2)
         Z1(I)=SAV(I,3)
@@ -305,7 +305,7 @@ C       SAV(I,21)=Z7(I)-Z8(I)
 C------due to different initial systems and [K] is calculated using always HA8 system      
        ELSE
         DO I=LFT,LLT
-        IF(OFFG(I).GT.ONE)THEN
+        IF(OFFG(I)>ONE)THEN
          X1(I)=SAV(I,1)
          Y1(I)=SAV(I,2)
          Z1(I)=SAV(I,3)
@@ -333,7 +333,7 @@ C------due to different initial systems and [K] is calculated using always HA8 s
          OFF(I) = OFFG(I)-ONE
         ENDIF
         ENDDO
-        IF (JCVT.EQ.0) THEN
+        IF (JCVT==0) THEN
         DO I=LFT,LLT
         XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
         YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
@@ -435,9 +435,9 @@ C------due to different initial systems and [K] is calculated using always HA8 s
         Y8(I)=YL
         Z8(I)=ZL
         ENDDO
-        ENDIF !IF (JCVT.EQ.0)
+        ENDIF !IF (JCVT==0)
         DO I=LFT,LLT
-        IF(OFFG(I).LE.ONE)THEN
+        IF(OFFG(I)<=ONE)THEN
 C       SAV dans rep. local.
         SAV(I,1)=X1(I)-X8(I)
         SAV(I,2)=Y1(I)-Y8(I)
@@ -463,7 +463,7 @@ C       SAV dans rep. local.
         OFF(I) = OFFG(I)
         ENDIF
         ENDDO
-       ENDIF !IF (JHBE.EQ.14.OR.JHBE.EQ.24...)
+       ENDIF !IF (JHBE==14.OR.JHBE==24...)
 C
       ELSE
        DO I=LFT,LLT

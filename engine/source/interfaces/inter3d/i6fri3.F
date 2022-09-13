@@ -107,7 +107,7 @@ C----------------------------------------------------------
           KFRIC(I) = FRIC*KFRIC(I)
         ENDDO
       ENDIF
-      IF (IFRICV .NE. 0) THEN
+      IF (IFRICV /= 0) THEN
         DO I=LFT,LLT
           XX(I) = VNT(I)*ASCALV
         ENDDO 
@@ -178,7 +178,7 @@ C
             ELSE
               TN3 = ZERO
               TN  = SQRT(N1(I)*N1(I)+N2(I)*N2(I))
-              IF(TN.NE.ZERO)THEN
+              IF(TN/=ZERO)THEN
                 TN2 =-N1(I)/TN
                 TN1 = N2(I)/TN
               ELSE

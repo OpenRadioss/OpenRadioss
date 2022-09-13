@@ -81,7 +81,7 @@ C-----------------------------------------------
 C---------------------
 C external work (from damping)
 C---------------------
-       IF(ISPMD.EQ.0)THEN
+       IF(ISPMD==0)THEN
          INTDAMP=INTSTAMP(NN)%INTDAMP
          ALPHA=INTSTAMP(NN)%DAMP
          MASS=INTSTAMP(NN)%MASS

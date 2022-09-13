@@ -125,16 +125,16 @@ C----------------------
       CALL INELTS(X            ,IRECTS,IXS  ,NINT,NELS          ,
      .            INRT         ,AREA  ,NOINT,0   ,IGRSURFS%ELTYP,
      .            IGRSURFS%ELEM)
-      IF(NELS.NE.0)THEN
+      IF(NELS/=0)THEN
         IELES(I)=NELS
         IF(INTTH > 0) INRTIE(NELS) = INRT
         GO TO 250
       ELSE
         CALL INELTC(NELC ,NELTG ,INRT ,IGRSURFS%ELTYP, IGRSURFS%ELEM)
-        IF(NELTG.NE.0) THEN
+        IF(NELTG/=0) THEN
           IELES(I)=NELTG+NUMELS+NUMELC 
           GO TO 250
-        ELSEIF(NELC.NE.0) THEN
+        ELSEIF(NELC/=0) THEN
           IELES(I)=NELC+NUMELS
           GO TO 250
         END IF
@@ -153,15 +153,15 @@ C---------------------
      .            NELTG,INRT,GEO  ,PM   ,KNOD2ELC ,
      .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO ,
      .            PM_STACK , IWORKSH )
-      IF(NELTG.NE.0) THEN
+      IF(NELTG/=0) THEN
         IELES(I)=NELTG
-      ELSEIF(NELC.NE.0) THEN
+      ELSEIF(NELC/=0) THEN
         IELES(I)=NELC
       ENDIF
 C
-      IF(NELS+NELC+NELTG.EQ.0)THEN
-       IF (IMACH.NE.3) THEN
-         IF(NINT.GT.0) THEN
+      IF(NELS+NELC+NELTG==0)THEN
+       IF (IMACH/=3) THEN
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=92,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -169,7 +169,7 @@ C
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-         IF(NINT.LT.0) THEN
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=93,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -179,7 +179,7 @@ C
          ENDIF
        ELSE
 Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon erreur
-         IF(NINT.GT.0) THEN
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -187,7 +187,7 @@ Ca verifier (second)      en SPMD il faut un element associe a l'arrete sinon er
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-         IF(NINT.LT.0) THEN
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=482,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -207,16 +207,16 @@ C----------------------
       CALL INELTS(X            ,IRECTM,IXS  ,NINT,NELS          ,
      .            INRT         ,AREA  ,NOINT,0   ,IGRSURFM%ELTYP,
      .            IGRSURFM%ELEM)
-      IF(NELS.NE.0)THEN
+      IF(NELS/=0)THEN
         IELEM21(NELS)=1
         GO TO 500
       ELSE
         CALL INELTC(NELC ,NELTG ,INRT ,IGRSURFM%ELTYP, IGRSURFM%ELEM)
-        IF(NELTG.NE.0) THEN
+        IF(NELTG/=0) THEN
           IELEM21(NUMELS+NUMELQ+NUMELC+NUMELT
      .                     +NUMELP+NUMELR+NELTG)=1
           GO TO 500
-        ELSEIF(NELC.NE.0) THEN
+        ELSEIF(NELC/=0) THEN
           IELEM21(NUMELS+NUMELQ+NELC)=1
           GO TO 500
         END IF
@@ -235,9 +235,9 @@ C---------------------
      .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .            PM_STACK , IWORKSH )
 C
-      IF(NELS+NELC+NELTG.EQ.0)THEN
-       IF (IMACH.NE.3) THEN
-         IF(NINT.GT.0) THEN
+      IF(NELS+NELC+NELTG==0)THEN
+       IF (IMACH/=3) THEN
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=92,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -245,7 +245,7 @@ C
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-         IF(NINT.LT.0) THEN
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=93,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -255,7 +255,7 @@ C
          ENDIF
        ELSE
 C        en SPMD il faut un element associe a l'arrete sinon erreur
-         IF(NINT.GT.0) THEN
+         IF(NINT>0) THEN
             CALL ANCMSG(MSGID=481,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -263,7 +263,7 @@ C        en SPMD il faut un element associe a l'arrete sinon erreur
      .                  C1=TITR,
      .                  I2=I)
          ENDIF
-         IF(NINT.LT.0) THEN
+         IF(NINT<0) THEN
             CALL ANCMSG(MSGID=482,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -273,10 +273,10 @@ C        en SPMD il faut un element associe a l'arrete sinon erreur
          ENDIF
        ENDIF
       ELSE
-        IF(NELS.NE.0)  IELEM21(NELS)=1
-        IF(NELTG.NE.0) IELEM21(NUMELS+NUMELQ+NUMELC+NUMELT
+        IF(NELS/=0)  IELEM21(NELS)=1
+        IF(NELTG/=0) IELEM21(NUMELS+NUMELQ+NUMELC+NUMELT
      .                     +NUMELP+NUMELR+NELTG)=1
-        IF(NELC.NE.0)  IELEM21(NUMELS+NUMELQ+NELC)=1
+        IF(NELC/=0)  IELEM21(NUMELS+NUMELQ+NELC)=1
       END IF
   500 CONTINUE
 C---------------------------
@@ -300,7 +300,7 @@ C calcul de l'aire second. ---
 C calcul du surface second. ---
       IF(INTTH > 0 ) THEN
 C
-       IF(NUMELC.NE.0) THEN
+       IF(NUMELC/=0) THEN
 C
         IF(NADMESH==0)THEN
           DO I = 1,NSN    
@@ -411,13 +411,13 @@ C
         END IF
       ENDIF
 C     
-      IF(NUMELS.NE.0)THEN
+      IF(NUMELS/=0)THEN
           DO I = 1,NSN    
              AREAS(I) = ZERO
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
                IE = NOD2ELS(J)
                INRT = INRTIE(IE)
-               IF(INRT.NE.0)THEN
+               IF(INRT/=0)THEN
                  N1=IRECTS(1,INRT)
                  N2=IRECTS(2,INRT)
                  N3=IRECTS(3,INRT)

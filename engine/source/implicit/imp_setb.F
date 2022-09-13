@@ -64,7 +64,7 @@ C------------------------------------------
         ND = IDDL(I)
         DO J =1,NDOF(I)
          ID = ND + J
-         IF (J.GT.3) THEN
+         IF (J>3) THEN
           JR=J-3
           B(ID) = M(JR,I)
          ELSE
@@ -114,8 +114,8 @@ C------------------------------------------
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
         ID = ND-NKC
-        IF (IKC(ND).LT.1) THEN
-          IF (J.LE.3) THEN
+        IF (IKC(ND)<1) THEN
+          IF (J<=3) THEN
            B(ID)=B(ID)+F(J,I)
           ELSE 
            B(ID)=B(ID)+M(J-3,I)
@@ -161,12 +161,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ND,ID,JR
 C------------------------------------------
-      IF (IFLAG.EQ.1) THEN
+      IF (IFLAG==1) THEN
        DO I = 1,NUMNOD
         ND = IDDL(I)
         DO J =1,NDOF(I)
          ID = ND + J
-         IF (J.GT.3) THEN
+         IF (J>3) THEN
           JR=J-3
           B(ID) = B(ID)+M(JR,I)
          ELSE
@@ -179,7 +179,7 @@ C------------------------------------------
         ND = IDDL(I)
         DO J =1,NDOF(I)
          ID = ND + J
-         IF (J.GT.3) THEN
+         IF (J>3) THEN
           JR=J-3
           B(ID) = B(ID)-M(JR,I)
          ELSE

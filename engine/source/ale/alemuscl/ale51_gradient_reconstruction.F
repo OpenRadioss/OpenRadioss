@@ -246,7 +246,7 @@ C     ALE ON / OFF
             JMAX = pADDTMPL(NODE_ID) - 1
             DO JJ = JMIN, JMAX
                ELEM_ID = pCNEL(JJ)
-               IF (ELEM_ID   /=  0 .AND. ELEM_ID .LE. NUMELS) THEN
+               IF (ELEM_ID   /=  0 .AND. ELEM_ID <= NUMELS) THEN
                   NODE_MAX_VALUE(ITRIMAT,NODE_ID) = MAX(NODE_MAX_VALUE(ITRIMAT,NODE_ID), 
      .                 VOLUME_FRACTION(ITRIMAT, ELEM_ID))
                   NODE_MIN_VALUE(ITRIMAT,NODE_ID) = MIN(NODE_MIN_VALUE(ITRIMAT,NODE_ID), 

@@ -86,13 +86,13 @@ C-----------------------------------------------
 
 
 C optimisation spmd
-      IF (M.LT.0) RETURN
+      IF (M<0) RETURN
       NSN  =NBY(2)
 C------------------------------------------------------------
 C      CORRECTION DE L'ENERGIE CINETIQUE time = t
 C------------------------------------------------------------
-      IF(IMPL_S.GT.0.AND.IDYNA.EQ.0)THEN
-       IF(ISENS.EQ.0)THEN
+      IF(IMPL_S>0.AND.IDYNA==0)THEN
+       IF(ISENS==0)THEN
         VG(1)=VR(1,M)
         VG(2)=VR(2,M)
         VG(3)=VR(3,M)
@@ -115,7 +115,7 @@ C
         ENROT2T=ZERO
 C
         IF(N2D==0) THEN
-         IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+         IF (NSN>=10.OR.IPARIT>0) THEN
            DO I=1,NSN
             N = NOD(I)
             MAS=MS(N)*WEIGHT_MD(N)
@@ -177,7 +177,7 @@ C
 C
         ELSE  ! N2D =/ 0
 C
-         IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+         IF (NSN>=10.OR.IPARIT>0) THEN
            DO I=1,NSN
             N = NOD(I)
             MAS=MS_2D(N)*WEIGHT_MD(N)
@@ -267,9 +267,9 @@ C
 C
        ENDIF
       ELSE
-      IF(ISENS.EQ.0)THEN
+      IF(ISENS==0)THEN
         DT05 = HALF*DT1
-        IF(IDYNA.GT.0) DT05=(DY_G-ONE)*DT1
+        IF(IDYNA>0) DT05=(DY_G-ONE)*DT1
         VG(1)=VR(1,M)+AR(1,M)*DT05
         VG(2)=VR(2,M)+AR(2,M)*DT05
         VG(3)=VR(3,M)+AR(3,M)*DT05
@@ -291,9 +291,9 @@ C
         ENCIN2T=ZERO        
         ENROT2T=ZERO
 C
-Cel vectorisation si nsn.ge.10 ou si imach = 3 et p/on active
+Cel vectorisation si nsn>=10 ou si imach = 3 et p/on active
         IF(N2D==0) THEN
-         IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+         IF (NSN>=10.OR.IPARIT>0) THEN
            DO I=1,NSN
 C
             N = NOD(I)
@@ -360,7 +360,7 @@ C
 C
        ELSE ! N2D =/0
 C
-         IF (NSN.GE.10.OR.IPARIT.GT.0) THEN
+         IF (NSN>=10.OR.IPARIT>0) THEN
            DO I=1,NSN
 C
             N = NOD(I)
@@ -429,7 +429,7 @@ C
       ELSE
 C       RBY AVEC SENSOR : PAS DE MASSES OU INERTIE AJOUTEE
         DT05 = HALF*DT1
-        IF(IDYNA.GT.0) DT05=(DY_G-ONE)*DT1
+        IF(IDYNA>0) DT05=(DY_G-ONE)*DT1
         VG(1)=VR(1,M)+AR(1,M)*DT05
         VG(2)=VR(2,M)+AR(2,M)*DT05
         VG(3)=VR(3,M)+AR(3,M)*DT05
@@ -621,7 +621,7 @@ C-----in case of JR=0 and IRAD=0, Inertia0 of Main is suppposed << In_s
         ENCIN2T=ZERO
         ENROT2T=ZERO
         ENROTT =ZERO
-      IF(IMPL_S.GT.0.AND.IDYNA.EQ.0)THEN
+      IF(IMPL_S>0.AND.IDYNA==0)THEN
 C
          IF (IRODDL/=0) THEN
           VG(1)=VR(1,M)
@@ -633,7 +633,7 @@ C
      .           + VG(2)*VG(2)
      .           + VG(3)*VG(3))*IN(M)*WROT
          END IF !(IRODDL/=0) THEN
-        IF (NSL.GE.10.OR.IPARIT.GT.0) THEN
+        IF (NSL>=10.OR.IPARIT>0) THEN
           DO I=1,NSL
            N = ISL(I)
            MAS=MS(N)*WEIGHT_MD(N)*ITRA
@@ -713,7 +713,7 @@ C
       ELSE
         DT05 = HALF*DT1
 C
-        IF(IDYNA.GT.0) DT05=(DY_G-ONE)*DT1
+        IF(IDYNA>0) DT05=(DY_G-ONE)*DT1
 C
          IF (IRODDL/=0) THEN
           VG(1)=VR(1,M)+AR(1,M)*DT05
@@ -724,8 +724,8 @@ C
      .           + VG(2)*VG(2)
      .           + VG(3)*VG(3))*IN(M)*WEIGHT_MD(M)*IROT
          END IF !(IRODDL/=0) THEN
-Cel vectorisation si nsn.ge.10 ou si imach = 3 et p/on active
-        IF (NSL.GE.10.OR.IPARIT.GT.0) THEN
+Cel vectorisation si nsn>=10 ou si imach = 3 et p/on active
+        IF (NSL>=10.OR.IPARIT>0) THEN
           DO I=1,NSL
 C
            N = ISL(I)

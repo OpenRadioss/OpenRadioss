@@ -258,7 +258,7 @@ C     REAL
                   ENDIF
                 ENDDO  ! DO NIN=1,NINTER
                 SIZ = L-IADS(P)
-                IF(SIZ.GT.0)THEN
+                IF(SIZ>0)THEN
                   MSGTYP = MSGOFF
                   CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                            MPI_COMM_WORLD,REQ_SI(P),IERROR )
@@ -303,7 +303,7 @@ C     REAL
               ELSE
                 SIZ=IADS(P+1)-IADS(P)
               ENDIF
-              IF(SIZ.GT.0) THEN
+              IF(SIZ>0) THEN
                CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
               ENDIF
             ENDDO
@@ -406,7 +406,7 @@ C     REAL
                   ENDIF
                 ENDDO  ! DO NIN=1,NINTER
                 SIZ = L-IADS(P)
-                IF(SIZ.GT.0)THEN
+                IF(SIZ>0)THEN
                   MSGTYP = MSGOFF2
                   CALL MPI_ISEND( IBUFS(IADS(P)),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                            MPI_COMM_WORLD,REQ_SI(P),IERROR )
@@ -467,7 +467,7 @@ C     REAL
               ELSE
                 SIZ=IADS(P+1)-IADS(P)
               ENDIF
-              IF(SIZ.GT.0) THEN
+              IF(SIZ>0) THEN
                CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
               ENDIF
             ENDDO

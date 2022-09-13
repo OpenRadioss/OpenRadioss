@@ -60,8 +60,8 @@ C-----------------------------------------------
      .   P(9),CST,SST,FXR, FYR, FZR
 C-----------------------------------------------
       NIR=2
-      IF(N2D.EQ.0)NIR=4
-      IF(ILEV.EQ.1)THEN
+      IF(N2D==0)NIR=4
+      IF(ILEV==1)THEN
         DO I=1,9
           P(I)=SKEW(I,IREF+1)
         ENDDO
@@ -79,7 +79,7 @@ C-----------------------------------------------
         ENDDO
 
       DO II=1,NSN
-        IF(TAGKINE(II).GT.0)THEN
+        IF(TAGKINE(II)>0)THEN
           I=NSV(II)
           L=IRTL(II)
           SS=CRST(1,II)
@@ -99,8 +99,8 @@ C-----------------------------------------------
           H(2)=TM*SP
           H(3)=TP*SP
           H(4)=TP*SM
-          IF(ILEV.EQ.1)THEN
-           IF(TETS(II).LT.10000. )THEN
+          IF(ILEV==1)THEN
+           IF(TETS(II)<10000. )THEN
             CST=COS(TETS(II))
             SST=SIN(TETS(II))
             FXR=FXI*P(1)+FYI*P(2)+FZI*P(3)
@@ -144,7 +144,7 @@ C-----------------------------------------------
               STIFN(J)=STIFN(J)+STIFN(I)*H(JJ)
 
             ENDDO
-          ENDIF !(ILEV.EQ.1)
+          ENDIF !(ILEV==1)
         STIFN(I)=EM20
         A(I1)=ZERO
         A(I2)=ZERO
@@ -152,7 +152,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
       
-      IF(ILEV.EQ.1 )THEN
+      IF(ILEV==1 )THEN
         DO II=1,NMN
           CST=COS(TETM(II))
           SST=SIN(TETM(II))

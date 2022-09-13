@@ -72,7 +72,7 @@ C-----------------------------------------------
 C                                                                       
       DO 100 IPRT = 1 , NPART                                           
 C                                                                       
-       IF(MATER(IPRT).NE.4) GOTO 100                                    
+       IF(MATER(IPRT)/=4) GOTO 100                                    
        NPAR = NPAR + 1                                                  
        DO 90 NG=1,NGROUP                                                
         NEL   =IPARG(2,NG)                                              
@@ -81,13 +81,13 @@ C
         ITY   =IPARG(5,NG)                                              
         LFT=1                                                           
         LLT=NEL                                                         
-        IF(ITY.EQ.51)THEN                                               
+        IF(ITY==51)THEN                                               
 C-----------------------------------------------                        
 C         PARTICULES SPH.                                               
 C-----------------------------------------------                        
           DO 20 I=LFT,LLT                                               
            N = I + NFT                                                  
-           IF(IPARTSP(N).NE.IPRT) GOTO 20                               
+           IF(IPARTSP(N)/=IPRT) GOTO 20                               
              INOD=KXSP(3,N)                                             
              II = INOD-1                                                
              CALL WRITE_I_C(II,1)                                       

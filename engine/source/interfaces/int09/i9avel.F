@@ -83,7 +83,7 @@ C
       FRIC = FRIGAP(1)
       FHEAT= FRIGAP(4)
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
 C-------------------------------------
 C     ACCELERATIONS DES NOEUDS MAINS
@@ -102,12 +102,12 @@ C-------------------------------------
       FSAV(4)=FSAV(4)+FT(I1)*DT12
       FSAV(5)=FSAV(5)+FT(I2)*DT12
       FSAV(6)=FSAV(6)+FT(I3)*DT12
-      IF(MSMN(I1).GT.ZERO)THEN
+      IF(MSMN(I1)>ZERO)THEN
        A(J1)=A(J1) + FN(I1)/MSMN(I1)
        A(J2)=A(J2) + FN(I2)/MSMN(I1)
        A(J3)=A(J3) + FN(I3)/MSMN(I1)
       ENDIF
-      IF(MSMT(I1).GT.ZERO)THEN
+      IF(MSMT(I1)>ZERO)THEN
        A(J1)=A(J1) + FT(I1)/MSMT(I1)
        A(J2)=A(J2) + FT(I2)/MSMT(I1)
        A(J3)=A(J3) + FT(I3)/MSMT(I1)
@@ -122,7 +122,7 @@ C--------------------------------------
 C     ACCELERATIONS DES NOEUDS SECONDS
 C--------------------------------------
       DO 100 II=1,NSN
-      IF(ILOC(II).LT.1) GO TO 100
+      IF(ILOC(II)<1) GO TO 100
       I=NSV(II)
       L=IRTL(II)
       DO 20 JJ=1,NIR
@@ -131,7 +131,7 @@ C--------------------------------------
       N1=NOR(1,II)
       N2=NOR(2,II)
       N3=NOR(3,II)
-      IF(N2D.EQ.0)THEN
+      IF(N2D==0)THEN
         CALL SHAPEH(H,CRST(1,II),CRST(2,II))
       ELSE
         H(1) = HALF*(ONE - CRST(1,II))
@@ -199,7 +199,7 @@ C--------------------------------
       V(I3)=V(I3)+VZN+VZT
 C
       LCOD=LCODE(I)
-      IF(LCOD.EQ.0)GO TO 90
+      IF(LCOD==0)GO TO 90
 C--------------------------------
 C     NOEUD AVEC CONDITION LIMITE
 C--------------------------------
@@ -211,20 +211,20 @@ C
       LK=ISKEW(I)
       IBC=2
 C
-      IF(JBC(1).NE.0)THEN
+      IF(JBC(1)/=0)THEN
        XN(IBC)=SKEW(1,LK)
        YN(IBC)=SKEW(2,LK)
        ZN(IBC)=SKEW(3,LK)
        IBC=IBC+1
       ENDIF
-      IF(JBC(2).NE.0)THEN
+      IF(JBC(2)/=0)THEN
        XN(IBC)=SKEW(4,LK)
        YN(IBC)=SKEW(5,LK)
        ZN(IBC)=SKEW(6,LK)
        IBC=IBC+1
       ENDIF
-      IF(JBC(3).NE.0)THEN
-       IF(IBC.EQ.4)THEN
+      IF(JBC(3)/=0)THEN
+       IF(IBC==4)THEN
 C------------------------------------------------
 C      CE TEST DEVRAIT ETRE FAIT DANS LE STARTER
 C-----------------------------------------------------
@@ -237,7 +237,7 @@ C-----------------------------------------------------
        ZN(IBC)=SKEW(9,LK)
        IBC=IBC+1
       ENDIF
-      IF(IBC.EQ.3)THEN
+      IF(IBC==3)THEN
 C---------------------------
 C     NOEUD AVEC 1 CONDITION
 C---------------------------
@@ -272,7 +272,7 @@ C
 C-----------------------------------
 C     CALCUL VITESSE ET ACCELERATION
 C-----------------------------------
-      IF(DET.NE.ZERO) THEN
+      IF(DET/=ZERO) THEN
         V(I1)=(A11*BVX+A21*BVY+A31*BVZ)/DET
         V(I2)=(A12*BVX+A22*BVY+A32*BVZ)/DET
         V(I3)=(A13*BVX+A23*BVY+A33*BVZ)/DET

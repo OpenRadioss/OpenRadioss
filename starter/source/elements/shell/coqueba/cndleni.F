@@ -87,7 +87,7 @@ C
       IF ((IGTYP == 11 .AND. IGMAT < 0) .OR. IGTYP == 16 ) THEN
              IPMAT = 100
              NIP = NPT
-             IF (MTN.LE.28) THEN
+             IF (MTN<=28) THEN
                DO I=LFT,LLT
                  DO N=1,NIP
                    J=I+(N-1)*LLT
@@ -139,7 +139,7 @@ CCC
        ELSEIF (IGTYP == 17 .AND. IGMAT < 0) THEN  
              NIP = NPT
              IPMAT = 2 + NIP
-             IF (MTN.LE.28) THEN
+             IF (MTN<=28) THEN
                DO I=LFT,LLT
                  DO N=1,NIP
                    J=I+(N-1)*LLT
@@ -229,7 +229,7 @@ CCC
           DO I=LFT,LLT
              SSP(I) = PM_STACK(9 ,ISUBSTACK)
           ENDDO
-      ELSEIF (MTN.LE.28)THEN
+      ELSEIF (MTN<=28)THEN
           DO I=LFT,LLT
             SSP(I)=PM(27,IMAT)
           ENDDO

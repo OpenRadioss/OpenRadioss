@@ -84,9 +84,9 @@ C-----------------------------------------------
         ISSN = 0
         ITY = IGEO(11,PID)
          POIDS = WTYPE(3)
-        IF(GEO(5,PID).NE.ZERO) ISSN=1
+        IF(GEO(5,PID)/=ZERO) ISSN=1
 C   test elem delete
-        IF (WD(I+OFF).EQ.0.)
+        IF (WD(I+OFF)==0.)
      .    WD(I+OFF) = POIDS
       ENDDO
       RETURN

@@ -94,7 +94,7 @@ C-----------------------------------------------
          NFAC(I)   = NFAC(I) + ONE
          ALPHA(I)  = ALPHA(I) + RATIO(IFAC)
         ENDDO!next J
-        IF(NFAC(I).GT.ZERO)ALPHA(I) = ALPHA(I) / NFAC(I)
+        IF(NFAC(I)>ZERO)ALPHA(I) = ALPHA(I) / NFAC(I)
         IF(ALPHA(I)>CritDVol22 .AND. BRICK_LIST(NIN,IB)%NODE(I)%NodWasMain==0)IDEMERGE=1
       ENDDO!next K
       

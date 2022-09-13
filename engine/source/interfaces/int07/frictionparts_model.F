@@ -102,7 +102,7 @@ C--------Default coefficients define in friction interface
       ELSE
         LENC = 8
       ENDIF 
-      IF(MFROT.NE.0) THEN
+      IF(MFROT/=0) THEN
          DO I=1,JLT-JLT_TIED
             DO J=1,6
                FRIC_COEFS(I,J) = TABCOEF_FRIC(J+2)
@@ -132,7 +132,7 @@ c
             IPM = 0
          ENDIF
 c
-         IF(IPS.NE.0.AND.IPM.NE.0) THEN
+         IF(IPS/=0.AND.IPM/=0) THEN
            IF(IPSL > IPML ) THEN
               IP = IPS
               IPS = IPM
@@ -405,7 +405,7 @@ C-----------------------------------------------
       IF (INTFRIC == 0) THEN
 
          DO I=1,JLT-JLT_TIED
-           IF(MFROT.NE.0) FRIC_COEFS(I,1:10) = FROT_P(1:10)
+           IF(MFROT/=0) FRIC_COEFS(I,1:10) = FROT_P(1:10)
            VISCFFRIC(I) = VISCF
            FRICC(I) = FRIC
          ENDDO 
@@ -433,7 +433,7 @@ C--------Default coefficients define in friction interface
         DO I=1,JLT-JLT_TIED
            FRICC(I) = TABCOEF_FRIC(1)
            VISCFFRIC(I) = TABCOEF_FRIC(2)
-           IF(MFROT.NE.0) THEN
+           IF(MFROT/=0) THEN
              DO J=1,6
                 FRIC_COEFS(I,J) = TABCOEF_FRIC(J+2)
              ENDDO
@@ -460,7 +460,7 @@ c
              IPM = 0
           ENDIF
 c
-          IF(IPS.NE.0.AND.IPM.NE.0) THEN
+          IF(IPS/=0.AND.IPM/=0) THEN
             IF(IPSL > IPML ) THEN
                IP = IPS
                IPS = IPM

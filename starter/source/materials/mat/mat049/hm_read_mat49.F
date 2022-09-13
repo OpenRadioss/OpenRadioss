@@ -132,7 +132,7 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV  ('Line_count'     ,COUNT    ,IS_AVAILABLE, LSUBMODEL)
 
-      IF(INVERS_INIT.LE.51)THEN
+      IF(INVERS_INIT<=51)THEN
         EOS_EMBEDDED=.TRUE.
       ENDIF          
 
@@ -158,8 +158,8 @@ C-----------------------------------------------
             IEOS = 1 ! POLYNOMIAL EOS         
         ENDIF
 
-      IF (PMIN.EQ.ZERO) PMIN=-EP20
-      IF (RHOR.EQ.ZERO) RHOR=RHO0
+      IF (PMIN==ZERO) PMIN=-EP20
+      IF (RHOR==ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0     
 
@@ -167,15 +167,15 @@ C-----------------------------------------------
             CALL ANCMSG(MSGID=1513,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                  I1 = MAT_ID,C1 = TITR)
       ENDIF
-      IF(NU.LT.ZERO.OR.NU.GE.HALF)THEN
+      IF(NU<ZERO.OR.NU>=HALF)THEN
             CALL ANCMSG(MSGID=1514,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                  I1 = MAT_ID,C1 = TITR)
       ENDIF
-      IF(EPSM.EQ.ZERO) EPSM  = EP20
-      IF(SIGM.EQ.ZERO) SIGM  = EP20
-      IF(TMELT.EQ.ZERO)TMELT = EP20
-      IF(PMIN.EQ.ZERO) PMIN  =-EP20
-      IF(T0.EQ.ZERO)   T0    = THREE100
+      IF(EPSM==ZERO) EPSM  = EP20
+      IF(SIGM==ZERO) SIGM  = EP20
+      IF(TMELT==ZERO)TMELT = EP20
+      IF(PMIN==ZERO) PMIN  =-EP20
+      IF(T0==ZERO)   T0    = THREE100
       G0 = YOUNG /TWO / (ONE+NU)
       IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(THREE*(ONE - TWO*NU))
 C

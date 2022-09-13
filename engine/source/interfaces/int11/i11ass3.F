@@ -126,8 +126,8 @@ C
         STIF(1:JLT)=ZERO
       END IF
 C
-      IF(IPARIT.EQ.0)THEN
-       IF(KDTINT.EQ.0)THEN
+      IF(IPARIT==0)THEN
+       IF(KDTINT==0)THEN
          CALL I11ASS0(JLT  ,CS_LOC,N1   ,N2   ,M1   ,
      2                M2   ,HS1   ,HS2  ,HM1  ,HM2  ,
      3                FX1  ,FY1   ,FZ1  ,FX2  ,FY2  ,
@@ -150,7 +150,7 @@ C
      A                 CONDINTM2,CONDN,JTASK)
        END IF
       ELSE
-       IF(KDTINT.EQ.0)THEN
+       IF(KDTINT==0)THEN
          CALL I11ASS2(JLT   ,CS_LOC ,N1    ,N2    ,M1    ,
      2                M2    ,HS1    ,HS2   ,HM1   ,HM2   ,
      3                FX1   ,FY1    ,FZ1   ,FX2   ,FY2   ,
@@ -174,11 +174,11 @@ C
        END IF
       END IF            
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0)THEN
-         IF (INCONV.EQ.1) THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
+         IF (INCONV==1) THEN
 #include "lockon.inc"
            DO I=1,JLT
-            IF(CS_LOC(I).LE.NRTS) THEN
+            IF(CS_LOC(I)<=NRTS) THEN
               FCONT(1,N1(I)) =FCONT(1,N1(I)) + FX1(I)
               FCONT(2,N1(I)) =FCONT(2,N1(I)) + FY1(I)
               FCONT(3,N1(I)) =FCONT(3,N1(I)) + FZ1(I)
@@ -194,38 +194,38 @@ C
             FCONT(3,M2(I)) =FCONT(3,M2(I)) + FZ4(I)
            ENDDO
 #include "lockoff.inc"
-         END IF !(INCONV.EQ.1) THEN
+         END IF !(INCONV==1) THEN
       ENDIF
 C
-      IF(ISECIN.GT.0.AND.INCONV.EQ.1)THEN
+      IF(ISECIN>0.AND.INCONV==1)THEN
        K0=NSTRF(25)
-       IF(NSTRF(1)+NSTRF(2).NE.0)THEN
+       IF(NSTRF(1)+NSTRF(2)/=0)THEN
        DO I=1,NSECT
         NBINTER=NSTRF(K0+14)
         K1S=K0+30
         DO J=1,NBINTER
-         IF(NSTRF(K1S).EQ.NOINT)THEN
-           IF(ISECUT.NE.0)THEN
+         IF(NSTRF(K1S)==NOINT)THEN
+           IF(ISECUT/=0)THEN
 #include "lockon.inc"
              DO K=1,JLT
-              IF(CS_LOC(K).LE.NRTS) THEN
-               IF(SECFCUM(4,N1(K),I).EQ.1.)THEN
+              IF(CS_LOC(K)<=NRTS) THEN
+               IF(SECFCUM(4,N1(K),I)==1.)THEN
                 SECFCUM(1,N1(K),I)=SECFCUM(1,N1(K),I)-FX1(K)
                 SECFCUM(2,N1(K),I)=SECFCUM(2,N1(K),I)-FY1(K)
                 SECFCUM(3,N1(K),I)=SECFCUM(3,N1(K),I)-FZ1(K)
                ENDIF
-               IF(SECFCUM(4,N2(K),I).EQ.1.)THEN
+               IF(SECFCUM(4,N2(K),I)==1.)THEN
                 SECFCUM(1,N2(K),I)=SECFCUM(1,N2(K),I)-FX2(K)
                 SECFCUM(2,N2(K),I)=SECFCUM(2,N2(K),I)-FY2(K)
                 SECFCUM(3,N2(K),I)=SECFCUM(3,N2(K),I)-FZ2(K)
                ENDIF
               END IF
-              IF(SECFCUM(4,M1(K),I).EQ.1.)THEN
+              IF(SECFCUM(4,M1(K),I)==1.)THEN
                 SECFCUM(1,M1(K),I)=SECFCUM(1,M1(K),I)-FX3(K)
                 SECFCUM(2,M1(K),I)=SECFCUM(2,M1(K),I)-FY3(K)
                 SECFCUM(3,M1(K),I)=SECFCUM(3,M1(K),I)-FZ3(K)
               ENDIF
-              IF(SECFCUM(4,M2(K),I).EQ.1.)THEN
+              IF(SECFCUM(4,M2(K),I)==1.)THEN
                 SECFCUM(1,M2(K),I)=SECFCUM(1,M2(K),I)-FX4(K)
                 SECFCUM(2,M2(K),I)=SECFCUM(2,M2(K),I)-FY4(K)
                 SECFCUM(3,M2(K),I)=SECFCUM(3,M2(K),I)-FZ4(K)
@@ -243,21 +243,21 @@ C +fsav(section)
       ENDIF
 C
 C-----------------------------------------------------     
-      IF(IDAMP_RDOF.NE.0) THEN
+      IF(IDAMP_RDOF/=0) THEN
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
-          IF(FX1(I).NE.ZERO.OR.FY1(I).NE.ZERO.OR.FZ1(I).NE.ZERO)THEN
+          IF(CS_LOC(I)<=NRTS) THEN
+          IF(FX1(I)/=ZERO.OR.FY1(I)/=ZERO.OR.FZ1(I)/=ZERO)THEN
             ICONTACT(N1(I))=1	  
           ENDIF
-          IF(FX2(I).NE.ZERO.OR.FY2(I).NE.ZERO.OR.FZ2(I).NE.ZERO)THEN
+          IF(FX2(I)/=ZERO.OR.FY2(I)/=ZERO.OR.FZ2(I)/=ZERO)THEN
             ICONTACT(N2(I))=1	    	  
           ENDIF		  
 	  ENDIF	
 C test modifie pour coherence avec communication SPMD (spmd_i7tools)
-          IF(FX3(I).NE.ZERO.OR.FY3(I).NE.ZERO.OR.FZ3(I).NE.ZERO)THEN
+          IF(FX3(I)/=ZERO.OR.FY3(I)/=ZERO.OR.FZ3(I)/=ZERO)THEN
             ICONTACT(M1(I))=1	    	  
           ENDIF
-          IF(FX4(I).NE.ZERO.OR.FY4(I).NE.ZERO.OR.FZ4(I).NE.ZERO)THEN
+          IF(FX4(I)/=ZERO.OR.FY4(I)/=ZERO.OR.FZ4(I)/=ZERO)THEN
             ICONTACT(M2(I))=1	    	  
           ENDIF	  
         ENDDO
@@ -327,7 +327,7 @@ C
 C
       IF(INTTH==0)THEN
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
             A(1,J1)=A(1,J1)+FX1(I)
             A(2,J1)=A(2,J1)+FY1(I)
@@ -356,7 +356,7 @@ C
       ELSE
        IF(NODADT_THERM == 1 ) THEN  
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
             A(1,J1)=A(1,J1)+FX1(I)
             A(2,J1)=A(2,J1)+FY1(I)
@@ -392,7 +392,7 @@ C
         END DO
        ELSE
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
             A(1,J1)=A(1,J1)+FX1(I)
             A(2,J1)=A(2,J1)+FY1(I)
@@ -547,7 +547,7 @@ C
 C
       IF(INTTH==0)THEN
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
             A(1,J1)=A(1,J1)+FX1(I)
             A(2,J1)=A(2,J1)+FY1(I)
@@ -580,7 +580,7 @@ C
       ELSE
        IF(NODADT_THERM == 1 ) THEN  
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
             A(1,J1)=A(1,J1)+FX1(I)
             A(2,J1)=A(2,J1)+FY1(I)
@@ -620,7 +620,7 @@ C
         END DO
        ELSE
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
             A(1,J1)=A(1,J1)+FX1(I)
             A(2,J1)=A(2,J1)+FY1(I)
@@ -784,16 +784,16 @@ C-----------------------------------------------
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF (HM1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (HM1(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
       DO I = 1, JLT
-        IF (HM2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (HM2(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 
       IGP = 0
       IGM = 0
       DO I=1,JLT
-        IF(CS_LOC(I).LE.NRTS) THEN
+        IF(CS_LOC(I)<=NRTS) THEN
            IGP = IGP+2
         ELSE
            IGM = IGM+1
@@ -807,11 +807,11 @@ C
       NISKYFI = NISKYFI + IGM
 #include "lockoff.inc"
 
-      IF (NISKYL+NISKYL1+IGP .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
          CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)   
          CALL ARRET(2)
       ENDIF
-      IF (NISKYFIL+IGM .GT. NLSKYFI(NIN)) THEN
+      IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=25,ANMODE=ANINFO_BLIND,
      .            I1=NOINT)
         CALL ARRET(2)
@@ -819,7 +819,7 @@ C
 C
       IF(INTTH==0)THEN
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -849,7 +849,7 @@ C
       ELSE
        IF(NODADT_THERM == 1 ) THEN  
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -886,7 +886,7 @@ C
         END DO
        ELSE
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -922,7 +922,7 @@ C
 C
       IF(INTTH==0)THEN
        DO I=1,JLT
-         IF (HM1(I).NE.ZERO) THEN
+         IF (HM1(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX3(I)
           FSKYI(NISKYL,2)=FY3(I)
@@ -932,7 +932,7 @@ C
         ENDIF
        ENDDO
        DO I=1,JLT
-        IF (HM2(I).NE.ZERO) THEN
+        IF (HM2(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX4(I)
           FSKYI(NISKYL,2)=FY4(I)
@@ -944,7 +944,7 @@ C
       ELSE
        IF(NODADT_THERM == 1 ) THEN  
         DO I=1,JLT
-         IF (HM1(I).NE.ZERO) THEN
+         IF (HM1(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX3(I)
           FSKYI(NISKYL,2)=FY3(I)
@@ -956,7 +956,7 @@ C
          ENDIF
         ENDDO
         DO I=1,JLT
-         IF (HM2(I).NE.ZERO) THEN
+         IF (HM2(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX4(I)
           FSKYI(NISKYL,2)=FY4(I)
@@ -969,7 +969,7 @@ C
         ENDDO
        ELSE
         DO I=1,JLT
-         IF (HM1(I).NE.ZERO) THEN
+         IF (HM1(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX3(I)
           FSKYI(NISKYL,2)=FY3(I)
@@ -980,7 +980,7 @@ C
          ENDIF
         ENDDO
         DO I=1,JLT
-         IF (HM2(I).NE.ZERO) THEN
+         IF (HM2(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX4(I)
           FSKYI(NISKYL,2)=FY4(I)
@@ -1063,16 +1063,16 @@ C-----------------------------------------------
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF (HM1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (HM1(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
       DO I = 1, JLT
-        IF (HM2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (HM2(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 
       IGP = 0
       IGM = 0
       DO I=1,JLT
-        IF(CS_LOC(I).LE.NRTS) THEN
+        IF(CS_LOC(I)<=NRTS) THEN
            IGP = IGP+2
         ELSE
            IGM = IGM+1
@@ -1086,18 +1086,18 @@ C
       NISKYFI = NISKYFI + IGM
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1+IGP .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
          CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)
          CALL ARRET(2)
       ENDIF
-      IF (NISKYFIL+IGM .GT. NLSKYFI(NIN)) THEN
+      IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)
         CALL ARRET(2)
       ENDIF
 C
       IF(INTTH == 0)THEN
         DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -1132,7 +1132,7 @@ C
        ELSE
         IF(NODADT_THERM == 1 ) THEN  
          DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -1173,7 +1173,7 @@ C
          END DO
         ELSE
          DO I=1,JLT
-          IF(CS_LOC(I).LE.NRTS) THEN
+          IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -1213,7 +1213,7 @@ C
 C
       IF(INTTH == 0)THEN
         DO I=1,JLT
-          IF (HM1(I).NE.ZERO) THEN
+          IF (HM1(I)/=ZERO) THEN
            NISKYL = NISKYL + 1
            FSKYI(NISKYL,1)=FX3(I)
            FSKYI(NISKYL,2)=FY3(I)
@@ -1224,7 +1224,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (HM2(I).NE.ZERO) THEN
+          IF (HM2(I)/=ZERO) THEN
            NISKYL = NISKYL + 1
            FSKYI(NISKYL,1)=FX4(I)
            FSKYI(NISKYL,2)=FY4(I)
@@ -1237,7 +1237,7 @@ C
       ELSE
        IF(NODADT_THERM == 1 ) THEN  
         DO I=1,JLT
-          IF (HM1(I).NE.ZERO) THEN
+          IF (HM1(I)/=ZERO) THEN
            NISKYL = NISKYL + 1
            FSKYI(NISKYL,1)=FX3(I)
            FSKYI(NISKYL,2)=FY3(I)
@@ -1250,7 +1250,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (HM2(I).NE.ZERO) THEN
+          IF (HM2(I)/=ZERO) THEN
            NISKYL = NISKYL + 1
            FSKYI(NISKYL,1)=FX4(I)
            FSKYI(NISKYL,2)=FY4(I)
@@ -1264,7 +1264,7 @@ C
         ENDDO
        ELSE
         DO I=1,JLT
-          IF (HM1(I).NE.ZERO) THEN
+          IF (HM1(I)/=ZERO) THEN
            NISKYL = NISKYL + 1
            FSKYI(NISKYL,1)=FX3(I)
            FSKYI(NISKYL,2)=FY3(I)
@@ -1276,7 +1276,7 @@ C
           ENDIF
         ENDDO
         DO I=1,JLT
-          IF (HM2(I).NE.ZERO) THEN
+          IF (HM2(I)/=ZERO) THEN
            NISKYL = NISKYL + 1
            FSKYI(NISKYL,1)=FX4(I)
            FSKYI(NISKYL,2)=FY4(I)

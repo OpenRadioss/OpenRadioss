@@ -142,7 +142,7 @@ C
           CALL HM_GET_INT_ARRAY_INDEX('OmegaZ',J6(6),K,IS_AVAILABLE,LSUBMODEL)
 C
           CALL HM_GET_INT_ARRAY_INDEX('Skew_ID',IS,K,IS_AVAILABLE,LSUBMODEL)
-          IF(IS == 0 .AND. SUB_INDEX .NE. 0 ) IS = LSUBMODEL(SUB_INDEX)%SKEW
+          IF(IS == 0 .AND. SUB_INDEX /= 0 ) IS = LSUBMODEL(SUB_INDEX)%SKEW
 C
           CALL HM_GET_INT_ARRAY_INDEX('node_ID',NOD,K,IS_AVAILABLE,LSUBMODEL)
 C
@@ -172,7 +172,7 @@ C
 C
           CHKCOD = 0
           DO J=1,6
-            IF (J6(J) .GE. 2) THEN
+            IF (J6(J) >= 2) THEN
               CHKCOD = 1
             ENDIF
           ENDDO
@@ -184,9 +184,9 @@ c
           IC2=J6(4)*4 +J6(5)*2 +J6(6)
           IC =IC1*512+IC2*64
 c
-          IF(NOSYS .NE. 0) THEN
+          IF(NOSYS /= 0) THEN
             ICODE(NOSYS)=MY_OR(IC,ICODE(NOSYS))
-             IF(ISKEW(NOSYS).EQ.-1.OR.ISKEW(NOSYS).EQ.IS)THEN
+             IF(ISKEW(NOSYS)==-1.OR.ISKEW(NOSYS)==IS)THEN
                CHECK_NEW=IS
              ELSE
                CALL ANCMSG(MSGID=148,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -195,7 +195,7 @@ c
              ISKEW(NOSYS)=CHECK_NEW
             
              DO J=1,6
-               IF(J6(J).NE.0)
+               IF(J6(J)/=0)
      .         CALL KINSET(1,ITAB(NOSYS),IKINE(NOSYS),J,ISKEW(NOSYS)
      .                    ,IKINE1(NOSYS))
              ENDDO

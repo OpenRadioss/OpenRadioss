@@ -105,7 +105,7 @@ C ----------------------------------------
                         LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                         DO K=1,LGTH
                                 SOLV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + K - 1)
-                                IF (SOLV.GT.0) THEN
+                                IF (SOLV>0) THEN
                                         DO L=1,8
                                                 N = IXS(L+1,SOLV)
                                                 CALL PLIST_IFRONT(ID_SPMD,N,NBR_PROC)

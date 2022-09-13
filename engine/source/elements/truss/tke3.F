@@ -107,13 +107,13 @@ C     MATRICE de RIGIDITE
 C-------------------------
       CALL R4SUMG3(JFT    ,JLT    ,AL      ,KX      ,EX     ,
      1             EY     ,EZ     ,KE11    ,KE12    ,KE22   )
-      IF (IKGEO.GT.0) CALL TKEG3(JFT    ,JLT    ,
+      IF (IKGEO>0) CALL TKEG3(JFT    ,JLT    ,
      1                GBUF%FOR  ,AL      ,KE11   ,KE12    ,KE22   )
       CALL ASSEM_P(NIXT    ,3      ,
      1         NCT       ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,
      2         K_LT      ,IADK      ,JDIK      ,KE11      ,KE12     ,
      3         KE22       ,OFF        )
-      IF (NEIG.GT.0) CALL PEOFF(
+      IF (NEIG>0) CALL PEOFF(
      1                   NIXT, JFT, JLT, NCT , ETAG,
      2                   OFF )
      

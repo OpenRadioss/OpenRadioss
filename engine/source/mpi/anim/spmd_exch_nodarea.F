@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   Mise en place des buffers de reception
       DO I=1,NSPMD
          SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-         IF(SIZ.NE.0) THEN
+         IF(SIZ/=0) THEN
            MSGTYP = MSGOFF
            CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -109,7 +109,7 @@ C
 
       DO I=1,NSPMD
 
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
 
           
           MSGTYP = MSGOFF
@@ -125,7 +125,7 @@ C   Reception et traitement
       DO I = 1, NSPMD
 C
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 
@@ -139,7 +139,7 @@ C
       ENDDO
 
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO
@@ -147,7 +147,7 @@ C
 C Mise a 0 de adm sur noeud non main
 C
 C      DO I = 1, NUMNOD
-C        IF(WEIGHT(I).EQ.0) ADM(I) = ZERO
+C        IF(WEIGHT(I)==0) ADM(I) = ZERO
 C      ENDDO
 C
       DEALLOCATE(SBUF)

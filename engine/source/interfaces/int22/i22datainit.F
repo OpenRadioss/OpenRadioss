@@ -1191,7 +1191,7 @@ C=======================================================================
         IBUG22_CC_LENGTH     = IBUG22_CC_LENGTH       * IFLG
       ENDIF      
       
-      IF(INT22>0 .AND. IBUG22 == 1 .AND. IFLG.NE.0)THEN
+      IF(INT22>0 .AND. IBUG22 == 1 .AND. IFLG/=0)THEN
         PRINT *, "=================="        
         PRINT *, "= Output Flags : ="
         PRINT *, "=================="        
@@ -1228,7 +1228,7 @@ C=======================================================================
         print *, "=================="                                                                                                                     
       ENDIF
 
-!      IF(NTHREAD.GT.1)THEN
+!      IF(NTHREAD>1)THEN
 !        print *, "**error inter22 : Multithreading not yet validated"
 !        stop
 !      ENDIF

@@ -72,7 +72,7 @@ C-----------------------------------------------
       my_real
      .      A
 C
-      IF(IVAR.GT.BGEOSIZE)THEN
+      IF(IVAR>BGEOSIZE)THEN
          CALL ANCMSG(MSGID=374,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -129,8 +129,8 @@ C-----------------------------------------------
       PARAMETER (KTAB=37)
       INTEGER IVAR,IP,K
 C
-      IF(K.EQ.KPID)THEN
-        IF(IVAR.GT.MAXPID)THEN
+      IF(K==KPID)THEN
+        IF(IVAR>MAXPID)THEN
           CALL ANCMSG(MSGID=375,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -143,8 +143,8 @@ C
         ENDIF
         NJPID = MAX(NJPID,IVAR)
         JPID(IVAR) = IP
-      ELSEIF(K.EQ.KMAT)THEN
-        IF(IVAR.GT.MAXMAT)THEN
+      ELSEIF(K==KMAT)THEN
+        IF(IVAR>MAXMAT)THEN
           CALL ANCMSG(MSGID=375,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -157,8 +157,8 @@ C
         ENDIF
         NJMAT = MAX(NJMAT,IVAR)
         JMAT(IVAR) = IP
-      ELSEIF(K.EQ.KFUNC)THEN
-        IF(IVAR.GT.MAXFUNC)THEN
+      ELSEIF(K==KFUNC)THEN
+        IF(IVAR>MAXFUNC)THEN
           CALL ANCMSG(MSGID=375,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -171,8 +171,8 @@ C
         ENDIF
         NJFUNC = MAX(NJFUNC,IVAR)
         JFUNC(IVAR) = IP
-      ELSEIF(K.EQ.KTAB)THEN
-        IF(IVAR.GT.MAXTAB)THEN
+      ELSEIF(K==KTAB)THEN
+        IF(IVAR>MAXTAB)THEN
           CALL ANCMSG(MSGID=375,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -219,15 +219,15 @@ C
       DEPLA = 9+(IM-1)*NPROPMI
       CALL GET_VAR_USER_I(11,DEPLA,NVAR)
 C
-      IF(IVAR.EQ.0)THEN
+      IF(IVAR==0)THEN
 C       GET_U_MAT = PM(1,IM)
         DEPLA = (IM-1)*NPROPM+1
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
            CALL GET_VAR_USER_F_SP(1,DEPLA,GET_U_MAT)
         ELSE
            CALL GET_VAR_USER_F(1,DEPLA,GET_U_MAT)
         ENDIF
-      ELSEIF(IVAR.GT.NVAR)THEN
+      ELSEIF(IVAR>NVAR)THEN
          CALL ANCMSG(MSGID=376,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -240,7 +240,7 @@ C
         DEPLA = 7+(IM-1)*NPROPMI
         CALL GET_VAR_USER_I(11,DEPLA,IADBUF)
         DEPLA = IADBUF-1+IVAR
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
            CALL GET_VAR_USER_F_SP(2,DEPLA,GET_U_MAT)
         ELSE
            CALL GET_VAR_USER_F(2,DEPLA,GET_U_MAT)
@@ -298,14 +298,14 @@ C
       DOUBLE PRECISION NV2
 C
       DEPLA = 26+(IP-1)*NPROPG
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
       ELSE
          CALL GET_VAR_USER_F(3,DEPLA,NV)
       ENDIF
       NVAR = NINT(NV)
 C
-      IF(IVAR.GT.NVAR)THEN
+      IF(IVAR>NVAR)THEN
          CALL ANCMSG(MSGID=376,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -316,7 +316,7 @@ C
       ELSE
 C
         DEPLA = 27+(IP-1)*NPROPG
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
            CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
            DEPLA=NINT(NV)-1+IVAR
 C Sav Buf Point = 4 is BUFGEO which is now in Double precision
@@ -362,14 +362,14 @@ C
       IER = 0
 C
       DEPLA = 26+(IP-1)*NPROPG
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
       ELSE
          CALL GET_VAR_USER_F(3,DEPLA,NV)
       ENDIF
       NVAR = NINT(NV)
 C
-      IF(IVAR.GT.NVAR)THEN
+      IF(IVAR>NVAR)THEN
          CALL ANCMSG(MSGID=376,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -381,7 +381,7 @@ C
       ELSE
 C
         DEPLA = 27+(IP-1)*NPROPG
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
          DEPLA=NINT(NV)-1+IVAR
 C Sav Buf Point = 4 is BUFGEO which is now in Double precision 
@@ -429,14 +429,14 @@ C
      .      NV
 C
       DEPLA = K-1+(IP-1)*NPROPG
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
       ELSE
          CALL GET_VAR_USER_F(3,DEPLA,NV)
       ENDIF
       NVAR = NINT(NV)
 C
-      IF(IVAR.GT.NVAR)THEN
+      IF(IVAR>NVAR)THEN
 C
          CALL ANCMSG(MSGID=377,
      .               MSGTYPE=MSGERROR,
@@ -451,7 +451,7 @@ C
       ELSE
 C
         DEPLA = K+(IP-1)*NPROPG
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
           DEPLA = NINT(NV)-1+IVAR
 C Sav Buf Point = 4 is BUFGEO which is now in Double precision
@@ -500,7 +500,7 @@ C
      .               C4='K',I2=K,
      .               C5='IVAR',I3=IVAR,
      .               I4=NFUNC)
-      ELSEIF(K.EQ.KFUNC) THEN
+      ELSEIF(K==KFUNC) THEN
 C
          DEPLA = 10+IVAR+(IM-1)*NPROPMI
          CALL GET_VAR_USER_I(11,DEPLA,GET_U_MNU)
@@ -599,7 +599,7 @@ Chd|====================================================================
 *      CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
 *      NMAX=(NPFIP-NPFI)/2
 *      I=NPFI+(N-1)*2
-*      IF (N.GT.NMAX.OR.N.LE.0) THEN
+*      IF (N>NMAX.OR.N<=0) THEN
 *        MSGIDOPT=NOM_OPT(1,INOM_OPT(20)+IFUNC)
 *        CALL FRETITL2(MSGTITROPT,
 *     .                NOM_OPT(LNOPT1-LTITR+1,INOM_OPT(20)+IFUNC),LTITR)
@@ -612,7 +612,7 @@ Chd|====================================================================
 *     .              I2=N,
 *     .              I3=NMAX)
 *      END IF
-*      IF (IRESP.EQ.1) THEN
+*      IF (IRESP==1) THEN
 *          CALL GET_VAR_USER_F_SP(6,I,XX)
 *      ELSE
 *          CALL GET_VAR_USER_F(6,I,XX)
@@ -645,7 +645,7 @@ C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       NMAX=(NPFIP-NPFI)/2
       I=NPFI+(N-1)*2
-      IF (N.GT.NMAX.OR.N.LE.0) THEN
+      IF (N>NMAX.OR.N<=0) THEN
         CALL ANCMSG(MSGID=841,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
@@ -653,7 +653,7 @@ C-----------------------------------------------
      .              I2=N,
      .              I3=NMAX)
       END IF
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,I+1,YY)
       ELSE
           CALL GET_VAR_USER_F(6,I+1,YY)
@@ -683,14 +683,14 @@ C-----------------------------------------------
      .    ABC,DERI,XX,DX1,DX2,TFI,TFI1,TFI2,TFIP
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,NPFI,DX2)
       ELSE
           CALL GET_VAR_USER_F(6,NPFI,DX2)
       ENDIF
       DX2=DX2-XX
       DO 100 I=NPFI+2,NPFIP-2,2
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,I,TFI)
           CALL GET_VAR_USER_F_SP(6,I+1,TFIP)
           CALL GET_VAR_USER_F_SP(6,I-1,TFI1)
@@ -704,9 +704,9 @@ C-----------------------------------------------
       ENDIF
        DX1 = -DX2
        DX2 = TFI - XX
-       IF(DX2.GE.ZERO.OR.I.EQ.NPFIP-2)THEN
+       IF(DX2>=ZERO.OR.I==NPFIP-2)THEN
          DERI = (TFIP - TFI1) / (TFI - TFI2)
-         IF(DX1.LE.DX2)THEN
+         IF(DX1<=DX2)THEN
            GET_U_FUNC = TFI1 + DX1 * DERI
          ELSE
            GET_U_FUNC = TFIP - DX2 * DERI
@@ -739,7 +739,7 @@ C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
 
       DO I=NPFI+2,NPFIP-2,2
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,I,TFI)
           CALL GET_VAR_USER_F_SP(6,I+1,TFIP)
           CALL GET_VAR_USER_F_SP(6,I-1,TFI1)
@@ -769,7 +769,7 @@ Chd|====================================================================
 C
       GET_U_M = 0
       DO I=1,NUMMAT
-        IF(GET_U_MID(I).EQ.MID)THEN
+        IF(GET_U_MID(I)==MID)THEN
           GET_U_M = I
           RETURN
         ENDIF
@@ -789,7 +789,7 @@ Chd|====================================================================
 C
       GET_U_P = 0
       DO I=1,NUMGEO
-        IF(GET_U_PID(I).EQ.PID)THEN
+        IF(GET_U_PID(I)==PID)THEN
           GET_U_P = I
           RETURN
         ENDIF
@@ -822,7 +822,7 @@ C
       NSENS = KSENS_CUR
 C
       SET_U_SENS_IPAR = -1
-      IF(IVAR.GT.NSENPARI)THEN
+      IF(IVAR>NSENPARI)THEN
 C
          CALL ANCMSG(MSGID=374,
      .               MSGTYPE=MSGERROR,
@@ -838,7 +838,7 @@ C
 C
       CALL  GET_VAR_USER_I(9,K+2,ITYP)
 C
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
 C
         CALL SET_VAR_USER_I(9,K+ISENPARI+IVAR,VAR)
 C
@@ -877,7 +877,7 @@ C
       NSENS = KSENS_CUR
 C
       SET_U_SENS_FPAR = -1
-      IF(IVAR.GT.NSENPARR)THEN
+      IF(IVAR>NSENPARR)THEN
          CALL ANCMSG(MSGID=374,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -891,9 +891,9 @@ C
       L = (NSENS-1)*NSENSR + ISENPARR+IVAR
       CALL GET_VAR_USER_I(9,K,ITYP)
 C
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
 C
-       IF (IRESP.EQ.1) THEN
+       IF (IRESP==1) THEN
          CALL SET_VAR_USER_F_SP(10,L,VAR)
        ELSE
          CALL SET_VAR_USER_F(10,L,VAR)
@@ -927,7 +927,7 @@ C-----------------------------------------------
 C
       INTEGER J,ID,DEPLA
 C
-      IF (CODVERS.LT.44 .OR. INVERS.LT.40) THEN
+      IF (CODVERS<44 .OR. INVERS<40) THEN
 C
          CALL ANCMSG(MSGID=421,
      .               MSGTYPE=MSGERROR,
@@ -937,7 +937,7 @@ C
       ENDIF
 C
       GET_U_NUMFUN = 0
-      IF(IDFUN.LE.0)THEN
+      IF(IDFUN<=0)THEN
         RETURN
       ENDIF
 C
@@ -945,7 +945,7 @@ C
 C
         DEPLA=NFUNCT+1+J
         CALL GET_VAR_USER_I(5,DEPLA,ID)
-        IF(IDFUN.EQ.ID)THEN
+        IF(IDFUN==ID)THEN
           GET_U_NUMFUN = J
           RETURN
         ENDIF
@@ -981,7 +981,7 @@ C
 C
         DEPLA = 4+I*LISKN
         CALL GET_VAR_USER_I(7,DEPLA,ID)
-        IF(ID.EQ.IDSKW) THEN
+        IF(ID==IDSKW) THEN
 C
            DEPLA=I*LISKN
            CALL GET_VAR_USER_I(7,DEPLA+1,N1)
@@ -989,7 +989,7 @@ C
            CALL GET_VAR_USER_I(7,DEPLA+3,N3)
 C
            DEPLA=I*LSKEW+1
-           IF (IRESP.EQ.1) THEN
+           IF (IRESP==1) THEN
               CALL GET_ARRAY_USER_F_SP(8,DEPLA,V,LSKEW)
            ELSE
               CALL GET_ARRAY_USER_F(8,DEPLA,V,LSKEW)

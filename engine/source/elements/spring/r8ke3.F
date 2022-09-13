@@ -106,12 +106,12 @@ c      NEL3 = 3 * NEL
 c      NEL4 = 4 * NEL
 C
 C=======================================================================
-C      IF(IGTYP.EQ.8)THEN
+C      IF(IGTYP==8)THEN
 C=======================================================================
 c       NB3 =NB2  + NEL3
 c       NB4 =NB3  + NEL
 c       NB5 =NB4  + NEL3
-c       IF (SCODVER.LT.101) THEN
+c       IF (SCODVER<101) THEN
 c         NB6 =NB5  + NEL3
 c       ELSE
 c         NB6 =NB5  + 2*NEL3
@@ -199,7 +199,7 @@ C-------------------------
 C      ENDIF
 
 
-              IF (NEIG.GT.0) CALL PEOFF(
+              IF (NEIG>0) CALL PEOFF(
      1                   NIXR, JFT, JLT, IXR, ETAG,
      2                   OFF )
               CALL ASSEM_P(NIXR,6   ,
@@ -256,10 +256,10 @@ C     REAL
       my_real
      .   SCAL,ALX,ALY,ALZ,SX,SY,SZ,S1,S2
 C-----------------------------------------------
-      IF (IMP_CHK .GT. 0) THEN
+      IF (IMP_CHK > 0) THEN
        SCAL = HUNDRED
        DO I=JFT,JLT
-        IF(OFF(I).NE.ZERO)THEN
+        IF(OFF(I)/=ZERO)THEN
          ALX = ABS(AL(1,I))*SCAL
          ALY = ABS(AL(2,I))*SCAL
          ALZ = ABS(AL(2,I))*SCAL
@@ -272,7 +272,7 @@ C-----------------------------------------------
          S1 = KX(I)*ALZ-MY(I)
          S2 = KY(I)*ALZ-MX(I)
          SZ = MAX(S1,S2)
-         IF(SX.GT.ZERO.OR.SY.GT.ZERO.OR.SZ.GT.ZERO)THEN
+         IF(SX>ZERO.OR.SY>ZERO.OR.SZ>ZERO)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"

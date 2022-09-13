@@ -98,13 +98,13 @@ C======================================================================|
       NMT0 = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ICOM = IAD_M(NSPMD+1)-IAD_M(1)
-      IF (NSPMD.GT.1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
-      IF (NMT0.GT.0) THEN
+      IF (NSPMD>1)CALL SPMD_MAX_II(IROTG,IAD_M,ICOM)
+      IF (NMT0>0) THEN
        CALL PRERBE3P(IRBE3 ,LRBE3 ,IADMP ,IML   , NMT   )
        IADA=1
        IADMS=IADA+3*NMT
        IADFN=IADMS+NMT
-       IF (IROTG.GT.0) THEN
+       IF (IROTG>0) THEN
         IADAR=IADFN+NMT
         IADIN=IADAR+3*NMT
         IADFR=IADIN+NMT
@@ -123,16 +123,16 @@ C       ALLOCATE(RSUM(IADL),STAT=IERR)
      4           RSUM(IADIN),RSUM(IADFN),RSUM(IADFR),NMT0  ,
      5           IADMP )
 C
-       IF (NSPMD.GT.1.AND.IPARIT.EQ.0) THEN
+       IF (NSPMD>1.AND.IPARIT==0) THEN
             CALL RBE3POFF(IRBE3 ,LRBE3 ,A    ,MS    ,WEIGHT,
      1                    AR    ,IN    ,STIFN,STIFR )
        END IF
-       IF (IPARIT.GT.0.AND.IMACH.EQ.3) THEN
+       IF (IPARIT>0.AND.IMACH==3) THEN
         NMP = 6*NMT
         IPA=1
         IPMS=IPA+3*NMP
         IPFN=IPMS+NMP
-        IF (IROTG.GT.0) THEN
+        IF (IROTG>0) THEN
          IPAR=IPFN+NMP
          IPIN=IPAR+3*NMP
          IPFR=IPIN+NMP
@@ -148,12 +148,12 @@ C	 RSUM_PON=ZERO
         CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RSUM(IADA) ,RSUM_PON(IPA) )
         CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RSUM(IADMS),RSUM_PON(IPMS))
         CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RSUM(IADFN),RSUM_PON(IPFN))
-        IF (IROTG.GT.0) THEN
+        IF (IROTG>0) THEN
          CALL FOAT_TO_6_FLOAT(1  ,NMT*3  ,RSUM(IADAR) ,RSUM_PON(IPAR))
          CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RSUM(IADIN),RSUM_PON(IPIN))
          CALL FOAT_TO_6_FLOAT(1  ,NMT    ,RSUM(IADFR),RSUM_PON(IPFR))
         ENDIF
-        IF (ICOM.GT.0) THEN
+        IF (ICOM>0) THEN
             CALL SPMD_EXCH_RBE3_PON(
      .       RSUM_PON(IPA),RSUM_PON(IPAR),RSUM_PON(IPMS),RSUM_PON(IPIN),
      .       RSUM_PON(IPFN),RSUM_PON(IPFR),FR_MPON,IAD_M  ,
@@ -173,7 +173,7 @@ C-----------------A-=A*W+DA-----
      1                IN    ,WEIGHT,STIFN ,STIFR ,RSUM(IADA),
      2                RSUM(IADAR) ,RSUM(IADMS), RSUM(IADIN),
      3                RSUM(IADFN) ,RSUM(IADFR),NMT   ,IML  ,IROTG)
-        IF (IPARIT.EQ.0.AND.ICOM.GT.0) THEN
+        IF (IPARIT==0.AND.ICOM>0) THEN
             CALL SPMD_EXCH_RBE3(
      .       A    ,AR   ,MS      ,IN     ,STIFN,
      .       STIFR,FR_M ,IAD_M   ,IAD_M(NSPMD+1),ISIZE,
@@ -189,7 +189,7 @@ c--------------calcul dms,diner---
      2               DINERT,ADI   ,IROTG   ,IRBE3  ,MS      ,
      3               IN    ,WEIGHT,IADMP   ,H3D_DATA)
 C       DEALLOCATE(RSUM)
-      END IF ! IF (NMT.GT.0)
+      END IF ! IF (NMT>0)
 C
 C---  reset of secnd nodes forces is necessary w/AMS
       DO N=1,NRBE3
@@ -249,7 +249,7 @@ C-----------------------------------------------
 	 MS(M)  = MS(M)*WEIGHT(M)
 	 STIFN(M)= STIFN(M)*WEIGHT(M)
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
@@ -319,7 +319,7 @@ C     REAL
 C======================================================================|
       IADS = NMT0
       ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
@@ -371,7 +371,7 @@ C-----IMOD=4  STIFNM might be over_estimated but safe
           ENDDO
            STIFNM(K) = STIFNM(K)+SMAX
         ENDDO
-        IF ((JR(1,N)+JR(2,N)+JR(3,N)).GT.0) THEN
+        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
 	     NN = JR(J,N)*WEIGHT(NS)
 	     MNS(J) = AR(J,NS)*NN
@@ -396,7 +396,7 @@ C	   FSUM = FDSTNB(J,J+3,I)
 	      STIFNM(K) = STIFNM(K)+SMAX
          ENDDO
         ENDIF
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=1,NML
           K = IADMP(IAD+I)
           DO J = 1,3
@@ -414,7 +414,7 @@ C	   MSUM = MDSTNB(J,J,I)
           ENDDO
 	      STIFRM(K) = STIFRM(K)+SMAX
          ENDDO
-         IF ((JR(1,N)+JR(2,N)+JR(3,N)).GT.0) THEN
+         IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
           IF (IMOD <=3) THEN
             DO I=1,NML
               K = IADMP(IAD+I)
@@ -450,13 +450,13 @@ C	   MSUM = MDSTNB(J,J,I)
         ENDIF
 C	MS(NS) = ZERO
 	STIFN(NS) = EM20
-        IF ((JR(1,N)+JR(2,N)+JR(3,N)).GT.0) STIFR(NS) = EM20
+        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) STIFR(NS) = EM20
        ENDIF
-       END IF ! IF (NS.GT.0) THEN
+       END IF ! IF (NS>0) THEN
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
       RETURN
       END
@@ -508,7 +508,7 @@ C======================================================================|
 	 MS(M)  = MS(M)  + DMS(I)
 	 STIFN(M)= STIFN(M) + DSTIFN(I)
       ENDDO
-      IF (IROTG.GT.0) THEN
+      IF (IROTG>0) THEN
        DO I=1,NMT
           M = IML(I)
 	  AR(1,M) = AR(1,M) + DAR(1,I)
@@ -534,7 +534,7 @@ C
 	 MS(M)  = MS(M)  + DMS(I)
 	 STIFN(M)= STIFN(M) + DSTIFN(I)
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
 	  AR(1,M) = AR(1,M) + DAR(1,I)
@@ -596,7 +596,7 @@ C======================================================================|
 #include    "vectorize.inc"
         DO I=IAD+1,IAD+NML
          M = LRBE3(I)
-	 IF (ITAG(M).EQ.0) THEN
+	 IF (ITAG(M)==0) THEN
 	  WEIGHT(I) = 1
 	 ELSE
 	  WEIGHT(I) = 0
@@ -619,7 +619,7 @@ C
 	 DMS(I) = MS(M)*WEIGHT(I)+DMS(I)
 	 DSTIFN(I) = STIFN(M)*WEIGHT(I)+DSTIFN(I)
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
@@ -686,7 +686,7 @@ C======================================================================|
 	  MS(M) =  ZERO
 	  STIFN(M) = ZERO
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
@@ -715,7 +715,7 @@ C
 	  STIFN(M) = STIFN(M)+DSTIFN(J,I)
          ENDDO
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 #include    "vectorize.inc"
          DO I=IAD+1,IAD+NML
           M = LRBE3(I)
@@ -792,7 +792,7 @@ C	  MS1 = MS1 + DMS(J,I)
 	  A(2,M) = A(2,M)+ AY
 	  A(3,M) = A(3,M)+ AZ
        ENDDO
-      IF (IROTG.GT.0) THEN
+      IF (IROTG>0) THEN
        DO I=1,NMT
          M = IML(I)
 	 AX = ZERO
@@ -868,15 +868,15 @@ C----accumulated secnd masses---
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-        IF (NS.GT.0) THEN
+        IF (NS>0) THEN
           IF (WEIGHT(NS)==1) THEN
-            IF (NML.GT.0) MNS= MNS+MS(NS)*WEIGHT(NS)
+            IF (NML>0) MNS= MNS+MS(NS)*WEIGHT(NS)
 c         DO J = 1,NML
 c	  K = IADMP(IAD+J)
 c          DMS(K) = DMS(K) -MNS
 c	 ENDDO
             MS(NS) = ZERO
-	    IF (IRODDL.NE.0) IN(NS) = ZERO
+	    IF (IRODDL/=0) IN(NS) = ZERO
           ENDIF
         ENDIF
       ENDDO
@@ -888,7 +888,7 @@ C         DMS(J)= MAX(ZERO,DMS(J))
        ENDDO
        DMAST = DMAST + MAX(ZERO,DMAS0)
 C       
-      IF(IROTG.GT.0) THEN
+      IF(IROTG>0) THEN
        DO J=1,NMT
          DINERT = DINERT + DIN(J)
        ENDDO
@@ -896,13 +896,13 @@ C
 C-------attention now for ANIM, ADM contains MS(NS), 
 C-------output only when real added mass hapened: debug usage 
       IF (DMAS0>EM10) THEN
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
 #include    "vectorize.inc"
        DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
-        IF (NS.GT.0.AND.WEIGHT(NS)==1) THEN
+        IF (NS>0.AND.WEIGHT(NS)==1) THEN
          DO J = 1,NML
           M = LRBE3(IAD+J)
           K = IADMP(IAD+J)
@@ -911,14 +911,14 @@ C-------output only when real added mass hapened: debug usage
         ENDIF
        ENDDO
       ENDIF
-      IF(ANIM_N(12)+OUTP_N(3).GT.0+H3D_DATA%N_SCAL_DINER .AND.IROTG.GT.0) THEN
+      IF(ANIM_N(12)+OUTP_N(3)>0+H3D_DATA%N_SCAL_DINER .AND.IROTG>0) THEN
 #include    "vectorize.inc"
        DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
         NML = IRBE3(5,N)
 	IROT =IRBE3(6,N)
-        IF (NS.GT.0.AND.IROT.GT.0.AND.WEIGHT(NS)==1) THEN
+        IF (NS>0.AND.IROT>0.AND.WEIGHT(NS)==1) THEN
          DO J = 1,NML
           M = LRBE3(IAD+J)
           K = IADMP(IAD+J)
@@ -1029,7 +1029,7 @@ C======================================================================|
            JR(3,N)=1
        END SELECT
       ENDDO
-C      IF (IMACH.EQ.3.AND.MAXPROC.GT.1) CALL SPMD_MAX_I(IROTG)
+C      IF (IMACH==3.AND.MAXPROC>1) CALL SPMD_MAX_I(IROTG)
 C---
       RETURN
       END
@@ -1204,7 +1204,7 @@ C     INITIALIZATION
 C
       IF (NG==0) RETURN
       CALL ZERO1(FDSTNB,3*NG*6)
-      IF (IROT.GT.0) CALL ZERO1(MDSTNB,3*NG*6)
+      IF (IROT>0) CALL ZERO1(MDSTNB,3*NG*6)
       CALL ZERO1(A,36)
       CALL ZERO1(C,36)
       CALL ZERO1(CGMX,3)
@@ -1226,7 +1226,7 @@ C     ERROR OUT IF RBE3 ELEMENT HAS TWO INDEPENDENT NODES WITH
 C     NO ROTATIONAL WEIGHTS SET (THIS MEANS THE ELEMENT CANNOT
 C     SUPPORT A MOMENT ALONG ITS AXIS)
 C
-      IF (NG .EQ. 2.AND.IROT.EQ.0) THEN
+      IF (NG == 2.AND.IROT==0) THEN
             IERR = 322
             GOTO 999
       ENDIF
@@ -1235,7 +1235,7 @@ C     CALCULATE DIRECTION COSINES OF LOCAL COORDINATE SYSTEMS, IF ANY
 C
         DO K = 1, NG
             IELSUB = ILRBE3(K)
-            IF (IELSUB .GT. 0) THEN
+            IF (IELSUB > 0) THEN
                DO I = 1, 3
                      EL(I,1,K) = SKEW(I,IELSUB)
                      EL(I,2,K) = SKEW(I+3,IELSUB)
@@ -1254,7 +1254,7 @@ C
       DO 70 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF GRID POINT HAS A LOCAL COORDINATE SYSTEM
 C
@@ -1274,20 +1274,20 @@ C
      *                              (XYZ(3,KG) - REFPT(3))**2 )
  70   CONTINUE
 C
-      IF (ABS(DENFX) .LE. EM20) THEN
+      IF (ABS(DENFX) <= EM20) THEN
          IERR = 326
       ENDIF
 C
-      IF (ABS(DENFY) .LE. EM20) THEN
+      IF (ABS(DENFY) <= EM20) THEN
          IERR = 327
       ENDIF
 C
-      IF (ABS(DENFZ) .LE. EM20) THEN
+      IF (ABS(DENFZ) <= EM20) THEN
          IERR = 328
       ENDIF
-      IF (IERR .NE. 0) GOTO 999
+      IF (IERR /= 0) GOTO 999
          AVEREF = AVEREF/NG
-         IF (AVEREF .EQ. ZERO) AVEREF = ONE
+         IF (AVEREF == ZERO) AVEREF = ONE
 C
 C     CALCULATE 3 CENTERS OF GRAVITY (CGMX, CGMY AND CGMZ) AND
 C     DENOMINATORS FOR DISTRIBUTING MOMENTS (DENMX, DENMY AND DENMZ)
@@ -1295,7 +1295,7 @@ C
       DO 40 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF THERE IS A LOCAL COORDINATE SYSTEM AT THE GRID POINT
 C
@@ -1347,7 +1347,7 @@ C              WEIGHTS WITH THE SQUARE OF THE AVERAGE DISTANCE OF THE
 C              INDEPENDENT GRID POINTS FROM THE REFERENCE POINT TO
 C              RENDER THE RBE3 CALCULATIONS UNIT INDEPENDENT
 C
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF GRID POINT HAS A LOCAL COORDINATE SYSTEM
 C
@@ -1382,19 +1382,19 @@ C     PERFORM SOME CHECKS ON WEIGHTS, TO MAKE SURE THAT THE RBE3
 C     ELEMENT HAS NO UNCONSTRAINED DEGREES OF FREEDOM
 C
 C
-      IF (ABS(DENMX) .LE. EM20) THEN
+      IF (ABS(DENMX) <= EM20) THEN
          IERR = 329
       ENDIF
 C
-      IF (ABS(DENMY) .LE. EM20) THEN
+      IF (ABS(DENMY) <= EM20) THEN
          IERR = 330
       ENDIF
 C
-      IF (ABS(DENMZ) .LE. EM20) THEN
+      IF (ABS(DENMZ) <= EM20) THEN
          IERR = 331
       ENDIF
 C
-      IF (IERR .NE. 0) GOTO 999
+      IF (IERR /= 0) GOTO 999
 C
 C     CALCULATE 3 FORCE DISTRIBUTIONS THAT CREATE NET X, Y AND Z FORCES
 C     OF 1 (BESIDES OTHER NONZERO FORCES/MOMENTS IN ALL THE DIRECTIONS)
@@ -1454,7 +1454,7 @@ C     INVERT THE 6X6 MATRIX
 C
       NSNGLR  = 0
       CALL INVERT(A,C,6,NSNGLR)
-      IF (NSNGLR .NE. 0) THEN
+      IF (NSNGLR /= 0) THEN
         IERR = 332
          GOTO 999
       ENDIF
@@ -1468,7 +1468,7 @@ C
          ENDDO
        ENDDO
       ENDDO
-      IF (IROT.GT.0) THEN
+      IF (IROT>0) THEN
        DO I = 1, 3
         DO J = 1, 6
          DO K = 1, NG
@@ -1480,8 +1480,8 @@ C
       END IF
 C
  999  CONTINUE
-      IF (IERR.GT.0) THEN
-           IF(ISPMD.EQ.0)THEN
+      IF (IERR>0) THEN
+           IF(ISPMD==0)THEN
              CALL ANCMSG(MSGID=108,ANMODE=ANINFO,
      .            I1=ID)
            ENDIF
@@ -1558,7 +1558,7 @@ C
       DO 50 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           FORCES AT GRID POINT ALONG GRID POINT'S LOCAL (OUTPUT)
 C           COORDINATE AXES
@@ -1682,7 +1682,7 @@ C
       DO 50 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           FORCES  AT GRID POINT ALONG GRID POINT'S LOCAL
 C           (OUTPUT) COORDINATE AXES
@@ -1752,11 +1752,11 @@ C
 C
  50   CONTINUE
 C
-      IF (IROT.GT.0) THEN
+      IF (IROT>0) THEN
        DO K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           MOMENTS AT GRID POINT ALONG GRID POINT'S LOCAL
 C           (OUTPUT) COORDINATE AXES
@@ -1967,7 +1967,7 @@ C======================================================================|
 	  A(3,M) = A(3,M)+FDSTNB(3,J,I)*FNS(J)
 	 ENDDO
         ENDDO
-        IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+        IF ((JR(1)+JR(2)+JR(3))>0) THEN
          DO J = 1,3
 	  MNS(J) = AR(J,NS)*JR(J)
 	 ENDDO
@@ -1980,7 +1980,7 @@ C======================================================================|
 	  ENDDO
          ENDDO
         ENDIF
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=1,NML
 	  M = IML(I)
           DO J = 1,3
@@ -1989,7 +1989,7 @@ C======================================================================|
 	   AR(3,M) = AR(3,M)+MDSTNB(3,J,I)*FNS(J)
 	  ENDDO
          ENDDO
-         IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+         IF ((JR(1)+JR(2)+JR(3))>0) THEN
           DO I=1,NML
 	   M = IML(I)
            DO J = 1,3
@@ -2048,7 +2048,7 @@ C======================================================================|
         NML = IRBE3(5,N)
         DO I=1,NML
          M = LRBE3(IAD+I)
-         IF (ITAG(M).EQ.0) THEN
+         IF (ITAG(M)==0) THEN
           NMT = NMT + 1
           AD_M(IAD+I) = NMT
           ITAG(M) = NMT
@@ -2103,7 +2103,7 @@ C======================================================================|
         NML = IRBE3(5,N)
         DO I=1,NML
          M = LRBE3(IAD+I)
-         IF (ITAG(M).EQ.0) THEN
+         IF (ITAG(M)==0) THEN
           NMT = NMT + 1
           ITAG(M) = NMT
          ENDIF

@@ -80,39 +80,39 @@ C-----------------------------------------------
             IX3=MSR(IRECT(3,L))
             IX4=MSR(IRECT(4,L))
             NSVG=NSV(J)
-            IF(PENI(J).GT.ZERO)THEN
-              IF(IPRI.GE.1)THEN
+            IF(PENI(J)>ZERO)THEN
+              IF(IPRI>=1)THEN
                 WRITE(IOUT,FMT=FMW_5I)
      1           ITAB(NSVG),
      2           ITAB(IX1),ITAB(IX2),
      3           ITAB(IX3),ITAB(IX4)
               END IF
-c              IF(PENI(J).GT.ZERO)THEN
+c              IF(PENI(J)>ZERO)THEN
                 WRITE(IOUT,1000)PENI(J)
 c              ENDIF
-              IF(INACTI.NE.6)THEN
-                IF(INACTI.EQ.1) THEN
+              IF(INACTI/=6)THEN
+                IF(INACTI==1) THEN
 C                 DESACTIVATION DES NOEUDS
                   WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
                   STFN(J) = ZERO
-                ELSE IF(INACTI.EQ.2) THEN
+                ELSE IF(INACTI==2) THEN
 C                 DESACTIVATION DES ELEMENTS
                   WRITE(IOUT,'(A)')
      .              'INACTI=2 IS NOT AVAILABLE FOR INTERFACE TYPE21'
-                ELSE IF(INACTI.EQ.3) THEN
+                ELSE IF(INACTI==3) THEN
 C                 CHANGE LES COORDONNEES DES NOEUDS SECND
                   WRITE(IOUT,'(A)')
      .              'INACTI=3 IS NOT AVAILABLE FOR INTERFACE TYPE21'
-                ELSE IF(INACTI.EQ.4) THEN
+                ELSE IF(INACTI==4) THEN
 C                 CHANGE LES COORDONNEES DES NOEUDS MAIN
                   WRITE(IOUT,'(A)')
      .              'INACTI=4 IS NOT AVAILABLE FOOR INTERFACE TYPE21'
-                ELSE IF(INACTI.EQ.5) THEN
+                ELSE IF(INACTI==5) THEN
 C                 REDUCTION DU GAP 
                   JWARN = 1
                 ENDIF
               ELSE
-C               INACTI.EQ.6
+C               INACTI==6
 C               REDUCTION DU GAP 
                 JWARN = 1
 C
@@ -125,7 +125,7 @@ C
  100    CONTINUE
       IF (JWARN /= 0) WRITE(IOUT,'(A)')'REDUCE INITIAL GAP'
 C
-      IF(IWPENE.NE.0) THEN
+      IF(IWPENE/=0) THEN
         CALL ANCMSG(MSGID=499,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,

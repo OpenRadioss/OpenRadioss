@@ -94,14 +94,14 @@ C
       ISK2 = NINT(GET_U_GEO(3,IPROP))
       KNN  = GET_U_GEO(10,IPROP)
       NSK = 2
-      IF (ISK2.EQ.0) NSK = 1
+      IF (ISK2==0) NSK = 1
       ERR_FLG = 0
       IPID=IXR(1,1+NFT)       
 C------------------check sur les skews-----------------
       DO I=1,NSK
         IDSK(I) = NINT(GET_U_GEO(1+I,IPROP))
         ISK = GET_U_SKEW(IDSK(I),NO(1),NO(2),NO(3),U)
-        IF (ISK.EQ.0) THEN
+        IF (ISK==0) THEN
            CALL ANCMSG(MSGID=926,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -114,12 +114,12 @@ C------------------check sur les skews-----------------
         DO J=1,3
 	  SRB(J+3*(I-1)) = FIND_RBY(NO(J),NPBY,LPBY)
         END DO
-        IF((SRB(1+3*(I-1)).EQ.(SRB(2+3*(I-1)))).AND.
-     .     (SRB(1+3*(I-1)).EQ.(SRB(3+3*(I-1))))) THEN
+        IF((SRB(1+3*(I-1))==(SRB(2+3*(I-1)))).AND.
+     .     (SRB(1+3*(I-1))==(SRB(3+3*(I-1))))) THEN
 	  IDSKRB(I) = SRB(1+3*(I-1))
         ELSE
 	  IDSKRB(I) = 0
-	  IF (SRB(1+3*(I-1))+SRB(2+3*(I-1))+SRB(3+3*(I-1)).EQ.0) THEN
+	  IF (SRB(1+3*(I-1))+SRB(2+3*(I-1))+SRB(3+3*(I-1))==0) THEN
             CALL ANCMSG(MSGID=392,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -137,16 +137,16 @@ C------------------check sur les skews-----------------
         ENDIF
 500     CONTINUE
       ENDDO
-      IF (ERR_FLG.EQ.1) THEN
+      IF (ERR_FLG==1) THEN
          GOTO 1000
       ENDIF
-      IF (ISK2.EQ.0) THEN
+      IF (ISK2==0) THEN
 	  IDSKRB(2) = IDSKRB(1)
       ENDIF
       
 C------------------Boucle sur les neuds-----------------
 
-      IF(NRBODY.EQ.0) THEN
+      IF(NRBODY==0) THEN
         CALL ANCMSG(MSGID=390,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_2,
@@ -175,7 +175,7 @@ C-- Tag for error message - Can't be attached to main node-
 C
               DO J=1,NSL
                 NN = LPBY(J+K)
-                IF(NN.EQ.NOD(I)) THEN
+                IF(NN==NOD(I)) THEN
 		  IDRB(I)=N
                   M(I) = NPBY(1,N)
                   MASS = RBY(14,N)
@@ -184,7 +184,7 @@ C                 L2 = INER/MASS
                   UVAR(33+I,IEL)= MASS
                   UVAR(35+I,IEL)= INER
                   UVAR(37+I,IEL)= N
-                  IF((I.EQ.2).AND.(ISK2.EQ.0)) THEN
+                  IF((I==2).AND.(ISK2==0)) THEN
 c---              rigid body principal frame
                     DO II=1,9
                       U(II)= UVAR(3+II,IEL)
@@ -211,7 +211,7 @@ C
 C-->  Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
-            IF (IDRB(I).EQ.0) THEN	    
+            IF (IDRB(I)==0) THEN	    
 	      USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=391,
      .                    MSGTYPE=MSGWARNING,
@@ -228,8 +228,8 @@ C-->
      .                    C1=TITR,
      .                    I2=IXR(NIXR,NFT+IEL),
      .                    I3=USR)
-            ELSEIF ((IDRB(I).NE.IDSKRB(1)).AND.
-     .             (IDRB(I).NE.IDSKRB(2))) THEN
+            ELSEIF ((IDRB(I)/=IDSKRB(1)).AND.
+     .             (IDRB(I)/=IDSKRB(2))) THEN
 	      USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=920,
      .                    MSGTYPE=MSGWARNING,
@@ -244,8 +244,8 @@ C-->
           ENDDO
 
 C---> Control consistence Noeud / Skew --------------------
-         IF((IDRB(1).EQ.IDSKRB(1)).AND.(IDRB(2).EQ.IDSKRB(2)))GOTO 350
-         IF((IDRB(1).EQ.IDSKRB(2)).AND.(IDRB(2).EQ.IDSKRB(1)))THEN
+         IF((IDRB(1)==IDSKRB(1)).AND.(IDRB(2)==IDSKRB(2)))GOTO 350
+         IF((IDRB(1)==IDSKRB(2)).AND.(IDRB(2)==IDSKRB(1)))THEN
 C-->        permutation skews
             CALL ANCMSG(MSGID=921,
      .                  MSGTYPE=MSGWARNING,
@@ -306,8 +306,8 @@ C=======================================================================
       DO N=1,NRBYKIN
         NSL=NPBY(2,N)
 	DO I=1,NSL
-	  IF (NPBY(7,N).NE.0) THEN
-	    IF (IDNOD.EQ.LPBY(K+I)) THEN
+	  IF (NPBY(7,N)/=0) THEN
+	    IF (IDNOD==LPBY(K+I)) THEN
 	       FIND_RBY = N
 	       EXIT
 	    ENDIF

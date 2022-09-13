@@ -106,7 +106,7 @@ C
 !      EQUIVALENCE (A12,X0),(A34,Z0)
 C
       IDEB=0
-      DO WHILE(IDEB.LT.NRTM)
+      DO WHILE(IDEB<NRTM)
 C
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
         J=IDEB+I
@@ -166,7 +166,7 @@ C
        ENDDO
 C
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
-        IF(IX3(I).NE.IX4(I)) THEN
+        IF(IX3(I)/=IX4(I)) THEN
          XN3(I) = YY3(I)*ZZ4(I) - YY4(I)*ZZ3(I)
          YN3(I) = ZZ3(I)*XX4(I) - ZZ4(I)*XX3(I)
          ZN3(I) = XX3(I)*YY4(I) - XX4(I)*YY3(I)
@@ -200,7 +200,7 @@ C
         X0(I)=(N1(I)*XN1(I)+N2(I)*YN1(I)+N3(I)*ZN1(I))
         Z0(I)=(N1(I)*XN3(I)+N2(I)*YN3(I)+N3(I)*ZN3(I))
 C
-        IF(Z0(I).EQ.ZERO.AND.X0(I).EQ.ZERO)THEN
+        IF(Z0(I)==ZERO.AND.X0(I)==ZERO)THEN
           CALL ANCMSG(MSGID=558,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,

@@ -63,7 +63,7 @@ C-----------------------------------------------
      .   CRX, CRY, CRZ
 C
       K=0
-      IF(NSFLSW.NE.0)THEN
+      IF(NSFLSW/=0)THEN
        IKEY=KFLSEC
        DO 960 N=1,NSFLSW
         READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(49X,I10)',

@@ -67,7 +67,7 @@ C-----------------------------------------------
 
       ADD = ADD + LEN/INTSIZE
       SIZ_I = SIZ_I - LEN
-      IF (SIZ_I.GT.0) GO TO 1
+      IF (SIZ_I>0) GO TO 1
 #endif
       RETURN
       END

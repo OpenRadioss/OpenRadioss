@@ -85,13 +85,13 @@ C      LOI 17 SI LA BCS EST  011  OU 111
           MLAW=NINT(PM(19,MT))
           JTUR=NINT(PM(70,MT))
           DO J=2,5
-           IF((MLAW.EQ.6.AND.JTUR.NE.0) .OR. MLAW.EQ.46)THEN
+           IF((MLAW==6.AND.JTUR/=0) .OR. MLAW==46)THEN
             IC=ICODE(IXQ(J,I))
             IC1=IC/512
             IC2=(IC-512*IC1)/64
             IC3=(IC-512*IC1-64*IC2)/8
             IC4=(IC-512*IC1-64*IC2-8*IC3)
-            IF(IC1.EQ.3.OR.IC1.EQ.7.OR.IC4.EQ.3.OR.IC4.EQ.7)
+            IF(IC1==3.OR.IC1==7.OR.IC4==3.OR.IC4==7)
      .        IXQ(1,I)=-IABS(IXQ(1,I))
            ENDIF
           ENDDO
@@ -105,7 +105,7 @@ C
       I1=1
       I2=MIN0(50,NUMELQ)
 C
-      IF(IPRI.GE.5)THEN
+      IF(IPRI>=5)THEN
        WRITE (IOUT,'(//A//)') TITRE(206)
    90  WRITE (IOUT,'(//A/A//A/)')TITRE(100),TITRE(101),TITRE(102)
        DO 100 I=I1,I2
@@ -115,7 +115,7 @@ C
        MID =IPM (1,IXQ(1,INEW))
        PID =IGEO(1,IXQ(6,INEW))
   100  WRITE (IOUT,'(8I10)')IXQ(NIXQ,INEW),INEW,MID,PID,(ITAB(IXQ(J,INEW)),J=2,5)
-       IF(I2.EQ.NUMELQ)GOTO 200
+       IF(I2==NUMELQ)GOTO 200
        I1=I1+50
        I2=MIN0(I2+50,NUMELQ)
        GOTO 90

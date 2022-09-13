@@ -79,7 +79,7 @@ C---
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I  = LLL(IK)
           J  = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(I)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(I)
@@ -90,8 +90,8 @@ C---
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
-            IF(IH.GT.LHMAX)THEN
+          IF(HIJ/=ZERO)THEN
+            IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
               CALL ARRET(2)
@@ -107,7 +107,7 @@ C---
         DO IK=IADLL(IC),IADLL(IC+1)-1
           DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
         ENDDO
-        IF(DD.LE.ZERO) THEN
+        IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
         ENDIF
@@ -123,7 +123,7 @@ C----
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I  = LLL(IK)
           J  = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(I)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(I)
@@ -138,7 +138,7 @@ C       Fixe/Fixe
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
+          IF(HIJ/=ZERO)THEN
             HH(IH)   = HIJ
             JCIH(IH) = JC
             IH       = IH + 1
@@ -150,8 +150,8 @@ C       Fixe/Variable
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
-            IF(IH.GT.LHMAX)THEN
+          IF(HIJ/=ZERO)THEN
+            IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
               CALL ARRET(2)
@@ -167,7 +167,7 @@ C---
         DO IK=IADLL(IC),IADLL(IC+1)-1
           DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
         ENDDO
-        IF(DD.LE.ZERO) THEN
+        IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
         ENDIF
@@ -183,7 +183,7 @@ C----
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I  = LLL(IK)
           J  = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(I)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(I)
@@ -194,8 +194,8 @@ C----
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
-            IF(IH.GT.LHMAX)THEN
+          IF(HIJ/=ZERO)THEN
+            IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
               CALL ARRET(2)
@@ -210,7 +210,7 @@ C----
         DO IK=IADLL(IC),IADLL(IC+1)-1
           DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
         ENDDO
-        IF(DD.LE.ZERO) THEN
+        IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
         ENDIF
@@ -227,29 +227,29 @@ C----
         NFIX = NPBYL(4,IR)
         NFRE = NPBYL(5,IR)
         IFX  = NPBYL(7,IR)
-        IF (NFIX.GT.0.AND.NFRE.GT.0) THEN
+        IF (NFIX>0.AND.NFRE>0) THEN
           DO K = 1,3
             IC = IC + 1
             DO IK=IADLL(IC),IADLL(IC+1)-1
               I  = LLL(IK)
               J  = JLL(IK)
-              IF (J.LE.3) THEN
+              IF (J<=3) THEN
                 LTSM(J,I) = XLL(IK)/MS(I)
                 CALL ANCMSG(MSGID=116,ANMODE=ANINFO,
      .                    I1=I,I2=IC) 
                 CALL ARRET(2)
-              ELSEIF (I.NE.IFX) THEN
+              ELSEIF (I/=IFX) THEN
                 LTSM(J,I) = XLL(IK)/IN(I)
-              ELSEIF (XLL(IK).NE.ZERO) THEN
-                IF(J.EQ.4) THEN
+              ELSEIF (XLL(IK)/=ZERO) THEN
+                IF(J==4) THEN
                   LTSM(4,I) = XLL(IK)*RBYL(1,IR)
                   LTSM(5,I) = XLL(IK)*RBYL(6,IR)
                   LTSM(6,I) = XLL(IK)*RBYL(5,IR)
-                ELSEIF(J.EQ.5) THEN
+                ELSEIF(J==5) THEN
                   LTSM(4,I) = XLL(IK)*RBYL(6,IR)
                   LTSM(5,I) = XLL(IK)*RBYL(2,IR)
                   LTSM(6,I) = XLL(IK)*RBYL(4,IR)
-                ELSEIF(J.EQ.6) THEN
+                ELSEIF(J==6) THEN
                   LTSM(4,I) = XLL(IK)*RBYL(5,IR)
                   LTSM(5,I) = XLL(IK)*RBYL(4,IR)
                   LTSM(6,I) = XLL(IK)*RBYL(3,IR)
@@ -261,8 +261,8 @@ C----
               DO IK=IADLL(JC),IADLL(JC+1)-1
                 HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
               ENDDO
-              IF(HIJ.NE.ZERO)THEN
-                IF(IH.GT.LHMAX)THEN
+              IF(HIJ/=ZERO)THEN
+                IF(IH>LHMAX)THEN
                   CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
                   CALL ARRET(2)
@@ -277,7 +277,7 @@ C----
             DO IK=IADLL(IC),IADLL(IC+1)-1
               DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
             ENDDO
-            IF(DD.LE.ZERO) THEN
+            IF(DD<=ZERO) THEN
               CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
             ENDIF
@@ -285,7 +285,7 @@ C----
             DO IK=IADLL(IC),IADLL(IC+1)-1
               I  = LLL(IK)
               J  = JLL(IK)
-              IF (J.LE.3) THEN
+              IF (J<=3) THEN
                 LTSM(J,I) = ZERO
               ELSE
                 LTSM(4,I) = ZERO
@@ -362,7 +362,7 @@ C---
           I  = LLL(IK)
           II = INDEXLAG(I)
           J  = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(II)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(II)
@@ -373,8 +373,8 @@ C---
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
-            IF(IH.GT.LHMAX)THEN
+          IF(HIJ/=ZERO)THEN
+            IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
               CALL ARRET(2)
@@ -390,7 +390,7 @@ C---
         DO IK=IADLL(IC),IADLL(IC+1)-1
           DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
         ENDDO
-        IF(DD.LE.ZERO) THEN
+        IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
         ENDIF
@@ -407,7 +407,7 @@ C----
           I  = LLL(IK)
           II = INDEXLAG(I)
           J  = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(II)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(II)
@@ -422,7 +422,7 @@ C       Fixe/Fixe
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
+          IF(HIJ/=ZERO)THEN
             HH(IH)   = HIJ
             JCIH(IH) = JC
             IH       = IH + 1
@@ -434,8 +434,8 @@ C       Fixe/Variable
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
-            IF(IH.GT.LHMAX)THEN
+          IF(HIJ/=ZERO)THEN
+            IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
               CALL ARRET(2)
@@ -451,7 +451,7 @@ C---
         DO IK=IADLL(IC),IADLL(IC+1)-1
           DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
         ENDDO
-        IF(DD.LE.ZERO) THEN
+        IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
         ENDIF
@@ -468,7 +468,7 @@ C----
           I  = LLL(IK)
           II = INDEXLAG(I)
           J  = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(II)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(II)
@@ -479,8 +479,8 @@ C----
           DO IK=IADLL(JC),IADLL(JC+1)-1
             HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
           ENDDO
-          IF(HIJ.NE.ZERO)THEN
-            IF(IH.GT.LHMAX)THEN
+          IF(HIJ/=ZERO)THEN
+            IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
               CALL ARRET(2)
@@ -495,7 +495,7 @@ C----
         DO IK=IADLL(IC),IADLL(IC+1)-1
           DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
         ENDDO
-        IF(DD.LE.ZERO) THEN
+        IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
         ENDIF
@@ -512,30 +512,30 @@ C----
         NFIX = NPBYL(4,IR)
         NFRE = NPBYL(5,IR)
         IFX  = NPBYL(7,IR)
-        IF (NFIX.GT.0.AND.NFRE.GT.0) THEN
+        IF (NFIX>0.AND.NFRE>0) THEN
           DO K = 1,3
             IC = IC + 1
             DO IK=IADLL(IC),IADLL(IC+1)-1
               I  = LLL(IK)
               II  = INDEXLAG(I)
               J  = JLL(IK)
-              IF (J.LE.3) THEN
+              IF (J<=3) THEN
                 LTSM(J,I) = XLL(IK)/MS(II)
                 CALL ANCMSG(MSGID=116,ANMODE=ANINFO,
      .                    I1=I,I2=IC) 
                 CALL ARRET(2)
-              ELSEIF (I.NE.IFX) THEN
+              ELSEIF (I/=IFX) THEN
                 LTSM(J,I) = XLL(IK)/IN(II)
-              ELSEIF (XLL(IK).NE.ZERO) THEN
-                IF(J.EQ.4) THEN
+              ELSEIF (XLL(IK)/=ZERO) THEN
+                IF(J==4) THEN
                   LTSM(4,I) = XLL(IK)*RBYL(1,IR)
                   LTSM(5,I) = XLL(IK)*RBYL(6,IR)
                   LTSM(6,I) = XLL(IK)*RBYL(5,IR)
-                ELSEIF(J.EQ.5) THEN
+                ELSEIF(J==5) THEN
                   LTSM(4,I) = XLL(IK)*RBYL(6,IR)
                   LTSM(5,I) = XLL(IK)*RBYL(2,IR)
                   LTSM(6,I) = XLL(IK)*RBYL(4,IR)
-                ELSEIF(J.EQ.6) THEN
+                ELSEIF(J==6) THEN
                   LTSM(4,I) = XLL(IK)*RBYL(5,IR)
                   LTSM(5,I) = XLL(IK)*RBYL(4,IR)
                   LTSM(6,I) = XLL(IK)*RBYL(3,IR)
@@ -547,8 +547,8 @@ C----
               DO IK=IADLL(JC),IADLL(JC+1)-1
                 HIJ = HIJ + XLL(IK)*LTSM(JLL(IK),LLL(IK))
               ENDDO
-              IF(HIJ.NE.ZERO)THEN
-                IF(IH.GT.LHMAX)THEN
+              IF(HIJ/=ZERO)THEN
+                IF(IH>LHMAX)THEN
                   CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
      .                    I1=LHMAX) 
                   CALL ARRET(2)
@@ -563,7 +563,7 @@ C----
             DO IK=IADLL(IC),IADLL(IC+1)-1
               DD = DD + XLL(IK)*LTSM(JLL(IK),LLL(IK))
             ENDDO
-            IF(DD.LE.ZERO) THEN
+            IF(DD<=ZERO) THEN
               CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
      .                    I1=IC) 
             ENDIF
@@ -571,7 +571,7 @@ C----
             DO IK=IADLL(IC),IADLL(IC+1)-1
               I  = LLL(IK)
               J  = JLL(IK)
-              IF (J.LE.3) THEN
+              IF (J<=3) THEN
                 LTSM(J,I) = ZERO
               ELSE
                 LTSM(4,I) = ZERO

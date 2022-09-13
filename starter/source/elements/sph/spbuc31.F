@@ -177,7 +177,7 @@ C     TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS
 C     (COEF DE SECURITE CROISSANT).
 C-----------------
       NVOIS=KXSP(5,IL)
-      IF(NVOIS.GT.KVOISPH)THEN
+      IF(NVOIS>KVOISPH)THEN
 
         IREDUCE    =1 
         KREDUCE(IL)=1 
@@ -195,7 +195,7 @@ C-----------------
 C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
         NVOIS=0
         DO K=1,KXSP(5,IL)
-          IF(DVOIS(K).LT.DK)THEN
+          IF(DVOIS(K)<DK)THEN
             NVOIS=NVOIS+1
           END IF
         END DO
@@ -212,7 +212,7 @@ C-----------------
 
        JG       =KXSP(3,JK)
 
-       IF(DK.LT.ONE)THEN
+       IF(DK<ONE)THEN
         NVOIS1=NVOIS1+1
         IXSP(NVOIS1,IL)=JG
        ELSE
@@ -222,7 +222,7 @@ C-----------------
       ENDDO
       KXSP(4,IL)=NVOIS1
 C
-      IF(NVOIS1.GT.LVOISPH)IREDUCE=1
+      IF(NVOIS1>LVOISPH)IREDUCE=1
 C-----------------------------------------------------------
 C
       RETURN

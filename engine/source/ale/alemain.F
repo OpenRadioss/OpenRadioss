@@ -283,7 +283,7 @@ C  IOUTPRT (assembly report)
       !---------------------------------------------
        IF(INTER18_IS_VARIABLE_GAP_DEFINED)THEN
           DO NG=ITASK+1,NGROUP,NTHREAD
-             IF (TT .GT. ZERO .AND. IPARG(76, NG) .EQ. 1) CYCLE ! --> OFF
+             IF (TT > ZERO .AND. IPARG(76, NG) == 1) CYCLE ! --> OFF
              IF(IPARG(8,NG) == 1) CYCLE
              CALL INITBUF (
      1          IPARG   ,NG      ,

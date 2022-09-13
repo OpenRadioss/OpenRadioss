@@ -83,7 +83,7 @@ C-----------------------------------------------
       ENDDO                 
     
       IF(INT22>0)THEN
-        IF(TAG22(I).GT.ZERO)THEN
+        IF(TAG22(I)>ZERO)THEN
         write (*,FMT='(A)')
      ."                 +---------SuperCell-----------+---------ELEMENT-----------+-------SUM(submat)-----------+-------SUM(submat
      .)+flux-----+"

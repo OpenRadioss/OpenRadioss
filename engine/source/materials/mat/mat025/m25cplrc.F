@@ -171,27 +171,27 @@ C     old failure
 C-----------------------------
       DO I=JFT,JLT
         FAIL_OLD(I)=0
-        IF(DAMT(I,1).GE.DMAX(I))FAIL_OLD(I) = FAIL_OLD(I) + 1
-        IF(DAMT(I,2).GE.DMAX(I))FAIL_OLD(I) = FAIL_OLD(I) + 2
-        IF(WPLA(I).LT.0.)THEN
+        IF(DAMT(I,1)>=DMAX(I))FAIL_OLD(I) = FAIL_OLD(I) + 1
+        IF(DAMT(I,2)>=DMAX(I))FAIL_OLD(I) = FAIL_OLD(I) + 2
+        IF(WPLA(I)<0.)THEN
 C         Wpla is negative in case of layer already reached failure-p :
           FAIL_OLD(I) = FAIL_OLD(I) + 4
           WPLA(I)     = -WPLA(I)
         END IF
-        IF(CRAK(I,1).GE.EPSF1(I)-EPST1(I))THEN
+        IF(CRAK(I,1)>=EPSF1(I)-EPST1(I))THEN
           FAIL_OLD(I) = FAIL_OLD(I) + 8
         END IF
-        IF(CRAK(I,2).GE.EPSF2(I)-EPST2(I))THEN
+        IF(CRAK(I,2)>=EPSF2(I)-EPST2(I))THEN
           FAIL_OLD(I) = FAIL_OLD(I) + 16
         END IF
-C       IF(WPLA(I).GE.WPLAMX(I))FAIL_OLD(I) = FAIL_OLD(I) + 4
+C       IF(WPLA(I)>=WPLAMX(I))FAIL_OLD(I) = FAIL_OLD(I) + 4
       ENDDO
 C
       NINDX=0
       DO I=JFT,JLT
-C        IF(FAIL_OLD(I).LT.4)THEN
-        IF( FAIL_OLD(I).LT.4.OR.
-     .     (FAIL_OLD(I).LT.8.AND.IOFF(I).LT.0) )THEN
+C        IF(FAIL_OLD(I)<4)THEN
+        IF( FAIL_OLD(I)<4.OR.
+     .     (FAIL_OLD(I)<8.AND.IOFF(I)<0) )THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         END IF
@@ -200,19 +200,19 @@ C-------------------------------------------------------------------
 C     REDUCTION DE SIG SUR CRITERE WPLA_OLD >= WPLAMX
 C-----------------------------
       DO I=JFT,JLT
-        IF((FAIL_OLD(I).GE.4.AND.IOFF(I).GE.0).OR.
-     .      FAIL_OLD(I).GE.8)THEN
+        IF((FAIL_OLD(I)>=4.AND.IOFF(I)>=0).OR.
+     .      FAIL_OLD(I)>=8)THEN
          SIG(I,1)=FOUR_OVER_5*SIG(I,1)
          SIG(I,2)=FOUR_OVER_5*SIG(I,2)
          SIG(I,3)=FOUR_OVER_5*SIG(I,3)
          SIG(I,4)=FOUR_OVER_5*SIG(I,4)
          SIG(I,5)=FOUR_OVER_5*SIG(I,5)
 C
-         IF(ABS(SIG(I,1)).LT.EM20) SIG(I,1)=ZERO
-         IF(ABS(SIG(I,2)).LT.EM20) SIG(I,2)=ZERO
-         IF(ABS(SIG(I,3)).LT.EM20) SIG(I,3)=ZERO
-         IF(ABS(SIG(I,4)).LT.EM20) SIG(I,4)=ZERO
-         IF(ABS(SIG(I,5)).LT.EM20) SIG(I,5)=ZERO
+         IF(ABS(SIG(I,1))<EM20) SIG(I,1)=ZERO
+         IF(ABS(SIG(I,2))<EM20) SIG(I,2)=ZERO
+         IF(ABS(SIG(I,3))<EM20) SIG(I,3)=ZERO
+         IF(ABS(SIG(I,4))<EM20) SIG(I,4)=ZERO
+         IF(ABS(SIG(I,5))<EM20) SIG(I,5)=ZERO
          EPS(I,1)=ZERO
          EPS(I,2)=ZERO
          EPS(I,3)=ZERO
@@ -237,14 +237,14 @@ c         EPSPLY(I,4)=TWO*EPSPLY(I,4)
 c         EPSPLY(I,5)=TWO*EPSPLY(I,5)
         ENDDO
         DO I=JFT,JLT
-          IF((FAIL_OLD(I).GE.4.AND.IOFF(I).GE.0).OR.
-     .      FAIL_OLD(I).GE.8)THEN
+          IF((FAIL_OLD(I)>=4.AND.IOFF(I)>=0).OR.
+     .      FAIL_OLD(I)>=8)THEN
             SIGPLY(I,1)=FOUR_OVER_5*SIGPLY(I,1)
             SIGPLY(I,2)=FOUR_OVER_5*SIGPLY(I,2)
             SIGPLY(I,3)=FOUR_OVER_5*SIGPLY(I,3)
-            IF(ABS(SIGPLY(I,1)).LT.EM20) SIGPLY(I,1)=ZERO
-            IF(ABS(SIGPLY(I,2)).LT.EM20) SIGPLY(I,2)=ZERO
-            IF(ABS(SIGPLY(I,3)).LT.EM20) SIGPLY(I,3)=ZERO
+            IF(ABS(SIGPLY(I,1))<EM20) SIGPLY(I,1)=ZERO
+            IF(ABS(SIGPLY(I,2))<EM20) SIGPLY(I,2)=ZERO
+            IF(ABS(SIGPLY(I,3))<EM20) SIGPLY(I,3)=ZERO
             EPSPLY(I,1)=ZERO
             EPSPLY(I,2)=ZERO
             EPSPLY(I,3)=ZERO
@@ -254,7 +254,7 @@ c         EPSPLY(I,5)=TWO*EPSPLY(I,5)
 C-----------------------------------------------
 C Dev CRASURV
 C-----------------------------------------------
-      IF(JFLAG.NE.0)THEN
+      IF(JFLAG/=0)THEN
         DO 20 I=JFT,JLT
           EPS1T1(I)  =PM(166,IMATLY)
           EPS2T1(I)  =PM(167,IMATLY)
@@ -365,7 +365,7 @@ C
 #include "vectorize.inc"
          DO J=1,NINDX
           I=INDEX(J)
-          IF (DAMT(I,1).NE.ZERO) THEN
+          IF (DAMT(I,1)/=ZERO) THEN
            CRAK(I,1)= CRAK(I,1) + EPS(I,1)+ EPSPLY(I,1)
            DAM1 = CRAK(I,1)/(EPSM1(I)-EPST1(I))
            DAM2 = DAM1*EPSM1(I)/(CRAK(I,1)+EPST1(I))
@@ -378,7 +378,7 @@ C
         DO J=1,NINDX
           I=INDEX(J)
 C
-          IF (DAMT(I,2).NE.ZERO) THEN
+          IF (DAMT(I,2)/=ZERO) THEN
            CRAK(I,2)= CRAK(I,2)+EPS(I,2)+ EPSPLY(I,2)
            DAM1 = CRAK(I,2)/(EPSM2(I)-EPST2(I))
            DAM2 = DAM1*EPSM2(I)/(CRAK(I,2)+EPST2(I))
@@ -390,7 +390,7 @@ C
 #include "vectorize.inc"
          DO J=1,NINDX
           I=INDEX(J)
-          IF (DAMT(I,1).NE.ZERO) THEN
+          IF (DAMT(I,1)/=ZERO) THEN
            CRAK(I,1)= CRAK(I,1) + EPS(I,1) 
            DAM1 = CRAK(I,1)/(EPSM1(I)-EPST1(I))
            DAM2 = DAM1*EPSM1(I)/(CRAK(I,1)+EPST1(I))
@@ -402,7 +402,7 @@ C
         DO J=1,NINDX
           I=INDEX(J)
 C
-          IF (DAMT(I,2).NE.ZERO) THEN
+          IF (DAMT(I,2)/=ZERO) THEN
            CRAK(I,2)= CRAK(I,2)+EPS(I,2)
            DAM1 = CRAK(I,2)/(EPSM2(I)-EPST2(I))
            DAM2 = DAM1*EPSM2(I)/(CRAK(I,2)+EPST2(I))
@@ -459,10 +459,10 @@ C-------------------------------------------------------------------
 C     STRAIN RATE
 C-------------------------------------------------------------------
       DO I=JFT,JLT
-      IF (ISRATE.EQ.0)EPSP(I) = MAX(
+      IF (ISRATE==0)EPSP(I) = MAX(
      .                   ABS(EPS(I,1)),ABS(EPS(I,2)),ABS(EPS(I,3)),
      .                   ABS(EPS(I,4)),ABS(EPS(I,5))) / MAX(DT1,EM30)
-        IF(EPSP(I).GT.EPDR(I)) THEN
+        IF(EPSP(I)>EPDR(I)) THEN
           EPSP(I)=LOG(EPSP(I)/EPDR(I))
         ELSE
           EPSP(I)=0.
@@ -474,12 +474,12 @@ C     JFLAG :
 C     if JFLAG = JLT --> homogenous group
 C     if 0 < JFLAG < JLT --> heterogenous group
 C-------------------------------------------------------------------
-      IF(JFLAG.EQ.JLT)THEN
+      IF(JFLAG==JLT)THEN
 C-------------------------------------------------------------------
 C     IFLAG = 1 ; homogeneous group
 C-------------------------------------------------------------------
         DO I=JFT,JLT
-         IF(WPLA(I).NE.ZERO) THEN
+         IF(WPLA(I)/=ZERO) THEN
            SIGYT1 = PM(141,IMATLY)*
      .           (ONE+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
            SIGYT2 =PM(146,IMATLY)*
@@ -497,7 +497,7 @@ C-------------------------------------------------------------------
            SIGYC2 = PM(156,IMATLY)
            SIGYT12= PM(161,IMATLY)
          ENDIF
-         IF(ICC(I).EQ.1.OR.ICC(I).EQ.3)THEN
+         IF(ICC(I)==1.OR.ICC(I)==3)THEN
            SIGYT1=MIN(SIGYT1,PM(144,IMATLY))
            SIGYT2=MIN(SIGYT2,PM(149,IMATLY))
            SIGYC1=MIN(SIGYC1,PM(154,IMATLY))
@@ -529,17 +529,17 @@ C-------------------------------------------------------------------
          SOFT(3)=ZERO
          ISOFT(I) = 0 
 C Direction 1
-         IF(STRP1(I).LE.-EPS1C1(I)) THEN
+         IF(STRP1(I)<=-EPS1C1(I)) THEN
           SOFT(1)=MIN(ONE,(STRP1(I)+EPS1C1(I))/(EPS1C1(I)-EPS2C1(I)))
-         ELSEIF(STRP1(I).GE.EPS1T1(I)) THEN
+         ELSEIF(STRP1(I)>=EPS1T1(I)) THEN
           SOFT(1)=MIN(ONE,(STRP1(I)-EPS1T1(I))/(EPS2T1(I)-EPS1T1(I)))         
          ENDIF
          SIGYT1=MIN(SIGYT1,(ONE -SOFT(1))*SIGYT1+SOFT(1)*SIGRST1(I))
          SIGYC1=MIN(SIGYC1,(ONE -SOFT(1))*SIGYC1+SOFT(1)*SIGRSC1(I))
 C Direction 2        
-         IF(STRP2(I).LE.-EPS1C2(I)) THEN
+         IF(STRP2(I)<=-EPS1C2(I)) THEN
           SOFT(2)=MIN(ONE,(STRP2(I)+EPS1C2(I))/(EPS1C2(I)-EPS2C2(I)))
-         ELSEIF(STRP2(I).GE.EPS1T2(I)) THEN
+         ELSEIF(STRP2(I)>=EPS1T2(I)) THEN
           SOFT(2)=MIN(ONE,(STRP2(I)-EPS1T2(I))/(EPS2T2(I)-EPS1T2(I)))
          ENDIF
          SIGYT2=MIN(SIGYT2,(ONE -SOFT(2))*SIGYT2+SOFT(2)*SIGRST2(I))
@@ -548,9 +548,9 @@ C Direction 12
          STRP12=-DIR(I,1)*DIR(I,2)*STRN1(I)
      .          +DIR(I,2)*DIR(I,1)*STRN2(I)
      .         +(DIR(I,1)*DIR(I,1)-DIR(I,2)*DIR(I,2))*STRN3(I)
-         IF(STRP12.LE.-EPS1T12(I)) THEN
+         IF(STRP12<=-EPS1T12(I)) THEN
           SOFT(3)=MIN(ONE,(STRP12+EPS1T12(I))/(EPS1T12(I)-EPS2T12(I)))
-         ELSEIF(STRP12.GE.EPS1T12(I)) THEN
+         ELSEIF(STRP12>=EPS1T12(I)) THEN
           SOFT(3)=MIN(ONE,(STRP12-EPS1T12(I))/(EPS2T12(I)-EPS1T12(I)))
          ENDIF
          SIGYT12=MIN(SIGYT12,(ONE - SOFT(3))*SIGYT12 + SOFT(3)*SIGRST12(I))
@@ -591,7 +591,7 @@ C
            ENDIF
          ENDIF
          EPSP(I)=ONE + CC(I) * EPSP(I)
-         IF(ICC(I).EQ.3.OR.ICC(I).EQ.4)THEN
+         IF(ICC(I)==3.OR.ICC(I)==4)THEN
            WPLAMX(I)    = WPLAMX(I)*EPSP(I)
            WPLAMXT1(I)  = WPLAMXT1(I)*EPSP(I)
            WPLAMXT2(I)  = WPLAMXT2(I)*EPSP(I)
@@ -608,15 +608,15 @@ C     IFLAG = 0
 C-------------------------------------------------------------------
        DO I=JFT,JLT
         EPSP(I)=ONE + CC(I) * EPSP(I)
-        IF (WPLA(I).NE.ZERO) THEN
+        IF (WPLA(I)/=ZERO) THEN
            FYLD(I)=(ONE+CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
         ELSE
            FYLD(I)=EPSP(I)
         ENDIF
-        IF(ICC(I).EQ.1.OR.ICC(I).EQ.3)THEN
+        IF(ICC(I)==1.OR.ICC(I)==3)THEN
           FMAX(I) = FMAX(I)*EPSP(I)
         ENDIF
-        IF(ICC(I).EQ.3.OR.ICC(I).EQ.4)THEN
+        IF(ICC(I)==3.OR.ICC(I)==4)THEN
           WPLAMX(I) = WPLAMX(I)*EPSP(I)
         ENDIF
           FYLD(I)= MIN(FMAX(I),FYLD(I))
@@ -669,24 +669,24 @@ C---------------------------------------------------------------
  100     CONTINUE
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          IF (WVEC(I)>FYLD(I).AND.OFF(I)==ONE) COEF(I)=ONE    
           CNN=CN(I)-ONE
           WVEC(I)=ZERO
-          IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
+          IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
 Cst CRASURV +++
         DO 110 I=JFT,JLT                                                       
           BETA(I)= ONE                                                          
-          IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 110                       
+          IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 110                       
           COEFA=F11(I)*SIG(I,1)*SIG(I,1)+F22(I)*SIG(I,2)*SIG(I,2) +            
      .          F33(I)*SIG(I,3)*SIG(I,3)+                                      
      .       TWO*F12(I)*SIG(I,1)*SIG(I,2)                                     
           COEFB=F1(I)*SIG(I,1)+F2(I)*SIG(I,2)                                  
               DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
-          IF(DELTA.LT.ZERO)THEN                                                
-           IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
+          IF(DELTA<ZERO)THEN                                                
+           IF(IMCONV==1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER)
@@ -697,9 +697,9 @@ Cst CRASURV +++
           ELSE                                                                 
             DELTA=SQRT(DELTA)                                                  
           ENDIF                                                                
-          IF(ABS(COEFA).LE.EM15) THEN                                          
-            IF(ABS(COEFB).LE.EM15) THEN                                        
-             IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN  
+          IF(ABS(COEFA)<=EM15) THEN                                          
+            IF(ABS(COEFB)<=EM15) THEN                                        
+             IF(IMCONV==1 .AND. OUTV(I) == 0)THEN  
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER)
@@ -711,7 +711,7 @@ Cst CRASURV +++
                BETA(I)=FYLD(I)/COEFB                                           
              ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA)<=                              
      .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
            BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 
@@ -752,22 +752,22 @@ C ----------------------------------------------------------
         ENDDO
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          IF (WVEC(I)>FYLD(I).AND.OFF(I)==ONE) COEF(I)=ONE    
           CNN=CN(I)-ONE
           WVEC(I)=ZERO
-          IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
+          IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
 Cst CRASURV +++
         DO  111 I=JFT,JLT                                                       
           BETA(I)=ONE                                                           
-          IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 111                       
+          IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 111                       
            COEFA= F11(I)*SIG(I,1)*SIG(I,1) + F22(I)*SIG(I,2)*SIG(I,2) + 
      .            F33(I)*SIG(I,3)*SIG(I,3) + F12(I)*SIG(I,1)*SIG(I,2)
            DELTA = FYLD(I) / COEFA
-          IF(DELTA .LT.ZERO)THEN                                                
-             IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
+          IF(DELTA <ZERO)THEN                                                
+             IF(IMCONV==1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER) 
@@ -778,8 +778,8 @@ Cst CRASURV +++
           ELSE 
 CC
            DELTA = SQRT(DELTA)
-           IF(ABS(COEFA).LE.EM15) THEN                                        
-                IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN
+           IF(ABS(COEFA)<=EM15) THEN                                        
+                IF(IMCONV==1 .AND. OUTV(I) == 0)THEN
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER) 
@@ -789,7 +789,7 @@ CC
                 GO TO 111                            
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(ONE-DELTA).LE.                              
+          IF(ABS(ONE-DELTA)<=                              
      .       ABS(ONE+DELTA)) THEN                            
            BETA(I)= DELTA                             
           ELSE                                                                 
@@ -828,16 +828,16 @@ C ----------------------------------------------------------
         ENDDO      
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          IF (WVEC(I)>FYLD(I).AND.OFF(I)==ONE) COEF(I)=ONE    
           CNN=CN(I)-ONE
           WVEC(I)=ZERO
-          IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
+          IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 CC
         DO  112 I=JFT,JLT                                                       
           BETA(I)=ONE                                                           
-          IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 112 
+          IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 112 
            IF(IYEILD(I) > 0) THEN     
 C--------------------------------------------------------------
 C  TSAI HILL
@@ -845,8 +845,8 @@ C--------------------------------------------------------------
              COEFA =F11(I)*SIG(I,1)*SIG(I,1) + F22(I)*SIG(I,2)*SIG(I,2)+ 
      .              F33(I)*SIG(I,3)*SIG(I,3) + F12(I)*SIG(I,1)*SIG(I,2)
              DELTA = FYLD(I) / COEFA
-             IF(DELTA .LT.ZERO)THEN  
-               IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
+             IF(DELTA <ZERO)THEN  
+               IF(IMCONV==1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER) 
@@ -857,8 +857,8 @@ C--------------------------------------------------------------
              ELSE 
 C
               DELTA = SQRT(DELTA)
-               IF(ABS(COEFA).LE.EM15) THEN 
-                  IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN
+               IF(ABS(COEFA)<=EM15) THEN 
+                  IF(IMCONV==1 .AND. OUTV(I) == 0)THEN
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER)
@@ -868,7 +868,7 @@ C
                  GO TO 112                           
                ENDIF 
              ENDIF 
-             IF(ABS(ONE-DELTA).LE. ABS(ONE+DELTA)) THEN
+             IF(ABS(ONE-DELTA)<= ABS(ONE+DELTA)) THEN
                 BETA(I)= DELTA                             
               ELSE 
                  BETA(I)=-DELTA                                  
@@ -889,8 +889,8 @@ C --------------------------------------------------------------------
      .            F33(I)*SIG(I,3)*SIG(I,3)+TWO*F12(I)*SIG(I,1)*SIG(I,2) 
              COEFB=F1(I)*SIG(I,1)+F2(I)*SIG(I,2)
              DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
-            IF(DELTA.LT.ZERO)THEN 
-              IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
+            IF(DELTA<ZERO)THEN 
+              IF(IMCONV==1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER) 
@@ -901,9 +901,9 @@ C --------------------------------------------------------------------
              ELSE 
               DELTA=SQRT(DELTA)
           ENDIF                                                                
-          IF(ABS(COEFA).LE.EM15) THEN                                          
-            IF(ABS(COEFB).LE.EM15) THEN                                        
-             IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
+          IF(ABS(COEFA)<=EM15) THEN                                          
+            IF(ABS(COEFB)<=EM15) THEN                                        
+             IF(IMCONV==1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER)
@@ -915,7 +915,7 @@ C --------------------------------------------------------------------
                BETA(I)=FYLD(I)/COEFB                                           
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA)<=                              
      .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
            BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 
@@ -944,7 +944,7 @@ C
 C 
       DO 160 I=JFT,JLT
           LAMDA(I)=(DP1(I)*DS1(I)+DP2(I)*DS2(I)+DP3(I)*DS3(I))*COEF(I)
-          IF(LAMDA(I).EQ.ZERO) GO TO 160
+          IF(LAMDA(I)==ZERO) GO TO 160
           LAMDA(I)=LAMDA(I)*COEF(I)/
      .         (DP1(I)*(A11(I)*DP1(I)+A12(I)*DP2(I))+
      .          DP2(I)*(A12(I)*DP1(I)+A22(I)*DP2(I))+
@@ -1059,18 +1059,18 @@ C
       DO I=JFT,JLT
 C       
         IFAIL0  =  MOD(FAIL_OLD(I),8)
-        IF(WPLA(I).GE.WPLAMX(I) .OR.IFAIL0 >= 4 )WPLAR(I)= WPLAR(I)+ONE
-        IF(WPLA(I).GE.WPLAMX(I).OR.IFAIL0 >= 4 .OR. 
-     .     DAMT(I,1).GE.DMAX(I).OR.
-     .     CRAK(I,1).GE.EPSF1(I)-EPST1(I)) NFIS1(I)=NFIS1(I)+1
-        IF(WPLA(I).GE.WPLAMX(I).OR.IFAIL0 >= 4 .OR.
-     .     DAMT(I,2).GE.DMAX(I).OR.
-     .     CRAK(I,2).GE.EPSF2(I)-EPST2(I)) NFIS2(I)=NFIS2(I)+1
-        IF(WPLA(I).GE.WPLAMX(I).OR.IFAIL0 >= 4 .OR.
-     .     DAMT(I,1).GE.DMAX(I).OR.
-     .     CRAK(I,1).GE.EPSF1(I)-EPST1(I).OR.
-     .     DAMT(I,2).GE.DMAX(I).OR.
-     .     CRAK(I,2).GE.EPSF2(I)-EPST2(I)) NFIS3(I)=NFIS3(I)+1 
+        IF(WPLA(I)>=WPLAMX(I) .OR.IFAIL0 >= 4 )WPLAR(I)= WPLAR(I)+ONE
+        IF(WPLA(I)>=WPLAMX(I).OR.IFAIL0 >= 4 .OR. 
+     .     DAMT(I,1)>=DMAX(I).OR.
+     .     CRAK(I,1)>=EPSF1(I)-EPST1(I)) NFIS1(I)=NFIS1(I)+1
+        IF(WPLA(I)>=WPLAMX(I).OR.IFAIL0 >= 4 .OR.
+     .     DAMT(I,2)>=DMAX(I).OR.
+     .     CRAK(I,2)>=EPSF2(I)-EPST2(I)) NFIS2(I)=NFIS2(I)+1
+        IF(WPLA(I)>=WPLAMX(I).OR.IFAIL0 >= 4 .OR.
+     .     DAMT(I,1)>=DMAX(I).OR.
+     .     CRAK(I,1)>=EPSF1(I)-EPST1(I).OR.
+     .     DAMT(I,2)>=DMAX(I).OR.
+     .     CRAK(I,2)>=EPSF2(I)-EPST2(I)) NFIS3(I)=NFIS3(I)+1 
       ENDDO
 C
 C-------------------------------------------------------------------
@@ -1078,28 +1078,28 @@ C     failure
 C-----------------------------
       DO I=JFT,JLT
         FAIL=0
-        IF(DAMT(I,1).GE.DMAX(I))FAIL = FAIL + 1
-        IF(DAMT(I,2).GE.DMAX(I))FAIL = FAIL + 2
-        IF(WPLA(I).GE.WPLAMX(I))FAIL = FAIL + 4
-        IF(CRAK(I,1).GE.EPSF1(I)-EPST1(I))FAIL=FAIL+8
-        IF(CRAK(I,2).GE.EPSF2(I)-EPST2(I))FAIL=FAIL+16
+        IF(DAMT(I,1)>=DMAX(I))FAIL = FAIL + 1
+        IF(DAMT(I,2)>=DMAX(I))FAIL = FAIL + 2
+        IF(WPLA(I)>=WPLAMX(I))FAIL = FAIL + 4
+        IF(CRAK(I,1)>=EPSF1(I)-EPST1(I))FAIL=FAIL+8
+        IF(CRAK(I,2)>=EPSF2(I)-EPST2(I))FAIL=FAIL+16
         IF(FAIL > 0 ) OFFPLY(I) = ZERO
          
-        IF(FAIL.NE.FAIL_OLD(I).AND.OFF(I).EQ.ONE) THEN
+        IF(FAIL/=FAIL_OLD(I).AND.OFF(I)==ONE) THEN
           FAIL = FAIL - FAIL_OLD(I)
-         IF(IMCONV.EQ.1)THEN
+         IF(IMCONV==1)THEN
 #include "lockon.inc"
          IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
-          IF(FAIL.EQ.1.OR.FAIL.EQ.3.OR.FAIL.EQ.5)
+          IF(FAIL==1.OR.FAIL==3.OR.FAIL==5)
      +         WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
      +         ' FAILURE-1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT     
-          IF(FAIL.EQ.2.OR.FAIL.EQ.3.OR.FAIL.EQ.6)THEN
+          IF(FAIL==2.OR.FAIL==3.OR.FAIL==6)THEN
                WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
      +         ' FAILURE-2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT    
           ENDIF    
-          IF(FAIL.EQ.4.OR.FAIL.EQ.5.OR.FAIL.EQ.6)THEN
+          IF(FAIL==4.OR.FAIL==5.OR.FAIL==6)THEN
              IF(ICAS(I) == 0)THEN
                WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
      +         ' FAILURE-P ELEMENT #',NGL(I),', LAYER #',ILAYER,
@@ -1126,11 +1126,11 @@ C-----------------------------
      +         ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT
             ENDIF
            ENDIF      
-          IF(FAIL.GE.16)THEN
+          IF(FAIL>=16)THEN
             WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
      +        ' TOTAL FAILURE-2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +        ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT      
-          ELSEIF(FAIL.GE.8)THEN
+          ELSEIF(FAIL>=8)THEN
             WRITE(IOUT, '(A,I10,A,I3,A,I3,A,I10,A,1PE11.4)')
      +        ' TOTAL FAILURE-1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +        ', INTEGRATION POINT #',IPG,', (PLY #',PLY_ID,'), TIME=',TT      
@@ -1138,16 +1138,16 @@ C-----------------------------
 c
          ELSE
 c
-          IF(FAIL.EQ.1.OR.FAIL.EQ.3.OR.FAIL.EQ.5)
+          IF(FAIL==1.OR.FAIL==3.OR.FAIL==5)
      +         WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
      +         ' FAILURE-1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT     
-          IF(FAIL.EQ.2.OR.FAIL.EQ.3.OR.FAIL.EQ.6)THEN
+          IF(FAIL==2.OR.FAIL==3.OR.FAIL==6)THEN
                WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
      +         ' FAILURE-2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT    
           ENDIF    
-          IF(FAIL.EQ.4.OR.FAIL.EQ.5.OR.FAIL.EQ.6)THEN
+          IF(FAIL==4.OR.FAIL==5.OR.FAIL==6)THEN
              IF(ICAS(I) == 0)THEN
                WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
      +         ' FAILURE-P ELEMENT #',NGL(I),', LAYER #',ILAYER,
@@ -1174,11 +1174,11 @@ c
      +         ', INTEGRATION POINT #',IPG,', TIME=',TT
             ENDIF
            ENDIF      
-          IF(FAIL.GE.16)THEN
+          IF(FAIL>=16)THEN
             WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' TOTAL FAILURE-2 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +        ', INTEGRATION POINT #',IPG,', TIME=',TT      
-          ELSEIF(FAIL.GE.8)THEN
+          ELSEIF(FAIL>=8)THEN
             WRITE(IOUT, '(A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' TOTAL FAILURE-1 ELEMENT #',NGL(I),', LAYER #',ILAYER,
      +        ', INTEGRATION POINT #',IPG,', TIME=',TT      
@@ -1189,7 +1189,7 @@ c
         ENDIF
 C       Wpla negative for stresses reduction at next cycle in case of
 C       failure-p :
-        IF(WPLA(I).GE.WPLAMX(I).OR.MOD(FAIL_OLD(I),8).GE.4)
+        IF(WPLA(I)>=WPLAMX(I).OR.MOD(FAIL_OLD(I),8)>=4)
      .                WPLA(I)=-WPLA(I)
       ENDDO      
 c
@@ -1202,7 +1202,7 @@ C------for QEPH
       DO I=JFT,JLT
           SIGY(I)=FYLD(I)*SIGY(I)
           IF (ABS(BETA(I)) < ONE) THEN
-           IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I))THEN
+           IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I))THEN
              HT=CN(I)*CB(I)*EXP((CN(I)-ONE)*LOG(WPLA(I)))
            ELSE
              HT=EM10
@@ -1247,24 +1247,24 @@ C---------------------------------------------------------------
 C
         DO I=JFT,JLT
           COEF(I) = ZERO
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          IF (WVEC(I)>FYLD(I).AND.OFF(I)==ONE) COEF(I)=ONE    
           CNN=CN(I)-ONE
           WVEC(I)=ZERO
-          IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
+          IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
 Cst CRASURV +++
         DO 222 I=JFT,JLT                                                       
           BETA(I)= ONE                                                          
-          IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 222                       
+          IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 222                       
            COEFA=F11(I)*T1(I)*T1(I)+F22(I)*T2(I)*T2(I) +            
      .          F33(I)*T3(I)*T3(I)+                                      
      .         TWO*F12(I)*T1(I)*T2(I)                                     
               COEFB=F1(I)*T1(I)+F2(I)*T2(I)                                  
               DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
-          IF(DELTA.LT.ZERO)THEN                                                
-           IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN 
+          IF(DELTA<ZERO)THEN                                                
+           IF(IMCONV==1 .AND. OUTV(I) == 0)THEN 
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER)
@@ -1275,9 +1275,9 @@ Cst CRASURV +++
           ELSE                                                                 
             DELTA=SQRT(DELTA)                                                  
           ENDIF                                                                
-          IF(ABS(COEFA).LE.EM15) THEN                                          
-            IF(ABS(COEFB).LE.EM15) THEN                                        
-             IF(IMCONV.EQ.1 .AND. OUTV(I) == 0)THEN  
+          IF(ABS(COEFA)<=EM15) THEN                                          
+            IF(ABS(COEFB)<=EM15) THEN                                        
+             IF(IMCONV==1 .AND. OUTV(I) == 0)THEN  
 #include "lockon.inc"                                                        
               CALL ANCMSG(MSGID=244,ANMODE=ANINFO,
      *                             I1=NGL(I),I2=ILAYER)
@@ -1289,7 +1289,7 @@ Cst CRASURV +++
                BETA(I)=FYLD(I)/COEFB                                           
              ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA)<=                              
      .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
            BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 

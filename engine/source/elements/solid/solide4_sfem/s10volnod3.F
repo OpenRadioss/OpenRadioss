@@ -92,7 +92,7 @@ C
         N1=IPERM1(N)
         N2=IPERM2(N)
         DO I=LFT,LLT
-          IF(NC(I,N).EQ.0)THEN
+          IF(NC(I,N)==0)THEN
             XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
             YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
@@ -159,7 +159,7 @@ c
          VOLG(LFT:LLT) =VOLG(LFT:LLT) + VOLDP(LFT:LLT)
       ENDDO
       DO I=LFT,LLT
-       IF (OFFG(I) == ZERO .OR. ABS(OFFG(I)).GT.ONE) THEN
+       IF (OFFG(I) == ZERO .OR. ABS(OFFG(I))>ONE) THEN
          VOLG(I)= ZERO
        ENDIF
       ENDDO

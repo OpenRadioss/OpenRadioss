@@ -62,10 +62,10 @@ C---------------------------------------------
       DO 100 JJ=1,NUM
       LL=LMSR(NPT+JJ)
       L=IRECT(1,LL)
-      IF(L.EQ.J)L=IRECT(2,LL)
+      IF(L==J)L=IRECT(2,LL)
       LG=MSR(L)
       DMS=(X(2,I)-X(2,LG))**2+(X(3,I)-X(3,LG))**2
-      IF(DMS.LT.CMS)THEN
+      IF(DMS<CMS)THEN
        CMS=DMS
        J=L
        K=LG
@@ -82,7 +82,7 @@ C
       DO 150 JJ=1,NUM
       LL=LMSR(JJ+NPT)
       M=IRECT(1,LL)
-      IF(M.EQ.J)M=IRECT(2,LL)
+      IF(M==J)M=IRECT(2,LL)
       MG=MSR(M)
 C
       C2=X(2,MG)-X(2,K)
@@ -91,11 +91,11 @@ C
       S3=X(3,I)-X(3,K)
       CS=C2*S2+C3*S3
       D2=S2*S2+S3*S3
-      IF(CS.GT.ZERO)THEN
+      IF(CS>ZERO)THEN
        CC=C2*C2+C3*C3
        D2=D2-CS*CS/CC
       ENDIF
-      IF(D2.GT.RESULT)GOTO 150
+      IF(D2>RESULT)GOTO 150
        RESULT=D2
        IRTL(II)=LL
   150 CONTINUE

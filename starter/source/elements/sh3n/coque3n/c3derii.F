@@ -94,9 +94,9 @@ C=======================================================================
         X3(I)=E1X(I)*X31G(I)+E1Y(I)*Y31G(I)+E1Z(I)*Z31G(I)
       ENDDO
 C
-      IF(MTN.EQ.19)THEN
+      IF(MTN==19)THEN
          VISCDEF=FOURTH
-       ELSEIF(MTN.EQ.25.OR.MTN.EQ.27)THEN
+       ELSEIF(MTN==25.OR.MTN==27)THEN
           VISCDEF=FIVEEM2
       ELSE
            VISCDEF=ZERO
@@ -112,7 +112,7 @@ C
      .       ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0 )) THEN
            SSP = PM_STACK(9 ,ISUBSTACK)
         ELSE
-         IF (MTN.LE.28) THEN
+         IF (MTN<=28) THEN
           SSP=PM(27,IMAT)
          ELSEIF (MTN == 42 .OR. MTN  == 69 ) THEN
           IADB = IPM(7,IMAT)-1                                               
@@ -139,8 +139,8 @@ C
         ENDIF 
         VISCMX = GROUP_PARAM%VISC_DM
         IF (VISCMX == ZERO) VISCMX = VISCDEF
-        IF(MTN.EQ.1.OR.MTN.EQ.2.OR.MTN.EQ.3.OR.
-     .       MTN.EQ.22.OR.MTN.EQ.23) VISCMX=ZERO
+        IF(MTN==1.OR.MTN==2.OR.MTN==3.OR.
+     .       MTN==22.OR.MTN==23) VISCMX=ZERO
         VISCMX=SQRT(ONE+VISCMX*VISCMX)-VISCMX
         ALDT(I)= TWO*AREA(I) / SQRT(ALMAX)
         ALDTV(I)= ALDT(I)*VISCMX
@@ -150,7 +150,7 @@ C-------------------------
 C     DT NODAL
 C-------------------------
       IPGMAT = 700 
-      IF(NADMESH.EQ.0)THEN
+      IF(NADMESH==0)THEN
        IF(IGTYP == 11 .AND. IGMAT > 0) THEN
          VISCMX = GROUP_PARAM%VISC_DM
          DO I=JFT,JLT
@@ -280,7 +280,7 @@ C-------------------------
       END IF
 C
 C---------------------------------------------------------
-      IF(ISMSTR.NE.3)THEN
+      IF(ISMSTR/=3)THEN
        DO 50 I=JFT,JLT
        PX1(I) = ZERO
        PY1(I) = ZERO
@@ -296,7 +296,7 @@ C
        ENDDO
 C
        DO 80 I=JFT,JLT
-        IF(GEO(5,IPROP).EQ.ZERO)GOTO 80
+        IF(GEO(5,IPROP)==ZERO)GOTO 80
          GEO(5,IPROP)= MIN(GEO(5,IPROP),DT(I))
  80    CONTINUE
       ENDIF

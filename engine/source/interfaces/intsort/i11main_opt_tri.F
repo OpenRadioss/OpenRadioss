@@ -86,8 +86,8 @@ C----------------------------------------------------
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       GAP  = INTBUF_TAB%VARIABLES(2)
       DRAD = INTBUF_TAB%VARIABLES(24)

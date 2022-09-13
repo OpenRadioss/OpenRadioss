@@ -98,7 +98,7 @@ C
               ENDIF
             ENDDO
 C
-            IF(IG.EQ.0)THEN
+            IF(IG==0)THEN
                CALL ANCMSG(MSGID=53,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -114,12 +114,12 @@ C
          IF (IGU2/=0) THEN
             IG=0
             DO I=1,NGRNOD
-              IF(IGRNOD(I)%ID.EQ.IGU2)THEN
+              IF(IGRNOD(I)%ID==IGU2)THEN
                 IG=I
               ENDIF
             ENDDO
 C
-            IF(IG.EQ.0)THEN
+            IF(IG==0)THEN
                CALL ANCMSG(MSGID=53,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
@@ -257,7 +257,7 @@ C
              EXIT                               
            ENDIF                                
          ENDDO                                           
-         IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+         IF (UID/=0.AND.IFLAGUNIT==0) THEN
            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                 I2=UID,I1=ID,C1='EIG',
      .                 C2='EIG',
@@ -339,13 +339,13 @@ C
 C
             IG=0
             DO I=1,NGRNOD
-              IF(IGRNOD(I)%ID.EQ.IGU2)THEN
+              IF(IGRNOD(I)%ID==IGU2)THEN
                 IG=I
               ENDIF
             ENDDO
 C
             DO I=1,IGRNOD(IG)%NENTITY
-               IF (ITAG(IGRNOD(IG)%ENTITY(I)).EQ.1) THEN
+               IF (ITAG(IGRNOD(IG)%ENTITY(I))==1) THEN
                   NNI=NNI+1
                   EIGIBUF(IADB+NN+NNI-1)=IGRNOD(IG)%ENTITY(I)
                ENDIF
@@ -357,21 +357,21 @@ C
 C
          EIGIPM(IAD+16)=IMLS
 C
-         IF (IPRSP.GT.1) IPRSP=0
+         IF (IPRSP>1) IPRSP=0
          CALL HM_GET_FLOATV_DIM('Freqmin',FAC_FRE,IS_AVAILABLE,LSUBMODEL,UNITAB)
-         IF (SHIFTINI.EQ.ZERO) SHIFTINI=EM03*FAC_FRE
+         IF (SHIFTINI==ZERO) SHIFTINI=EM03*FAC_FRE
 C         CUTFREQ = CUTFREQ / FAC_T
 C         SHIFTINI = SHIFTINI / FAC_T
 C
-         IF (NEV.EQ.0) NEV=100
+         IF (NEV==0) NEV=100
          EIGIPM(IAD+4)=NEV
          EIGRPM(IADF+1)=ZERO
          EIGRPM(IADF+2)=(SHIFTINI*TWO*PI)**2
          EIGRPM(IADF+3)=CUTFREQ
 C
-         IF (NBLFR.EQ.0) NBLFR=NEV      
-         IF (INCV.EQ.0) INCV=2
-         IF (NITER.EQ.0) NITER=300
+         IF (NBLFR==0) NBLFR=NEV      
+         IF (INCV==0) INCV=2
+         IF (NITER==0) NITER=300
 C
          EIGIPM(IAD+8)=NBLFR
          EIGIPM(IAD+5)=INCV
@@ -397,7 +397,7 @@ C
             CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
             READ(NWLINE,FMT='(2I8)',ERR=9999) NBNO, NBMO
 C
-            IF (NEV.GT.NBMO) THEN
+            IF (NEV>NBMO) THEN
                CALL ANCMSG(MSGID=589,
      .                     MSGTYPE=MSGWARNING,
      .                     ANMODE=ANINFO_BLIND_1,
@@ -423,7 +423,7 @@ C
                ENDDO
                IADN=IADN+10
             ENDDO
-            IF (NRES.GT.0) THEN
+            IF (NRES>0) THEN
                CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
                READ(NWLINE,FMT='(10I8)',ERR=9999) 
      .                            (NODES(IADN+J),J=1,NRES)
@@ -446,7 +446,7 @@ C
             ENDDO
             DO I=1,NN
                II=EIGIBUF(IADB+I-1)
-               IF (ITAG(II).NE.-1) THEN
+               IF (ITAG(II)/=-1) THEN
                   J=ITABM1(II)
                   CALL ANCMSG(MSGID=586,
      .                        MSGTYPE=MSGERROR,
@@ -482,57 +482,57 @@ C
          ENDIF   
 C PRINTOUTS
          NDOF=0
-         IF(ICT.EQ.1)THEN
+         IF(ICT==1)THEN
            NDOF=1
-         ELSEIF(ICT.EQ.2)THEN
+         ELSEIF(ICT==2)THEN
            NDOF=1
-         ELSEIF(ICT.EQ.3)THEN
+         ELSEIF(ICT==3)THEN
            NDOF=2
-         ELSEIF(ICT.EQ.4)THEN
+         ELSEIF(ICT==4)THEN
            NDOF=1
-         ELSEIF(ICT.EQ.5)THEN
+         ELSEIF(ICT==5)THEN
            NDOF=2
-         ELSEIF(ICT.EQ.6)THEN
+         ELSEIF(ICT==6)THEN
            NDOF=2
-         ELSEIF(ICT.EQ.7)THEN
+         ELSEIF(ICT==7)THEN
            NDOF=3
          ENDIF
-         IF(ICR.EQ.1)THEN
+         IF(ICR==1)THEN
            NDOF=NDOF+1
-         ELSEIF(ICR.EQ.2)THEN
+         ELSEIF(ICR==2)THEN
            NDOF=NDOF+1
-         ELSEIF(ICR.EQ.3)THEN
+         ELSEIF(ICR==3)THEN
            NDOF=NDOF+2
-         ELSEIF(ICR.EQ.4)THEN
+         ELSEIF(ICR==4)THEN
            NDOF=NDOF+1
-         ELSEIF(ICR.EQ.5)THEN
+         ELSEIF(ICR==5)THEN
            NDOF=NDOF+2
-         ELSEIF(ICR.EQ.6)THEN
+         ELSEIF(ICR==6)THEN
            NDOF=NDOF+2
-         ELSEIF(ICR.EQ.7)THEN
+         ELSEIF(ICR==7)THEN
            NDOF=NDOF+3
          ENDIF
          NMS=NNI*NDOF
-         IF (ITYP.EQ.1) THEN
+         IF (ITYP==1) THEN
             CTYPE='                  FREE EIGENMODES'
-         ELSEIF (ITYP.EQ.2) THEN
+         ELSEIF (ITYP==2) THEN
             CTYPE='CLAMPED EIGENMODES + STATIC MODES'
          ENDIF
-         IF (TOL.GT.ZERO) THEN
+         IF (TOL>ZERO) THEN
             WRITE(CPRE,FMT='(7X,1PE10.3)') TOL
          ELSE
             CPRE='MACHINE PRECISION'
          ENDIF
 C
          CIMLS=' NO'
-         IF (IMLS.EQ.1) CIMLS='YES'
+         IF (IMLS==1) CIMLS='YES'
          CPRSP='MASS'
-         IF (IPRSP.EQ.1) CPRSP='MAX '
+         IF (IPRSP==1) CPRSP='MAX '
          WRITE(IOUT,2100) ID,TRIM(TITR),CTYPE, NEV, NBLFR, INCV, NITER, CPRE,CIMLS,CPRSP 
-         IF (ITYP.EQ.2) WRITE(IOUT,2105) NMS 
+         IF (ITYP==2) WRITE(IOUT,2105) NMS 
          WRITE(IOUT,2109)
          WRITE(IOUT,2110) (EIGIBUF(IADB+I-1),I=1,NN)
-         IF (ITYP.EQ.2) THEN
+         IF (ITYP==2) THEN
             WRITE(IOUT,2111)
             WRITE(IOUT,2110) (EIGIBUF(IADB+NN+I-1),I=1,NNI)
          ENDIF
@@ -603,9 +603,9 @@ C-----------------------------------------------
       INTEGER ISTOP     
 C
       ISTOP=0
-      DO WHILE (ISTOP.EQ.0)
+      DO WHILE (ISTOP==0)
          READ(IFIC,'(A)',END=999) NWLINE
-         IF (NWLINE(1:1).NE.'#') ISTOP=1
+         IF (NWLINE(1:1)/='#') ISTOP=1
       ENDDO
 C
       RETURN

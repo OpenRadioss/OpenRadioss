@@ -105,7 +105,7 @@ C
       ENDDO
 C
       DO IEL=1,NELT
-         IF (ITAGEL(IEL).LT.0) THEN
+         IF (ITAGEL(IEL)<0) THEN
             IVENT=-ITAGEL(IEL)
             SVENT(IVENT)=SVENT(IVENT)+ELAREA(IEL)
          ENDIF
@@ -126,7 +126,7 @@ C------------------------------------------
       AOUTOT=ZERO
       DO IEL=1,NELT
          ELSOUT(IEL)=ZERO
-         IF (ITAGEL(IEL).LT.0) THEN
+         IF (ITAGEL(IEL)<0) THEN
            AREA=ELAREA(IEL)
            IVENT=-ITAGEL(IEL)
            IVENTYP=IBAGHOL(13,IVENT)
@@ -137,13 +137,13 @@ C------------------------------------------
 C-------------
 C  VENT HOLES
 C-------------
-           IF(IVENTYP.EQ.0)THEN
+           IF(IVENTYP==0)THEN
 C
             AINI=ELSINI(IEL)
             EXTEN=AREA/AINI
 C            
             IDEF=IBAGHOL(1,IVENT)
-            IF (IDEF.EQ.0.OR.IDEF.EQ.2) CYCLE
+            IF (IDEF==0.OR.IDEF==2) CYCLE
             AVENT =RBAGHOL(2,IVENT)
             BVENT =RBAGHOL(6,IVENT)
             TVENT =RBAGHOL(3,IVENT)
@@ -165,24 +165,24 @@ C
             AOUT=AVENT*AREA*(ONE-PORO(IEL))
             AOUT1=BVENT*AREA*PORO(IEL)
             TT1=TT-TTF
-            IF (ITTF.EQ.13) TT1=TT-TTF-TVENT
-            IF (IPORA.NE.0) 
+            IF (ITTF==13) TT1=TT-TTF-TVENT
+            IF (IPORA/=0) 
      .         AOUT=AOUT*FPORA
      .                  *GET_U_FUNC(IPORA,EXTEN,DERI)
-            IF (IPORT.NE.0)
+            IF (IPORT/=0)
      .         AOUT=AOUT*FPORT
      .                  *GET_U_FUNC(IPORT,TT1*SCALT,DERI)
-            IF (IPORP.NE.0)
+            IF (IPORP/=0)
      .         AOUT=AOUT*FPORP
      .                  *GET_U_FUNC(IPORP,(PMEAN-PEXT)*SCALP,DERI)
 C
-            IF (IPORA1.NE.0) 
+            IF (IPORA1/=0) 
      .         AOUT1=AOUT1*FPORA1
      .                    *GET_U_FUNC(IPORA1,EXTEN,DERI)
-            IF (IPORT1.NE.0)
+            IF (IPORT1/=0)
      .         AOUT1=AOUT1*FPORT1
      .                    *GET_U_FUNC(IPORT1,TT1*SCALT,DERI)
-            IF (IPORP1.NE.0)
+            IF (IPORP1/=0)
      .         AOUT1=AOUT1*FPORP1
      .                    *GET_U_FUNC(IPORP1,(PMEAN-PEXT)*SCALP,DERI)
 C------------------
@@ -191,7 +191,7 @@ C------------------
            ELSE
             IBLOCKAGE=IBAGHOL(14,IVENT)
             TT1=TT-TTF
-            IF (ITTF.EQ.13) THEN
+            IF (ITTF==13) THEN
               TVENT=RBAGHOL(3,IVENT)
 			  TT1=TT-TTF-TVENT
             ENDIF
@@ -199,17 +199,17 @@ C------------------
 C
             IM  = MATTG(IEL)
             MTN = IPM(2,IM)
-            IF (MTN.NE.19.AND.MTN.NE.58) CYCLE
+            IF (MTN/=19.AND.MTN/=58) CYCLE
 C
             ILEAKAGE = IPM(4,IM)
             NFUNC    = IPM(10,IM)+IPM(6,IM)
-            IF(ILEAKAGE.EQ.0) THEN
+            IF(ILEAKAGE==0) THEN
                 SVTFAC=ZERO
-            ELSEIF(ILEAKAGE.EQ.1) THEN
+            ELSEIF(ILEAKAGE==1) THEN
                 FLC=PM(164,IM)
                 FAC=PM(165,IM)
                 SVTFAC=FLC*FAC
-            ELSEIF(ILEAKAGE.EQ.2.OR.ILEAKAGE.EQ.3) THEN
+            ELSEIF(ILEAKAGE==2.OR.ILEAKAGE==3) THEN
                 FLC=ZERO
                 IPORT=IPM(10+NFUNC-1,IM)
                 IF(IPORT > 0) THEN
@@ -222,17 +222,17 @@ C
                 IF(IPORP > 0) THEN
                    SCALP=PM(161,IM)
                    FPORP=PM(165,IM)
-                   IF(ILEAKAGE.EQ.2) THEN
+                   IF(ILEAKAGE==2) THEN
                      FAC=FPORP*GET_U_FUNC(IPORP,PMEAN*SCALP,DERI)
                    ELSE
                      FAC=FPORP*GET_U_FUNC(IPORP,(PMEAN-PEXT)*SCALP,DERI)
                    ENDIF
                 ENDIF
                 SVTFAC=FLC*FAC
-            ELSEIF(ILEAKAGE.EQ.4) THEN
+            ELSEIF(ILEAKAGE==4) THEN
                 AINI=ELSINI(IEL)
                 CALL PORFORM4(SVTFAC,IM,IPM,PM,AREA,AINI,P,PEXT)
-            ELSEIF(ILEAKAGE.EQ.5) THEN
+            ELSEIF(ILEAKAGE==5) THEN
                 IF(NSPMD > 1) THEN
                   CALL ANCMSG(MSGID=258,ANMODE=ANINFO,I1=IPM(1,IM))
                   CALL ARRET(2)
@@ -251,7 +251,7 @@ C
      .                          JEL,NELG)
                   AREA=ELSINI(IEL)
                 ENDIF
-            ELSEIF(ILEAKAGE.EQ.6) THEN
+            ELSEIF(ILEAKAGE==6) THEN
                 AINI=ELSINI(IEL)
                 CALL PORFORM6(SVTFAC,IM,PM,AREA,AINI,P,PEXT)
             ENDIF

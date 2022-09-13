@@ -66,7 +66,7 @@ C
       TOLE=EPSILON(ZERO)*0.5
 C
 C Liste des segments
-      IF (NHOL.EQ.0) THEN
+      IF (NHOL==0) THEN
          NN1=NN
       ELSE
          NN1=IPOLY_OLD(6+NN+1+1)-1
@@ -90,7 +90,7 @@ C
 C Segments du contour exterieur
       DO I=1,NN1
          II=I+1
-         IF (I.EQ.NN1) II=1
+         IF (I==NN1) II=1
          X1=RPOLY_OLD(4+3*(I-1)+1)
          Y1=RPOLY_OLD(4+3*(I-1)+2)
          Z1=RPOLY_OLD(4+3*(I-1)+3)
@@ -99,9 +99,9 @@ C Segments du contour exterieur
          Z2=RPOLY_OLD(4+3*(II-1)+3)
          ZL1=(X1-X0)*NX+(Y1-Y0)*NY+(Z1-Z0)*NZ
          ZL2=(X2-X0)*NX+(Y2-Y0)*NY+(Z2-Z0)*NZ
-         IF (ZL1-ZL2.NE.ZERO) THEN
+         IF (ZL1-ZL2/=ZERO) THEN
             ALPHA=ZL2/(ZL2-ZL1)
-            IF (ALPHA.GT.ZERO.AND.ALPHA.LT.ONE) THEN
+            IF (ALPHA>ZERO.AND.ALPHA<ONE) THEN
                NS=NS+1
                INS(1,NS)=IPOLY_OLD(6+I)
                INS(2,NS)=IPOLY_OLD(6+II)
@@ -117,8 +117,8 @@ C Segments du contour exterieur
                TSEG(1,NSEG)=-NS
                TSEG(2,NSEG)=II
                TSEG(3,NSEG)=NSEG+1
-            ELSEIF (ALPHA.EQ.ZERO) THEN
-               IF (ITAGN(II).EQ.0) THEN
+            ELSEIF (ALPHA==ZERO) THEN
+               IF (ITAGN(II)==0) THEN
                   NS=NS+1
                   ITAGN(II)=NS
                   INS(1,NS)=IPOLY_OLD(6+I)
@@ -142,8 +142,8 @@ C Segments du contour exterieur
                   TSEG(2,NSEG)=II
                   TSEG(3,NSEG)=NSEG+1
                ENDIF
-            ELSEIF (ALPHA.EQ.ONE) THEN
-               IF (ITAGN(I).EQ.0) THEN
+            ELSEIF (ALPHA==ONE) THEN
+               IF (ITAGN(I)==0) THEN
                   NS=NS+1
                   ITAGN(I)=NS
                   INS(1,NS)=IPOLY_OLD(6+I)
@@ -189,7 +189,7 @@ C Segments des trous
          NSEG_INI=NSEG
          DO J=IADHOL(I),IADHOL(I+1)-1
             JJ=J+1
-            IF (J.EQ.(IADHOL(I+1)-1)) JJ=IADHOL(I)
+            IF (J==(IADHOL(I+1)-1)) JJ=IADHOL(I)
             X1=RPOLY_OLD(4+3*(J-1)+1)
             Y1=RPOLY_OLD(4+3*(J-1)+2)
             Z1=RPOLY_OLD(4+3*(J-1)+3)
@@ -198,9 +198,9 @@ C Segments des trous
             Z2=RPOLY_OLD(4+3*(JJ-1)+3)
             ZL1=(X1-X0)*NX+(Y1-Y0)*NY+(Z1-Z0)*NZ
             ZL2=(X2-X0)*NX+(Y2-Y0)*NY+(Z2-Z0)*NZ
-            IF (ZL1-ZL2.NE.ZERO) THEN
+            IF (ZL1-ZL2/=ZERO) THEN
                ALPHA=ZL2/(ZL2-ZL1)
-               IF (ALPHA.GT.ZERO.AND.ALPHA.LT.ONE) THEN
+               IF (ALPHA>ZERO.AND.ALPHA<ONE) THEN
                   ICUT=1
                   NS=NS+1
                   INS(1,NS)=IPOLY_OLD(6+J)
@@ -217,9 +217,9 @@ C Segments des trous
                   TSEG(1,NSEG)=-NS
                   TSEG(2,NSEG)=JJ
                   TSEG(3,NSEG)=NSEG+1
-               ELSEIF (ALPHA.EQ.ZERO) THEN
+               ELSEIF (ALPHA==ZERO) THEN
                   ICUT=1
-                  IF (ITAGN(II).EQ.0) THEN
+                  IF (ITAGN(II)==0) THEN
                      NS=NS+1
                      ITAGN(JJ)=NS
                      INS(1,NS)=IPOLY_OLD(6+J)
@@ -243,9 +243,9 @@ C Segments des trous
                      TSEG(2,NSEG)=JJ
                      TSEG(3,NSEG)=NSEG+1
                   ENDIF
-               ELSEIF (ALPHA.EQ.ONE) THEN
+               ELSEIF (ALPHA==ONE) THEN
                   ICUT=1
-                  IF (ITAGN(I).EQ.0) THEN
+                  IF (ITAGN(I)==0) THEN
                      NS=NS+1
                      ITAGN(J)=NS
                      INS(1,NS)=IPOLY_OLD(6+J)
@@ -284,7 +284,7 @@ C Segments des trous
          ENDDO
          TSEG(3,NSEG)=NSEG_INI+1
 C
-         IF (ICUT.EQ.0) THEN
+         IF (ICUT==0) THEN
 C Le trou n'est pas coupe
             NHOL=NHOL+1
             DO J=NSEG_INI+1,NSEG
@@ -322,7 +322,7 @@ C Creation des nouvelles aretes dans le plan horizontal
          XLMIN=XL(REDIR(I))
          DO J=I+1,NS
             XLC=XL(REDIR(J))
-            IF (XLC.LT.XLMIN) THEN
+            IF (XLC<XLMIN) THEN
                JJ=REDIR(J)
                REDIR(J)=REDIR(I)
                REDIR(I)=JJ
@@ -333,7 +333,7 @@ C Creation des nouvelles aretes dans le plan horizontal
       II=0
       DO I=1,NS
          II=II+1
-         IF (II.EQ.1) THEN
+         IF (II==1) THEN
             N1=REDIR(I)
             N2=REDIR(I+1)
             X1=XNS(1,N1)
@@ -344,7 +344,7 @@ C Creation des nouvelles aretes dans le plan horizontal
             Z2=XNS(3,N2)
             LL=SQRT((X1-X2)**2+(Y1-Y2)**2+(Z1-Z2)**2)
 C
-            IF (LL.GT.TOLE) THEN
+            IF (LL>TOLE) THEN
                NSEG=NSEG+1
                TSEG(1,NSEG)=-N1
                TSEG(2,NSEG)=-N2
@@ -358,54 +358,54 @@ C Nouveaux polygones
       ISTOP=0
       NPOLY=1
       NNP=0
-      DO WHILE (ISTOP.EQ.0)
+      DO WHILE (ISTOP==0)
          I=1
-         DO WHILE (ITAG(I).NE.0.AND.I.LE.NSEG) 
+         DO WHILE (ITAG(I)/=0.AND.I<=NSEG) 
             I=I+1
          ENDDO
-         IF (I.EQ.NSEG+1) THEN
+         IF (I==NSEG+1) THEN
             ISTOP=1
             CYCLE
          ENDIF
 C
          ICLOSE=0
          ISEG=I
-         DO WHILE (ICLOSE.EQ.0)
+         DO WHILE (ICLOSE==0)
             NNP=NNP+1
             POLY(NNP,NPOLY)=TSEG(1,ISEG)
             IN=TSEG(2,ISEG)
-            IF (TSEG(3,ISEG).GT.0) THEN
+            IF (TSEG(3,ISEG)>0) THEN
                ITAG(ISEG)=1
-               IF (IN.LT.0) THEN
+               IF (IN<0) THEN
                   ISEG_OLD=ISEG
                   ISEG=0
                   DO J=NSEG1+1,NSEG
-                     IF (ITAG(J).NE.0) CYCLE
+                     IF (ITAG(J)/=0) CYCLE
                      IN1=TSEG(1,J)
                      IN2=TSEG(2,J)
-                     IF (IN1.EQ.IN) THEN
+                     IF (IN1==IN) THEN
                         ISEG=J
-                     ELSEIF (IN2.EQ.IN) THEN
+                     ELSEIF (IN2==IN) THEN
                         ISEG=J
                         TSEG(1,J)=IN2
                         TSEG(2,J)=IN1
                      ENDIF
                   ENDDO
-                  IF (ISEG.EQ.0) ISEG=TSEG(3,ISEG_OLD)
+                  IF (ISEG==0) ISEG=TSEG(3,ISEG_OLD)
                ELSE
                   ISEG=TSEG(3,ISEG)
                ENDIF
             ELSE
-               IF (ITAG2(ISEG).EQ.1) ITAG(ISEG)=1
+               IF (ITAG2(ISEG)==1) ITAG(ISEG)=1
                ITAG2(ISEG)=1
                ISEG=0
                DO J=1,NSEG1
                   IN1=TSEG(1,J)
-                  IF (IN1.EQ.IN) ISEG=J
+                  IF (IN1==IN) ISEG=J
                ENDDO
             ENDIF
 C
-            IF (ITAG(ISEG).NE.0) THEN
+            IF (ITAG(ISEG)/=0) THEN
                ICLOSE=1
                LENPOLY(NPOLY)=NNP
                NPOLY=NPOLY+1
@@ -417,7 +417,7 @@ C
 C Attribution des trous
       DO I=1,NHOL
          J=1
-         DO WHILE (ITAG(J).NE.-I)
+         DO WHILE (ITAG(J)/=-I)
             J=J+1
          ENDDO
          N1=TSEG(1,J)
@@ -428,10 +428,10 @@ C Attribution des trous
             ALPHA=ZERO
             DO K=1,LENPOLY(J)
                KK=K+1
-               IF (K.EQ.LENPOLY(J)) KK=1
+               IF (K==LENPOLY(J)) KK=1
                N1=POLY(K,I)
                N2=POLY(KK,I)
-               IF (N1.GT.0) THEN
+               IF (N1>0) THEN
                   XX1=RPOLY_OLD(4+3*(N1-1)+1)      
                   YY1=RPOLY_OLD(4+3*(N1-1)+2)      
                   ZZ1=RPOLY_OLD(4+3*(N1-1)+3)
@@ -440,7 +440,7 @@ C Attribution des trous
                   YY1=XNS(2,-N1)
                   ZZ1=XNS(3,-N1)
                ENDIF
-               IF (N2.GT.0) THEN
+               IF (N2>0) THEN
                   XX2=RPOLY_OLD(4+3*(N2-1)+1)      
                   YY2=RPOLY_OLD(4+3*(N2-1)+2)      
                   ZZ2=RPOLY_OLD(4+3*(N2-1)+3)
@@ -468,14 +468,14 @@ C Attribution des trous
                VVY=VZ1*VX2-VX1*VZ2
                VVZ=VX1*VY2-VY1*VX2
                SS1=NPX*VVX+NPY*VVY+NPZ*VVZ
-               IF (SS1.GE.ZERO) THEN
+               IF (SS1>=ZERO) THEN
                   ALPHA=ALPHA+ACOS(SS)
                ELSE
                   ALPHA=ALPHA-ACOS(SS)
                ENDIF
             ENDDO
 C
-            IF (ABS(ALPHA).GE.ONE) THOL(I)=J
+            IF (ABS(ALPHA)>=ONE) THOL(I)=J
          ENDDO
       ENDDO
 C Creation des tableaux de sortie
@@ -498,7 +498,7 @@ C
          NNP=0
          DO J=1,LENPOLY(I)
             JN=POLY(J,I)
-            IF (JN.GT.0) THEN
+            IF (JN>0) THEN
                NNP=NNP+1
                IPOLY(6+NNP,I)=IPOLY_OLD(6+JN)
                RPOLY(4+3*(NNP-1)+1,I)=RPOLY_OLD(4+3*(JN-1)+1)
@@ -506,7 +506,7 @@ C
                RPOLY(4+3*(NNP-1)+3,I)=RPOLY_OLD(4+3*(JN-1)+3)
                IELNOD(NNP,I)=IELNOD_OLD(JN)
             ELSE
-               IF (ITAGS(-JN).EQ.0) THEN
+               IF (ITAGS(-JN)==0) THEN
                   NNP=NNP+1
                   IPOLY(6+NNP,I)=-NNS3+JN
                   RPOLY(4+3*(NNP-1)+1,I)=XNS(1,-JN)
@@ -515,11 +515,11 @@ C
                   IELNOD(NNP,I)=-1
                ELSE
                   JJ=POLY(J+1,I)
-                  IF (J.EQ.LENPOLY(I)) JJ=POLY(1,I)
+                  IF (J==LENPOLY(I)) JJ=POLY(1,I)
                   X1=XNS(1,-JN)
                   Y1=XNS(2,-JN)
                   Z1=XNS(3,-JN)
-                  IF (JJ.GT.0) THEN
+                  IF (JJ>0) THEN
                      X2=RPOLY_OLD(4+3*(JJ-1)+1)
                      Y2=RPOLY_OLD(4+3*(JJ-1)+2)
                      Z2=RPOLY_OLD(4+3*(JJ-1)+3)
@@ -529,7 +529,7 @@ C
                      Z2=XNS(3,-JJ)
                   ENDIF
                   LL=SQRT((X1-X2)**2+(Y1-Y2)**2+(Z1-Z2)**2)
-                  IF (LL.GT.TOLE) THEN
+                  IF (LL>TOLE) THEN
                      NNP=NNP+1
                      IPOLY(6+NNP,I)=-NNS3+JN
                      RPOLY(4+3*(NNP-1)+1,I)=XNS(1,-JN)
@@ -544,11 +544,11 @@ C
          NHOLP=0
          
          DO J=1,NHOL
-            IF (THOL(J).EQ.I) THEN
+            IF (THOL(J)==I) THEN
                NHOLP=NHOLP+1
                IADHOLP(NHOLP)=NNP+1
                DO K=1,NSEG
-                  IF (TSEG(3,K).EQ.-J) THEN
+                  IF (TSEG(3,K)==-J) THEN
                      NNP=NNP+1
                      KN=TSEG(1,K)
                      IPOLY(6+NNP,I)=KN
@@ -601,12 +601,12 @@ C
             YY=RPOLY(4+3*(J-1)+2,I)       
             ZZ=RPOLY(4+3*(J-1)+3,I)
             ZL=(XX-X0)*NX+(YY-Y0)*NY+(ZZ-Z0)*NZ
-            IF (ABS(ZL).GT.ABS(ZLM)) ZLM=ZL
+            IF (ABS(ZL)>ABS(ZLM)) ZLM=ZL
          ENDDO
          IZ(1,I)=1
-         IF (ZLM.GT.ZERO) THEN
+         IF (ZLM>ZERO) THEN
             IZ(2,I)=INZ+1
-         ELSEIF (ZLM.LT.ZERO) THEN
+         ELSEIF (ZLM<ZERO) THEN
             IZ(2,I)=INZ
          ENDIF
       ENDDO     

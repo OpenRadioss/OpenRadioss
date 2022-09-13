@@ -222,8 +222,8 @@ C---      output of tied contact forces
      .	                INOD(1),H	,NIR     ,FSAV    ,FNCONT ,
      .                  FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)                         
 C---
-          IF (IDEL2.NE.0.AND.MS(IS).NE.ZERO) SMASS(II)=MS(IS)
-          IF (IDEL2.NE.0.AND.MS(IS).NE.ZERO) SINER(II)=IN(IS)
+          IF (IDEL2/=0.AND.MS(IS)/=ZERO) SMASS(II)=MS(IS)
+          IF (IDEL2/=0.AND.MS(IS)/=ZERO) SINER(II)=IN(IS)
           STIFR(IS)=EM20                                            
           STIFN(IS)=EM20                                            
           IN(IS)   =ZERO                                            

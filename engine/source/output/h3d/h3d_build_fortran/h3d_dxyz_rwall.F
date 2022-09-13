@@ -82,7 +82,7 @@ C
         N4=N3+NRWALL
         MSR = NPRW(N3)
         IF (NSPMD == 1) THEN
-          IF(MSR.EQ.0)THEN
+          IF(MSR==0)THEN
             XWL(N)=RWBUF(4,N)
             YWL(N)=RWBUF(5,N)
             ZWL(N)=RWBUF(6,N)
@@ -104,18 +104,18 @@ C
         N4=N3+NRWALL
         ITYP= NPRW(N4)
 
-        IF(IABS(ITYP).EQ.1)THEN
+        IF(IABS(ITYP)==1)THEN
 C
           XN =RWBUF(1,N)
           YN =RWBUF(2,N)
           ZN =RWBUF(3,N)
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
             DX = XMAX - XMIN
             DY = YMAX - YMIN
             DZ = ZMAX - ZMIN
 C
             R = ZEP707*MAX(DX,DY,DZ)
-            IF (XN == ZERO .AND. YN == ZERO .AND. ZN .NE. ZERO ) THEN
+            IF (XN == ZERO .AND. YN == ZERO .AND. ZN /= ZERO ) THEN
               V1 = ZEP707
               V2 = ZEP707
               V3 = ZERO
@@ -128,8 +128,8 @@ C
             VV2 = V3 * XN - V1 * ZN
             VV3 = V1 * YN - V2 * XN
             VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-            IF(VV.LE.HALF)THEN
-              IF (XN == ZERO .AND. YN == ZERO .AND. ZN .NE. ZERO ) THEN
+            IF(VV<=HALF)THEN
+              IF (XN == ZERO .AND. YN == ZERO .AND. ZN /= ZERO ) THEN
                 V1 = -ZEP707
                 V2 = ZEP707
                 V3 = ZERO        
@@ -162,7 +162,7 @@ c
             RWALL_V10(N) = ZERO
           ENDIF
 c
-        ELSEIF(ITYP.EQ.2)THEN
+        ELSEIF(ITYP==2)THEN
           XN = RWBUF(1,N)
           YN = RWBUF(2,N)
           ZN = RWBUF(3,N)
@@ -180,7 +180,7 @@ c
   	  VV2 = V3 * XN - V1 * ZN
   	  VV3 = V1 * YN - V2 * XN
   	  VV = SQRT(VV1*VV1 + VV2*VV2 + VV3*VV3)
-  	  IF(VV.LE.HALF)THEN
+  	  IF(VV<=HALF)THEN
   	    V1 = ZERO
   	    V2 = -ZEP707
   	    V3 = ZEP707
@@ -207,7 +207,7 @@ c
           RWALL_V9(N) = YN
           RWALL_V10(N) = ZN
 
-        ELSEIF(ITYP.EQ.3)THEN
+        ELSEIF(ITYP==3)THEN
           XN = RWBUF(1,N)
           YN = RWBUF(2,N)
           ZN = RWBUF(3,N)
@@ -223,11 +223,11 @@ c
           RWALL_V9(N) = ZERO
           RWALL_V10(N) = ZERO
 c
-        ELSEIF(ITYP.EQ.4)THEN
+        ELSEIF(ITYP==4)THEN
           XN =RWBUF(1,N)
           YN =RWBUF(2,N)
           ZN =RWBUF(3,N)
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
 C
             RWALL_V1(N)=RWBUF(7,N)
             RWALL_V2(N)=RWBUF(8,N)
@@ -243,7 +243,7 @@ C
 
         ENDIF
         K=K+NPRW(N)
-        IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+        IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
       ENDDO
 C
       RETURN

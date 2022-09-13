@@ -102,9 +102,9 @@ C
 
        DO IG = 1, NGROUNC
             NG = IGROUNC(IG)
-            IF(IPARG(8,NG).EQ.1)GOTO 150
+            IF(IPARG(8,NG)==1)GOTO 150
             ITY   =IPARG(5,NG)
-            IF (IDDW.GT.0) CALL STARTIMEG(NG)
+            IF (IDDW>0) CALL STARTIMEG(NG)
             MLW     = IPARG(1,NG)
 C MLW = 777 ---->cell open foam       
            IF (MLW /= 77 ) GOTO 150
@@ -128,7 +128,7 @@ C---------------------------------
             IAD = KAD
             JSPH=0
 C----6---------------------------------------------------------------7---------8
-        IF(ITY.EQ.1 .AND. JLAG.EQ.1)THEN
+        IF(ITY==1 .AND. JLAG==1)THEN
 C-------------------------
 C          STANDARD 8 NODE SOLID ELEMENT (JHBE = 1,2,101,102)
 C-------------------------
@@ -136,7 +136,7 @@ C-------------------------
            CALL VFLUID(UVAR , NEL, MLW, PHI1, PHI2 ,POR)
         ENDIF
 C-------------------------
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 
  150     CONTINUE 
       ENDDO           

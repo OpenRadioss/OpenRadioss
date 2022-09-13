@@ -208,7 +208,7 @@ C-------------
             EPSP(I)=(ONE + CC(I) * EPSP(I))
             TMP1(I)=EPSP(I)
             EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
-            IF(ICC(I).EQ.1)YMAX(I)= YMAX(I) + EPSP(I)
+            IF(ICC(I)==1)YMAX(I)= YMAX(I) + EPSP(I)
             CA(I) = CA(I) + EPSP(I)
             EPSP(I)=ONE
           ENDDO
@@ -217,12 +217,12 @@ C-------------
             IF (IRTY(I) == 0)THEN
               EPSP(I)=(ONE + CC(I) * EPSP(I))
               TMP1(I)=YMAX(I)
-              IF(ICC(I).EQ.1) YMAX(I) = YMAX(I) * EPSP(I)
+              IF(ICC(I)==1) YMAX(I) = YMAX(I) * EPSP(I)
             ELSE
               EPSP(I)=(ONE  + CC(I) * EPSP(I))
               TMP1(I)=EPSP(I)
               EPSP(I)= CC(I)*EXP((-Z3(I)+Z4(I) * EPSP(I))*ESP(I))
-              IF(ICC(I).EQ.1)YMAX(I)= YMAX(I) + EPSP(I)
+              IF(ICC(I)==1)YMAX(I)= YMAX(I) + EPSP(I)
               CA(I) = CA(I) + EPSP(I)
               EPSP(I)=ONE
             ENDIF

@@ -62,7 +62,7 @@ C-----------------------------------------------
       DO I = 1, NINVEL
          IF (FVM_INIVEL(I)%FLAG) THEN
 C     Bric groups
-            IF (FVM_INIVEL(I)%GRBRICID .NE. -1) THEN
+            IF (FVM_INIVEL(I)%GRBRICID /= -1) THEN
                IGRS = FVM_INIVEL(I)%GRBRICID
                DO J=1,IGRBRIC(IGRS)%NENTITY
                   NOSYS=IGRBRIC(IGRS)%ENTITY(J)
@@ -72,7 +72,7 @@ C     Bric groups
                ENDDO
             ENDIF
 C     Quad groups
-            IF (FVM_INIVEL(I)%GRQUADID .NE. -1) THEN
+            IF (FVM_INIVEL(I)%GRQUADID /= -1) THEN
                IGRS = FVM_INIVEL(I)%GRQUADID
                DO J=1,IGRQUAD(IGRS)%NENTITY
                   NOSYS=IGRQUAD(IGRS)%ENTITY(J)
@@ -82,7 +82,7 @@ C     Quad groups
                ENDDO                 
             ENDIF
 C     SH3N groups
-            IF (FVM_INIVEL(I)%GRSH3NID .NE. -1) THEN
+            IF (FVM_INIVEL(I)%GRSH3NID /= -1) THEN
                IGRS = FVM_INIVEL(I)%GRSH3NID
                DO J=1,IGRSH3N(IGRS)%NENTITY
                   NOSYS=IGRSH3N(IGRS)%ENTITY(J)

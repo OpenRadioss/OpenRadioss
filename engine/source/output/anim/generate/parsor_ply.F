@@ -119,7 +119,7 @@ C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
           IF(ISHPLYXFEM > 0) THEN
-             IF(ITY.EQ.3)THEN
+             IF(ITY==3)THEN
 c               KPT   =IPARG(6,NG)
 c               IHBE = IPARG(23,NG)
 c               ISTRAIN=IPARG(44,NG)
@@ -163,7 +163,7 @@ c                  CALL FACNOR(X,D,II,XNORM,CDG,INVERT(IE))
 C-----------------------------------------------
 C             COQUES 3 NOEUDS
 C-----------------------------------------------
-              ELSEIF(ITY.EQ.7)THEN
+              ELSEIF(ITY==7)THEN
               ENDIF
           ENDIF
  490   CONTINUE
@@ -176,7 +176,7 @@ C
       IF (NSPMD > 1) THEN
 Cel construction tableau global des parts sur p0
 
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
          CALL SPMD_IGLOB_PARTN(IADPLY,NPLYPART,IADPLYG,NPLYPART)
          BUF = NBF_PXFEMG*4
          IDPLYN = IDPLY - 1

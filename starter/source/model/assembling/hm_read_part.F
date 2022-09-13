@@ -298,7 +298,7 @@ C--------------------------------------------------
          ENDIF
 
          IF(ILAW == 13 .AND. IRODDL == 0) IRODDL = 1
-         IF( IMID .NE. 0)
+         IF( IMID /= 0)
      .        WRITE(IOUT,'(A,I10,2A)')'     MATERIAL:',MID,',',TRIM(TITR2)
         ENDIF
 C compatibility of global material and ply material for type11
@@ -346,9 +346,9 @@ C compatibility of global material and ply material for type11
           JALE=NINT(PM(72,IMID) ) 
         ENDIF
         IF(JALE > 0)THEN
-           IF (ILAW  ==  151 .AND. N2D .NE. 0) THEN
+           IF (ILAW  ==  151 .AND. N2D /= 0) THEN
 C     Allow SHELL3N for 2D law 151
-              IF(IGTYP.NE.14.AND.IGTYP.NE.15.AND.IGTYP.NE.1)THEN  
+              IF(IGTYP/=14.AND.IGTYP/=15.AND.IGTYP/=1)THEN  
                  CALL ANCMSG(MSGID=42,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -358,7 +358,7 @@ C     Allow SHELL3N for 2D law 151
                  IPM(1:NPROPMI,IMID) = 0                  
               ENDIF
            ELSE
-              IF(IGTYP.NE.14.AND.IGTYP.NE.15)THEN  
+              IF(IGTYP/=14.AND.IGTYP/=15)THEN  
                  CALL ANCMSG(MSGID=42,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -462,7 +462,7 @@ C         SPH : update of thermal flags
        IF(IPID > 0)IGFLU=IGEO(36,IPID)
        !IGTYP = IGEO(11,I)
        !### CAA without fluid material (CAA is obsolete)
-       IF(ICAA.NE.0)THEN
+       IF(ICAA/=0)THEN
          IF(JALE==1 .OR. JALE==2)THEN !ALE or EULER
            IF(loi_fluid(ilaw).eqv..false.) THEN
              CALL ANCMSG(MSGID=37,

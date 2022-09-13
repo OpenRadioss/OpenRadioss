@@ -119,7 +119,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       K=0
       N1=N/1000
-      IF(ICRAY.EQ.1)THEN
+      IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
        DO I = 1, N1
@@ -130,7 +130,7 @@ C fortran real : 64 bits C double : 64 bits
         CALL WRITE_DB_C(R4,1000)
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         DO J = 1, N-N2
           K=K+1
           R4(J) = A(K)
@@ -147,7 +147,7 @@ C fortran double precision : 64 bits C double : 64 bits
         CALL WRITE_DB_C(R8,1000)
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         DO J = 1, N-N2
           K=K+1
           R8(J) = A(K)
@@ -205,7 +205,7 @@ C fortran double precision : 64 bits C double : 64 bits
         CALL WRITE_DB_C(R8,1000)
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         DO J = 1, N-N2
           K=K+1
           R8(J) = A(K)
@@ -257,7 +257,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       K=0
       N1=N/1000
-      IF(ICRAY.EQ.1)THEN
+      IF(ICRAY==1)THEN
 C fortran double precision : 128 bits C double : 64 bits
 C fortran real : 64 bits C double : 64 bits
        DO I = 1, N1
@@ -268,7 +268,7 @@ C fortran real : 64 bits C double : 64 bits
          ENDDO
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
          CALL READ_DB_C(R4,N-N2)
          DO J = 1, N-N2
            K=K+1
@@ -285,7 +285,7 @@ C fortran double precision : 64 bits C double : 64 bits
         ENDDO
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         CALL READ_DB_C(R8,N-N2)
         DO J = 1, N-N2
           K=K+1
@@ -340,7 +340,7 @@ C fortran double precision : 64 bits C double : 64 bits
         ENDDO
        ENDDO
        N2=N1*1000
-       IF(N2.NE.N)THEN
+       IF(N2/=N)THEN
         CALL READ_DB_C(R8,N-N2)
         DO J = 1, N-N2
           K=K+1
@@ -409,65 +409,65 @@ C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
       LEN_IPM=NBIPM*NFXBODY
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL WRTSQI (FXBIPM_L,LEN_IPM,IRFORM)
-        IF (LENNOD_L.GT.0) CALL WRTSQI (FXBNOD_L,LENNOD_L,IRFORM)
-        IF (LENELM_L.GT.0) CALL WRTSQI (FXBELM_L,LENELM_L,IRFORM)
-        IF (LENGRVI_L.GT.0) CALL WRTSQI (FXBGRVI_L,LENGRVI_L,IRFORM)
+        IF (LENNOD_L>0) CALL WRTSQI (FXBNOD_L,LENNOD_L,IRFORM)
+        IF (LENELM_L>0) CALL WRTSQI (FXBELM_L,LENELM_L,IRFORM)
+        IF (LENGRVI_L>0) CALL WRTSQI (FXBGRVI_L,LENGRVI_L,IRFORM)
       ELSE
         CALL WRITE_I_C(FXBIPM_L,LEN_IPM)
         LEN_AM = LEN_AM + LEN_IPM
-        IF (LENNOD_L.GT.0) CALL WRITE_I_C(FXBNOD_L,LENNOD_L)
-        IF (LENNOD_L.GT.0) LEN_AM = LEN_AM + LENNOD_L
-        IF (LENELM_L.GT.0) CALL WRITE_I_C(FXBELM_L,LENELM_L)
-        IF (LENELM_L.GT.0) LEN_AM = LEN_AM + LENELM_L
-        IF (LENGRVI_L.GT.0) CALL WRITE_I_C(FXBGRVI_L,LENGRVI_L)
-        IF (LENGRVI_L.GT.0) LEN_AM = LEN_AM + LENGRVI_L
+        IF (LENNOD_L>0) CALL WRITE_I_C(FXBNOD_L,LENNOD_L)
+        IF (LENNOD_L>0) LEN_AM = LEN_AM + LENNOD_L
+        IF (LENELM_L>0) CALL WRITE_I_C(FXBELM_L,LENELM_L)
+        IF (LENELM_L>0) LEN_AM = LEN_AM + LENELM_L
+        IF (LENGRVI_L>0) CALL WRITE_I_C(FXBGRVI_L,LENGRVI_L)
+        IF (LENGRVI_L>0) LEN_AM = LEN_AM + LENGRVI_L
       ENDIF
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
       LEN_MOD=LENMOD_L*6
-      IF (IRFORM/5.LE.1) THEN
-        IF (LEN_MOD.GT.0) CALL WRTSQR (FXBMOD_L,LEN_MOD,IRFORM)
-        IF (LENGLM_L.GT.0) CALL WRTSQR (FXBGLM_L,LENGLM_L,IRFORM)
-        IF (LENCP_L.GT.0) CALL WRTSQR (FXBCPM_L,LENCP_L ,IRFORM)
-        IF (LENCP_L.GT.0) CALL WRTSQR (FXBCPS_L,LENCP_L ,IRFORM)
-        IF (LENLM_L.GT.0) CALL WRTSQR (FXBLM_L, LENLM_L ,IRFORM)
-        IF (LENFLS_L.GT.0) CALL WRTSQR (FXBFLS_L,LENFLS,IRFORM)
-        IF (LENDLS_L.GT.0) CALL WRTSQR (FXBDLS_L,LENDLS,IRFORM)
+      IF (IRFORM/5<=1) THEN
+        IF (LEN_MOD>0) CALL WRTSQR (FXBMOD_L,LEN_MOD,IRFORM)
+        IF (LENGLM_L>0) CALL WRTSQR (FXBGLM_L,LENGLM_L,IRFORM)
+        IF (LENCP_L>0) CALL WRTSQR (FXBCPM_L,LENCP_L ,IRFORM)
+        IF (LENCP_L>0) CALL WRTSQR (FXBCPS_L,LENCP_L ,IRFORM)
+        IF (LENLM_L>0) CALL WRTSQR (FXBLM_L, LENLM_L ,IRFORM)
+        IF (LENFLS_L>0) CALL WRTSQR (FXBFLS_L,LENFLS,IRFORM)
+        IF (LENDLS_L>0) CALL WRTSQR (FXBDLS_L,LENDLS,IRFORM)
         CALL WRTSQR (FXBDEP,LENVAR,IRFORM)
         CALL WRTSQR (FXBVIT,LENVAR,IRFORM)
         CALL WRTSQR (FXBACC,LENVAR,IRFORM)
         CALL WRTSQR (FXBRPM,LENRPM,IRFORM)
-        IF (LENSIG_L.GT.0) CALL WRTSQR (FXBSIG_L,LENSIG_L,IRFORM)
-        IF (LENGRVR_L.GT.0) CALL WRTSQR (FXBGRVR_L,LENGRVR_L,IRFORM)
+        IF (LENSIG_L>0) CALL WRTSQR (FXBSIG_L,LENSIG_L,IRFORM)
+        IF (LENGRVR_L>0) CALL WRTSQR (FXBGRVR_L,LENGRVR_L,IRFORM)
       ELSE
-        IF (LEN_MOD.GT.0) THEN
+        IF (LEN_MOD>0) THEN
             CALL WRITE_DB(FXBMOD_L,LEN_MOD)
             LEN_AM = LEN_AM + LEN_MOD
         ENDIF
-        IF (LENGLM_L.GT.0) THEN
+        IF (LENGLM_L>0) THEN
             CALL WRITE_DB(FXBGLM_L,LENGLM_L)
             LEN_AM = LEN_AM + LENGLM_L
         ENDIF
-        IF (LENCP_L.GT.0) THEN
+        IF (LENCP_L>0) THEN
             CALL WRITE_DB(FXBCPM_L,LENCP_L )
             LEN_AM = LEN_AM + LENCP_L
         ENDIF
-        IF (LENCP_L.GT.0) THEN
+        IF (LENCP_L>0) THEN
             CALL WRITE_DB(FXBCPS_L,LENCP_L )
             LEN_AM = LEN_AM + LENCP_L
         ENDIF
-        IF (LENLM_L.GT.0) THEN
+        IF (LENLM_L>0) THEN
             CALL WRITE_DB(FXBLM_L, LENLM_L )
             LEN_AM = LEN_AM + LENLM_L
         ENDIF
-        IF (LENFLS_L.GT.0) THEN
+        IF (LENFLS_L>0) THEN
             CALL WRITE_DB(FXBFLS_L,LENFLS_L)
             LEN_AM = LEN_AM + LENFLS_L
         ENDIF
-        IF (LENDLS_L.GT.0) THEN
+        IF (LENDLS_L>0) THEN
             CALL WRITE_DB(FXBDLS_L,LENDLS_L)
             LEN_AM = LEN_AM + LENDLS_L
         ENDIF
@@ -476,11 +476,11 @@ C--------------------------------------
         CALL WRITE_DB(FXBACC,LENVAR)
         CALL WRITE_DB(FXBRPM,LENRPM)
         LEN_AM = LEN_AM + 3*LENVAR + LENRPM
-        IF (LENSIG_L.GT.0) THEN
+        IF (LENSIG_L>0) THEN
            CALL WRITE_DB(FXBSIG_L,LENSIG_L)
             LEN_AM = LEN_AM + LENSIG_L
         ENDIF
-        IF (LENGRVR_L.GT.0) THEN
+        IF (LENGRVR_L>0) THEN
             CALL WRITE_DB(FXBGRVR_L,LENGRVR_L)
             LEN_AM = LEN_AM + LENGRVR_L
         ENDIF
@@ -564,7 +564,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL WRTSQI (EIGIPM,NEIG*NEIPM,IRFORM)
         CALL WRTSQI (EIGIBUF,LEIBUF,IRFORM)
       ELSE
@@ -574,7 +574,7 @@ C--------------------------------------
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL WRTSQR (EIGRPM,NEIG*NERPM,IRFORM)
       ELSE
         CALL WRITE_DB(EIGRPM,NEIG*NERPM)
@@ -692,7 +692,7 @@ C--------------------------------------
          TN(6)=GRAPHE(I)%IPRI
          TN(7)=GRAPHE(I)%NDDL_GLOB
          N=7
-         IF (IRFORM/5.LE.1) THEN
+         IF (IRFORM/5<=1) THEN
             CALL WRTSQI(TN, N, IRFORM)
          ELSE
             CALL WRITE_I_C(TN, N)
@@ -702,7 +702,7 @@ C Ecriture des parametres reels
 C--------------------------------------
          N=1
          CUTFREQ=GRAPHE(I)%CUTFREQ
-         IF (IRFORM/5.LE.1) THEN
+         IF (IRFORM/5<=1) THEN
             CALL WRTSQR(CUTFREQ, N, IRFORM)
          ELSE
             CALL WRITE_DB(CUTFREQ, N)
@@ -711,14 +711,14 @@ C--------------------------------------
 C Ecriture du tableau des ddls
 C--------------------------------------
          DO J=1,2
-            IF (IRFORM/5.LE.1) THEN
+            IF (IRFORM/5<=1) THEN
               CALL WRTSQI(GRAPHE(I)%LSDDL(J,:), DSNDDL, IRFORM)
             ELSE
               CALL WRITE_I_C(GRAPHE(I)%LSDDL(J,:), DSNDDL)
             ENDIF
          ENDDO
          DEALLOCATE(GRAPHE(I)%LSDDL)
-         IF (IRFORM/5.LE.1) THEN
+         IF (IRFORM/5<=1) THEN
             CALL WRTSQI(GRAPHE(I)%LSDDL_GLOB, DSNDDL, IRFORM)
          ELSE
             CALL WRITE_I_C(GRAPHE(I)%LSDDL_GLOB, DSNDDL)
@@ -732,7 +732,7 @@ C--------------------------------------
             TN(2)=GRAPHE(I)%DGRAPH(J)%NDDL_F
             TN(3)=GRAPHE(I)%DGRAPH(J)%NSDMAX
             NDDL=TN(1)+TN(2)
-            IF (IRFORM/5.LE.1) THEN
+            IF (IRFORM/5<=1) THEN
               N=3
               CALL WRTSQI(TN, N, IRFORM)
               CALL WRTSQI(GRAPHE(I)%DGRAPH(J)%CHILD, NSDEC, IRFORM)
@@ -893,7 +893,7 @@ C-----------------------------------------------
 C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL WRTSQI (IFLOW,LIFLOW,IRFORM)
       ELSE
         CALL WRITE_I_C(IFLOW,LIFLOW)
@@ -901,7 +901,7 @@ C--------------------------------------
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL WRTSQR (RFLOW,LRFLOW,IRFORM)
       ELSE
         CALL WRITE_DB(RFLOW,LRFLOW)
@@ -1022,7 +1022,7 @@ CCC C=======================================================================
 C     ECRITURE DES REELS
 CCC C-----------------------
 CCC      LEN=LUNIT*NUNITS
-CCC      IF (IRFORM/5.LE.1) THEN
+CCC      IF (IRFORM/5<=1) THEN
 CCC        CALL WRTSQR (UNITAB,LEN,IRFORM)
 CCC     
 CCC      ELSE

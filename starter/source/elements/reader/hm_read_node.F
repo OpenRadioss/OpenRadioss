@@ -188,16 +188,16 @@ C----------------------------------------------------
 C---------------------------------------------------
 C        SUBMODEL OFFSET
 C---------------------------------------------------
-          IF(SUB_NOD(N) .NE. 0)THEN
-            IF(ITAB(N) .NE. 0) ITAB(N) = ITAB(N) + OFF_NOD(SUB_NOD(N))
-            IF(UID_NOD(N) .NE. 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
-            IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID .NE. 0) 
+          IF(SUB_NOD(N) /= 0)THEN
+            IF(ITAB(N) /= 0) ITAB(N) = ITAB(N) + OFF_NOD(SUB_NOD(N))
+            IF(UID_NOD(N) /= 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
+            IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
      .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
           ENDIF
 C---------------------------------------------------
 C        UNITS
 C---------------------------------------------------
-          IF(UID_NOD(N) .NE. UID )THEN
+          IF(UID_NOD(N) /= UID )THEN
             UID = UID_NOD(N)
             IFLAGUNIT = 0          
             DO J=1,NUNITS    
@@ -207,7 +207,7 @@ C---------------------------------------------------
                 EXIT                              
               ENDIF                               
             ENDDO                                                        
-            IF (UID.NE.0 .AND. IFLAGUNIT.EQ.0)THEN
+            IF (UID/=0 .AND. IFLAGUNIT==0)THEN
               CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=UID,C1='/NODE')
             ENDIF 
@@ -257,16 +257,16 @@ C----------------------------------------------------
 C---------------------------------------------------
 C        SUBMODEL OFFSET
 C---------------------------------------------------
-          IF(SUB_NOD(N) .NE. 0)THEN
-            IF(ITAB_TMP(N) .NE. 0) ITAB_TMP(N) = ITAB_TMP(N) + OFF_NOD(SUB_NOD(N))
-            IF(UID_NOD(N) .NE. 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
-            IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID .NE. 0) 
+          IF(SUB_NOD(N) /= 0)THEN
+            IF(ITAB_TMP(N) /= 0) ITAB_TMP(N) = ITAB_TMP(N) + OFF_NOD(SUB_NOD(N))
+            IF(UID_NOD(N) /= 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
+            IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
      .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
           ENDIF
 C---------------------------------------------------
 C        UNITS
 C---------------------------------------------------
-          IF(UID_NOD(N) .NE. UID )THEN
+          IF(UID_NOD(N) /= UID )THEN
             UID = UID_NOD(N)
             IFLAGUNIT = 0          
             DO J=1,NUNITS                         
@@ -276,7 +276,7 @@ C---------------------------------------------------
                 EXIT                              
               ENDIF                               
             ENDDO                                 
-            IF (UID.NE.0 .AND. IFLAGUNIT.EQ.0)THEN
+            IF (UID/=0 .AND. IFLAGUNIT==0)THEN
               CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=UID,C1='/NODE')
             ENDIF 
@@ -322,7 +322,7 @@ C--------------------------------------------------
 C        READING CNODES INPUTS IN HM STRUCTURE
 C--------------------------------------------------          
 C
-      IF(NUMNUSR2 .NE. 0) THEN
+      IF(NUMNUSR2 /= 0) THEN
         ALLOCATE (ITAB_TMP(NUMNUSR2),STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -352,17 +352,17 @@ C
 C---------------------------------------------------
 C        SUBMODEL OFFSET
 C---------------------------------------------------
-          IF(SUB_NOD(I) .NE. 0)THEN
-            IF(ITAB_TMP(I) .NE. 0) ITAB_TMP(I) = ITAB_TMP(I) + OFF_NOD(SUB_NOD(I))
-            IF(UID_NOD(I) .NE. 0) UID_NOD(I) = UID_NOD(I) + OFF_DEF(SUB_NOD(I))
-            IF(UID_NOD(I) == 0 .AND. LSUBMODEL(SUB_NOD(I))%UID .NE. 0) 
+          IF(SUB_NOD(I) /= 0)THEN
+            IF(ITAB_TMP(I) /= 0) ITAB_TMP(I) = ITAB_TMP(I) + OFF_NOD(SUB_NOD(I))
+            IF(UID_NOD(I) /= 0) UID_NOD(I) = UID_NOD(I) + OFF_DEF(SUB_NOD(I))
+            IF(UID_NOD(I) == 0 .AND. LSUBMODEL(SUB_NOD(I))%UID /= 0) 
      .        UID_NOD(I) = LSUBMODEL(SUB_NOD(I))%UID
           ENDIF
           ITAB(N) = ITAB_TMP(I)
 C---------------------------------------------------
 C        UNITS
 C---------------------------------------------------
-          IF(UID_NOD(I) .NE. UID )THEN
+          IF(UID_NOD(I) /= UID )THEN
             UID = UID_NOD(I)
             IFLAGUNIT = 0          
             DO J=1,NUNITS                         
@@ -372,7 +372,7 @@ C---------------------------------------------------
                 EXIT                              
               ENDIF                               
             ENDDO                                 
-            IF (UID.NE.0 .AND. IFLAGUNIT.EQ.0)THEN
+            IF (UID/=0 .AND. IFLAGUNIT==0)THEN
               CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=UID,C1='/CNODE')
             ENDIF 
@@ -431,8 +431,8 @@ C     Solids TO SPH
       END DO
 C--------------------------------------------------
 C     CONSTITUTION DE TABN POUR NOEUDS ADDITIONNELS
-      IF(NADMESH.NE.0)THEN
-        IF(NUMNOD-NUMNOD0.GT.100000000)THEN
+      IF(NADMESH/=0)THEN
+        IF(NUMNOD-NUMNOD0>100000000)THEN
           CALL ANCMSG(MSGID=645,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO)
@@ -443,8 +443,8 @@ C     CONSTITUTION DE TABN POUR NOEUDS ADDITIONNELS
       END IF
 C--------------------------------------------------
 C     CONSTITUTION DE TABN POUR NOEUDS IGE ADDITIONNELS
-      IF(NADIGEMESH.NE.0)THEN
-        IF(NUMNOD-NUMNODIGE0.GT.100000000)THEN   ! pas bon
+      IF(NADIGEMESH/=0)THEN
+        IF(NUMNOD-NUMNODIGE0>100000000)THEN   ! pas bon
           CALL ANCMSG(MSGID=645,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO)
@@ -471,19 +471,19 @@ C     CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
 C--------------------------------------------------
 C     X INI DANS FICHIER Ynn
 C--------------------------------------------------
-      IF (ISIGI.EQ.3.OR.ISIGI.EQ.4.OR.ISIGI.EQ.5) THEN
+      IF (ISIGI==3.OR.ISIGI==4.OR.ISIGI==5) THEN
 C
   120   READ(IIN4,FMT='(A)',END=199,ERR=199)LLINE
-        IF(LLINE(1:33).NE.'/NODAL     /VECTOR    /COORDINATE')GOTO 120
+        IF(LLINE(1:33)/='/NODAL     /VECTOR    /COORDINATE')GOTO 120
         READ(IIN4,FMT='(A)',END=199,ERR=199)LLINE
 C
-        IF (IOUTP_FMT.EQ.2) THEN
+        IF (IOUTP_FMT==2) THEN
   125     READ(IIN4,FMT='(A)',END=130,ERR=199)LLINE
-          IF(LLINE(1:1).EQ.'#')GOTO 125
-          IF(LLINE(1:1).EQ.'/')GOTO 130
+          IF(LLINE(1:1)=='#')GOTO 125
+          IF(LLINE(1:1)=='/')GOTO 130
           READ(LLINE,'(I8,3F16.0)')N,X1,X2,X3  
           I = USRTOS(N,ITABM1)                 
-          IF(I.NE.0)THEN                       
+          IF(I/=0)THEN                       
             X(1,I) = X1                        
             X(2,I) = X2                        
             X(3,I) = X3                        
@@ -491,11 +491,11 @@ C
           GOTO 125
         ELSE
   126     READ(IIN4,FMT='(A)',END=130,ERR=199)LLINE
-          IF(LLINE(1:1).EQ.'#')GOTO 126
-          IF(LLINE(1:1).EQ.'/')GOTO 130
+          IF(LLINE(1:1)=='#')GOTO 126
+          IF(LLINE(1:1)=='/')GOTO 130
           READ(LLINE,FMT=FMT_I_3F) N,X1,X2,X3  
           I = USRTOS(N,ITABM1)                 
-          IF(I.NE.0)THEN                       
+          IF(I/=0)THEN                       
             X(1,I) = X1                        
             X(2,I) = X2                        
             X(3,I) = X3                        

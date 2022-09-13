@@ -63,19 +63,19 @@ C-----------------------------------------------
       WRITE(IOUT,2000)NCUTS
       DO 100 I=1,NCUTS
         READ(IIN,'(I8,A40)')ITYP,IDTITL
-        IF(ITYP.EQ.0)ITYP=1
+        IF(ITYP==0)ITYP=1
         WRITE(IOUT,1100)IDTITL,ITYP
         ICUT(1,I)=ITYP
         DO 10 J=1,40
  10     ICUT(4+J,I) = ICHAR(IDTITL(J:J))
-        IF(ITYP.LT.3)THEN
+        IF(ITYP<3)THEN
           READ(IIN,'(7E16.0)')(X0(J),J=1,3),(VN(J),J=1,3),VIT
-          IF(ITYP.EQ.2)VIT=0
+          IF(ITYP==2)VIT=0
           XCUT(7,I)=VIT
           DO 20 J=1,3
  20         XCUT(J,I)=X0(J)
           VNN=SQRT(VN(1)**2+VN(2)**2+VN(3)**2)
-          IF(VNN.EQ.ZERO)THEN
+          IF(VNN==ZERO)THEN
             WRITE(ISTDO,1000) IDTITL
             VN(1)=1.
           ELSE

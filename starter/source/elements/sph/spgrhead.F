@@ -147,7 +147,7 @@ C tri spbuf
        ENDDO
 
 
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMSPH
           XEP(I)=CEPSP(I)
         END DO
@@ -196,9 +196,9 @@ C
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
         
         JLAG=0
-        IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
+        IF(JALE==0.AND.MLN/=18)JLAG=1
         JEUL=0
-        IF(JALE.EQ.2)THEN
+        IF(JALE==2)THEN
           JALE=0
           JEUL=1
         END IF
@@ -216,7 +216,7 @@ C        ISSN=MY_SHIFTL(ISSN,6)
 C        JHBE=MY_SHIFTL(JHBE,9)
 C        JPOR=MY_SHIFTL(JPOR,12)
 C ne pas trier sur la loi dans ce cas
-        IF(MLN.LT.28.OR.MLN.EQ.36.OR.MLN.EQ.46.OR.MLN.EQ.47)MLN=0
+        IF(MLN<28.OR.MLN==36.OR.MLN==46.OR.MLN==47)MLN=0
         MLN   = MY_SHIFTL(MLN,21)
         IFAIL = MY_SHIFTL(IFAIL,31)
         ITRI(2,I)=MLN+JALE+JLAG+JEUL+JTUR+JTHE+IFAIL
@@ -324,9 +324,9 @@ C--------------------------------------------------------------
         JJ3=ITRI(5,INDEX(I-1))
         II4=ITRI(6,INDEX(I))
         JJ4=ITRI(6,INDEX(I-1))
-        IF((II0.EQ.0.AND.II0.NE.JJ0).OR.II.NE.JJ.OR.
-     +      II1.NE.JJ1.OR.II2.NE.JJ2.OR.
-     +      II3.NE.JJ3.OR.II4.NE.JJ4) THEN
+        IF((II0==0.AND.II0/=JJ0).OR.II/=JJ.OR.
+     +      II1/=JJ1.OR.II2/=JJ2.OR.
+     +      II3/=JJ3.OR.II4/=JJ4) THEN
           ND=ND+1
           EADD(ND)=I
         END IF

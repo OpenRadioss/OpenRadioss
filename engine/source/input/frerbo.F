@@ -72,10 +72,10 @@ C--------------------
        K=K+1
        KK=K
        K=K+NBC
-       IF(KEY2.EQ.'ON   ')GOTO 944
+       IF(KEY2=='ON   ')GOTO 944
        CALL READ10P(IKAD(IKEY)+KK,NBC,KEY0(IKEY),IV2,JJ)
  944  CONTINUE
-      IF(JJ.NE.0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
+      IF(JJ/=0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
 C--------------------
 C     RBODY OFF
 C--------------------
@@ -88,10 +88,10 @@ C--------------------
        K=K+1
        KK=K
        K=K+NBC
-       IF(KEY2.EQ.'OFF  ')GOTO 945
+       IF(KEY2=='OFF  ')GOTO 945
        CALL READ10P(IKAD(IKEY)+KK,NBC,KEY0(IKEY),IV2,JJ)
  945  CONTINUE
-      IF(JJ.NE.0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
+      IF(JJ/=0)WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
 C
       RETURN
 C

@@ -90,7 +90,7 @@ C---  Condensed nodes of TETRA10 are excluded
 C
       IF (IGRP_USR < 0) THEN
         DO I=1,NGRNOD
-          IF (-IGRP_USR.EQ.IGRNOD(I)%ID) IGROUP = I
+          IF (-IGRP_USR==IGRNOD(I)%ID) IGROUP = I
         ENDDO
       ELSE
         IGROUP = IGRP_USR
@@ -100,14 +100,14 @@ C---  Count and tag nodes to be taken into account for target_dt computation
       IF (IGROUP > 0) THEN
         DO I=1,IGRNOD(IGROUP)%NENTITY
           N = IGRNOD(IGROUP)%ENTITY(I)
-          IF ((WEIGHT(N)==1).AND.(MS(N).NE.ZERO).AND.(STIFN(N).GT.EM20).AND.(TAGN(N)==0)) THEN
+          IF ((WEIGHT(N)==1).AND.(MS(N)/=ZERO).AND.(STIFN(N)>EM20).AND.(TAGN(N)==0)) THEN
             TAGN(N) = 1
             SIZ = SIZ + 1
           ENDIF
         ENDDO
       ELSE
         DO I=1,NUMNOD
-          IF ((WEIGHT(I)==1).AND.(MS(I).NE.ZERO).AND.(STIFN(I).GT.EM20).AND.(TAGN(I)==0)) THEN
+          IF ((WEIGHT(I)==1).AND.(MS(I)/=ZERO).AND.(STIFN(I)>EM20).AND.(TAGN(I)==0)) THEN
             TAGN(I) = 1
             SIZ = SIZ + 1
           ENDIF

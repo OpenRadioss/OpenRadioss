@@ -111,7 +111,7 @@ C
         INUM(6,I)=KXX(5,I)
       ENDDO
 
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELX
           XEP(I)=CEP(I)
         ENDDO
@@ -121,7 +121,7 @@ C
         MID= KXX(1,I)
         PID= KXX(2,I)
         MTN= NINT(GEO(12,PID))
-        IF (MTN.LT.28.OR.MTN.GT.31) THEN
+        IF (MTN<28.OR.MTN>31) THEN
           CALL ANCMSG(MSGID=413,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -133,7 +133,7 @@ C
         ENDIF
 
         ISSN = 0
-        IF(GEO(5,PID).NE.ZERO) ISSN=1
+        IF(GEO(5,PID)/=ZERO) ISSN=1
 C        
         ISSN=MY_SHIFTL(ISSN,6)
         MTN=MY_SHIFTL(MTN,21)
@@ -150,7 +150,7 @@ C
       DO I=1,NUMELX
         IPARTX(I) =INUM(1,INDEX(I))
       ENDDO
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         DO I=1,NUMELX
           CEP(I)=XEP(INDEX(I))
         ENDDO
@@ -170,7 +170,7 @@ C
 
 C
 C RENUMEROTATION POUR SURFACES
-C ow a verifier IBUFSSG - ITYP .EQ. 100
+C ow a verifier IBUFSSG - ITYP == 100
        DO I=1,NSURF
          NN=IGRSURF(I)%NSEG
          DO J=1,NN 
@@ -189,7 +189,7 @@ C--------------------------------------------------------------
         JJ2=ITRI(2,INDEX(I-1))
         II3=ITRI(3,INDEX(I))
         JJ3=ITRI(3,INDEX(I-1))
-        IF(II.NE.JJ.OR.II2.NE.JJ2.OR.II3.NE.JJ3) THEN
+        IF(II/=JJ.OR.II2/=JJ2.OR.II3/=JJ3) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF

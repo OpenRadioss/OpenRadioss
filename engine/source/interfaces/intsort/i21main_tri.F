@@ -115,8 +115,8 @@ C
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       GAP =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
@@ -130,7 +130,7 @@ C
 C -------------------------------------------------------------
 C
       DIST = INTBUF_TAB%VARIABLES(5)
-      IF (DIST.GT.ZERO) GOTO 999
+      IF (DIST>ZERO) GOTO 999
        RETRI=1
 C
        DD(1)=INTSTAMP%D(1)
@@ -167,13 +167,13 @@ C il faut conserver K11 global
        K11_T = 1+4*ITASK*NRTM_T
 
        J17_T = 1+ITASK*NRTM_T
-       IF(ITASK.EQ.NTHREAD-1)NRTM_T=NRTM-(NTHREAD-1)*(NRTM/NTHREAD)
+       IF(ITASK==NTHREAD-1)NRTM_T=NRTM-(NTHREAD-1)*(NRTM/NTHREAD)
          INIT = 1
          ILD = 0
  50      CONTINUE
 C
          IF (IMONM > 0) CALL STARTIME(30,1)
-         IF(NRTM_T.NE.0) THEN
+         IF(NRTM_T/=0) THEN
             CALL I21BUCE(
      1   X      ,INTBUF_TAB%IRECTM(K11_T),INTBUF_TAB%NSV  ,IPARI(22,NIN),
      2   NRTM_T ,NSN        ,INTBUF_TAB%CAND_E    ,INTBUF_TAB%CAND_N ,GAP,
@@ -231,9 +231,9 @@ c +1 en 21 :
 C--------------------------------------------------------------
 C--------------------------------------------------------------
          CALL MY_BARRIER
-         IF (RESULT21.NE.0) THEN
+         IF (RESULT21/=0) THEN
           CALL MY_BARRIER
-          IF (ITASK.EQ.0) THEN
+          IF (ITASK==0) THEN
             INTBUF_TAB%I_STOK(1) = I_SK_OLD
             RESULT21 = 0
           ENDIF
@@ -250,7 +250,7 @@ C--------------------------------------------------------------
 C-----------------------------------------------------------
 C     Remise a 0 de IFPEN pour les nds qui ne sont plus candidats
 C--------------------------------------------------------------
-         IF(ITASK.EQ.0)THEN
+         IF(ITASK==0)THEN
            IP0 = 1
            IP1 = IP0 + NSN + 3
 C MWA = MWAG SUR TASK 0

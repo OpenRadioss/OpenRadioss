@@ -78,20 +78,20 @@ C-----------------------------------------------
       DXM = ZERO
       STM = ZERO
       IPGMAT = 700
-      IF(IRECT(3,IS).EQ.IRECT(4,IS).AND.NUMELTG.NE.0)THEN
-       IF(IRECT(1,IS).GT.NUMNOD) RETURN
+      IF(IRECT(3,IS)==IRECT(4,IS).AND.NUMELTG/=0)THEN
+       IF(IRECT(1,IS)>NUMNOD) RETURN
        DO 230 IAD=KNOD2ELTG(IRECT(1,IS))+1,KNOD2ELTG(IRECT(1,IS)+1)
         N = NOD2ELTG(IAD)
         DO 220 J=1,3
           II=IRECT(J,IS)
           DO 210 K=1,3
-            IF(IXTG(K+1,N).EQ.II) GOTO 220
+            IF(IXTG(K+1,N)==II) GOTO 220
   210     CONTINUE
           GOTO 230
   220   CONTINUE
 	IGTYP = IGEO(11,IXTG(5,N)) 
-	IF ( THK(NUMELC+N) .NE. ZERO .AND. IINTTHICK .EQ. 0 .AND.
-     .       (NTY .EQ. 7 .OR. NTY .EQ. 20.OR. NTY .EQ. 22)) THEN
+	IF ( THK(NUMELC+N) /= ZERO .AND. IINTTHICK == 0 .AND.
+     .       (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
 	  DX=THK(NUMELC+N)
 	ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP ==52) THEN
            DX=THK(NUMELC+N) 
@@ -99,7 +99,7 @@ C-----------------------------------------------
           DX = GEO(1,IXTG(5,N))
         ENDIF
         IGMAT = IGEO(98,IXTG(5,N))
-        IF (IXTG(1,N).GT.0) THEN
+        IF (IXTG(1,N)>0) THEN
           IF(IGTYP == 11 .AND. IGMAT > 0) THEN
             ST = GEO(IPGMAT + 2 ,IXTG(5,N)) 
           ELSEIF(IGTYP ==52 .OR.
@@ -112,12 +112,12 @@ C-----------------------------------------------
         ELSE
           ST = 0.
         ENDIF
-        IF (DX.GT.DXM) THEN
+        IF (DX>DXM) THEN
           DXM = DX
           NELTG = N
           STM = ST
-        ELSEIF(DX.EQ.DXM) THEN
-          IF ((ST.GE.STM).OR.(STM.EQ.0.)) THEN
+        ELSEIF(DX==DXM) THEN
+          IF ((ST>=STM).OR.(STM==0.)) THEN
             NELTG = N
             STM = ST
           ENDIF
@@ -125,36 +125,36 @@ C-----------------------------------------------
   230  CONTINUE
       ENDIF
 C
-      IF(NUMELC.NE.0) THEN
+      IF(NUMELC/=0) THEN
        DO 430 IAD=KNOD2ELC(IRECT(1,IS))+1,KNOD2ELC(IRECT(1,IS)+1)
         N = NOD2ELC(IAD)
         DO 420 J=1,4
           II=IRECT(J,IS)
           DO 410 K=1,4
-            IF(IXC(K+1,N).EQ.II) GOTO 420
+            IF(IXC(K+1,N)==II) GOTO 420
   410     CONTINUE
           GOTO 430
   420   CONTINUE
         IGTYP = IGEO(11,IXC(6,N))
-	IF ( THK(N) .NE. ZERO .AND. IINTTHICK .EQ. 0 .AND.
-     .       (NTY .EQ. 7 .OR. NTY .EQ. 20.OR. NTY .EQ. 22)) THEN
+	IF ( THK(N) /= ZERO .AND. IINTTHICK == 0 .AND.
+     .       (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
 	  DX=THK(N)
 	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP ==52) THEN
 	  DX=THK(N)
         ELSE 
           DX = GEO(1,IXC(6,N))
 	ENDIF
-        IF (IXC(1,N).GT.0) THEN
+        IF (IXC(1,N)>0) THEN
           ST = PM(20,IXC(1,N))
         ELSE
           ST = ZERO
         ENDIF
-        IF (DX.GT.DXM) THEN
+        IF (DX>DXM) THEN
           DXM = DX
           NEL = N
           STM = ST
-        ELSEIF(DX.EQ.DXM) THEN
-          IF ((ST.GT.STM).OR.(STM.EQ.ZERO)) THEN
+        ELSEIF(DX==DXM) THEN
+          IF ((ST>STM).OR.(STM==ZERO)) THEN
             NEL = N
             STM = ST
           ENDIF

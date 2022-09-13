@@ -139,8 +139,8 @@ C--------------------------------------------------
 C BROWSING MODEL PARTS 1->NLD0 (=NCONLD)
 C--------------------------------------------------
       DO K=1,NLD0
-        IF(NSUBDOM.GT.0)THEN
-          IF(NNCL(K).EQ.0)CYCLE
+        IF(NSUBDOM>0)THEN
+          IF(NNCL(K)==0)CYCLE
         END IF
         TITR = ''
 C--------------------------------------------------
@@ -161,7 +161,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('curveid',NCUR,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('inputsystem',NOSKEW,IS_AVAILABLE,LSUBMODEL)
-        IF(NOSKEW == 0 .AND. SUB_INDEX .NE. 0 ) NOSKEW = LSUBMODEL(SUB_INDEX)%SKEW
+        IF(NOSKEW == 0 .AND. SUB_INDEX /= 0 ) NOSKEW = LSUBMODEL(SUB_INDEX)%SKEW
         CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
@@ -180,7 +180,7 @@ C--------------------------------------------------
           ENDIF
         ENDDO
 c
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='CONCENTRED LOAD',
      .                 C2='CONCENTRED LOAD',
@@ -204,12 +204,12 @@ C
         NS=0
 
         IDIR = 0
-        IF(XYZ(1:1).EQ.X) IDIR=1
-        IF(XYZ(1:1).EQ.Y) IDIR=2
-        IF(XYZ(1:1).EQ.Z) IDIR=3
-        IF(XYZ(1:2).EQ.XX) IDIR=4
-        IF(XYZ(1:2).EQ.YY) IDIR=5
-        IF(XYZ(1:2).EQ.ZZ) IDIR=6
+        IF(XYZ(1:1)==X) IDIR=1
+        IF(XYZ(1:1)==Y) IDIR=2
+        IF(XYZ(1:1)==Z) IDIR=3
+        IF(XYZ(1:2)==XX) IDIR=4
+        IF(XYZ(1:2)==YY) IDIR=5
+        IF(XYZ(1:2)==ZZ) IDIR=6
 
         IF(IDIR == 1) NS=1+NOSKEW
         IF(IDIR == 2) NS=2+NOSKEW
@@ -224,7 +224,7 @@ C
      .                 C2=XYZ,I1=ID,C1=TITR)
         ENDIF
         IF(IDIR >= 4) THEN
-           IF (IRODDL.EQ.0) THEN
+           IF (IRODDL==0) THEN
              CALL ANCMSG(MSGID=845,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                   C2=XYZ,I1=ID,C1=TITR)
            END IF
@@ -232,7 +232,7 @@ C
 C !!  IBCL ET NWORK ONT LA MEME ADRESSE
         NUM0=NUM
 C-----------
-        IF (IDDOM.EQ.0) THEN
+        IF (IDDOM==0) THEN
         NN = NODGRNR5(IGU    ,IGS    ,NWORK(1+NIBCLD*NUM0),IGRNOD ,
      .                ITABM1 ,MESS   )
         ELSE
@@ -241,7 +241,7 @@ C-----------Multidomaines : on enleve les noeuds communs qui sont deja trait   s
      .                ITABM1 ,MESS      )
         ENDIF
 C-----------
-        IF (NN.EQ.0) THEN
+        IF (NN==0) THEN
          CALL ANCMSG(MSGID=54,
      .               ANMODE=ANINFO,
      .               MSGTYPE=MSGERROR,

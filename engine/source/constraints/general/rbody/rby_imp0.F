@@ -78,7 +78,7 @@ C-----------------------------------------------
           NK  = NK  + 2*NSC(I)
         ENDDO
 C
-        IF (NMC.GT.0)
+        IF (NMC>0)
      .  CALL RBY_IMPM(X    ,NMC   ,IMIJ  ,ISIJ(NK),SKEW ,
      1                ISKEW,ITAB  ,WEIGHT,MS      ,IN   ,
      2                IADK ,JDIK  ,LT_K  ,NDOF    ,IDDL )
@@ -193,7 +193,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C -------main utilise place de premier secnd node (just like change node number)
-      IF (IMACH.EQ.3.AND.M.LT.0) RETURN
+      IF (IMACH==3.AND.M<0) RETURN
        NSN  =NBY(2)
        IMD = IDDL(M)+1
         ND = 6
@@ -202,7 +202,7 @@ C--------boucle secnd nodes--
        DO I=1,NSN
 C--------block diagonal Kmm--
         N = NOD(I)
-        IF (NDOF(N).GT.0) THEN
+        IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -227,11 +227,11 @@ C--------no diag--Kjm=sum(KjsCsm)--
           NI=NODS(J1+J)
           NIDOF=NDOF(NI)
           CALL GET_KIJ(NI,N,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,NDOF(N),IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(N) ,1 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(N) ,1 )
           CALL UPDKB_RB1(NIDOF,NDOF(N),XS,YS,ZS,KDD)
 C-------  Update ---
           CALL PUT_KIJ(NI,M,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,ND,IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(M) ,1 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(M) ,1 )
          ENDDO
          J1=J1+NS(I)
         ENDIF
@@ -242,7 +242,7 @@ C--------due au coupled block KIJ--
         NI =ISI(1,I)
         NJ =ISI(2,I)
         CALL GET_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KDD,NDOF(NI),NDOF(NJ),IR)
-        IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,1 )
+        IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,1 )
         XS=X(1,NI)-X(1,M)
         YS=X(2,NI)-X(2,M)
         ZS=X(3,NI)-X(3,M)
@@ -305,7 +305,7 @@ C-----------------------------------------------
         M  =IMI(1,I)
         NM =IMI(2,I)
         CALL GET_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KDD,NDOF(NI),NDOF(NJ),IR)
-        IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,1 )
+        IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,1 )
         XS=X(1,NI)-X(1,M)
         YS=X(2,NI)-X(2,M)
         ZS=X(3,NI)-X(3,M)
@@ -315,7 +315,7 @@ C-----------------------------------------------
         CALL UPDKB_RB2(NDOF(NI),NDOF(NJ),XS,YS,ZS,XS1,YS1,ZS1,KDD,0)
 C--------update --
         CALL PUT_KIJ(M ,NM ,IDDL ,IADK,JDIK,LT_K,KDD,ND,ND,IR)
-        IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(M) ,ITAB(NM) ,1 )
+        IF (IR==1) CALL PRINT_WKIJ(ITAB(M) ,ITAB(NM) ,1 )
        ENDDO
 C
       RETURN
@@ -381,7 +381,7 @@ C
         ENDDO
         ENDDO
 C
-       IF (NDL.EQ.6) THEN
+       IF (NDL==6) THEN
         DO I=1,3
         DO J=4,6
           K(I,J)=K(I,J)+KDD(I,J)
@@ -472,7 +472,7 @@ C
          K(I,6)=K(I,6)-KDD(I,1)*YS+KDD(I,2)*XS
         ENDDO
 C
-       IF (NI.EQ.6) THEN
+       IF (NI==6) THEN
         DO I=4,6
          K(I,4)=K(I,4)-KDD(I,2)*ZS+KDD(I,3)*YS
          K(I,5)=K(I,5)+KDD(I,1)*ZS-KDD(I,3)*XS
@@ -546,7 +546,7 @@ C
         ENDDO
         ENDDO
 C
-       IF (NI.EQ.6) THEN
+       IF (NI==6) THEN
         DO I=4,6
         DO J=1,3
           K(I,J)=K(I,J)+KDD(I,J)
@@ -567,7 +567,7 @@ C---------FM Rj------------
         ENDDO
         ENDDO
        ENDIF
-       IF (NJ.EQ.6) THEN
+       IF (NJ==6) THEN
         DO I=1,3
         DO J=4,6
           K(I,J)=K(I,J)+KDD(I,J)
@@ -588,7 +588,7 @@ C---------Ri^tMF------------
         ENDDO
         ENDDO
        ENDIF
-       IF (NI.EQ.6.AND.NJ.EQ.6) THEN
+       IF (NI==6.AND.NJ==6) THEN
         DO I=1,3
          MI=I+3
         DO J=1,3
@@ -598,7 +598,7 @@ C---------Ri^tMF------------
         ENDDO
        ENDIF
 C
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,6
          DO J=1,6
           KDD(I,J)=K(I,J)+K(J,I)
@@ -643,11 +643,11 @@ C     REAL
       my_real
      .   XS,YS,ZS
 C-----------------------------------------------
-       IF (M.LT.0) RETURN
+       IF (M<0) RETURN
         A(1,M)=A(1,M)+A(1,N)
         A(2,M)=A(2,M)+A(2,N)
         A(3,M)=A(3,M)+A(3,N)
-       IF (NDOF(M).EQ.6) THEN
+       IF (NDOF(M)==6) THEN
         XS=X(1,N)-X(1,M)
         YS=X(2,N)-X(2,M)
         ZS=X(3,N)-X(3,M)
@@ -748,7 +748,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C -------main utilise place de premier secnd node (just like change node number)
-      IF ((IMACH.EQ.3.AND.M.LT.0).OR.NDOF(M).EQ.0) RETURN
+      IF ((IMACH==3.AND.M<0).OR.NDOF(M)==0) RETURN
        NSN  =NBY(2)
         ND = 6
 C--------boucle secnd nodes--
@@ -756,7 +756,7 @@ C--------boucle secnd nodes--
        DO I=1,NSN
 C--------block diagonal Kmm--
         N = NOD(I)
-        IF (NDOF(N).GT.0) THEN
+        IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -812,7 +812,7 @@ C-------------produit B'=[CDI]^tB
 c-----with [CDI]=-[[I] [R]]-----
 c----             [[0] [I]]-----
 C
-       IF (NDL.EQ.6) THEN
+       IF (NDL==6) THEN
         B(1)=-BD(2)*ZS+BD(3)*YS
         B(2)= BD(1)*ZS-BD(3)*XS
         B(3)=-BD(1)*YS+BD(2)*XS
@@ -863,7 +863,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C -------main utilise place de premier secnd node (just like change node number)
-      IF (IMACH.EQ.3.AND.M.LT.0) RETURN
+      IF (IMACH==3.AND.M<0) RETURN
        NSN  =NBY(2)
         ND = 6
 C--------boucle secnd nodes--
@@ -871,7 +871,7 @@ C--------boucle secnd nodes--
        DO I=1,NSN
 C--------block diagonal Kmm--
         N = NOD(I)
-        IF (NDOF(N).EQ.0) THEN
+        IF (NDOF(N)==0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -881,7 +881,7 @@ C--------block diagonal Kmm--
          ENDDO
          CALL UPDB_RB(ND,XS,YS,ZS,BD)
 C-------Update B---
-         IF (NDOF(M).EQ.0) THEN
+         IF (NDOF(M)==0) THEN
           DO K=1,3
            AC(K,M)=AC(K,M)+BD(K)
            ACR(K,M)=ACR(K,M)+BD(K+3)
@@ -945,7 +945,7 @@ C-----
          XS=X(1,I)-X(1,M)
          YS=X(2,I)-X(2,M)
          ZS=X(3,I)-X(3,M)
-        IF (ISS.GT.0) THEN
+        IF (ISS>0) THEN
          DO K=1,NDOFI
           BD(K) = A(K,I)
           KDD(K,K) = KSS(K)
@@ -959,7 +959,7 @@ C-----
          CALL UPDKB_RB(NDOFI,XS,YS,ZS,KDD,BD)
          CALL PUT_KMII(IDLM,IADK,DIAG_K,LT_K,KDD,ND)
         ENDIF
-        IF (ISM.GT.0) THEN
+        IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI

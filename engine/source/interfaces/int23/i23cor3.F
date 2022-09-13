@@ -87,13 +87,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J ,IL, L, IG, ITMP, NN, NI
 C-----------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
        DO I=1,JLT
          GAPV(I)=GAP
        ENDDO
       ELSE
          DO I=1,JLT
-          IF(CAND_N(I).LE.NSN) THEN
+          IF(CAND_N(I)<=NSN) THEN
             GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
           ELSE
             GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
@@ -105,7 +105,7 @@ C-----------------------------------------------
 C
       DO I=1,JLT
         NI = CAND_N(I)
-        IF(NI.LE.NSN)THEN
+        IF(NI<=NSN)THEN
           IG = NSV(NI)
           NSVG(I) = IG
 C Kini is not used in TYPE23
@@ -164,7 +164,7 @@ C
       DO I=1,JLT
        L  = CAND_E(I)
        NI = CAND_N(I)
-       IF(NI.LE.NSN)THEN
+       IF(NI<=NSN)THEN
          STIF(I)=STF(L)*ABS(STFN(NI))
        ELSE
          NN = NI - NSN
@@ -174,7 +174,7 @@ C
 C
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(NSVG(I).GT.0)THEN
+        IF(NSVG(I)>0)THEN
           NSMS(I)=NODNX_SMS(NSVG(I))
      .                       +NODNX_SMS(IX1(I))+NODNX_SMS(IX2(I))
      .                       +NODNX_SMS(IX3(I))+NODNX_SMS(IX4(I))
@@ -187,7 +187,7 @@ C
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN

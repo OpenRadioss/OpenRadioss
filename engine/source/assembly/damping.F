@@ -89,10 +89,10 @@ C-----------------------------------------------
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
-       IF (TT.GE.D_TSTART .AND. TT.LE.D_TSTOP) THEN
-        IF(ISK.LE.1)THEN
+       IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
+        IF(ISK<=1)THEN
 C----- Damping sur dof rotation et seulement -----
-          IF (DAMPR(19,ND).GT.0) GOTO 250
+          IF (DAMPR(19,ND)>0) GOTO 250
 C-------------------------------------------------
           DAMPA = DAMPR(3,ND)
           DAMPB = DAMPR(4,ND)
@@ -137,7 +137,7 @@ C-------------------------------------------------
            DW =DW+MS(I)*DA*(V(3,I)+HALF*A(3,I)*DT1)*DT12*WEIGHT(I)
           ENDDO
 250       CONTINUE
-          IF(IRODDL.NE.0)THEN
+          IF(IRODDL/=0)THEN
            DAMPA = DAMPR(9,ND)
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
@@ -147,9 +147,9 @@ C-------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (ICONTACT(I).NE.0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 350
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 350
 	    ENDIF
 C--------------------------------------------------------
             DA = AR(1,I) - DAMPA*VR(1,I)
@@ -169,8 +169,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 450
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 450
 	    ENDIF
 C--------------------------------------------------------
             DA = AR(2,I) - DAMPA*VR(2,I)
@@ -190,8 +190,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 550
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 550
 	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1
 	    ENDIF
 C--------------------------------------------------------
@@ -206,7 +206,7 @@ C--------------------------------------------------------
           END IF
         ELSE
 C----- Damping sur dof rotation et seulement -----
-          IF (DAMPR(19,ND).GT.0) GOTO 650
+          IF (DAMPR(19,ND)>0) GOTO 650
 C-------------------------------------------------
 #include "vectorize.inc"
           DO N=1,IGRNOD(IGR)%NENTITY
@@ -310,7 +310,7 @@ C-------------------------------------------------
      .                +SKEW(9,ISK)*DAMPSKW(3,I)
           END DO
 650       CONTINUE	  
-          IF(IRODDL.NE.0)THEN
+          IF(IRODDL/=0)THEN
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -351,9 +351,9 @@ C-------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (ICONTACT(I).NE.0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	      
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 750	 	      	       
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	      
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 750	 	      	       
 	    ENDIF
 C--------------------------------------------------------	    
             DA = ASKW(1,I) - DAMPA*VSKW(1,I) 
@@ -374,8 +374,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN	      
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 850	 	      	       
+            IF (DAMPR(19,ND)/=0) THEN	      
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 850	 	      	       
 	    ENDIF
 C--------------------------------------------------------	    
             DA = ASKW(2,I) - DAMPA*VSKW(2,I) 
@@ -396,8 +396,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 950
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 950
 	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1	      	       
 	    ENDIF
 C--------------------------------------------------------	    
@@ -453,10 +453,10 @@ C-----------------------------------------------
         DAMPT  = MIN(DT1,DT2)*FACTB
         D_TSTART = DAMPR(17,ND)
         D_TSTOP  = DAMPR(18,ND)
-        IF (TT.GE.D_TSTART .AND. TT.LE.D_TSTOP) THEN
-        IF(ISK.LE.1)THEN
+        IF (TT>=D_TSTART .AND. TT<=D_TSTOP) THEN
+        IF(ISK<=1)THEN
 C-------------------------------------------------
-          IF(IRODDL.NE.0)THEN
+          IF(IRODDL/=0)THEN
            DAMPA = DAMPR(9,ND)
            DAMPB = DAMPR(10,ND)
            BETASDT= -MIN(DAMPB,DAMPT)*DT1/MAX(DT1*DT1,EM30)
@@ -466,9 +466,9 @@ C-------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (ICONTACT(I).NE.0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 351
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 351
 	    ENDIF
 C--------------------------------------------------------
             DA = AR(1,I) - DAMPA*VR(1,I)
@@ -488,8 +488,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 451
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 451
 	    ENDIF
 C--------------------------------------------------------
             DA = AR(2,I) - DAMPA*VR(2,I)
@@ -509,8 +509,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 551
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 551
 	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1
 	    ENDIF
 C--------------------------------------------------------
@@ -524,7 +524,7 @@ C--------------------------------------------------------
            ENDDO
           END IF
         ELSE
-          IF(IRODDL.NE.0)THEN
+          IF(IRODDL/=0)THEN
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
             I=IGRNOD(IGR)%ENTITY(N)
@@ -565,9 +565,9 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (ICONTACT(I).NE.0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	      
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 751	 	      	       
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	      
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 751	 	      	       
 	    ENDIF
 C--------------------------------------------------------	    
             DA = ASKW(1,I) - DAMPA*VSKW(1,I) 
@@ -588,8 +588,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN	      
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 851	 	      	       
+            IF (DAMPR(19,ND)/=0) THEN	      
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 851	 	      	       
 	    ENDIF
 C--------------------------------------------------------	    
             DA = ASKW(2,I) - DAMPA*VSKW(2,I) 
@@ -610,8 +610,8 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND).NE.0) THEN
-              IF (I_DAMP_RDOF_TAB(I).EQ.0) GOTO 951
+            IF (DAMPR(19,ND)/=0) THEN
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 951
 	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1	      	       
 	    ENDIF
 C--------------------------------------------------------	    
@@ -719,7 +719,7 @@ C======================================================================|
         BETASDT= -MIN(DAMPB,DT1,DT2)*DT1/MAX(DT1*DT1,EM30)
         OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
         DO J=1,3
-          IF(IRODDL.EQ.0)THEN
+          IF(IRODDL==0)THEN
 #include "vectorize.inc"
             DO N=1,IGRNOD(IGR)%NENTITY
               I=IGRNOD(IGR)%ENTITY(N)
@@ -840,16 +840,16 @@ C-----------------------------------------------
 
       DW = ZERO
 C
-      IF(DAMPB.GE.0.0)THEN
+      IF(DAMPB>=0.0)THEN
        BETASDT= -MIN(DAMPB,DT1,DT2)*DT1/MAX(DT1*DT1,EM30)
       ELSE
        BETASDT= DAMPB
       ENDIF
       OMEGA  = ONE/ (ONE + HALF * DAMPA * DT1)
 C
-      IF(IDAMPG.EQ.0)THEN
+      IF(IDAMPG==0)THEN
        DO J=1,3
-        IF(IRODDL.EQ.0)THEN
+        IF(IRODDL==0)THEN
 #include "vectorize.inc"
          DO I=NODFT,NODLT
           IF(TAGSLV_RBY(I)/=0) CYCLE
@@ -876,9 +876,9 @@ C
          ENDDO
         ENDIF
        ENDDO
-      ELSEIF(ITASK.EQ.0)THEN
+      ELSEIF(ITASK==0)THEN
        DO J=1,3
-        IF(IRODDL.EQ.0)THEN
+        IF(IRODDL==0)THEN
 #include "vectorize.inc"
          DO N=1,IGRNOD(IDAMPG)%NENTITY
           I=IGRNOD(IDAMPG)%ENTITY(N)

@@ -70,12 +70,12 @@ C
        A(I)   =GEO(10,MGN(I))
 C       KX(I)=A(I)*KX(I)
        ILENG=NINT(GEO(93,MGN(I)))
-       IF(ILENG.NE.0) ILEN = 1
+       IF(ILENG/=0) ILEN = 1
       ENDDO
-      IF(ILEN.NE.0) THEN
+      IF(ILEN/=0) THEN
        DO I=JFT,JLT
         ILENG=NINT(GEO(93,MGN(I)))
-        IF(ILENG.NE.0)THEN
+        IF(ILENG/=0)THEN
           KX(I)=KX(I)/AL0(I)
         ENDIF
        ENDDO
@@ -83,13 +83,13 @@ C       KX(I)=A(I)*KX(I)
 C
       DO I=JFT,JLT
        FRIC= GEO(17,MGN(I))
-       IF(FRIC.NE.ZERO)THEN
+       IF(FRIC/=ZERO)THEN
         DKX(I) = KX(I)*TANH(HALF*FRIC*BETA(I))
        ELSE
         DKX(I)=ZERO
        ENDIF
       ENDDO
-      IF (ISMDISP.GT.0.OR.ISPRN.EQ.1) THEN
+      IF (ISMDISP>0.OR.ISPRN==1) THEN
        DO I=JFT,JLT
         IECROU(I)=NINT(GEO(7,MGN(I)))
         IFUNC(I) =IGEO(101,MGN(I))

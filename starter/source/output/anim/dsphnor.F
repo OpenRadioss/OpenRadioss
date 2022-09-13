@@ -55,7 +55,7 @@ C-----------------------------------------------
      3   XI,YI,ZI,R,NX,NY,NZ,NORMN,                                     
      4   XQ(3)                                                          
 C-----------------------------------------------                        
-      IF (NUMSPH+MAXPJET.EQ.0) GOTO 100                                 
+      IF (NUMSPH+MAXPJET==0) GOTO 100                                 
 C-----------------------------------------------                        
       I3000 = 3000                                                      
       CNT = 0                                                           
@@ -69,7 +69,7 @@ C
          NY=-ONE                                                         
          NZ=-ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-         IF (NORMN.EQ.ZERO) THEN                                        
+         IF (NORMN==ZERO) THEN                                        
           NX=THREE1000                                                  
           NY=THREE1000                                                  
           NZ=THREE1000                                                  
@@ -85,7 +85,7 @@ C
          NY= ONE                                                         
          NZ=-ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-        IF (NORMN.EQ.ZERO) THEN                                         
+        IF (NORMN==ZERO) THEN                                         
           NX=THREE1000                                                  
           NY=THREE1000                                                  
           NZ=THREE1000                                                  
@@ -101,7 +101,7 @@ C
          NY=-ONE                                                         
          NZ= ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-         IF (NORMN.EQ.ZERO) THEN                                        
+         IF (NORMN==ZERO) THEN                                        
           NX=THREE1000                                                  
           NY=THREE1000                                                  
           NZ=THREE1000                                                  
@@ -117,7 +117,7 @@ C
          NY= ONE                                                         
          NZ= ONE                                                         
          NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-        IF (NORMN.EQ.ZERO) THEN                                         
+        IF (NORMN==ZERO) THEN                                         
           NX=THREE1000                                                  
           NY=THREE1000                                                  
           NZ=THREE1000                                                  

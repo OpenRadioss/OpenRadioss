@@ -67,9 +67,9 @@ C--------------------------
         I_TYPINJ = IGEO(22,I_INJ)
         NGASES   = IGEO(23,I_INJ)
         DO IK=1,NGASES
-          IF (I_TYPINJ.EQ.1) THEN
+          IF (I_TYPINJ==1) THEN
             I_GAS = IGEO(100+(IK-1)*3+1,I_INJ)
-          ELSE IF (I_TYPINJ.EQ.2) THEN
+          ELSE IF (I_TYPINJ==2) THEN
             I_GAS = IGEO(100+(IK-1)*2+1,I_INJ)
           END IF
           MW   = PM(20,I_GAS)
@@ -101,9 +101,9 @@ C
          RBAGJET( 9,IJ)=ZERO
          RBAGJET(10,IJ)=ZERO
          DO IK=1,NGASES
-          IF (I_TYPINJ.EQ.1) THEN
+          IF (I_TYPINJ==1) THEN
             I_GAS = IGEO(100+(IK-1)*3+1,I_INJ)
-          ELSE IF (I_TYPINJ.EQ.2) THEN
+          ELSE IF (I_TYPINJ==2) THEN
             I_GAS = IGEO(100+(IK-1)*2+1,I_INJ)
           END IF
           MW   = PM(20,I_GAS)

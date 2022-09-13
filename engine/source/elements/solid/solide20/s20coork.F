@@ -161,10 +161,10 @@ C     NODAL COORDINATES     |
 C----------------------------
       DO N=1,NPE
       
-        IF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+        IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
 C
           DO I=LFT,LLT
-            IF(OFFG(I).GT.ONE)THEN
+            IF(OFFG(I)>ONE)THEN
               XX(I,N)=SAV(I,N)
               YY(I,N)=SAV(I,N+NPE)
               ZZ(I,N)=SAV(I,N+2*NPE)
@@ -198,7 +198,7 @@ C
         N1=IPERM1(N)
         N2=IPERM2(N)
         DO I=LFT,LLT
-          IF(NC(I,N).EQ.0)THEN
+          IF(NC(I,N)==0)THEN
             XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
             YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))

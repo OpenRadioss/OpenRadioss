@@ -63,9 +63,9 @@ C TRANSFORMATION TEMPORAIRE DANS LE REPERE MAIN
         S13=FRIGAP(12)
         S23=FRIGAP(13)
         S33=FRIGAP(14)
-       IF(FLAG.EQ.1)THEN
+       IF(FLAG==1)THEN
         DO II=1,NSN
-         IF(TAGKINE(II).GT.0)THEN
+         IF(TAGKINE(II)>0)THEN
            I=NSV(II)
            XX=A(1,I)
            YY=A(2,I)
@@ -78,7 +78,7 @@ C TRANSFORMATION TEMPORAIRE DANS LE REPERE MAIN
        ELSE
 C RETOUR REPERE SECOND
         DO II=1,NSN
-         IF(TAGKINE(II).GT.0)THEN
+         IF(TAGKINE(II)>0)THEN
            I=NSV(II)
            XX=A(1,I)
            YY=A(2,I)

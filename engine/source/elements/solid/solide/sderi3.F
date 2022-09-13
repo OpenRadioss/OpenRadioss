@@ -276,7 +276,7 @@ C
         PZ4(I)= JACI7-JACI8-JACI9
       ENDDO
 C
-      IF(JHBE.NE.0)THEN
+      IF(JHBE/=0)THEN
         DO I=1,NEL
 C Hourglass mode {1 -1 1 -1 1 -1 1 -1}
          HX=(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
@@ -359,19 +359,19 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,ICOR
 C-----------------------------------------------
-      IF(IDTMIN(1).EQ.1)THEN
+      IF(IDTMIN(1)==1)THEN
         ICOR = 0
         DO I=1,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=1.
-          ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
+          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             ICOR = 1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        IF (ICOR>0.AND.IMCONV==1) THEN
           DO I=1,LLT
-           IF(OFF(I).NE.ZERO)THEN
-            IF(DET(I).LE.VOLMIN)THEN
+           IF(OFF(I)/=ZERO)THEN
+            IF(DET(I)<=VOLMIN)THEN
               DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
@@ -379,7 +379,7 @@ C-----------------------------------------------
                 WRITE(IOUT ,2000) NGL(I)
 #include "lockoff.inc"
               IDEL7NOK = 1
-            ELSEIF(DET(I).LE.ZERO)THEN
+            ELSEIF(DET(I)<=ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,I1=NGL(I))
               DET(I)= ONE
               MSTOP = 1
@@ -387,19 +387,19 @@ C-----------------------------------------------
            ENDIF
           ENDDO
         ENDIF
-      ELSEIF(IDTMIN(1).EQ.2)THEN
+      ELSEIF(IDTMIN(1)==2)THEN
         ICOR = 0
         DO I=1,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=ONE
-          ELSEIF((DET(I).LE.VOLMIN).OR.(DET(I).LE.ZERO))THEN
+          ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             ICOR=1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        IF (ICOR>0.AND.IMCONV==1) THEN
           DO I=1,LLT
-            IF((OFF(I).NE.ZERO).AND.
-     .         (DET(I).LE.VOLMIN.OR.DET(I).LE.ZERO))THEN
+            IF((OFF(I)/=ZERO).AND.
+     .         (DET(I)<=VOLMIN.OR.DET(I)<=ZERO))THEN
               DET(I)=ONE
               OFF(I)=ZERO
 #include "lockon.inc"
@@ -413,16 +413,16 @@ C-----------------------------------------------
       ELSE
         ICOR = 0
         DO I=1,LLT
-          IF(OFF(I) .EQ.ZERO)THEN
+          IF(OFF(I) ==ZERO)THEN
             DET(I)=ONE
-          ELSEIF(DET(I).LE.ZERO)THEN
+          ELSEIF(DET(I)<=ZERO)THEN
             ICOR=1
           ENDIF
         ENDDO
-        IF (ICOR.GT.0.AND.IMCONV.EQ.1) THEN
+        IF (ICOR>0.AND.IMCONV==1) THEN
           DO I=1,LLT
-           IF(OFF(I).NE.ZERO)THEN
-            IF(DET(I).LE.ZERO)THEN
+           IF(OFF(I)/=ZERO)THEN
+            IF(DET(I)<=ZERO)THEN
               CALL ANCMSG(MSGID=166,ANMODE=ANINFO,I1=NGL(I))
               DET(I)= ONE
               MSTOP = 1
@@ -586,7 +586,7 @@ C
         PZ4(I)= JACI7-JACI8-JACI9
       ENDDO
 C
-      IF(JHBE.NE.0)THEN
+      IF(JHBE/=0)THEN
         DO I=1,NEL
          HX=(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))
          HY=(Y1(I)-Y2(I)+Y3(I)-Y4(I)+Y5(I)-Y6(I)+Y7(I)-Y8(I))

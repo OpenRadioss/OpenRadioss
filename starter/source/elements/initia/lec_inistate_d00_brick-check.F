@@ -83,8 +83,8 @@ C
       IF ((ISOLNOD==4.OR.ISOLNOD==10).AND.JJHBE /= 1) JJHBE = 1
       IF (JJHBE == 0) JJHBE = 1
 
-      IF ((JJHBED00 .NE.JJHBE) .AND.((JJHBED00 .NE. 2).AND.
-     .         (JJHBE .NE. 0)) .AND. ISOLNOD .NE. 4)  THEN
+      IF ((JJHBED00 /=JJHBE) .AND.((JJHBED00 /= 2).AND.
+     .         (JJHBE /= 0)) .AND. ISOLNOD /= 4)  THEN
           CALL ANCMSG(MSGID=695,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -99,7 +99,7 @@ C  Number of nodes
 C
       NNOD = ISOLNOD
       IF (ISOLNOD==10 .AND. ISROT==1) NNOD=4
-      IF (ISOLNODD00(IE) .NE.NNOD) THEN
+      IF (ISOLNODD00(IE) /=NNOD) THEN
           CALL ANCMSG(MSGID=695,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -170,7 +170,7 @@ C
 C
 C  Number of integration points
 C
-      IF (NPTD00 .NE.NPT) THEN
+      IF (NPTD00 /=NPT) THEN
           CALL ANCMSG(MSGID=695,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

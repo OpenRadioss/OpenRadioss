@@ -339,7 +339,7 @@ c
      .             FACLOAD, DELTAX)
 c
          NUVAR = ELBUF_STR%BUFLY(IS)%NVAR_MAT
-         IF(MTN.GE.28)THEN
+         IF(MTN>=28)THEN
            IDEF =1
          ELSE
            IF(MTN == 14 .OR. MTN == 12)THEN
@@ -406,7 +406,7 @@ C Failure model initialization
 C------------------------------------------
 C Assemble nodal volumes and moduli for interface stiffness
 C Warning : IX1, IX2 ... IX8 <=> NC(MVSIZ,8)
-      IF(I7STIFS.NE.0)THEN
+      IF(I7STIFS/=0)THEN
         NCC=8
         CALL SBULK3(VOLU  ,IX1    ,NCC,MAT,PM ,
      2              VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
@@ -656,7 +656,7 @@ C
       FAC = TWO
       FACDT = FIVE_OVER_4
 C-------same as QBAT       
-      IF (IDT1SOL.GT.0) FACDT =FOUR_OVER_3
+      IF (IDT1SOL>0) FACDT =FOUR_OVER_3
 C---- compute COREL(2,4) mean surface and area     
       DO I=1,NEL
         LXYZ0(1)=FOURTH*(XL2(I)+XL3(I)+XL4(I))

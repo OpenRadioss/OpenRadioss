@@ -161,7 +161,7 @@ C--------------------------------------------------
 C----------------------
 C For example : apply submodel offsets units submodel transform to V (VX,VY,VZ) if needed
 C
-c      IF (SUB_INDEX .NE. 0)
+c      IF (SUB_INDEX /= 0)
 c     .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_INDEX,LSUBMODEL)
 C----------------------
 C
@@ -221,13 +221,13 @@ C---
 C-------to have DR----  to do it in cgrtais when Ismstr=10 is recommended one day        
         IF (ISMSTR==10.AND.ISROT>0.AND.IDROT==0) IDROT = 1
 C
-        IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+        IF (IHBE>11.AND.IHBE<29) THEN
           GEO(13)=GEO(17)
           GEO(17)=CVIS
         ENDIF
 C----------------------
         IF(ISMSTR==0)ISMSTR=2
-        IF(ISMSTR==3.AND.IHBE.NE.0.AND.IHBE.NE.2) THEN
+        IF(ISMSTR==3.AND.IHBE/=0.AND.IHBE/=2) THEN
           ISMSTR = 2
           CALL ANCMSG(MSGID=319,
      .                MSGTYPE=MSGWARNING,
@@ -254,7 +254,7 @@ C
           ENDIF
           GEO(38)= ZERO
         ENDIF
-        IF(NIP.GT.10) THEN
+        IF(NIP>10) THEN
           CALL ANCMSG(MSGID=788,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -269,7 +269,7 @@ C
         IF(IPLA_D==-2) IPLAST=-1
 C        IF(ISTRAIN==0)ISTRAIN=ISTR_D
         IF(.NOT. IS_CRYPTED)THEN
-          IF (IHBE.GT.11.AND.IHBE.LT.29.OR.
+          IF (IHBE>11.AND.IHBE<29.OR.
      .     (IHBE==0.AND.(ISH3N==1.OR.ISH3N==2))) THEN
 C-------not change default dn of DKT with old define (ishel=12)     
             DN_P = GEO(13)
@@ -287,8 +287,8 @@ C-------not change default dn of DKT with old define (ishel=12)
           WRITE(IOUT,1199)IG
         ENDIF
         NSHELL = NSHELL + 1
-        IF (GEO(1).GE.9) NSHSUP = NSHSUP +1
-        IF (GEO(1).LT.FOURTH) NSHINF = NSHINF +1
+        IF (GEO(1)>=9) NSHSUP = NSHSUP +1
+        IF (GEO(1)<FOURTH) NSHINF = NSHINF +1
         GEO(6)  =NIP+PUN
         IGEO(4) =NIP
         
@@ -307,7 +307,7 @@ C       Double stockage temporaire
           GEO(171)=1
         ELSEIF(IHBE==2)THEN
           GEO(171)=0
-        ELSEIF(IHBE.GE.3.AND.IHBE.LT.100.AND.IHBE.NE.4)THEN
+        ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN
           GEO(171)=IHBE-1
         ENDIF
 

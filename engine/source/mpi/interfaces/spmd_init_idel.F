@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC) THEN
+        IF(I/=LOC_PROC) THEN
           MSGTYP = MSGOFF
           CALL MPI_ISEND(
      C      NINDEX,1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -69,7 +69,7 @@ C-----------------------------------------------
       ENDDO
       IRSIZE = 0
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC) THEN
+        IF(I/=LOC_PROC) THEN
           MSGTYP = MSGOFF
           CALL MPI_RECV(
      .     IRECV(I),1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -83,7 +83,7 @@ C
 C Test reception envoi NINDEX
 C
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC) THEN
+        IF(I/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

@@ -314,7 +314,7 @@ C-----------------------------
       NPTS = ELBUF_STR%NPTS
       NPTT = ELBUF_STR%NPTT
       NPTG=NPTT*NPTS*NPTR*NLAY
-      IF(NPTG.GT.NIPMAX)STOP 933
+      IF(NPTG>NIPMAX)STOP 933
       DO IT=1,NPTT
        DO IS=1,NPTS
         DO IR=1,NPTR
@@ -367,7 +367,7 @@ C
       
 
 C-----------      
-      IF (MTN.GE.28) THEN
+      IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
        IADBUF = 0
@@ -422,7 +422,7 @@ C
      .   K1516,K1517,K1518,K1519,K1520,K1616,K1617,K1618,K1619,K1620,
      .   K1717,K1718,K1719,K1720,K1818,K1819,K1820,K1919,K1920,K2020)
      
-         IF (IKGEO.GT.0) THEN
+         IF (IKGEO>0) THEN
          CALL S20KGEO3(LBUF%SIG,VOLNP(1,IP) ,
      .    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
      .   K11  ,K12  ,K13  ,K14  ,K15  ,K16  ,K17  ,K18  ,K19  ,K110 ,
@@ -454,7 +454,7 @@ C
       ENDDO
 
 
-      IF (NEIG.GT.0) CALL S20EOFF(
+      IF (NEIG>0) CALL S20EOFF(
      1   LFT, LLT, IXS(1,NF1),IXS20(1,NF2), ETAG, OFFG)
       CALL ASSEM_S20(
      1     IXS(1,NF1),IXS20(1,NF2),NEL,IDDL  ,NDOF  ,

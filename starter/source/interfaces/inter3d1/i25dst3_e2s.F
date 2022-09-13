@@ -260,7 +260,7 @@ C Computing cross product :
 
             PEDG = XM12(EJ,I) *XS12(EJ,I) + YM12(EJ,I) *YS12(EJ,I) + ZM12(EJ,I) *ZS12(EJ,I)
             NEDG = SQRT(XM2(EJ,I)) * SQRT(XS2(EJ,I))
-            IF(ABS(PEDG).GT.0.9998*NEDG) THEN
+            IF(ABS(PEDG)>0.9998*NEDG) THEN
               PENE(EJ,I)=ZERO
               CYCLE  ! no contact
             END IF
@@ -366,7 +366,7 @@ C
           YA4(I)=X(2,IX4(I))
           ZA4(I)=X(3,IX4(I))
 C
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
            XA0(I) = FOURTH*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
            YA0(I) = FOURTH*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
            ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
@@ -476,7 +476,7 @@ C
           YA(4,I)=X(2,IX4(I))
           ZA(4,I)=X(3,IX4(I))
 
-          IF(IX3(I).NE.IX4(I))THEN
+          IF(IX3(I)/=IX4(I))THEN
             XA(5,I) = FOURTH*(XA(1,I)+XA(2,I)+XA(3,I)+XA(4,I))
             YA(5,I) = FOURTH*(YA(1,I)+YA(2,I)+YA(3,I)+YA(4,I))
             ZA(5,I) = FOURTH*(ZA(1,I)+ZA(2,I)+ZA(3,I)+ZA(4,I)) 

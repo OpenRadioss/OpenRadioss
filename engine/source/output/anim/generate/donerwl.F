@@ -48,19 +48,19 @@ C-----------------------------------------------
       INTEGER N2, N3, N4, ITYP
 C-----------------------------------------------
 C seul le proc 0 effectue le traitement
-      IF (ISPMD.NE.0) GOTO 100
+      IF (ISPMD/=0) GOTO 100
 C
          N2=IRWL+NRWALL
          N3=N2+NRWALL
          N4=N3+NRWALL
          ITYP= NPRW(N4)
-         IF(IABS(ITYP).EQ.1)THEN
+         IF(IABS(ITYP)==1)THEN
             NERWL = NERWL + 1 + 1
-         ELSEIF(ITYP.EQ.2)THEN
+         ELSEIF(ITYP==2)THEN
             NERWL = NERWL + 24 + 1
-         ELSEIF(ITYP.EQ.3)THEN
+         ELSEIF(ITYP==3)THEN
             NERWL = NERWL + 216 + 1
-         ELSEIF(ITYP.EQ.4)THEN
+         ELSEIF(ITYP==4)THEN
             NERWL = NERWL + 1 + 1
          ENDIF
 C

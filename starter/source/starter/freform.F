@@ -920,7 +920,7 @@ C-------------------------------------------------------------------
       LKEY0(K)=3
       KEND=K
       NOPT=K
-      IF(NOPT.GT.MAXNOPT)STOP 999
+      IF(NOPT>MAXNOPT)STOP 999
 C-------------------------------------------------------------------
 C
       CART=' '
@@ -968,16 +968,16 @@ C-----------------------------------------------
 C   /KEYW/int_id
 C-----------------------------------------------
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
-      IF(I.GT.ncharline)CALL FREERR(0)
+      IF(I>ncharline)CALL FREERR(0)
       J1=I
       MOT1=KLINE(J1:J1-1+LFIELD)
       READ(MOT1,ERR=999,FMT=FMT_I)ID
-      IF (ID.GT.ID_LIMIT.OR.ID.LE.0) THEN
+      IF (ID>ID_LIMIT.OR.ID<=0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=ID,C1=KLINE)
       ENDIF
@@ -1019,29 +1019,29 @@ C   /KEYW/KEYW2/int_id
 C   char_title
 C-----------------------------------------------
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
 
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 
-      IF(I.GT.ncharline)CALL FREERR(0)
+      IF(I>ncharline)CALL FREERR(0)
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
 
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       COPT=KLINE(J1:J2)
 C
       I=I+1
-      IF(I.GT.ncharline)CALL FREERR(0)
+      IF(I>ncharline)CALL FREERR(0)
       J1=I
       MOT1=KLINE(J1:J1-1+LFIELD)
       READ(MOT1,ERR=999,FMT=FMT_I)ID
-      IF (ID.GT.ID_LIMIT.OR.ID.LE.0) THEN
+      IF (ID>ID_LIMIT.OR.ID<=0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=ID,C1=KLINE)
       ENDIF
@@ -1078,18 +1078,18 @@ C-----------------------------------------------
 C   /KEYW/int_type/int_id
 C-----------------------------------------------
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
 
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 
-      IF(I.GT.ncharline)CALL FREERR(0)
+      IF(I>ncharline)CALL FREERR(0)
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
 
       ENDDO
       J2=I-1
@@ -1130,16 +1130,16 @@ C   /KEYW/KEYW2/int_id
 C-----------------------------------------------
       I=2
 
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
       COPT=' '
       I=I+1
 
-      IF(I.GT.ncharline)RETURN
+      IF(I>ncharline)RETURN
       J1=I
 
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
       J2=I-1
@@ -1148,11 +1148,11 @@ C
       ID=0
       I=I+1
       I=MIN(I,ncharline)
-      IF(I.GT.ncharline-LFIELD+1)RETURN
+      IF(I>ncharline-LFIELD+1)RETURN
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-	      IF(I.GT.ncharline)EXIT
+	      IF(I>ncharline)EXIT
       ENDDO
       J2=I-1
 
@@ -1161,7 +1161,7 @@ C
 
       READ(MOT1,ERR=999,FMT=FMT_I)ID
 C
-      IF (ID.GT.ID_LIMIT.OR.ID.LE.0) THEN
+      IF (ID>ID_LIMIT.OR.ID<=0) THEN
         CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I1=ID,C1=KLINE)
       ENDIF
@@ -1198,16 +1198,16 @@ C   /KEYW/KEYW2/KEYW3
 C-----------------------------------------------
       I=2
 
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
       COPT=' '
       I=I+1
 
-      IF(I.GT.ncharline)RETURN
+      IF(I>ncharline)RETURN
       J1=I
 
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
       J2=I-1
@@ -1218,11 +1218,11 @@ C
       I=MIN(I,ncharline)
       J1=I
 
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
     
-      IF(I.GT.ncharline)RETURN
+      IF(I>ncharline)RETURN
       J2=I-1
       COPT2=KLINE(J1:J2)
 C
@@ -1368,13 +1368,13 @@ C
 C
         MFLAG=0
         DO I=1,NODGRNR6
-          IF(IGRNOD(IGS)%ENTITY(I).EQ.M) THEN
+          IF(IGRNOD(IGS)%ENTITY(I)==M) THEN
             MFLAG=1
           ELSE
             IBUF(I-MFLAG)=IGRNOD(IGS)%ENTITY(I)
           ENDIF
         ENDDO
-        IF(MFLAG.EQ.1) THEN 
+        IF(MFLAG==1) THEN 
           NODGRNR6=NODGRNR6-1
           CALL ANCMSG(MSGID=1624,
      .                MSGTYPE=MSGWARNING,
@@ -1422,12 +1422,12 @@ C-----------------------------------------------
 C-----------------------------------------------
       IG=0
       DO I=1,NGRNOD
-        IF(IGRNOD(I)%ID.EQ.IGU)THEN
+        IF(IGRNOD(I)%ID==IGU)THEN
           IG=I
         ENDIF
       ENDDO
 C
-      IF(IG.EQ.0)THEN
+      IF(IG==0)THEN
         CALL ANCMSG(MSGID=53,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -1472,10 +1472,10 @@ C=======================================================================
       NVAR=0
       IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-      DO WHILE(LINE(1:1).NE.'/')
+      DO WHILE(LINE(1:1)/='/')
         READ(LINE,ERR=999,FMT=FMT_10I) J10
         DO I=1,10
-          IF(J10(I).NE.0)THEN
+          IF(J10(I)/=0)THEN
             NVAR=NVAR+1
             IBUF(NVAR)=J10(I)
           ENDIF
@@ -1483,7 +1483,7 @@ C=======================================================================
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
       ENDDO
-      IF(NVAR.EQ.0)RETURN
+      IF(NVAR==0)RETURN
 C=======================================================================
 C Remplacement des n0 de noeuds user par systeme 
 C=======================================================================
@@ -1797,18 +1797,18 @@ C-----------------------------------------------
       INTEGER IT1
 C=======================================================================
 	IT1 = IT
-      IF(IT1.EQ.3)THEN
+      IF(IT1==3)THEN
         IT1=0
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         IT1=1
  999    CONTINUE
       ENDIF
-      IF(IT1.EQ.0)THEN
+      IF(IT1==0)THEN
           CALL ANCMSG(MSGID=54,
      .                ANMODE=ANINFO,
      .                MSGTYPE=MSGERROR,
      .                C1=KLINE)
-      ELSEIF(IT1.EQ.1)THEN
+      ELSEIF(IT1==1)THEN
           CALL ANCMSG(MSGID=55,
      .                ANMODE=ANINFO,
      .                MSGTYPE=MSGERROR,
@@ -1905,13 +1905,13 @@ C-----------------------------------------------
       DO I=1,L
         IASC(I)=  ICHAR(TITR(J:J))*65536
         J = J+1
-        IF(J.GT.JMAX) EXIT                          ! Replacing ncharline by JMAX
+        IF(J>JMAX) EXIT                          ! Replacing ncharline by JMAX
         IASC(I)=  IASC(I) + ICHAR(TITR(J:J))*256
         J = J+1
-        IF(J.GT.JMAX) EXIT
+        IF(J>JMAX) EXIT
         IASC(I)=  IASC(I) + ICHAR(TITR(J:J))
         J = J+1
-        IF(J.GT.JMAX) EXIT
+        IF(J>JMAX) EXIT
       ENDDO
       RETURN
       END
@@ -2087,13 +2087,13 @@ C-----------------------------------------------
       DO I=1,L
         TITR(J:J)=CHAR(IASC(I)/65536)
         J=J+1
-        IF(J.GT.nchartitle) EXIT
+        IF(J>nchartitle) EXIT
         TITR(J:J)=CHAR(MOD(IASC(I),65536)/256)
         J=J+1
-        IF(J.GT.nchartitle) EXIT
+        IF(J>nchartitle) EXIT
         TITR(J:J)=CHAR(MOD(IASC(I),256))
         J=J+1
-        IF(J.GT.nchartitle) EXIT
+        IF(J>nchartitle) EXIT
       ENDDO
       RETURN
       END
@@ -2120,17 +2120,17 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
-      IF (IREC.LE.0) THEN
+      IF (IREC<=0) THEN
         IREC=1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
       ELSE
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-        DO WHILE(LINE(1:1).NE.'/')
+        DO WHILE(LINE(1:1)/='/')
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         ENDDO
       END IF
-      IF(LINE(2:1+LKEY0(KCUR)).NE.KEY0(KCUR)(1:LKEY0(KCUR)))GOTO 999
+      IF(LINE(2:1+LKEY0(KCUR))/=KEY0(KCUR)(1:LKEY0(KCUR)))GOTO 999
       KLINE=LINE
       RETURN
  999  CALL FREERR(1)
@@ -2166,7 +2166,7 @@ C or  /KEYW/int_id
 C +   TITLE
 C-----------------------------------------------
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
         IF (I > ncharline)CALL FREERR(0)
       ENDDO
@@ -2174,7 +2174,7 @@ C-----------------------------------------------
       IF (I > ncharline)CALL FREERR(0)
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2188,7 +2188,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2240,23 +2240,23 @@ C   /KEYW/KEY2/int_id
 C-----------------------------------------------
 C     Pass KEY1
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 C     Read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       KEY2=KLINE(J1:J2)
       I=I+1
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2270,7 +2270,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2319,23 +2319,23 @@ C + char_title
 C-----------------------------------------------
 C     Pass KEY1
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 C     Read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       KEY2=KLINE(J1:J2)
       I=I+1
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2349,7 +2349,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2403,17 +2403,17 @@ C + char_title
 C-----------------------------------------------
 C---  Pass Key1
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
-      IF(I.GT.ncharline)CALL FREERR(0)
+      IF(I>ncharline)CALL FREERR(0)
 C---  read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       KEY=KLINE(J1:J2)
@@ -2421,17 +2421,17 @@ C---  read KEY3
       COPT=' '
       I=I+1
       J1=I
-      IF(I.GT.ncharline)CALL FREERR(0)
-      DO WHILE(KLINE(I:I).NE.'/')
+      IF(I>ncharline)CALL FREERR(0)
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       COPT=KLINE(J1:J2)
       I=I+1
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2445,7 +2445,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2503,36 +2503,36 @@ C     Pass KEY1
       UID=0
       SUB_ID = 0
       I=2
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
       KEY2=' '
       KEY3=' '
       I=I+1
-      IF(I.GT.ncharline)RETURN
+      IF(I>ncharline)RETURN
 C     Read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
-      IF (I.GE.ncharline) THEN
+      IF (I>=ncharline) THEN
         MOT1=KLINE(J1:I)
-          IF (KLINE(J1:MIN(JMAX,J1+2)).NE.'AUX'     .AND.
-     .        KLINE(J1:MIN(JMAX,J1+3)).NE.'EPSP'    .AND.
-     .        KLINE(J1:MIN(JMAX,J1+5)).NE.'EPSP_F'  .AND.
-     .        KLINE(J1:MIN(JMAX,J1+4)).NE.'ORTHO'   .AND.
-     .        KLINE(J1:MIN(JMAX,J1+5)).NE.'STRA_F'  .AND.
-     .        KLINE(J1:MIN(JMAX,J1+5)).NE.'STRS_F'  .AND.
-     .        KLINE(J1:MIN(JMAX,J1+4)).NE.'THICK'   .AND.
-     .        KLINE(J1:MIN(JMAX,J1+7)).NE.'ORTH_LOC'.AND.
-     .        KLINE(J1:MIN(JMAX,J1+5)).NE.'STRESS'  .AND.  
-     .        KLINE(J1:MIN(JMAX,J1+9)).NE.'SCALE_YLD'.AND.
-     .        KLINE(J1:MIN(JMAX,J1+4)).NE.'FAIL'    .AND.  
-     .        KLINE(J1:MIN(JMAX,J1+4)).NE.'FILL'    .AND.
-     .        KLINE(J1:MIN(JMAX,J1+4)).NE.'FULL'    .AND.
-     .        KLINE(J1:MIN(JMAX,J1+3)).NE.'DENS'    .AND.
-     .        KLINE(J1:MIN(JMAX,J1+3)).NE.'EREF'    .AND.
-     .        KLINE(J1:MIN(JMAX,J1+3)).NE.'ENER'    ) THEN
+          IF (KLINE(J1:MIN(JMAX,J1+2))/='AUX'     .AND.
+     .        KLINE(J1:MIN(JMAX,J1+3))/='EPSP'    .AND.
+     .        KLINE(J1:MIN(JMAX,J1+5))/='EPSP_F'  .AND.
+     .        KLINE(J1:MIN(JMAX,J1+4))/='ORTHO'   .AND.
+     .        KLINE(J1:MIN(JMAX,J1+5))/='STRA_F'  .AND.
+     .        KLINE(J1:MIN(JMAX,J1+5))/='STRS_F'  .AND.
+     .        KLINE(J1:MIN(JMAX,J1+4))/='THICK'   .AND.
+     .        KLINE(J1:MIN(JMAX,J1+7))/='ORTH_LOC'.AND.
+     .        KLINE(J1:MIN(JMAX,J1+5))/='STRESS'  .AND.  
+     .        KLINE(J1:MIN(JMAX,J1+9))/='SCALE_YLD'.AND.
+     .        KLINE(J1:MIN(JMAX,J1+4))/='FAIL'    .AND.  
+     .        KLINE(J1:MIN(JMAX,J1+4))/='FILL'    .AND.
+     .        KLINE(J1:MIN(JMAX,J1+4))/='FULL'    .AND.
+     .        KLINE(J1:MIN(JMAX,J1+3))/='DENS'    .AND.
+     .        KLINE(J1:MIN(JMAX,J1+3))/='EREF'    .AND.
+     .        KLINE(J1:MIN(JMAX,J1+3))/='ENER'    ) THEN
            READ(MOT1,ERR=999,FMT=FMT_I)UID
            IF (UID > ID_LIMIT .OR. UID < 0) THEN
              CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -2542,69 +2542,69 @@ C     Read KEY2
            RETURN
           ENDIF  
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+2)).EQ.'AUX') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+2))=='AUX') THEN
         J2=J1+3
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+3)).EQ.'EPSP') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+3))=='EPSP') THEN
         J2=J1+4
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'EPSP_F') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+5))=='EPSP_F') THEN
         J2=J1+6
       ENDIF 
-      IF (KLINE(J1:MIN(JMAX,J1+4)).EQ.'ORTHO') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+4))=='ORTHO') THEN
         J2=J1+5
       ENDIF   
-      IF (KLINE(J1:MIN(JMAX,J1+8)).EQ.'STRA_FGLO') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+8))=='STRA_FGLO') THEN
         J2=J1+6
-      ELSEIF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'STRA_F') THEN
+      ELSEIF (KLINE(J1:MIN(JMAX,J1+5))=='STRA_F') THEN
         J2=J1+6
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+8)).EQ.'STRS_FGLO') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+8))=='STRS_FGLO') THEN
         J2=J1+9
-      ELSEIF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'STRS_F') THEN
+      ELSEIF (KLINE(J1:MIN(JMAX,J1+5))=='STRS_F') THEN
         J2=J1+6
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+4)).EQ.'THICK') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+4))=='THICK') THEN
         J2=J1+5
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+7)).EQ.'ORTH_LOC') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+7))=='ORTH_LOC') THEN
         J2=J1+8
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'STRESS') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+5))=='STRESS') THEN
         J2=J1+6
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+9)).EQ.'SCALE_YLD') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+9))=='SCALE_YLD') THEN
         J2=J1+9
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'FAIL') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+5))=='FAIL') THEN
         J2=J1+4
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'FILL') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+5))=='FILL') THEN
         J2=J1+4
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+5)).EQ.'FULL') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+5))=='FULL') THEN
         J2=J1+4
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+3)).EQ.'DENS') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+3))=='DENS') THEN
         J2=J1+4
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+3)).EQ.'ENER') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+3))=='ENER') THEN
         J2=J1+4
       ENDIF
-      IF (KLINE(J1:MIN(JMAX,J1+3)).EQ.'EREF') THEN
+      IF (KLINE(J1:MIN(JMAX,J1+3))=='EREF') THEN
         J2=J1+4
       ENDIF
       KEY2=KLINE(J1:MIN(JMAX,J2-1))
 C     Read KEY3
-      DO WHILE(KLINE(I:I).NE.'/'.AND.I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
       J2 = I+1
       J2 = MIN(JMAX,J2)
-      IF (I.GE.ncharline) THEN
+      IF (I>=ncharline) THEN
         MOT1=KLINE(J2:I)
-        IF (KLINE(J2:MIN(JMAX,J2+5)).NE.'STRA_F'.AND.
-     .      KLINE(J2:MIN(JMAX,J2+5)).NE.'STRS_F') THEN
+        IF (KLINE(J2:MIN(JMAX,J2+5))/='STRA_F'.AND.
+     .      KLINE(J2:MIN(JMAX,J2+5))/='STRS_F') THEN
           READ(MOT1,ERR=999,FMT=FMT_I)UID
           IF (UID > ID_LIMIT .OR. UID < 0) THEN
             CALL ANCMSG(MSGID=510,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -2614,34 +2614,34 @@ C     Read KEY3
           RETURN
         ENDIF
       ENDIF
-      IF (KLINE(J2:MIN(JMAX,J2+3)).EQ.'GLOB') THEN
+      IF (KLINE(J2:MIN(JMAX,J2+3))=='GLOB') THEN
         J3=J2+3
         J3 = MIN(JMAX,J3)
         I = J3
         KEY3=KLINE(J2:J3)
-        DO WHILE(KLINE(I:I).NE.'/' .AND. I.LT.ncharline)
+        DO WHILE(KLINE(I:I)/='/' .AND. I<ncharline)
           I=I+1
         ENDDO
         I=I+1
         I=MIN(ncharline,I)
-      ELSEIF (KLINE(J2:MIN(JMAX,J2+8)).EQ.'STRA_FGLO' .OR.
-     .        KLINE(J2:MIN(JMAX,J2+8)).EQ.'STRS_FGLO'  ) THEN
+      ELSEIF (KLINE(J2:MIN(JMAX,J2+8))=='STRA_FGLO' .OR.
+     .        KLINE(J2:MIN(JMAX,J2+8))=='STRS_FGLO'  ) THEN
         J3=J2+8
         J3 = MIN(JMAX,J3)
         I = J3
         KEY3=KLINE(J2:J3)
-        DO WHILE(KLINE(I:I).NE.'/' .AND. I.LT.ncharline)
+        DO WHILE(KLINE(I:I)/='/' .AND. I<ncharline)
           I=I+1
         ENDDO
         I=I+1
         I=MIN(JMAX,I)
-      ELSEIF (KLINE(J2:MIN(JMAX,J2+5)).EQ.'STRA_F' .OR.
-     .        KLINE(J2:MIN(JMAX,J2+5)).EQ.'STRS_F'  ) THEN
+      ELSEIF (KLINE(J2:MIN(JMAX,J2+5))=='STRA_F' .OR.
+     .        KLINE(J2:MIN(JMAX,J2+5))=='STRS_F'  ) THEN
         J3=J2+5
         J3 = MIN(JMAX,J3)
         I = J3
         KEY3=KLINE(J2:J3)
-        DO WHILE(KLINE(I:I).NE.'/' .AND. I.LT.ncharline)
+        DO WHILE(KLINE(I:I)/='/' .AND. I<ncharline)
           I=I+1
         ENDDO
         I=I+1
@@ -2654,7 +2654,7 @@ C     Read KEY3
       ENDIF
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/' .AND. I<ncharline)
         I=I+1
       ENDDO
       MOT1=KLINE(J1:I-1)
@@ -2667,7 +2667,7 @@ C---  read SUB_ID
       I=I+1
       I = MIN(JMAX,I)
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I.LT.ncharline)
+      DO WHILE(KLINE(I:I)/='/' .AND. I<ncharline)
         I=I+1
       ENDDO
       MOT1=KLINE(J1:I-1)
@@ -2710,23 +2710,23 @@ C + char_title
 C-----------------------------------------------
 C     Pass KEY1
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 C     Read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       KEY2=KLINE(J1:J2)
       I=I+1
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2740,7 +2740,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2754,7 +2754,7 @@ C---  read UID
       I =I+1
 C---  read VERS
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       J2 = I-1
@@ -2802,23 +2802,23 @@ C + char_title
 C-----------------------------------------------
 C     Pass KEY1
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 C     Read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       KEY2=KLINE(J1:J2)
       I=I+1
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2832,7 +2832,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2846,7 +2846,7 @@ C---  read UID
       I =I+1
 C---  read VERS
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       J2 = I-1
@@ -2855,7 +2855,7 @@ C---  read VERS
 C---  read SUB_ID
       I =I+1
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       J2 = I-1
@@ -2898,7 +2898,7 @@ C-----------------------------------------------
 C   /KEYW/int_id/uid/VERS
 C-----------------------------------------------
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
         IF (I > ncharline)CALL FREERR(0)
       ENDDO
@@ -2906,7 +2906,7 @@ C-----------------------------------------------
       IF (I > ncharline)CALL FREERR(0)
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2920,7 +2920,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -2934,7 +2934,7 @@ C---  read UID
       I =I+1
 C---  read VERS
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       J2 = I-1
@@ -2980,23 +2980,23 @@ C   /KEYW/KEY2/int_id/u_id/VERS
 C-----------------------------------------------
 C     Pass KEY1
       I=2
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       I=I+1
 C     Read KEY2
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/')
+      DO WHILE(KLINE(I:I)/='/')
         I=I+1
-        IF(I.GT.ncharline)CALL FREERR(0)
+        IF(I>ncharline)CALL FREERR(0)
       ENDDO
       J2=I-1
       KEY2=KLINE(J1:J2)
       I=I+1
 C---  read ID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -3010,7 +3010,7 @@ C---  read ID
       I =I+1
 C---  read UID
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       IF (I > ncharline) CALL FREERR(0)
@@ -3024,7 +3024,7 @@ C---  read UID
 C---  read VERS
       I=I+1
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       J2=I-1
@@ -3033,7 +3033,7 @@ C---  read VERS
 C---  read SUB_ID
       I=I+1
       J1=I
-      DO WHILE(KLINE(I:I).NE.'/' .AND. I-J1 <= ncharfield)
+      DO WHILE(KLINE(I:I)/='/' .AND. I-J1 <= ncharfield)
         I=I+1
       ENDDO
       J2=I-1

@@ -79,7 +79,7 @@ C
       TMP => DT(NUMNOD+1:NUMNOD*2)
 C 
       DO I=1,NUMNOD
-        IF((MS(I).NE.ZERO).AND.(STIFN(I).GT.EM20))THEN
+        IF((MS(I)/=ZERO).AND.(STIFN(I)>EM20))THEN
           DT(I)=MS(I)/STIFN(I)
         ELSE
           DT(I)=EP30       ! -1- free nodes dt=1e30 instead of dt=1416=sqrt(1e6).

@@ -97,11 +97,11 @@ C       Reading of a new block --
         DO WHILE (I_ERR == 0)
 C
           ISTOP=0
-          DO WHILE (ISTOP.EQ.0)
+          DO WHILE (ISTOP==0)
             READ(REF,'(A)',END=100) NWLINE
-            IF (NWLINE(1:5).EQ.'DMIG ') THEN
+            IF (NWLINE(1:5)=='DMIG ') THEN
               READ(NWLINE,'((A,A,5I8,I16))') DEBUT,NAME,DUM,IFO,TIN,TOUT,POLAR,NCOL
-            ELSEIF ((NWLINE(1:1).NE.'#').AND.((NWLINE(1:1).NE.'$')).AND.((LEN_TRIM(NWLINE)/=0))) THEN
+            ELSEIF ((NWLINE(1:1)/='#').AND.((NWLINE(1:1)/='$')).AND.((LEN_TRIM(NWLINE)/=0))) THEN
               ISTOP=1
             ENDIF
           ENDDO

@@ -75,17 +75,17 @@ C----------------------------------------------------------------------
 C     INITIALISATION DES VARIABLES EN FONCTION DE LA DIRECTION DE COUPE
 C----------------------------------------------------------------------
 C
-      IF(DIR.EQ.1) THEN
+      IF(DIR==1) THEN
         IDNBCUT=12
         IDKNOT1=6  ! index of 1nd knot in the Xknot vector corresponding to the element
         IDKNOT2=9  ! index of 2nd knot in the Xknot vector corresponding to the element
         OFFSET_KNOT = IAD_KNOT
-      ELSEIF(DIR.EQ.2) THEN
+      ELSEIF(DIR==2) THEN
         IDNBCUT=13
         IDKNOT1=7  ! index of 1st knot in the Yknot vector corresponding to the element
         IDKNOT2=10 ! index of 1st knot in the Yknot vector corresponding to the element
         OFFSET_KNOT = IAD_KNOT + NKNOT1
-      ELSEIF(DIR.EQ.3) THEN
+      ELSEIF(DIR==3) THEN
         IDNBCUT=14
         IDKNOT1=8  ! index of 1st knot in the Zknot vector corresponding to the element
         IDKNOT2=11 ! index of 1st knot in the Zknot vector corresponding to the element
@@ -180,7 +180,7 @@ C
 
 cc LES ID VOISINS NE CORRESPONDENT PAS AU INITIAL CUT
 
-      IF(KXIG3D(IDNBCUT,IDNEIGHBOUR).EQ.1) THEN 
+      IF(KXIG3D(IDNBCUT,IDNEIGHBOUR)==1) THEN 
         IDCUT_VOISIN = 0
       ELSE
         IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEIGHBOUR)-KXIG3D(IDNBCUT,IDNEIGHBOUR)+1

@@ -70,7 +70,7 @@ C-----------------------------------------------
         PZ4(I) = -PZ2(I)
       ENDDO
 C
-      IF (ICP.EQ.1) THEN
+      IF (ICP==1) THEN
         DO I=LFT,LLT
           BH(I) = (HH(1,I)+TWO_THIRD*HH(2,I))*AIR(I)
         ENDDO
@@ -137,11 +137,11 @@ C-----------------------------------------------
         KIJ(2,2,EP) = KIJ(2,2,EP) + BH(EP)*PZI(EP)*PZJ(EP)
       ENDDO
 C
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
         DO EP=LFT,LLT
           AYS(EP) = AY(EP)*AY(EP)
         ENDDO
-        IF (JCVT.EQ.0) THEN
+        IF (JCVT==0) THEN
           DO EP=LFT,LLT
             KIJ(1,1,EP) = KIJ(1,1,EP) + BH(EP)*( 
      .                  AY(EP)*(PYI(EP)+PYJ(EP)) + AYS(EP) )
@@ -150,7 +150,7 @@ C
           ENDDO
 C         asymmetric part
 C          IASY = 0
-C          IF (IASY.NE.0) THEN
+C          IF (IASY/=0) THEN
 C          ENDIF
         ELSE
           DO EP=LFT,LLT
@@ -169,7 +169,7 @@ C          ENDIF
           ENDDO
 C         asymmetric part
 C          IASY = 0
-C          IF (IASY.NE.0) THEN
+C          IF (IASY/=0) THEN
 C          ENDIF
         ENDIF
       ENDIF

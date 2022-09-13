@@ -96,7 +96,7 @@ C     2 TASKS
             ENDDO
           ENDIF
 
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
 #include "vectorize.inc"
            DO 140 I=NODFT,NODLT
             IKN = I + NUMNOD
@@ -151,7 +151,7 @@ C
           ENDIF   
 
 C         viscosite
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
 #include "vectorize.inc"
             DO I=NODFT,NODLT
              IKN  = I    + NUMNOD
@@ -217,7 +217,7 @@ C     3 TASKS
          ENDIF
 
 
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
 #include "vectorize.inc"
            DO 240 I=NODFT,NODLT
             IKN  = I   + NUMNOD
@@ -270,7 +270,7 @@ C
           ENDIF            
 C
 C         viscosite
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
 #include "vectorize.inc"
             DO I=NODFT,NODLT
              IKN  = I    + NUMNOD
@@ -319,7 +319,7 @@ C
  260      CONTINUE
           KM3 = NUM8
           KM4 = NUM8 + NUM8
-          IF (NTHPART .GT. 0) THEN
+          IF (NTHPART > 0) THEN
 #include "vectorize.inc"
             DO 270 I=GREFT,GRELT
              GRESAV(I) = GRESAV(I) + GRESAV(I+KM3) + GRESAV(I+KM4)
@@ -380,7 +380,7 @@ C     4 TASKS
            ENDDO
          ENDIF
 
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
 #include "vectorize.inc"
            DO 340 I=NODFT,NODLT
             IKN  = I    + NUMNOD
@@ -467,7 +467,7 @@ C
           ENDIF
 C
 C         viscosite
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
 #include "vectorize.inc"
             DO I=NODFT,NODLT
              IKN  = I    + NUMNOD
@@ -508,7 +508,7 @@ C
           KM3 = NUM8
           KM4 = KM3 + NUM8
           KM5 = KM4 + NUM8
-          IF (NTHPART .GT. 0) THEN
+          IF (NTHPART > 0) THEN
 #include "vectorize.inc"
             DO 370 I=GREFT,GRELT
              GRESAV(I) = GRESAV(I) + GRESAV(I+KM3) +
@@ -555,7 +555,7 @@ C     NTHREADS > 4
            ENDDO
          ENDIF
 
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
 #include "vectorize.inc"
            DO 935 I=NODFT,NODLT
             IKN = I+KN
@@ -609,7 +609,7 @@ C
              ENDDO
           ENDIF
 C         viscosite
-          IF(KDTINT.NE.0)THEN
+          IF(KDTINT/=0)THEN
 #include "vectorize.inc"
               DO I=NODFT,NODLT
                 IKN = I+KN
@@ -618,7 +618,7 @@ C         viscosite
               ENDDO
           ENDIF
 C         
-          IF(SOL2SPH_FLAG.NE.0)THEN
+          IF(SOL2SPH_FLAG/=0)THEN
 #include "vectorize.inc"
             DO I=NODFT,NODLT
               IKN = I+KN
@@ -634,7 +634,7 @@ C
            PARTSAV(I+KM) = ZERO
  940      CONTINUE
           KM3 = KM3 + NUM8
-          IF (NTHPART .GT. 0) THEN
+          IF (NTHPART > 0) THEN
 #include "vectorize.inc"
             DO 960 I=GREFT,GRELT
              GRESAV(I) = GRESAV(I) + GRESAV(I+KM3)

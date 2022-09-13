@@ -67,7 +67,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
          IF(OFFG(I) >= ZERO)CYCLE
            F11(I)=ZERO

@@ -182,7 +182,7 @@ C ---   Materiaux
      .                I1=PROP_ID,                                                             
      .                C1=IDTITL,                                                              
      .                I2=MAT_ID(1,I))                                                         
-        ELSEIF(IPM(2,MAT_ID(2,I)).NE.999) THEN                                                
+        ELSEIF(IPM(2,MAT_ID(2,I))/=999) THEN                                                
           CALL ANCMSG(MSGID=857,                                                              
      .                MSGTYPE=MSGERROR,                                                       
      .                ANMODE=ANINFO_BLIND_1,                                                  
@@ -201,7 +201,7 @@ C ---   Fonctions
             IF(NPC(NFUNCT+1+J) == F_IDTEMP(1,I)) F_IDTEMP(2,I)=J                              
           ENDDO                                                                               
         ENDIF                                                                                 
-        IF(F_IDMASS(1,I).NE.0.AND.F_IDMASS(2,I) == 0)THEN                                     
+        IF(F_IDMASS(1,I)/=0.AND.F_IDMASS(2,I) == 0)THEN                                     
           CALL ANCMSG(MSGID=708,                                                              
      .                MSGTYPE=MSGERROR,                                                       
      .                ANMODE=ANINFO_BLIND_1,                                                  
@@ -209,7 +209,7 @@ C ---   Fonctions
      .                 C1=IDTITL,                                                             
      .                 I2=F_IDMASS(1,I))                                                      
         ENDIF                                                                                 
-        IF(F_IDTEMP(1,I).NE.0.AND.F_IDTEMP(2,I) == 0)THEN                                     
+        IF(F_IDTEMP(1,I)/=0.AND.F_IDTEMP(2,I) == 0)THEN                                     
           CALL ANCMSG(MSGID=708,                                                              
      .                MSGTYPE=MSGERROR,                                                       
      .                ANMODE=ANINFO_BLIND_1,                                                  
@@ -227,17 +227,17 @@ C     Verification de la croissance des fonctions de masse
         IFUN_TMP=0
         IFUN_TMP_USR=0
         IF (IGEO(22) == 1) THEN
-          IF (F_IDMASS(2,I).NE.0) THEN
+          IF (F_IDMASS(2,I)/=0) THEN
             IFUN_TMP=F_IDMASS(2,I)
             IFUN_TMP_USR=F_IDMASS(1,I)
           END IF
         ELSE IF (IGEO(22) == 2) THEN
-          IF (F_IDMF(2,I).NE.0) THEN
+          IF (F_IDMF(2,I)/=0) THEN
             IFUN_TMP=F_IDMF(2,I)
             IFUN_TMP_USR=F_IDMF(1,I)
           END IF
         END IF
-        IF (IFUN_TMP.NE.0) THEN
+        IF (IFUN_TMP/=0) THEN
           IF ((NPC(IFUN_TMP+1)-NPC(IFUN_TMP)) >= 4) THEN
             IF (IFLOW == 0) THEN
               DO J = NPC(IFUN_TMP),NPC(IFUN_TMP+1)-3,2

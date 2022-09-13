@@ -184,7 +184,7 @@ C       using UVARN(MB5:MB5+NX-2) only.
         MB5=MB4+NX
 C-----------------------------------------------
 C       ELEMENT CHECK
-        IF(NX.LT.3)THEN
+        IF(NX<3)THEN
 C         WRITE(IOUT,*)
 C     . ' ** ERROR NSTRAND : LESS THAN 3 NODES, ELEMENT=',           
 C     .    IDS
@@ -208,7 +208,7 @@ C-------
         UVARN(MB3)=LPREV
 C
         MASS(1)  =HALF*RHO*LPREV
-        IF (LPREV.LE.EM15) THEN
+        IF (LPREV<=EM15) THEN
 C         WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL STRAND LENGH, ELEMENT=',
 C     .      IDS
@@ -219,7 +219,7 @@ C        GOTO 999
      .                  ANMODE=ANINFO,
      .                  I1=IDS)
         ENDIF
-        IF(MASS(1).LE.EM15)THEN
+        IF(MASS(1)<=EM15)THEN
 C         WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL NODAL MASS, ELEMENT=',
 C     .      IDS
@@ -235,7 +235,7 @@ C        GOTO 999
      .       SQRT((XEL(1,K+1)-XEL(1,K))*(XEL(1,K+1)-XEL(1,K))
      .           +(XEL(2,K+1)-XEL(2,K))*(XEL(2,K+1)-XEL(2,K))
      .           +(XEL(3,K+1)-XEL(3,K))*(XEL(3,K+1)-XEL(3,K)))
-          IF (LNEXT.LE.EM15) THEN
+          IF (LNEXT<=EM15) THEN
 C           WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL STRAND LENGTH, ELEMENT=',
 C     .      IDS
@@ -249,7 +249,7 @@ C           GOTO 999
           MASS(K)       = HALF*RHO*(LPREV+LNEXT)
           UVARN(MB3+K-1)=LNEXT
           UVAR(NB1)     =UVAR(NB1)+LNEXT
-          IF(MASS(K).LE.EM15)THEN
+          IF(MASS(K)<=EM15)THEN
 C           WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL NODAL MASS, ELEMENT=',
 C     .      IDS
@@ -263,7 +263,7 @@ C           GOTO 999
           LPREV=LNEXT
         ENDDO
         MASS(NX)  = HALF*RHO*LPREV
-        IF(MASS(NX).LE.EM15)THEN
+        IF(MASS(NX)<=EM15)THEN
 C         WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL NODAL MASS, ELEMENT=',
 C     .      IDS
@@ -283,13 +283,13 @@ C
         IFV=GET_U_PNU(2,IPROP,KFUNC)
         FFAC=GET_U_GEO(12,IPROP)
 C
-        IF (IFUNCT.EQ.0.AND.IFV.EQ.0) THEN
+        IF (IFUNCT==0.AND.IFV==0) THEN
 C------------------------------------------
 C        LINEAR ELASTIC
          L0  =UVAR(NB1)
          STIF=XK
          F   =ZERO
-        ELSEIF (IFUNCT.EQ.0.AND.IFV.NE.0) THEN
+        ELSEIF (IFUNCT==0.AND.IFV/=0) THEN
 C------------------------------------------
 C        G(Deps) only.
          L0  =UVAR(NB1)
@@ -307,14 +307,14 @@ C------------------------------------------
         DEPS=ZERO
         DGDX=ZERO
         G   =ONE
-        IF (IFV.NE.0) THEN
+        IF (IFV/=0) THEN
          G=GET_U_FUNC(IFV,DEPS,DGDX)
          STIF=STIF*G
         ENDIF
 C-------
 C        CHECK NSTRAND STIFNESS AND DAMPING.
-         IF(      STIF/UVAR(NB1).LE.EM15
-     .      .AND.(F*DGDX+XC)/UVAR(NB1).LE.EM15)THEN
+         IF(      STIF/UVAR(NB1)<=EM15
+     .      .AND.(F*DGDX+XC)/UVAR(NB1)<=EM15)THEN
 C          WRITE(IOUT,*)
 C     .' ** ERROR NSTRAND : NULL NODAL STIFFNESS & DAMPING, ELEMENT=',
 C     .     IDS
@@ -338,13 +338,13 @@ C         XKM  = STIF*(XN-1.)/L0
 C tous les brins ont la meme longueur correspond a :
 C         XCM  = (F*DGDX+XC)*(XN-1.)/L0
           XCM  = (F*DGDX+XC)/UVARN(MB3+K-1)
-          IF(XCM+XKM.LT.EM15)XM  =ONE
+          IF(XCM+XKM<EM15)XM  =ONE
           XKM= MAX(EM15,XKM)
 C           DTK=(SQRT(0.25*XCM*XCM+XM*XKM)-0.5*XCM)/MAX(EM15,XKM)
 C           DTC=0.5 * 2.*XM/MAX(EM15,XCM)
           DTK=(SQRT(XCM*XCM+XM*XKM)-XCM)/MAX(EM15,XKM)
           DTC=XM/MAX(EM15,XCM)
-          IF (DTK.EQ.ZERO) THEN
+          IF (DTK==ZERO) THEN
 C          XKM==0.
            DTK=DTC
           ELSE

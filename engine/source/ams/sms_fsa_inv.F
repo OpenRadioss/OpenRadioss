@@ -114,12 +114,12 @@ C     [M]:factorized sparse approximated inverse Lt D L
 C------------------------------------------
       NNZM  = NNZ_SMS
 C
-      IF (IMON.GT.0.AND.ITASK.EQ.0) CALL STARTIME(32,1)
+      IF (IMON>0.AND.ITASK==0) CALL STARTIME(32,1)
 C
       IF(ITASK==0)THEN
         ALLOCATE(IADM(NUMNOD+1),JADM(NUMNOD+1),KADM(NUMNOD),
      .           ISORTND(NUMNOD),INVND(NUMNOD),STAT=IERR)
-        IF (IERR.NE.0) THEN
+        IF (IERR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='FOR FSAI')
           CALL ARRET(2)
@@ -127,7 +127,7 @@ C
       ENDIF 
 C     ----- approx. (by each colonne of L_T) inverse ---------
 C     ----- utilise d'abord la place de [M] pour la matrice assemblee ---------
-      IF (NSPMD.EQ.1) THEN
+      IF (NSPMD==1) THEN
         NNDFT0=0
         NNDFT1=NUMNOD
 C----------------------
@@ -136,7 +136,7 @@ C---------------------
         DO NOD=NODFT,NODLT
           ISORTND(NOD)=NOD
         END DO
-      ELSEIF(ITASK.EQ.0)THEN
+      ELSEIF(ITASK==0)THEN
         CALL SPMD_NNDFT_SMS(
      1             FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
      2             FR_ELEM,NNDFT0,NNDFT1,ISORTND)
@@ -155,7 +155,7 @@ C-----
 C----------------------
       CALL MY_BARRIER
 C---------------------
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
 C 
         IF (NSPMD > 1) THEN
           CALL SPMD_NNZ_SMS(
@@ -165,7 +165,7 @@ C
 C 
         ALLOCATE(DIAG_M(NUMNOD),LT_M(NNZM),JDIM(NNZM),
      .           DIAG_INV(NUMNOD),STAT=IERR)
-        IF (IERR.NE.0) THEN
+        IF (IERR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='FOR FSAI')
           CALL ARRET(2)
@@ -214,10 +214,10 @@ C M <- termes des processeurs voisins
       END IF
 C----------------------
 C M compactage
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         ALLOCATE(LT_M2(NNZM),JDIM2(NNZM),
      .           STAT=IERR)
-        IF (IERR.NE.0) THEN
+        IF (IERR/=0) THEN
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='FOR FSAI')
           CALL ARRET(2)
@@ -300,7 +300,7 @@ C-------
         END IF
 C-------
         IF(ISPMD==0.AND.ITASK==0)THEN
-          IF(LMIN.LT.EM06)THEN
+          IF(LMIN<EM06)THEN
             WRITE(ISTDO,3001) IMIN,LMIN
             WRITE(IOUT,3001)  IMIN,LMIN
           ELSE
@@ -310,7 +310,7 @@ C-------
         END IF
       END IF
 C
-      IF (IMON.GT.0.AND.ITASK.EQ.0) CALL STOPTIME(32,1)
+      IF (IMON>0.AND.ITASK==0) CALL STOPTIME(32,1)
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -380,12 +380,12 @@ C--- M->A^-1 LT_M  stricly lower in m.c.r.s. format
       my_real, 
      .        DIMENSION(:),ALLOCATABLE :: DIAG_A, LT_A, MJ
 C-----------------------------
-       IF ((NNDFT0+1).GT.NUMNOD) RETURN
+       IF ((NNDFT0+1)>NUMNOD) RETURN
 C
        ALLOCATE(IADA(NUMNOD+1),DIAG_A(NUMNOD),MJ(NUMNOD),STAT=IER1)
        ALLOCATE(LT_A(NNZM),JDIA(NNZM),STAT=IERR)
  
-       IF ((IERR+IER1).NE.0) THEN
+       IF ((IERR+IER1)/=0) THEN
          CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .               C1='FOR FSAI')
          CALL ARRET(2)
@@ -410,7 +410,7 @@ C
         ENDDO
         MJ(NC)=ONE
 C
-        IF (NC.GT.10000) THEN
+        IF (NC>10000) THEN
           CALL SMS_PCG1(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
      2                  MJ    ,IERR  )
 C
@@ -482,7 +482,7 @@ C
        DO K=IADM(J),IADM(J+1)-1
         JJ=JDIM(K)
         N=INTAB0(NC,JM,JJ)
-        IF (N.GT.0) THEN
+        IF (N>0) THEN
          NNZA=NNZA+1
          JDIA(NNZA)=N
          LT_A(NNZA)=LT_M(K)
@@ -570,7 +570,7 @@ C------X(I)=ZERO--------
 
       CALL PRODUT_V0(NDDL,R,R,R02)
       R2 =R02
-      IF (R02.EQ.ZERO) GOTO 200
+      IF (R02==ZERO) GOTO 200
       TOLN=R02*TOLS2
 C-------pour etre coherent avec lanzos for linear
        IT=1
@@ -587,15 +587,15 @@ C-------pour etre coherent avec lanzos for linear
 C
        G0 = G1
 
-       IF (IT.GE.NLIM) THEN
+       IF (IT>=NLIM) THEN
          ISTOP = 0
-       ELSEIF (R2.LE.TOLN) THEN
+       ELSEIF (R2<=TOLN) THEN
          ISTOP = 0
        ELSE
          ISTOP = 1
        ENDIF
 
-       DO WHILE (ISTOP.EQ.1)
+       DO WHILE (ISTOP==1)
         DO I=1,NDDL
          P(I) = Z(I) + BETA*P(I)
         ENDDO 
@@ -616,9 +616,9 @@ C
         G0 = G1
         CALL PRODUT_V0(NDDL,R,R,R2)
 
-        IF (IT.GE.NLIM) THEN
+        IF (IT>=NLIM) THEN
           ISTOP = 0
-        ELSEIF (R2.LE.TOLN) THEN
+        ELSEIF (R2<=TOLN) THEN
           ISTOP = 0
         ELSE
           ISTOP = 1
@@ -627,7 +627,7 @@ C
         IT = IT +1
        ENDDO
  200   CONTINUE
-       IF(IT.GE.NLIM)THEN
+       IF(IT>=NLIM)THEN
         ISP =-1
        ELSE
         ISP = 0

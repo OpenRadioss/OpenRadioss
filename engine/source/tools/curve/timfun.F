@@ -52,7 +52,7 @@ C     REAL
       my_real
      .   TG
 C-----------------------------------------------
-      IF(NFUNCT.EQ.0) RETURN
+      IF(NFUNCT==0) RETURN
       DO 10 N=1,NFUNCT
       NPOINT=(NP(N+1)-NP(N))/2
       CALL INTERP(TF(NP(N)),TT,NPOINT,FV(N),TG)

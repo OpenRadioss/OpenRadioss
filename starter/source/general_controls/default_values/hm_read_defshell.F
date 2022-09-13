@@ -101,9 +101,9 @@ C----------------------------------------------
         ENDIF            
       ENDDO
 C          
-C     IF(ISTR_D.EQ.0)ISTR_D = 1
+C     IF(ISTR_D==0)ISTR_D = 1
       ISTR_D = 1
-      IF(NPTS_D.EQ.-1)NPTS_D=NPTS_DD
+      IF(NPTS_D==-1)NPTS_D=NPTS_DD
 C--------------------------------------------------------------
       RETURN
       END 

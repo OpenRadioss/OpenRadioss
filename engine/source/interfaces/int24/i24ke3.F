@@ -144,7 +144,7 @@ C
       NTY   =IPARI(7,NIN)
 C      IBC   =IPARI(11,NIN)
 C      IVIS2 =IPARI(14,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
 C      INACTI=IPARI(22,NIN)
@@ -168,8 +168,8 @@ C
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C  
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
@@ -195,8 +195,8 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-c      IF(IADM.NE.0)THEN
-c      END IF!(IADM.NE.0)
+c      IF(IADM/=0)THEN
+c      END IF!(IADM/=0)
 C----------------------------------------------------
 c------------------------------------------------
         I_STOK = INTBUF_TAB_IMP%I_STOK(1)
@@ -381,7 +381,7 @@ C-----------------------------------------------
      .   A0X,A0Y,A0Z,RX,RY,RZ,
      .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,TM,TS
 C-----------------------------------------------
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
            PREC = FIVEEM4
       ELSE
            PREC = EM10
@@ -389,8 +389,8 @@ C-----------------------------------------------
 C---------------------
 C     COURBURE FIXE
 C---------------------
-C      IF(ICURV(1).EQ.1)THEN
-C      ELSEIF(ICURV(1).EQ.2)THEN
+C      IF(ICURV(1)==1)THEN
+C      ELSEIF(ICURV(1)==2)THEN
 C      ELSEIF(ICURV(1) == 3)THEN
 C      ENDIF
       DO I=1,JLT
@@ -462,9 +462,9 @@ c       ENDDO
        END IF !(IGSTI==6) THEN
 C-----
 c      DO I=1,JLT
-c       IF(STIGLO.LE.ZERO)THEN
+c       IF(STIGLO<=ZERO)THEN
 c        STIF(I) = HALF*STIF(I) 
-c       ELSEIF(STIF(I).NE.ZERO)THEN
+c       ELSEIF(STIF(I)/=ZERO)THEN
 c        STIF(I) = STIGLO 
 c       ENDIF
 c      ENDDO
@@ -475,7 +475,7 @@ C    ----sans frottement d'abord---
         VTY = VY(I) -VN(I)*N2(I)
         VTZ = VZ(I) -VN(I)*N3(I)
         VT  = VTX*VTX+VTY*VTY+VTZ*VTZ
-        IF (VT.GT.EM20) THEN
+        IF (VT>EM20) THEN
          S2=ONE/SQRT(VT)
          Q(1,1,I)=VTX*S2
          Q(1,2,I)=VTY*S2
@@ -491,17 +491,17 @@ C    ----sans frottement d'abord---
          FACT(I)=ZERO
         ENDIF
       ENDDO
-      IF (SCALK.LT.0) THEN
+      IF (SCALK<0) THEN
        ISF=1
       ELSE
        ISF=0
       ENDIF
       FACF=ABS(SCALK)
-      IF (ISF.EQ.1) THEN
+      IF (ISF==1) THEN
        DO I=1,JLT
-        IF (VN(I).GT.ZERO) THEN
+        IF (VN(I)>ZERO) THEN
          FAC=STIF(I)/FACF
-        ELSEIF (VN(I).LT.ZERO) THEN
+        ELSEIF (VN(I)<ZERO) THEN
          FAC=STIF(I)*FACF
         ELSE
          FAC=STIF(I)
@@ -558,7 +558,7 @@ C    ----avec frottement ---
        DO J=1,3 
         DO K=J,3 
          DO I=1,JLT
-          IF (FACT(I).GT.ZERO) THEN
+          IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
            Q2 =Q(2,J,I)*Q(2,K,I)
            FAC=FACT(I)*(Q1+Q2)
@@ -602,9 +602,9 @@ C
 C
       IF (NSPMD > 1) THEN
 C
-       IF (INTP_D.GT.0) THEN
+       IF (INTP_D>0) THEN
         DO I=1,JLT
-         IF(NSVG(I).LT.0) THEN
+         IF(NSVG(I)<0) THEN
 	      NN=-NSVG(I)
 	      NS=IND_INT(NIN)%P(NN)
 C---------pour diag_ss---
@@ -620,7 +620,7 @@ C---------pour diag_ss---
 C---  general case----
         JLTF = 0
         DO I=1,JLT
-         IF(NSVG(I).LT.0) THEN
+         IF(NSVG(I)<0) THEN
           NN=-NSVG(I)
           JLTF = JLTF + 1
           NE=SHF_INT(NIN) + JLTF +LREM
@@ -643,7 +643,7 @@ C----pour temporairement diag_ss---
 	     ENDIF
         ENDDO
 C
-       END IF !IF (INTP_D.GT.0)
+       END IF !IF (INTP_D>0)
       END IF 
 C
        RETURN
@@ -703,9 +703,9 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (NSN == 0) RETURN
       DO I=1,JLT
-       IF(STIGLO.LE.ZERO)THEN
+       IF(STIGLO<=ZERO)THEN
         STIF(I) = HALF*STIF(I) 
-       ELSEIF(STIF(I).NE.ZERO)THEN
+       ELSEIF(STIF(I)/=ZERO)THEN
         STIF(I) = STIGLO 
        ENDIF
         FNI(I)= -STIF(I) * PENE(I)

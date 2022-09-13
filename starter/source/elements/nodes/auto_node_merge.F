@@ -77,7 +77,7 @@ C     Possibly Merge Nodes
       
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNUSR,1)
       
-      IF(NUMNUSR.GE.1)THEN
+      IF(NUMNUSR>=1)THEN
         ITABM1(1)         = ITAB(INDX(1))
         ITABM1(NUMNUSR+1) = INDX(1)
       ENDIF
@@ -86,7 +86,7 @@ C     Possibly Merge Nodes
       
         DO I = 2, NUMNUSR
           ITABM1(I) = ITAB(INDX(I))
-          IF(ITABM1(I).EQ.ITABM1(I-1))THEN
+          IF(ITABM1(I)==ITABM1(I-1))THEN
             CALL ANCMSG(MSGID=56,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -131,7 +131,7 @@ C     Possibly Merge Nodes
           ZMIN = X(3,INDX(IREF))       
           ZMAX = X(3,INDX(IREF))       
          
-          DO WHILE(I <= NUMNUSR .AND. ITABM1(I).EQ.ITABM1(IREF))
+          DO WHILE(I <= NUMNUSR .AND. ITABM1(I)==ITABM1(IREF))
 
             XMIN = MIN(XMIN,X(1,INDX(I)))       
             XMAX = MAX(XMAX,X(1,INDX(I)))       
@@ -188,14 +188,14 @@ C-----------------------------------------------
       
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNUSR+NUMCNOD,1)
       
-      IF(NUMNUSR+NUMCNOD.GE.1)THEN
+      IF(NUMNUSR+NUMCNOD>=1)THEN
         ITABM1(1)                 = ITAB(INDX(1))
         ITABM1(NUMNUSR+NUMCNOD+1) = INDX(1)
       ENDIF
       
       DO I = 2, NUMNUSR+NUMCNOD
         ITABM1(I) = ITAB(INDX(I))
-        IF(ITABM1(I).EQ.ITABM1(I-1))THEN
+        IF(ITABM1(I)==ITABM1(I-1))THEN
           IF((INDX(I-1) < NUMNUSR .AND. INDX(I) > NUMNUSR) .OR.
      .       (INDX(I-1) > NUMNUSR .AND. INDX(I) < NUMNUSR)) THEN
 C           A Node and a Cnode have the same ID

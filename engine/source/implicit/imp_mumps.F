@@ -86,7 +86,7 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: RTK
 C
-      IF (NDDLI.EQ.0) NNZI=0
+      IF (NDDLI==0) NNZI=0
 C Desallocations si necessaire
 
       CALL SPMD_MUMPS_DEAL(MUMPS_PAR)
@@ -94,7 +94,7 @@ C
       CALL SPMD_MUMPS_INI(MUMPS_PAR, 1)
 C
 
-      IF (NCYCLE.EQ.1.AND.INCONV.EQ.1) THEN
+      IF (NCYCLE==1.AND.INCONV==1) THEN
          MUMPS_PAR%ICNTL(3) = IOUT
       ELSE
          MUMPS_PAR%ICNTL(3) = -1    
@@ -120,15 +120,15 @@ C      MUMPS_PAR%ICNTL(22)=1
         MUMPS_PAR%ICNTL(22)=1
       ENDIF
 
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
 C LMEMV is the memory on the host (i.e. node)
 C        MUMPS_PAR%ICNTL(23)=LMEMV/NSPMD_PER_NODE
-         IF (IMUMPSD.EQ.1) THEN
+         IF (IMUMPSD==1) THEN
             MUMPS_PAR%ICNTL(18)=3
-         ELSEIF (IMUMPSD.EQ.2) THEN
+         ELSEIF (IMUMPSD==2) THEN
             MUMPS_PAR%ICNTL(18)=0
          ENDIF
-         IF (IDTC.EQ.3) MUMPS_PAR%ICNTL(13)=1
+         IF (IDTC==3) MUMPS_PAR%ICNTL(13)=1
 C
          NDDLG0 = NDDL0
          NNZKG0 = NNZK0
@@ -162,11 +162,11 @@ c    .         NDDLG, IMPRINT )
 C
          NKFLOC = 0
          NZLOC=NKLOC+NKFLOC	 
-         IF (IMUMPSD.EQ.1) THEN
+         IF (IMUMPSD==1) THEN
             ALLOCATE(MUMPS_PAR%A_LOC(NZLOC),
      .               MUMPS_PAR%IRN_LOC(NZLOC),
      .               MUMPS_PAR%JCN_LOC(NZLOC))
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
                ALLOCATE(MUMPS_PAR%RHS(NDDLG))
             ELSE
                ALLOCATE(MUMPS_PAR%RHS(0))
@@ -179,10 +179,10 @@ C
                MUMPS_PAR%JCN_LOC(I)=ITK(2,I)
                MUMPS_PAR%A_LOC(I)=RTK(I)
             ENDDO
-         ELSEIF (IMUMPSD.EQ.2) THEN
+         ELSEIF (IMUMPSD==2) THEN
             CALL SPMD_MUMPS_COUNT(NZLOC, NZP, NNZ)
 C
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
                ALLOCATE(MUMPS_PAR%A(NNZ),
      .                  MUMPS_PAR%IRN(NNZ),
      .                  MUMPS_PAR%JCN(NNZ),
@@ -243,7 +243,7 @@ C
             ENDDO
          ENDDO
 C
-         IF (IMPRINT.NE.0) THEN
+         IF (IMPRINT/=0) THEN
             WRITE(ISTDO,*)
             WRITE(ISTDO,'(A21,I10,A8,I10)')
      .' MUMPS    DIM : NNZ =',NNZK+NDDL,' NNZFR =',0
@@ -338,7 +338,7 @@ C TDDL: local DOF (at MPI domain level) to global node and direction (DX,DY,DZ,R
          DO J=1,NDOF(I)
             ND=IDDL(I)+J
             ID=ND-NKC
-            IF (IKC(ND).LT.1) THEN
+            IF (IKC(ND)<1) THEN
                TDDL(1,CDDLP(ID))=NODGLOB(I)
                TDDL(2,CDDLP(ID))=J
             ELSE
@@ -501,9 +501,9 @@ C-----------------------------------------------
       INTEGER I, NDDLG,LENT
 C
       IF (MUMPS_PAR%N<=0) RETURN
-      IF (IDSC.EQ.1) CALL SPMD_MUMPS_EXEC(MUMPS_PAR, 1)
+      IF (IDSC==1) CALL SPMD_MUMPS_EXEC(MUMPS_PAR, 1)
 C---------For licence
-      IF (IDSC.EQ.1) ISOLV_D = 1              
+      IF (IDSC==1) ISOLV_D = 1              
 C
       NDDLG=MUMPS_PAR%N
       CALL SPMD_MUMPS_RHS(F,     CDDLP, MUMPS_PAR%RHS, NDDL, 1,
@@ -513,7 +513,7 @@ C
 C
       CALL SPMD_MUMPS_RHS(X,     CDDLP, MUMPS_PAR%RHS, NDDL, 2,
      .                    NDDLG)
-C----FLAG for MUMPS: IF (IMPL_S.GT.0.AND.ISOLV.EQ.3.AND.IMACH.EQ.3)	
+C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3.AND.IMACH==3)	
 	LENT = 1024*MUMPS_PAR%INFO(16)                   
         MUMPSFILESIZE = MAX(MUMPSFILESIZE,LENT)       
 C
@@ -582,12 +582,12 @@ C
          DO J=1,NDOF(I)
             ND=IDDL(I)+J
             ID=ND-NKC
-            IF (IKC(ND).GE.1) NKC=NKC+1
+            IF (IKC(ND)>=1) NKC=NKC+1
          ENDDO
       ENDDO
 C
       DO I=1,NSPMD
-C        IF (I.EQ.ISPMD+1) CYCLE
+C        IF (I==ISPMD+1) CYCLE
 C
          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             INOD=FR_ELEM(J)
@@ -595,7 +595,7 @@ C
             DO K=1,NDOF(INOD)
                ND=IDDL(INOD)+K
                ID=ND-NKC
-               IF (IKC(ND).LT.1) THEN
+               IF (IKC(ND)<1) THEN
                   IDDL_FRONT(1,ID)=IDDL_FRONT(1,ID)+1
                   NN=IDDL_FRONT(1,ID)
                   IDDL_FRONT(NN+1,ID)=I
@@ -609,11 +609,11 @@ C
       NKLOC=0
       NKFRONT=0
       DO I=1,NDDL
-         IF (IACTI(I).EQ.0) CYCLE
+         IF (IACTI(I)==0) CYCLE
          II=IACTI(I)
          IADL(II)=NKLOC+1
          IADLFRONT(II)=NKFRONT+1
-         IF (IDDL_FRONT(1,II).EQ.1) THEN
+         IF (IDDL_FRONT(1,II)==1) THEN
             NKLOC=NKLOC+1
             IDIAG(II)=NKLOC
             ITK(1,NKLOC)=CDDLP(II)
@@ -630,8 +630,8 @@ C
          DO J=IADK(I),IADK(I+1)-1
             ILOC=1
             JJ=IACTI(JDIK(J))
-            IF (JJ.EQ.0) CYCLE
-            IF (IDDL_FRONT(1,II).EQ.1.OR.IDDL_FRONT(1,JJ).EQ.1) THEN
+            IF (JJ==0) CYCLE
+            IF (IDDL_FRONT(1,II)==1.OR.IDDL_FRONT(1,JJ)==1) THEN
                ILOC=0
             ELSE
                DO K=1,NSPMD
@@ -650,15 +650,15 @@ C
                DO K=1,NSPMD
                   INDEX=INDEX+ITAG(1,K)*ITAG(2,K)
                ENDDO
-               IF (INDEX.EQ.1) ILOC=0
+               IF (INDEX==1) ILOC=0
             ENDIF
 C
-            IF (ILOC.EQ.0) THEN
+            IF (ILOC==0) THEN
                NKLOC=NKLOC+1
                ITK(1,NKLOC)=CDDLP(II)
                ITK(2,NKLOC)=CDDLP(JJ)
                RTK(NKLOC)=LT_K(J)
-            ELSEIF (ILOC.EQ.1) THEN
+            ELSEIF (ILOC==1) THEN
                NKFRONT=NKFRONT+1
                ITKFRONT(1,NKFRONT)=CDDLP(II)
                ITKFRONT(2,NKFRONT)=CDDLP(JJ)
@@ -666,13 +666,13 @@ C
             ENDIF
          ENDDO
       ENDDO
-      IF (NDDLI.GT.0) THEN
+      IF (NDDLI>0) THEN
 C Matrice de rigidite d'interface
          DO N=1,NDDLI
             I=ITOK(N)
-            IF (IACTI(I).EQ.0) CYCLE
+            IF (IACTI(I)==0) CYCLE
             II=IACTI(I)
-            IF (IDDL_FRONT(1,II).EQ.1) THEN
+            IF (IDDL_FRONT(1,II)==1) THEN
                J=IDIAG(II)
                RTK(J)=RTK(J)+DIAG_I(N)
             ELSE
@@ -684,8 +684,8 @@ C
                ILOC=1
                JJ=ITOK(JDII(J))
                JJ=IACTI(JJ)
-               IF (JJ.EQ.0) CYCLE
-               IF (IDDL_FRONT(1,II).EQ.1.OR.IDDL_FRONT(1,JJ).EQ.1) THEN
+               IF (JJ==0) CYCLE
+               IF (IDDL_FRONT(1,II)==1.OR.IDDL_FRONT(1,JJ)==1) THEN
                   ILOC=0
                ELSE
                   DO K=1,NSPMD
@@ -704,18 +704,18 @@ C
                   DO K=1,NSPMD
                      INDEX=INDEX+ITAG(1,K)*ITAG(2,K)
                   ENDDO
-                  IF (INDEX.EQ.1) ILOC=0
+                  IF (INDEX==1) ILOC=0
                ENDIF
 C
-               IF (ILOC.EQ.0) THEN
+               IF (ILOC==0) THEN
                   IFOUND=0
                   K=IADL(II)
-                  DO WHILE (IFOUND.EQ.0.AND.K.LE.IADL(II+1)-1)
-                     IF (CDDLP(II).EQ.ITK(1,K)
-     .              .AND.CDDLP(JJ).EQ.ITK(2,K)) IFOUND=K
+                  DO WHILE (IFOUND==0.AND.K<=IADL(II+1)-1)
+                     IF (CDDLP(II)==ITK(1,K)
+     .              .AND.CDDLP(JJ)==ITK(2,K)) IFOUND=K
                      K=K+1
                   ENDDO
-                  IF (IFOUND.NE.0) THEN
+                  IF (IFOUND/=0) THEN
                      RTK(IFOUND)=RTK(IFOUND)+LT_I(J)
                   ELSE
                      NKLOC=NKLOC+1
@@ -723,15 +723,15 @@ C
                      ITK(2,NKLOC)=CDDLP(JJ)
                      RTK(NKLOC)=LT_I(J)
                   ENDIF
-               ELSEIF (ILOC.EQ.1) THEN
+               ELSEIF (ILOC==1) THEN
                   IFOUND=0
                   K=IADLFRONT(II)
-                  DO WHILE (IFOUND.EQ.0.AND.K.LE.IADLFRONT(II+1)-1)
-                     IF (CDDLP(II).EQ.ITKFRONT(1,K)
-     .              .AND.CDDLP(JJ).EQ.ITKFRONT(2,K)) IFOUND=K
+                  DO WHILE (IFOUND==0.AND.K<=IADLFRONT(II+1)-1)
+                     IF (CDDLP(II)==ITKFRONT(1,K)
+     .              .AND.CDDLP(JJ)==ITKFRONT(2,K)) IFOUND=K
                      K=K+1
                   ENDDO
-                  IF (IFOUND.NE.0) THEN
+                  IF (IFOUND/=0) THEN
                      RTKFRONT(IFOUND)=RTKFRONT(IFOUND)+LT_I(J)
                   ELSE
                      NKFRONT=NKFRONT+1
@@ -749,7 +749,7 @@ C Complement de la matrice de rigidite d'interface pour secnds remote
          DO J=IAD_SS(I),IAD_SS(I+1)-1
                ILOC=1
             JJ=JDI_SL(J)
-               IF (IDDL_FRONT(1,II).EQ.1.OR.IDDL_FRONT(1,JJ).EQ.1) THEN
+               IF (IDDL_FRONT(1,II)==1.OR.IDDL_FRONT(1,JJ)==1) THEN
                   ILOC=0
                ELSE
                   DO K=1,NSPMD
@@ -768,14 +768,14 @@ C Complement de la matrice de rigidite d'interface pour secnds remote
                   DO K=1,NSPMD
                      INDEX=INDEX+ITAG(1,K)*ITAG(2,K)
                   ENDDO
-                  IF (INDEX.EQ.1) ILOC=0
+                  IF (INDEX==1) ILOC=0
                ENDIF
-            IF (ILOC.EQ.0) THEN
+            IF (ILOC==0) THEN
                NKLOC=NKLOC+1
                ITK(1,NKLOC)=CDDLP(II)
                ITK(2,NKLOC)=CDDLP(JJ)
                RTK(NKLOC)=LT_SL(J)
-            ELSEIF (ILOC.EQ.1) THEN
+            ELSEIF (ILOC==1) THEN
                NKFRONT=NKFRONT+1
                ITKFRONT(1,NKFRONT)=CDDLP(II)
                ITKFRONT(2,NKFRONT)=CDDLP(JJ)
@@ -786,16 +786,16 @@ C Complement de la matrice de rigidite d'interface pour secnds remote
 C----- il manque DIAG_SL--------
       DO N=1,NDDL_SL
        I=IDDL_SL(N)
-       IF (IACTI(I).EQ.0) CYCLE
+       IF (IACTI(I)==0) CYCLE
        II=IACTI(I)
        J=IDIAG(II)
-       IF (IDDL_FRONT(1,II).EQ.1) THEN
+       IF (IDDL_FRONT(1,II)==1) THEN
          RTK(J)=RTK(J)+DIAG_SL(N)
        ELSE
          RTKFRONT(J)=RTKFRONT(J)+DIAG_SL(N)
         ENDIF
       ENDDO
-      IF ((NDDL_SI+NDDL_SL).GT.0) THEN
+      IF ((NDDL_SI+NDDL_SL)>0) THEN
        CALL SPMD_IFRI(CDDLP, CDDLP_REM)
        DO I=1,NDDL
          IADL(I) = IDDL_FRONT(1,I)
@@ -805,7 +805,7 @@ C----- il manque DIAG_SL--------
       DO I=1,NDDL_SI
          DO J=IAD_SI(I),IAD_SI(I+1)-1
            JJ=JDI_SI(J)
-           IF (IDDL_FRONT(1,JJ).EQ.1.OR.IDDL_REM(I).EQ.1) THEN
+           IF (IDDL_FRONT(1,JJ)==1.OR.IDDL_REM(I)==1) THEN
             NKLOC=NKLOC+1
             ITK(1,NKLOC)=CDDLP_REM(I)
             ITK(2,NKLOC)=CDDLP(JJ)
@@ -882,13 +882,13 @@ C-----------------------------------------------
          DO J=1,NDOF(I)
             ND=IDDL(I)+J
             ID=ND-NKC
-            IF (IKC(ND).GE.1) NKC=NKC+1
+            IF (IKC(ND)>=1) NKC=NKC+1
          ENDDO
       ENDDO
 
       NKLOC=0
       DO I=1,NDDL
-         IF (IACTI(I).EQ.0) CYCLE
+         IF (IACTI(I)==0) CYCLE
          II=IACTI(I)
          IADL(II)=NKLOC+1
          NKLOC=NKLOC+1
@@ -899,7 +899,7 @@ C-----------------------------------------------
          DO J=IADK(I),IADK(I+1)-1
             ILOC=1
             JJ=IACTI(JDIK(J))
-            IF (JJ.EQ.0) CYCLE
+            IF (JJ==0) CYCLE
             NKLOC=NKLOC+1
             ITK(1,NKLOC)=CDDLP(II)
             ITK(2,NKLOC)=CDDLP(JJ)
@@ -907,11 +907,11 @@ C-----------------------------------------------
          ENDDO
       ENDDO
       IADL(NDDL+1) = NKLOC+1
-      IF (NDDLI.GT.0) THEN
+      IF (NDDLI>0) THEN
 C Matrice de rigidite d'interface
          DO N=1,NDDLI
             I=ITOK(N)
-            IF (IACTI(I).EQ.0) CYCLE
+            IF (IACTI(I)==0) CYCLE
             II=IACTI(I)
             J=IDIAG(II)
             RTK(J)=RTK(J)+DIAG_I(N)
@@ -919,15 +919,15 @@ C Matrice de rigidite d'interface
                ILOC=1
                JJ=ITOK(JDII(J))
                JJ=IACTI(JJ)
-               IF (JJ.EQ.0) CYCLE
+               IF (JJ==0) CYCLE
                IFOUND=0
                K=IADL(II)
-               DO WHILE (IFOUND.EQ.0.AND.K.LE.IADL(II+1)-1)
-                  IF (CDDLP(II).EQ.ITK(1,K)
-     .           .AND.CDDLP(JJ).EQ.ITK(2,K)) IFOUND=K
+               DO WHILE (IFOUND==0.AND.K<=IADL(II+1)-1)
+                  IF (CDDLP(II)==ITK(1,K)
+     .           .AND.CDDLP(JJ)==ITK(2,K)) IFOUND=K
                   K=K+1
                ENDDO
-               IF (IFOUND.NE.0) THEN
+               IF (IFOUND/=0) THEN
                   RTK(IFOUND)=RTK(IFOUND)+LT_I(J)
                ELSE
                   NKLOC=NKLOC+1
@@ -953,12 +953,12 @@ C Complement de la matrice de rigidite d'interface pour secnds remote
 C----- il manque DIAG_SL--------
       DO N=1,NDDL_SL
        I=IDDL_SL(N)
-       IF (IACTI(I).EQ.0) CYCLE
+       IF (IACTI(I)==0) CYCLE
        II=IACTI(I)
        J=IDIAG(II)
        RTK(J)=RTK(J)+DIAG_SL(N)
       ENDDO
-      IF ((NDDL_SI+NDDL_SL).GT.0) THEN
+      IF ((NDDL_SI+NDDL_SL)>0) THEN
        CALL SPMD_IFRI(CDDLP, CDDLP_REM)
       ENDIF 
       DO I=1,NDDL_SI

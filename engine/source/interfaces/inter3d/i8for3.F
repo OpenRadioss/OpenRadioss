@@ -232,7 +232,7 @@ c (vitesse SECONDARY = 0)
           VZ(I) =  V(3,IX1(I))*H1(I) + V(3,IX2(I))*H2(I)
      .         + V(3,IX3(I))*H3(I) + V(3,IX4(I))*H4(I)  
           VV(I) = VX(I)*NX + VY(I)*NY + VZ(I)*NZ
-          IF(VV(I).LT.ZERO)THEN
+          IF(VV(I)<ZERO)THEN
             NX=-NX
             NY=-NY
             NZ=-NZ
@@ -255,7 +255,7 @@ C
           NX2 = MAX(EM20,N1(I)*N1(I)+N2(I)*N2(I)+N3(I)*N3(I))
           LI2(I)=NX2
           FNI(I)= VV(I)*SQRT(CC2/NX2)*ABS(XFACE(I))
-          IF(FNI(I).GT.FMAX)THEN
+          IF(FNI(I)>FMAX)THEN
             FNI(I)= FMAX
           ENDIF
 C  
@@ -297,7 +297,7 @@ c (vitesse SECONDARY = 0)
      .        + V(3,IX3(I))*H3(I) + V(3,IX4(I))*H4(I)  
 C
         VV(I) = VX(I)*NX + VY(I)*NY + VZ(I)*NZ
-        IF(VV(I).LT.ZERO)THEN
+        IF(VV(I)<ZERO)THEN
           NX=-NX
           NY=-NY
           NZ=-NZ
@@ -310,7 +310,7 @@ C
         ENDIF
       ENDDO
 C
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
@@ -496,7 +496,7 @@ C
 
  160  CONTINUE
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
         DO 180 I=LFT,LLT
         J3=3*IX1(I)
         J2=J3-1
@@ -548,7 +548,7 @@ C
          NISKY = NISKY + 5 * LLT
 #include "lockoff.inc"
 C
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          DO 190 I=LFT,LLT
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX1(I)
@@ -636,9 +636,9 @@ C
 #include "lockoff.inc"
       END IF
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
@@ -660,9 +660,9 @@ C
            ENDDO
 #include "lockoff.inc"
         ENDIF
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FNCONT(1,IX1(I)) =FNCONT(1,IX1(I)) + FNX1(I)
@@ -702,9 +702,9 @@ C
 #include "lockoff.inc"
       ENDIF
 C
-      IF(IBC.EQ.0) RETURN
+      IF(IBC==0) RETURN
        DO 200 I=LFT,LLT
-       IF(IBC.EQ.0.OR.XFACE(I).EQ.ZERO)GOTO 200
+       IF(IBC==0.OR.XFACE(I)==ZERO)GOTO 200
        IL=I+NFT
        IG=NSV(IL)
        CALL IBCOFF(IBC,ICODT(IG))

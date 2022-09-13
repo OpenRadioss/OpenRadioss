@@ -78,22 +78,22 @@ C
      S    RRBUF         ,SIZE  ,REAL,
      R    RBUF          ,SIZE  ,REAL,IT_SPMD(1),
      G    MPI_COMM_WORLD,IERROR)
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         DO N=1,NINTSTAMP
          DO I = 2, NSPMD
-          IF(RBUF(1,N,I).LT.RBUF(1,N,1))THEN
+          IF(RBUF(1,N,I)<RBUF(1,N,1))THEN
             RBUF(1,N,1) = RBUF(1,N,I)
           END IF
-          IF(RBUF(2,N,I).GT.RBUF(2,N,1))THEN
+          IF(RBUF(2,N,I)>RBUF(2,N,1))THEN
             RBUF(2,N,1) = RBUF(2,N,I)
           END IF
-          IF(RBUF(3,N,I).GT.RBUF(3,N,1))THEN
+          IF(RBUF(3,N,I)>RBUF(3,N,1))THEN
             RBUF(3,N,1) = RBUF(3,N,I)
           END IF
-          IF(RBUF(4,N,I).GT.RBUF(4,N,1))THEN
+          IF(RBUF(4,N,I)>RBUF(4,N,1))THEN
             RBUF(4,N,1) = RBUF(4,N,I)
           END IF
-          IF(RBUF(5,N,I).LT.RBUF(5,N,1))THEN
+          IF(RBUF(5,N,I)<RBUF(5,N,1))THEN
             RBUF(5,N,1) = RBUF(5,N,I)
           END IF
          END DO

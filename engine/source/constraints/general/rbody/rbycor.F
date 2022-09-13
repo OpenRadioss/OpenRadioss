@@ -72,9 +72,9 @@ C-------------------------------------
       DO KK=1,NRBYKIN_L
         N=IRBKIN_L(KK)
         K  = KIND(N)
-        IF(NPBY(7,N).GT.0.AND.NPBY(4,N).NE.0)THEN
+        IF(NPBY(7,N)>0.AND.NPBY(4,N)/=0)THEN
           J = NINTER+NRWALL+N
-          IF( IDYNA.GT.0 ) THEN
+          IF( IDYNA>0 ) THEN
             CALL RGBCOR(
      1        DY_V,DY_VR,X,RBY(1,N),LPBY(K),
      2        NPBY(1,N),SKEW,ISKEW,FSAV(1,J),ITAB,
@@ -110,9 +110,9 @@ C
       DO KK=1,NRBYKIN_L
         N = IRBKIN_L(KK)
         K  = KIND(N)
-        IF( NPBY(7,N).GT.0.AND.NPBY(4,N).EQ.0)THEN
+        IF( NPBY(7,N)>0.AND.NPBY(4,N)==0)THEN
           J = NINTER+NRWALL+N
-          IF( IDYNA.GT.0 ) THEN
+          IF( IDYNA>0 ) THEN
             CALL RGBCOR(
      1        DY_V,DY_VR,X,RBY(1,N),LPBY(K),
      2        NPBY(1,N),SKEW,ISKEW,FSAV(1,J),ITAB,

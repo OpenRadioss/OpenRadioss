@@ -132,13 +132,13 @@ C-----
       DATA IT/0/
 C-----------------------------------------------
       IPRI=1
-      IF(T1S.EQ.TT)IPRI=MOD(NCYCLE,IABS(NCPRI))
+      IF(T1S==TT)IPRI=MOD(NCYCLE,IABS(NCPRI))
       INFO=MDESS-MANIM
       ITHIS=0
-      IF(TT.LT.THIS)ITHIS=1
-      IF(IPRI.NE.0.AND.ITHIS.NE.0.AND.
-     .   INFO.LE.0.AND.ISTAT.EQ.0
-     .   .AND.NTH.EQ.0.AND.NANIM.EQ.0) RETURN
+      IF(TT<THIS)ITHIS=1
+      IF(IPRI/=0.AND.ITHIS/=0.AND.
+     .   INFO<=0.AND.ISTAT==0
+     .   .AND.NTH==0.AND.NANIM==0) RETURN
 C
       IF(IPARIT/=0)THEN
         IF(DEBUG(9)==0)THEN
@@ -353,7 +353,7 @@ C----
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2.GT.0.OR.R2SIZE.GT.0) THEN      
+      IF (NRBE2>0.OR.R2SIZE>0) THEN      
 C
         CALL MY_BARRIER
 C
@@ -376,7 +376,7 @@ C
 C-----------------------------------
 C RBE3
 C-----------------------------------
-      IF (NRBE3.GT.0)THEN
+      IF (NRBE3>0)THEN
         IF(ITASK==0)THEN
           CALL SMS_RBE3T1(
      1      IRBE3 ,LRBE3  ,X        ,XMOM_SMS,FRBE3    ,

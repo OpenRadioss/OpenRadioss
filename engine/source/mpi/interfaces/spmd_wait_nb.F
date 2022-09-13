@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
 Chd|-- called by -----------
@@ -92,8 +92,8 @@ C-----------------------------------------------
         LOC_PROC = ISPMD + 1
         SORT_COMM(NIN)%NBIRECV = 0
         SORT_COMM(NIN)%NSNR = 0
-        IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN !CYCLE
-        IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN   !   local nsn >0
+        IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN !CYCLE
+        IF(ISENDTO(NIN,LOC_PROC)/=0) THEN   !   local nsn >0
             DO L=1,SORT_COMM(NIN)%NBSEND_NB
                 CALL MPI_WAITANY(SORT_COMM(NIN)%NBSEND_NB,
      .                           SORT_COMM(NIN)%REQUEST_NB_S,P_LOC,STATUS,IERROR)
@@ -103,7 +103,7 @@ C-----------------------------------------------
 
         ! ----------------------------
         ! wait the R comm & compute the global number of remote secondary nodes sum( NB(p), p=1:number_of_proc)
-        IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN  !   local nmn>0
+        IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
             IJK = 0
             DO L=1,SORT_COMM(NIN)%NBRECV_NB
                 CALL MPI_WAITANY(SORT_COMM(NIN)%NBRECV_NB,
@@ -113,13 +113,13 @@ C-----------------------------------------------
             L = 0
             SORT_COMM(NIN)%NSNR = 0
             DO P = 1, NSPMD
-                IF(ISENDTO(NIN,P).NE.0) THEN  !   nsn>0
+                IF(ISENDTO(NIN,P)/=0) THEN  !   nsn>0
                     IF(.NOT.ALLOCATED(SORT_COMM(NIN)%ISINDEXI)) THEN
                         ALLOCATE(SORT_COMM(NIN)%ISINDEXI(SORT_COMM(NIN)%PROC_NUMBER) )
                     ENDIF
 
-                    IF(LOC_PROC.NE.P) THEN
-                        IF(NSNFI(NIN)%P(P).GT.0) THEN
+                    IF(LOC_PROC/=P) THEN
+                        IF(NSNFI(NIN)%P(P)>0) THEN
                             L=L+1
                             SORT_COMM(NIN)%ISINDEXI(L)=P
                             SORT_COMM(NIN)%NSNR = SORT_COMM(NIN)%NSNR + NSNFI(NIN)%P(P)

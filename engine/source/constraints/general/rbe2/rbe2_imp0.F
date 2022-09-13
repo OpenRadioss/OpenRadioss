@@ -71,7 +71,7 @@ C-----------------------------------------------
             NSJ  =IRBE2(8,N)
             IRAD =IRBE2(11,N)
         IC =JT(1,N)+JT(2,N)+JT(3,N)+JR(1,N)+JR(2,N)+JR(3,N)
-       IF (ISK.GT.1.AND.IC.LT.6) THEN
+       IF (ISK>1.AND.IC<6) THEN
          CALL RBE2_IMPL(M     ,NSN   ,LRBE2(IAD+1) ,X   ,NSRB2(IAD+1),
      2                  ISB2(IADJ),JT(1,N)  ,JR(1,N),IKC   ,NDOF  ,
      3                  IDDL  ,IADK   ,JDIK  ,DIAG_K,LT_K  ,B     ,
@@ -143,8 +143,8 @@ C----------debug: only for the lowest hierarchy
         ENDDO
        END IF
          IC =JT(1,N)+JT(2,N)+JT(3,N)
-       IF (NDOF(M).GT.0) THEN
-        IF (ISK.GT.1.AND.IC.NE.3) THEN
+       IF (NDOF(M)>0) THEN
+        IF (ISK>1.AND.IC/=3) THEN
             CALL RBE2_IMPL(M     ,NSN   ,LRBE2(IAD+1) ,X ,NSB2(IAD+1),
      2                     ISB2(IADJ),JT(1,N)  ,JR(1,N),IKC   ,NDOF  ,
      3                     IDDL  ,IADK   ,JDIK  ,DIAG_K,LT_K  ,B     ,
@@ -219,7 +219,7 @@ C------------------------------------
 C--------boucle secnd nodes--
        NTDOF=JT(1)+JT(2)+JT(3)+JR(1)+JR(2)+JR(3)
 C-----cas exception: e.g.:contact-----
-       IF ((JT(1)+JT(2)+JT(3)).EQ.3.AND.JR(1).LT.0) THEN
+       IF ((JT(1)+JT(2)+JT(3))==3.AND.JR(1)<0) THEN
         NTDOF=6
         JR(1)=0
        ENDIF
@@ -227,7 +227,7 @@ C-----cas exception: e.g.:contact-----
        DO I=1,NSN
 C--------block diagonal Kmm--
         N = ISL(I)
-        IF (NDOF(N).GT.0) THEN
+        IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -248,9 +248,9 @@ C--------block diagonal Kmm--
           BD(K)=B(ID)*JR(K-3)
          ENDDO
          CALL GET_KII(N ,IDDL ,IADK,DIAG_K,LT_K ,KDD,NDOF(N))
-         IF (IRAD.EQ.0) CALL UPDK_BC(JT,JR,KDD ,ISTIF)
+         IF (IRAD==0) CALL UPDK_BC(JT,JR,KDD ,ISTIF)
          CALL UPDKB_RB(NDOF(N),XS,YS,ZS,KDD,BD)
-         IF (IRAD.GT.0)CALL UPDK_BC(JT,JR,KDD ,ISTIF)
+         IF (IRAD>0)CALL UPDK_BC(JT,JR,KDD ,ISTIF)
 C-------Update K,B---
          CALL PUT_KII(M ,IDDL ,IADK,DIAG_K,LT_K ,KDD,ND)
          DO K=1,ND
@@ -269,21 +269,21 @@ C          NDM = MAX(NDM,NIDOF)
            ENDDO
           ENDDO
           CALL GET_KIJ(NI,N,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,NDOF(N),IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(N) ,IP )
-          IF (IRAD.EQ.0) CALL UPDK_BC2(JT,JR,KDD,ISTIF)
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(N) ,IP )
+          IF (IRAD==0) CALL UPDK_BC2(JT,JR,KDD,ISTIF)
 C-------  Update ---
            CALL UPDKB_RB1(NIDOF,NDOF(N),XS,YS,ZS,KDD)
-           IF (IRAD.GT.0) CALL UPDK_BC2(JT,JR,KDD ,ISTIF)
-           IF (NI.EQ.M) THEN
+           IF (IRAD>0) CALL UPDK_BC2(JT,JR,KDD ,ISTIF)
+           IF (NI==M) THEN
             CALL SYM_KDD(6,KDD)
             CALL PUT_KII(M ,IDDL ,IADK,DIAG_K,LT_K ,KDD,ND)
            ELSE
             CALL PUT_KIJ(NI,M,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,ND,IR)
-            IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(M) ,IP )
+            IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(M) ,IP )
            ENDIF
          ENDDO
          J1=J1+NSJ(I)
-             IF (NTDOF.LT.6) THEN
+             IF (NTDOF<6) THEN
            DO K=1,6
             DO J=K,6
              KDD(K,J)=ZERO
@@ -295,11 +295,11 @@ C-------  Update ---
              KDD(J,K)=KDD(K,J)
             ENDDO
            ENDDO
-           IF (IRAD.EQ.0) CALL UPDK_BC2(JT,JR,KDD ,ISTIF)
+           IF (IRAD==0) CALL UPDK_BC2(JT,JR,KDD ,ISTIF)
            CALL UPDKB_RB1(NDOF(N),NDOF(N),XS,YS,ZS,KDD)
-           IF (IRAD.GT.0) CALL UPDK_BC2(JT,JR,KDD ,ISTIF)
+           IF (IRAD>0) CALL UPDK_BC2(JT,JR,KDD ,ISTIF)
            CALL PUT_KIJ(N,M,IDDL,IADK,JDIK,LT_K,KDD,NDOF(N),ND,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(N) ,ITAB(M) ,IP )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(N) ,ITAB(M) ,IP )
              ENDIF
         ENDIF
 C-------fin -boucle secnd nodes--
@@ -371,7 +371,7 @@ C--------boucle secnd nodes--
        DO I=1,NSN
 C--------block diagonal Kmm--
         N = ISL(I)
-        IF (NDOF(N).GT.0) THEN
+        IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -382,12 +382,12 @@ C--------block diagonal Kmm--
          ENDDO
          DO K=1,MIN(3,NDOF(N))
           ID = IDDL(N)+K
-          IF (NT.EQ.3)IKC(ID)=16*JT(K)
+          IF (NT==3)IKC(ID)=16*JT(K)
          ENDDO
          DO K=MIN(3,NDOF(N))+1,NDOF(N)
           ID = IDDL(N)+K
 c          IKC(ID)=16*JR(K-3)
-          IF (NR.EQ.3) IKC(ID)=16*JR(K-3)
+          IF (NR==3) IKC(ID)=16*JR(K-3)
          ENDDO
          CALL CDI_SKEW(XS,YS,ZS,JT,JR,SKEW,CDT,CDR,CDTR,JT1,JR1,IRAD)
          CALL GET_KII(N ,IDDL ,IADK,DIAG_K,LT_K ,KDD,NDOF(N))
@@ -411,20 +411,20 @@ C          NDM = MAX(NDM,NIDOF)
            ENDDO
           ENDDO
           CALL GET_KIJ(NI,N,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,NDOF(N),IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(N) ,IP )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(N) ,IP )
 c          CALL UPDK_BC2(JT1,JR1,KDD ,ISTIF)
 C-------  Update ---
            CALL UPDK2_CDI(NIDOF,NDOF(N),CDT,CDR,CDTR,KDD)
-           IF (NI.EQ.M) THEN
+           IF (NI==M) THEN
             CALL SYM_KDD(6,KDD)
             CALL PUT_KII(M ,IDDL ,IADK,DIAG_K,LT_K ,KDD,ND)
            ELSE
             CALL PUT_KIJ(NI,M,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,ND,IR)
-            IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(M) ,IP )
+            IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(M) ,IP )
            ENDIF
          ENDDO
          J1=J1+NSJ(I)
-C        IF ((NT+NR).LT.6) THEN
+C        IF ((NT+NR)<6) THEN
            DO K=1,6
             DO J=K,6
              KDD(K,J)=ZERO
@@ -438,15 +438,15 @@ C        IF ((NT+NR).LT.6) THEN
            ENDDO
            CALL UPDK2_CDI(NDOF(N),NDOF(N),CDT,CDR,CDTR,KDD)
            CALL PUT_KIJ(N,M,IDDL,IADK,JDIK,LT_K,KDD,NDOF(N),ND,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(N) ,ITAB(M) ,IP )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(N) ,ITAB(M) ,IP )
 C        ENDIF
-          IF (NT.GT.0.AND.NT.LT.3) THEN
+          IF (NT>0.AND.NT<3) THEN
             IC = JT(1)*100+JT(2)*10+JT(3)
             IR =0
             CALL RBE2_BCL(IC   ,SKEW  ,IDDL  ,IKC   ,IADK ,
      1                    JDIK ,DIAG_K,LT_K  ,N     ,IR    )
           ENDIF
-          IF (NR.GT.0.AND.NR.LT.3) THEN
+          IF (NR>0.AND.NR<3) THEN
             IC = JR(1)*100+JR(2)*10+JR(3)
             IR =1
             CALL RBE2_BCL(IC   ,SKEW  ,IDDL  ,IKC   ,IADK ,
@@ -506,7 +506,7 @@ C-----------------------------------------------
         NSN = IRBE2(5,N)
         ISK = IRBE2(7,N)
         IRAD = IRBE2(11,N)
-        IF (ISK.GT.1) THEN
+        IF (ISK>1) THEN
          CALL RBE2_IMPBL(M      ,NSN    ,LRBE2(IAD+1),X   ,JT(1,N),
      1                   JR(1,N),NDOF   ,IDDL  ,B     ,SKEW(1,ISK),
      2                   IRAD   )
@@ -552,20 +552,20 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-       IF (NDOF(M).LE.0) RETURN
+       IF (NDOF(M)<=0) RETURN
 C
         ND = NDOF(M)
        DO I=1,NSN
 C--------block diagonal Kmm--
         N = ISL(I)
-       IF (NDOF(N).GT.0) THEN
+       IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
          DO K=1,6
           BD(K)=ZERO
          ENDDO
-        IF (IRAD.GT.0) THEN
+        IF (IRAD>0) THEN
          DO K=1,MIN(3,NDOF(N))
           ID = IDDL(N)+K
           BD(K)=B(ID)
@@ -589,7 +589,7 @@ C--------block diagonal Kmm--
           BD(K)=B(ID)*JR(K-3)
          ENDDO
          CALL UPDB_RB(NDOF(N),XS,YS,ZS,BD)
-        END IF !(IRAD.GT.0) THEN
+        END IF !(IRAD>0) THEN
 C-------Update B---
          DO K=1,ND
           ID = IDDL(M)+K
@@ -639,14 +639,14 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-       IF (NDOF(M).LE.0) RETURN
+       IF (NDOF(M)<=0) RETURN
 C
         ND = NDOF(M)
 C-------translation-------
        DO I=1,NSN
 C-------
         N = ISL(I)
-       IF (NDOF(N).GT.0) THEN
+       IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -682,13 +682,13 @@ C-------Update B---
         ENDIF
        ENDDO
       IC = JT(1)*100+JT(2)*10+JT(3)
-      IF (IC.GT.0.AND.IC.LT.111) THEN
+      IF (IC>0.AND.IC<111) THEN
        IR = 0
        CALL RBE2IMPBSN(NSN   ,ISL   ,B     ,IC     ,NDOF   ,
      1                 IDDL  ,SKEW  ,IR    )
       END IF
       IC = JR(1)*100+JR(2)*10+JR(3)
-      IF (IC.GT.0.AND.IC.LT.111) THEN
+      IF (IC>0.AND.IC<111) THEN
        IR = 1
        CALL RBE2IMPBSN(NSN   ,ISL   ,B     ,IC     ,NDOF   ,
      1                 IDDL  ,SKEW  ,IR    )
@@ -908,7 +908,7 @@ C-----------------------------------------------
      .   EJ(3),EJ1(3),S,EA,EB
 C----------------100-------------------------
         ND = IADN(I)
-          IF (IR.GT.0) ND = IADN(I) + 3
+          IF (IR>0) ND = IADN(I) + 3
 C-----IF J,J1 change during the deformation---    
          DO J=1,3
           IF (IFIX(ND +J) == 17) IFIX(ND +J)=0
@@ -952,7 +952,7 @@ C----------------011-------------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(4)/SKEW(3+J1)
@@ -978,7 +978,7 @@ C----------------101-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1004,7 +1004,7 @@ C----------------110-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1103,7 +1103,7 @@ C----------------011-------------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(4)/SKEW(3+J1)
@@ -1130,7 +1130,7 @@ C----------------101-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1157,7 +1157,7 @@ C----------------110-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1214,7 +1214,7 @@ C-----------------------------------------------
       my_real
      .   EJ(3),EJ1(3),S,EA,EB
 C----------------100-------------------------
-        IF (IR.EQ.0) THEN
+        IF (IR==0) THEN
          NR = 0
         ELSE
          NR = 3
@@ -1253,7 +1253,7 @@ C----------------011-------------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(4)/SKEW(3+J1)
@@ -1274,7 +1274,7 @@ C----------------101-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1295,7 +1295,7 @@ C----------------110-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1310,28 +1310,28 @@ C----------------110-------------------------
 C
        DO I=1,NSL
         NS = ISL(I)
-        IF (NDOF(NS).EQ.0) CYCLE
+        IF (NDOF(NS)==0) CYCLE
          ND =IDDL(NS)+NR
 C-------------------100---------------------
-         IF (ICT .EQ. 100 ) THEN
+         IF (ICT == 100 ) THEN
           B(ND+J1)=B(ND+J1)-EJ(J1)*B(ND+J)
           B(ND+K)=B(ND+K)-EJ(K)*B(ND+J)
 C-------------------010---------------------
-         ELSEIF (ICT .EQ. 10) THEN
+         ELSEIF (ICT == 10) THEN
           B(ND+J1)=B(ND+J1)-EJ(J1)*B(ND+J)
           B(ND+K)=B(ND+K)-EJ(K)*B(ND+J)
 C-------------------001---------------------
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           B(ND+J1)=B(ND+J1)-EJ(J1)*B(ND+J)
           B(ND+K)=B(ND+K)-EJ(K)*B(ND+J)
 C-------------------011---------------------
-         ELSEIF (ICT .EQ. 11) THEN
+         ELSEIF (ICT == 11) THEN
           B(ND+K)=B(ND+K)+EA*B(ND+J)+EB*B(ND+J1)
 C-------------------101---------------------
-         ELSEIF (ICT .EQ. 101) THEN
+         ELSEIF (ICT == 101) THEN
           B(ND+K)=B(ND+K)+EA*B(ND+J)+EB*B(ND+J1)
 C-------------------110---------------------
-         ELSEIF (ICT .EQ. 110 ) THEN
+         ELSEIF (ICT == 110 ) THEN
           B(ND+K)=B(ND+K)+EA*B(ND+J)+EB*B(ND+J1)
          ENDIF
       ENDDO
@@ -1372,18 +1372,18 @@ C-----------------------------------------------
       my_real
      .   KDD(6,6),KII(6,6)
 C------------K :free; J,L to be condentrated----------------------
-      IF (IR.EQ.0) THEN
+      IF (IR==0) THEN
        ND = 3
       ELSE
        ND = 6
       ENDIF
-      IF (EJ.EQ.ZERO.AND.EL.EQ.ZERO) RETURN
+      IF (EJ==ZERO.AND.EL==ZERO) RETURN
       DO I=1,ND
       DO JJ=1,ND
        KII(I,JJ)=ZERO
       ENDDO
       ENDDO
-      IF (IR.EQ.0) THEN
+      IF (IR==0) THEN
        J1 = J
        K1 = K
        L1 = L
@@ -1402,7 +1402,7 @@ C-------------first KNN------------
       KII(K1,K1)=EJ*(KDD(J1,J1)*EJ+TWO*EL*KDD(J1,L1)-TWO*KDD(J1,K1))
      .           +EL*(KDD(L1,L1)*EL-TWO*KDD(L1,K1))
 C +++ couplage t,r-----
-      IF (IR.NE.0) THEN
+      IF (IR/=0) THEN
        KII(K,K1)=-KDD(K,J1)*EJ-KDD(K,L1)*EL
        KII(J,K1)=-KDD(J,J1)*EJ-KDD(J,L1)*EL
        KII(L,K1)=-KDD(L,J1)*EJ-KDD(L,L1)*EL
@@ -1412,7 +1412,7 @@ C ---
 C  -----------KIJ-----
       IDJ = IDDL(N)+ J1
       IDL = IDDL(N)+ L1
-      IF (IKPAT.EQ.0) THEN
+      IF (IKPAT==0) THEN
         SHF = IABS(J-3)
         NJ = IADK(IDJ+1)-IADK(IDJ)-SHF
         JFT = IADK(IDJ)+SHF-1
@@ -1430,11 +1430,11 @@ C  -----------KIJ-----
         NJ =0
         NL =0
         DO JJ = IADK(I), IADK(I+1)-1
-         IF (JDIK(JJ).EQ.IDJ) NJ = JJ
-         IF (JDIK(JJ).EQ.IDL) NL = JJ
+         IF (JDIK(JJ)==IDJ) NJ = JJ
+         IF (JDIK(JJ)==IDL) NL = JJ
         ENDDO
-        IF (NJ.GT.0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EJ*LT_K(NJ)
-        IF (NL.GT.0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EL*LT_K(NL)
+        IF (NJ>0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EJ*LT_K(NJ)
+        IF (NL>0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EL*LT_K(NL)
        ENDDO
       ELSE
         SHF = J1-1
@@ -1455,11 +1455,11 @@ C---------
         NJ =0
         NL =0
         DO JJ = IADK(I), IADK(I+1)-1
-         IF (JDIK(JJ).EQ.IDJ) NJ = JJ
-         IF (JDIK(JJ).EQ.IDL) NL = JJ
+         IF (JDIK(JJ)==IDJ) NJ = JJ
+         IF (JDIK(JJ)==IDL) NL = JJ
         ENDDO
-        IF (NJ.GT.0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EJ*LT_K(NJ)
-        IF (NL.GT.0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EL*LT_K(NL)
+        IF (NJ>0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EJ*LT_K(NJ)
+        IF (NL>0) LT_K(NJ+K1-J1) = LT_K(NJ+K1-J1)-EL*LT_K(NL)
        ENDDO
       ENDIF
 C
@@ -1508,7 +1508,7 @@ C-------JT1 presente the real consentration dof----------------------
         XL = VQ(1,1)*XS+ VQ(1,2)*YS+VQ(1,3)*ZS
         YL = VQ(2,1)*XS+ VQ(2,2)*YS+VQ(2,3)*ZS
         ZL = VQ(3,1)*XS+ VQ(3,2)*YS+VQ(3,3)*ZS
-       IF (IRAD.GT.0) THEN
+       IF (IRAD>0) THEN
         KK(1,2) =ZL*JR(2)
         KK(1,3) =-YL*JR(3)
         KK(2,1) =-ZL*JR(1)
@@ -1525,7 +1525,7 @@ C--------Nastran's formulation
         KK(3,1) =YL*JT(3)
         KK(3,2) =-XL*JT(3)
         ICT = JT(1)*100+JT(2)*10+JT(3)
-       END IF !(IR.GT.0) THEN
+       END IF !(IR>0) THEN
 C--------[Q]^t[Rs][Q]--------
         DO J=1,3
           KTR(1,J)=KK(1,2)*VQ(2,J)+KK(1,3)*VQ(3,J)
@@ -1577,7 +1577,7 @@ C----------------011-------------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(4)/SKEW(3+J1)
@@ -1602,7 +1602,7 @@ C----------------101-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1627,7 +1627,7 @@ C----------------110-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1698,7 +1698,7 @@ C------------------------------------
         ND = NDOF(M)
         NT=JT(1)+JT(2)+JT(3)
         NR=JR(1)+JR(2)+JR(3)
-        IF (ISK.GT.1) THEN
+        IF (ISK>1) THEN
          DO K=1,LSKEW
           SKEW(K)=SKEW0(K)
          ENDDO
@@ -1718,7 +1718,7 @@ C
         ENDDO
 C--------block diagonal Kmm--
         N = NS
-        IF (NDOF(N).GT.0) THEN
+        IF (NDOF(N)>0) THEN
          XS=X(1,N)-X(1,M)
          YS=X(2,N)-X(2,M)
          ZS=X(3,N)-X(3,M)
@@ -1728,11 +1728,11 @@ C-------Update K,
          DO K=1,6
           DIAG_KM(K)=DIAG_KM(K)+KII(K,K)
          ENDDO
-          IF (NT.GT.0.AND.NT.LT.3) THEN
+          IF (NT>0.AND.NT<3) THEN
             IC = JT(1)*4+JT(2)*2+JT(3)
             CALL BCL_IMPKD(IC  ,I1   ,SKEW  ,KII   ,DIAG_KN )
           ENDIF
-          IF (NR.GT.0.AND.NR.LT.3) THEN
+          IF (NR>0.AND.NR<3) THEN
            IC = JR(1)*4+JR(2)*2+JR(3)
            DO K=1,3
            DO J=1,3
@@ -1792,7 +1792,7 @@ C     REAL
 C-------------------B is not modified-----------------
         ND = NDOF(M)
         NDOFI = 3
-        IF (ISK.GT.1) THEN
+        IF (ISK>1) THEN
          DO K=1,LSKEW
           SKEW(K)=SKEW0(K)
          ENDDO
@@ -1811,7 +1811,7 @@ C
            KDD(K,J)=ZERO
          ENDDO
         ENDDO
-       IF (ISS.GT.0) THEN
+       IF (ISS>0) THEN
          DO K=1,NDOFI
            KDD(K,K) = KSS(K)
          ENDDO
@@ -1826,7 +1826,7 @@ C-------Update K,
          CALL UPDCDIK2_CDI(ND,CDT,CDR,CDTR,KDD)
          CALL PUT_KMII(IDLM,IADK,DIAG_K,LT_K,KDD,ND)
        ENDIF
-       IF (ISM.GT.0) THEN
+       IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI

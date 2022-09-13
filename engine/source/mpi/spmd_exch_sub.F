@@ -155,9 +155,9 @@ C     -----------------------------
                 NN = NLOC_DMG%FR_ELEM(J)
                 NDDL = NLOC_DMG%POSI(NN+1) - NLOC_DMG%POSI(NN)
                 DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
-                  IF( NLOC_DMG%PROCNE(CC).EQ.LOC_PROC)THEN                          
+                  IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN                          
                     LSD=LSD+1
-                  ELSEIF(NLOC_DMG%PROCNE(CC).EQ.P) THEN
+                  ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
                     LRD=LRD+1
                   ENDIF
  
@@ -198,12 +198,12 @@ C     -----------------------------
                 NDDL = NLOC_DMG%POSI(NN+1) - NLOC_DMG%POSI(NN)
 
                 DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
-                  IF( NLOC_DMG%PROCNE(CC).EQ.LOC_PROC)THEN
+                  IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN
                     NLOC_DMG%FR_NBCC(1,P) = NLOC_DMG%FR_NBCC(1,P)+KK*NDDL      
                     NLOC_DMG%ISENDSP(LSD)=CC                    
                     NLOC_DMG%FR_ELEM_S(LSD)=NN             
                     LSD=LSD+1
-                  ELSEIF(NLOC_DMG%PROCNE(CC).EQ.P) THEN
+                  ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
                     NLOC_DMG%FR_NBCC(2,P) = NLOC_DMG%FR_NBCC(2,P)+KK*NDDL      
                     NLOC_DMG%IRECSP(LRD)=CC 
                     NLOC_DMG%FR_ELEM_R(LRD)=NN                                    

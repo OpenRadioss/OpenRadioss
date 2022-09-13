@@ -159,7 +159,7 @@ C  check if the curve is monotonic
          WRITE(IOUT,270)TRIM(TITR),MAT_ID
        ENDIF  
 !       
-       IF (IFLAG .EQ. 1 .OR. IFLAG .EQ. 2) THEN
+       IF (IFLAG == 1 .OR. IFLAG == 2) THEN
           CALL LAW69_NLSQF(IFLAG,STRETCH,STRESS,10,NMUAL,NOGD,MUAL,
      $                             ICHECK, NSTART, ERRTOL,MAT_ID,TITR)
        ENDIF 
@@ -190,7 +190,7 @@ C     Formulation for solid elements time step computation.
        
 C                                                        
       IF(.NOT.IS_CRYPTED) THEN 
-         IF (UPARAM(13).NE.2) THEN                                      
+         IF (UPARAM(13)/=2) THEN                                      
            WRITE(IOUT,278)                                                   
      &  UPARAM(1),UPARAM(2),UPARAM(3),UPARAM(4),         
      &  UPARAM(5),UPARAM(6),UPARAM(7),UPARAM(8),         

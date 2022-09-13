@@ -211,7 +211,7 @@ C-------
             EXIT
           ENDIF
         ENDDO
-        IF (UID.NE.0.AND.IFLAGUNIT == 0) THEN
+        IF (UID/=0.AND.IFLAGUNIT == 0) THEN
         CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I2=UID,I1=ID,C1='RIGID BODY',
      .               C2='RIGID BODY',
@@ -234,7 +234,7 @@ C
         IF(ISPHER == 0) ISPHER=2
         IF(ICDG == 0)ICDG=1
 c
-        IF(NSKEW == 0 .AND. SUB_INDEX .NE. 0 ) NSKEW = LSUBMODEL(SUB_INDEX)%SKEW
+        IF(NSKEW == 0 .AND. SUB_INDEX /= 0 ) NSKEW = LSUBMODEL(SUB_INDEX)%SKEW
         DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
           IF(NSKEW == ISKN(4,J+1)) THEN
             NSKEW=J+1
@@ -250,13 +250,13 @@ C
         RBY(1,NRB) = MASS
 C
         ISU=0
-        IF (IDSURF.NE.0) THEN
+        IF (IDSURF/=0) THEN
           INGR2USR => IGRSURF(1:NSURF)%ID
           ISU=NGR2USR(IDSURF,INGR2USR,NSURF)
           IF (ISU == 0) THEN
              CALL ANCMSG(MSGID=158,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                   I2=IDSURF,I1=ID,C1=TITR)
-          ELSEIF (IGRSURF(ISU)%TYPE.NE.101) THEN
+          ELSEIF (IGRSURF(ISU)%TYPE/=101) THEN
              TITR1 = IGRSURF(IGS)%TITLE
              CALL ANCMSG(MSGID=159,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                   I2=IDSURF,C2=TITR1,I1=ID,C1=TITR)
@@ -381,7 +381,7 @@ C
         CALL SPMDSET(NRB,NPBY,NNPBY,LPBY,NSL,K)
 C
         IF(ISMS==0)THEN
-          IF (ISENS.NE.0) THEN
+          IF (ISENS/=0) THEN
            WRITE(IOUT,1100) ID,TRIM(TITR),ISENS,ITAB(NPBY(1,NRB)),NSL,
      .            IDSURF,ISPHER
           ELSE
@@ -390,7 +390,7 @@ C
      .            (RBY(J,NRB),J=1,7)
           ENDIF
         ELSE
-          IF (ISENS.NE.0) THEN
+          IF (ISENS/=0) THEN
            WRITE(IOUT,1102) ID,TRIM(TITR),ISENS,ITAB(NPBY(1,NRB)),NSL,
      .            IDSURF,ISPHER
           ELSE
@@ -412,7 +412,7 @@ C VITESSE FIXE SUR main EN ROT
 C-------------------------------
         DO J=1,NFXVEL
           IF(IABS(IBFV(1,J)) == NPBY(1,NRB).AND.
-     .       IBFV(2,J)-10*(IBFV(2,J)/10).GE.4)THEN
+     .       IBFV(2,J)-10*(IBFV(2,J)/10)>=4)THEN
             IBFV(6,J)=N
           ENDIF
         ENDDO
@@ -468,7 +468,7 @@ C-------------------------------------
       K=0
       DO N=1,NRBYKIN
         NSL=NPBY(2,N)
-        IF(NPBY(7,N).NE.0)THEN
+        IF(NPBY(7,N)/=0)THEN
          DO I=1,NSL
           ITAG(LPBY(I+K))=1
          ENDDO
@@ -663,12 +663,12 @@ C par defaut rbody desactive
           IRBYON=1
         END IF
 C si sensor rbody active
-        IF(ISENS.NE.0) IRBYON=0
+        IF(ISENS/=0) IRBYON=0
 C si Imls utilisee rbody active temporairement
         IF(NDSOLV == 1) IRBYON=0
-        IF(IRBYON.GE.1)THEN
+        IF(IRBYON>=1)THEN
 C
-          IF(IGU.NE.0)THEN
+          IF(IGU/=0)THEN
             IG = 0
             DO I=1,NGRNOD
               IF(IGRNOD(I)%ID == IGU)THEN
@@ -678,7 +678,7 @@ C
             END DO
  100        CONTINUE
 C
-            IF(IG.NE.0) THEN
+            IF(IG/=0) THEN
               IGRNRBY(N)=IG
               NSN = IGRNOD(IG)%NENTITY
               DO I=1,NSN
@@ -694,7 +694,7 @@ cc              DO II = 1, NUMELS
      +                   ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
      +                   ITAG(IXS(6,II)) * ITAG(IXS(7,II)) *
      +                   ITAG(IXS(8,II)) * ITAG(IXS(9,II))
-                  IF(NALL.NE.0)THEN
+                  IF(NALL/=0)THEN
                     ISOLOFF(II) = IRBYON
                   END IF
                 END DO
@@ -704,7 +704,7 @@ cc              DO II = 1, NUMELC
                   II = NOD2ELC(JJ)
                   NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
      +                   ITAG(IXC(4,II)) * ITAG(IXC(5,II))
-                  IF(NALL.NE.0)THEN
+                  IF(NALL/=0)THEN
                     ISHEOFF(II) = IRBYON
                   END IF
                 END DO
@@ -714,7 +714,7 @@ cc              DO II = 1, NUMELTG
                   II = NOD2ELTG(JJ)
                   NALL = ITAG(IXTG(2,II)) * ITAG(IXTG(3,II)) *
      +                   ITAG(IXTG(4,II))
-                  IF(NALL.NE.0)THEN
+                  IF(NALL/=0)THEN
                     ITRIOFF(II) = IRBYON
                   END IF
                 END DO
@@ -723,7 +723,7 @@ C
                   II = NOD2ELQ(JJ)
                   NALL = ITAG(IXQ(2,II)) * ITAG(IXQ(3,II)) *
      +                   ITAG(IXQ(4,II)) * ITAG(IXQ(5,II))
-                  IF(NALL.NE.0)THEN
+                  IF(NALL/=0)THEN
                     IQUAOFF(II) = IRBYON
                   END IF
                 END DO
@@ -803,7 +803,7 @@ C-----------------------------------------------
 C-----------------------
 C     MISE DE OFF A -OFF
 C======================================================================|
-      IF(IPRI.GE.5) THEN
+      IF(IPRI>=5) THEN
         WRITE(IOUT,*)' '
 
         WRITE(IOUT,*)' LIST OF DEACTIVATED ELEMENTS FROM RIGID BODIES'
@@ -828,21 +828,21 @@ C
 C
           DO II = 1, NUMELT
             NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               ITRUOFF(II) = IRBYON
             END IF
           END DO
 C
           DO II = 1, NUMELP
             NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               IPOUOFF(II) = IRBYON
             END IF
           END DO
 C
           DO II = 1, NUMELR
             NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
-            IF(NALL.NE.0)THEN
+            IF(NALL/=0)THEN
               IRESOFF(II) = IRBYON
             END IF
           END DO
@@ -865,13 +865,13 @@ C     IF COND
 C-----------------------
 C     1. ELEMENTS SOLIDES
 C-----------------------
-         IF(ITY == 1.AND.MLW.NE.0)THEN        ! loi0, pas de off
+         IF(ITY == 1.AND.MLW/=0)THEN        ! loi0, pas de off
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(ISOLOFF(II).NE.0)THEN
+             IF(ISOLOFF(II)/=0)THEN
                GBUF%OFF(I)= -ABS(GBUF%OFF(I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' BRICK DEACTIVATION:',
+               IF(IPRI>=5) WRITE(IOUT,*)' BRICK DEACTIVATION:',
      .         IXS(11,II)
                IOK = 1
              ENDIF
@@ -890,13 +890,13 @@ C----------------------------------------
 C-----------------------
 C     2. ELEMENTS QUADS
 C-----------------------
-         ELSEIF(ITY == 2.AND.MLW.NE.0)THEN        ! loi0, pas de off
+         ELSEIF(ITY == 2.AND.MLW/=0)THEN        ! loi0, pas de off
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(IQUAOFF(II).NE.0)THEN
+             IF(IQUAOFF(II)/=0)THEN
                GBUF%OFF(I)= -ABS(GBUF%OFF(I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' QUAD DEACTIVATION:',
+               IF(IPRI>=5) WRITE(IOUT,*)' QUAD DEACTIVATION:',
      .         IXQ(NIXQ,II)
                IOK = 1
              ENDIF
@@ -915,14 +915,14 @@ C----------------------------------------
 C-----------------------
 C     3. ELEMENTS COQUES
 C-----------------------
-         ELSEIF(ITY == 3.AND.MLW.NE.0)THEN       ! loi0, pas de off
+         ELSEIF(ITY == 3.AND.MLW/=0)THEN       ! loi0, pas de off
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(ISHEOFF(II).NE.0)THEN
+             IF(ISHEOFF(II)/=0)THEN
                IF (GBUF%OFF(I) > ZERO)THEN
                  GBUF%OFF(I) = -GBUF%OFF(I)
-                 IF(IPRI.GE.5) WRITE(IOUT,*)' SHELL DEACTIVATION:',
+                 IF(IPRI>=5) WRITE(IOUT,*)' SHELL DEACTIVATION:',
      .           IXC(7,II)
                  IOK = 1
                ENDIF
@@ -946,9 +946,9 @@ C-----------------------
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(ITRUOFF(II).NE.0)THEN
+             IF(ITRUOFF(II)/=0)THEN
                GBUF%OFF(I)= -ABS(GBUF%OFF(I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' TRUSS DEACTIVATION:',
+               IF(IPRI>=5) WRITE(IOUT,*)' TRUSS DEACTIVATION:',
      .         IXT(5,II)
                IOK = 1
              ENDIF
@@ -959,7 +959,7 @@ C----------------------------------------
 C Incompatible avec option de gap dans propriete de truss
 C        IGOF = 1
 C        DO I = 1,NEL
-C         IF(ELBUF(IAD + I).NE.ZERO) IGOF=0
+C         IF(ELBUF(IAD + I)/=ZERO) IGOF=0
 C        ENDDO
 C        IPARG(8,NG) = IGOF
 C-----------------------
@@ -969,9 +969,9 @@ C-----------------------
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(IPOUOFF(II).NE.0)THEN
+             IF(IPOUOFF(II)/=0)THEN
                GBUF%OFF(I)= -ABS(GBUF%OFF(I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' BEAM DEACTIVATION:',
+               IF(IPRI>=5) WRITE(IOUT,*)' BEAM DEACTIVATION:',
      .         IXP(6,II)
                IOK = 1
              ENDIF
@@ -989,14 +989,14 @@ C----------------------------------------
 C-----------------------
 C     6. ELEMENTS RESSORTS
 C-----------------------
-         ELSEIF(ITY == 6.AND.MLW.NE.3)THEN
+         ELSEIF(ITY == 6.AND.MLW/=3)THEN
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(IRESOFF(II).NE.0)THEN
+             IF(IRESOFF(II)/=0)THEN
                IF (GBUF%OFF(I) /= -TEN) GBUF%OFF(I) = -ABS(GBUF%OFF(I))
 C             spring is active
-               IF(IPRI.GE.5) WRITE(IOUT,*)' SPRING DEACTIVATION:',
+               IF(IPRI>=5) WRITE(IOUT,*)' SPRING DEACTIVATION:',
      .         IXR(6,II)
                IOK = 1
              ENDIF
@@ -1007,21 +1007,21 @@ C----------------------------------------
            IF(IOK == 1)THEN
              IGOF = 1
              DO I = 1,NEL
-               IF(GBUF%OFF(I).NE.ZERO) IGOF=0
+               IF(GBUF%OFF(I)/=ZERO) IGOF=0
              ENDDO
              IPARG(8,NG) = IGOF
            END IF
 C-----------------------
 C     7. ELEMENTS COQUES 3N
 C-----------------------
-         ELSEIF(ITY == 7.AND.MLW.NE.0)THEN       ! loi0, pas de off
+         ELSEIF(ITY == 7.AND.MLW/=0)THEN       ! loi0, pas de off
            ISHFT=16
            IOK = 0
            DO I=1,NEL
              II=I+NFT
-             IF(ITRIOFF(II).NE.0)THEN
+             IF(ITRIOFF(II)/=0)THEN
                GBUF%OFF(I)= -ABS(GBUF%OFF(I))
-               IF(IPRI.GE.5) WRITE(IOUT,*)' SH_3N DEACTIVATION:',
+               IF(IPRI>=5) WRITE(IOUT,*)' SH_3N DEACTIVATION:',
      .         IXTG(6,II)
                IOK = 1
              ENDIF

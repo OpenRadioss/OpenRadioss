@@ -523,7 +523,7 @@ c-----------------------------------------------------------------
         ENDDO
        ENDIF
 !     ++++++++++
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          RESP0 = 0
          DO NN=1,NSPGROUP
           COMPTEUR = 0
@@ -542,7 +542,7 @@ c-----------------------------------------------------------------
 c-------
             IF (NBX == 26) THEN    ! all User variables           
               J = 1
-              DO WHILE (J.LT.JJ_OLD+1)
+              DO WHILE (J<JJ_OLD+1)
                 IHBE  = NINT(WAP0(J )) 
                 NPT   = NINT(WAP0(J + 1)) 
                 NPG   = NINT(WAP0(J + 2)) 
@@ -595,11 +595,11 @@ c
                     ENDDO 
                   ENDIF 
                 ENDIF        
-              ENDDO    ! DO WHILE (J.LT.JJ_OLD)
+              ENDDO    ! DO WHILE (J<JJ_OLD)
 c-------
             ELSEIF (NBX >= 27 .AND. NBX <= 86) THEN  ! single User variables          
               J = 1
-              DO WHILE (J.LT.JJ_OLD+1)
+              DO WHILE (J<JJ_OLD+1)
                 IHBE  = NINT(WAP0(J )) 
                 NPT   = NINT(WAP0(J + 1)) 
                 NPG   = NINT(WAP0(J + 2)) 
@@ -618,7 +618,7 @@ c-------
                   WRITE(IUGEO,'(1P6E20.13)')(WAP0(J + K - 1),K=1,NVAR)
                 ENDIF
                 J = J + NVAR
-              ENDDO  ! DO WHILE (J.LT.JJ_OLD)
+              ENDDO  ! DO WHILE (J<JJ_OLD)
 c-------
             ELSE  ! Other NBX
               RES=MOD(JJ_OLD,6)
@@ -744,9 +744,9 @@ C-----------------------------------------------
                ENDDO
            ENDIF
 
-           IF ((MLW.GE.29.AND.MLW.LE.31).OR.
+           IF ((MLW>=29.AND.MLW<=31).OR.
      .        MLW == 35.OR.MLW == 36.OR.MLW == 43.OR.
-     .        MLW == 44.OR.MLW == 45.OR.MLW == 48.OR.MLW.GE.50) THEN
+     .        MLW == 44.OR.MLW == 45.OR.MLW == 48.OR.MLW>=50) THEN
 
               NPG=0
 
@@ -812,9 +812,9 @@ C
                  NUVAR  = MAX(NUVAR,IPM(8,IXTG(1,I+NFT)))
                ENDDO
            ENDIF
-             IF ((MLW.GE.29.AND.MLW.LE.31).OR.
+             IF ((MLW>=29.AND.MLW<=31).OR.
      .        MLW == 35.OR.MLW == 36.OR.MLW == 43.OR.
-     .        MLW == 44.OR.MLW == 45.OR.MLW == 48.OR.MLW.GE.50) THEN
+     .        MLW == 44.OR.MLW == 45.OR.MLW == 48.OR.MLW>=50) THEN
 
               NPG=0
 

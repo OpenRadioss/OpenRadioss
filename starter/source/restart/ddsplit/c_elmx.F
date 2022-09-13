@@ -51,7 +51,7 @@ C
       NB_L = 0
 C
       DO I = 1, NUMELX
-        IF(CEP(OFF+I).EQ.PROC) THEN
+        IF(CEP(OFF+I)==PROC) THEN
           NB_L = NB_L + KXX(3,I)
         ENDIF
       ENDDO

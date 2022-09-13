@@ -52,7 +52,7 @@ C-----------------------------------------------
 C
       DO 100 IC=1,NCUTS
         ILT=LASTN(IC)
-        IF(IC.EQ.1)THEN
+        IF(IC==1)THEN
           IFT=1
         ELSE
           IFT=LASTN(IC-1)+1

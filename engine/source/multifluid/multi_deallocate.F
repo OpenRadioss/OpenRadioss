@@ -80,7 +80,7 @@ C     Face data
          IF (ALLOCATED(MULTI_FVM%FACE_DATA%WFAC)) DEALLOCATE(MULTI_FVM%FACE_DATA%WFAC)
 C     Phase data
          NBMAT = MULTI_FVM%NBMAT
-         IF (NBMAT .GT. 1) THEN
+         IF (NBMAT > 1) THEN
             IF (ALLOCATED(MULTI_FVM%PHASE_ALPHA)) 
      .           DEALLOCATE(MULTI_FVM%PHASE_ALPHA)
             IF (ALLOCATED(MULTI_FVM%PHASE_PRES)) 
@@ -90,7 +90,7 @@ C     Phase data
             IF (ALLOCATED(MULTI_FVM%PHASE_EINT)) 
      .           DEALLOCATE(MULTI_FVM%PHASE_EINT)
             
-            IF (MULTI_FVM%MUSCL .GT. 0) THEN
+            IF (MULTI_FVM%MUSCL > 0) THEN
                IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_RHO)) 
      .              DEALLOCATE(MULTI_FVM%PHASE_GRAD_RHO)
                IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_ALPHA)) 

@@ -109,7 +109,7 @@ C
       VOL(I)= VOLDP(I)
       ENDDO
       DO I=LFT,LLT
-      IF(DET(I).GT.0.0) CYCLE
+      IF(DET(I)>0.0) CYCLE
       CALL ANCMSG(MSGID=245,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
@@ -246,7 +246,7 @@ C
       END DO
 C
       DO I=LFT,LLT
-      IF(DET(I).GT.0.0) CYCLE
+      IF(DET(I)>0.0) CYCLE
       CALL ANCMSG(MSGID=245,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
@@ -292,7 +292,7 @@ C----surface max mediane-- *16
      .            +JAC_15_24(I)*JAC_15_24(I))
        ENDDO
        DO I=LFT,LLT
-          IF(SMAX(I).LE.ZERO)THEN
+          IF(SMAX(I)<=ZERO)THEN
            CALL ANCMSG(MSGID=245,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -2487,7 +2487,7 @@ C
       VOL(I)= VOLDP(I)
       ENDDO
       DO 130 I=LFT,LLT
-      IF(DET(I).GT.0.0) GO TO 130
+      IF(DET(I)>0.0) GO TO 130
       CALL ANCMSG(MSGID=245,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,

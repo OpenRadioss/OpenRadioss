@@ -99,19 +99,19 @@ C
       DMS=(XI(I)-X(1,KG))**2+(YI(I)-X(2,KG))**2+(ZI(I)-X(3,KG))**2
       EMS=(XI(I)-X(1,MG))**2+(YI(I)-X(2,MG))**2+(ZI(I)-X(3,MG))**2
       FMS=(XI(I)-X(1,NG))**2+(YI(I)-X(2,NG))**2+(ZI(I)-X(3,NG))**2
-      IF(CMS.LT.GMS) THEN
+      IF(CMS<GMS) THEN
        GMS=CMS
        JLNEW=J
       ENDIF
-      IF(DMS.LT.GMS) THEN
+      IF(DMS<GMS) THEN
        GMS=DMS
        JLNEW=K
       ENDIF
-      IF(EMS.LT.GMS) THEN
+      IF(EMS<GMS) THEN
        GMS=EMS
        JLNEW=M
       ENDIF
-      IF(FMS.LT.GMS) THEN
+      IF(FMS<GMS) THEN
        GMS=FMS
        JLNEW=N
       ENDIF

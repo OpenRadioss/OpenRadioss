@@ -72,7 +72,7 @@ C-----------------------------------------------
       CA = PM(75,MX)
       CB = PM(76,MX)
       DO I=LFT,LLT
-       IF(OFF(I).EQ.ZERO.OR.OFFG(I).LE.ZERO) CYCLE
+       IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
        PHIX = ZERO
        PHIY = ZERO
        PHIZ = ZERO

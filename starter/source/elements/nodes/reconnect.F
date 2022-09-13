@@ -80,7 +80,7 @@ C
 C
       DO I = 1, NUMELS10
         DO J=1,6
-          IF(IXS10(J,I).NE.0)THEN
+          IF(IXS10(J,I)/=0)THEN
             DO K = 1,NMERGED
               IF(IXS10(J,I) == IMERGE(K)) IXS10(J,I) = IMERGE(NMERGE_TOT+K)
             ENDDO
@@ -90,7 +90,7 @@ C
 C
       DO I = 1, NUMELS20
         DO J=1,12
-          IF(IXS20(J,I).NE.0)THEN
+          IF(IXS20(J,I)/=0)THEN
             DO K = 1,NMERGED
               IF(IXS20(J,I) == IMERGE(K)) IXS20(J,I) = IMERGE(NMERGE_TOT+K)
             ENDDO
@@ -100,7 +100,7 @@ C
 C
       DO I = 1, NUMELS16
         DO J=1,8
-          IF(IXS16(J,I).NE.0)THEN
+          IF(IXS16(J,I)/=0)THEN
             DO K = 1,NMERGED
               IF(IXS16(J,I) == IMERGE(K)) IXS16(J,I) = IMERGE(NMERGE_TOT+K)
             ENDDO

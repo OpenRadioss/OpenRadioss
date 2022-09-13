@@ -175,9 +175,9 @@ C Comptage des tailles de buffer  Reception et envoi
       IADR(NSPMD+1)=LENRV+1
 
 C Preparation du send
-      IF(LENSD.GT.0)THEN
+      IF(LENSD>0)THEN
           ALLOCATE(BBUFS(LENSD),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -185,9 +185,9 @@ C Preparation du send
 
 C ---------------------------------------------
 C Preparation du recieve
-      IF(LENRV.GT.0)THEN
+      IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -227,7 +227,7 @@ C Send
            ENDIF
          ENDDO  ! DO NIN=1,NINTER
          SIZ = L-IADS(P)
-         IF(SIZ.GT.0)THEN
+         IF(SIZ>0)THEN
               MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
@@ -393,7 +393,7 @@ C Fin du send
           ELSE
              SIZ=IADS(P+1)-IADS(P)
           ENDIF
-          IF(SIZ.GT.0) THEN
+          IF(SIZ>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
       ENDDO
@@ -426,7 +426,7 @@ C mise en place du irecieve
       DO P=1,NSPMD
         SIZ = IADS(P+1)-IADS(P)
         ASSERT(SIZ >= 0)
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           LI = (IADS(P)-1)*ILEN+1
           LR = (IADS(P)-1)*RLEN+1
           MSGTYP = MSGOFF3
@@ -509,7 +509,7 @@ C ----------------------------------
 C Reception
       DO P=1,NSPMD
         SIZ = IADS(P+1)-IADS(P)
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           IDB = IADS(P)
           CALL MPI_WAIT(REQ_R (P),STATUS,IERROR)
 c           print *,'recept recu entiers',ispmd+1,p
@@ -643,13 +643,13 @@ c        if(itab(sn)==29376)print *,'recoit apres',loc_proc,p,INTBUF_TAB(NIN)%IR
              ENDDO        ! K=,IAD_I25(NI,P),IAD_I25(NI+1,P)-1 
            ENDIF          ! IF (NTY == 25)THEN
          ENDDO            ! DO NI=1,NBINTC
-        ENDIF             ! IF(SIZ.NE.0)THEN
+        ENDIF             ! IF(SIZ/=0)THEN
       ENDDO               ! DO P=1,NSPMD
 
 C Fin send
       DO P=1,NSPMD
         SIZ = IADS(P+1)-IADS(P)
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
           CALL MPI_WAIT(REQ_S2(P),STATUS,IERROR)
         ENDIF
@@ -684,18 +684,18 @@ C Comptage des tailles de buffer  Receeption et envoi
       ENDDO
       IADR(NSPMD+1)=LENRV+1
 
-      IF(LENSD.GT.0)THEN
+      IF(LENSD>0)THEN
           ALLOCATE(BBUFS(LENSD),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
       ENDIF
 
 C Preparation du recieve
-      IF(LENRV.GT.0)THEN
+      IF(LENRV>0)THEN
           ALLOCATE(BBUFR(LENRV),STAT=IERROR)
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -740,7 +740,7 @@ c        if(itab(sn)==29376)print *,'broadcast nsnsi',loc_proc,p,INTBUF_TAB(NIN)
          ENDDO
 
          SIZ = L-IADS(P)
-         IF(SIZ.GT.0)THEN
+         IF(SIZ>0)THEN
               MSGTYP = MSGOFF5
 C Send
               CALL MPI_ISEND(
@@ -803,7 +803,7 @@ C Fin du send
           ELSE
              SIZ=IADS(P+1)-IADS(P)
           ENDIF
-          IF(SIZ.GT.0) THEN
+          IF(SIZ>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
       ENDDO

@@ -70,7 +70,7 @@ C---------------------------------------------
       END IF
       DO I=1,NSN
         J=INTBUF_TAB%NSV(I)
-        IF(INTBUF_TAB%STFNS(I).NE.ZERO)
+        IF(INTBUF_TAB%STFNS(I)/=ZERO)
      .     INTBUF_TAB%STFNS(I) = S*STIFINT(J)
       ENDDO
 C

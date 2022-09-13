@@ -88,7 +88,7 @@ C
 C DSOLV : 1e appel a la DOMDEC pour repartir sur les processeurs
 C
       IDDLEVEL=1
-      IF(NINTER.EQ.0)IDDLEVEL=0
+      IF(NINTER==0)IDDLEVEL=0
 *      WRITE(IOUT,'(A)')' '
 *      WRITE(IOUT,'(A)')
 *     .' --------------------------------------'
@@ -96,7 +96,7 @@ C
 *     .' DSOLVE : DOMAIN DECOMPOSITION'
 *      WRITE(IOUT,'(A)')
 *     .' --------------------------------------'
-      IF (NSPRI.LT.0) WRITE(ISTDO,'(A36,I3)') 
+      IF (NSPRI<0) WRITE(ISTDO,'(A36,I3)') 
      .'    --> DOMAIN DECOMPOSITION - LEVEL',1
       DO IEL=1,NELEM
          WD(IEL)=ZERO
@@ -281,7 +281,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELS
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELSD=NUMELSD+1
                ELDOM(IDD,1,IELD)=I
@@ -291,7 +291,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELQ
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELQD=NUMELQD+1
                ELDOM(IDD,1,IELD)=I
@@ -301,7 +301,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELC
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELCD=NUMELCD+1
                ELDOM(IDD,1,IELD)=I
@@ -311,7 +311,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELT
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELTD=NUMELTD+1
                ELDOM(IDD,1,IELD)=I
@@ -321,7 +321,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELP
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELPD=NUMELPD+1
                ELDOM(IDD,1,IELD)=I
@@ -331,7 +331,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELR
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELRD=NUMELRD+1
                ELDOM(IDD,1,IELD)=I
@@ -341,7 +341,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELTG
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELTGD=NUMELTGD+1
                ELDOM(IDD,1,IELD)=I
@@ -351,7 +351,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELUR
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELURD=NUMELURD+1
                ELDOM(IDD,1,IELD)=I
@@ -361,7 +361,7 @@ C --- Recuperation des elements sur ce proc
          DO I=1,NUMELX
             IEL=IEL+1
             IDD=CEP(IEL)
-            IF (IDD.EQ.IDOM) THEN
+            IF (IDD==IDOM) THEN
                IELD=IELD+1
                NUMELXD=NUMELXD+1
                ELDOM(IDD,1,IELD)=I
@@ -378,7 +378,7 @@ C
          ELDOM(IDOM,3,7)=NUMELTGD
          ELDOM(IDOM,3,8)=NUMELURD
          ELDOM(IDOM,3,9)=NUMELXD
-         IF (NSLEVEL.EQ.1) CYCLE
+         IF (NSLEVEL==1) CYCLE
 C
          NUMSD=1
          NBPAR=1
@@ -396,7 +396,7 @@ C
          DO ILVL=2,NSLEVEL
             NUMSD2=NUMSD+NBPAR-1
             DO IPAR=1,NBPAR
-               IF (NSPRI.LT.0)
+               IF (NSPRI<0)
      .            CALL PROGDOM_C(NUMSD+IPAR-1,LENPROG,IDOM, ILVL, IMACH)
 C
 C --- Creation des structures elementaires locales sur le parent
@@ -431,7 +431,7 @@ C
                DO I=1,NUMELSD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELS=IELS+1
@@ -446,7 +446,7 @@ C
                DO I=1,NUMELQD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELQ=IELQ+1
@@ -460,7 +460,7 @@ C
                DO I=1,NUMELCD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELC=IELC+1
@@ -474,7 +474,7 @@ C
                DO I=1,NUMELTD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELT=IELT+1
@@ -488,7 +488,7 @@ C
                DO I=1,NUMELPD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELP=IELP+1
@@ -502,7 +502,7 @@ C
                DO I=1,NUMELRD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELR=IELR+1
@@ -516,7 +516,7 @@ C
                DO I=1,NUMELTGD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELTG=IELTG+1
@@ -530,7 +530,7 @@ C
                DO I=1,NUMELURD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELUR=IELUR+1
@@ -544,7 +544,7 @@ C
                DO I=1,NUMELXD
                   IEL=IEL+1
                   IDD=ELDOM(IDOM,2,IEL)
-                  IF (IDD.EQ.NUMSD+IPAR-1) THEN
+                  IF (IDD==NUMSD+IPAR-1) THEN
                      IELL=IELL+1
                      CORR(IELL)=IEL
                      IELX=IELX+1
@@ -591,7 +591,7 @@ C
                   DO IELS=1,NUMELSL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,8
                            N=IXSL(J+1,IELS)
                            NDOFL=NDOFL+NDOF(N)
@@ -601,7 +601,7 @@ C
                   DO IELQ=1,NUMELQL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,4
                            N=IXQL(J+1,IELQ)
                            NDOFL=NDOFL+NDOF(N)
@@ -611,7 +611,7 @@ C
                   DO IELC=1,NUMELCL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,4
                            N=IXCL(J+1,IELC)
                            NDOFL=NDOFL+NDOF(N)
@@ -621,7 +621,7 @@ C
                   DO IELT=1,NUMELTL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,2
                            N=IXTL(J+1,IELT)
                            NDOFL=NDOFL+NDOF(N)
@@ -631,7 +631,7 @@ C
                   DO IELP=1,NUMELPL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,2
                            N=IXPL(J+1,IELP)
                            NDOFL=NDOFL+NDOF(N)
@@ -641,7 +641,7 @@ C
                   DO IELR=1,NUMELRL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,2
                            N=IXRL(J+1,IELR)
                            NDOFL=NDOFL+NDOF(N)
@@ -651,7 +651,7 @@ C
                   DO IELTG=1,NUMELTGL
                      IELL=IELL+1
                      IEL=CORR(IELL)
-                     IF (ITAG(IEL).EQ.I) THEN
+                     IF (ITAG(IEL)==I) THEN
                         DO J=1,3
                            N=IXTGL(J+1,IELTG)
                            NDOFL=NDOFL+NDOF(N)
@@ -659,8 +659,8 @@ C
                      ENDIF
                   ENDDO
 C
-                  IF (ILVL.EQ.NSLEVEL) THEN
-                     IF (NDOFL.LT.NDOFMIN) THEN
+                  IF (ILVL==NSLEVEL) THEN
+                     IF (NDOFL<NDOFMIN) THEN
                         WRITE(ISTDO,*)
                         WRITE(ISTDO,'(A41,I4)')
      . ' ** MINIMUM DOF NUMBER REACHED FOR LEVEL ',ILVL
@@ -673,7 +673,7 @@ C
                         GOTO 10
                      ENDIF
                   ELSE
-                     IF (NDOFL.LT.NSDEC) THEN
+                     IF (NDOFL<NSDEC) THEN
                         WRITE(ISTDO,*)
                         WRITE(ISTDO,'(A41,I4)')
      . ' ** MINIMUM DOF NUMBER REACHED FOR LEVEL ',ILVL
@@ -849,7 +849,7 @@ C
 C
       NINT2=0
       DO I=1,NINTER
-         IF (IPARI(7,I).EQ.2) THEN
+         IF (IPARI(7,I)==2) THEN
             NINT2=NINT2+1
             IINT2(NINT2)=I
          ENDIF
@@ -893,10 +893,10 @@ C Appartenance noeuds - SE au niveau le plus bas
             OFFEL=0
             DO I=1,NUMELSL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,8
                      N=IXS(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -908,10 +908,10 @@ C Appartenance noeuds - SE au niveau le plus bas
 C
             DO I=1,NUMELQL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,4
                      N=IXQ(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -923,10 +923,10 @@ C
 C
             DO I=1,NUMELCL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,4
                      N=IXC(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -938,10 +938,10 @@ C
 C
             DO I=1,NUMELTL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,2
                      N=IXT(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -953,10 +953,10 @@ C
 C
             DO I=1,NUMELPL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,2
                      N=IXP(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -968,10 +968,10 @@ C
 C
             DO I=1,NUMELRL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,2
                      N=IXR(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -983,10 +983,10 @@ C
 C
             DO I=1,NUMELTGL
                IEL=ELDOM(IPROC,1,OFFEL+I)
-               IF (ELDOM(IPROC,2,OFFEL+I).EQ.ISD) THEN
+               IF (ELDOM(IPROC,2,OFFEL+I)==ISD) THEN
                   DO J=1,3
                      N=IXTG(1+J,IEL)
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -1003,10 +1003,10 @@ C Noeuds main de RBODY
                NSN=NPBY(2,I)
                J=0
                INDEX=0
-               DO WHILE (J.LT.NSN.AND.INDEX.EQ.0)
+               DO WHILE (J<NSN.AND.INDEX==0)
                   J=J+1
-                  IF (ITAG(LPBY(IAD+J)).EQ.ISD+OFF) THEN
-                     IF (ITAG(N).NE.ISD+OFF) THEN
+                  IF (ITAG(LPBY(IAD+J))==ISD+OFF) THEN
+                     IF (ITAG(N)/=ISD+OFF) THEN
                         NODSD(1,N)=NODSD(1,N)+1
                         NODSD(1+NODSD(1,N),N)=ISD+OFF
                      ENDIF
@@ -1026,11 +1026,11 @@ C Noeuds main d'interface type 2
                NMN=IPARI(6,N)
 C
                DO J=1,NSN
-                  IF (ITAG(INTBUF_TAB(N)%NSV(J)).EQ.ISD+OFF) THEN
+                  IF (ITAG(INTBUF_TAB(N)%NSV(J))==ISD+OFF) THEN
                      IFAC=INTBUF_TAB(N)%IRTLM(J)
                      DO K=1,4
                         INM=INTBUF_TAB(N)%IRECTM(4*(IFAC-1)+K)
-                        IF (ITAG(INM).NE.ISD+OFF) THEN
+                        IF (ITAG(INM)/=ISD+OFF) THEN
                            NODSD(1,INM)=NODSD(1,INM)+1
                            NODSD(1+NODSD(1,INM),INM)=ISD+OFF
                         ENDIF
@@ -1055,7 +1055,7 @@ C
       ENDDO
 C
       WRITE(IOUT,1000)
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
          WRITE(IOUT,1100) NSPROC
       ELSE
          WRITE(IOUT,1110) NSPROC
@@ -1078,7 +1078,7 @@ C
          ENDDO
          DO I=1,DSLEN
             II=PARENT(OFF+I)-OFF
-            IF (II.GT.0) THEN
+            IF (II>0) THEN
                NFILS(II)=NFILS(II)+1
                N=NFILS(II)
                GRAPHE(IPROC)%DGRAPH(II)%CHILD(N)=I
@@ -1103,8 +1103,8 @@ C
                ISD=OFF+OFFSD+I
                DO J=1,NUMNOD
                   DO K=1,NODSD(1,J)
-                     IF (NODSD(1+K,J).EQ.ISD) THEN
-                        IF (NODSD(1,J).EQ.1) THEN
+                     IF (NODSD(1+K,J)==ISD) THEN
+                        IF (NODSD(1,J)==1) THEN
                            NNI=NNI+1
                            TMPI(NNI)=J
                         ELSE
@@ -1119,12 +1119,12 @@ C
                DO J=1,NNI
                   NSDDL=NSDDL+NDOF(TMPI(J))
                ENDDO
-               IF (NSDDL.GT.NIMAX) THEN
+               IF (NSDDL>NIMAX) THEN
                   NIMAX=NSDDL
                   IDMI=ISD
                ENDIF
-               IF (ILVL.NE.1) THEN
-                  IF (NSDDL.GT.NIMAX2) THEN
+               IF (ILVL/=1) THEN
+                  IF (NSDDL>NIMAX2) THEN
                      NIMAX2=NSDDL
                      IDMI2=ISD
                   ENDIF
@@ -1140,12 +1140,12 @@ C
      .                  %IFAC(NSDMAX+1,NSDDL),
      .                  GRAPHE(IPROC)%DGRAPH(OFFSD+I)%IFACM(NSDDL))
                NSDDL=NSDDL+GRAPHE(IPROC)%DGRAPH(OFFSD+I)%NDDL_I
-               IF (NSDDL.GT.NMAX) THEN
+               IF (NSDDL>NMAX) THEN
                   NMAX=NSDDL
                   IDM=ISD
                ENDIF
-               IF (ILVL.NE.1) THEN
-                  IF (NSDDL.GT.NMAX2) THEN
+               IF (ILVL/=1) THEN
+                  IF (NSDDL>NMAX2) THEN
                      NMAX2=NSDDL
                      IDM2=ISD
                   ENDIF
@@ -1182,13 +1182,13 @@ C
 C
          DO I=1,NUMNOD
             N=NODSD(1,I)
-            IF (N.GT.1) THEN
+            IF (N>1) THEN
                DO J=1,N
                   TMPDOM(J)=PARENT(NODSD(1+J,I))
                ENDDO
                DO J=1,N-1
                   DO K=J+1,N
-                     IF (TMPDOM(K).LT.TMPDOM(J)) THEN
+                     IF (TMPDOM(K)<TMPDOM(J)) THEN
                         NN=TMPDOM(J)
                         TMPDOM(J)=TMPDOM(K)
                         TMPDOM(K)=NN
@@ -1198,7 +1198,7 @@ C
                NN=1
                NODSD(2,I)=TMPDOM(1)
                DO J=2,N
-                  IF (TMPDOM(J).NE.TMPDOM(J-1)) THEN
+                  IF (TMPDOM(J)/=TMPDOM(J-1)) THEN
                      NN=NN+1
                      NODSD(1+NN,I)=TMPDOM(J)
                   ENDIF
@@ -1247,11 +1247,11 @@ C Estimation de la memoire necessaire dans l'ENGINE (en SMP) et
 C de la taille du fichier a acces direct pour le graphe
 C Modes dynamiques
       MEMMOD=ZERO
-      IF (NEIG.GT.0) MEMMOD=NSVMAXT*DSNDDL
+      IF (NEIG>0) MEMMOD=NSVMAXT*DSNDDL
 C Modes statiques ou solutions statiques (avec stockage du champ de forces)
       MEMMOD=MEMMOD+2*NSBMAX*DSNDDL
       MEMORY(1,1)=MEMMOD
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
          DO I=2,NSPROC
             MEMORY(1,I)=0
          ENDDO
@@ -1260,14 +1260,14 @@ C Graphe (forces et solutions interieures)
       MEMGRAPH=ZERO
       NMAX=MAX(NSBMAX,NSVMAXT)
       DO IPROC=1,NSPROC
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
             MEMORY(2,IPROC)=0
             MEMGRAPH_OLD=MEMGRAPH
          ENDIF
 C
          NRMAT(IPROC)=0
          NRMOD(IPROC)=0
-         IF (NEIG.NE.0) THEN
+         IF (NEIG/=0) THEN
             NV1=GRAPHE(IPROC)%NSVMAX
             NV2=NSVMAXT
          ELSE
@@ -1290,20 +1290,20 @@ C
      .                  +(LEN2/10+MIN((LEN2/10)*10,1))*(NV1+NDDL_F)
          ENDDO
 C
-         IF (IMACH.EQ.3) 
+         IF (IMACH==3) 
      .      MEMORY(2,IPROC)=MEMORY(2,IPROC)+MEMGRAPH-MEMGRAPH_OLD
       ENDDO
-      IF (IMACH.NE.3) MEMORY(2,1)=MEMGRAPH
+      IF (IMACH/=3) MEMORY(2,1)=MEMGRAPH
 C Allocations temporaires condensation
       MEMTMP=ZERO
       IMEMTMP=1
       IMEMSEL=0
       DO IPROC=1,NSPROC
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
             MEMORY(3,IPROC)=0
          ENDIF
 C
-         IF (NEIG.NE.0) THEN
+         IF (NEIG/=0) THEN
             NV1=GRAPHE(IPROC)%NSVMAX
             NV2=1
          ELSE
@@ -1320,7 +1320,7 @@ C
             MEMT=ZERO
             DO IC=1,NSDEC
                ISC=GRAPHE(IPROC)%DGRAPH(I)%CHILD(IC)
-               IF (ISC.GT.0) THEN
+               IF (ISC>0) THEN
                   NN=GRAPHE(IPROC)%DGRAPH(ISC)%NDDL_F
      .              +GRAPHE(IPROC)%DGRAPH(ISC)%NDDL_I+NV1
                   MEMT2=NN*(NN+1)/2
@@ -1331,14 +1331,14 @@ C
             MEMT2=NV1*(NDDL_F+NDDL_I)+NDDL_F*(NDDL_F+NDDL_I)
             MEMSEL=2*LEN2+2*LEN3+NSBMAX*(NDDL_I-NSDEC*NV1)
      .            +MAX(MEMT,MEMT2)
-            IF (IMACH.NE.3.AND.MEMSEL.GT.MEMTMP) THEN
+            IF (IMACH/=3.AND.MEMSEL>MEMTMP) THEN
                MEMTMP=MEMSEL
                IMEMPROC=IPROC
                IMEMSEL=I
                MEMORY(3,1)=MEMTMP
                MEMORY(5,1)=IMEMPROC
                MEMORY(6,1)=IMEMSEL
-            ELSEIF (IMACH.EQ.3.AND.MEMSEL.GT.MEMORY(3,IPROC)) THEN
+            ELSEIF (IMACH==3.AND.MEMSEL>MEMORY(3,IPROC)) THEN
                MEMORY(3,IPROC)=MEMSEL
                MEMORY(5,IPROC)=IPROC
                MEMORY(6,IPROC)=I
@@ -1348,7 +1348,7 @@ C
 C Probleme final apres condensation
       MEMT=ZERO
       LEN1=NFDDL
-      IF (NEIG.NE.0) THEN
+      IF (NEIG/=0) THEN
          DO IPROC=1,NSPROC
             LEN1=LEN1+GRAPHE(IPROC)%NSVMAX
          ENDDO   
@@ -1357,7 +1357,7 @@ C Probleme final apres condensation
          MEMT=LEN1*(LEN1+1)/2+LEN1**2+NSBMAX*LEN1
       ENDIF
       DO IPROC=1,NSPROC
-         IF (NEIG.NE.0) THEN
+         IF (NEIG/=0) THEN
             NV1=GRAPHE(IPROC)%NSVMAX
          ELSE
             NV1=0
@@ -1366,20 +1366,20 @@ C Probleme final apres condensation
      .     +GRAPHE(IPROC)%DGRAPH(1)%NDDL_I+NV1
          MEMT=MEMT+NN*(NN+1)/2
       ENDDO
-      IF (NEIG.NE.0) THEN
+      IF (NEIG/=0) THEN
          MEMT2=NMAX*LEN1+LEN1*(LEN1+1)/2+LEN1*8*NSVMAXT
 C On prend 8 pour valeur maximale de NM (a changer si ca pose probleme)
       ELSE
          MEMT2=NMAX*LEN1
       ENDIF
       MEMT=MAX(MEMT,MEMT2)
-      IF (IMACH.NE.3.AND.MEMT.GT.MEMTMP) THEN
+      IF (IMACH/=3.AND.MEMT>MEMTMP) THEN
          IMEMTMP=2
          MEMTMP=MEMT
          MEMORY(3,1)=MEMTMP
          MEMORY(5,1)=0
          MEMORY(6,1)=0
-      ELSEIF (IMACH.EQ.3.AND.MEMT.GT.MEMORY(3,1)) THEN
+      ELSEIF (IMACH==3.AND.MEMT>MEMORY(3,1)) THEN
          MEMORY(3,1)=MEMT
          MEMORY(5,1)=0
          MEMORY(6,1)=0
@@ -1390,8 +1390,8 @@ c      WRITE(IOUT,2000) NINT(MEMFLO/1024), NINT(MEMFLO*8/1024/1024),
 c     .                 NINT(MEMMOD*8/1024/1024),
 c     .                 NINT(MEMGRAPH*8/1024/1024),
 c     .                 NINT(MEMTMP*8/1024/1024)
-c      IF (IMEMTMP.EQ.1) WRITE(IOUT,2050) IMEMPROC, IMEMSEL
-c      IF (IMEMTMP.EQ.2) WRITE(IOUT,2100)
+c      IF (IMEMTMP==1) WRITE(IOUT,2050) IMEMPROC, IMEMSEL
+c      IF (IMEMTMP==2) WRITE(IOUT,2100)
 C
       INQUIRE(IOLENGTH=RCLEN) DSTAB
 c      WRITE(IOUT,2200)
@@ -1402,7 +1402,7 @@ c      WRITE(IOUT,2200)
          SZMAT=RCLEN*NRMAT(I)
          SZMOD=RCLEN*NRMOD(I)
          FSIZE=FSIZE+SZMAT+SZMOD
-         IF (IMACH.EQ.3) THEN
+         IF (IMACH==3) THEN
 c            WRITE(IOUT,2225) I,NINT((SZMAT+SZMOD)/4/1024/1024),
 c     .                         NINT(SZMAT/4/1024/1024),
 c     .                         NINT(SZMOD/4/1024/1024)
@@ -1413,7 +1413,7 @@ c     .                         NINT(SZMOD/4/1024/1024)
             SZMODT=SZMODT+SZMOD
          ENDIF
       ENDDO
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
 c         WRITE(IOUT,2225) NINT(FSIZE/4/1024/1024),
 c     .                    NINT(SZMATT/4/1024/1024),
 c     .                    NINT(SZMODT/4/1024/1024)
@@ -1433,7 +1433,7 @@ C------------------------------------------------------
          NSDEC=GRAPHE(IPROC)%NSDEC
          DSLEN=GRAPHE(IPROC)%NSUPEL
          NSLEVEL=GRAPHE(IPROC)%NSLEVEL
-         IF (NSLEVEL.GT.20) THEN
+         IF (NSLEVEL>20) THEN
             WRITE(IOUT,'(A)') ' TOO MANY LEVELS FOR HIERARCHICAL OUTPUT'
             CYCLE
          ENDIF

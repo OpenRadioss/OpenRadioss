@@ -63,13 +63,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       OFF_L = 0.
       DO I=LFT,LLT
-Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO N=1,NPE
           DO I=LFT,LLT
-            IF(OFFG(I).LT.ZERO)THEN
+            IF(OFFG(I)<ZERO)THEN
               FX(I,N)=ZERO
               FY(I,N)=ZERO
               FZ(I,N)=ZERO
@@ -79,20 +79,20 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
         ENDDO
       ENDIF
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,NPE
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO N=1,NPE
           DO I=LFT,LLT
-           IF(OFFG(I).LT.ZERO)THEN
+           IF(OFFG(I)<ZERO)THEN
               CONDEG(I,N)=ZERO
            ENDIF
           ENDDO
@@ -118,7 +118,7 @@ C
          DO N=9,NPE
           DO I=LFT,LLT
             NN = NC(I,N)
-            IF(NN.NE.0)THEN
+            IF(NN/=0)THEN
               A(1,NN)=A(1,NN)+FX(I,N)
               A(2,NN)=A(2,NN)+FY(I,N)
               A(3,NN)=A(3,NN)+FZ(I,N)
@@ -158,7 +158,7 @@ C
          DO N=9,NPE
           DO I=LFT,LLT
             NN = NC(I,N)
-            IF(NN.NE.0)THEN
+            IF(NN/=0)THEN
               A(1,NN)=A(1,NN)+FX(I,N)
               A(2,NN)=A(2,NN)+FY(I,N)
               A(3,NN)=A(3,NN)+FZ(I,N)
@@ -195,7 +195,7 @@ C
           DO N=9,NPE
            DO I=LFT,LLT
              NN = NC(I,N)
-             IF(NN.NE.0)THEN
+             IF(NN/=0)THEN
                A(1,NN)=A(1,NN)+FX(I,N)
                A(2,NN)=A(2,NN)+FY(I,N)
                A(3,NN)=A(3,NN)+FZ(I,N)
@@ -215,11 +215,11 @@ C
            ENDDO
           ENDDO 
       ENDIF 
-      IF(NSECT.GT.0)THEN
+      IF(NSECT>0)THEN
        DO N=9,NPE
         DO I=LFT,LLT
           NN = NC(I,N)
-          IF(NN.EQ.0)THEN
+          IF(NN==0)THEN
             N1=IPERM1(N)
             N2=IPERM2(N)
             FX(I,N1)=FX(I,N1)+HALF*FX(I,N)
@@ -284,13 +284,13 @@ C-----------------------------------------------
 C-----------------------------------------------
       OFF_L = 0.
       DO I=LFT,LLT
-Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
+Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
         OFF_L = MIN(OFF_L,OFFG(I))
       ENDDO
-      IF(OFF_L.LT.ZERO)THEN
+      IF(OFF_L<ZERO)THEN
         DO N=1,NPE
           DO I=LFT,LLT
-            IF(OFFG(I).LT.ZERO)THEN
+            IF(OFFG(I)<ZERO)THEN
               FX(I,N)=ZERO
               FY(I,N)=ZERO
               FZ(I,N)=ZERO
@@ -301,20 +301,20 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
       ENDIF
 
       IF(JTHE < 0 ) THEN
-       IF(OFF_L.LE.ZERO)THEN
+       IF(OFF_L<=ZERO)THEN
         DO J=1,NPE
          DO I=LFT,LLT
-          IF(OFFG(I).LE.ZERO)THEN
+          IF(OFFG(I)<=ZERO)THEN
              THEM(I,J)=ZERO
           ENDIF
          ENDDO
         ENDDO
        ENDIF
        IF(NODADT_THERM == 1) THEN
-        IF(OFF_L.LT.ZERO)THEN
+        IF(OFF_L<ZERO)THEN
          DO J=1,NPE
           DO I=LFT,LLT
-           IF(OFFG(I).LT.ZERO)THEN
+           IF(OFFG(I)<ZERO)THEN
              CONDEG(I,J)=ZERO
            ENDIF
           ENDDO
@@ -323,7 +323,7 @@ Cf small3b        IF(OFF(I).LT.1.)OFFG(I) = OFF(I)
        ENDIF  
       ENDIF
 
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
         DO N= 1,8
 #include "vectorize.inc"
          DO I=LFT,LLT
@@ -341,7 +341,7 @@ C          II=I+NFT
          DO I=LFT,LLT
 C         II=I+NFT-NUMELS+NUMELS20
           NN = NC(I,N+8)
-          IF(NN.NE.0)THEN
+          IF(NN/=0)THEN
             K = IADSP(N,I)
             FSKYV(K,1)=FX(I,N+8)
             FSKYV(K,2)=FY(I,N+8)
@@ -377,7 +377,7 @@ C         II=I+NFT-NUMELS+NUMELS20
          DO I=LFT,LLT
 C         II=I+NFT-NUMELS+NUMELS20
           NN = NC(I,N+8)
-          IF(NN.NE.0)THEN
+          IF(NN/=0)THEN
             K = IADSP(N,I)
             FSKY(1,K)=FX(I,N+8)
             FSKY(2,K)=FY(I,N+8)
@@ -412,7 +412,7 @@ C
          DO I=LFT,LLT
 C         II=I+NFT-NUMELS+NUMELS20
           NN = NC(I,N+8)
-          IF(NN.NE.0)THEN
+          IF(NN/=0)THEN
             K = IADSP(N,I)
             FTHESKY(K)=THEM(I,N+8)
           ELSE
@@ -437,7 +437,7 @@ C         II=I+NFT-NUMELS+NUMELS20
          DO I=LFT,LLT
 C         II=I+NFT-NUMELS+NUMELS20
           NN = NC(I,N+8)
-          IF(NN.NE.0)THEN
+          IF(NN/=0)THEN
             K = IADSP(N,I)
             CONDNSKY(K)=CONDEG(I,N+8)
           ELSE
@@ -451,13 +451,13 @@ C         II=I+NFT-NUMELS+NUMELS20
         ENDIF
 
       ENDIF
-      IF(NSECT.GT.0)THEN
+      IF(NSECT>0)THEN
         DO N= 1,NPE-8
           N1=IPERM1(N+8)
           N2=IPERM2(N+8)
           DO I=LFT,LLT
            NN = NC(I,N+8)
-           IF(NN.EQ.0)THEN
+           IF(NN==0)THEN
              FX(I,N1)=FX(I,N1)+HALF*FX(I,N+8)
              FY(I,N1)=FY(I,N1)+HALF*FY(I,N+8)
              FZ(I,N1)=FZ(I,N1)+HALF*FZ(I,N+8)

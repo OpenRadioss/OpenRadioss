@@ -117,7 +117,7 @@ C
         RHO_OLD(I) = UVAR(I,12+KK)   
         VNEW(I)    = UVAR(I,1+KK)*VOLUME(I) -TIMESTEP*UVAR(I,13+KK) 
         VNEW(I)    = MIN(MAX(ZERO,VNEW(I)),VOLUME(I))
-        IF(VNEW(I).GT.EM15)THEN        
+        IF(VNEW(I)>EM15)THEN        
           RHO_NEW(I) = UVAR(I,9+KK) / VNEW(I)  !MASS/VOLUME
         ELSE
           RHO_NEW(I)=RHO_OLD(I)
@@ -127,7 +127,7 @@ C
         G2(I)   = TWO * G(I)
         G43(I)  = ONEP333*GG     
         MAS     = UVAR(I,9+KK)
-        IF(MAS.GE.EM20)THEN
+        IF(MAS>=EM20)THEN
           DF(I)   = RHO_NEW(I)/RHO0
           AMU(I)  = DF(I)-ONE     
           AMU2(I) = AMU(I) * MAX(ZERO,AMU(I))          
@@ -143,16 +143,16 @@ C
         T5(I)=SIGD(5,I)
         T6(I)=SIGD(6,I)
 
-        IF(EPX(I).LT.0)BULK2(I)=C1   !nok passer epx en argument et initialiser
-        IF(AMU(I).LT.0)BULK(I) =C1
+        IF(EPX(I)<0)BULK2(I)=C1   !nok passer epx en argument et initialiser
+        IF(AMU(I)<0)BULK(I) =C1
 
         P(I)=C0+C1*AMU(I)+C2*AMU2(I)+C3*AMU2(I)*AMU(I)
         PNE1(I)=POLD(I)+AMU(I)*BULK2(I)-EPX(I)*BULK(I)
 
 !UNLOAD BEHAVIOR
-!        IF(AMU(I).LT.AMUMX) P(I) = MIN(P(I),PNE1(I))    
+!        IF(AMU(I)<AMUMX) P(I) = MIN(P(I),PNE1(I))    
         FAC2 = ONE   
-        IF(P(I).LT.PFRAC)THEN
+        IF(P(I)<PFRAC)THEN
 !         !EPX(I) =EPX(I)+(PFRAC-POLD(I))/BULK2(I)
           P(I)  = PFRAC
           FAC2 = ZERO
@@ -176,11 +176,11 @@ C
         G0(I) =A0+A1*PTOT+A2*PTOT*PTOT
         G0(I)= MIN(AMAX,FAC2*G0(I))    !FAC2=1 ou 0 si P<Pmin
         G0(I)= MAX(ZERO,G0(I))
-        IF(PTOT .LE. PSTAR)G0(I)=ZERO        
+        IF(PTOT <= PSTAR)G0(I)=ZERO        
         YIELD2(I)=AJ2(I)-G0(I)
 
         RATIO(I)=ZERO
-        IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
+        IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
           RATIO(I)=ONE
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))

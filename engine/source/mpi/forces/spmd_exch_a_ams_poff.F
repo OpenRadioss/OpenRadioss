@@ -94,7 +94,7 @@ C-----------------------------------------------
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = (SIZE + NFACNIT + LENC)*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -117,7 +117,7 @@ C-----------------------------------------------
 
           SHIFT = L+3
 
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
             SBUF(SHIFT+1) = AR(1,NOD)
             SBUF(SHIFT+2) = AR(2,NOD)
             SBUF(SHIFT+3) = AR(3,NOD)
@@ -126,17 +126,17 @@ C-----------------------------------------------
             SHIFT = SHIFT+4
           ENDIF
 
-          IF(N2D .NE.0) THEN
+          IF(N2D /=0) THEN
             SBUF(SHIFT+1) = MS(NOD)
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(N2D .NE.0.AND.IFSUBM .EQ.1) THEN
+          IF(N2D /=0.AND.IFSUBM ==1) THEN
             SBUF(SHIFT+1) = MS_2D(NOD)
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(IFSUBM .EQ.1)THEN
+          IF(IFSUBM ==1)THEN
             SBUF(SHIFT+1) = MSNF(NOD)
             SHIFT = SHIFT+1
           ENDIF
@@ -152,7 +152,7 @@ C-----------------------------------------------
              ENDIF
           ENDIF
         
-          IF(NITSCHE.NE.0) THEN
+          IF(NITSCHE/=0) THEN
             SBUF(SHIFT+1) = FORNEQS(1,NOD)
             SBUF(SHIFT+2) = FORNEQS(2,NOD)
             SBUF(SHIFT+3) = FORNEQS(3,NOD)
@@ -160,7 +160,7 @@ C-----------------------------------------------
           ENDIF
 
 C --- /CONT/MAX output
-          IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+          IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
             SBUF(SHIFT+1) = FCONT(1,NOD)
             SBUF(SHIFT+2) = FCONT(2,NOD)
             SBUF(SHIFT+3) = FCONT(3,NOD)
@@ -179,7 +179,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -206,7 +206,7 @@ C SAUVEGARGE VALEURS ACCEL
 
          SHIFT = 4
 
-         IF(IRODDL.NE.0) THEN
+         IF(IRODDL/=0) THEN
             SAV_A(SHIFT+1,J) = AR(1,NOD)
             SAV_A(SHIFT+2,J) = AR(2,NOD)
             SAV_A(SHIFT+3,J) = AR(3,NOD)
@@ -219,19 +219,19 @@ C SAUVEGARGE VALEURS ACCEL
             SHIFT = SHIFT+4
           ENDIF
 
-          IF(N2D .NE.0) THEN
+          IF(N2D /=0) THEN
             SAV_A(SHIFT+1,J) = MS(NOD)
             MS(NOD) = ZERO
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(N2D .NE.0.AND.IFSUBM .EQ.1) THEN
+          IF(N2D /=0.AND.IFSUBM ==1) THEN
             SAV_A(SHIFT+1,J) = MS_2D(NOD)
             MS_2D(NOD) = ZERO
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(IFSUBM .EQ.1)THEN
+          IF(IFSUBM ==1)THEN
             SAV_A(SHIFT+1,J) = MSNF(NOD)
             MSNF(NOD) = ZERO
             SHIFT = SHIFT+1
@@ -251,7 +251,7 @@ C SAUVEGARGE VALEURS ACCEL
              ENDIF
           ENDIF
 
-         IF(NITSCHE.NE.0) THEN
+         IF(NITSCHE/=0) THEN
             SAV_A(SHIFT+1,J) = FORNEQS(1,NOD)
             SAV_A(SHIFT+2,J) = FORNEQS(2,NOD)
             SAV_A(SHIFT+3,J) = FORNEQS(3,NOD)
@@ -263,7 +263,7 @@ C SAUVEGARGE VALEURS ACCEL
             SHIFT = SHIFT+NFACNIT
           ENDIF
 
-         IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+         IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
             SAV_A(SHIFT+1,J) = FCONT(1,NOD)
             SAV_A(SHIFT+2,J) = FCONT(2,NOD)
             SAV_A(SHIFT+3,J) = FCONT(3,NOD)
@@ -286,7 +286,7 @@ C
        IF(I/=LOC_PROC)THEN
 Cel test si msg necessaire a envoyer a completer par test interface
          NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-         IF(NB_NOD.GT.0)THEN
+         IF(NB_NOD>0)THEN
            CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
 
             L = IAD_RECV(I)
@@ -299,7 +299,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
   
                SHIFT = L+3
 
-               IF(IRODDL.NE.0) THEN
+               IF(IRODDL/=0) THEN
                  AR(1,NOD)= AR(1,NOD)+ RBUF(SHIFT+1)
                  AR(2,NOD)= AR(2,NOD)+ RBUF(SHIFT+2)
                  AR(3,NOD)= AR(3,NOD)+ RBUF(SHIFT+3)
@@ -307,17 +307,17 @@ Cel test si msg necessaire a envoyer a completer par test interface
                  SHIFT = SHIFT+4
                ENDIF
 
-               IF(N2D .NE.0) THEN
+               IF(N2D /=0) THEN
                   MS(NOD) = MS(NOD)+ RBUF(SHIFT+1)
                   SHIFT = SHIFT+1
                ENDIF
    
-               IF(N2D .NE.0.AND.IFSUBM .EQ.1) THEN
+               IF(N2D /=0.AND.IFSUBM ==1) THEN
                   MS_2D(NOD) = MS_2D(NOD)+ RBUF(SHIFT+1)
                   SHIFT = SHIFT+1
                ENDIF
 
-               IF(IFSUBM .EQ.1)THEN
+               IF(IFSUBM ==1)THEN
                   MSNF(NOD) = MSNF(NOD) + RBUF(SHIFT+1)
                   SHIFT = SHIFT+1
                ENDIF
@@ -333,14 +333,14 @@ Cel test si msg necessaire a envoyer a completer par test interface
                   ENDIF
                ENDIF
 
-               IF(NITSCHE.NE.0) THEN
+               IF(NITSCHE/=0) THEN
                  FORNEQS(1,NOD)= FORNEQS(1,NOD)+ RBUF(SHIFT+1)
                  FORNEQS(2,NOD)= FORNEQS(2,NOD)+ RBUF(SHIFT+2)
                  FORNEQS(3,NOD)= FORNEQS(3,NOD)+ RBUF(SHIFT+3)
                  SHIFT = SHIFT+NFACNIT
                ENDIF
 
-              IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+              IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
                  FCONT(1,NOD)= FCONT(1,NOD)+ RBUF(SHIFT+1)
                  FCONT(2,NOD)= FCONT(2,NOD)+ RBUF(SHIFT+2)
                  FCONT(3,NOD)= FCONT(3,NOD)+ RBUF(SHIFT+3)
@@ -360,7 +360,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
            STIFN(NOD)= STIFN(NOD)+ SAV_A(4,J)
            SHIFT = 4
 
-           IF(IRODDL.NE.0) THEN 
+           IF(IRODDL/=0) THEN 
              AR(1,NOD) = AR(1,NOD) + SAV_A(SHIFT+1,J)
              AR(2,NOD) = AR(2,NOD) + SAV_A(SHIFT+2,J)
              AR(3,NOD) = AR(3,NOD) + SAV_A(SHIFT+3,J)
@@ -368,17 +368,17 @@ Cel test si msg necessaire a envoyer a completer par test interface
              SHIFT = SHIFT+4
            ENDIF
 
-          IF(N2D .NE.0) THEN
+          IF(N2D /=0) THEN
             MS(NOD) = MS(NOD) + SAV_A(SHIFT+1,J)
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(N2D .NE.0.AND.IFSUBM .EQ.1) THEN
+          IF(N2D /=0.AND.IFSUBM ==1) THEN
             MS_2D(NOD) = MS_2D(NOD) + SAV_A(SHIFT+1,J)
             SHIFT = SHIFT+1
           ENDIF
 
-          IF(IFSUBM .EQ.1)THEN
+          IF(IFSUBM ==1)THEN
             MSNF(NOD) = MSNF(NOD) + SAV_A(SHIFT+1,J)
             SHIFT = SHIFT+1
           ENDIF
@@ -394,7 +394,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
             ENDIF
           ENDIF
 
-           IF(NITSCHE.NE.0) THEN 
+           IF(NITSCHE/=0) THEN 
              FORNEQS(1,NOD) = FORNEQS(1,NOD) + SAV_A(SHIFT+1,J)
              FORNEQS(2,NOD) = FORNEQS(2,NOD) + SAV_A(SHIFT+2,J)
              FORNEQS(3,NOD) = FORNEQS(3,NOD) + SAV_A(SHIFT+3,J)
@@ -402,7 +402,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
            ENDIF
 
 C --- /CONT/MAX output
-           IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX .NE.0.AND.NINTSTAMP==0) THEN
+           IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0.AND.NINTSTAMP==0) THEN
              FCONT(1,NOD) = FCONT(1,NOD) + SAV_A(SHIFT+1,J)
              FCONT(2,NOD) = FCONT(2,NOD) + SAV_A(SHIFT+2,J)
              FCONT(3,NOD) = FCONT(3,NOD) + SAV_A(SHIFT+3,J)
@@ -416,7 +416,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

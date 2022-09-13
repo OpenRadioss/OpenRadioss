@@ -147,7 +147,7 @@ C-----------------------------------------------
 
       !========== DEFAULT VALUES=============!              
       RHOR=RHO0
-      !IF(RHOR.EQ.ZERO)RHOR=RHO0
+      !IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
       NRATE = 0
@@ -156,10 +156,10 @@ C-----------------------------------------------
         CALL HM_GET_INT_ARRAY_INDEX      ('FunctionIds' ,IFUNC(I)  ,I ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX    ('ABG_cpa'     ,YFAC(I)   ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX    ('ABG_cpb'     ,RATE(I)   ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-        IF(IFUNC(I).NE.0) NRATE = I
+        IF(IFUNC(I)/=0) NRATE = I
       ENDDO
 
-      IF (NRATE .EQ. 0) THEN
+      IF (NRATE == 0) THEN
          CALL ANCMSG(MSGID=366,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -167,13 +167,13 @@ C-----------------------------------------------
      .               C1=TITR)
       ENDIF
 C
-      IF(R0 .EQ.ZERO) R0    = ONE
-      IF(R45.EQ.ZERO) R45   = ONE
-      IF(R90.EQ.ZERO) R90   = ONE
-      IF(EPSR1.EQ.ZERO)EPSR1=INFINITY
-      IF(EPSR2.EQ.ZERO)EPSR2=TWO*INFINITY
+      IF(R0 ==ZERO) R0    = ONE
+      IF(R45==ZERO) R45   = ONE
+      IF(R90==ZERO) R90   = ONE
+      IF(EPSR1==ZERO)EPSR1=INFINITY
+      IF(EPSR2==ZERO)EPSR2=TWO*INFINITY
       DO I=1,NRATE
-       IF(YFAC(I).EQ.ZERO) YFAC(I)=ONE * FAC_PRES
+       IF(YFAC(I)==ZERO) YFAC(I)=ONE * FAC_PRES
       ENDDO
 C
       !----------------------------------------------------------
@@ -192,13 +192,13 @@ C
       ENDIF
       !----------------------------------------------------------           
 C
-      IF (NRATE .EQ. 1) THEN
+      IF (NRATE == 1) THEN
        NUM_FUNC=2
        IFUNC(2)=IFUNC(1)
        RATE(1)=ZERO
        RATE(2)=ONE
        YFAC(2)=YFAC(1)
-      ELSEIF (RATE(1) .EQ. 0) THEN
+      ELSEIF (RATE(1) == 0) THEN
        NUM_FUNC=NRATE
       ELSE
        NUM_FUNC=NRATE+1

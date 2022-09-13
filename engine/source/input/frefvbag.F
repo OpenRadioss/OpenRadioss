@@ -58,10 +58,10 @@ C-----------------------------------------------
 C
       IKEY=KFVBAG
       II=0
-      IF (IKAD(IKEY).EQ.IKAD(IKEY+1)) RETURN
+      IF (IKAD(IKEY)==IKAD(IKEY+1)) RETURN
   100 CALL WRIUSC2(IKAD(IKEY)+II,1,KEY0(IKEY))
       READ(IUSC2,'(7X,A5,37X,I5)') KEY2, NBC
-      IF (KEY2.EQ.'REMES') THEN
+      IF (KEY2=='REMES') THEN
 C /FVMBAG/REMESH
          WRITE(IIN,'(I10)') 1
 C
@@ -90,7 +90,7 @@ C
          READ(IUSC2,*,ERR=9990,END=9990) N1, N2, N3
          WRITE(IIN,'(3I10)') N1, N2, N3
 C
-      ELSEIF (KEY2.EQ.'MODIF') THEN
+      ELSEIF (KEY2=='MODIF') THEN
 C /FVMBAG/MODIF
          II=II+1
          CALL WRIUSC2(IKAD(IKEY)+II,1,KEY0(IKEY))
@@ -102,7 +102,7 @@ C /FVMBAG/MODIF
          WRITE(IIN,'(I10,1P2G20.13,I10)') N1, VAL1, VAL2, N2
       ENDIF
       II=II+1
-      IF (IKAD(IKEY)+II.NE.IKAD(IKEY+1)) GO TO 100
+      IF (IKAD(IKEY)+II/=IKAD(IKEY+1)) GO TO 100
 C      
       RETURN
 C

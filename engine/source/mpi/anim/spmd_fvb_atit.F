@@ -63,8 +63,8 @@ C-----------------------------------------------
 C
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                DO J=1,FVDATA(I)%NPOLH_ANIM
                   WRITE(STR,'(I9,A1)') J+MAXPART,':'
                   DO K=1,10
@@ -98,7 +98,7 @@ C
                ENDDO
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NPOLH_ANIM, 1, MPI_INTEGER,
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,

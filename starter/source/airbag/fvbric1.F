@@ -183,8 +183,8 @@ C     ERROR
                NID(K) = IXS(1+KK,II)
             ENDDO
 C
-            IF (TFAC(2*(J-1)+1,I).EQ.0) THEN
-               IF (NALL.EQ.1) THEN
+            IF (TFAC(2*(J-1)+1,I)==0) THEN
+               IF (NALL==1) THEN
                   TFAC(2*(J-1)+1,I)=2
                   DO K = 1, NOD(J)
                      KK = FAC(K, J)
@@ -206,12 +206,12 @@ C     the face have to be considered
                            NID2(KK) = IBUF(ELEM(KK, TRIID))
                            NALL2 = NALL2 * ITAG2(NID2(KK))
                         ENDDO
-                        IF (NALL2 .EQ. 1) THEN
+                        IF (NALL2 == 1) THEN
                            IFOUND = IFOUND + 1
                            TAGELS(TRIID) = I
                            CALL FVNORMAL(X,NID2(1),NID2(2),NID2(3),0,NEX,NEY,NEZ)
                            SS=NSX*NEX+NSY*NEY+NSZ*NEZ
-                           IF (SS.LE.ZERO) THEN
+                           IF (SS<=ZERO) THEN
                               CALL ANCMSG(MSGID=634,
      .                             MSGTYPE=MSGERROR,
      .                             ANMODE=ANINFO_BLIND_1,
@@ -257,8 +257,8 @@ C
                   ENDIF
                ENDIF
 C
-            ELSEIF (TFAC(2*(J-1)+1,I).EQ.-2) THEN
-               IF (NALL.EQ.1) THEN
+            ELSEIF (TFAC(2*(J-1)+1,I)==-2) THEN
+               IF (NALL==1) THEN
                   DO K = 1, NOD(J)
                      KK = FAC(K, J)
                      ITAG2(IXS(1+KK,II))=1
@@ -270,7 +270,7 @@ C
                         LL=IBUF(ELEM(L,K))
                         NALL2=NALL2*ITAG2(LL)
                      ENDDO
-                     IF (NALL2.EQ.1) THEN
+                     IF (NALL2==1) THEN
                         IF (TAGELS(2*K-NEL-1) == 0) THEN
                            TAGELS(2*K-NEL-1)=I
                         ELSE 
@@ -332,7 +332,7 @@ C
 C
 C Verification de l'orientation des briques totalement internes
 C
-      IF (INFO.EQ.0) THEN
+      IF (INFO==0) THEN
          DO I=1,NB_NODE
             ITAG(I)=0
          ENDDO
@@ -343,7 +343,7 @@ CFA Une brique appuye sur l'airbag a des faces internes
             NTYPE=TBRIC(2,I)
             NFAC=NFACE(NTYPE)
             DO J=1,NFAC
-               IF (TFAC(2*(J-1)+1,I).NE.1) CYCLE
+               IF (TFAC(2*(J-1)+1,I)/=1) CYCLE
                NV=TFAC(2*(J-1)+2,I)
 C
                IF (NTYPE==2) THEN
@@ -366,7 +366,7 @@ C Normale a la facette solide
                   N1=IXS(1+FAC6(1,J),II)
                   N2=IXS(1+FAC6(2,J),II)
                   N3=IXS(1+FAC6(3,J),II)
-                  IF(NOD6(J).EQ.4) THEN
+                  IF(NOD6(J)==4) THEN
                      N4=IXS(1+FAC6(4,J),II)
                   ELSE
                      N4=0
@@ -381,7 +381,7 @@ C Normale a la facette solide
                   N1=IXS(1+FAC5(1,J),II)
                   N2=IXS(1+FAC5(2,J),II)
                   N3=IXS(1+FAC5(3,J),II)
-                  IF(NOD5(J).EQ.4) THEN
+                  IF(NOD5(J)==4) THEN
                      N4=IXS(1+FAC5(4,J),II)
                   ELSE
                      N4=0
@@ -428,7 +428,7 @@ C
                         NALL=NALL*ITAG(IXS(1+LL,TBRIC(1,NV)))
                      ENDDO
                   ENDIF
-                  IF (NALL.EQ.0) CYCLE
+                  IF (NALL==0) CYCLE
 C Normale a la facette du voisin
                   IF (NTYPE2==2) THEN
                      NN1=IXS(1+FAC4(1,K),TBRIC(1,NV))
@@ -440,7 +440,7 @@ C Normale a la facette du voisin
                      NN1=IXS(1+FAC6(1,K),TBRIC(1,NV))
                      NN2=IXS(1+FAC6(2,K),TBRIC(1,NV))
                      NN3=IXS(1+FAC6(3,K),TBRIC(1,NV))
-                     IF(NOD6(K).EQ.4) THEN
+                     IF(NOD6(K)==4) THEN
                         NN4=IXS(1+FAC6(4,K),TBRIC(1,NV))
                      ELSE
                         NN4=0
@@ -450,7 +450,7 @@ C Normale a la facette du voisin
                      NN1=IXS(1+FAC5(1,K),TBRIC(1,NV))
                      NN2=IXS(1+FAC5(2,K),TBRIC(1,NV))
                      NN3=IXS(1+FAC5(3,K),TBRIC(1,NV))
-                     IF(NOD5(K).EQ.4) THEN
+                     IF(NOD5(K)==4) THEN
                         NN4=IXS(1+FAC5(4,K),TBRIC(1,NV))
                      ELSE
                         NN4=0
@@ -465,7 +465,7 @@ C Normale a la facette du voisin
                   ENDIF
 C
                   SS=NSX*NSX2+NSY*NSY2+NSZ*NSZ2
-                  IF (SS.GE.ZERO) THEN
+                  IF (SS>=ZERO) THEN
                      CALL ANCMSG(MSGID=634,
      .                           MSGTYPE=MSGERROR,
      .                           ANMODE=ANINFO_BLIND_1,
@@ -505,7 +505,7 @@ C
 C Ajout des triangles airbag et interne non appuye sur une brique
 C
       DO I=1,NELT
-         IF (TAGELS(I).EQ.0) NELA=NELA+1
+         IF (TAGELS(I)==0) NELA=NELA+1
       ENDDO
 C
       IF(NELA > 0) THEN
@@ -546,7 +546,7 @@ C
       ENDDO
       NNA=0
       DO I=1,NB_NODE
-         IF (ITAG(I).EQ.1) THEN
+         IF (ITAG(I)==1) THEN
             NNA=NNA+1
          ENDIF
       ENDDO
@@ -568,7 +568,7 @@ C
 
       NNA=0
       DO I=1,NB_NODE
-         IF (ITAG(I).EQ.1) THEN
+         IF (ITAG(I)==1) THEN
             NNA=NNA+1
             T_MONVOLN%IBUFA(NNA)=I
          ENDIF

@@ -136,7 +136,7 @@ C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
         VMZ=V(3,NG1)+V(3,NG2)+V(3,NG3)
-        IF(N4.NE.N3) THEN
+        IF(N4/=N3) THEN
            LA(1,N4)=LA(1,N4)+NX
            LA(2,N4)=LA(2,N4)+NY
            LA(3,N4)=LA(3,N4)+NZ
@@ -173,7 +173,7 @@ C
           VN=(V(1,N)*LA(1,I)+V(2,N)*LA(2,I)+V(3,N)*LA(3,I))/SQRT(S)
 c on memorise la pression d'arret
           P0(I)=P0(I)/S
-          IF(VN.LT.ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
+          IF(VN<ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
 c          write(6,*)'P nodale', P0(I) 
           VO(I)=VN
           PO(I)=P0(I)
@@ -187,7 +187,7 @@ C
         DPDV=ROC
 c condition darret
         PN=P0(I)
-        IF(VN.LT.0)THEN
+        IF(VN<0)THEN
           PN=P0(I)-HALF*RHO*VN**2
           DPDV=DPDV-RHO*VN
         ENDIF

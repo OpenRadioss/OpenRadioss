@@ -132,7 +132,7 @@ C
       END DO
 C
       DO I=1,LAST-FIRST+1
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
          Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
@@ -448,7 +448,7 @@ C------------------------------------
           IF(.NOT.(IRECTM(3,IRM)==IRECTM(4,IRM).AND.J==3))THEN
             JRM =MVOISIN(J,IRM)
             JEDG=EVOISIN(J,IRM)
-            IF(JRM .NE. 0)THEN
+            IF(JRM /= 0)THEN
               WNOD_NORMAL(1,J,IRM)=NOD_NORMAL(1,JEDG,JRM)
               WNOD_NORMAL(2,J,IRM)=NOD_NORMAL(2,JEDG,JRM)
               WNOD_NORMAL(3,J,IRM)=NOD_NORMAL(3,JEDG,JRM)
@@ -465,7 +465,7 @@ C------------------------------------
         DO J=1,4
           IF(.NOT.(IRECTM(3,IRM)==IRECTM(4,IRM).AND.J==3))THEN
             JRM =MVOISIN(J,IRM)
-            IF( JRM .NE. 0) THEN
+            IF( JRM /= 0) THEN
               NX=NOD_NORMAL(1,J,IRM)+WNOD_NORMAL(1,J,IRM)
               NY=NOD_NORMAL(2,J,IRM)+WNOD_NORMAL(2,J,IRM)
               NZ=NOD_NORMAL(3,J,IRM)+WNOD_NORMAL(3,J,IRM)

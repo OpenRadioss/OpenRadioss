@@ -55,7 +55,7 @@ C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------
       DO 400 I=1,NRT
-      IF(STF(I).EQ.ZERO)GOTO 400
+      IF(STF(I)==ZERO)GOTO 400
       IXS=0
       IYS=0
       DO 100 J=1,4
@@ -67,11 +67,11 @@ C-----------------------------------------------
 C----------------------------------------------
 C  ELIMINATION SI SOMME DES NUMEROS DE NOEUDS #
 C----------------------------------------------
-      IF(IXS.NE.IYS)GOTO 400
+      IF(IXS/=IYS)GOTO 400
 C
       DO 200 J=1,4
       DO 150 K=1,4
-      IF(IX(J).EQ.IY(K))GOTO 200
+      IF(IX(J)==IY(K))GOTO 200
   150 CONTINUE
       GOTO 400
   200 CONTINUE

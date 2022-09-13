@@ -93,8 +93,8 @@ C=======================================================================
       ENDDO                                                 
 C     SEGMENTS 3 NOEUDS MISE DE N4 = N3                     
       DO I=1,NRT                                            
-        IF(IRECT(4,I).EQ.0) IRECT(4,I)=IRECT(3,I)           
-        IF(IRECT(1,I).EQ.IRECT(4,I)) THEN
+        IF(IRECT(4,I)==0) IRECT(4,I)=IRECT(3,I)           
+        IF(IRECT(1,I)==IRECT(4,I)) THEN
            OLDIRECT=IRECT(4,I)
            IRECT(4,I)=IRECT(3,I)                            
 C           WRITE(IOUT,*)'       REPLACED BY :',            
@@ -112,7 +112,7 @@ C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).
      .                 I7=IRECT(2,I),
      .                 I8=IRECT(3,I),
      .                 I9=IRECT(4,I))
-        ELSEIF(IRECT(2,I).EQ.IRECT(3,I)) THEN               
+        ELSEIF(IRECT(2,I)==IRECT(3,I)) THEN               
 C           IWARN = IWARN + 1                               
 C           WRITE(IOUT,*)' WARNING INTERFACE SEGMENT :',    
 C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
@@ -133,7 +133,7 @@ C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).
      .                 I7=IRECT(2,I),
      .                 I8=IRECT(3,I),
      .                 I9=IRECT(4,I))
-        ELSEIF(IRECT(1,I).EQ.IRECT(2,I)) THEN               
+        ELSEIF(IRECT(1,I)==IRECT(2,I)) THEN               
 C           IWARN = IWARN + 1                               
 C           WRITE(IOUT,*)' WARNING INTERFACE SEGMENT :',    
 C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).   
@@ -159,7 +159,7 @@ C            IRECT(1,I),IRECT(2,I),IRECT(3,I),IRECT(4,I).
         ENDIF                                               
       ENDDO                                                 
 C-------    
-      IF(IR.NE.0.AND.IR.NE.2)THEN              
+      IF(IR/=0.AND.IR/=2)THEN              
         DO J=1,NRT                 
           IR1=IRECT(1,J)           
           IRECT(1,J)=IRECT(2,J)    
@@ -171,16 +171,16 @@ C-------
       ENDIF                        
       N23=4                        
 C-------          
-      IF(IPRI.GE.1 .AND. .NOT.TYPE18) THEN                                              
+      IF(IPRI>=1 .AND. .NOT.TYPE18) THEN                                              
         WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'  
         K=1                                                           
         K4=4                                                          
-        IF(N2D.NE.0)K4=2                                              
+        IF(N2D/=0)K4=2                                              
         DO I=1,NRT                                                    
           WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)             
         ENDDO                                                         
       ENDIF                                                          
-      IF (NRT.NE.0) CALL COUNT3(IRECT,MSV,MSN,NRT,NTAG)                      
+      IF (NRT/=0) CALL COUNT3(IRECT,MSV,MSN,NRT,NTAG)                      
 C------------------------------------------------------------
       RETURN
       END

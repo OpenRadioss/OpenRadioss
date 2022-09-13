@@ -67,7 +67,7 @@ C-----------------------------------------------
        GAP2=(GAP+DGAPLOAD)*(GAP+DGAPLOAD)
        DRAD2=DRAD*DRAD
 C
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV2(I)=GAP2
         ENDDO
@@ -154,7 +154,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
 C
       ENDDO
       DO I=1,JLT
-        IF(PENE2(I).NE.ZERO)THEN
+        IF(PENE2(I)/=ZERO)THEN
           JLT_NEW = JLT_NEW + 1
           CAND_S(JLT_NEW) = CAND_S(I)
           CAND_M(JLT_NEW) = CAND_M(I)

@@ -284,5 +284,5 @@ c-----------------------------------------------------------------------
      & 5X,'FAILURE PLASTIC STRAIN EPS_MAX  . . . . . . =',1PG20.13/
      & 5X,'TENSILE FAILURE STRAIN 1 EPS_T1 . . . . . . =',1PG20.13/
      & 5X,'TENSILE FAILURE STRAIN 2 EPS_T2 . . . . . . =',1PG20.13/)
- 2100 FORMAT(1X,'EPS0 SHOULD BE .GT. 0. IF CC .NE. 0.')
+ 2100 FORMAT(1X,'EPS0 SHOULD BE > 0. IF CC /= 0.')
       END

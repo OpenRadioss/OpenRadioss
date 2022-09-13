@@ -104,11 +104,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
-      IF(MTN.EQ.11)RETURN
+      IF(MTN==11)RETURN
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------      
-      IF(UPWM.GT.1)THEN
+      IF(UPWM>1)THEN
       !      DO I=LFT,LLT
       !       V12(1,I)=X2(I)-X1(I)
       !       V12(2,I)=Y2(I)-Y1(I)
@@ -140,8 +140,8 @@ C-----------------------------------------------
       
       ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
       ! STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
-      IF(UPWM.LT.2 .OR.MTN.EQ.11)THEN
-        IF(MTN.EQ.11.AND.UPWM.GT.1)THEN
+      IF(UPWM<2 .OR.MTN==11)THEN
+        IF(MTN==11.AND.UPWM>1)THEN
           ! VDX,VDY,VDZ EST CALCULE DANS M11VS3
           DO I=LFT,LLT
              R(I,1)=RX(I)
@@ -163,9 +163,9 @@ C-----------------------------------------------
             A4(I) = FAC*(PX4(I)*VDX(I)+PY4(I)*VDY(I)+PZ4(I)*VDZ(I))
           ENDDO
           
-        ELSE!IF(MTN.EQ.11.AND.UPWM.GT.1)
+        ELSE!IF(MTN==11.AND.UPWM>1)
         
-          IF(UPWM.EQ.ZERO)THEN
+          IF(UPWM==ZERO)THEN
             DO I=LFT,LLT
               GAM(I)= PM(15,MAT(I))
             ENDDO
@@ -185,7 +185,7 @@ C-----------------------------------------------
            A4(I) = SIGN(GAM(I),A4(I))
           ENDDO
           
-        ENDIF !IF(MTN.EQ.11.AND.UPWM.GT.1)
+        ENDIF !IF(MTN==11.AND.UPWM>1)
        
          DO I=LFT,LLT
            FAC = FOURTH*RHO(I)*VOL(I)
@@ -211,7 +211,7 @@ C-----------------------------------------------
           F34(I) = F34(I) - (ONE+A4(I))*F3(I)
          ENDDO
 
-      ELSE ! IF(UPWM.LT.2 .OR.MTN.EQ.11)
+      ELSE ! IF(UPWM<2 .OR.MTN==11)
 
       ! SUPG OU TG
       ! FORMULATION DE LA FORCE DE TRANSPORT
@@ -324,7 +324,7 @@ C-----------------------------------------------
      .     PX4,PY4,PZ4,VDX4,VDY4,VDZ4,F14,F24,F34)
      
      
-      ENDIF!IF(UPWM.LT.2 .OR.MTN.EQ.11)
+      ENDIF!IF(UPWM<2 .OR.MTN==11)
 
       RETURN
       END

@@ -46,7 +46,7 @@ C=======================================================================
       OLD_TAG = TAG
       TAG = NEW_TAG
       
-      IF (OLD_TAG.NE.NEW_TAG) MODIF = MODIF+1 
+      IF (OLD_TAG/=NEW_TAG) MODIF = MODIF+1 
                   
 C-----------
       RETURN
@@ -100,24 +100,24 @@ C-----------------------------------------------
       JSUP=NUMNOD
       J=MAX(1,NUMNOD/2)
           
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         R2R_SYS=0
 C------------On check dans la liste des noeuds suprimes-----
         ITABM2  => ITABM1(2*NUMNOD+1:2*(NUMNOD+NODSUPR))	
 	SAUV = NUMNOD
 	NUMNOD = NODSUPR
 	NN=R2R_SYS2(IU,ITABM2,MESS)
-	IF (NN.EQ.0) R2R_SYS=-1
+	IF (NN==0) R2R_SYS=-1
 	NUMNOD = SAUV
 C-----------------------------------------------------------	
         RETURN
       ENDIF
       
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          R2R_SYS=ITABM1(J+NUMNOD)
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -158,7 +158,7 @@ C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
       DO I=1,N
-        IF(NTN(M,I).EQ.IEXT)THEN
+        IF(NTN(M,I)==IEXT)THEN
           R2R_NIN=I
           RETURN
         ENDIF
@@ -227,7 +227,7 @@ C
 C
         COMPT = 0
         DO I=1,NODGR_R2R
-	  IF (TAGNO(IGRNOD(IGS)%ENTITY(I)+NPART).NE.2) THEN
+	  IF (TAGNO(IGRNOD(IGS)%ENTITY(I)+NPART)/=2) THEN
 	    COMPT = COMPT + 1
             IBUF(COMPT)=IGRNOD(IGS)%ENTITY(I)
 	  ENDIF  
@@ -380,46 +380,46 @@ C--------------------------------------------------------
       R2R_EXIST=0
       CURS = 0
       
-      IF (TYP.EQ.107) THEN
+      IF (TYP==107) THEN
 C-----------MONVOL------------------
         DO I=1,NVOLU
 	  CURS=CURS+1
-          DO WHILE (TAGMON(CURS).EQ.0)              
+          DO WHILE (TAGMON(CURS)==0)              
 	    CURS=CURS+1
           END DO	
-	  IF (TAGMON(CURS).EQ.ID) R2R_EXIST=1
+	  IF (TAGMON(CURS)==ID) R2R_EXIST=1
 	END DO
-      ELSEIF (TYP.EQ.101) THEN
+      ELSEIF (TYP==101) THEN
 C-----------INTER------------------
         DO I=1,HM_NINTER+NSLASH(KINTER)
 	  CURS=CURS+1
-          DO WHILE (TAGINT(CURS).EQ.0)              
+          DO WHILE (TAGINT(CURS)==0)              
 	    CURS=CURS+1
           END DO
-	  IF (TAGINT(CURS).EQ.ID) R2R_EXIST=1
+	  IF (TAGINT(CURS)==ID) R2R_EXIST=1
 	END DO
-      ELSEIF (TYP.EQ.103) THEN
+      ELSEIF (TYP==103) THEN
 C-----------RBY------------------
         DO I=1,NRBODY
 	  CURS=CURS+1
-          DO WHILE (TAGRBY(CURS).EQ.0)              
+          DO WHILE (TAGRBY(CURS)==0)              
 	    CURS=CURS+1
           END DO	
-	  IF (TAGRBY(CURS).EQ.ID) R2R_EXIST=1
+	  IF (TAGRBY(CURS)==ID) R2R_EXIST=1
 	END DO
-      ELSEIF (TYP.EQ.105) THEN
+      ELSEIF (TYP==105) THEN
 C-----------CYL_JOIN--------------
         DO I=1,NJOINT
 	  CURS=CURS+1
-          DO WHILE (TAGCYL(CURS).EQ.0)              
+          DO WHILE (TAGCYL(CURS)==0)              
 	    CURS=CURS+1
           END DO	
-	  IF (TAGCYL(CURS).EQ.ID) R2R_EXIST=1
+	  IF (TAGCYL(CURS)==ID) R2R_EXIST=1
 	END DO	
-      ELSEIF (TYP.EQ.1001) THEN
+      ELSEIF (TYP==1001) THEN
 C-----------PART------------------
         DO I=1,NPART	
-	  IF (IPART(LIPART1*(I-1)+4).EQ.ID) CURS = I
+	  IF (IPART(LIPART1*(I-1)+4)==ID) CURS = I
 	END DO
 	IF (CURS == 0) THEN
            CALL ANCMSG(MSGID=258,
@@ -428,11 +428,11 @@ C-----------PART------------------
      .                 C1="PART",
      .                 I1=ID)
 	ENDIF
-	IF (TAG_PART(CURS).GT.0) R2R_EXIST=1
-      ELSEIF (TYP.EQ.1002) THEN
+	IF (TAG_PART(CURS)>0) R2R_EXIST=1
+      ELSEIF (TYP==1002) THEN
 C-----------SUBSET------------------
         DO I=1,NSUBS	
-	  IF (SUBSETS(I)%ID.EQ.ID) CURS = I
+	  IF (SUBSETS(I)%ID==ID) CURS = I
 	END DO
 	IF (CURS == 0) THEN
            CALL ANCMSG(MSGID=258,
@@ -442,32 +442,32 @@ C-----------SUBSET------------------
      .                 I1=ID)
 	ENDIF
 	R2R_EXIST=1
-      ELSEIF (TYP.EQ.102) THEN
+      ELSEIF (TYP==102) THEN
 C-----------RWALL-------------------
          R2R_EXIST=1
-      ELSEIF (TYP.EQ.104) THEN
+      ELSEIF (TYP==104) THEN
 C-----------SECTION-----------------
         DO I=1,NSECT
 	  CURS=CURS+1
-          DO WHILE (TAGSEC(CURS).EQ.0)              
+          DO WHILE (TAGSEC(CURS)==0)              
 	    CURS=CURS+1
           END DO	
-	  IF (TAGSEC(CURS).EQ.ID) R2R_EXIST=1
+	  IF (TAGSEC(CURS)==ID) R2R_EXIST=1
 	END DO 	        
-      ELSEIF (TYP.EQ.108) THEN
+      ELSEIF (TYP==108) THEN
 C-----------ACCELEROMETRE-----------
          R2R_EXIST=1
-      ELSEIF (TYP.EQ.110) THEN
+      ELSEIF (TYP==110) THEN
 C-----------FRAMES------------------
          R2R_EXIST=1 
-      ELSEIF (TYP.EQ.113) THEN
+      ELSEIF (TYP==113) THEN
 C-----------GAUGES------------------
         DO I=1,NBGAUGE
 	  CURS=CURS+1
-          DO WHILE (TAGGAU(CURS).EQ.0)              
+          DO WHILE (TAGGAU(CURS)==0)              
 	    CURS=CURS+1
           END DO	
-	  IF (TAGGAU(CURS).EQ.ID) R2R_EXIST=1
+	  IF (TAGGAU(CURS)==ID) R2R_EXIST=1
 	END DO 	       	  	    		 				
       ENDIF
       
@@ -514,11 +514,11 @@ C-----------------------------------------------------------
       JREC=IREC
       JREC=JREC+1
       READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE
-      DO WHILE(LINE(1:1).NE.'/')
+      DO WHILE(LINE(1:1)/='/')
         NVAR_TMP = NVAR
         READ(LINE,ERR=999,FMT=FMT_10I) J10
         DO I=1,10
-          IF(J10(I).NE.0) THEN
+          IF(J10(I)/=0) THEN
 C-----------on compte l'entite si elle existe encore----------	  
 	     IF (R2R_EXIST(TYP,J10(I))==1) NVAR=NVAR+1
 C-------------------------------------------------------------	     
@@ -624,7 +624,7 @@ C-- des boucles infinies avec R2R_SYS
       JINF=1
       JSUP=NUMNOD
       J=MAX(1,NUMNOD/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         CALL ANCMSG(MSGID=78,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -633,11 +633,11 @@ C-- des boucles infinies avec R2R_SYS
         R2R_SYS2=0
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          R2R_SYS2=ITABM1(J+NUMNOD)
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -748,7 +748,7 @@ C-----------------------------------------------
         JALE_FROM_PROP = IGEO(62,IPROP0)
         JALE= MAX(JALE_FROM_MAT, JALE_FROM_PROP)
         ELEM_VOID = 0
-        IF ((TAGNO(ID_PART).EQ.0).AND.(TAG_ELS(M).GT.0)) ELEM_VOID=1 
+        IF ((TAGNO(ID_PART)==0).AND.(TAG_ELS(M)>0)) ELEM_VOID=1 
         IF ((JALE > 0).AND.(TAGNO(ID_PART) > 0)) ALE_EULER = 1
         IF ((JALE == 0).OR.(ELEM_VOID == 0)) CYCLE
         FLG_FSI = 1
@@ -814,10 +814,10 @@ C-->  check des elements coque  <---
           END DO             
           DO K = 2,5
                 ITAGL(IXC(NIXC*(CUR_ID-1)+K)) = 1
-                IF (TAGNO(NPART+IXC(NIXC*(CUR_ID-1)+K)).EQ.2) FLG_T4 = 1
+                IF (TAGNO(NPART+IXC(NIXC*(CUR_ID-1)+K))==2) FLG_T4 = 1
           END DO
           SUM=ITAGL(FACE(1))+ITAGL(FACE(2))+ITAGL(FACE(3))+ITAGL(FACE(4))        
-          IF ((SUM.EQ.4).AND.((TAGNO(IPARTC(CUR_ID)).EQ.1).OR.(FLG_T4.EQ.0))) ELTAG = 1
+          IF ((SUM==4).AND.((TAGNO(IPARTC(CUR_ID))==1).OR.(FLG_T4==0))) ELTAG = 1
        END DO
 
 C-->  check des elements triangle  <---	 
@@ -829,11 +829,11 @@ C-->  check des elements triangle  <---
           END DO                         
           DO K = 2,4
             ITAGL(IXTG(NIXTG*(CUR_ID-1)+K)) = 1
-            IF (TAGNO(NPART+IXTG(NIXTG*(CUR_ID-1)+K)).EQ.2) FLG_T4 = 1
+            IF (TAGNO(NPART+IXTG(NIXTG*(CUR_ID-1)+K))==2) FLG_T4 = 1
           END DO
           SUM=ITAGL(FACE(1))+ITAGL(FACE(2))+ITAGL(FACE(3))+ITAGL(FACE(4))
-          IF (SUM.EQ.4) ELTAG = 1
-          IF ((SUM.EQ.4).AND.((TAGNO(IPARTG(CUR_ID)).EQ.1).OR.(FLG_T4.EQ.0))) ELTAG = 1	      
+          IF (SUM==4) ELTAG = 1
+          IF ((SUM==4).AND.((TAGNO(IPARTG(CUR_ID))==1).OR.(FLG_T4==0))) ELTAG = 1	      
        END DO
 
 C-->  check des elements solide  <---
@@ -845,33 +845,33 @@ C-->  check des elements solide  <---
           END DO 
           DO K = 2,9
             ITAGL(IXS(NIXS*(CUR_ID-1)+K)) = 1
-            IF (TAGNO(NPART+IXS(NIXS*(CUR_ID-1)+K)).EQ.2) FLG_T4 = 1
+            IF (TAGNO(NPART+IXS(NIXS*(CUR_ID-1)+K))==2) FLG_T4 = 1
           END DO
 	  IF (ISOLNOD(CUR_ID)==10) THEN
 	    OFFSET = NIXS*NUMELS
             CUR_10 = CUR_ID-NUMELS8
             DO K=1,6
                 ITAGL(IXS(OFFSET+6*(CUR_10-1)+K)) = 1
-                IF (TAGNO(NPART+IXS(OFFSET+6*(CUR_10-1)+K)).EQ.2) FLG_T4 = 1
+                IF (TAGNO(NPART+IXS(OFFSET+6*(CUR_10-1)+K))==2) FLG_T4 = 1
              ENDDO
 	  ELSEIF (ISOLNOD(CUR_ID)==20) THEN
 	     OFFSET = NIXS*NUMELS+6*NUMELS10
 	     CUR_20 = CUR_ID-(NUMELS8+NUMELS10)		 	       
              DO K=1,12
 	       ITAGL(IXS(OFFSET+12*(CUR_20-1)+K)) = 1
-               IF (TAGNO(NPART+IXS(OFFSET+12*(CUR_20-1)+K)).EQ.2) FLG_T4 = 1
+               IF (TAGNO(NPART+IXS(OFFSET+12*(CUR_20-1)+K))==2) FLG_T4 = 1
              ENDDO
 	  ELSEIF (ISOLNOD(CUR_ID)==16) THEN
 	     OFFSET = NIXS*NUMELS+6*NUMELS10+12*NUMELS20
 	     CUR_16 = CUR_ID-(NUMELS8+NUMELS10+NUMELS20) 	       
              DO K=1,8
 	       ITAGL(IXS(OFFSET+8*(CUR_16-1)+K)) = 1
-               IF (TAGNO(NPART+IXS(OFFSET+8*(CUR_16-1)+K)).EQ.2) FLG_T4 = 1
+               IF (TAGNO(NPART+IXS(OFFSET+8*(CUR_16-1)+K))==2) FLG_T4 = 1
              ENDDO			 		 	       
 	  ENDIF	
           SUM=ITAGL(FACE(1))+ITAGL(FACE(2))+ITAGL(FACE(3))+ITAGL(FACE(4))
-          IF (SUM.EQ.4) ELTAG = 1
-          IF ((SUM.EQ.4).AND.((TAGNO(IPARTS(CUR_ID)).EQ.1).OR.(FLG_T4.EQ.0))) ELTAG = 1	  
+          IF (SUM==4) ELTAG = 1
+          IF ((SUM==4).AND.((TAGNO(IPARTS(CUR_ID))==1).OR.(FLG_T4==0))) ELTAG = 1	  
 	END DO
                         
 C-----------

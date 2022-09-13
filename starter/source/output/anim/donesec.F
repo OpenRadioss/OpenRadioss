@@ -53,30 +53,30 @@ C-----------------------------------------------
       SAVE K1                                                           
       SAVE K0                                                           
 C-----------------------------------------------                        
-        IF (ISECT.EQ.1) K0 = NSTRF(25)                                  
+        IF (ISECT==1) K0 = NSTRF(25)                                  
         K5=K0+30+NSTRF(K0+14)+NSTRF(K0+6)                               
      1          +2*NSTRF(K0+7) +NSTRF(K0+8)*2                           
         NSEGC = NSTRF(K0+9)                                             
         DO J=1,NSEGC                                                    
           KK = K5+2*(J-1)+1                                             
-          IF(NSTRF(KK).NE.0) NESCT = NESCT + 1                          
+          IF(NSTRF(KK)/=0) NESCT = NESCT + 1                          
         ENDDO                                                           
         K9=K5+2*NSTRF(K0+9) +2*NSTRF(K0+10)                             
      1       +2*NSTRF(K0+11)+2*NSTRF(K0+12)                             
         NSEGTG = NSTRF(K0+13)                                           
         DO J=1,NSEGTG                                                   
           KK = K9+2*(J-1)+1                                             
-          IF(NSTRF(KK).NE.0) NESCT = NESCT + 1                          
+          IF(NSTRF(KK)/=0) NESCT = NESCT + 1                          
         ENDDO                                                           
         K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)                               
         NSEGS=NSTRF(K0+7)                                               
                                                                         
-        IF(NSEGS.NE.0) NESCT = NESCT + 1                                
+        IF(NSEGS/=0) NESCT = NESCT + 1                                
                                                                         
         DO J=1,NSEGS                                                    
           KK=K3+2*(J-1)                                                 
           IPACK=NSTRF(KK+1)                                             
-          IF(IPACK.NE.0)THEN                                            
+          IF(IPACK/=0)THEN                                            
             N =NSTRF(KK)                                                
             II(1)=IXS(2,N)                                              
             II(2)=IXS(3,N)                                              
@@ -86,20 +86,20 @@ C-----------------------------------------------
             II(6)=IXS(7,N)                                              
             II(7)=IXS(8,N)                                              
             II(8)=IXS(9,N)                                              
-            IF(     II(2).EQ.II(1).AND.II(4).EQ.II(3)                   
-     .         .AND.II(8).EQ.II(5).AND.II(7).EQ.II(6))THEN              
+            IF(     II(2)==II(1).AND.II(4)==II(3)                   
+     .         .AND.II(8)==II(5).AND.II(7)==II(6))THEN              
 C tetra4, tetra10                                                       
                 N1=MOD(IPACK/POWER2(1),2)                               
                 N2=MOD(IPACK/POWER2(3),2)                               
                 N3=MOD(IPACK/POWER2(5),2)                               
                 N4=MOD(IPACK/POWER2(6),2)                               
-                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0)                     
+                IF(N1/=0.AND.N2/=0.AND.N3/=0)                     
      .             NESCT = NESCT + 1                                    
-                IF(N1.NE.0.AND.N2.NE.0.AND.N4.NE.0)                     
+                IF(N1/=0.AND.N2/=0.AND.N4/=0)                     
      .             NESCT = NESCT + 1                                    
-                IF(N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)                     
+                IF(N2/=0.AND.N3/=0.AND.N4/=0)                     
      .             NESCT = NESCT + 1                                    
-                IF(N3.NE.0.AND.N1.NE.0.AND.N4.NE.0)                     
+                IF(N3/=0.AND.N1/=0.AND.N4/=0)                     
      .             NESCT = NESCT + 1                                    
             ELSE                                                        
 C brick, shell16, brick20                                               
@@ -111,17 +111,17 @@ C brick, shell16, brick20
                 N6=MOD(IPACK/POWER2(6),2)                               
                 N7=MOD(IPACK/POWER2(7),2)                               
                 N8=MOD(IPACK/POWER2(8),2)                               
-                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)         
+                IF(N1/=0.AND.N2/=0.AND.N3/=0.AND.N4/=0)         
      .             NESCT = NESCT + 1                                    
-                IF(N5.NE.0.AND.N6.NE.0.AND.N7.NE.0.AND.N8.NE.0)         
+                IF(N5/=0.AND.N6/=0.AND.N7/=0.AND.N8/=0)         
      .             NESCT = NESCT + 1                                    
-                IF(N1.NE.0.AND.N5.NE.0.AND.N6.NE.0.AND.N2.NE.0)         
+                IF(N1/=0.AND.N5/=0.AND.N6/=0.AND.N2/=0)         
      .             NESCT = NESCT + 1                                    
-                IF(N4.NE.0.AND.N8.NE.0.AND.N7.NE.0.AND.N3.NE.0)         
+                IF(N4/=0.AND.N8/=0.AND.N7/=0.AND.N3/=0)         
      .             NESCT = NESCT + 1                                    
-                IF(N1.NE.0.AND.N4.NE.0.AND.N8.NE.0.AND.N5.NE.0)         
+                IF(N1/=0.AND.N4/=0.AND.N8/=0.AND.N5/=0)         
      .             NESCT = NESCT + 1                                    
-                IF(N2.NE.0.AND.N3.NE.0.AND.N7.NE.0.AND.N6.NE.0)         
+                IF(N2/=0.AND.N3/=0.AND.N7/=0.AND.N6/=0)         
      .             NESCT = NESCT + 1                                    
             END IF                                                      
           END IF                                                        

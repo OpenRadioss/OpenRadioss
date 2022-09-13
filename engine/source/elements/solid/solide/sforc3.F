@@ -409,7 +409,7 @@ C
       IF (JCVT == 0) THEN
 C Gather nodal variables (coordinates, velocities) updated lagrangian formulation
        IALEFVM_MAT = IPM(251,IXS(1,NF1))
-       IF(IALEFVM_MAT.LE.1)THEN
+       IF(IALEFVM_MAT<=1)THEN
 C FEM velocity
          CALL SCOOR3(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
      .     X1, X2, X3, X4, X5, X6, X7, X8,
@@ -628,7 +628,7 @@ C One must have polyhedra maincell volume for interface type 22
         ENDIF
       ENDIF
 C
-      IF(JALE+JEUL > 0 .AND. IPARG1(64).EQ.1)THEN
+      IF(JALE+JEUL > 0 .AND. IPARG1(64)==1)THEN
 C Compute strain rates Dij (silent boundary element)
         CALL S11DEFO3(PM,V,VEUL,X,IXS,ALE_CONNECT,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
@@ -802,7 +802,7 @@ C
       ENDIF    ! JALE == 3 .AND. JLAG > 0
 C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
-      IF (IALEFVM_MAT  .GT. 1) THEN
+      IF (IALEFVM_MAT  > 1) THEN
 C ALEFVM strain rates
           CALL ALEFVM_EPSDOT (
      1                          IXS,  NV46, GBUF%SIG,  QVIS, VOLN,
@@ -897,7 +897,7 @@ C
             IFVM22      = 0
             IMAT        = IXS(1,LFT+NFT)
             IALEFVM_FLG = IPM(251,IMAT)
-            IF(IALEFVM_FLG.GE.2)IFVM22 = 1
+            IF(IALEFVM_FLG>=2)IFVM22 = 1
             CALL SBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,  
      .                  VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .                  VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
@@ -940,7 +940,7 @@ C Mass update
 C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
       IFVM_SKIP=0
-      IF(IALEFVM_MAT .GT. 1)IFVM_SKIP=1
+      IF(IALEFVM_MAT > 1)IFVM_SKIP=1
 C
 C Anti hourglass forces
       CALL SHVIS3(PM,GBUF%RHO,OFF,
@@ -976,7 +976,7 @@ C
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
 C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
-      IF(IALEFVM_MAT .LE. 1)THEN
+      IF(IALEFVM_MAT <= 1)THEN
        IF (JALE == 1 .OR. (JEUL == 1.AND.INTEG8 == 0)) THEN
 C ALE & Euler momentum transport forces 
         CALL AMOMT3(PM,GBUF%RHO,VOLN,
@@ -1049,7 +1049,7 @@ C
      .   MXT,QMV,BUFMAT,IPARG1,IXS,GBUF%TAG22, 
      .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)   
        ENDIF     
-      ENDIF !  IALEFVM_MAT .LE. 1
+      ENDIF !  IALEFVM_MAT <= 1
 C
       IF (IOUTPRT>0)THEN
 C Energy, momentum, mass balance by part in case of print-out
@@ -1058,7 +1058,7 @@ C Energy, momentum, mass balance by part in case of print-out
             IFVM22      = 0
             IMAT        = IXS(1,LFT+NFT)
             IALEFVM_FLG = IPM(251,IMAT)
-            IF(IALEFVM_FLG.GE.2)IFVM22 = 1
+            IF(IALEFVM_FLG>=2)IFVM22 = 1
             CALL SBILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
      .                  VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .                  VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
@@ -1137,7 +1137,7 @@ C Flow internal forces
       ENDIF
 C
       IALEFVM_MAT = IPM(251,IXS(1,NF1))
-      IF (IALEFVM_MAT .GT. 1) THEN
+      IF (IALEFVM_MAT > 1) THEN
 C ALEFVM forces
 C External forces work
           CALL ALEFVM_TFEXT (
@@ -1180,7 +1180,7 @@ C Internal forces
      5                        X  ,       IPM,     GBUF%RHO ,  GBUF%VOL, A    ,  GBUF%TAG22,
      6                        ELBUF_TAB, NEL,     GBUF%MOM ,  LBUF%SSP, ITASK)
           ENDIF    
-      ENDIF ! IALEFVM_MAT .GT. 1 
+      ENDIF ! IALEFVM_MAT > 1 
 C
       IF (INLOC > 0) THEN    
 C Virtual internal forces of regularized non local dof

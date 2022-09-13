@@ -105,9 +105,9 @@ C
          CALL HM_GET_INTV('Nio', NINOUT, IS_AVAILABLE, LSUBMODEL)
          ISU=0
          DO J=1,NSURF
-            IF (II.EQ.IGRSURF(J)%ID) ISU=J
+            IF (II==IGRSURF(J)%ID) ISU=J
          ENDDO
-         IF (ISU.EQ.0) THEN
+         IF (ISU==0) THEN
             CALL ANCMSG(MSGID=621,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .           I1=ID,C1=TITR,C2='SURFACE',I2=II)
          ENDIF
@@ -126,28 +126,28 @@ C
             ITAG(J1)=1
             ITAG(J2)=1
             ITAG(J3)=1
-            IF (ISH34.EQ.3) THEN
+            IF (ISH34==3) THEN
                NEL=NEL+2
                ITAG(J4)=1
-            ELSEIF (ISH34.EQ.7) THEN
+            ELSEIF (ISH34==7) THEN
                NEL=NEL+1
             ENDIF
          ENDDO
          NNO=0
          DO J=1,NUMNOD
-            IF (ITAG(J).EQ.1) NNO=NNO+1
+            IF (ITAG(J)==1) NNO=NNO+1
          ENDDO
          NNFT=NNFT+NNO
 C     
          CALL HM_GET_INTV('grn_IDaux', III, IS_AVAILABLE, LSUBMODEL)
          
          NNN=0
-         IF (III.NE.0) THEN
+         IF (III/=0) THEN
             IGR=0
             DO J=1,NGRNOD
-               IF (IGRNOD(J)%ID.EQ.III) IGR=J
+               IF (IGRNOD(J)%ID==III) IGR=J
             ENDDO
-            IF (IGR.EQ.0) THEN
+            IF (IGR==0) THEN
                CALL ANCMSG(MSGID=621,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -183,9 +183,9 @@ C     DAA SURFACES
          IF(FREESURF == 0) FREESURF=1
          ISU=0
          DO J=1,NSURF
-            IF (II.EQ.IGRSURF(J)%ID) ISU=J
+            IF (II==IGRSURF(J)%ID) ISU=J
          ENDDO
-         IF (ISU.EQ.0) THEN
+         IF (ISU==0) THEN
             CALL ANCMSG(MSGID=1603,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .           I1=ID,C1=TITR,C2='SURFACE NUMBER NOT FOUND')
          ENDIF
@@ -204,20 +204,20 @@ C
             ITAG(J1)=1
             ITAG(J2)=1
             ITAG(J3)=1
-            IF (ISH34.EQ.3) THEN
+            IF (ISH34==3) THEN
                ITAG(J4)=1
                IF(JFORM == 1) THEN
                   NEL=NEL+2
                ELSEIF(JFORM == 2) THEN
                   NEL=NEL+1
                ENDIF
-            ELSEIF (ISH34.EQ.7) THEN
+            ELSEIF (ISH34==7) THEN
                NEL=NEL+1
             ENDIF
          ENDDO
          NNO=0
          DO J=1,NUMNOD
-            IF (ITAG(J).EQ.1) NNO=NNO+1
+            IF (ITAG(J)==1) NNO=NNO+1
          ENDDO
          IF(NSPMD == 1) THEN
             IF(JFORM == 1) THEN
@@ -233,7 +233,7 @@ C
             ENDIF
          ENDIF
          HG = HUGE(NEL)
-         IF (NEL .GT. INT(SQRT(REAL(HG)))) THEN
+         IF (NEL > INT(SQRT(REAL(HG)))) THEN
             CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)
@@ -374,7 +374,7 @@ C
          
          ISU=0
          DO J=1,NSURF
-            IF (II.EQ.IGRSURF(J)%ID) ISU=J
+            IF (II==IGRSURF(J)%ID) ISU=J
          ENDDO
          SCALT_PA=SCALT
 C     
@@ -391,11 +391,11 @@ C
             ITAG(J1)=1
             ITAG(J2)=1
             ITAG(J3)=1
-            IF (ISH34.EQ.3) ITAG(J4)=1
+            IF (ISH34==3) ITAG(J4)=1
          ENDDO
          NNO=0
          DO J=1,NUMNOD
-            IF (ITAG(J).EQ.1) THEN
+            IF (ITAG(J)==1) THEN
                NNO=NNO+1
                IFLOW(IADI+NIFLOW+NNO)=J
                ITABINV(J)=NNO
@@ -408,12 +408,12 @@ C
             J3=IGRSURF(ISU)%NODES(J,3)
             J4=IGRSURF(ISU)%NODES(J,4)
             ISH34=IGRSURF(ISU)%ELTYP(J)
-            IF (ISH34.EQ.7) THEN
+            IF (ISH34==7) THEN
                NEL=NEL+1
                IFLOW(IADI+NIFLOW+NNO+3*(NEL-1)+1)=ITABINV(J1)
                IFLOW(IADI+NIFLOW+NNO+3*(NEL-1)+2)=ITABINV(J2)
                IFLOW(IADI+NIFLOW+NNO+3*(NEL-1)+3)=ITABINV(J3)
-            ELSEIF (ISH34.EQ.3) THEN
+            ELSEIF (ISH34==3) THEN
                NEL=NEL+1
                IFLOW(IADI+NIFLOW+NNO+3*(NEL-1)+1)=ITABINV(J1)
                IFLOW(IADI+NIFLOW+NNO+3*(NEL-1)+2)=ITABINV(J2)
@@ -425,15 +425,15 @@ C
             ENDIF
          ENDDO
 C     
-         IF (IINSIDE.NE.2) IINSIDE=1
+         IF (IINSIDE/=2) IINSIDE=1
 C     
          IPIMP=0
-         IF (IFPA.NE.0) THEN
+         IF (IFPA/=0) THEN
             IFUNC=0
             DO J=1,NFUNCT
-               IF (IFPA.EQ.NPC(J)) IFUNC=J
+               IF (IFPA==NPC(J)) IFUNC=J
             ENDDO
-            IF (IFUNC.EQ.0) THEN
+            IF (IFUNC==0) THEN
                CALL ANCMSG(MSGID=621,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -450,16 +450,16 @@ C
          CALL HM_GET_INTV('Itest', ITEST, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('Tole', TOLE, IS_AVAILABLE, LSUBMODEL, UNITAB)
          
-         IF (IINSIDE.EQ.2.AND.ITEST.EQ.1) ITEST=2
-         IF (TOLE.EQ.ZERO) TOLE=EM5
+         IF (IINSIDE==2.AND.ITEST==1) ITEST=2
+         IF (TOLE==ZERO) TOLE=EM5
 C     
          CALL HM_GET_FLOATV('Rho', RHO, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_INTV('Ivinf', IVINI, IS_AVAILABLE, LSUBMODEL)
 C     
          NNN=0
-         IF (III.NE.0) THEN
+         IF (III/=0) THEN
             DO J=1,NGRNOD
-               IF (IGRNOD(J)%ID.EQ.III) IGR=J
+               IF (IGRNOD(J)%ID==III) IGR=J
             ENDDO
             NNN=IGRNOD(IGR)%NENTITY
             DO J=1,NNN
@@ -493,9 +493,9 @@ C
 C     
             ISUIO=0
             DO K=1,NSURF
-               IF (II.EQ.IGRSURF(K)%ID) ISUIO=K
+               IF (II==IGRSURF(K)%ID) ISUIO=K
             ENDDO
-            IF (ISUIO.EQ.0) THEN
+            IF (ISUIO==0) THEN
                CALL ANCMSG(MSGID=621,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -508,12 +508,12 @@ C
 C     
             IFLOW(IADI+NIFLOW+NNO+3*NEL+NIIOFLOW*(J-1)+2)=0
 C     
-            IF (IFVEL.NE.0) THEN
+            IF (IFVEL/=0) THEN
                IFUNC=0
                DO K=1,NFUNCT
-                  IF (IFVEL.EQ.NPC(K)) IFUNC=K
+                  IF (IFVEL==NPC(K)) IFUNC=K
                ENDDO
-               IF (IFUNC.EQ.0) THEN
+               IF (IFUNC==0) THEN
                   CALL ANCMSG(MSGID=621,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -529,13 +529,13 @@ C
             IFLOW(IADI+NIFLOW+NNO+3*NEL+NIIOFLOW*(J-1)+3)=IFVEL
             RFLOW(IADR+NRFLOW+5*(NNO+NNN)+NRIOFLOW*(J-1)+1)=SFVEL
 C     
-            IF (IFPRES.NE.0) THEN
+            IF (IFPRES/=0) THEN
                IPIMP=IPIMP+1
                IFUNC=0
                DO K=1,NFUNCT
-                  IF (IFPRES.EQ.NPC(K)) IFUNC=K
+                  IF (IFPRES==NPC(K)) IFUNC=K
                ENDDO
-               IF (IFUNC.EQ.0) THEN
+               IF (IFUNC==0) THEN
                   CALL ANCMSG(MSGID=621,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
@@ -551,23 +551,23 @@ C
 C     
             RFLOW(IADR+NRFLOW+5*(NNO+NNN)+NRIOFLOW*(J-1)+3)=SCALT
          ENDDO
-         IF (NINOUT.GE.1) THEN
-            IF (IPIMP.NE.1) THEN
+         IF (NINOUT>=1) THEN
+            IF (IPIMP/=1) THEN
                CALL ANCMSG(MSGID=622,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
      .              I1=ID,
      .              C1=TITR,
      .              C2='ONE AND ONLY ONE PRESSURE MUST BE IMPOSED')
-            ELSEIF (IVFREE.NE.1.AND.(IINSIDE.EQ.0.OR.
-     .              (IINSIDE.EQ.1.AND.IVINI.EQ.0))) THEN
+            ELSEIF (IVFREE/=1.AND.(IINSIDE==0.OR.
+     .              (IINSIDE==1.AND.IVINI==0))) THEN
                CALL ANCMSG(MSGID=622,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
      .              I1=ID,
      .              C1=TITR,
      .              C2='ONE AND ONLY ONE VELOCITY MUST BE LEFT FREE')
-            ELSEIF (IVFREE.NE.0.AND.IINSIDE.EQ.1.AND.IVINI.EQ.1) THEN
+            ELSEIF (IVFREE/=0.AND.IINSIDE==1.AND.IVINI==1) THEN
                CALL ANCMSG(MSGID=622,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -576,7 +576,7 @@ C
      .              C2='NO FREE VELOCITY ALLOWED')
             ENDIF
          ELSE
-            IF (IFPA.EQ.0) THEN
+            IF (IFPA==0) THEN
                CALL ANCMSG(MSGID=622,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -604,7 +604,7 @@ C     Tag des elements d'entrees et de sorties
                ITAGIO(N1)=J
                ITAGIO(N2)=J
                ITAGIO(N3)=J
-               IF (ISH34.EQ.3) THEN
+               IF (ISH34==3) THEN
                   N4=ITABINV(NG4)
                   ITAGIO(N4)=J
                ENDIF
@@ -617,7 +617,7 @@ C
             N3=IFLOW(IADI+NIFLOW+NNO+3*(J-1)+3)
             PROD=ITAGIO(N1)*ITAGIO(N2)*ITAGIO(N3)
             IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+J)=0
-            IF (PROD.NE.0) 
+            IF (PROD/=0) 
      .           IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+J)=
      .           MAX(ITAGIO(N1),ITAGIO(N2),ITAGIO(N3))
          ENDDO 
@@ -627,7 +627,7 @@ C
          CALL HM_GET_FLOATV('Dtflow', DTSUB, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
          
-         IF (IFORM.EQ.0) IFORM=1
+         IF (IFORM==0) IFORM=1
 C     
          NBLOC=0
          NPROW=1
@@ -635,18 +635,18 @@ C
          IF (NSPMD > 1) THEN
             RNSPMD=NSPMD
             NRMAX=INT(SQRT(RNSPMD))
-            IF (IFORM.EQ.1) THEN
+            IF (IFORM==1) THEN
                DO NR=1,NRMAX
-                  IF (MOD(NSPMD,NR).EQ.0) THEN
+                  IF (MOD(NSPMD,NR)==0) THEN
                      NPROW=NR
                      NPCOL=NSPMD/NR
                   ENDIF
                ENDDO
-            ELSEIF (IFORM.EQ.2) THEN
+            ELSEIF (IFORM==2) THEN
                NPROW=NSPMD
                NPCOL=1
             ENDIF
-            IF (NNO.LT.1000) THEN
+            IF (NNO<1000) THEN
                NBLOCMAX=32
             ELSE
                NBLOCMAX=64
@@ -662,7 +662,7 @@ C
          DIRX=ZERO
          DIRY=ZERO
          DIRZ=ZERO
-         IF (IVINI.EQ.1) THEN
+         IF (IVINI==1) THEN
             CALL HM_GET_INTV('Ifvinf', IFVINI, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('Fscalevel', SFVINI, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Ascalevel', SCALT_VI, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -673,9 +673,9 @@ C
             
             IFUNC=0
             DO J=1,NFUNCT
-               IF (IFVINI.EQ.NPC(J)) IFUNC=J
+               IF (IFVINI==NPC(J)) IFUNC=J
             ENDDO
-            IF (IFUNC.EQ.0) THEN
+            IF (IFUNC==0) THEN
                CALL ANCMSG(MSGID=621,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -686,7 +686,7 @@ C
             ENDIF
             IFVINI=IFUNC
             NORM=SQRT(DIRX**2+DIRY**2+DIRZ**2)
-            IF (NORM.EQ.ZERO) THEN
+            IF (NORM==ZERO) THEN
                CALL ANCMSG(MSGID=622,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -743,19 +743,19 @@ C
 C     PRINTOUTS
          WRITE(IOUT,1000)
          WRITE(IOUT,1100) I, ID, TRIM(TITR),IGRSURF(ISU)%ID, NNO, NEL
-         IF (IINSIDE.EQ.1) THEN
+         IF (IINSIDE==1) THEN
             WRITE(IOUT,1110)
-         ELSEIF (IINSIDE.EQ.2) THEN
+         ELSEIF (IINSIDE==2) THEN
             WRITE(IOUT,1120)
          ENDIF
          WRITE(IOUT,1200) IFPA, SFPA, SCALT_PA, III, NNN
-         IF (ITEST.EQ.1) THEN
+         IF (ITEST==1) THEN
             WRITE(IOUT,1210)
             WRITE(IOUT,1225) TOLE
-         ELSEIF (ITEST.EQ.2) THEN
+         ELSEIF (ITEST==2) THEN
             WRITE(IOUT,1220)
             WRITE(IOUT,1225) TOLE
-         ELSEIF (ITEST.EQ.0) THEN
+         ELSEIF (ITEST==0) THEN
             WRITE(IOUT,1230)
          ENDIF
          WRITE(IOUT,1300) RHO
@@ -768,12 +768,12 @@ C     PRINTOUTS
             SFPRES=RFLOW(IADR+NRFLOW+5*(NNO+NNN)+NRIOFLOW*(J-1)+2)
             SCALT=RFLOW(IADR+NRFLOW+5*(NNO+NNN)+NRIOFLOW*(J-1)+3)
             WRITE(IOUT,1410) J, IGRSURF(ISUIO)%ID
-            IF (IFVEL.GT.0) WRITE(IOUT,1420) IFVEL, SFVEL
-            IF (IFPRES.GT.0) WRITE(IOUT,1430) IFPRES, SFPRES
+            IF (IFVEL>0) WRITE(IOUT,1420) IFVEL, SFVEL
+            IF (IFPRES>0) WRITE(IOUT,1430) IFPRES, SFPRES
             WRITE(IOUT,1440) SCALT
          ENDDO
          WRITE(IOUT,1500) IFORM, ILVOUT, DTSUB
-         IF (IVINI.EQ.1) WRITE(IOUT,1600) IFVINI, SFVINI, SCALT_VI,
+         IF (IVINI==1) WRITE(IOUT,1600) IFVINI, SFVINI, SCALT_VI,
      .        DIRX, DIRY, DIRZ
          IF (NSPMD > 1) WRITE(IOUT,1700) NPROW, NPCOL, NBLOC
 C     
@@ -833,7 +833,7 @@ C
 C     
          ISU=0
          DO J=1,NSURF
-            IF (II.EQ.IGRSURF(J)%ID) ISU=J
+            IF (II==IGRSURF(J)%ID) ISU=J
          ENDDO
 C     
          NN =IGRSURF(ISU)%NSEG
@@ -849,11 +849,11 @@ C
             ITAG(J1)=1
             ITAG(J2)=1
             ITAG(J3)=1
-            IF (ISH34.EQ.3) ITAG(J4)=1
+            IF (ISH34==3) ITAG(J4)=1
          ENDDO
          NNO=0
          DO J=1,NUMNOD
-            IF (ITAG(J).EQ.1) THEN
+            IF (ITAG(J)==1) THEN
                NNO=NNO+1
                IFLOW(IADI+NIFLOW+NNO)=J
                ITABINV(J)=NNO
@@ -867,13 +867,13 @@ C
             J4=IGRSURF(ISU)%NODES(J,4)
             ISH34=IGRSURF(ISU)%ELTYP(J)
             IF(JFORM == 1) THEN
-               IF (ISH34.EQ.7) THEN
+               IF (ISH34==7) THEN
                   NEL=NEL+1
                   IAD2=IADI+NIFLOW+NNO+3*(NEL-1)
                   IFLOW(IAD2+1)=ITABINV(J1)
                   IFLOW(IAD2+2)=ITABINV(J2)
                   IFLOW(IAD2+3)=ITABINV(J3)
-               ELSEIF (ISH34.EQ.3) THEN
+               ELSEIF (ISH34==3) THEN
                   NEL=NEL+1
                   IAD2=IADI+NIFLOW+NNO+3*(NEL-1)
                   IFLOW(IAD2+1)=ITABINV(J1)
@@ -886,7 +886,7 @@ C
                   IFLOW(IAD2+3)=ITABINV(J4)
                ENDIF
             ELSEIF(JFORM == 2) THEN
-               IF (ISH34.EQ.7) THEN
+               IF (ISH34==7) THEN
                   NEL =NEL+1
                   IAD2=IADI+NIFLOW+NNO+5*(NEL-1)
                   IFLOW(IAD2+1)=ITABINV(J1)
@@ -895,7 +895,7 @@ C
                   IFLOW(IAD2+4)=ITABINV(J3)
                   IFLOW(IAD2+5)=2
                   IF(NBGAUGE > 0) N_SHELL(NEL)=0
-               ELSEIF (ISH34.EQ.3) THEN
+               ELSEIF (ISH34==3) THEN
                   NEL =NEL+1
                   IAD2=IADI+NIFLOW+NNO+5*(NEL-1)
                   IFLOW(IAD2+1)=ITABINV(J1)
@@ -931,12 +931,12 @@ C     Initialization
                CALL HM_GET_FLOATV_DIM('FscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
                SFPRES = ONE * FAC_GEN
             ENDIF
-            IF (IFPRES.NE.0) THEN
+            IF (IFPRES/=0) THEN
                IFUNC=0
                DO K=1,NFUNCT
-                  IF (IFPRES.EQ.NPC(K)) IFUNC=K
+                  IF (IFPRES==NPC(K)) IFUNC=K
                ENDDO
-               IF (IFUNC.EQ.0) THEN
+               IF (IFUNC==0) THEN
                   CALL ANCMSG(MSGID=621,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                 I1=ID,C1=TITR,C2='FUNCTION',I2=IFPRES)
                ENDIF
@@ -970,7 +970,7 @@ C     Initialization
             CALL HM_GET_FLOATV('Dir-Y', DIRY, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Dir-Z', DIRZ, IS_AVAILABLE, LSUBMODEL, UNITAB)              			
             NORM=SQRT(DIRX**2+DIRY**2+DIRZ**2)
-            IF (NORM.EQ.ZERO) THEN
+            IF (NORM==ZERO) THEN
                CALL ANCMSG(MSGID=622,
      .              MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .              I1=ID,C1=TITR,C2='NULL FREE SURFACE NORMAL')
@@ -994,12 +994,12 @@ C     Compute Image D of Charge C
             RNSPMD=NSPMD
             NRMAX=INT(SQRT(RNSPMD))
             DO NR=1,NRMAX
-               IF (MOD(NSPMD,NR).EQ.0) THEN
+               IF (MOD(NSPMD,NR)==0) THEN
                   NPROW=NR
                   NPCOL=NSPMD/NR
                ENDIF
             ENDDO
-            IF (NEL.LT.1000) THEN
+            IF (NEL<1000) THEN
                NBLOCMAX=32
             ELSE
                NBLOCMAX=64
@@ -1036,7 +1036,7 @@ C
             ENDIF
          ENDIF
          HG = HUGE(NEL)
-         IF (NEL .GT. INT(SQRT(REAL(HG)))) THEN
+         IF (NEL > INT(SQRT(REAL(HG)))) THEN
             CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)
@@ -1155,7 +1155,7 @@ C-------------------------------------------------------------------------------
          IR6=IR5+NEL*FREESURF
          IR7=IR6+NEL*FREESURF
          HG = HUGE(NEL)
-         IF (NEL .GT. INT(SQRT(REAL(HG)))) THEN
+         IF (NEL > INT(SQRT(REAL(HG)))) THEN
             CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)

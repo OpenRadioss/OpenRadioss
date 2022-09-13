@@ -73,7 +73,7 @@ C-----------------------------------------------
         IC=ISPCOND(2,NC)
         IS=ISPCOND(3,NC)
         ISLIDE=ISPCOND(5,NC)
-        IF (IC.EQ.1) THEN
+        IF (IC==1) THEN
             OX=XFRAME(10,IS)
             OY=XFRAME(11,IS)
             OZ=XFRAME(12,IS)
@@ -86,7 +86,7 @@ C-----------------------------------------------
             WX=XFRAME(7,IS)
             WY=XFRAME(8,IS)
             WZ=XFRAME(9,IS)
-        ELSEIF (IC.EQ.2) THEN
+        ELSEIF (IC==2) THEN
             OX=XFRAME(10,IS)
             OY=XFRAME(11,IS)
             OZ=XFRAME(12,IS)
@@ -99,7 +99,7 @@ C-----------------------------------------------
             WX=XFRAME(1,IS)
             WY=XFRAME(2,IS)
             WZ=XFRAME(3,IS)
-        ELSEIF (IC.EQ.3) THEN
+        ELSEIF (IC==3) THEN
             OX=XFRAME(10,IS)
             OY=XFRAME(11,IS)
             OZ=XFRAME(12,IS)
@@ -116,14 +116,14 @@ C-----------------------------------------------
         DO SS=1,NSPHACT
          SM=WASPACT(SS)
          JS=ISPSYM(NC,SM)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           TXX=WA(1,SM)
           TYY=WA(2,SM)
           TZZ=WA(3,SM)
           TXY=WA(4,SM)
           TYZ=WA(5,SM)
           TXZ=WA(6,SM)
-          IF(ISLIDE.EQ.0)THEN
+          IF(ISLIDE==0)THEN
 C----------
            WASIGSM(1,JS)=TXX
            WASIGSM(2,JS)=TYY
@@ -185,14 +185,14 @@ C Particules symetriques de particules remotes
 C
         DO SS=1,NSPHR
          JS=ISPSYMR(NC,SS)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           TXX=WAR(1,SS)
           TYY=WAR(2,SS)
           TZZ=WAR(3,SS)
           TXY=WAR(4,SS)
           TYZ=WAR(5,SS)
           TXZ=WAR(6,SS)
-          IF(ISLIDE.EQ.0)THEN
+          IF(ISLIDE==0)THEN
 C----------
            WASIGSM(1,JS)=TXX
            WASIGSM(2,JS)=TYY

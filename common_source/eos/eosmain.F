@@ -153,7 +153,7 @@ C-----------------------------------------------
       ! inutile de conserver cela, si PNEW a une expression cumulative avec IEOSTYP=1 mais dans tous les autres cas il est ecrase.
       ! a quoi bon mettre a 0.0 quelque chose qui va etre ecrase dans le bloc SELECT CASE ce dessous.
       !IF (IFLAG==1)THEN
-      !  IF (MLW .NE. 6 .AND. MLW .NE. 17) THEN
+      !  IF (MLW /= 6 .AND. MLW /= 17) THEN
       !      IF(EOSTYP/=13)PNEW(1:NEL) = ZERO
       !  ENDIF
       !ENDIF

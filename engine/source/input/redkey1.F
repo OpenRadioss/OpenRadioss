@@ -57,18 +57,18 @@ C
    5  KEY(J)=' '
       JK=0
       DO 10 I=1,ncharline
-      IF(CARTE(I:I).EQ.'/')THEN
+      IF(CARTE(I:I)=='/')THEN
        JK=JK+1
        J=0
-      ELSEIF(CARTE(I:I).NE.' ')THEN
+      ELSEIF(CARTE(I:I)/=' ')THEN
        J=J+1
-       IF(J.LE.5)KEY(JK)(J:J)=CARTE(I:I)
+       IF(J<=5)KEY(JK)(J:J)=CARTE(I:I)
       ENDIF
  10   CONTINUE
 C
       DO 100 I=1,NKEY
       IKEY=I
- 100  IF(KEY(1).EQ.KEY0(IKEY)) GOTO 400
+ 100  IF(KEY(1)==KEY0(IKEY)) GOTO 400
 C
       IR=1
       IKEY=IKEYO
@@ -80,18 +80,18 @@ C
       IOK = 0
       J=0
 
-      IF(IKEY.EQ.1.OR.IKEY.EQ.58)THEN  
+      IF(IKEY==1.OR.IKEY==58)THEN  
        IF (GOT_INPUT == 0.OR.IKEY==58) THEN
         DO 410 I=5,ncharline
-        IF(IOK.EQ.0.AND.CARTE(I:I).EQ.'/')THEN
+        IF(IOK==0.AND.CARTE(I:I)=='/')THEN
          IOK = 1
-        ELSEIF(IOK.EQ.1.AND.CARTE(I:I).EQ.'/')THEN
+        ELSEIF(IOK==1.AND.CARTE(I:I)=='/')THEN
          ROOTLEN = J
          RETURN
-        ELSEIF(IOK.EQ.1.AND.CARTE(I:I).NE.' ')THEN
+        ELSEIF(IOK==1.AND.CARTE(I:I)/=' ')THEN
          J=J+1
 
-         IF(J.LE.80)ROOTNAM(J:J)=CARTE(I:I)
+         IF(J<=80)ROOTNAM(J:J)=CARTE(I:I)
         ENDIF
  410    CONTINUE
        ELSE

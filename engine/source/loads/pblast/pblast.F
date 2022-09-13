@@ -118,7 +118,7 @@ C-----------------------------------------------
          ID      = ILOADP(08,NL) !user_id                
          NDT     = PBLAST_NDT                            
          NDT0    = ILOADP(10,NL)                         
-         IF(NDT0.NE.0) NDT = NDT0                  
+         IF(NDT0/=0) NDT = NDT0                  
                    
          
          SELECT CASE(ABAC_ID)

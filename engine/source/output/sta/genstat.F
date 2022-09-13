@@ -181,18 +181,18 @@ C-----------------------------------------------
 C===============================================|
 C   OPEN FILE
 C-----------------------------------------------
-      IF(ISTATF.GE.10000)ISTATF=1
+      IF(ISTATF>=10000)ISTATF=1
       WRITE(CHSTAT,'(I4.4)')ISTATF
       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHSTAT//'.sta'
       FILEN = ROOTLEN + 9
       LEN_TMP_NAME = OUTFILE_NAME_LEN + FILEN
       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:FILEN)
 
-      IF(IMACH.NE.3.OR.IS_FILE_TO_BE_WRITTEN) THEN
+      IF(IMACH/=3.OR.IS_FILE_TO_BE_WRITTEN) THEN
         OPEN(UNIT=IUGEO,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
         WRITE(IUGEO,'(2A)')'#RADIOSS STATE FILE ',FILNAM(1:FILEN)
         !   OPEN STRS FILE
-        IF(IZIPSTRS.NE.0) THEN
+        IF(IZIPSTRS/=0) THEN
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHSTAT//'.str'
           LEN_TMP_NAME = OUTFILE_NAME_LEN + FILEN
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:FILEN)
@@ -201,16 +201,16 @@ C-----------------------------------------------
             CALL CUR_FIL_C(0)
           ENDDO
         ENDIF
-        IF(IZIPSTRS.EQ.1)THEN
+        IF(IZIPSTRS==1)THEN
           CALL OPEN_C(CTEXT,LEN_TMP_NAME,0)
-        ELSEIF(IZIPSTRS.EQ.2)THEN
+        ELSEIF(IZIPSTRS==2)THEN
           CALL OPEN_C(CTEXT,LEN_TMP_NAME,6)
         ENDIF
       END IF
 C-----------------------------------------------
 C   /BEGIN + UNITS
 C-----------------------------------------------
-      IF(IMACH.NE.3.OR.IS_FILE_TO_BE_WRITTEN) THEN
+      IF(IMACH/=3.OR.IS_FILE_TO_BE_WRITTEN) THEN
           WRITE(IUGEO,'(A)')'/BEGIN'
           WRITE(IUGEO,'(A)') ROOTNAM(1:ROOTLEN)
           WRITE(IUGEO,'(I10,I10)') ST_INVERS, 0
@@ -354,7 +354,7 @@ c
 C-----------------------------------------------
 C   IF OPTION IS STATE/NODE/ALL 
 C-----------------------------------------------
-      IF(NSTATALL .NE. 0) THEN
+      IF(NSTATALL /= 0) THEN
         DO I=1,NUMNOD
           NODTAG(I) = 1
         ENDDO
@@ -375,7 +375,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       CALL STAT_NODE(X,NUMNOD,ITAB,ITABG,LENG,NODGLOB,WEIGHT,NODTAG)
       
-      IF(IZIPSTRS .NE. 0 .AND. IS_FILE_TO_BE_WRITTEN)THEN
+      IF(IZIPSTRS /= 0 .AND. IS_FILE_TO_BE_WRITTEN)THEN
         WRITE(IUGEO,'(A)')'/STATE/STR_FILE'
         WRITE(IUGEO,'(A)')'# gzip (no:0: yes:1)'
         WRITE(IUGEO,'(I10)')IZIPSTRS-1
@@ -386,15 +386,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   NODE SCALAR
 C-----------------------------------------------
-      IF(STAT_N(1).EQ.1) 
+      IF(STAT_N(1)==1) 
      .   CALL STAT_N_TEMP(X,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,WEIGHT,NODTAG,TEMP)
 
-      IF(STAT_N(2).EQ.1) 
+      IF(STAT_N(2)==1) 
      .  CALL STAT_N_BCS(ICODE,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,ISKEW,NODTAG)
 ! translation/rotation velocity
-      IF(STAT_N(3).EQ.1)
+      IF(STAT_N(3)==1)
      .   CALL STAT_N_VEL(NUMNOD ,ITAB   ,ITABG  ,LENG ,NODGLOB,
      .                   WEIGHT ,NODTAG ,V      ,VR   )
 C-----------------------------------------------
@@ -410,7 +410,7 @@ C-----------------------------------------------
       ELSE
         ALLOCATE(WA(1))
       ENDIF
-      IF(IERR.NE.0)THEN
+      IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
@@ -419,7 +419,7 @@ C-----------------------------------------------
       IERR = 0
       SIZP0 = MAX(1,SIZP0)
       ALLOCATE(WAP0(SIZP0),STAT=IERR)
-      IF(IERR.NE.0)THEN
+      IF(IERR/=0)THEN
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
@@ -427,119 +427,119 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   SHELL SCALAR
 C-----------------------------------------------
-      IF(STAT_C(1).EQ.1) CALL STAT_C_OFF(
+      IF(STAT_C(1)==1) CALL STAT_C_OFF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO ,IXC  ,
      .   IXTG ,WA,WAP0,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)
 
 C     option non documentee (not a public option) ::
-      IF(STAT_C(2).EQ.1) CALL STAT_C_THK(
+      IF(STAT_C(2)==1) CALL STAT_C_THK(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
      .   THKE ,SIZP0)
 
-      IF(STAT_C(3).EQ.1) CALL STAT_C_EPSPF(
+      IF(STAT_C(3)==1) CALL STAT_C_EPSPF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
      .   THKE ,SIZP0)
 
-      IF(STAT_C(4).EQ.1) CALL STAT_C_STRSF(
+      IF(STAT_C(4)==1) CALL STAT_C_STRSF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
      .   THKE ,SIZP0)
 
-      IF(STAT_C(10).EQ.1) CALL STAT_C_STRSFG(
+      IF(STAT_C(10)==1) CALL STAT_C_STRSFG(
      .   ELBUF_TAB,X,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
      .   THKE ,SIZP0,GEO ,STACK,DRAPE_Q4,DRAPE_T3)
 
-      IF(STAT_C(5).EQ.1) CALL STAT_C_STRAF(
+      IF(STAT_C(5)==1) CALL STAT_C_STRAF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
      .   THKE ,SIZP0)
 
-      IF(STAT_C(11).EQ.1) CALL STAT_C_STRAFG(
+      IF(STAT_C(11)==1) CALL STAT_C_STRAFG(
      .   ELBUF_TAB,X,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,
      .   THKE ,SIZP0,GEO ,STACK,DRAPE_Q4,DRAPE_T3)
 
-      IF(STAT_C(6).EQ.1) CALL STAT_C_AUXF(
+      IF(STAT_C(6)==1) CALL STAT_C_AUXF(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)
      
 C     
-      IF(STAT_C(7).EQ.1) CALL STAT_C_ORTH_LOC(
+      IF(STAT_C(7)==1) CALL STAT_C_ORTH_LOC(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,X,STAT_C(9),SIZP0)
 C     
-      IF(STAT_C(8).EQ.1) CALL STAT_C_FAIL(
+      IF(STAT_C(8)==1) CALL STAT_C_FAIL(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)
 C-----------------------------------------------
 C   SHELL TENSOR(2D)
 C-----------------------------------------------
-c      IF (IMACH.EQ.3) THEN
+c      IF (IMACH==3) THEN
 c        CALL OUTP_ARSZ_CT(IPARG,DD_IAD,SIZLOC,SIZP0)
 c      ELSE
 c        SIZLOC=0
 c        SIZP0=0
 c      ENDIF
 
-c      IF(OUTP_CT(95).EQ.1) CALL OUTP_C_TF(95,'STRESS_FUL',
+c      IF(OUTP_CT(95)==1) CALL OUTP_C_TF(95,'STRESS_FUL',
 c     .   ' Full stress tensor + plastic strain    ',
 c     .   BUFEL,IPARG,TANI,DD_IAD,SIZLOC,SIZP0)
 
-c      IF(OUTP_CT(96).EQ.1) CALL OUTP_C_TF(96,'STRAIN_FUL',
+c      IF(OUTP_CT(96)==1) CALL OUTP_C_TF(96,'STRAIN_FUL',
 c     .   ' Full strain tensor + plastic strain    ',
 c     .   BUFEL,IPARG,TANI,DD_IAD,SIZLOC,SIZP0 )
 C-----------------------------------------------
 C   BRICK TENSOR
 C-----------------------------------------------
-      IF(STAT_S(4).EQ.1) CALL STAT_S_STRSF(                     ! /INIBRI/STRESS/FULL
+      IF(STAT_S(4)==1) CALL STAT_S_STRSF(                     ! /INIBRI/STRESS/FULL
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,X,0,IPART,SIZP0)
      
-      IF(STAT_S(5).EQ.1) CALL STAT_S_STRAF(                     ! /INIBRI/STRAIN/FULL
+      IF(STAT_S(5)==1) CALL STAT_S_STRAF(                     ! /INIBRI/STRAIN/FULL
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,X,0,IPART,SIZP0)
      
-      IF(STAT_S(6).EQ.1) CALL STAT_S_AUXF(                      ! /INIBRI/AUX
+      IF(STAT_S(6)==1) CALL STAT_S_AUXF(                      ! /INIBRI/AUX
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,IPART,SIZP0)
-      IF(STAT_S(7).EQ.1) CALL STAT_S_ORTHO(                     ! /INIBRI/ORTHO
+      IF(STAT_S(7)==1) CALL STAT_S_ORTHO(                     ! /INIBRI/ORTHO
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,X,0,IPART,STAT_S(12),SIZP0)  
-      IF(STAT_S(8).EQ.1) CALL STAT_S_STRSF(                     ! /INIBRI/STRESS/GLOBF
+      IF(STAT_S(8)==1) CALL STAT_S_STRSF(                     ! /INIBRI/STRESS/GLOBF
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,X,1,IPART,SIZP0)
      
-      IF(STAT_S(9).EQ.1) CALL STAT_S_STRAF(                     ! /INIBRI/STRAIN/GLOBF
+      IF(STAT_S(9)==1) CALL STAT_S_STRAF(                     ! /INIBRI/STRAIN/GLOBF
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,X,1,IPART,SIZP0)
-      IF(STAT_S(10).EQ.1) CALL STAT_S_ORTHO(                    ! /INIBRI/ORTHO/GLOBF
+      IF(STAT_S(10)==1) CALL STAT_S_ORTHO(                    ! /INIBRI/ORTHO/GLOBF
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,     
      3                        STAT_INDXS,X,1,IPART,STAT_S(12),SIZP0)  
-      IF(STAT_S(11).EQ.1) CALL STAT_S_FAIL(
+      IF(STAT_S(11)==1) CALL STAT_S_FAIL(
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,IPART,SIZP0)
-      IF(STAT_S(13).EQ.1) CALL STAT_S_EREF(
+      IF(STAT_S(13)==1) CALL STAT_S_EREF(
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,
      2                        IXS ,IXS10,IXS16,IXS20,X   ,
      3                        WA,WAP0 ,IPARTS, IPART_STATE,
@@ -561,7 +561,7 @@ C-----------------------------------------------
      2                        WA        ,WAP0  ,IPARTP ,IPART_STATE ,STAT_INDXP,
      3                        SIZP0     )
 ! - AUX -
-      IF(STAT_P(3).EQ.1) CALL STAT_P_AUX(
+      IF(STAT_P(3)==1) CALL STAT_P_AUX(
      1                        ELBUF_TAB  ,IPARG  ,IPM    ,IGEO       ,IXP       ,
      2                        WA         ,WAP0   ,IPARTP ,IPART_STATE,STAT_INDXP,
      3                        SIZP0      )
@@ -583,7 +583,7 @@ C-----------------------------------------------
       IF(IS_FILE_TO_BE_WRITTEN) THEN
         WRITE(IUGEO,'(A)')'#ENDDATA   '
         CLOSE(UNIT=IUGEO)
-        IF(IZIPSTRS .NE. 0)THEN
+        IF(IZIPSTRS /= 0)THEN
           CALL STRS_TXT50('#ENDDATA   ',11)
           CALL CLOSE_C()
         ENDIF

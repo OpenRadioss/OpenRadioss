@@ -109,7 +109,7 @@ C DMAX : max diametre sur le domaine
 C------
 C        Recherche si condition active en X.
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
-         IF (DD.LE.SPALINR*DM) THEN
+         IF (DD<=SPALINR*DM) THEN
 #include "lockon.inc"
            NSPHSYM=NSPHSYM+1
            NSPHSYM_L = NSPHSYM
@@ -133,7 +133,7 @@ C DMAX : max diametre sur le domaine
 C------
 C        Recherche si condition active en X.
          DD=(XI-OX)*NX+(YI-OY)*NY+(ZI-OZ)*NZ
-         IF (DD.LE.SPALINR*DM) THEN
+         IF (DD<=SPALINR*DM) THEN
 #include "lockon.inc"
            NSPHSYM=NSPHSYM+1
            NSPHSYMR=NSPHSYMR+1
@@ -149,16 +149,16 @@ C          not symetrized at this time.
 C
       CALL MY_BARRIER
 C
-      IF (ITASK.EQ.0) THEN  
+      IF (ITASK==0) THEN  
         IF(ALLOCATED(XSPSYM%BUF)) DEALLOCATE(XSPSYM%BUF)
         ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-        IF(IERROR.EQ.0) XSPSYM%BUF = 0
+        IF(IERROR==0) XSPSYM%BUF = 0
         IF(ALLOCATED(VSPSYM%BUF)) DEALLOCATE(VSPSYM%BUF)
         ALLOCATE(VSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
-        IF(IERROR.EQ.0) VSPSYM%BUF = 0
+        IF(IERROR==0) VSPSYM%BUF = 0
         IF(ALLOCATED(WSMCOMP%BUF)) DEALLOCATE(WSMCOMP%BUF)
         ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
-        IF(IERROR.EQ.0) WSMCOMP%BUF = 0     
+        IF(IERROR==0) WSMCOMP%BUF = 0     
       ENDIF
 C-------------------------------------------
       RETURN

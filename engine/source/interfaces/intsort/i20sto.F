@@ -127,19 +127,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
-       IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0)THEN
+       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0)THEN
             DO I=1,J_STOK
-              IF(PENE(I).NE.ZERO)THEN
+              IF(PENE(I)/=ZERO)THEN
                 N  = PROV_N(I)
                 NE = PROV_E(I)+ESHIFT
-                IF(N.GT.NSN) THEN
+                IF(N>NSN) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
                  N = OLDNUM(N-NSN)+NSN
-                  IF(N.EQ.NSN) N = NSN+NSNROLD+1
+                  IF(N==NSN) N = NSN+NSNROLD+1
                 END IF
                 J = CAND_A(N)
-                DO WHILE(J.LE.CAND_A(N+1)-1)
-                  IF(CAND_E(J).EQ.NE)THEN
+                DO WHILE(J<=CAND_A(N+1)-1)
+                  IF(CAND_E(J)==NE)THEN
                     PENE(I)=ZERO
                     J=CAND_A(N+1)
                   ELSE
@@ -152,13 +152,13 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
 C-----------------------------------------------
         K_STOK = 0
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO) K_STOK = K_STOK + 1
+          IF(PENE(I)/=ZERO) K_STOK = K_STOK + 1
         ENDDO
-        IF(K_STOK.EQ.0)RETURN
+        IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
           I_STOK = II_STOK
-          IF(I_STOK+K_STOK.GT.MULNSN) THEN
+          IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -169,7 +169,7 @@ C-----------------------------------------------
       IF(IFQ > 0 .AND. 
      .   (INACTI == 5 .OR. INACTI ==6 .OR. INACTI ==7))THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.0.0)THEN
+          IF(PENE(I)/=0.0)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -179,16 +179,16 @@ C-----------------------------------------------
         ENDDO
       ELSEIF(IFQ > 0)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
             IFPEN(I_STOK) = 0
           ENDIF
         ENDDO
-      ELSEIF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+      ELSEIF(INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -197,7 +197,7 @@ C-----------------------------------------------
         ENDDO
       ELSE
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = PROV_N(I)
             CAND_E(I_STOK) = PROV_E(I)+ESHIFT
@@ -267,12 +267,12 @@ C elimination des couples deja trouves dans 1 boite precedente
 C-----------------------------------------------
         I_STOK = II_STOKE
         DO I=1,J_STOK
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             IAD=ADDCM(PROV_M(I))
             J=0
-            DO WHILE(IAD.NE.0.AND.J.LT.NSN4)
+            DO WHILE(IAD/=0.AND.J<NSN4)
               J=J+1
-              IF(CHAINE(1,IAD).EQ.PROV_S(I))THEN
+              IF(CHAINE(1,IAD)==PROV_S(I))THEN
                 PENE(I) = ZERO
                 IAD=0
               ELSE
@@ -280,10 +280,10 @@ C-----------------------------------------------
                 IAD=CHAINE(2,IAD)
               ENDIF
             ENDDO
-            IF(PENE(I).GT.ZERO)THEN
+            IF(PENE(I)>ZERO)THEN
               K_STOK = K_STOK + 1
                 IADFIN=II_STOKE+1
-                IF(IADFIN.GT.NSN4) THEN
+                IF(IADFIN>NSN4) THEN
                   I_MEM = 2
 #include "lockoff.inc"
                   RETURN
@@ -291,7 +291,7 @@ C-----------------------------------------------
                 II_STOKE   = IADFIN
               CHAINE(1,IADFIN)=PROV_S(I)
               CHAINE(2,IADFIN)=0
-              IF(ADDCM(PROV_M(I)).EQ.0)THEN
+              IF(ADDCM(PROV_M(I))==0)THEN
                 ADDCM(PROV_M(I))=IADFIN
               ELSE
                 CHAINE(2,IAD0)=IADFIN
@@ -300,13 +300,13 @@ C-----------------------------------------------
           ENDIF
         ENDDO
 C
-        IF(K_STOK.EQ.0) THEN
+        IF(K_STOK==0) THEN
 #include "lockoff.inc"
           RETURN
         ENDIF
 C-----------------------------------------------
         DO 200 I=1,J_STOK
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
             I_STOK = I_STOK + 1
             CAND_S(I_STOK) = PROV_S(I)
             CAND_M(I_STOK) = PROV_M(I)+ESHIFT
@@ -468,7 +468,7 @@ C
 C
         DO I=1,JLT
           L = CAND_N(I)
-          IF(L.LE.NLINSA) THEN
+          IF(L<=NLINSA) THEN
             N1=IXLINS(1,CAND_N(I))
             N2=IXLINS(2,CAND_N(I))
             X11 = XA(1,N1)
@@ -533,18 +533,18 @@ C
           ALM = (XXA*XSM-XXB*XS2) / DET
           XS2 = MAX(XS2,EM20)
           XM2 = MAX(XM2,EM20)
-          IF(ALM.LT.ZERO)THEN
+          IF(ALM<ZERO)THEN
             ALM = ZERO
             ALS = -XXA / XS2
-          ELSEIF(ALM.GT.ONE)THEN
+          ELSEIF(ALM>ONE)THEN
             ALM = ONE
             ALS = -(XXA + XSM) / XS2
           ENDIF
 C
-          IF(ALS.LT.ZERO)THEN
+          IF(ALS<ZERO)THEN
             ALS = ZERO
             ALM = -XXB / XM2
-          ELSEIF(ALS.GT.ONE)THEN
+          ELSEIF(ALS>ONE)THEN
             ALS = ONE
             ALM = -(XXB + XSM) / XM2
           ENDIF

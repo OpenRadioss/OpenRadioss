@@ -417,7 +417,7 @@ c     tag edge elements in local UVAR for /FAIL/ALTER (XFEM)
       ENDIF
 c
 C to be checked for IGTYP = 51
-c      IF(NPERTURB .NE. 0 .OR. NVSHELL1 /= 0) THEN
+c      IF(NPERTURB /= 0 .OR. NVSHELL1 /= 0) THEN
         CALL CFAILINI(ELBUF_STR,IXTG    ,NIXTG  ,NPTT    ,NLAY     ,
      .                IPM      ,SIGSH   ,NSIGSH ,NUMELTG ,PTSH3N   ,
      .                RNOISE   ,PERTURB ,BUFMAT ,ALDT    ,THK      )
@@ -559,11 +559,11 @@ C-------------------------------------------------------------
       DO I=JFT,JLT
         DELT(I)=((GSTR(I,1)+GSTR(I,2))*(GSTR(I,1)+GSTR(I,2)))-FOUR*
      .   (GSTR(I,1)*GSTR(I,2)-FOURTH*GSTR(I,3)*GSTR(I,3))
-       IF(DELT(I).GE.ZERO)THEN
+       IF(DELT(I)>=ZERO)THEN
          X1(I) = (GSTR(I,1)+GSTR(I,2)-SQRT(DELT(I)))/TWO
          X2(I) = (GSTR(I,1)+GSTR(I,2)+SQRT(DELT(I)))/TWO
-         IF((X1(I).GT.ZERO.AND.(X1(I).GT.EM10)).OR.(X2(I).GT.ZERO
-     .    .AND.(X2(I).GT.EM10)))THEN
+         IF((X1(I)>ZERO.AND.(X1(I)>EM10)).OR.(X2(I)>ZERO
+     .    .AND.(X2(I)>EM10)))THEN
            IF(IPRI == 5) THEN
              CALL ANCMSG(MSGID=607,
      .                   MSGTYPE=MSGWARNING,

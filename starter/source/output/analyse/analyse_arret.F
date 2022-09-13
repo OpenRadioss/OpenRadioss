@@ -124,11 +124,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C Print Title
 C-----------------------------------------------
-      IF (IERR .GT. 0) THEN
+      IF (IERR > 0) THEN
          WRITE(ISTDO,'(///A/A)') TITRE(7)(1:40),TITRE(5)
          WRITE(IOUT,'(///A/A)')  TITRE(7)(1:40),TITRE(5)
       ELSE
-         IF ( IWARN .GT. 0) THEN
+         IF ( IWARN > 0) THEN
             WRITE(ISTDO,'(///A/A)') TITRE(8)(1:40),TITRE(5)
             WRITE(IOUT,'(///A/A)')  TITRE(8)(1:40),TITRE(5)
          ELSE
@@ -156,7 +156,7 @@ C
 C-----------------------------------------------
 C Print CHECK L00
 C-----------------------------------------------
-      IF (IPID.NE.0) WRITE(ISTDO,'(//A//)') MESS
+      IF (IPID/=0) WRITE(ISTDO,'(//A//)') MESS
 
       RETURN
       END
@@ -218,13 +218,13 @@ C
 C
       ANEND = 0
       CALL starter_lic_release();
-      IF(IERR.EQ.0)THEN
+      IF(IERR==0)THEN
         IEX=0
       ELSE
         IEX=2
       END IF
 c
-      IF (IPID.NE.0) THEN
+      IF (IPID/=0) THEN
         INQUIRE(UNIT=RES_MES, EXIST=FILE_EXIST)
         IF (FILE_EXIST) CLOSE(UNIT=RES_MES,STATUS='DELETE')
         INQUIRE(UNIT=RES_CHECK, EXIST=FILE_EXIST)

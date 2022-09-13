@@ -92,8 +92,8 @@ c
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
         ENDDO
-        IF(HARD.NE.0)THEN
-            IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+            IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
             CALL ANCMSG(MSGID=1640, ! 
      .                  MSGTYPE=MSGWARNING,
@@ -127,8 +127,8 @@ c
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
         ENDDO
-        IF(HARD.NE.0)THEN
-            IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+            IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
             CALL ANCMSG(MSGID=1640,  
      .                  MSGTYPE=MSGWARNING,
@@ -162,8 +162,8 @@ c
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
         ENDDO
-        IF(HARD.NE.0)THEN
-            IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+            IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
             CALL ANCMSG(MSGID=1640, ! 
      .                  MSGTYPE=MSGWARNING,
@@ -197,8 +197,8 @@ c
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
         ENDDO
-        IF(HARD.NE.0)THEN
-            IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+            IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
             CALL ANCMSG(MSGID=1640, ! 
      .                  MSGTYPE=MSGWARNING,
@@ -232,8 +232,8 @@ c
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
         ENDDO
-        IF(HARD.NE.0)THEN
-            IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+            IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
             CALL ANCMSG(MSGID=1640, !  
      .                  MSGTYPE=MSGWARNING,
@@ -268,8 +268,8 @@ c
            Y2 = PLD(NPC(FUNC)  + J1 + 3)
            XK = MAX(XK,LSCALE*(Y2 - Y1)/(X2 - X1))
         ENDDO
-        IF(HARD.NE.0)THEN
-            IF(XK_INI.LT.XK)THEN
+        IF(HARD/=0)THEN
+            IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
             CALL ANCMSG(MSGID=1640, !  
      .                  MSGTYPE=MSGWARNING,

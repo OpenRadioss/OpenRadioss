@@ -93,7 +93,7 @@ C---------------------------------------
         CALL CBATRAN2(JFT,NPLAT,Q,K23,Q,IAS)
         CALL CBATRAN2(JFT,NPLAT,Q,K24,Q,IAS)
         CALL CBATRAN2(JFT,NPLAT,Q,K34,Q,IAS)
-       IF (IORTH .GT.0 .AND.IDRIL.GT.0) THEN
+       IF (IORTH >0 .AND.IDRIL>0) THEN
         CALL CBATRAN3(JFT,NPLAT,Q,M11,Q,IS)
         CALL CBATRAN3(JFT,NPLAT,Q,M22,Q,IS)
         CALL CBATRAN3(JFT,NPLAT,Q,M33,Q,IS)
@@ -115,9 +115,9 @@ C---------------------------------------
         CALL CBATRAN2(JFT,NPLAT,Q,M23,Q,IAS)
         CALL CBATRAN2(JFT,NPLAT,Q,M24,Q,IAS)
         CALL CBATRAN2(JFT,NPLAT,Q,M34,Q,IAS)
-       END IF !(IORTH .GT.0.AND.IDRIL.GT.0)
+       END IF !(IORTH >0.AND.IDRIL>0)
 C        
-       IF (IORTH .GT.0) THEN
+       IF (IORTH >0) THEN
         CALL CBATRAN3(JFT,NPLAT,Q,MF11,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,MF12,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,MF13,Q,IAS)
@@ -134,7 +134,7 @@ C
         CALL CBATRAN3(JFT,NPLAT,Q,FM23,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,FM24,Q,IAS)
         CALL CBATRAN3(JFT,NPLAT,Q,FM34,Q,IAS)
-       ELSEIF (IDRIL.GT.0) THEN
+       ELSEIF (IDRIL>0) THEN
         CALL CBATRAN233(JFT,NPLAT,Q,MF11,Q)
         CALL CBATRAN233(JFT,NPLAT,Q,MF12,Q)
         CALL CBATRAN233(JFT,NPLAT,Q,MF13,Q)
@@ -396,7 +396,7 @@ C-----------------------------------------------
       my_real
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
          DO EP=JFT,JLT 
@@ -466,7 +466,7 @@ C-----------------------------------------------
       my_real
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3 
         DO J=I,3 
          DO EP=JFT,JLT 
@@ -1447,7 +1447,7 @@ C-----------------------------------------------
      .    K(3,3)
 C--------------[KD]=|RI| |RD| |RJ|^t---------------------------------
 C--------------     | I|      |I |---------------------------------
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,3
         DO J=I,3
          DO EP=JFT,JLT

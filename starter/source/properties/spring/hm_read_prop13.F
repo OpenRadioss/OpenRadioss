@@ -693,7 +693,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV_DIM('MIN_RUP4',CRIT_SCALE(4),IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
 C----
-!      IF(IFUNC.NE.0.AND.IECROU.GE.1.AND.XK == ZERO)THEN
+!      IF(IFUNC/=0.AND.IECROU>=1.AND.XK == ZERO)THEN
 !         CALL ANCMSG(MSGID=230,
 !     .               MSGTYPE=MSGERROR,
 !     .               ANMODE=ANINFO_BLIND_1,

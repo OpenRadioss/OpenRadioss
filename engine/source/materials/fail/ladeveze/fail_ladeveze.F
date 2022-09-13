@@ -129,7 +129,7 @@ C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF(ISIGI == ZERO)THEN 
-        IF(TIME.EQ.ZERO)THEN
+        IF(TIME==ZERO)THEN
          DO I=1,NEL
           UVAR(I,12)  = ONE
          ENDDO   
@@ -137,8 +137,8 @@ C-----------------------------------------------
       ENDIF   
 C-----------------------------------------------
       DO I=1,NEL
-        IF(OFF(I).LT.EM01) OFF(I)=ZERO
-        IF(OFF(I).LT.ONE) OFF(I)=OFF(I)*FOUR_OVER_5
+        IF(OFF(I)<EM01) OFF(I)=ZERO
+        IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 C           
         NINDX=0 

@@ -52,12 +52,12 @@ C-----------------------------------------------
       INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, II1, II2,
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI
 C
-c      IF (IMACH.NE.3) THEN
+c      IF (IMACH/=3) THEN
 c         IADI=0
 c         IADR=0
 c         DO I=1,NFLOW
 c            ITYP=IFLOW(IADI+2)
-c            IF (ITYP.EQ.1) THEN
+c            IF (ITYP==1) THEN
 c               NINOUT=IFLOW(IADI+4)
 c               NNO=IFLOW(IADI+5)
 c               NEL=IFLOW(IADI+6)
@@ -66,7 +66,7 @@ c               II1=IADI+NIFLOW
 c               II2=II1+NNO+3*NEL+NINOUT*NIIOFLOW
 c               IR1=IADR+NRFLOW
 c               IR2=IR1+NNO+NNI
-c               IF (IFUNC.EQ.3) THEN
+c               IF (IFUNC==3) THEN
 c                  DO J=1,NNO
 c                     JJ=IFLOW(II1+J)
 c                     WA4(JJ)=RFLOW(IR2+J)
@@ -75,7 +75,7 @@ c                  DO J=1,NNI
 c                     JJ=IFLOW(II2+J)
 c                     WA4(JJ)=RFLOW(IR2+NNO+J)
 c                  ENDDO
-c               ELSEIF (IFUNC.EQ.13) THEN
+c               ELSEIF (IFUNC==13) THEN
 c                  DO J=1,NNO
 c                     JJ=IFLOW(II1+J)
 c                     WA4(JJ)=RFLOW(IR1+J)
@@ -94,7 +94,7 @@ c      ELSE
          IADR=0
          DO I=1,NFLOW
             ITYP=IFLOW(IADI+2)
-            IF (ITYP.EQ.1) THEN
+            IF (ITYP==1) THEN
                NINOUT=IFLOW(IADI+4)
                NNO=IFLOW(IADI+5)
                NEL=IFLOW(IADI+6)
@@ -112,7 +112,7 @@ c      ELSE
                ENDIF
                IR1=IADR+NRFLOW
                IR2=IR1+NNO+NNI
-               IF (IFUNC.EQ.3) THEN
+               IF (IFUNC==3) THEN
                   DO J=1,NNO_L
                      JJ=IFLOW(II3+J)
                      JJJ=IFLOW(II1+JJ)
@@ -123,7 +123,7 @@ c      ELSE
                      JJJ=IFLOW(II2+JJ)
                      WA4(JJJ)=RFLOW(IR2+NNO+JJ)
                   ENDDO
-               ELSEIF (IFUNC.EQ.13) THEN
+               ELSEIF (IFUNC==13) THEN
                   DO J=1,NNO_L
                      JJ=IFLOW(II3+J)
                      JJJ=IFLOW(II1+JJ)

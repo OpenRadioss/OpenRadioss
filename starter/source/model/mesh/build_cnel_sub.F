@@ -87,22 +87,22 @@ C
           ! Number of the element
           NUMG = CNEL(ADDCNEL(NG+1)+I-1)
           ! Treatment according of element type
-          IF (NUMG.LE.NUMELS) THEN  
+          IF (NUMG<=NUMELS) THEN  
             CNEL_SUB(ADDCNEL_SUB(NS+1)+K-1) = NUMG
             K = K + 1
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC) THEN
             CNEL_SUB(ADDCNEL_SUB(NS+1)+K-1) = NUMG
             K = K + 1
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
      .            NUMELR) THEN
             CONTINUE
-          ELSEIF (NUMG.LE.NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
+          ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+          !   If the element is a triangle shell
      .            NUMELR+NUMELTG) THEN
             CNEL_SUB(ADDCNEL_SUB(NS+1)+K-1) = NUMG
             K = K + 1
@@ -110,7 +110,7 @@ C
             CONTINUE
           ENDIF
         ENDDO
-        IF ((K-1).NE.NEL_SUB) THEN 
+        IF ((K-1)/=NEL_SUB) THEN 
           WRITE(*,*) "WRONG NUMBER OF NON-LOCAL ELEMENTS COUNTED"
           WRITE(*,*) "SEE BUILD_CNEL_SUB.F"
           STOP

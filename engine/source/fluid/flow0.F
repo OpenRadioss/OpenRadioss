@@ -114,9 +114,9 @@ C     IR10 -> PTI    : incident pressure time integral
 C     IR11 -> CMAT   : Matrice C (nel >= nelmax)
 C-----------------------------------------------------------------------------------
       IPINT=0
-      IF (TT.GE.TANIM.OR.
-     .   MANIM.EQ.4 .OR.MANIM.EQ.5 .OR.MANIM.EQ.6 .OR.MANIM.EQ.7.OR.
-     .   MANIM.EQ.12.OR.MANIM.EQ.13.OR.MANIM.EQ.14.OR.MANIM.EQ.15) 
+      IF (TT>=TANIM.OR.
+     .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15) 
      .   IPINT=1
 C
       IADI=0
@@ -130,7 +130,7 @@ C
          II3=II2+NNO
          IR1=IADR+1
          IR2=IR1+NRFLOW
-         IF (ITYP.EQ.1) THEN
+         IF (ITYP==1) THEN
             NINOUT=IFLOW(IADI+4)
             NNN=IFLOW(IADI+7)
 C

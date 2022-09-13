@@ -75,7 +75,7 @@ C
       DO I=1,JLT
         IF(PENE(I)==ZERO) CYCLE
 C
-        IF(CS_LOC(I).LE.NEDGE) THEN
+        IF(CS_LOC(I)<=NEDGE) THEN
           J1=N1(I)
           A(1,J1)=A(1,J1)+FX1(I)
           A(2,J1)=A(2,J1)+FY1(I)
@@ -180,7 +180,7 @@ C
       DO I=1,JLT
         IF(PENE(I)==ZERO) CYCLE
 C
-        IF(CS_LOC(I).LE.NEDGE) THEN
+        IF(CS_LOC(I)<=NEDGE) THEN
           J1=N1(I)
           A(1,J1)=A(1,J1)+FX1(I)
           A(2,J1)=A(2,J1)+FY1(I)
@@ -293,15 +293,15 @@ C
       NISKYL1 = 0
       DO I = 1, JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
-        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
-        IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (HM1(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (HM2(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
       ENDDO
 
       IGP = 0
       IGM = 0
       DO I=1,JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
-        IF(CS_LOC(I).LE.NEDGE) THEN
+        IF(CS_LOC(I)<=NEDGE) THEN
            IGP = IGP+2
         ELSE
            IGM = IGM+1
@@ -315,11 +315,11 @@ C
       NISKYFIE = NISKYFIE + IGM
 #include "lockoff.inc"
 
-      IF (NISKYL+NISKYL1+IGP .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
          CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
          CALL ARRET(2)
       ENDIF
-      IF (NISKYFIEL+IGM .GT. NLSKYFIE(NIN)) THEN
+      IF (NISKYFIEL+IGM > NLSKYFIE(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -327,7 +327,7 @@ C
       DO I=1,JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
-        IF(CS_LOC(I).LE.NEDGE) THEN
+        IF(CS_LOC(I)<=NEDGE) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX1(I)
           FSKYI(NISKYL,2)=FY1(I)
@@ -368,7 +368,7 @@ C
       DO I=1,JLT
        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
-       IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
+       IF (HM1(I)/=ZERO.OR.TAGIP(I)==1) THEN
         NISKYL = NISKYL + 1
         FSKYI(NISKYL,1)=FX3(I)
         FSKYI(NISKYL,2)=FY3(I)
@@ -383,7 +383,7 @@ C
       DO I=1,JLT
        IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
-       IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
+       IF (HM2(I)/=ZERO.OR.TAGIP(I)==1) THEN
         NISKYL = NISKYL + 1
         FSKYI(NISKYL,1)=FX4(I)
         FSKYI(NISKYL,2)=FY4(I)
@@ -462,15 +462,15 @@ C
       NISKYL1 = 0
       DO I = 1, JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
-        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
-        IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (HM1(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
+        IF (HM2(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
       ENDDO
 
       IGP = 0
       IGM = 0
       DO I=1,JLT
         IF(PENE(I) == ZERO.AND.TAGIP(I)==0) CYCLE
-        IF(CS_LOC(I).LE.NEDGE) THEN
+        IF(CS_LOC(I)<=NEDGE) THEN
            IGP = IGP+2
         ELSE
            IGM = IGM+1
@@ -484,11 +484,11 @@ C
       NISKYFIE = NISKYFIE + IGM
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1+IGP .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
-      IF (NISKYFIEL+IGM .GT. NLSKYFIE(NIN)) THEN
+      IF (NISKYFIEL+IGM > NLSKYFIE(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
@@ -496,7 +496,7 @@ C
       DO I=1,JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
-        IF(CS_LOC(I).LE.NEDGE) THEN
+        IF(CS_LOC(I)<=NEDGE) THEN
           NISKYL = NISKYL + 1
           FSKYI(NISKYL,1)=FX1(I)
           FSKYI(NISKYL,2)=FY1(I)
@@ -531,7 +531,7 @@ C
       DO I=1,JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
-        IF (HM1(I).NE.ZERO.OR.TAGIP(I)==1) THEN
+        IF (HM1(I)/=ZERO.OR.TAGIP(I)==1) THEN
          NISKYL = NISKYL + 1
          FSKYI(NISKYL,1)=FX3(I)
          FSKYI(NISKYL,2)=FY3(I)
@@ -544,7 +544,7 @@ C
       DO I=1,JLT
         IF(PENE(I)==ZERO.AND.TAGIP(I)==0) CYCLE
 C
-        IF (HM2(I).NE.ZERO.OR.TAGIP(I)==1) THEN
+        IF (HM2(I)/=ZERO.OR.TAGIP(I)==1) THEN
          NISKYL = NISKYL + 1
          FSKYI(NISKYL,1)=FX4(I)
          FSKYI(NISKYL,2)=FY4(I)

@@ -57,17 +57,17 @@ C---
           IROW(IC) = 1
         ENDDO
 C---
-        IF (DIAG(K).LE.0.) GOTO 999
+        IF (DIAG(K)<=0.) GOTO 999
         DIAG(K) = SQRT(DIAG(K))
 C---
         J = JCOL(K)
 100     CONTINUE
-        IF (J.EQ.0) GOTO 200
+        IF (J==0) GOTO 200
           ISJ = IROW(J)
           IEJ = IADH(J+1)-1
           LVAL = H(ISJ)
           ISJ = ISJ + 1
-          IF (ISJ.LT.IEJ) THEN
+          IF (ISJ<IEJ) THEN
             IROW(J) = ISJ
             IPTR = J
             J = JCOL(J)
@@ -78,14 +78,14 @@ C---
           ENDIF
           DO I = ISJ, IEJ
             IC = JCIH(I)
-            IF (IROW(IC).NE.0) THEN
+            IF (IROW(IC)/=0) THEN
               WCOL(IC) = WCOL(IC) - LVAL*H(I)
             ENDIF
           ENDDO
         GOTO 100
 200     CONTINUE
 C---
-        IF (ISK.LT.IEK) THEN
+        IF (ISK<IEK) THEN
           IPTR = JCIH(ISK)
           JCOL(K) = JCOL(IPTR)
           JCOL(IPTR) = K

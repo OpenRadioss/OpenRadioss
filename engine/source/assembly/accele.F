@@ -70,7 +70,7 @@ C-----------------------------------------------
 
       IF(N2D == 0) THEN
         DO N=NODFT,NODLT
-          IF(MS(N).GT.ZERO) THEN
+          IF(MS(N)>ZERO) THEN
             RTMP = ONE / MS(N)
             A(1,N) = A(1,N) * RTMP
             A(2,N) = A(2,N) * RTMP
@@ -79,7 +79,7 @@ C-----------------------------------------------
             A(1,N) = ZERO
             A(2,N) = ZERO
             A(3,N) = ZERO
-            IF(NMULT.NE.0) THEN
+            IF(NMULT/=0) THEN
               V(1,N) = ZERO
               V(2,N) = ZERO
               V(3,N) = ZERO
@@ -92,7 +92,7 @@ C-----------------------------------------------
           MS(MSR) = MS_2D(MSR)
         ENDDO
         DO N=NODFT,NODLT
-          IF(MS(N).GT.ZERO) THEN
+          IF(MS(N)>ZERO) THEN
             RTMP = ONE / MS(N)
             A(1,N) = A(1,N) * RTMP
             A(2,N) = A(2,N) * RTMP
@@ -101,7 +101,7 @@ C-----------------------------------------------
             A(1,N) = ZERO
             A(2,N) = ZERO
             A(3,N) = ZERO
-            IF(NMULT.NE.0) THEN
+            IF(NMULT/=0) THEN
               V(1,N) = ZERO
               V(2,N) = ZERO
               V(3,N) = ZERO
@@ -113,10 +113,10 @@ C-----------------------------------------------
       !------------------------------------------------!
       !       CALCUL DES  ACCELERATIONS (ROTATIONS)    !
       !------------------------------------------------!
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          IF(IN(N).GT.ZERO) THEN
+          IF(IN(N)>ZERO) THEN
             RTMP = ONE / IN(N)
             AR(1,N) = AR(1,N) * RTMP
             AR(2,N) = AR(2,N) * RTMP
@@ -132,10 +132,10 @@ C-----------------------------------------------
       !------------------------------------------------!
       !      FVM DOES NOT NEED ACCEL AND VEL           !
       !------------------------------------------------!      
-      IF(INT22.GT.0)THEN
+      IF(INT22>0)THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-          IF(NALE(N).NE.0)THEN
+          IF(NALE(N)/=0)THEN
             A( 1:3,N) = ZERO
             AR(1:3,N) = ZERO
             MS(N)     = ZERO

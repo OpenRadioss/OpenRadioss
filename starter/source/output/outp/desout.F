@@ -73,7 +73,7 @@ C-----------------------------------------
 C
       FILNAM=ROOTNAM(1:ROOTLEN)//'Y000'
       FILEN = ROOTLEN + 4
-      IF(IROOTYY.NE.2)THEN       
+      IF(IROOTYY/=2)THEN       
        FILEN = ROOTLEN + 9
        FILNAM=ROOTNAM(1:ROOTLEN)//'_0000.sty'
       ENDIF  
@@ -94,7 +94,7 @@ C     GLOBAL
 C=======================================================================
       WRITE(IUGEO,'(A)')'/CONTROL'
       WRITE(IUGEO,'(A)')'Control information'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (3I8) '
         WRITE(IUGEO,'(A)')'# NUMMID  NUMPID  NUMNOD'
         WRITE(IUGEO,'(3I8)')NUMMAT,NUMGEO,NUMNOD
@@ -119,7 +119,7 @@ C     MID
 C=======================================================================
       WRITE(IUGEO,'(A)')'/MID'
       WRITE(IUGEO,'(A)')'Material ID information'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (2I8,A40) '
       ELSE
         WRITE(IUGEO,'(A)')'#FORMAT: (2I10,A40) '
@@ -130,7 +130,7 @@ C=======================================================================
         CALL FRETITL2(CARD,IPM(NPROPMI-LTITR+1,I),LTITR)
         WRITE(IUGEO,'(2I8,A80)') I, IPM(1,I),CARD
       ENDDO
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         DO I=1,NUMMAT
           CALL FRETITL2(CARD,IPM(NPROPMI-LTITR+1,I),LTITR)
           WRITE(IUGEO,'(2I8,A80)') I, IPM(1,I),CARD
@@ -146,14 +146,14 @@ C     PID
 C=======================================================================
       WRITE(IUGEO,'(A)')'/PID'
       WRITE(IUGEO,'(A)')'Property ID information'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (2I8,A40) '
       ELSE
         WRITE(IUGEO,'(A)')'#FORMAT: (2I10,A40) '
       ENDIF
       WRITE(IUGEO,'(2A)')'# SYSPID  USRPID',
      . '                                 PIDHEAD'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         DO I=1,NUMGEO
           CALL FRETITL2(CARD,IGEO(NPROPGI-LTITR+1,I),LTITR)
           WRITE(IUGEO,'(2I8,A80)') I,IGEO(1,I),CARD
@@ -169,7 +169,7 @@ C     NODE
 C=======================================================================
       WRITE(IUGEO,'(A)')'/NODE'
       WRITE(IUGEO,'(A)')'Nodes information'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)')'#FORMAT: (2I8,1P4E16.9) '
       ELSE
         WRITE(IUGEO,'(A)')'#FORMAT: (2I10,1P4G20.13) '
@@ -177,7 +177,7 @@ C=======================================================================
       WRITE(IUGEO,'(3A)')'# SYSNOD  USRNOD',
      . '               X               Y               Z',
      . '            MASS'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(2I8,1P4E16.9)')
      .     (I,ITAB(I),X(1,I),X(2,I),X(3,I),MS(I),I=1,NUMNOD)
       ELSE
@@ -187,10 +187,10 @@ C=======================================================================
 C=======================================================================
 C     SOLID
 C=======================================================================
-      IF(NUMELS10.NE.0)THEN
+      IF(NUMELS10/=0)THEN
         WRITE(IUGEO,'(A)') '/SOLIDE'
         WRITE(IUGEO,'(A)')'3d Solid Elements'
-        IF (OUTYY_FMT.EQ.2) THEN
+        IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(A)') '#FORMAT: (4I8/8X,8I8) '
         ELSE
           WRITE(IUGEO,'(A)') '#FORMAT: (4I10/8X,8I10) '
@@ -198,7 +198,7 @@ C=======================================================================
         WRITE(IUGEO,'(A)') '# SYSSOL  USRSOL  SYSMID  SYSPID'
         WRITE(IUGEO,'(2A)')'#SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4',
      .                     ' SYSNOD5 SYSNOD6 SYSNOD7 SYSNOD8'
-        IF (OUTYY_FMT.EQ.2) THEN
+        IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(4I8/8X,8I8)')
      .       (I,IXS(NIXS,I),IXS(1,I),IXS(NIXS-1,I),
      .       IXS(2,I),IXS(3,I),IXS(4,I),IXS(5,I),
@@ -211,7 +211,7 @@ C=======================================================================
         ENDIF
         WRITE(IUGEO,'(A)') '/TETRA10'
         WRITE(IUGEO,'(A)')'3d Solid Elements'
-        IF (OUTYY_FMT.EQ.2) THEN
+        IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(A)') '#FORMAT: (4I8/8X,8I8/2I) '
         ELSE
           WRITE(IUGEO,'(A)') '#FORMAT: (4I10/8X,8I10/2I) '
@@ -220,7 +220,7 @@ C=======================================================================
         WRITE(IUGEO,'(2A)')'#SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4',
      .                     'SYSNOD5 SYSNOD6 SYSNOD7 SYSNOD8',
      .                     '#SYSNOD9 SYSNOD10'
-        IF (OUTYY_FMT.EQ.2) THEN
+        IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(4I8/8X,10I8)')
      .     (NUMELS8+I,IXS(NIXS,NUMELS8+I),
      .     IXS(1,NUMELS8+I),IXS(NIXS-1,NUMELS8+I),        
@@ -240,7 +240,7 @@ C=======================================================================
       ELSE
         WRITE(IUGEO,'(A)') '/SOLIDE'
         WRITE(IUGEO,'(A)')'3d Solid Elements'
-        IF (OUTYY_FMT.EQ.2) THEN
+        IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(A)') '#FORMAT: (4I8/8X,8I8) '
         ELSE
           WRITE(IUGEO,'(A)') '#FORMAT: (4I10/8X,8I10) '
@@ -248,7 +248,7 @@ C=======================================================================
         WRITE(IUGEO,'(A)') '# SYSSOL  USRSOL  SYSMID  SYSPID'
         WRITE(IUGEO,'(2A)')'#SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4',
      .                     ' SYSNOD5 SYSNOD6 SYSNOD7 SYSNOD8'
-        IF (OUTYY_FMT.EQ.2) THEN
+        IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(4I8/8X,8I8)')
      .     (I,IXS(NIXS,I),IXS(1,I),IXS(NIXS-1,I),
      .     IXS(2,I),IXS(3,I),IXS(4,I),IXS(5,I),
@@ -265,14 +265,14 @@ C     QUAD
 C=======================================================================
       WRITE(IUGEO,'(A)') '/QUAD'
       WRITE(IUGEO,'(A)')'2d Solid Elements'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (8I8) '
       ELSE
         WRITE(IUGEO,'(A)') '#FORMAT: (8I10) '
       ENDIF
       WRITE(IUGEO,'(2A)')'#SYSQUAD USRQUAD  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(8I8)') 
      .   (I,IXQ(NIXQ,I),IXQ(1,I),IXQ(NIXQ-1,I),
      .   IXQ(2,I),IXQ(3,I),IXQ(4,I),IXQ(5,I),I=1,NUMELQ)
@@ -286,14 +286,14 @@ C     SHELL
 C=======================================================================
       WRITE(IUGEO,'(A)') '/SHELL'
       WRITE(IUGEO,'(A)')'3d Shell Elements '
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (8I8) '
       ELSE
         WRITE(IUGEO,'(A)') '#FORMAT: (8I10) '
       ENDIF
       WRITE(IUGEO,'(2A)')'#SYSSHEL USRSHEL  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(8I8)') 
      .   (I,IXC(NIXC,I),IXC(1,I),IXC(NIXC-1,I),
      .   IXC(2,I),IXC(3,I),IXC(4,I),IXC(5,I),I=1,NUMELC)
@@ -307,14 +307,14 @@ C     TRUSS
 C=======================================================================
       WRITE(IUGEO,'(A)') '/TRUSS'
       WRITE(IUGEO,'(A)')'3d Truss Elements'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (6I8) '
       ELSE
         WRITE(IUGEO,'(A)') '#FORMAT: (6I10) '
       ENDIF
       WRITE(IUGEO,'(2A)') '#SYSTRUS USRTRUS  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(6I8)') 
      .   (I,IXT(NIXT,I),IXT(1,I),IXT(NIXT-1,I),
      .   IXT(2,I),IXT(3,I),I=1,NUMELT)
@@ -328,14 +328,14 @@ C     BEAM
 C=======================================================================
       WRITE(IUGEO,'(A)') '/BEAM'
       WRITE(IUGEO,'(A)')'3d Beam Elements'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (7I8) '
       ELSE
         WRITE(IUGEO,'(A)') '#FORMAT: (7I10) '
       ENDIF
       WRITE(IUGEO,'(2A)')'#SYSBEAM USRBEAM  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(7I8)') 
      .   (I,IXP(NIXP,I),IXP(1,I),IXP(NIXP-1,I),
      .   IXP(2,I),IXP(3,I),IXP(4,I),I=1,NUMELP)
@@ -349,14 +349,14 @@ C     SPRING
 C=======================================================================
       WRITE(IUGEO,'(A)') '/SPRING'
       WRITE(IUGEO,'(A)')'3d Spring Elements'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (6I8) '
       ELSE
         WRITE(IUGEO,'(A)') '#FORMAT: (6I10) '
       ENDIF
       WRITE(IUGEO,'(2A)')'#SYSSPRI USRSPRI  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(6I8)') 
      .   (I,IXR(NIXR,I),0,IXR(1,I),
      .   IXR(2,I),IXR(3,I),I=1,NUMELR)
@@ -370,14 +370,14 @@ C     SHELL3N
 C=======================================================================
       WRITE(IUGEO,'(A)') '/SHELL3N'
       WRITE(IUGEO,'(A)')'3d Shell Elements (Triangle) '
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (7I8) '
       ELSE
         WRITE(IUGEO,'(A)') '#FORMAT: (7I10) '
       ENDIF
       WRITE(IUGEO,'(2A)')'#SYSSH3N USRSH3N  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(7I8)') 
      .   (I,IXTG(NIXTG,I),IXTG(1,I),IXTG(NIXTG-1,I),
      .   IXTG(2,I),IXTG(3,I),IXTG(4,I),I=1,NUMELTG)
@@ -392,7 +392,7 @@ C     SPH
 C=======================================================================
       WRITE(IUGEO,'(A)') '/SPHCEL'
       WRITE(IUGEO,'(A)')'SPH particles'
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(A)') '#FORMAT: (4I8/8X,I8) '
         WRITE(IUGEO,'(A)') '# SYSSPH  USRSPH  SYSMID  SYSPID'
         WRITE(IUGEO,'(A)')'#SYSNOD'
@@ -401,7 +401,7 @@ C=======================================================================
         WRITE(IUGEO,'(A)') '#   SYSSPH    USRSPH    SYSMID    SYSPID'
         WRITE(IUGEO,'(A)') '#   SYSNOD'
       ENDIF
-      IF (OUTYY_FMT.EQ.2) THEN
+      IF (OUTYY_FMT==2) THEN
         WRITE(IUGEO,'(4I8/8X,I8)') 
      .   (I,KXSP(NISP,I),IPART(1,IPARTSP(I)),
      .   IPART(2,IPARTSP(I)),KXSP(3,I),I=1,NUMSPH)

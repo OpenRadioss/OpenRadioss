@@ -200,11 +200,11 @@ C          FUX3 = GET_U_FUNC(IFUNC3,VX(I),DXDY)
 C Passive force vs. elongation
           FUX4 = GET_U_FUNC(IFUNC4,DELTALEN,DXDY)
           FUX4 = FUX4 * SCALEF
-C Check if velocity .GT. limit1 ...if YES, then use XLIM1 = max_vel
+C Check if velocity > limit1 ...if YES, then use XLIM1 = max_vel
 C Sum FX + damping*velocity
-          IF (VX(I).GT.XLIM1)THEN
+          IF (VX(I)>XLIM1)THEN
              FX(I) = XLIM2 * FUX1 * FUX2 * FUX3 + FUX4 + DAMP*XLIM1
-          ELSEIF (VX(I).LT.-XLIM1)THEN
+          ELSEIF (VX(I)<-XLIM1)THEN
              FX(I) = XLIM2 * FUX1 * FUX2 * FUX3 + FUX4 - DAMP*XLIM1
           ELSE
              FX(I) = XLIM2 * FUX1 * FUX2 * FUX3 + FUX4 + DAMP*VX(I)
@@ -215,7 +215,7 @@ C=======================================================================
 C       TIME STEP
 C=======================================================================
 C          STIFM(I) = ELASTIF / XL(I)
-          IF(DELTALEN .NE. ZERO)THEN
+          IF(DELTALEN /= ZERO)THEN
             SLOPE = ABS(FX(I)-UVAR(4,I))/ABS(DX)
 C            WRITE(IOUT,*) 'Slope: FR_WAVE = ZERO'
           ELSE

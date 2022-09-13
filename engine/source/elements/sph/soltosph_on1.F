@@ -98,8 +98,8 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 50
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 50
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -109,14 +109,14 @@ C-----------------------------------------------
           IPARTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----
             DO I=LFT,LLT
-              IF(GBUF%OFF(I).NE.ZERO) THEN
+              IF(GBUF%OFF(I)/=ZERO) THEN
                 N=NFT+I
                 DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
                   NP=SOL2SPH(1,N)+KP
@@ -141,7 +141,7 @@ C Solid will be deleted at next cycle
             ENDDO
           END IF
         END DO
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
  50     CONTINUE
        END DO
@@ -155,8 +155,8 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 100
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 100
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -166,19 +166,19 @@ C-----------------------------------------------
           IPARTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----
             DO I=LFT,LLT
-              IF(GBUF%OFF(I).EQ.ZERO) THEN
+              IF(GBUF%OFF(I)==ZERO) THEN
 C
 C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
                 N=NFT+I
                 NP=SOL2SPH(1,N)+1
-                IF(KXSP(2,NP).LT.0)THEN
+                IF(KXSP(2,NP)<0)THEN
 C
 C                 Solid must have passed to deleted within THIS cycle !
                   EK=ZERO
@@ -267,12 +267,12 @@ C absorbed energy due to remeshing
             ENDDO
           END IF
         END DO
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
  100      CONTINUE
        END DO
 !$OMP END DO
-      ELSE ! IPARIT.EQ.0
+      ELSE ! IPARIT==0
 C-----------------------------------------------
 C     PARITH/ON
 C-----------------------------------------------
@@ -287,8 +287,8 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 200
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 200
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -298,19 +298,19 @@ C
           IPARTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----
             DO I=LFT,LLT
-              IF(GBUF%OFF(I).EQ.ZERO) THEN
+              IF(GBUF%OFF(I)==ZERO) THEN
 C
 C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
                 N=NFT+I
                 NP=SOL2SPH(1,N)+1
-                IF(KXSP(2,NP).LT.0)THEN
+                IF(KXSP(2,NP)<0)THEN
 C
 C                 Solid must have passed to deleted within THIS cycle !
                   EK=ZERO
@@ -399,7 +399,7 @@ C absorbed energy due to remeshing
             ENDDO
           END IF
         END DO
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
  200      CONTINUE
        END DO
@@ -482,8 +482,8 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 50
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 50
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -493,17 +493,17 @@ C-----------------------------------------------
           IPARTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----
-            IF ((ITSOL2SPH.EQ.1).OR.(NSUBS.EQ.0)) THEN
+            IF ((ITSOL2SPH==1).OR.(NSUBS==0)) THEN
 C           Desactivation of solid element if id of sph part is different
 C-----
             DO I=LFT,LLT
-              IF(GBUF%OFF(I).NE.ZERO) THEN
+              IF(GBUF%OFF(I)/=ZERO) THEN
                 N=NFT+I
                 DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
                   NP=SOL2SPH(1,N)+KP
@@ -511,7 +511,7 @@ C-----
                   NVOIS=KXSP(4,NP)
                   DO J=1,NVOIS
                     JNOD=IXSP(J,NP)
-                    IF(JNOD.GT.0)THEN
+                    IF(JNOD>0)THEN
                       M=NOD2SP(JNOD)
                       IF(IPARTSP(M)/=IPARTSP(NP))THEN
 C
@@ -544,11 +544,11 @@ C Solid will be deleted at next cycle
  100          CONTINUE
             ENDDO
 C-----
-            ELSEIF (ITSOL2SPH.EQ.2) THEN
+            ELSEIF (ITSOL2SPH==2) THEN
 C           Desactivation of solid element if id of subset is different
 C-----
             DO I=LFT,LLT
-              IF(GBUF%OFF(I).NE.ZERO) THEN
+              IF(GBUF%OFF(I)/=ZERO) THEN
                 N=NFT+I
                 DO KP=1,SOL2SPH(2,N)-SOL2SPH(1,N)
                   NP=SOL2SPH(1,N)+KP
@@ -556,10 +556,10 @@ C-----
                   NVOIS=KXSP(4,NP)
                   DO J=1,NVOIS
                     JNOD=IXSP(J,NP)
-                    IF(JNOD.GT.0)THEN
+                    IF(JNOD>0)THEN
                       M=NOD2SP(JNOD)    
                       IF((IPART(3,IPARTSP(M))/=IPART(3,IPARTSP(NP))).OR.
-     .                  (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP))).EQ.2*NSUBS).
+     .                  (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP)))==2*NSUBS).
      .                  AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
 C
 C Solid will be deleted at next cycle
@@ -574,7 +574,7 @@ C Solid will be deleted at next cycle
                     ELSE
                       NN = -JNOD
                       IF((IPART(3,NINT(XSPHR(14,NN)))/=IPART(3,IPARTSP(NP))).OR.
-     .                  (((IPART(3,IPARTSP(NP))+IPART(3,NINT(XSPHR(14,NN))).EQ.2*NSUBS).
+     .                  (((IPART(3,IPARTSP(NP))+IPART(3,NINT(XSPHR(14,NN)))==2*NSUBS).
      .                  AND.(NINT(XSPHR(14,NN))/=IPARTSP(NP))))) THEN
 C
 C Solid will be deleted at next cycle
@@ -597,7 +597,7 @@ C-----
 C-----
           END IF
         END DO
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
  50     CONTINUE
        END DO

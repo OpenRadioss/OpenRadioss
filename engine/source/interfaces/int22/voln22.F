@@ -94,7 +94,7 @@ C-----------------------------------------------
            VOLN(I)   =  EM20*BRICK_LIST(NIN,IB)%UncutVOL  !!!ZERO !in case of no main cell                               
            IF(MCELL == 0)CYCLE          
           
-           IF(BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew.GT.ZERO)THEN
+           IF(BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew>ZERO)THEN
              VOLN(I)    =  BRICK_LIST(NIN,IB)%Vnew_SCell
            ENDIF
                      

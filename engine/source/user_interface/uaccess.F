@@ -88,7 +88,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, K, L, IACC,D1,D2,D3
 C-----------------------------------------------
-      IF (NACC.LE.0) THEN
+      IF (NACC<=0) THEN
         AX = ZERO
         AY = ZERO
         AZ = ZERO
@@ -98,7 +98,7 @@ C-----------------------------------------------
         D1 = L+20
         D2 = L+21
         D3 = L+22
-        IF (IRESP .EQ. 1) THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(12,D1,AX)
           CALL GET_VAR_USER_F_SP(12,D2,AY)
           CALL GET_VAR_USER_F_SP(12,D3,AZ)
@@ -126,14 +126,14 @@ Chd|====================================================================
       INTEGER DEPLA,J,ID
 C=======================================================================
       GET_U_NUMACC = 0
-      IF(IDACC.LE.0)THEN
+      IF(IDACC<=0)THEN
         RETURN
       ENDIF
 C---
       DO J=1,NACCELM
         DEPLA = (J-1)*3+1
         CALL GET_VAR_USER_I(5,DEPLA,ID)
-        IF(IDACC.EQ.ID)THEN
+        IF(IDACC==ID)THEN
           GET_U_NUMACC = J
           RETURN
         ENDIF
@@ -180,8 +180,8 @@ C-----------------------------------------------
       JSUP=NUMNOD
       J=(JSUP+JINF)/2
    10 CALL GET_VAR_USER_I(13,J,ITAB1)
-      IF(JSUP.LE.JINF.AND.(IU-ITAB1).NE.0) THEN
-       IF(NSPMD.EQ.1) THEN
+      IF(JSUP<=JINF.AND.(IU-ITAB1)/=0) THEN
+       IF(NSPMD==1) THEN
         CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
      .                I1=IU,C1=MESS)
         IERR=IERR+1
@@ -190,12 +190,12 @@ Cel en SPMD la valeur 0 n indique pas une erreur mais l absence du noeud sur le 
        GET_U_NUMNOD=0
        RETURN
       ENDIF
-      IF((IU-ITAB1).EQ.0)THEN
+      IF((IU-ITAB1)==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
        CALL GET_VAR_USER_I(13,J+NUMNOD,ITAB2)
          GET_U_NUMNOD=ITAB2
          RETURN
-      ELSE IF (IU-ITAB1.LT.0) THEN
+      ELSE IF (IU-ITAB1<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -248,20 +248,20 @@ C-----------------------------------------------
      .        BUFS(6)
 C-----------------------------------------------
 C
-      IF (NOD.GT.0) THEN
-       IF(NSPMD.GT.1) THEN
+      IF (NOD>0) THEN
+       IF(NSPMD>1) THEN
 Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
 Cel weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
        ENDIF
-       IF(P.EQ.1) THEN
+       IF(P==1) THEN
         L=(NOD-1)*3
         D1=L+1
         D2=L+2
         D3=L+3
-        IF (IRESP .EQ. 1) THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(14,D1,X)
           CALL GET_VAR_USER_F_SP(14,D2,Y)
           CALL GET_VAR_USER_F_SP(14,D3,Z)
@@ -274,8 +274,8 @@ Cel weight : pointeur 18 (cf resol.F)
 C
 C SPMD communication du resultat a ts les procs
 C
-       IF(NSPMD.GT.1.AND.GETUNOD_NOCOM==0) THEN
-         IF(P.EQ.1) THEN
+       IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
+         IF(P==1) THEN
            BUFS(1) = X
            BUFS(2) = Y
            BUFS(3) = Z
@@ -343,20 +343,20 @@ C-----------------------------------------------
      .        BUFS(6)
 C-----------------------------------------------
 C
-      IF (NOD.GT.0) THEN
-       IF(NSPMD.GT.1) THEN
+      IF (NOD>0) THEN
+       IF(NSPMD>1) THEN
 Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
 Cel weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
        ENDIF
-       IF(P.EQ.1) THEN
+       IF(P==1) THEN
         L=(NOD-1)*3
         D1=L+1
         D2=L+2
         D3=L+3
-        IF (IRESP .EQ. 1) THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(15,D1,DX)
           CALL GET_VAR_USER_F_SP(15,D2,DY)
           CALL GET_VAR_USER_F_SP(15,D3,DZ)
@@ -369,8 +369,8 @@ Cel weight : pointeur 18 (cf resol.F)
 C
 C SPMD communication du resultat a ts les procs
 C
-       IF(NSPMD.GT.1.AND.GETUNOD_NOCOM==0) THEN
-         IF(P.EQ.1) THEN
+       IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
+         IF(P==1) THEN
            BUFS(1) = DX
            BUFS(2) = DY
            BUFS(3) = DZ
@@ -438,20 +438,20 @@ C-----------------------------------------------
      .        BUFS(6)
 C-----------------------------------------------
 C
-      IF (NOD.GT.0) THEN
-       IF(NSPMD.GT.1) THEN
+      IF (NOD>0) THEN
+       IF(NSPMD>1) THEN
 Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
 Cel weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
        ENDIF
-       IF(P.EQ.1) THEN
+       IF(P==1) THEN
         L=(NOD-1)*3
         D1=L+1
         D2=L+2
         D3=L+3
-        IF (IRESP .EQ. 1) THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(16,D1,VX)
           CALL GET_VAR_USER_F_SP(16,D2,VY)
           CALL GET_VAR_USER_F_SP(16,D3,VZ)
@@ -464,8 +464,8 @@ C
 C SPMD communication du resultat a ts les procs
 C
        ENDIF
-       IF(NSPMD.GT.1.AND.GETUNOD_NOCOM==0) THEN
-         IF(P.EQ.1) THEN
+       IF(NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
+         IF(P==1) THEN
            BUFS(1) = VX
            BUFS(2) = VY
            BUFS(3) = VZ
@@ -532,20 +532,20 @@ C-----------------------------------------------
      .        BUFS(6)
 C-----------------------------------------------
 C
-      IF (NOD.GT.0) THEN
-       IF(NSPMD.GT.1) THEN
+      IF (NOD>0) THEN
+       IF(NSPMD>1) THEN
 Cel get_proc_user_f retourne 1 si weight(nod) = 1, , 0 sinon
 Cel weight : pointeur 18 (cf resol.F)
          CALL GET_VAR_USER_I(18,NOD,P)
        ELSE
          P = 1
        ENDIF
-       IF(P.EQ.1) THEN
+       IF(P==1) THEN
         L=(NOD-1)*3
         D1=L+1
         D2=L+2
         D3=L+3
-        IF (IRESP .EQ. 1) THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(17,D1,AX)
           CALL GET_VAR_USER_F_SP(17,D2,AY)
           CALL GET_VAR_USER_F_SP(17,D3,AZ)
@@ -558,8 +558,8 @@ Cel weight : pointeur 18 (cf resol.F)
 C
 C SPMD communication du resultat a ts les procs
 C
-       IF(IMACH.EQ.3.AND.NSPMD.GT.1.AND.GETUNOD_NOCOM==0) THEN
-         IF(P.EQ.1) THEN
+       IF(IMACH==3.AND.NSPMD>1.AND.GETUNOD_NOCOM==0) THEN
+         IF(P==1) THEN
            BUFS(1) = AX
            BUFS(2) = AY
            BUFS(3) = AZ
@@ -616,7 +616,7 @@ C
         DEPLA = 4+I*LISKN
         CALL GET_VAR_USER_I(9,DEPLA,ID)
 C
-        IF(ID.EQ.IDSKW) THEN
+        IF(ID==IDSKW) THEN
           GET_U_SKEW = I
 C
           CALL GET_VAR_USER_I(9,I+1  ,N1)
@@ -624,7 +624,7 @@ C
           CALL GET_VAR_USER_I(9,I+3*3,N3)
 C
           DEPLA = I*LSKEW+1
-          IF (IRESP.EQ.1) THEN
+          IF (IRESP==1) THEN
             CALL get_array_user_f_sp (10,DEPLA,VECT,LSKEW)
           ELSE
             CALL get_array_user_f (10,DEPLA,VECT,LSKEW)

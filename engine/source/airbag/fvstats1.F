@@ -57,13 +57,13 @@ C
       IFV = 0
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6 .OR. ITYP.EQ.8) THEN
+         IF (ITYP==6 .OR. ITYP==8) THEN
            IFV = IFV + 1
            ID=MONVOL(K1-1+1)
            ! INFO == 1 : FVSTATS1 called only by processor 0 after an
            ! update of MONVOL
            ! INFO == 0 : FVSTATS1 called by every processor
-           IF((FVSPMD(IFV)%PMAIN-1 .EQ. ISPMD) .OR. (NSPMD .EQ. 1) .OR. INFO==1) THEN
+           IF((FVSPMD(IFV)%PMAIN-1 == ISPMD) .OR. (NSPMD == 1) .OR. INFO==1) THEN
              WRITE(IOUT,'(/1X,A,I10,A)')'** FINITE VOLUME',ID,' MERGE STATISTICS **'
              WRITE(IOUT,'(4X,A,I10)')
      .         'NUMBER OF REMAINING FINITE VOLUMES .....:',MONVOL(K1-1+49)

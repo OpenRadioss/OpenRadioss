@@ -79,12 +79,12 @@ C======================================================================|
      .       NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         DO IG=1,IGRNOD(IGR)%NENTITY
           NN=IGRNOD(IGR)%ENTITY(IG)
-          IF(MASS(NN).NE.0.0)THEN
+          IF(MASS(NN)/=0.0)THEN
 C--- Translations
-            IF(CT.EQ.1.OR.CT.EQ.3.OR.CT.EQ.5.OR.CT.EQ.7)THEN
+            IF(CT==1.OR.CT==3.OR.CT==5.OR.CT==7)THEN
 C--- dz
               NC = NC + 1
-              IF(NC.GT.LAG_NCF)THEN
+              IF(NC>LAG_NCF)THEN
                 CALL ANCMSG(MSGID=500,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -93,9 +93,9 @@ C--- dz
      .                      C2='BCS',
      .                      C3=TITR)
               ENDIF
-              IF(ISK.EQ.1)THEN
+              IF(ISK==1)THEN
                 IADLL(NC+1)=IADLL(NC) + 1
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -109,7 +109,7 @@ C--- dz
                 JLL(IK) = 3
               ELSE
                 IADLL(NC+1)=IADLL(NC) + 3
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -129,10 +129,10 @@ C--- dz
                 JLL(IK) = 3
               ENDIF
             ENDIF
-            IF(CT.EQ.2.OR.CT.EQ.3.OR.CT.EQ.6.OR.CT.EQ.7)THEN
+            IF(CT==2.OR.CT==3.OR.CT==6.OR.CT==7)THEN
 C--- dy
               NC = NC + 1
-              IF(NC.GT.LAG_NCF)THEN
+              IF(NC>LAG_NCF)THEN
                 CALL ANCMSG(MSGID=468,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -141,9 +141,9 @@ C--- dy
      .                      C2='BOUNDARY CONDITIONS',
      .                      C3=TITR)
               ENDIF
-              IF(ISK.EQ.1)THEN
+              IF(ISK==1)THEN
                 IADLL(NC+1)=IADLL(NC) + 1
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -157,7 +157,7 @@ C--- dy
                 JLL(IK) = 2
               ELSE
                 IADLL(NC+1)=IADLL(NC) + 3
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -177,10 +177,10 @@ C--- dy
                 JLL(IK) = 3
               ENDIF
             ENDIF
-            IF(CT.EQ.4.OR.CT.EQ.5.OR.CT.EQ.6.OR.CT.EQ.7)THEN
+            IF(CT==4.OR.CT==5.OR.CT==6.OR.CT==7)THEN
 C--- dx
               NC = NC + 1
-              IF(NC.GT.LAG_NCF)THEN
+              IF(NC>LAG_NCF)THEN
                 CALL ANCMSG(MSGID=468,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -189,9 +189,9 @@ C--- dx
      .                      C2='BOUNDARY CONDITIONS',
      .                      C3=TITR)
               ENDIF
-              IF(ISK.EQ.1)THEN
+              IF(ISK==1)THEN
                 IADLL(NC+1)=IADLL(NC) + 1
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -205,7 +205,7 @@ C--- dx
                 JLL(IK) = 1
               ELSE
                 IADLL(NC+1)=IADLL(NC) + 3
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -226,21 +226,21 @@ C--- dx
               ENDIF
             ENDIF            
           ENDIF
-          IF(INER(NN).NE.0.0)THEN
+          IF(INER(NN)/=0.0)THEN
 C--- Rotations
-            IF(CR.EQ.1.OR.CR.EQ.3.OR.CR.EQ.5.OR.CR.EQ.7)THEN
+            IF(CR==1.OR.CR==3.OR.CR==5.OR.CR==7)THEN
 C--- rz
               NC = NC + 1
-              IF(NC.GT.LAG_NCF)THEN
+              IF(NC>LAG_NCF)THEN
                 CALL ANCMSG(MSGID=468,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
      .                      I1=ID,
      .                      C1='BOUNDARY CONDITIONS')
               ENDIF
-              IF(ISK.EQ.1)THEN
+              IF(ISK==1)THEN
                 IADLL(NC+1)=IADLL(NC) + 1
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -254,7 +254,7 @@ C--- rz
                 JLL(IK) = 6
               ELSE
                 IADLL(NC+1)=IADLL(NC) + 3
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -274,10 +274,10 @@ C--- rz
                 JLL(IK) = 6
               ENDIF
             ENDIF
-            IF(CR.EQ.2.OR.CR.EQ.3.OR.CR.EQ.6.OR.CR.EQ.7)THEN
+            IF(CR==2.OR.CR==3.OR.CR==6.OR.CR==7)THEN
 C--- ry
               NC = NC + 1
-              IF(NC.GT.LAG_NCF)THEN
+              IF(NC>LAG_NCF)THEN
                 CALL ANCMSG(MSGID=468,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -286,9 +286,9 @@ C--- ry
      .                      C2='BOUNDARY CONDITIONS',
      .                      C3=TITR)
               ENDIF
-              IF(ISK.EQ.1)THEN
+              IF(ISK==1)THEN
                 IADLL(NC+1)=IADLL(NC) + 1
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -302,7 +302,7 @@ C--- ry
                 JLL(IK) = 5
               ELSE
                 IADLL(NC+1)=IADLL(NC) + 3
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -322,10 +322,10 @@ C--- ry
                 JLL(IK) = 6
               ENDIF
             ENDIF
-            IF(CR.EQ.4.OR.CR.EQ.5.OR.CR.EQ.6.OR.CR.EQ.7)THEN
+            IF(CR==4.OR.CR==5.OR.CR==6.OR.CR==7)THEN
 C--- rx
               NC = NC + 1
-              IF(NC.GT.LAG_NCF)THEN
+              IF(NC>LAG_NCF)THEN
                 CALL ANCMSG(MSGID=468,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
@@ -334,9 +334,9 @@ C--- rx
      .                      C2='BOUNDARY CONDITIONS',
      .                      C3=TITR)
               ENDIF
-              IF(ISK.EQ.1)THEN
+              IF(ISK==1)THEN
                 IADLL(NC+1)=IADLL(NC) + 1
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,
@@ -350,7 +350,7 @@ C--- rx
                 JLL(IK) = 4
               ELSE
                 IADLL(NC+1)=IADLL(NC) + 3
-                IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+                IF(IADLL(NC+1)-1>LAG_NKF)THEN
                   CALL ANCMSG(MSGID=469,
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO,

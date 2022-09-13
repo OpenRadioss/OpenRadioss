@@ -310,18 +310,18 @@ C
           CASE DEFAULT
             INDEX = 0
         END SELECT
-        IF (DEF_DEF .NE. 1000) IS_DEFAUT_1000 = .FALSE.
+        IF (DEF_DEF /= 1000) IS_DEFAUT_1000 = .FALSE.
       ENDIF
 C
-      IF(INDEX.NE.0)THEN
+      IF(INDEX/=0)THEN
         IF(FLAG == 0 .AND. IPRINT == 0 
-     .              .AND. DEF_INTER(INDEX) .NE. 0)THEN 
+     .              .AND. DEF_INTER(INDEX) /= 0)THEN 
           CALL ANCMSG(MSGID=1073,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
      .                     I1=ITYP)
         ELSEIF(FLAG == 0 .AND. IPRINT == 0 
-     .                   .AND. IVAL .NE. 0)THEN 
+     .                   .AND. IVAL /= 0)THEN 
           ! put default value in DEF_INTER array
           DEF_INTER(INDEX) = IVAL
         ELSEIF(FLAG == 0 .AND. IPRINT == 0)THEN 
@@ -332,20 +332,20 @@ C
           IVAL = DEF_INTER(INDEX)
         ELSEIF(FLAG == 1 .AND. IPRINT == 0)THEN
           ! replace 0 by default value in /INTER
-          IF(IVAL == 0 .AND. DEF_INTER(INDEX) .NE. 0)THEN
+          IF(IVAL == 0 .AND. DEF_INTER(INDEX) /= 0)THEN
             IVAL = DEF_INTER( INDEX)
           ELSEIF(IVAL == 0)THEN
             IVAL = DEF_DEF
           ENDIF
           IF(IVAL == 1000 .AND. IS_DEFAUT_1000 ) IVAL = 0
         ELSEIF(FLAG == 1 .AND. IPRINT == 1)THEN
-          IF(IVAL == 0 .AND. DEF_INTER(INDEX) .NE. 0)THEN
+          IF(IVAL == 0 .AND. DEF_INTER(INDEX) /= 0)THEN
             IVAL = DEF_INTER(INDEX)
           ELSEIF(IVAL == 0 .AND. DEF_INTER(INDEX) == 0)THEN
             IVAL = DEF_DEF
           ENDIF
         ENDIF
-      ENDIF!(INDEX.NE.0)
+      ENDIF!(INDEX/=0)
 C-----
       RETURN
       END

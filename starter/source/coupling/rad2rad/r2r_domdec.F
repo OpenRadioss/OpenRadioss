@@ -91,7 +91,7 @@ C-----------------------------------------------
       REF = 991982
       
       WRITE(CHRUN,'(I4.4)') IRUN
-      IF (IPID.EQ.0) THEN
+      IF (IPID==0) THEN
         NAM = TRIM(DOM_NAME)//'_'//CHRUN//'.domdec'
         DOMLEN = LEN_TRIM(DOM_NAME)+12
       ELSE
@@ -129,7 +129,7 @@ C
 	    DO L=1,SPLIST
               K = PLIST(L)	   
               WRITE(REF,1303,IOSTAT=ERR) (K)
-              IF (ERR.NE.0) THEN
+              IF (ERR/=0) THEN
                 CALL ANCMSG(MSGID=950,
      .          MSGTYPE=MSGERROR,
      .          ANMODE=ANINFO_BLIND_1)
@@ -138,7 +138,7 @@ C
               ENDIF
             ENDDO
 C
-            IF (FL_EXIT.EQ.1) EXIT            
+            IF (FL_EXIT==1) EXIT            
           END DO
         END DO
 C
@@ -164,7 +164,7 @@ C
             END DO     
             DO L=1,SPLIST	   
               READ(REF,1303,IOSTAT=ERR) K
-              IF (ERR.NE.0) THEN
+              IF (ERR/=0) THEN
                 CALL ANCMSG(MSGID=950,
      .          MSGTYPE=MSGERROR,
      .          ANMODE=ANINFO_BLIND_1)                
@@ -172,9 +172,9 @@ C
                 EXIT                
               ENDIF
               FRONTB_R2R(NJ,K) = -1                              
-              IF (NLOCAL(NJ,K).NE.1) CALL IFRONTPLUS(NJ,K)               
+              IF (NLOCAL(NJ,K)/=1) CALL IFRONTPLUS(NJ,K)               
             ENDDO
-            IF (FL_EXIT.EQ.1) EXIT
+            IF (FL_EXIT==1) EXIT
           END DO                      
         END DO
         CLOSE(UNIT=REF,STATUS='KEEP')     

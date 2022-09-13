@@ -83,7 +83,7 @@ C-------------------------------------------
        IMPOSE=KXSP(2,N)/(NGROUP+1)
        lBOOL=.FALSE.
        IF(IMPOSE /= 0)THEN
-         IF(ISPHIO(1,IMPOSE).EQ.2.OR.ISPHIO(1,IMPOSE).EQ.3)lBOOL=.TRUE.
+         IF(ISPHIO(1,IMPOSE)==2.OR.ISPHIO(1,IMPOSE)==3)lBOOL=.TRUE.
        ENDIF
        IF(lBOOL)THEN
           INOD=KXSP(3,N)
@@ -98,7 +98,7 @@ C         plus proche voisin en amont de l'outlet.
           DO  K=1,KXSP(4,N)
 
            JNOD=IXSP(K,N)
-           IF(JNOD.GT.0)THEN          ! particule locale
+           IF(JNOD>0)THEN          ! particule locale
              M=NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
@@ -112,7 +112,7 @@ C         plus proche voisin en amont de l'outlet.
                YJ  =X(2,JNOD)
                ZJ  =X(3,JNOD)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -120,17 +120,17 @@ C         plus proche voisin en amont de l'outlet.
            ELSE
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -139,7 +139,7 @@ C         plus proche voisin en amont de l'outlet.
           ENDDO
 C-------
 C         d(rho)/dt=- rho * div(V) utilise div(V) calcule en IPPV.
-          IF(IPPV.GT.0)THEN
+          IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             DXX =WA_EPSD(1,NP)
             DYY =WA_EPSD(2,NP)

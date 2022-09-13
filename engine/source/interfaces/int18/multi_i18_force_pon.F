@@ -106,16 +106,16 @@ C-----------------------------------------------
 C
       NISKYL1 = 0
       DO I = 1, JLT
-        IF (H1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H1(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
       DO I = 1, JLT
-        IF (H2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H2(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
       DO I = 1, JLT
-        IF (H3(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H3(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
       DO I = 1, JLT
-        IF (H4(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+        IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 C
 C Precalcul impact locaux / remote
@@ -130,16 +130,16 @@ C
       NISKYFI = NISKYFI + IGM
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1+IGP .GT. LSKYI) THEN
+      IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
          CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
          CALL ARRET(2)
       ENDIF
-      IF (NISKYFIL+IGM .GT. NLSKYFI(NIN)) THEN
+      IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO)
         CALL ARRET(2)
       ENDIF
       DO I=1,JLT
-         IF (H1(I).NE.0.) THEN
+         IF (H1(I)/=0.) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX1(I)
             FSKYI(NISKYL,2)=FY1(I)
@@ -149,7 +149,7 @@ C
          ENDIF
       ENDDO
       DO I=1,JLT
-         IF (H2(I).NE.ZERO) THEN
+         IF (H2(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX2(I)
             FSKYI(NISKYL,2)=FY2(I)
@@ -159,7 +159,7 @@ C
          ENDIF
       ENDDO
       DO I=1,JLT
-         IF (H3(I).NE.ZERO) THEN
+         IF (H3(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX3(I)
             FSKYI(NISKYL,2)=FY3(I)
@@ -169,7 +169,7 @@ C
          ENDIF
       ENDDO
       DO I=1,JLT
-         IF (H4(I).NE.ZERO) THEN
+         IF (H4(I)/=ZERO) THEN
             NISKYL = NISKYL + 1
             FSKYI(NISKYL,1)=FX4(I)
             FSKYI(NISKYL,2)=FY4(I)
@@ -185,7 +185,7 @@ C
          IG = NSVG(I)
          ! --------------------
          ! local node
-         IF(IG.GT.0) THEN
+         IF(IG>0) THEN
             IG = IG - NUMNOD
             NINDEX_LOCAL = NINDEX_LOCAL + 1 
             INDEX_LOCAL(NINDEX_LOCAL) = IG

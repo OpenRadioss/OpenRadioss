@@ -60,9 +60,9 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL) :: S11,S12,S13,S21,S22,S23,S31,S32,S33,
      .   TX,TY,TZ
 C=======================================================================
-      IF (JSPH.EQ.0) THEN
-        IF (JCVT.EQ.0) THEN
-          IF(N2D.EQ.0)THEN
+      IF (JSPH==0) THEN
+        IF (JCVT==0) THEN
+          IF(N2D==0)THEN
             DO I = 1,NEL
             RR   =SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
             RX(I)=RX(I)/RR

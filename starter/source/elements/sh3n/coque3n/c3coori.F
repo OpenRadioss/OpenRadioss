@@ -124,26 +124,26 @@ C
         TEST0=0
         TEST1=0
         TEST2=0
-        IF(XN13+XN12.LT.EM20) THEN
+        IF(XN13+XN12<EM20) THEN
            CALL ANCMSG(MSGID=35,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=IXP(NIXTG,I))
            TEST0=1
-         ELSE IF(SURF.LE.EM20) THEN
+         ELSE IF(SURF<=EM20) THEN
            CALL ANCMSG(MSGID=35,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=IXP(NIXTG,I))
            TEST1=1
-        ELSE IF(XN12.LE.EM20.OR.XN23.LE.EM20.OR.XN13.LE.EM20) THEN
+        ELSE IF(XN12<=EM20.OR.XN23<=EM20.OR.XN13<=EM20) THEN
            CALL ANCMSG(MSGID=36,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=IXP(NIXTG,I))
            TEST2=1
         ENDIF  
-        IF(TEST0.EQ.1.OR.TEST1.EQ.1.OR.TEST2.EQ.1) THEN
+        IF(TEST0==1.OR.TEST1==1.OR.TEST2==1) THEN
           X1(I)=ZERO
           Y1(I)=ZERO
           Z1(I)=ZERO

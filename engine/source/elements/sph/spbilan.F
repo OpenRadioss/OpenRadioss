@@ -157,9 +157,9 @@ C
         PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
       ENDDO
 C
-      IF(JTUR.NE.0)THEN
+      IF(JTUR/=0)THEN
        DO 50 I=LFT,LLT
-       IF(OFFG(I).GT.ZERO)THEN
+       IF(OFFG(I)>ZERO)THEN
         M=IPARTSP(I)
         PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)
        ENDIF
@@ -167,7 +167,7 @@ C
       ENDIF
 
 Cbm   THERMAL EXPANSION
-      IF(IEXPAN.NE.0)THEN
+      IF(IEXPAN/=0)THEN
        DO I=LFT,LLT
          M=IPARTSP(I)
          PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)

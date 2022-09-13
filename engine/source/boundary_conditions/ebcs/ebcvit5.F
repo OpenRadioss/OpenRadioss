@@ -52,7 +52,7 @@ C-----------------------------------------------
      .     C,LCAR,ALP,ALPDT,AX,AY,AZ,VIMP,V0(3),FAC
 C
       IVIMP=EBCS%ivimp
-      IF(IVIMP.GT.0)THEN
+      IF(IVIMP>0)THEN
         VIMP=EBCS%vimp*FV(IVIMP)
       ELSE
         VIMP=EBCS%vimp
@@ -60,10 +60,10 @@ C
       C=EBCS%c
       LCAR=EBCS%lcar
       ALP=ZERO
-      IF(LCAR.GT.ZERO)ALP=C/LCAR
+      IF(LCAR>ZERO)ALP=C/LCAR
       ALPDT=ALP*DT1
 C
-      IF(TT.EQ.ZERO)THEN
+      IF(TT==ZERO)THEN
      	  DO I=1,NOD
 	    N=LISTE(I)
 	    RESO(1,I)=A(1,N)
@@ -72,7 +72,7 @@ C
      	  ENDDO
       ENDIF
 C
-      IF(ALP.GT.ZERO)THEN
+      IF(ALP>ZERO)THEN
         DO I=1,NOD
           N=LISTE(I)
 c          write(6,*)'ebcvit5 N',N,' RESO',RESO(3,I),'A',A(3,N)

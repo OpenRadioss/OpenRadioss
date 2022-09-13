@@ -63,7 +63,7 @@ C======================================================================
       JALE    = IPARG(7,NG)                                             
                                                                         
       ISMSTR  = IPARG(9,NG)                                             
-      IF(ITY.EQ.1.OR.ITY.EQ.2)THEN                                      
+      IF(ITY==1.OR.ITY==2)THEN                                      
         JEUL    = IPARG(11,NG)                                          
       ELSE             ! attention dkt9_s3 utilise ce flag              
         JEUL    = 0                                                     

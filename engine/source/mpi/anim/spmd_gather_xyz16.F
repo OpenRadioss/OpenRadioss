@@ -65,7 +65,7 @@ C   Tableau utilise par proc 0
        REAL
      .   XGLOB(3,NUM)
          
-       IF (ISPMD.NE.0) THEN
+       IF (ISPMD/=0) THEN
          MSGTYP = MSGOFF 
          CALL MPI_SEND(V,6*NUMELS16,MPI_REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)

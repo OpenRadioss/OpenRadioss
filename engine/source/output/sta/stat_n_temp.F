@@ -65,7 +65,7 @@ C-----------------------------------------------
       IF (NSPMD > 1) THEN
         CALL SPMD_DSTAT_GATH(TEMP,NODGLOB,WEIGHT,TEMPG,NODTAG,
      .                        NODTAGLOB)
-        IF (ISPMD.NE.0) RETURN
+        IF (ISPMD/=0) RETURN
       ENDIF
 
       IF (IZIPSTRS == 0) THEN

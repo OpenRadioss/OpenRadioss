@@ -93,15 +93,15 @@ C=======================================================================
         DO L=1,NSL
           I=LPRW(K+L)
           IKK=IABS(IKINE(I))
-          IF(IRB(IKK).NE.0.OR.ITF(IKK).NE.0)THEN
+          IF(IRB(IKK)/=0.OR.ITF(IKK)/=0)THEN
             RBWARN = RBWARN + 1
             JWARN = JWARN+1
-            IF(IRB(IKK).NE.0 .AND. MARQ2 == 0) MARQ2 = 1
-            IF(ITF(IKK).NE.0 .AND. MARQM2 == 0) MARQM2 = 1
+            IF(IRB(IKK)/=0 .AND. MARQ2 == 0) MARQ2 = 1
+            IF(ITF(IKK)/=0 .AND. MARQM2 == 0) MARQM2 = 1
             IF(IWL(IKINE(I))==1)IKINE(I) = IKINE(I) - 4
 
          ELSE
-            IF (IRB2(IKK).NE.0) RB2WARN = RB2WARN + 1
+            IF (IRB2(IKK)/=0) RB2WARN = RB2WARN + 1
             J=J+1
             LPRW(KK+J)=LPRW(K+L)
           ENDIF
@@ -110,7 +110,7 @@ C=======================================================================
         NSL=J
         KK = KK+NSL
         NPRW(N)=NSL
-        IF(ITYP.LT.0)THEN
+        IF(ITYP<0)THEN
           NE=NINT(RWL(8,N))
           DO I=1,NE
             LPRW(KK+I)=LPRW(K+I)
@@ -118,7 +118,7 @@ C=======================================================================
           K  = K+NE
           KK = KK+NE
         ENDIF
-        IF (JWARN.GT.0) THEN
+        IF (JWARN>0) THEN
            ID=NOM_OPT(1,PTR_NOPT_RWALL+N)
            CALL FRETITL2(TITR,
      .                   NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RWALL+N),LTITR)
@@ -144,7 +144,7 @@ C----------------------------------------------------------
         ID=NOM_OPT(1,PTR_NOPT_RBE3+I)
         CALL FRETITL2(TITR,
      .                NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE3+I),LTITR)
-          IF (IKRBE2(IKINE(M)).EQ.1) THEN
+          IF (IKRBE2(IKINE(M))==1) THEN
            CALL ANCMSG(MSGID=805,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -153,7 +153,7 @@ C----------------------------------------------------------
      .                 I2=ITAB(M))
            RETURN
           ENDIF
-          IF (ITF(IKINE(M)).EQ.1) THEN
+          IF (ITF(IKINE(M))==1) THEN
            CALL ANCMSG(MSGID=1035,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -172,7 +172,7 @@ C----------------------------------------------------------
          ID=NOM_OPT(1,PTR_NOPT_RBE2+I)
            CALL FRETITL2(TITR,
      .                   NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE2+I),LTITR)
-          IF (ITF(IKINE(M)).EQ.1) THEN
+          IF (ITF(IKINE(M))==1) THEN
            CALL ANCMSG(MSGID=1036,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -187,7 +187,7 @@ C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de R
 C----------------------------------------------------------
       DO I=1,NRBODY
         M=NPBY(1,I)
-         IF (IKRBE2(IKINE(M)).EQ.1) THEN
+         IF (IKRBE2(IKINE(M))==1) THEN
 C           CALL ANCWARN(806,ANINFO_BLIND_1)
 C           NUN=NUN+1
            ID=NOM_OPT(1,I)
@@ -207,7 +207,7 @@ C - no-autorised hierarchy :Check des noeuds mains des RBODY sont SECONDARY de R
 C----------------------------------------------------------
       DO I=1,NRBODY
         M=NPBY(1,I)
-         IF (IKRBE3(IKINE(M)).EQ.1) THEN
+         IF (IKRBE3(IKINE(M))==1) THEN
            ID=NOM_OPT(1,I)
            CALL FRETITL2(TITR,
      .                   NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
@@ -226,7 +226,7 @@ C----------------------------------------------------------
       DO I=1,NRBE2
 	     M = IRBE2(3,I)
 	     DO J =1,NRBODY
-          IF(NPBY(1,J).EQ.M)THEN
+          IF(NPBY(1,J)==M)THEN
            ID=NOM_OPT(1,PTR_NOPT_RBE2+I)
            CALL FRETITL2(TITR,
      .                   NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBE2+I),LTITR)
@@ -256,7 +256,7 @@ C----------------------------------------------------------
          ID=NOM_OPT(1,N)
          CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
           DO I=1,KRB
-          IF(NPBY(1,N).EQ.LPBY(I))THEN
+          IF(NPBY(1,N)==LPBY(I))THEN
             CALL ANCMSG(MSGID=555,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -323,21 +323,21 @@ C-------  RLINK
        ENDDO
       END IF !(NBCSCYC>0) THEN
 C=======================================================================
-      IF(IPRI.GE.6)THEN
+      IF(IPRI>=6)THEN
         WRITE(IOUT,*)' NODES WITH KINEMATIC CONDITIONS:'
         WRITE(IOUT,*)' --------------------------------'
         K = 0
         DO I=1,NUMNOD
-          IF(IKINE(I).NE.0)THEN
+          IF(IKINE(I)/=0)THEN
             K = K + 1
             IK(K) = ITAB(I)
-            IF(K.EQ.10)THEN
+            IF(K==10)THEN
               WRITE(IOUT,FMT=FMW_10I)(IK(J),J=1,K)
               K = 0
             ENDIF
           ENDIF
         ENDDO
-        IF(K.NE.10) WRITE(IOUT,FMT=FMW_10I)(IK(J),J=1,K)
+        IF(K/=10) WRITE(IOUT,FMT=FMW_10I)(IK(J),J=1,K)
       ENDIF
 C
 C---------------------------------------------------------------
@@ -381,69 +381,69 @@ C---------------------------------------------------------------
         MARQUEURDOUBLE(I) = 0
       ENDDO
       DO I=1,NUMNOD
-        IF(NKIN(I).GE.2)THEN
-          IF (IBC(IKINE(I)).EQ. 1
-     .        .AND. IBC(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+        IF(NKIN(I)>=2)THEN
+          IF (IBC(IKINE(I))== 1
+     .        .AND. IBC(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(1) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (ITF(IKINE(I)).EQ. 1
-     .        .AND. ITF(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (ITF(IKINE(I))== 1
+     .        .AND. ITF(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(2) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IWL(IKINE(I)).EQ. 1
-     .        .AND. IWL(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IWL(IKINE(I))== 1
+     .        .AND. IWL(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(3) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IRB(IKINE(I)).EQ. 1
-     .        .AND. IRB(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IRB(IKINE(I))== 1
+     .        .AND. IRB(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(4) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IRB2(IKINE(I)).EQ. 1
-     .        .AND. IRB2(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IRB2(IKINE(I))== 1
+     .        .AND. IRB2(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(5) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IVF(IKINE(I)).EQ. 1
-     .        .AND. IVF(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IVF(IKINE(I))== 1
+     .        .AND. IVF(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(6) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IRV(IKINE(I)).EQ. 1
-     .        .AND. IRV(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IRV(IKINE(I))== 1
+     .        .AND. IRV(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(7) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IJO(IKINE(I)).EQ. 1
-     .        .AND. IJO(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IJO(IKINE(I))== 1
+     .        .AND. IJO(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(8) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IRBM(IKINE(I)).EQ. 1
-     .        .AND. IRBM(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IRBM(IKINE(I))== 1
+     .        .AND. IRBM(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(9) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (ILMULT(IKINE(I)).EQ. 1
-     .        .AND. ILMULT(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (ILMULT(IKINE(I))== 1
+     .        .AND. ILMULT(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(10) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IRLK(IKINE(I)).EQ. 1
-     .        .AND. IRLK(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IRLK(IKINE(I))== 1
+     .        .AND. IRLK(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(11) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IKRBE2(IKINE(I)).EQ. 1
-     .        .AND. IKRBE2(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IKRBE2(IKINE(I))== 1
+     .        .AND. IKRBE2(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(12) = 1
             FLAG_IKCOND = 1
           ENDIF
-          IF (IKRBE3(IKINE(I)).EQ. 1
-     .        .AND. IKRBE3(IKINE(I+3*NUMNOD)).EQ. 1) THEN
+          IF (IKRBE3(IKINE(I))== 1
+     .        .AND. IKRBE3(IKINE(I+3*NUMNOD))== 1) THEN
             MARQUEURDOUBLE(13) = 1
             FLAG_IKCOND = 1
           ENDIF
@@ -452,30 +452,30 @@ C---------------------------------------------------------------
 C---------------------------------------------------------------
       NIKRW = 0
       DO I = 1,NUMNOD
-        IF ( IKINE(I) .NE. 0 .AND. IKINE(I).NE.1 .AND. IKINE(I).NE.2
-     .     .AND. IKINE(I).NE.4 .AND. IKINE(I).NE.8 .AND. IKINE(I).NE.16
-     .     .AND. IKINE(I).NE.32 .AND. IKINE(I).NE.64
-     .     .AND. IKINE(I).NE.128 .AND. IKINE(I).NE.256
-     .     .AND. IKINE(I).NE.512 .AND. IKINE(I).NE.1024
-     .     .AND. IKINE(I).NE.2048 .AND. IKINE(I).NE.4096
-     .     .AND. IKINE(I+4*NUMNOD) .NE. 0          ) THEN
-          IF(IWL(IKINE(I)).EQ. 1 .AND. IRB(IKINE(I)).EQ. 1
-     .     .AND. ITF(IKINE(I)).EQ. 1 )THEN
-            IF (IKINE(I).GT.14) THEN
+        IF ( IKINE(I) /= 0 .AND. IKINE(I)/=1 .AND. IKINE(I)/=2
+     .     .AND. IKINE(I)/=4 .AND. IKINE(I)/=8 .AND. IKINE(I)/=16
+     .     .AND. IKINE(I)/=32 .AND. IKINE(I)/=64
+     .     .AND. IKINE(I)/=128 .AND. IKINE(I)/=256
+     .     .AND. IKINE(I)/=512 .AND. IKINE(I)/=1024
+     .     .AND. IKINE(I)/=2048 .AND. IKINE(I)/=4096
+     .     .AND. IKINE(I+4*NUMNOD) /= 0          ) THEN
+          IF(IWL(IKINE(I))== 1 .AND. IRB(IKINE(I))== 1
+     .     .AND. ITF(IKINE(I))== 1 )THEN
+            IF (IKINE(I)>14) THEN
               MARQUEUR(IKINE(I)) = 3
               FLAG_IKCOND = 1
             ELSE
               MARQUEUR(IKINE(I)) = 0
             ENDIF
-          ELSEIF(IWL(IKINE(I)).EQ. 1 .AND. IRB(IKINE(I)).EQ. 1)THEN
-            IF (IKINE(I).GT.12) THEN
+          ELSEIF(IWL(IKINE(I))== 1 .AND. IRB(IKINE(I))== 1)THEN
+            IF (IKINE(I)>12) THEN
               MARQUEUR(IKINE(I)) = 2
               FLAG_IKCOND = 1
             ELSE
               MARQUEUR(IKINE(I)) = 0
             ENDIF
-          ELSEIF(IWL(IKINE(I)).EQ. 1 .AND. ITF(IKINE(I)).EQ. 1)THEN
-            IF (IKINE(I).GT.6) THEN
+          ELSEIF(IWL(IKINE(I))== 1 .AND. ITF(IKINE(I))== 1)THEN
+            IF (IKINE(I)>6) THEN
               MARQUEUR(IKINE(I)) = -2
               FLAG_IKCOND = 1
             ELSE
@@ -490,7 +490,7 @@ C---------------------------------------------------------------
         ENDIF
       ENDDO
 C---------------------------------------------------------------
-      IF (IPRI.GE.6 .AND. FLAG_IKCOND.EQ.1) THEN
+      IF (IPRI>=6 .AND. FLAG_IKCOND==1) THEN
       WRITE(IOUT,*)'                                 '
       WRITE(IOUT,*)
      .       'LIST OF POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS :'
@@ -507,17 +507,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IBC(IKINE(J)).EQ. 1
-     .          .AND. IBC(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IBC(IKINE(J))== 1
+     .          .AND. IBC(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
               WRITE(IOUT,*)'                                           '
@@ -530,17 +530,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (ITF(IKINE(J)).EQ. 1
-     .          .AND. ITF(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (ITF(IKINE(J))== 1
+     .          .AND. ITF(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -553,17 +553,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IWL(IKINE(J)).EQ. 1
-     .          .AND. IWL(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IWL(IKINE(J))== 1
+     .          .AND. IWL(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -576,17 +576,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IRB(IKINE(J)).EQ. 1
-     .          .AND. IRB(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IRB(IKINE(J))== 1
+     .          .AND. IRB(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -600,17 +600,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IVF(IKINE(J)).EQ. 1
-     .          .AND. IVF(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IVF(IKINE(J))== 1
+     .          .AND. IVF(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -623,17 +623,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IRV(IKINE(J)).EQ. 1
-     .          .AND. IRV(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IRV(IKINE(J))== 1
+     .          .AND. IRV(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -646,17 +646,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IJO(IKINE(J)).EQ. 1
-     .          .AND. IJO(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IJO(IKINE(J))== 1
+     .          .AND. IJO(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -669,17 +669,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (ILMULT(IKINE(J)).EQ. 1
-     .          .AND. ILMULT(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (ILMULT(IKINE(J))== 1
+     .          .AND. ILMULT(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -692,17 +692,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IBC(IKINE(J)).EQ. 1
-     .          .AND. IBC(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IBC(IKINE(J))== 1
+     .          .AND. IBC(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
             WRITE(IOUT,*)'                                            '
@@ -715,17 +715,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IRLK(IKINE(J)).EQ. 1
-     .          .AND. IRLK(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IRLK(IKINE(J))== 1
+     .          .AND. IRLK(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
               WRITE(IOUT,*)'                                           '
@@ -738,17 +738,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IKRBE2(IKINE(J)).EQ. 1
-     .          .AND. IKRBE2(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IKRBE2(IKINE(J))== 1
+     .          .AND. IKRBE2(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
               WRITE(IOUT,*)'                                           '
@@ -761,17 +761,17 @@ C---------------------------------------------------------------
             WRITE(IOUT,*)'NODES :'
               K = 0
               DO J = 1,NUMNOD
-                IF (IKRBE3(IKINE(J)).EQ. 1
-     .          .AND. IKRBE3(IKINE(J+3*NUMNOD)).EQ. 1) THEN
+                IF (IKRBE3(IKINE(J))== 1
+     .          .AND. IKRBE3(IKINE(J+3*NUMNOD))== 1) THEN
                   K = K + 1
                   IK(K) = ITAB(J)
-                  IF(K.EQ.10)THEN
+                  IF(K==10)THEN
                     WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                     K = 0
                   ENDIF
                 ENDIF
               ENDDO
-              IF(K.NE.0)THEN
+              IF(K/=0)THEN
                 WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
               ENDIF
               WRITE(IOUT,*)'                                           '
@@ -780,79 +780,79 @@ C---------------------------------------------------------------
       ENDDO
 C                                      '
       DO I=1,8192
-        IF ( MARQUEUR(I) .NE. 0 )THEN
+        IF ( MARQUEUR(I) /= 0 )THEN
           WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
           DO J=1,ABS(MARQUEUR(I))
 C cas RBODY & RWALL, INTER 1_2_9 & RWALL, RBODY & INTER 1_2_9 & RWALL
-            IF (J.EQ.1 .AND. ABS(MARQUEUR(I)) == 2 ) IWL(I)=IWL(I)-1
-            IF (J.EQ.1 .AND. ABS(MARQUEUR(I)) == 3 ) THEN
+            IF (J==1 .AND. ABS(MARQUEUR(I)) == 2 ) IWL(I)=IWL(I)-1
+            IF (J==1 .AND. ABS(MARQUEUR(I)) == 3 ) THEN
               IWL(I)=IWL(I)-1
               ITF(I) = ITF(I) - 1
             ENDIF
-            IF (J.EQ.2 .AND. MARQUEUR(I) == 2 ) THEN
+            IF (J==2 .AND. MARQUEUR(I) == 2 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) + 1
               IRB(I) = IRB(I) - 1
             ENDIF
-            IF (J.EQ.2 .AND. MARQUEUR(I) == -2 ) THEN
+            IF (J==2 .AND. MARQUEUR(I) == -2 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) + 1
               ITF(I) = ITF(I) - 1
             ENDIF
-            IF (J.EQ.2 .AND. MARQUEUR(I) == 3 ) THEN
+            IF (J==2 .AND. MARQUEUR(I) == 3 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) + 1
               IRB(I) = IRB(I) - 1
             ENDIF
-            IF (J.EQ.3 .AND. MARQUEUR(I) == 3 ) THEN
+            IF (J==3 .AND. MARQUEUR(I) == 3 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) - 1
               ITF(I) = ITF(I) +1
             ENDIF
 C
-            IF (IBC(I).EQ. 1) THEN
+            IF (IBC(I)== 1) THEN
               WRITE(IOUT,*)'    BOUNDARY CONDITION'
             ENDIF
-            IF (ITF(I).EQ. 1) THEN
+            IF (ITF(I)== 1) THEN
               WRITE(IOUT,*)'    INTERFACE TYPE 1 2 12 OR 9'
             ENDIF
-            IF (IWL(I).EQ. 1) THEN
+            IF (IWL(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID WALL'
             ENDIF
-            IF (IRB(I).EQ. 1) THEN
+            IF (IRB(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID BODY'
             ENDIF
-            IF (IRB2(I).EQ. 1) THEN
+            IF (IRB2(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID BODY'
             ENDIF
-            IF (IVF(I).EQ. 1) THEN
+            IF (IVF(I)== 1) THEN
               WRITE(IOUT,*)'    IMPOSED ACCELERATION, IMPOSED DEPLACEMEN
      .T, IMPOSED VELOCITY'
             ENDIF
-            IF (IRV(I).EQ. 1) THEN
+            IF (IRV(I)== 1) THEN
               WRITE(IOUT,*)'    RIVET'
             ENDIF
-            IF (IJO(I).EQ. 1) THEN
+            IF (IJO(I)== 1) THEN
               WRITE(IOUT,*)'    CYLINDRICAL JOINT'
             ENDIF
-            IF (IRBM(I).EQ. 1) THEN
+            IF (IRBM(I)== 1) THEN
               WRITE(IOUT,*)'    IMPOSED BODY VELOCITY'
             ENDIF
-            IF (ILMULT(I).EQ. 1) THEN
+            IF (ILMULT(I)== 1) THEN
               WRITE(IOUT,*)'    LAGRANGE MULTIPLIERS'
             ENDIF
-            IF (IRLK(I).EQ. 1) THEN
+            IF (IRLK(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID LINK'
             ENDIF
-            IF (IKRBE2(I).EQ. 1) THEN
+            IF (IKRBE2(I)== 1) THEN
               WRITE(IOUT,*)'    RBE2'
             ENDIF
-            IF (IKRBE3(I).EQ. 1) THEN
+            IF (IKRBE3(I)== 1) THEN
               WRITE(IOUT,*)'    RBE3'
             ENDIF
             WRITE(IOUT,*)
@@ -863,19 +863,19 @@ C
               IF (IKINE(J1) == I) THEN
                  K = K + 1
                  IK(K) = ITAB(J1)
-                 IF(K.EQ.10)THEN
+                 IF(K==10)THEN
                    WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
                    K = 0
                  ENDIF
               ENDIF
             ENDDO
-            IF(K.NE.0)THEN
+            IF(K/=0)THEN
               WRITE(IOUT,FMT=FMW_10I)(IK(L),L=1,K)
             ENDIF
             WRITE(IOUT,*)'                                 '
-            IF (J.EQ.2 .AND.MARQUEUR(I) == 2 )IRB(I) = IRB(I) + 1
-            IF (J.EQ.2 .AND.MARQUEUR(I) == -2 )ITF(I) = ITF(I) + 1
-            IF (J.EQ.3 .AND.MARQUEUR(I) == 3 ) THEN
+            IF (J==2 .AND.MARQUEUR(I) == 2 )IRB(I) = IRB(I) + 1
+            IF (J==2 .AND.MARQUEUR(I) == -2 )ITF(I) = ITF(I) + 1
+            IF (J==3 .AND.MARQUEUR(I) == 3 ) THEN
               IRB(I) = IRB(I) + 1
               IWL(I) = IWL(I) + 1
             ENDIF
@@ -884,7 +884,7 @@ C
       ENDDO
       ENDIF
 C---------------------------------------------------------------
-      IF(KWARN.GT.0)THEN
+      IF(KWARN>0)THEN
          CALL ANCMSG(MSGID=312,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .               I1=KWARN)
             WRITE(IOUT,*)'                                            '
@@ -900,7 +900,7 @@ C---------------------------------------------------------------
       WRITE(IOUT,*)'--------------------------------------------------
      .---'
       WRITE(IOUT,*)'                                 '
-      IF (FLAG_IKCOND.EQ.0) THEN
+      IF (FLAG_IKCOND==0) THEN
         WRITE(IOUT,*)'NO TRUE INCOMPATIBLE KINEMATIC CONDITION'
         IF (MARQ2 == 1) THEN
           WRITE(IOUT,*)' - AFTER SECONDARY NODES OF RIGID BODIES WERE SUPPRE
@@ -1004,87 +1004,87 @@ C---------------------------------------------------------------
       ENDDO
 C                                      '
       DO I=1,8192
-        IF ( MARQUEUR(I) .NE. 0 )THEN
+        IF ( MARQUEUR(I) /= 0 )THEN
           WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
           DO J=1,ABS(MARQUEUR(I))
-            IF (J.EQ.1 .AND. ABS(MARQUEUR(I)) == 2 ) IWL(I)=IWL(I)-1
-            IF (J.EQ.1 .AND. ABS(MARQUEUR(I)) == 3 ) THEN
+            IF (J==1 .AND. ABS(MARQUEUR(I)) == 2 ) IWL(I)=IWL(I)-1
+            IF (J==1 .AND. ABS(MARQUEUR(I)) == 3 ) THEN
               IWL(I )= IWL(I) - 1
               ITF(I) = ITF(I) - 1
             ENDIF
-            IF (J.EQ.2 .AND. MARQUEUR(I) == 2 ) THEN
+            IF (J==2 .AND. MARQUEUR(I) == 2 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) + 1
               IRB(I) = IRB(I) - 1
             ENDIF
-            IF (J.EQ.2 .AND. MARQUEUR(I) == -2 ) THEN
+            IF (J==2 .AND. MARQUEUR(I) == -2 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) + 1
               ITF(I) = ITF(I) - 1
             ENDIF
-            IF (J.EQ.2 .AND. MARQUEUR(I) == 3 ) THEN
+            IF (J==2 .AND. MARQUEUR(I) == 3 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) + 1
               IRB(I) = IRB(I) - 1
             ENDIF
-            IF (J.EQ.3 .AND. MARQUEUR(I) == 3 ) THEN
+            IF (J==3 .AND. MARQUEUR(I) == 3 ) THEN
               WRITE(IOUT,*)
      .       '- POSSIBLE INCOMPATIBLE KINEMATIC CONDITIONS BETWEEN:'
               IWL(I) = IWL(I) - 1
               ITF(I) = ITF(I) + 1
             ENDIF
 C
-            IF (IBC(I).EQ. 1) THEN
+            IF (IBC(I)== 1) THEN
               WRITE(IOUT,*)'    BOUNDARY CONDITION'
             ENDIF
-            IF (ITF(I).EQ. 1) THEN
+            IF (ITF(I)== 1) THEN
               WRITE(IOUT,*)'    INTERFACE TYPE 1 2 12 OR 9'
             ENDIF
-            IF (IWL(I).EQ. 1) THEN
+            IF (IWL(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID WALL'
             ENDIF
-            IF (IRB(I).EQ. 1) THEN
+            IF (IRB(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID BODY'
             ENDIF
-            IF (IRB2(I).EQ. 1) THEN
+            IF (IRB2(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID BODY'
             ENDIF
-            IF (IVF(I).EQ. 1) THEN
+            IF (IVF(I)== 1) THEN
               WRITE(IOUT,*)'    IMPOSED ACCELERATION, IMPOSED DEPLACEMEN
      .T, IMPOSED VELOCITY'
             ENDIF
-            IF (IRV(I).EQ. 1) THEN
+            IF (IRV(I)== 1) THEN
               WRITE(IOUT,*)'    RIVET'
             ENDIF
-            IF (IJO(I).EQ. 1) THEN
+            IF (IJO(I)== 1) THEN
               WRITE(IOUT,*)'    CYLINDRICAL JOINT'
             ENDIF
-            IF (IRBM(I).EQ. 1) THEN
+            IF (IRBM(I)== 1) THEN
               WRITE(IOUT,*)'    IMPOSED BODY VELOCITY'
             ENDIF
-            IF (ILMULT(I).EQ. 1) THEN
+            IF (ILMULT(I)== 1) THEN
               WRITE(IOUT,*)'    LAGRANGE MULTIPLIERS'
             ENDIF
-            IF (IRLK(I).EQ. 1) THEN
+            IF (IRLK(I)== 1) THEN
               WRITE(IOUT,*)'    RIGID LINK'
             ENDIF
-            IF (IKRBE2(I).EQ. 1) THEN
+            IF (IKRBE2(I)== 1) THEN
               WRITE(IOUT,*)'    RBE2'
             ENDIF
-            IF (IKRBE3(I).EQ. 1) THEN
+            IF (IKRBE3(I)== 1) THEN
               WRITE(IOUT,*)'    RBE3'
             ENDIF
-            IF (J.EQ.2 .AND.MARQUEUR(I) == 2 )IRB(I) = IRB(I) + 1
-            IF (J.EQ.2 .AND.MARQUEUR(I) == -2 )ITF(I) = ITF(I) + 1
-            IF (J.EQ.3 .AND.MARQUEUR(I) == 3 ) THEN
+            IF (J==2 .AND.MARQUEUR(I) == 2 )IRB(I) = IRB(I) + 1
+            IF (J==2 .AND.MARQUEUR(I) == -2 )ITF(I) = ITF(I) + 1
+            IF (J==3 .AND.MARQUEUR(I) == 3 ) THEN
               IRB(I) = IRB(I) + 1
               IWL(I) = IWL(I) + 1
             ENDIF
-            IF(KWARN.GT.0.AND.IPRI.GE.3)THEN
+            IF(KWARN>0.AND.IPRI>=3)THEN
                WRITE(IOUT,*)'NODES :'
                WRITE(IOUT,FMT=FMW_10I)(IKRW(L),L=1,NIKRW)
             ENDIF
@@ -1113,35 +1113,35 @@ Cls
         NK = IBC(IKINE(I))+ITF(IKINE(I))+IWL(IKINE(I))+
      .       IRB(IKINE(I))+IRB2(IKINE(I))+
      .       IVF(IKINE(I))+IRV(IKINE(I))+IJO(IKINE(I))
-        IF(NK.GE.2)THEN
+        IF(NK>=2)THEN
           JWARN = JWARN+1
           WRITE(IOUT,*)
      .     '    -',NK,' KINEMATIC CONDITIONS ON NODE',ITAB(I),':'
-          IF(IBC(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IBC(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - BOUNDARY CONDITION'
-          IF(ITF(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(ITF(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - INTERFACE TYPE 1 2 12 OR 9'
-          IF(IWL(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IWL(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - RIGID WALL'
-          IF(IRB(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IRB(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - RIGID BODY'
-          IF(IRB2(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IRB2(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - RIGID BODY'
-          IF(IVF(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IVF(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - FIXED VELOCITY'
-          IF(IRV(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IRV(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - RIVET'
-          IF(IJO(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IJO(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - CYLINDRICAL JOINT'
-          IF(IRBM(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(IRBM(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - IMPOSED BODY VELOCITY'
-          IF(ILMULT(IKINE(I)).EQ.1) WRITE(IOUT,*)
+          IF(ILMULT(IKINE(I))==1) WRITE(IOUT,*)
      .     '             - LAGRANGE MULTIPLIERS'
         ENDIF
  100  CONTINUE
 C
       IWARN = IWARN + JWARN
-      IF(JWARN.NE.0)THEN
+      IF(JWARN/=0)THEN
         WRITE(ISTDO,'(A,I8,A)') ' ** WARNING',JWARN,
      .    ' NODES WITH INCOMPATIBLE KINEMATIC CONDITIONS'
         WRITE(IOUT,FMT=FMW_A_I_A) ' ** WARNING',JWARN,
@@ -1205,7 +1205,7 @@ C=======================================================================
         DO L=1,NSL
           I=LPRW(K+L)
           IKK=IABS(IKINEW(I))
-          IF(IRB(IKK).NE.0.OR.ITF(IKK).NE.0)THEN
+          IF(IRB(IKK)/=0.OR.ITF(IKK)/=0)THEN
             IF(IWL(IKINEW(I))==1)IKINEW(I) = IKINEW(I) - 4
           ELSE
             J=J+1
@@ -1216,7 +1216,7 @@ C=======================================================================
         NSL=J
         KK = KK+NSL
         NPRW(N)=NSL
-        IF(ITYP.LT.0)THEN
+        IF(ITYP<0)THEN
           NE=NINT(RWL(8,N))
           DO I=1,NE
             LPRW(KK+I)=LPRW(K+I)
@@ -1283,7 +1283,7 @@ C-----------------------------------------------------------------
         NSL=NPBY(2,I)
         ICDG=NPBY(3,I)
         ISEN=NPBY(4,I)
-        IF (ISEN.EQ.0) THEN
+        IF (ISEN==0) THEN
           CALL RBY_V0(X  ,LPBY(K)  ,M   ,NSL  ,V     ,VR  )
          ENDIF
          K = K + NSL
@@ -1294,18 +1294,18 @@ C-----------------------------------------------------------------
         NSL=NPBY(2,I)
         ICDG=NPBY(3,I)
         ISEN=NPBY(4,I)
-        IF (ISEN.EQ.0) THEN
+        IF (ISEN==0) THEN
           CALL RBY_V0(X  ,LPBY(K)  ,M   ,NSL  ,V     ,VR  )
          ENDIF
          K = K + 3*NSL
       ENDDO
 C-----------------------------------------------------------------
-      IF(NRBE3.GT.0)THEN
+      IF(NRBE3>0)THEN
        CALL RBE3_IMPD(IRBE3 ,LRBE3 ,X    ,V     ,VR    ,
      1                FRBE3  ,SKEW  )
       ENDIF
 C-----------------------------------------------------------------
-      IF(NRBE2.GT.0)THEN
+      IF(NRBE2>0)THEN
        CALL RBE2_IMPD(IRBE2 ,LRBE2 ,X    ,V     ,VR    ,
      1                SKEW  )
       ENDIF
@@ -1407,11 +1407,11 @@ C======================================================================|
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(3,6,MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(3,6,MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(3,6,MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
-        IF (NS.EQ.0) CYCLE
+        IF (NS==0) CYCLE
         NML = IRBE3(5,N)
 	IROT =MIN(IRBE3(6,N),IRODDL)
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
@@ -1430,7 +1430,7 @@ C======================================================================|
 	  ENDDO
 	 ENDDO
         ENDDO
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
          DO I=1,NML
           M = LRBE3(IAD+I)
           DO J = 1,3
@@ -1444,7 +1444,7 @@ C======================================================================|
         DO J = 1,3
 	 D(J,NS) = VS(J) *JT(J,N)
 	ENDDO
-        IF ((JR(1,N)+JR(2,N)+JR(3,N)).GT.0) THEN
+        IF ((JR(1,N)+JR(2,N)+JR(3,N))>0) THEN
          DO J = 1,3
 	  DR(J,NS) = VRS(J) *JR(J,N)
 	 ENDDO
@@ -1452,7 +1452,7 @@ C======================================================================|
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C---
       RETURN
       END
@@ -1607,7 +1607,7 @@ C
 C     INITIALIZATION
 C
       CALL ZERO1(FDSTNB,3*NG*6)
-      IF (IROT.GT.0) CALL ZERO1(MDSTNB,3*NG*6)
+      IF (IROT>0) CALL ZERO1(MDSTNB,3*NG*6)
       CALL ZERO1(A,36)
       CALL ZERO1(C,36)
       CALL ZERO1(CGMX,3)
@@ -1629,7 +1629,7 @@ C     ERROR OUT IF RBE3 ELEMENT HAS TWO INDEPENDENT NODES WITH
 C     NO ROTATIONAL WEIGHTS SET (THIS MEANS THE ELEMENT CANNOT
 C     SUPPORT A MOMENT ALONG ITS AXIS)
 C
-      IF (NG .EQ. 2.AND.IROT.EQ.0) THEN
+      IF (NG == 2.AND.IROT==0) THEN
             IERR = 322
             GOTO 999
       ENDIF
@@ -1638,7 +1638,7 @@ C     CALCULATE DIRECTION COSINES OF LOCAL COORDINATE SYSTEMS, IF ANY
 C
         DO K = 1, NG
             IELSUB = ILRBE3(K)
-            IF (IELSUB .GT. 0) THEN
+            IF (IELSUB > 0) THEN
                DO I = 1, 3
                      EL(I,1,K) = SKEW(I,IELSUB)
                      EL(I,2,K) = SKEW(I+3,IELSUB)
@@ -1657,7 +1657,7 @@ C
       DO 70 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF GRID POINT HAS A LOCAL COORDINATE SYSTEM
 C
@@ -1677,20 +1677,20 @@ C
      *                              (XYZ(3,KG) - REFPT(3))**2 )
  70   CONTINUE
 C
-      IF (ABS(DENFX) .LE. EM20) THEN
+      IF (ABS(DENFX) <= EM20) THEN
          IERR = 326
       ENDIF
 C
-      IF (ABS(DENFY) .LE. EM20) THEN
+      IF (ABS(DENFY) <= EM20) THEN
          IERR = 327
       ENDIF
 C
-      IF (ABS(DENFZ) .LE. EM20) THEN
+      IF (ABS(DENFZ) <= EM20) THEN
          IERR = 328
       ENDIF
-      IF (IERR .NE. 0) GOTO 999
+      IF (IERR /= 0) GOTO 999
          AVEREF = AVEREF/NG
-         IF (AVEREF .EQ. ZERO) AVEREF = ONE
+         IF (AVEREF == ZERO) AVEREF = ONE
 C
 C     CALCULATE 3 CENTERS OF GRAVITY (CGMX, CGMY AND CGMZ) AND
 C     DENOMINATORS FOR DISTRIBUTING MOMENTS (DENMX, DENMY AND DENMZ)
@@ -1698,7 +1698,7 @@ C
       DO 40 K = 1, NG
          KG = INRBE3(K)
          IELSUB = ILRBE3(K)
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF THERE IS A LOCAL COORDINATE SYSTEM AT THE GRID POINT
 C
@@ -1750,7 +1750,7 @@ C              WEIGHTS WITH THE SQUARE OF THE AVERAGE DISTANCE OF THE
 C              INDEPENDENT GRID POINTS FROM THE REFERENCE POINT TO
 C              RENDER THE RBE3 CALCULATIONS UNIT INDEPENDENT
 C
-         IF (IELSUB .GT. 0) THEN
+         IF (IELSUB > 0) THEN
 C
 C           IF GRID POINT HAS A LOCAL COORDINATE SYSTEM
 C
@@ -1785,19 +1785,19 @@ C     PERFORM SOME CHECKS ON WEIGHTS, TO MAKE SURE THAT THE RBE3
 C     ELEMENT HAS NO UNCONSTRAINED DEGREES OF FREEDOM
 C
 C
-      IF (ABS(DENMX) .LE. EM20) THEN
+      IF (ABS(DENMX) <= EM20) THEN
          IERR = 329
       ENDIF
 C
-      IF (ABS(DENMY) .LE. EM20) THEN
+      IF (ABS(DENMY) <= EM20) THEN
          IERR = 330
       ENDIF
 C
-      IF (ABS(DENMZ) .LE. EM20) THEN
+      IF (ABS(DENMZ) <= EM20) THEN
          IERR = 331
       ENDIF
 C
-      IF (IERR .NE. 0) GOTO 999
+      IF (IERR /= 0) GOTO 999
 C
 C     CALCULATE 3 FORCE DISTRIBUTIONS THAT CREATE NET X, Y AND Z FORCES
 C     OF 1 (BESIDES OTHER NONZERO FORCES/MOMENTS IN ALL THE DIRECTIONS)
@@ -1857,7 +1857,7 @@ C     INVERT THE 6X6 MATRIX
 C
       NSNGLR  = 0
       CALL INVERT(A,C,6,NSNGLR)
-      IF (NSNGLR .NE. 0) THEN
+      IF (NSNGLR /= 0) THEN
         IERR = 332
          GOTO 999
       ENDIF
@@ -1871,7 +1871,7 @@ C
          ENDDO
        ENDDO
       ENDDO
-      IF (IROT.GT.0) THEN
+      IF (IROT>0) THEN
        DO I = 1, 3
         DO J = 1, 6
          DO K = 1, NG
@@ -1883,7 +1883,7 @@ C
       END IF
 C
  999  CONTINUE
-      IF (IERR.GT.0) THEN
+      IF (IERR>0) THEN
              WRITE(ISTDO,'(A,I10)')
      .        ' ** ERROR IN RBE3 CALCULATION ID=',IERR
              WRITE(IOUT,'(A,I10)')
@@ -1939,7 +1939,7 @@ C======================================================================|
         M  = IRBE2(3,N)
         NSL = IRBE2(5,N)
         ISK = IRBE2(7,N)
-	IF (ISK.GT.1) THEN
+	IF (ISK>1) THEN
             CALL RBE2DL(NSL   ,LRBE2(IAD+1),X     ,D     ,DR    ,
      1                  JT(1,N),JR(1,N),M     ,SKEW(1,ISK))
         ELSE
@@ -1984,7 +1984,7 @@ C======================================================================|
 	IC=IRBE2(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	IF (IRODDL.EQ.0) ICR =0
+	IF (IRODDL==0) ICR =0
 	DO J =1,3
            JT(J,N)=0
            JR(J,N)=0
@@ -2073,16 +2073,16 @@ C     REAL
      .     XS, YS, ZS,VRM(3)
 C======================================================================|
         DO J = 1,3
-	 IF (JT(J).NE.0) THEN
+	 IF (JT(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 	   V(J,NS)= V(J,M)
 	  ENDDO
          ENDIF
         ENDDO
-       IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+       IF ((JR(1)+JR(2)+JR(3))>0) THEN
         DO J = 1,3
-	 IF (JR(J).NE.0) THEN
+	 IF (JR(J)/=0) THEN
           DO I=1,NSL
            NS = ISL(I)
 	   VR(J,NS)= VR(J,M)
@@ -2153,7 +2153,7 @@ C======================================================================|
         V(2,NS) =V(2,NS)-VVX*SKEW(2)-VVY*SKEW(5)-VVZ*SKEW(8)
         V(3,NS) =V(3,NS)-VVX*SKEW(3)-VVY*SKEW(6)-VVZ*SKEW(9)
       ENDDO
-      IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF ((JR(1)+JR(2)+JR(3))>0) THEN
        DO I=1,NSN
         NS = ISL(I)
         XS=X(1,NS)-X(1,M)

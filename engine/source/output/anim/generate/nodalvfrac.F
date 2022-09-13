@@ -217,7 +217,7 @@ C-----------------------------------------------
                     JJ            = IX(J,NFT+I)
                     ICELL         = BRICK_LIST(NIN,IB)%NODE(J-1)%WhichCell
                     VF            = BRICK_LIST(NIN,IB)%POLY(ICELL)%VFRACm(IPHASE)
-                   ! if(vf.lt.zero .or. vf.gt.un)then
+                   ! if(vf<zero .or. vf>un)then
                    !   print *,"**inter22, cell vfrac warning", vf
                    ! endif
                     NumNodCELL    = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD 

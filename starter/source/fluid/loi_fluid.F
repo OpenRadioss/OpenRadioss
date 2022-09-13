@@ -29,17 +29,17 @@ Chd|====================================================================
       LOGICAL FUNCTION LOI_FLUID(MLN)
 #include      "implicit_f.inc"
       INTEGER MLN
-      IF(MLN.EQ.5   .OR.
-     .   MLN.EQ.6   .OR.
-     .   MLN.EQ.11  .OR.
-     .   MLN.EQ.17  .OR.
-     .   MLN.EQ.37  .OR.
-     .   MLN.EQ.51  .OR.
-     .   MLN.EQ.46  .OR.
-     .   MLN.EQ.47  .OR.
-     .   MLN.EQ.97  .OR.
-     .   MLN.EQ.105 .OR.
-     .   MLN.EQ.151)THEN
+      IF(MLN==5   .OR.
+     .   MLN==6   .OR.
+     .   MLN==11  .OR.
+     .   MLN==17  .OR.
+     .   MLN==37  .OR.
+     .   MLN==51  .OR.
+     .   MLN==46  .OR.
+     .   MLN==47  .OR.
+     .   MLN==97  .OR.
+     .   MLN==105 .OR.
+     .   MLN==151)THEN
        LOI_FLUID=.TRUE.
       ELSE
        LOI_FLUID=.FALSE.

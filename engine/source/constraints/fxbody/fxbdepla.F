@@ -61,12 +61,12 @@ C
          DT(3,I)=ZERO
       ENDDO
       DO I=1,12
-         IF (IFILE.EQ.0) THEN
+         IF (IFILE==0) THEN
             IAD=(I-1)*LMOD+NSN*6
             DO II=1,DN*6
                VMOD(II)=FXBMOD(IAD+II)
             ENDDO
-         ELSEIF (IFILE.EQ.1) THEN
+         ELSEIF (IFILE==1) THEN
             IAD=0
             DO II=1,DN
                IRCM=IRCM+1
@@ -85,7 +85,7 @@ C
             IAD=IAD+6
          ENDDO
       ENDDO
-      IF (ISH.GT.0.AND.IFILE.EQ.1) THEN
+      IF (ISH>0.AND.IFILE==1) THEN
          DO I=1,3
             DO II=1,DN
                IRCM=IRCM+1
@@ -93,14 +93,14 @@ C
          ENDDO
       ENDIF
 C     
-      IF (NMOD.GT.0) THEN
+      IF (NMOD>0) THEN
          DO I=1,NMOD
-            IF (IFILE.EQ.0) THEN
+            IF (IFILE==0) THEN
                IAD=(NME+I-1)*LMOD+NSN*6
                DO II=1,DN*6
                   VMOD(II)=FXBMOD(IAD+II)
                ENDDO
-            ELSEIF (IFILE.EQ.1) THEN
+            ELSEIF (IFILE==1) THEN
                IAD=0
                DO II=1,DN
                   IRCM=IRCM+1

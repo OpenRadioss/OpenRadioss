@@ -276,7 +276,7 @@ C-----------------------------------------------
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
       IVIS2 =IPARI(14,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
@@ -302,8 +302,8 @@ C adaptive meshing
       STIGLO=-INTBUF_TAB%STFAC(1)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
@@ -349,19 +349,19 @@ C--- Corresponding Friction model
          TABCOEF_FRIC  => TABCOEF_FRIC_BID 
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
          IFRICORTH   => IFRICORTH_BID
-         IF (IFQ.NE.0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
+         IF (IFQ/=0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
       ENDIF
 C
       NINLOADP = IPARI(95,NIN) ! load pressure related to inter
       DGAPLOADP = INTBUF_TAB%VARIABLES(46)
 C
 
-      !IF(NTY.EQ.3)THEN
-      !ELSEIF(NTY.EQ.4)THEN
-      !ELSEIF(NTY.EQ.5)THEN
-      !ELSEIF(NTY.EQ.6)THEN
-      !ELSEIF(NTY.EQ.7)THEN
-      IF(NTY.EQ.7)THEN      
+      !IF(NTY==3)THEN
+      !ELSEIF(NTY==4)THEN
+      !ELSEIF(NTY==5)THEN
+      !ELSEIF(NTY==6)THEN
+      !ELSEIF(NTY==7)THEN
+      IF(NTY==7)THEN      
         IF(INACTI==7)TYPE18=.TRUE.
         IF(INACTI==7.and.IPARI(34,NIN) == -2) RETURN
 c----------------------------------------------------
@@ -369,19 +369,19 @@ c   Courbure quadratique calcul des normales nodales
 c----------------------------------------------------
         IF(ICURV==3)THEN
          CALL MY_BARRIER()
-         IF(JTASK.EQ.1)THEN
+         IF(JTASK==1)THEN
            ALLOCATE(NOD_NORMAL (3,NUMNOD))
-           IF(IPARIT.EQ.0)THEN
+           IF(IPARIT==0)THEN
              CALL I7NORM(IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X,NOD_NORMAL,
      .                   IPARI(6,NIN),INTBUF_TAB%MSR)
-             IF(NSPMD.GT.1)THEN
+             IF(NSPMD>1)THEN
                LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
                CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
              END IF
            ELSE
 C Traitement d'assemblage parith/on spmd a optimiser si besoin
              LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-             IF(NSPMD.GT.1)THEN
+             IF(NSPMD>1)THEN
 C Calcul espace memoire parith/on avec communication
  	       CALL SPMD_I7CURVSZ(
      1	         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,IAD_ELEM,FR_ELEM,
@@ -404,24 +404,24 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-        IF(IADM.NE.0)THEN
+        IF(IADM/=0)THEN
          CALL MY_BARRIER()
-         IF(JTASK.EQ.1)THEN
+         IF(JTASK==1)THEN
            ALLOCATE(RCURV(NRTMDIM),ANGLM(NRTMDIM))
            ALLOCATE(NOD_NORMAL (3,NUMNOD))
 
-           IF(IPARIT.EQ.0)THEN
+           IF(IPARIT==0)THEN
              CALL I7NORMN(
      .         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,X ,NOD_NORMAL,
      .                   IPARI(6,NIN),INTBUF_TAB%MSR)
-             IF(NSPMD.GT.1)THEN
+             IF(NSPMD>1)THEN
                LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
                CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
              END IF
            ELSE
 C Traitement d'assemblage parith/on spmd a optimiser si besoin
              LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-             IF(NSPMD.GT.1)THEN
+             IF(NSPMD>1)THEN
 C Calcul espace memoire parith/on avec communication
  	       CALL SPMD_I7CURVSZ(
      1	         IPARI(4,NIN),INTBUF_TAB%IRECTM,NUMNOD,IAD_ELEM,FR_ELEM,
@@ -455,17 +455,17 @@ C
         I_STOK = INTBUF_TAB%I_STOK(1)
         
 C decoupage statique
-        IF(INACTI.NE.7.OR.IBAG==0)THEN
+        IF(INACTI/=7.OR.IBAG==0)THEN
 
           NB_LOC = I_STOK / NTHREAD
-          IF (JTASK.EQ.NTHREAD) THEN
+          IF (JTASK==NTHREAD) THEN
             I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
           ELSE
             I_STOK_LOC = NB_LOC
           ENDIF
           DEBUT = (JTASK-1)*NB_LOC
         ELSE ! INACTI = 7 et IBAG <>0
-          IF(JTASK.EQ.1)THEN
+          IF(JTASK==1)THEN
             I_STOK_LOC = I_STOK
             DEBUT = 0
           ELSE
@@ -475,7 +475,7 @@ C decoupage statique
         END IF
         I_STOK = 0
 C
-        IF (IMPL_S.EQ.1) THEN
+        IF (IMPL_S==1) THEN
           NUM_IMP = 0
           VISC  =ZERO
           VISCF =ZERO
@@ -484,9 +484,9 @@ C
 C recalcul du istok
 C
         IF(ITIED == 0)THEN
-        IF (INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7)THEN
+        IF (INACTI==5.OR.INACTI==6.OR.INACTI==7)THEN
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+            IF(INTBUF_TAB%CAND_N(I)<0) THEN
               I_STOK = I_STOK + 1
               INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -498,7 +498,7 @@ C remise a 0 de cand_p
           ENDDO
         ELSE
           DO I = DEBUT+1, DEBUT+I_STOK_LOC
-            IF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+            IF(INTBUF_TAB%CAND_N(I)<0) THEN
               I_STOK = I_STOK + 1
               INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -507,13 +507,13 @@ C inbuf == cand_n
           ENDDO
         ENDIF
         ELSE ! IF(ITIED == 0)THEN
-          IF (INACTI.EQ.5.OR.INACTI.EQ.6)THEN
+          IF (INACTI==5.OR.INACTI==6)THEN
             DO I = DEBUT+1, DEBUT+I_STOK_LOC
-              IF(INTBUF_TAB%CAND_F(8*(I-1)+1).NE.ZERO) THEN
+              IF(INTBUF_TAB%CAND_F(8*(I-1)+1)/=ZERO) THEN
                 I_STOK = I_STOK + 1
                 INDEX2(I_STOK) = I
                 INTBUF_TAB%CAND_N(I) = IABS(INTBUF_TAB%CAND_N(I))
-              ELSEIF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+              ELSEIF(INTBUF_TAB%CAND_N(I)<0) THEN
                 I_STOK = I_STOK + 1
                 INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -526,11 +526,11 @@ C remise a 0 de cand_p
             ENDDO
           ELSE
             DO I = DEBUT+1, DEBUT+I_STOK_LOC
-              IF(INTBUF_TAB%CAND_F(8*(I-1)+1).NE.ZERO) THEN
+              IF(INTBUF_TAB%CAND_F(8*(I-1)+1)/=ZERO) THEN
                 I_STOK = I_STOK + 1
                 INDEX2(I_STOK) = I
                 INTBUF_TAB%CAND_N(I) = IABS(INTBUF_TAB%CAND_N(I))
-              ELSEIF(INTBUF_TAB%CAND_N(I).LT.0) THEN
+              ELSEIF(INTBUF_TAB%CAND_N(I)<0) THEN
                 I_STOK = I_STOK + 1
                 INDEX2(I_STOK) = I
 C inbuf == cand_n
@@ -542,9 +542,9 @@ C inbuf == cand_n
           END IF
         ENDIF
 c------------------------------------------------
-        IF(INACTI==7.AND.IBAG.NE.0) THEN
+        IF(INACTI==7.AND.IBAG/=0) THEN
          CALL MY_BARRIER()
-         IF(JTASK.EQ.1)THEN
+         IF(JTASK==1)THEN
           ALLOCATE(SURF(3,NRTMDIM))
           ALLOCATE(PRES(NRTMDIM))
           DO I = 1, NRTM
@@ -553,7 +553,7 @@ c------------------------------------------------
             SURF(2,I) = ZERO
             SURF(3,I) = ZERO
           ENDDO
-          IF(IPARIT.NE.0.AND.(.NOT.MULTI_FVM%INT18_GLOBAL_LIST(NIN)) )THEN
+          IF(IPARIT/=0.AND.(.NOT.MULTI_FVM%INT18_GLOBAL_LIST(NIN)) )THEN
 C
 C Il faut trier les candidats suivant le numero de noeud user
 C de maniere a cumuler une pression parith/on dans i18for3
@@ -567,7 +567,7 @@ C
          CALL MY_BARRIER()
         ENDIF
 c------------------------------------------------
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
         ENDIF
@@ -578,7 +578,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -662,10 +662,10 @@ C
 
             JLT = JLT_NEW
             IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
-            IF(JLT_NEW.NE.0) THEN
+            IF(JLT_NEW/=0) THEN
               IPARI(29,NIN) = 1
               IDIR = IPARI(34,NIN)
-              IF (DEBUG(3).GE.1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
+              IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
               CALL I18FOR3(
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
      2  FSAV         ,GAP       ,FRIC         ,MS          ,VISC     ,
@@ -717,9 +717,9 @@ C
 
             JLT = JLT_NEW
             IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
-            IF(JLT_NEW.NE.0) THEN
+            IF(JLT_NEW/=0) THEN
               IPARI(29,NIN) = 1
-              IF (DEBUG(3).GE.1)
+              IF (DEBUG(3)>=1)
      .          NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 C
 
@@ -841,7 +841,7 @@ C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
 C
-          IF(IMPL_S.EQ.1) THEN
+          IF(IMPL_S==1) THEN
             DO I = 1 ,JLT_NEW
              NS_IMP(I+NUM_IMP)=CN_LOC(I)
              NE_IMP(I+NUM_IMP)=CE_LOC(I)
@@ -859,9 +859,9 @@ c
         ENDIF
         IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
 C
-        IF(INACTI==7.AND.IBAG.NE.0)THEN
+        IF(INACTI==7.AND.IBAG/=0)THEN
           CALL MY_BARRIER()
-          IF(JTASK.EQ.1) THEN
+          IF(JTASK==1) THEN
             CALL ASS18(NRTM  ,INTBUF_TAB%IRECTM,A   ,X   ,SURF   ,
      2                 PRES  ,FCONT        ,IBAG,FSAV,FSAVBAG,
      3                 FR_I18,ISKY         ,FSKYI, H3D_DATA    )
@@ -871,15 +871,15 @@ C
          IF(JTASK == 1) DEALLOCATE(SURF,PRES)
 
         ENDIF
-        IF(ICURV==3.OR.IADM.NE.0)THEN
+        IF(ICURV==3.OR.IADM/=0)THEN
           CALL MY_BARRIER
-          IF(JTASK.EQ.1)DEALLOCATE(NOD_NORMAL)
+          IF(JTASK==1)DEALLOCATE(NOD_NORMAL)
         END IF
-        IF(IADM.NE.0)THEN
+        IF(IADM/=0)THEN
           CALL MY_BARRIER
-          IF(JTASK.EQ.1)DEALLOCATE(RCURV,ANGLM)
+          IF(JTASK==1)DEALLOCATE(RCURV,ANGLM)
         END IF
-      ELSEIF(NTY.EQ.17)THEN
+      ELSEIF(NTY==17)THEN
         ILAGM = IPARI(33,NIN)
 C       I7KGLO = 1 => mis ds inttri
         IF(ILAGM == 0)THEN

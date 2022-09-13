@@ -80,41 +80,41 @@ C
         ITYP=ITHGRP(2,NT)
         NNE =ITHGRP(4,NT)
         IAD =ITHGRP(5,NT)
-        IF ((ITYP.GE.1.AND.ITYP.LE.7).OR.
-     .       ITYP.EQ.50.OR.ITYP.EQ.51.OR.ITYP.EQ.100) THEN
+        IF ((ITYP>=1.AND.ITYP<=7).OR.
+     .       ITYP==50.OR.ITYP==51.OR.ITYP==100) THEN
 Cel elements
           DO IH = 1, NNE
             K = ITHBUF_L(IAD-1+IH)
             P = ITHBUF_L(IAD+NNE-1+IH)+1
-            IF(ITYP.EQ.1) THEN
+            IF(ITYP==1) THEN
               ESHIFT = 0
-            ELSEIF(ITYP.EQ.2) THEN
+            ELSEIF(ITYP==2) THEN
               ESHIFT = NUMELS
-            ELSEIF(ITYP.EQ.3) THEN
+            ELSEIF(ITYP==3) THEN
               ESHIFT = NUMELS+NUMELQ
-            ELSEIF(ITYP.EQ.4) THEN
+            ELSEIF(ITYP==4) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC
-            ELSEIF(ITYP.EQ.5) THEN
+            ELSEIF(ITYP==5) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT
-            ELSEIF(ITYP.EQ.6) THEN
+            ELSEIF(ITYP==6) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP
-            ELSEIF(ITYP.EQ.7) THEN
+            ELSEIF(ITYP==7) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR
-            ELSEIF(ITYP.EQ.50) THEN
+            ELSEIF(ITYP==50) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
-            ELSEIF(ITYP.EQ.100) THEN
+            ELSEIF(ITYP==100) THEN
               ESHIFT = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+NUMELTG
      .                 +NUMELUR
             ENDIF
-            IF(P.EQ.PROC) THEN
-              IF(ITYP.EQ.51)THEN
+            IF(P==PROC) THEN
+              IF(ITYP==51)THEN
                ITHBUF_L(IAD-1+IH) = CELSPH(K)
               ELSE
                ITHBUF_L(IAD-1+IH) = CEL(K+ESHIFT)
               ENDIF
             ENDIF
           ENDDO
-        ELSEIF (ITYP.EQ.0) THEN
+        ELSEIF (ITYP==0) THEN
 Cel noeuds
           DO IH = 1, NNE
             K = ITHBUF_L(IAD-1+IH)
@@ -126,8 +126,8 @@ Cel noeud abscent => 0
               ITHBUF_L(IAD-1+IH) = 0
             ENDIF
           ENDDO
-        ELSEIF (ITYP.EQ.109) THEN
-        ELSEIF (ITYP .EQ. 114) THEN
+        ELSEIF (ITYP==109) THEN
+        ELSEIF (ITYP == 114) THEN
           DO IH=IAD,IAD+NNE-1
 c            local number of cluster, or zero
              ITHBUF_L(IH) = NUMLOCCLUSTER(ITHBUF(IH))

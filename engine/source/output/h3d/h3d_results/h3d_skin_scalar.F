@@ -461,9 +461,9 @@ C--------default zero
          ISENS   = 0
          XSENS   = ONE
          DO K=1,NSENSOR
-           IF(IB(6,NL).EQ.LSENSOR(1,K))ISENS=K
+           IF(IB(6,NL)==LSENSOR(1,K))ISENS=K
          ENDDO
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS==0)THEN
             TS=TT
          ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
            IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
@@ -473,7 +473,7 @@ C--------default zero
             IF(TS < ZERO) CYCLE
          ENDIF
          IF(IDEL > 0 ) CYCLE  ! SEGMENT DELETED
-         IF(N_OLD.NE.N5.OR.X_OLD.NE.TS) THEN
+         IF(N_OLD/=N5.OR.X_OLD/=TS) THEN
            ISMOOTH = 0
            IF (N5 > 0) ISMOOTH = NPC(2*NFUNCT+N5+1)
 !!           F1 = FINTER(N5,TS*FCX,NPC,TF,DYDX)
@@ -511,11 +511,11 @@ C--------default zero
            END IF
          ENDDO
 C
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS==0)THEN
             TS=TT
          ELSE
             TS = TT-SENSOR(2,ISENS)
-            IF(TS.LT.ZERO) CYCLE
+            IF(TS<ZERO) CYCLE
          ENDIF    
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
@@ -600,9 +600,9 @@ C--------default zero
          ISENS=0
          XSENS = ONE
          DO K=1,NSENSOR
-           IF(ILOADP(6,NL).EQ.LSENSOR(1,K))ISENS=K
+           IF(ILOADP(6,NL)==LSENSOR(1,K))ISENS=K
          ENDDO
-         IF(ISENS.EQ.0)THEN
+         IF(ISENS==0)THEN
             TS=TT
          ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
            IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)         
@@ -623,14 +623,14 @@ C
            PVEL=ZERO
 C------  ----------  
 C        
-           IF(N4.NE.0 .AND. N1.NE.N2 .AND. N1.NE.N3 .AND. N1.NE.N4 .AND.
-     .                      N2.NE.N3 .AND. N2.NE.N4 .AND. N3.NE.N4 )THEN
+           IF(N4/=0 .AND. N1/=N2 .AND. N1/=N3 .AND. N1/=N4 .AND.
+     .                      N2/=N3 .AND. N2/=N4 .AND. N3/=N4 )THEN
 C        
              K1=3*DIR_HSP-2
              K2=3*DIR_HSP-1
              K3=3*DIR_HSP
              ! hydrostatic pressure
-             IF(FUN_HSP .NE.0)THEN
+             IF(FUN_HSP /=0)THEN
                 COORMEAN = (XFRAME(K1,IFRA1)*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))/FOUR)+
      .                     (XFRAME(K2,IFRA1)*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))/FOUR)+
      .                     (XFRAME(K3,IFRA1)*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))/FOUR)
@@ -649,7 +649,7 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .                NY * XFRAME(K2,IFRA2) + 
      .                NZ * XFRAME(K3,IFRA2)) 
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
+             IF(NSIGN/=ZERO) NSIGN = SIGN(ONE,NSIGN)
 C         
              VSEG= (XFRAME(K1,IFRA2)*
      .               (V(1,N1) + V(1,N2) + V(1,N3) + V(1,N4)) /FOUR)+
@@ -658,12 +658,12 @@ C
      .              (XFRAME(K3,IFRA2)*
      .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
              
-             IF(FUN_VEL .NE.0)THEN
+             IF(FUN_VEL /=0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
              ELSE
                 VEL =  - VSEG
              ENDIF
-             IF(FUN_CX .NE.0)   
+             IF(FUN_CX /=0)   
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
@@ -690,7 +690,7 @@ C
               N4 = 0
             ENDIF
 Csv         true triangles.
-            IF(FUN_HSP .NE.0)THEN
+            IF(FUN_HSP /=0)THEN
                K1=3*DIR_HSP-2
                K2=3*DIR_HSP-1
                K3=3*DIR_HSP
@@ -713,7 +713,7 @@ c
              NSIGN = (NX * XFRAME(K1,IFRA2) + 
      .                NY * XFRAME(K2,IFRA2) + 
      .                NZ * XFRAME(K3,IFRA2)) 
-             IF(NSIGN.NE.ZERO) NSIGN = SIGN(ONE,NSIGN)
+             IF(NSIGN/=ZERO) NSIGN = SIGN(ONE,NSIGN)
 C           
              VSEG= (XFRAME(K1,IFRA2)*
      .               (V(1,N1) + V(1,N2) + V(1,N3)) /THREE)+
@@ -722,12 +722,12 @@ C
      .              (XFRAME(K3,IFRA2)*
      .               (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
              
-             IF(FUN_VEL .NE.0)THEN
+             IF(FUN_VEL /=0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
              ELSE
                 VEL =  - VSEG
              ENDIF
-             IF(FUN_CX .NE.0)   
+             IF(FUN_CX /=0)   
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*

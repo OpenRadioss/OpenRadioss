@@ -69,7 +69,7 @@ C     REAL
 C-----------------------------------------------
 C
       ALLOCATE(NODTAG(NUMNOD), STAT=IERROR)
-      IF (IERROR.NE.0) THEN
+      IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY'
@@ -79,7 +79,7 @@ C
         CALL ARRET(2)
       END IF
       ALLOCATE(NODTAG_1(NUMNOD), STAT=IERROR)
-      IF (IERROR.NE.0) THEN
+      IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY'
@@ -89,7 +89,7 @@ C
         CALL ARRET(2)
       END IF
       ALLOCATE(NELENOD(3,NUMNOD+1), STAT=IERROR)
-      IF (IERROR.NE.0) THEN
+      IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
      .    ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY'
@@ -99,7 +99,7 @@ C
         CALL ARRET(2)
       END IF
       ALLOCATE(ELSNOD(8*NUMELS), STAT=IERROR)
-      IF (IERROR.NE.0) THEN
+      IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
      .     ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY'
@@ -109,7 +109,7 @@ C
         CALL ARRET(2)
       END IF
       ALLOCATE(ELCNOD(4*NUMELC), STAT=IERROR)
-      IF (IERROR.NE.0) THEN
+      IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
      .     ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY'
@@ -119,7 +119,7 @@ C
         CALL ARRET(2)
       END IF
       ALLOCATE(ELTGNOD(3*NUMELTG), STAT=IERROR)
-      IF (IERROR.NE.0) THEN
+      IF (IERROR/=0) THEN
         WRITE(ISTDO,'(A)') ' ANIM ...'
         WRITE(ISTDO,'(A)')
      .     ' UNABLE TO ALLOCATE MEMORY FOR WORK ARRAY'
@@ -230,9 +230,9 @@ C
         DO J=NELENOD(1,N)+1,NELENOD(1,N+1)
           JS=ELSNOD(J)
           DO K=NELENOD(1,N)+1,NELENOD(1,N+1)
-           IF(K.NE.J)THEN
+           IF(K/=J)THEN
             DO II=1,8
-              IF(IXS(II+1,JS).NE.0) NODTAG(IXS(II+1,JS))=0
+              IF(IXS(II+1,JS)/=0) NODTAG(IXS(II+1,JS))=0
             END DO
             KS=ELSNOD(K)
             DO II=1,8
@@ -249,10 +249,10 @@ C
             NN=0
             DO JJ=1,6
               LL=FASTAG(JS)
-              IF(MOD(LL,PWR(JJ+1))/PWR(JJ).EQ.0)THEN
+              IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS).NE.0) 
+          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN == 4)THEN
@@ -266,23 +266,23 @@ C                 FACTAG(JS) moins face jj
 C
           DO K=NELENOD(2,N)+1,NELENOD(2,N+1)
             DO II=1,8
-              IF(IXS(II+1,JS).NE.0) NODTAG(IXS(II+1,JS))=0
+              IF(IXS(II+1,JS)/=0) NODTAG(IXS(II+1,JS))=0
             END DO
             KS=ELCNOD(K)
             DO II=1,4
-              IF(IXC(II+1,KS).NE.0) 
+              IF(IXC(II+1,KS)/=0) 
      .          NODTAG(IXC(II+1,KS))=NODTAG(IXC(II+1,KS))+1
             END DO
             NN=0
             DO JJ=1,6
               LL=FASTAG(JS)
-              IF(MOD(LL,PWR(JJ+1))/PWR(JJ).EQ.0)THEN
+              IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS).NE.0) 
+          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
-                IF(NN.EQ.4)THEN
+                IF(NN==4)THEN
 C                 FACTAG(JS) moins face jj
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
@@ -292,23 +292,23 @@ C                 FACTAG(JS) moins face jj
 C
           DO K=NELENOD(3,N)+1,NELENOD(3,N+1)
             DO II=1,8
-              IF(IXS(II+1,JS).NE.0) NODTAG(IXS(II+1,JS))=0
+              IF(IXS(II+1,JS)/=0) NODTAG(IXS(II+1,JS))=0
             END DO
             KS=ELTGNOD(K)
             DO II=1,4
-              IF(IXTG(II+1,KS).NE.0) 
+              IF(IXTG(II+1,KS)/=0) 
      .          NODTAG(IXTG(II+1,KS))=NODTAG(IXTG(II+1,KS))+1
             END DO
             NN=0
             DO JJ=1,6
               LL=FASTAG(JS)
-              IF(MOD(LL,PWR(JJ+1))/PWR(JJ).EQ.0)THEN
+              IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS).NE.0) 
+          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
-                IF(NN.EQ.4)THEN
+                IF(NN==4)THEN
 C                 FACTAG(JS) moins face jj
                   FASTAG(JS)=FASTAG(JS)+PWR(JJ)
                 END IF
@@ -322,7 +322,7 @@ C
       DO N=1,NUMELS
         LL=FASTAG(N)
         DO JJ=1,6
-          IF(MOD(LL,PWR(JJ+1))/PWR(JJ).EQ.0)THEN
+          IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
             NFASOLFR=NFASOLFR+1
 C            FASOLFR(1,NFASOLFR)=N
 C            FASOLFR(2,NFASOLFR)=JJ
@@ -373,7 +373,7 @@ C
       DO N=1,NUMELS
        LL=FASTAG(N)
         DO JJ=1,6
-          IF(MOD(LL,PWR(JJ+1))/PWR(JJ).EQ.0)THEN
+          IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
             NFASOLFR=NFASOLFR+1
             FASOLFR(1,NFASOLFR)=N
             FASOLFR(2,NFASOLFR)=JJ

@@ -125,7 +125,7 @@ C
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
        ENDDO
        CALL CUR_FIL_C(IFIL)
-       IF(MCHECK.EQ.0)THEN
+       IF(MCHECK==0)THEN
          CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
        ELSE
          CALL OPEN_C(IFILNAM,LEN_TMP_NAME,8)
@@ -191,9 +191,9 @@ C-------HIERARCHIE INFO------------
       IWA(3)=NUMGEO
       IWA(4)=NSUBS
       IWA(5)=NTHGRP2  
-        IF(NSECT.EQ.0.AND.NSFLSW.NE.0) IWA(5)=NTHGRP2+1
+        IF(NSECT==0.AND.NSFLSW/=0) IWA(5)=NTHGRP2+1
         NGLOB=15
-       IF (IFIL.NE.11) NGLOB=0
+       IF (IFIL/=11) NGLOB=0
       IWA(6)=NGLOB
       CALL WRTDES(IWA,IWA,6,3,0)
        
@@ -222,7 +222,7 @@ C-------PART DESCRIPTION------------
           II=II+1
           IWA(II)=ITHBUF(I)
         ENDDO
-        IF(NVAR.NE.0)CALL WRTDES(IWA,IWA,NVAR,3,0)       
+        IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,3,0)       
       ENDDO
 C-------MATER DESCRIPTION------------
       DO N=1,NUMMAT
@@ -271,20 +271,20 @@ C-------HIERARCHIE DESCRIPTION------------
          CALL WRITE_I_C(NVAR,1)
          CALL WRITE_C_C(ITITLE,LTITL)
          CALL EOR_C(20+LTITL)
-!!        IF(ISUBS(2,N).NE.0)CALL WRTDES(IBUFSSG(ISUBS(3,N)),
+!!        IF(ISUBS(2,N)/=0)CALL WRTDES(IBUFSSG(ISUBS(3,N)),
 !!     .                      IBUFSSG(ISUBS(3,N)),ISUBS(2,N),3,0)
-        IF(SUBSET(N)%NCHILD.NE.0)CALL WRTDES(SUBSET(N)%CHILD,
+        IF(SUBSET(N)%NCHILD/=0)CALL WRTDES(SUBSET(N)%CHILD,
      .                      SUBSET(N)%CHILD,SUBSET(N)%NCHILD,3,0)
-!!        IF(ISUBS(4,N).NE.0)CALL WRTDES(IBUFSSG(ISUBS(5,N)),
+!!        IF(ISUBS(4,N)/=0)CALL WRTDES(IBUFSSG(ISUBS(5,N)),
 !!     .                      IBUFSSG(ISUBS(5,N)),ISUBS(4,N),3,0)
-        IF(SUBSET(N)%NPART.NE.0)CALL WRTDES(SUBSET(N)%PART,
+        IF(SUBSET(N)%NPART/=0)CALL WRTDES(SUBSET(N)%PART,
      .                      SUBSET(N)%PART,SUBSET(N)%NPART,3,0)
         II=0
         DO I=IAD,IAD+NVAR-1
           II=II+1
           IWA(II)=ITHBUF(I)
         ENDDO
-        IF(NVAR.NE.0)CALL WRTDES(IWA,IWA,NVAR,3,0)
+        IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,3,0)
         
       ENDDO
 C-------TH GROUP name sorting ( check /TH with same title )
@@ -337,7 +337,7 @@ c
         ENDIF
 c
         ITY=ITHGRP(2,N)
-        IF (ITY.EQ.100) ITY=6
+        IF (ITY==100) ITY=6
          CALL EOR_C(20+LTITL)
          CALL WRITE_I_C(ITHGRP(1,N),1)
          CALL WRITE_I_C(ITY,1)
@@ -360,7 +360,7 @@ c
           IAD1=IAD1+1
           IAD2=IAD2+40
         ENDDO
-        IF(NVAR.NE.0) THEN
+        IF(NVAR/=0) THEN
           DO I=1,NVAR
             DO J=1,10
               VAR(J:J)=CHAR(ITHVAR((ITHGRP(9,N)-1+I-1)*10+J))
@@ -375,7 +375,7 @@ c     .                           ITHBUF(ITHGRP(7,N)),NVAR,3,0)
         ENDIF
       ENDDO
 C-------TH GROUP + 1 section fluide------------
-      IF(NSECT.EQ.0.AND.NSFLSW.NE.0) THEN
+      IF(NSECT==0.AND.NSFLSW/=0) THEN
         NVAR=6
         TITL='FLUID SECTION'
          DO I=1,LTITL

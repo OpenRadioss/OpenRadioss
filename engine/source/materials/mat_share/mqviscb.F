@@ -124,24 +124,24 @@ C=======================================================================
        ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
        MT           = MAT(LFT)
        ALE_OR_EULER = 0 
-       IF(NINT(PM(72,MT)).EQ.1 .OR. NINT(PM(72,MT)).EQ.2)ALE_OR_EULER = 1
-       IF(I_DT_NODA_ALE_ON.EQ.1)                         ALE_OR_EULER = 0   
+       IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
+       IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0   
 
-      IF(IMPL.EQ.ZERO)THEN
+      IF(IMPL==ZERO)THEN
           DO I=LFT,LLT
             DD(I)=-D1(I)-D2(I)-D3(I)
             AD(I)=ZERO
             AL(I)=ZERO
             CX(I)=SSP(I) + SQRT(VD2(I))
           ENDDO
-          IF((IMPL_S.GT.0.AND.IDYNA.EQ.0).OR.ISMDISP.GT.0)THEN
+          IF((IMPL_S>0.AND.IDYNA==0).OR.ISMDISP>0)THEN
               VISI=ZERO
               FACQ=ZERO
           ELSE
              VISI=ONE
              FACQ=FACQ0
           ENDIF
-          IF(IMCONV.LT.0) THEN
+          IF(IMCONV<0) THEN
              DO I=LFT,LLT
                 VOL(I)= ABS(VOL(I))
              ENDDO
@@ -157,16 +157,16 @@ C=======================================================================
           FACQ=ZERO
       ENDIF
 C
-      IF(N2D.GT.0) THEN
+      IF(N2D>0) THEN
         DO I=LFT,LLT
-         IF(OFF(I).EQ.ONE)THEN
+         IF(OFF(I)==ONE)THEN
            AL(I)=SQRT(AIRE(I))
            AD(I)= MAX(ZERO,DD(I))
          ENDIF
         ENDDO
       ELSE
         DO I=LFT,LLT
-         IF(OFF(I).EQ.ONE)THEN
+         IF(OFF(I)==ONE)THEN
            IF(VOL(I) > ZERO)THEN
               AL(I) = VOL(i)**(REAL_ONE/REAL_THREE)
            ELSE
@@ -255,7 +255,7 @@ C
       IF(INT22 > 0)THEN
         !check if at least one brick has time step smaller than cinematic one => elementary time step.
         DO I=LFT,LLT 
-          IF(DTX(I).LT.dt22_min)THEN
+          IF(DTX(I)<dt22_min)THEN
             IDT_INT22 = 0
             !NELTST    = NGL(I)       
             !ITYPTST   = ITY 
@@ -273,12 +273,12 @@ C
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
        DO I=LFT,LLT       
-        IF(T(I).LT.TLI)THEN
+        IF(T(I)<TLI)THEN
          AKK=AK1+BK1*T(I)
         ELSE
          AKK=AK2+BK2*T(I)
         ENDIF
-        IF(JTUR.NE.0)THEN
+        IF(JTUR/=0)THEN
          XMU = RHO(I)*PM(24,MT)
          TMU = PM(81,MT)
          RPR = PM(95,MT)
@@ -290,8 +290,8 @@ C
       ENDIF
 C
       IF(.NOT.(IDTMINS==2.AND.JSMS/=0))THEN
-       IF(KDTSMSTR.EQ.1.AND.ISMSTR.EQ.1.OR.
-     .         ((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
+       IF(KDTSMSTR==1.AND.ISMSTR==1.OR.
+     .         ((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
         !   KDTSMSTR==1 en version 5, par defaut.
         MT  = MAT(LFT)
         DO I=LFT,LLT
@@ -299,11 +299,11 @@ C
         END DO
         DO 50 I=LFT,LLT
           STI(I) = ZERO
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 50
-	  IF(IPM(251,MT).NE.0) GO TO 50
-          IF(N2D.EQ.0) THEN 
+          IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
+	  IF(IPM(251,MT)/=0) GO TO 50
+          IF(N2D==0) THEN 
             TIDT = ONE/DTX(I)
-            IF(OFFG(I).GT.ONE)THEN
+            IF(OFFG(I)>ONE)THEN
               TRHO = RHO0(I) * TIDT
               TVOL = VOL0(I) * TIDT
             ELSE
@@ -322,7 +322,7 @@ C
           ENDIF
 C         dt2 remplace par dt2t
   50    CONTINUE
-        IF(ALE_OR_EULER.EQ.0)THEN
+        IF(ALE_OR_EULER==0)THEN
           DO I=LFT,LLT
             DTX(I)= DTFAC1(ITY)*DTX(I)
           ENDDO
@@ -332,9 +332,9 @@ C         dt2 remplace par dt2t
           ENDDO        
         ENDIF  
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
-        IF(ALE_OR_EULER.EQ.1 .OR. NODADT.EQ.0)THEN
+        IF(ALE_OR_EULER==1 .OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(VOL(I).GT.ZERO .AND. (OFF(I).NE.ZERO.AND.OFFG(I).GE.ZERO))DT2T= MIN(DTX(I),DT2T)    
+            IF(VOL(I)>ZERO .AND. (OFF(I)/=ZERO.AND.OFFG(I)>=ZERO))DT2T= MIN(DTX(I),DT2T)    
           ENDDO     
         ENDIF
         
@@ -343,8 +343,8 @@ C         dt2 remplace par dt2t
           IF(N2D == 0) THEN
             DO I=LFT,LLT
               STI(I) = ZERO
-              IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
-              IF(IPM(251,MT).NE.0) CYCLE
+              IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
+              IF(IPM(251,MT)/=0) CYCLE
                 TIDT = ONE/DTX(I)
                 TRHO = RHO0(I) * TIDT
                 TVOL = VOL0(I) * TIDT
@@ -353,8 +353,8 @@ C         dt2 remplace par dt2t
           ELSE
             DO I=LFT,LLT
               STI(I) = ZERO
-              IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
-              IF(IPM(251,MT).NE.0) CYCLE
+              IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
+              IF(IPM(251,MT)/=0) CYCLE
               TIDT = ONE/DTX(I)
               TRHO = RHO(I) * TIDT
               TAIRE = AIRE(I) * TIDT
@@ -364,9 +364,9 @@ C         dt2 remplace par dt2t
         ELSE
            DO 60 I=LFT,LLT
              STI(I) = ZERO
-             IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 60
-             IF(IPM(251,MT).NE.0) GO TO 60
-             IF(N2D.EQ.0) THEN
+             IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 60
+             IF(IPM(251,MT)/=0) GO TO 60
+             IF(N2D==0) THEN
                TIDT = ONE/DTX(I)
                TRHO = RHO(I) * TIDT
                TVOL = VOL(I) * TIDT
@@ -382,7 +382,7 @@ C              [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
 C            dt2 remplace par dt2t
   60       CONTINUE
          ENDIF ! ISMSTR == 11
-        IF(ALE_OR_EULER.EQ.0)THEN
+        IF(ALE_OR_EULER==0)THEN
           DO I=LFT,LLT
             DTX(I)= DTFAC1(ITY)*DTX(I)
           ENDDO
@@ -392,9 +392,9 @@ C            dt2 remplace par dt2t
           ENDDO        
         ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
-        IF(ALE_OR_EULER.EQ.1 .OR. NODADT.EQ.0)THEN
+        IF(ALE_OR_EULER==1 .OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(VOL(I).GT.ZERO .AND. (OFF(I).NE.ZERO.AND.OFFG(I).GE.ZERO))DT2T= MIN(DTX(I),DT2T)      
+            IF(VOL(I)>ZERO .AND. (OFF(I)/=ZERO.AND.OFFG(I)>=ZERO))DT2T= MIN(DTX(I),DT2T)      
           ENDDO      
         ENDIF
        END IF
@@ -406,20 +406,20 @@ C
        END DO
       END IF
 C----
-      IF(IMCONV.EQ.1)THEN
-       IF(IDTMIN(ITY).EQ.1)THEN
+      IF(IMCONV==1)THEN
+       IF(IDTMIN(ITY)==1)THEN
         ERROR=0
         DO 70 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO. 
-     .        OR.OFFG(I).LT.ZERO) GO TO 70
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+     .        OR.OFFG(I)<ZERO) GO TO 70
           ERROR=1
    70   CONTINUE
 
-        IF (ERROR.EQ.1) THEN
+        IF (ERROR==1) THEN
           TSTOP = TT
           DO I=LFT,LLT
-            IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO. 
-     .         OR.OFFG(I).LT.ZERO) CYCLE
+            IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+     .         OR.OFFG(I)<ZERO) CYCLE
 #include "lockon.inc"
             WRITE(IOUT,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENT',
@@ -431,15 +431,15 @@ C----
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
 #include "lockoff.inc"
         ENDIF
-       ELSEIF(IDTMIN(ITY).EQ.2)THEN
+       ELSEIF(IDTMIN(ITY)==2)THEN
         ICOUNT=0
         DO 75 I=LFT,LLT
-          IF(DTMIN(I).NE.ZERO) THEN
-           IF(DTX(I).GT.DTMIN(I).OR.OFF(I).EQ.ZERO.
-     .        OR.OFFG(I).LT.ZERO) GO TO 75
+          IF(DTMIN(I)/=ZERO) THEN
+           IF(DTX(I)>DTMIN(I).OR.OFF(I)==ZERO.
+     .        OR.OFFG(I)<ZERO) GO TO 75
           ELSE
-           IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.
-     .        OR.OFFG(I).LT.ZERO) GO TO 75
+           IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
+     .        OR.OFFG(I)<ZERO) GO TO 75
           ENDIF
           OFF(I) = ZERO
           ICOUNT=ICOUNT+1
@@ -456,15 +456,15 @@ C----
 #include "lockoff.inc"
          IDEL7NOK = 1
         ENDDO
-       ELSEIF(IDTMIN(ITY).EQ.3.AND.(ISMSTR.EQ.2.OR.ISMSTR.EQ.12))THEN
+       ELSEIF(IDTMIN(ITY)==3.AND.(ISMSTR==2.OR.ISMSTR==12))THEN
         ICOUNT = 0
         DO 76 I=LFT,LLT
-           IF(DTMIN(I).NE.ZERO) THEN
-             IF(DTX(I).GT.DTMIN(I).OR.
-     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
+           IF(DTMIN(I)/=ZERO) THEN
+             IF(DTX(I)>DTMIN(I).OR.
+     .      OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
            ELSE
-              IF(DTX(I).GT.DTMIN1(ITY).OR.
-     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
+              IF(DTX(I)>DTMIN1(ITY).OR.
+     .      OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
            ENDIF
           OFFG(I) = TWO
           ICOUNT=ICOUNT+1
@@ -480,18 +480,18 @@ C----
      . '-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
 #include "lockoff.inc"
         ENDDO
-       ELSEIF(IDTMIN(ITY).EQ.5)THEN
+       ELSEIF(IDTMIN(ITY)==5)THEN
         ERROR=0
         DO 570 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.
-     .      OR.OFFG(I).LT.ZERO) GO TO 570
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
+     .      OR.OFFG(I)<ZERO) GO TO 570
           ERROR=1
   570   CONTINUE
-        IF (ERROR.EQ.1) THEN
+        IF (ERROR==1) THEN
           MSTOP = 2
           DO I=LFT,LLT
-            IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO. 
-     .         OR.OFFG(I).LT.ZERO) CYCLE
+            IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+     .         OR.OFFG(I)<ZERO) CYCLE
 #include "lockon.inc"
             WRITE(IOUT,*)
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENT',
@@ -504,23 +504,23 @@ C----
 #include "lockoff.inc"
         ENDIF
        ENDIF
-      END IF ! IF(IMCONV.EQ.1)
+      END IF ! IF(IMCONV==1)
 C
       IF(IDTMINS == 2 .AND. JSMS /= 0)THEN
-       IF(ISMSTR.EQ.1.OR.
-     +   ((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
+       IF(ISMSTR==1.OR.
+     +   ((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
         MT  = MAT(LFT)
         DO I=LFT,LLT
           RHO0(I)=PM(1,MT)
         END DO
         DO I=LFT,LLT
           STI(I) = ZERO
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
-          IF(IPM(251,MT).NE.0) CYCLE
+          IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
+          IF(IPM(251,MT)/=0) CYCLE
 C 1st compute stiffness
-          IF(N2D.EQ.0) THEN
+          IF(N2D==0) THEN
             TIDT = ONE/DTY(I)
-            IF(OFFG(I).GT.ONE)THEN
+            IF(OFFG(I)>ONE)THEN
               TRHO = RHO0(I) * TIDT
               TVOL = VOL0(I) * TIDT
             ELSE
@@ -548,10 +548,10 @@ c dt = 2/w = sqrt( 2*(m+dmels)/k), k=2m/dty^2
        ELSE
         DO I=LFT,LLT
           STI(I) = ZERO
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
-          IF(IPM(251,MT).NE.0) CYCLE
+          IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
+          IF(IPM(251,MT)/=0) CYCLE
 C 1st compute stiffness
-          IF(N2D.EQ.0) THEN
+          IF(N2D==0) THEN
             TIDT = ONE/DTY(I)
             TRHO = RHO(I) * TIDT
             TVOL = VOL(I) * TIDT
@@ -577,19 +577,19 @@ C
        IF(JTHE > 0)THEN
          MT  = MAT(LFT)
          DO I=LFT,LLT
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) CYCLE
+          IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) CYCLE
           SPH = PM(69,MT)
           AK1 = PM(75,MT)
           BK1 = PM(76,MT)
           AK2 = PM(77,MT)
           BK2 = PM(78,MT)
           TLI = PM(80,MT)
-          IF(T(I).LT.TLI)THEN
+          IF(T(I)<TLI)THEN
            AKK=AK1+BK1*T(I)
           ELSE
            AKK=AK2+BK2*T(I)
           ENDIF
-          IF(JTUR.NE.0)THEN
+          IF(JTUR/=0)THEN
            XMU = RHO(I)*PM(24,MT)
            TMU = PM(81,MT)
            RPR = PM(95,MT)
@@ -602,18 +602,18 @@ C
        END IF
       END IF
 C
-      IF(NODADT.EQ.0 .OR. (IDTMINS == 2 .AND. JSMS /= 0)  .OR.   ALE_OR_EULER.EQ.1)THEN
+      IF(NODADT==0 .OR. (IDTMINS == 2 .AND. JSMS /= 0)  .OR.   ALE_OR_EULER==1)THEN
         ID_MIN=0
         DO I=LFT,LLT
-          IF(DTX(I).GT.DT2T .OR. OFF(I).LE.ZERO .OR. OFFG(I).LE.ZERO) CYCLE
+          IF(DTX(I)>DT2T .OR. OFF(I)<=ZERO .OR. OFFG(I)<=ZERO) CYCLE
           ! nelts et itypts remplaces par neltst et itypst
-          IF(VOL(I).LE.ZERO)CYCLE
+          IF(VOL(I)<=ZERO)CYCLE
           DT2T     = DTX(I)
           NELTST   = NGL(I)
           ITYPTST  = ITY 
           ID_MIN   = I        
         ENDDO
-        IF(DT2T.LT.DTMIN1(102).AND.ID_MIN.GT.0)THEN
+        IF(DT2T<DTMIN1(102).AND.ID_MIN>0)THEN
           TSTOP = TT
           print *, "DT=",DT2T,DTMIN1(102)
 #include "lockon.inc"
@@ -635,12 +635,12 @@ C--------------------------
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
        DO I=LFT,LLT
-        IF(T(I).LT.TLI)THEN
+        IF(T(I)<TLI)THEN
          AKK=AK1+BK1*T(I)
         ELSE
          AKK=AK2+BK2*T(I)
         ENDIF
-        IF(JTUR.NE.0)THEN
+        IF(JTUR/=0)THEN
          XMU = RHO(I)*PM(24,MT)
          TMU = PM(81,MT)
          RPR = PM(95,MT)
@@ -649,7 +649,7 @@ C--------------------------
         ENDIF
         AKK = AKK * THEACCFACT
         DT  = DTFACTHERM*HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20)
-        IF(DT.LT.DT_THERM.AND.OFF(I).GT.ZERO.AND.OFFG(I).GT.ZERO) DT_THERM = DT
+        IF(DT<DT_THERM.AND.OFF(I)>ZERO.AND.OFFG(I)>ZERO) DT_THERM = DT
         CONDE(I) = FOUR*VOL(I)*AKK/(DELTAX(I)*DELTAX(I))
         CONDE(I) = CONDE(I)*OFF(I) 
        ENDDO
@@ -734,11 +734,11 @@ C=======================================================================
       ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
       MT           = MAT(LFT)
       ALE_OR_EULER = 0 
-      IF(NINT(PM(72,MT)).EQ.1 .OR. NINT(PM(72,MT)).EQ.2)ALE_OR_EULER = 1
-      IF(I_DT_NODA_ALE_ON.EQ.1)                         ALE_OR_EULER = 0   
+      IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
+      IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0   
 
       DTINV = DT1 / MAX(EM20 , DT1**2)
-      IF(IMPL.EQ.ZERO)THEN
+      IF(IMPL==ZERO)THEN
         DO I=LFT,LLT
           AD(I)=ZERO
           AL(I)=ZERO
@@ -749,10 +749,10 @@ C=======================================================================
        VISI=ONE
        FACQ=ONE
       
-      IF(N2D.GT.0) THEN
+      IF(N2D>0) THEN
         MT = MAT(LFT)
         DO I=LFT,LLT
-         IF(OFF(I).EQ.ONE)THEN
+         IF(OFF(I)==ONE)THEN
            AL(I)=SQRT(AIRE(I))
            RHO0(I)=PM(192,MT)
 C qvis  ... entre volumique stra
@@ -763,7 +763,7 @@ C qvis  ... entre volumique stra
       ELSE
         MT = MAT(LFT)
         DO I=LFT,LLT
-         IF(OFF(I).EQ.ONE)THEN
+         IF(OFF(I)==ONE)THEN
            AL(I)=UVAR(I,3)**THIRD
            RHO0(I)=PM(192,MT)
             DD = QVIS(I)  ! volumic strain
@@ -791,13 +791,13 @@ C
       ENDDO
 C
       ! KDTSMSTR==1 en version 5, par defaut.
-      IF(KDTSMSTR.EQ.1.AND.
-     .   ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+      IF(KDTSMSTR==1.AND.
+     .   ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
         DO 50 I=LFT,LLT
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 50
-          IF(N2D.EQ.0) THEN 
+          IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
+          IF(N2D==0) THEN 
             TIDT = ONE/DTX(I)
-            IF(OFFG(I).GT.ONE)THEN
+            IF(OFFG(I)>ONE)THEN
               TRHO = RHO0(I) * TIDT
 c              TVOL = VOL0(I) * TIDT
             ELSE
@@ -814,7 +814,7 @@ cc            STI(I) = HALF * TRHO * TAIRE
           ENDIF
 C         dt2 remplace par dt2t                 
   50    CONTINUE
-        IF(ALE_OR_EULER.EQ.0)THEN
+        IF(ALE_OR_EULER==0)THEN
           DO I=LFT,LLT
             DTX(I)= DTFAC1(ITY)*DTX(I)
           ENDDO
@@ -824,15 +824,15 @@ C         dt2 remplace par dt2t
           ENDDO        
         ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
-        IF(ALE_OR_EULER.EQ.1 .OR. NODADT.EQ.0)THEN
+        IF(ALE_OR_EULER==1 .OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(OFF(I).NE.ZERO.AND.OFFG(I).GE.ZERO)DT2T = MIN(DTX(I),DT2T)        
+            IF(OFF(I)/=ZERO.AND.OFFG(I)>=ZERO)DT2T = MIN(DTX(I),DT2T)        
           ENDDO
         ENDIF            
       ELSE 
         DO 60 I=LFT,LLT
-          IF(OFF(I).EQ.ZERO.OR.OFFG(I).LT.ZERO) GO TO 60
-          IF(N2D.EQ.0) THEN
+          IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 60
+          IF(N2D==0) THEN
             TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
             TVOL = UVAR(I,3) * TIDT
@@ -844,7 +844,7 @@ C         dt2 remplace par dt2t
           ENDIF
 C         dt2 remplace par dt2t
   60    CONTINUE
-        IF(ALE_OR_EULER.EQ.0)THEN
+        IF(ALE_OR_EULER==0)THEN
           DO I=LFT,LLT
             DTX(I)= DTFAC1(ITY)*DTX(I)
           ENDDO
@@ -854,22 +854,22 @@ C         dt2 remplace par dt2t
           ENDDO        
         ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
-        IF(ALE_OR_EULER.EQ .1.OR. NODADT.EQ.0)THEN
+        IF(ALE_OR_EULER.EQ .1.OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(OFF(I).NE.ZERO.AND.OFFG(I).GE.ZERO)DT2T = MIN(DTX(I),DT2T)        
+            IF(OFF(I)/=ZERO.AND.OFFG(I)>=ZERO)DT2T = MIN(DTX(I),DT2T)        
           ENDDO
         ENDIF  
       END IF
 C
-      IF(IMCONV.EQ.1)THEN
-      IF(IDTMIN(ITY).EQ.1)THEN
+      IF(IMCONV==1)THEN
+      IF(IDTMIN(ITY)==1)THEN
         ERROR=0
         DO 70 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO .OR.OFFG(I).LT.ZERO) GO TO 70
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO .OR.OFFG(I)<ZERO) GO TO 70
           ERROR=1
    70   CONTINUE
 
-        IF (ERROR.EQ.1) THEN
+        IF (ERROR==1) THEN
           TSTOP = TT
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -878,11 +878,11 @@ C
      . ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR SOLID ELEMENTS'
 #include "lockoff.inc"
         ENDIF
-      ELSEIF(IDTMIN(ITY).EQ.2)THEN
+      ELSEIF(IDTMIN(ITY)==2)THEN
         ICOUNT=0
         DO 75 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.
-     .    OR.OFFG(I).LT.ZERO) GO TO 75
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
+     .    OR.OFFG(I)<ZERO) GO TO 75
           OFF(I) = ZERO
           ICOUNT=ICOUNT+1
           LIST(ICOUNT)=I
@@ -898,15 +898,15 @@ C
 #include "lockoff.inc"
          IDEL7NOK = 1
         ENDDO
-      ELSEIF(IDTMIN(ITY).EQ.3.AND.ISMSTR.EQ.2)THEN
+      ELSEIF(IDTMIN(ITY)==3.AND.ISMSTR==2)THEN
         ICOUNT = 0
         DO 76 I=LFT,LLT
-           IF(DTMIN(I).NE.0) THEN
-             IF(DTX(I).GT.DTMIN(I).OR.
-     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
+           IF(DTMIN(I)/=0) THEN
+             IF(DTX(I)>DTMIN(I).OR.
+     .      OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
             ELSE
-              IF(DTX(I).GT.DTMIN1(ITY).OR.
-     .      OFF(I).LT.ONE.OR.OFFG(I).LE.ZERO.OR.OFFG(I).EQ.TWO) GO TO 76
+              IF(DTX(I)>DTMIN1(ITY).OR.
+     .      OFF(I)<ONE.OR.OFFG(I)<=ZERO.OR.OFFG(I)==TWO) GO TO 76
            ENDIF
           OFFG(I) = TWO
           ICOUNT=ICOUNT+1
@@ -922,14 +922,14 @@ C
      . '-- CONSTANT TIME STEP FOR SOLID ELEMENT NUMBER ',NGL(I)
 #include "lockoff.inc"
         ENDDO
-      ELSEIF(IDTMIN(ITY).EQ.5)THEN
+      ELSEIF(IDTMIN(ITY)==5)THEN
         ERROR=0
         DO 570 I=LFT,LLT
-        IF(DTX(I).GT.DTMIN1(ITY).OR.OFF(I).EQ.ZERO.
-     .      OR.OFFG(I).LT.ZERO) GO TO 570
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
+     .      OR.OFFG(I)<ZERO) GO TO 570
           ERROR=1
   570   CONTINUE
-        IF (ERROR.EQ.1) THEN
+        IF (ERROR==1) THEN
           MSTOP = 2
 #include "lockon.inc"
           WRITE(IOUT,*)
@@ -939,13 +939,13 @@ C
 #include "lockoff.inc"
         ENDIF
       ENDIF
-      END IF ! IF(IMCONV.EQ.1)
+      END IF ! IF(IMCONV==1)
 C
       !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER    
-      IF(NODADT.EQ.0 .OR. ALE_OR_EULER.EQ.1)THEN
+      IF(NODADT==0 .OR. ALE_OR_EULER==1)THEN
        DO 80 I=LFT,LLT
-        IF(DTX(I).GT.DT2T.OR.OFF(I).LE.ZERO.OR.
-     .    OFFG(I).LE.ZERO) GO TO 80 
+        IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.
+     .    OFFG(I)<=ZERO) GO TO 80 
 C nelts et itypts remplaces par neltst et itypst
         DT2T    = DTX(I)
         NELTST =NGL(I)

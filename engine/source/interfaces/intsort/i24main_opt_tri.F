@@ -90,7 +90,7 @@ C-----------------------------------------------
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT.OR.TT.GT.STOPT) RETURN
+      IF(STARTT>TT.OR.TT>STOPT) RETURN
 C
       GAP =INTBUF_TAB%VARIABLES(2)
 C

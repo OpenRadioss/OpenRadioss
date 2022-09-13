@@ -84,7 +84,7 @@ C     REAL
      .   UX13,UX24,UY13,UY24,EXXT,EYYT,EXYT
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
-      IF(IEPSDOT.NE.0)THEN
+      IF(IEPSDOT/=0)THEN
        DO I=JFT,JLT
         FAC1(I)  =ONE/AREA(I)
         K = I + NFT
@@ -109,7 +109,7 @@ C
         KXY(I)=KXY(I)*FAC1(I)
       ENDDO
 C
-      IF(ISHFRAM.EQ.1.AND.IHBE.GE.2)THEN
+      IF(ISHFRAM==1.AND.IHBE>=2)THEN
 #include "vectorize.inc" 
        DO I=JFT,JLT
          FTMP1(I) = FOR(I,1)
@@ -133,7 +133,7 @@ C
          MOM(I,1)=MOM(I,1)-Q1(I)
          MOM(I,2)=MOM(I,2)+Q1(I)
        ENDDO
-       IF(ISTRAIN.NE.0)THEN
+       IF(ISTRAIN/=0)THEN
         DO I=JFT,JLT
          GTMP1(I)=GSTR(I,1)
          GTMP2(I)=GSTR(I,2)

@@ -46,7 +46,7 @@ C-----------------------------------------------
       DATA I/0/
       DATA IFIRST/0/
 C
-      IF(IFIRST.EQ.0.AND.SEED.NE.0.0)THEN
+      IF(IFIRST==0.AND.SEED/=0.0)THEN
         I = SEED*32768 + 32768
         IFIRST=1
       ENDIF

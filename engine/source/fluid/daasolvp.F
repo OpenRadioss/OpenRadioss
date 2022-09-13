@@ -300,7 +300,7 @@ C-----------------------------------------------
       DO I=1,NEL
          OFF(I) = ZERO
          TTA = TT-TA(I)
-         IF(TTA .GT. ZERO) OFF(I) = ONE
+         IF(TTA > ZERO) OFF(I) = ONE
       ENDDO
       IF(IPRES == 1) THEN
         IF(IWAVE == 1)THEN
@@ -392,7 +392,7 @@ C-----------------------------------------------
         DO I=1,NEL
            OFF(I) = ZERO
            TTA = TT-TA(I+NEL)
-           IF(TTA .GT. ZERO) OFF(I) = ONE
+           IF(TTA > ZERO) OFF(I) = ONE
         ENDDO
         IF(IPRES == 1) THEN
           DO I=1,NEL
@@ -638,7 +638,7 @@ C-----------------------------------------------
         DO K=1,NSENSOR
           IF(IGRV(6,GRAV_ID) == LSENSOR(1,K))ISENS=K
         ENDDO
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
           TS = TT
         ELSE
           TS = TT-SENSOR(2,ISENS)
@@ -673,7 +673,7 @@ C
            N1 = IBUF(I1)
            N2 = IBUF(I2)
            N3 = IBUF(I3)
-           IF(N1.NE.0.OR.N2.NE.0.OR.N3.NE.0) THEN
+           IF(N1/=0.OR.N2/=0.OR.N3/=0) THEN
               NEL_L = NEL_L+1
               NEBUF(NEL_L) = I
            ENDIF
@@ -690,19 +690,19 @@ C
            NRY= NORMAL(2,I)
            NRZ= NORMAL(3,I)
            FF = FAC1*THIRD*FEL(I)
-           IF(N1.NE.0) THEN
+           IF(N1/=0) THEN
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
               A(3,N1) = A(3,N1) + FF*NRZ
               TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
            ENDIF
-           IF(N2.NE.0) THEN
+           IF(N2/=0) THEN
               A(1,N2) = A(1,N2) + FF*NRX
               A(2,N2) = A(2,N2) + FF*NRY
               A(3,N2) = A(3,N2) + FF*NRZ
               TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
            ENDIF
-           IF(N3.NE.0) THEN
+           IF(N3/=0) THEN
               A(1,N3) = A(1,N3) + FF*NRX
               A(2,N3) = A(2,N3) + FF*NRY
               A(3,N3) = A(3,N3) + FF*NRZ
@@ -720,7 +720,7 @@ C
            N2 = IBUF(I2)
            N3 = IBUF(I3)
            N4 = IBUF(I4)
-           IF(N1.NE.0.OR.N2.NE.0.OR.N3.NE.0.OR.N4.NE.0) THEN
+           IF(N1/=0.OR.N2/=0.OR.N3/=0.OR.N4/=0) THEN
               NEL_L = NEL_L+1
               NEBUF(NEL_L) = I
            ENDIF
@@ -742,25 +742,25 @@ C
            NRY= NORMAL(2,I)
            NRZ= NORMAL(3,I)
            FF = WF(I5)*FEL(I)
-           IF(N1.NE.0) THEN
+           IF(N1/=0) THEN
               A(1,N1) = A(1,N1) + FF*NRX
               A(2,N1) = A(2,N1) + FF*NRY
               A(3,N1) = A(3,N1) + FF*NRZ
               TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N1)+NRY*V(2,N1)+NRZ*V(3,N1))/CNP(I1)
            ENDIF
-           IF(N2.NE.0) THEN
+           IF(N2/=0) THEN
               A(1,N2) = A(1,N2) + FF*NRX
               A(2,N2) = A(2,N2) + FF*NRY
               A(3,N2) = A(3,N2) + FF*NRZ
               TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N2)+NRY*V(2,N2)+NRZ*V(3,N2))/CNP(I2)
            ENDIF
-           IF(N3.NE.0) THEN
+           IF(N3/=0) THEN
               A(1,N3) = A(1,N3) + FF*NRX
               A(2,N3) = A(2,N3) + FF*NRY
               A(3,N3) = A(3,N3) + FF*NRZ
               TFEXT   = TFEXT+FF*DT1*(NRX*V(1,N3)+NRY*V(2,N3)+NRZ*V(3,N3))/CNP(I3)
            ENDIF
-           IF(N4.NE.0.AND.I5.EQ.1) THEN
+           IF(N4/=0.AND.I5==1) THEN
               A(1,N4) = A(1,N4) + FF*NRX
               A(2,N4) = A(2,N4) + FF*NRY
               A(3,N4) = A(3,N4) + FF*NRZ

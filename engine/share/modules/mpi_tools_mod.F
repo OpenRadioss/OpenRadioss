@@ -130,7 +130,7 @@ C-----------------------------------------------
 
 
       DO P = 1, NSPMD
-        IF( P .NE. ISPMD +1 ) THEN
+        IF( P /= ISPMD +1 ) THEN
              MSGTYP = 17000 
              CALL MPI_IRECV(
      1        MY_STRUCT%BUFFER_VAL(P) ,1,REAL,IT_SPMD(P),MSGTYP,
@@ -143,7 +143,7 @@ C-----------------------------------------------
         ENDIF
       ENDDO
       DO P = 1, NSPMD
-        IF( P .NE. ISPMD +1 ) THEN
+        IF( P /= ISPMD +1 ) THEN
              MSGTYP = 17000 
              CALL MPI_ISEND(
      1        MY_STRUCT%VAL ,1,REAL,IT_SPMD(P),MSGTYP,
@@ -211,7 +211,7 @@ C-----------------------------------------------
 
        ! WAIT SEND & RECV
       DO P=1,NSPMD
-        IF(ISPMD + 1 .NE. P) THEN
+        IF(ISPMD + 1 /= P) THEN
           CALL MPI_WAIT(MY_STRUCT%RQ_SEND_VAL(P),STATUS,IERROR)
           CALL MPI_WAIT(MY_STRUCT%RQ_SEND_TAB(P),STATUS,IERROR)
           CALL MPI_WAIT(MY_STRUCT%RQ_RECV_VAL(P),STATUS,IERROR)

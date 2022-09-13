@@ -230,7 +230,7 @@ C
 c traitement a part du 3eme noeud optionnel sauf type 12
 c      DO I=1,NUMELR
 c        N = IXR(4,I)
-c        IF(IGEO(11,IXR(1,I)).EQ.12)  ADDCNEL(N) = ADDCNEL(N) + 1
+c        IF(IGEO(11,IXR(1,I))==12)  ADDCNEL(N) = ADDCNEL(N) + 1
 c      END DO
 
 c      DO K=2,5
@@ -374,7 +374,7 @@ C      END DO
 c traitement a part du 3eme noeud optionnel sauf type 12
 c      DO I=1,NUMELR
 c        N = IXR(4,I)
-c        IF(IGEO(11,IXR(1,I)).EQ.12)  THEN
+c        IF(IGEO(11,IXR(1,I))==12)  THEN
 c          ADDCNEL(N) = ADDCNEL(N) + 1
 c          CNEL(ADDCNEL(N)) = OFFSET_R+I
 c        END IF
@@ -390,7 +390,7 @@ c      END DO
 C
 
 c fill LELX (use in I11STI3 and I20STI3E)
-      IF(NUMELX .NE. 0)THEN
+      IF(NUMELX /= 0)THEN
 	LELX(1:NUMELX) = ZERO
 	DO I=1,NUMELX
 	  DO J=KXX(4,I)+1,KXX(3,I)+KXX(4,I)-1

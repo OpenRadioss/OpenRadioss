@@ -109,27 +109,27 @@ C-----------------------------------------------
 C
         STARTT=INTBUF_TAB%VARIABLES(3)
         STOPT =INTBUF_TAB%VARIABLES(11)
-        IF(STARTT.GT.TT) RETURN ! dont look for sliding
-        IF(TT.GT.STOPT)  RETURN
+        IF(STARTT>TT) RETURN ! dont look for sliding
+        IF(TT>STOPT)  RETURN
 C
 C       Look if interface is activated 
         ISENS = IPARI(64,NIN)  
-        IF(ISENS.NE.0)  THEN         ! Interface activated by sensor
+        IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
-        IF(TT.LT.TS) RETURN
+        IF(TT<TS) RETURN
 C
         I_STOK_RTLM=INTBUF_TAB%I_STOK(3) ! IRTLM/=0 was stored at the beginning of CAND_OPT
         NB_LOC = I_STOK_RTLM / NTHREAD
-        IF (JTASK.EQ.NTHREAD) THEN
+        IF (JTASK==NTHREAD) THEN
           I_STOK = I_STOK_RTLM-NB_LOC*(NTHREAD-1)
         ELSE
           I_STOK = NB_LOC
         ENDIF
 C-----------------------------------------------------------------------
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
           NB_DST1  = NB_DST1  + I_STOK
         ENDIF
         DO NFT = 0 , I_STOK - 1 , NVSIZ

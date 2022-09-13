@@ -512,7 +512,7 @@ C-----
         NXK(K)=SIZE(TABLE%X(K)%VALUES)
         DO I=2,NXK(K)
          DX2 = TABLE%X(K)%VALUES(I) - XX(K)
-         IF(DX2.GE.ZERO.OR.I.EQ.NXK(K))THEN
+         IF(DX2>=ZERO.OR.I==NXK(K))THEN
            IPOS(K)=I-1
            R(K)   =(TABLE%X(K)%VALUES(I)-XX(K))/
      .             (TABLE%X(K)%VALUES(I)-TABLE%X(K)%VALUES(I-1))
@@ -713,7 +713,7 @@ C-----
           IF(DX2 >= ZERO)THEN
            DO N=M-1,1,-1
             DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
-            IF(DX2.LT.ZERO.OR.N <=1)THEN 
+            IF(DX2<ZERO.OR.N <=1)THEN 
               IPOS(I,K)=MAX(N,1) !N 
               EXIT
             ENDIF
@@ -721,7 +721,7 @@ C-----
           ELSE
            DO N=M+1,NXK(K)
             DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
-            IF(DX2.GE.ZERO.OR.N.EQ.NXK(K))THEN
+            IF(DX2>=ZERO.OR.N==NXK(K))THEN
               IPOS(I,K)=N-1
               EXIT
             ENDIF

@@ -224,14 +224,14 @@ C
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      IF (MFROT.GT.0) THEN
+      IF (MFROT>0) THEN
          CALL HM_GET_FLOATV('C1',C1,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C2',C2,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C3',C3,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C4',C4,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('C5',C5,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
-      IF (MFROT.GT.1) THEN
+      IF (MFROT>1) THEN
         CALL HM_GET_FLOATV('C6',C6,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
 
@@ -270,7 +270,7 @@ C  Card1
 C------------------------------------------------------------
 C
 C-------*CHECKS*-------------------
-       IF(ISU2.EQ.0) THEN
+       IF(ISU2==0) THEN
           CALL ANCMSG(MSGID=119,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -278,14 +278,14 @@ C-------*CHECKS*-------------------
      .                C1=TITR)
        ENDIF
 !
-       IF(ISU1.EQ.0)THEN
+       IF(ISU1==0)THEN
          ISU1=ISU2
          IS1 =1
        ENDIF
        IS2=1
        INGR2USR => IGRSURF(1:NSURF)%ID
        ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
-       IF(ISU1.NE.0)THEN
+       IF(ISU1/=0)THEN
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
           IS1 =2
@@ -303,21 +303,21 @@ C  Card2
 C------------------------------------------------------------
 
 C-------*CHECKS*-------------------
-       IF(IGAP.GE.2)THEN
-         IF(GAPSCALE.EQ.ZERO)GAPSCALE=ONE
+       IF(IGAP>=2)THEN
+         IF(GAPSCALE==ZERO)GAPSCALE=ONE
          FRIGAP(13) = GAPSCALE
          FRIGAP(16) = GAPMAX
        END IF
-       IF(FRIGAP(16).EQ.ZERO)THEN
+       IF(FRIGAP(16)==ZERO)THEN
           GAPMAX=EP30
           FRIGAP(16)=GAPMAX
        END IF
 C------------------------------------------------------------
 C  Card3
 C------------------------------------------------------------
-       IF(IGSTI.GT.1)THEN
+       IF(IGSTI>1)THEN
           I7STIFS=1
-          IF(STMAX.EQ.ZERO)STMAX=EP30
+          IF(STMAX==ZERO)STMAX=EP30
           FRIGAP(17) = STMIN
           FRIGAP(18) = STMAX
        ELSE
@@ -337,11 +337,11 @@ C  Card5
 C------------------------------------------------------------
 
         IF (STFAC == ZERO ) STFAC = ONE
-        IF(IGSTI.EQ.1)STFAC=-STFAC
+        IF(IGSTI==1)STFAC=-STFAC
  
-        IF(FRIC.NE.ZERO.AND.VISCF.EQ.ZERO)VISCF=ONE
-        IF(VISC.EQ.ZERO)THEN
-          IF(IVIS2.EQ.5)THEN
+        IF(FRIC/=ZERO.AND.VISCF==ZERO)VISCF=ONE
+        IF(VISC==ZERO)THEN
+          IF(IVIS2==5)THEN
             VISC=ONE
           ELSE
             VISC=FIVEEM2
@@ -352,9 +352,9 @@ C------------------------------------------------------------
           IDEL7N=ABS(IDEL7N)
         END IF
         IPARI(61)=IDELKEEP
-        IF (IDEL7N.GT.2.OR.N2D.EQ.1) IDEL7N = 0
+        IF (IDEL7N>2.OR.N2D==1) IDEL7N = 0
 C
-        IF(BUMULT.EQ.ZERO) THEN
+        IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
 C BMULT have to be increased for case of big models
           IF(NUMNOD > 2500000) THEN
@@ -375,26 +375,26 @@ C------------------------------------------------------------
 C  Card6
 C------------------------------------------------------------
 C
-       IF (MFROT.NE.0.AND.VISCF.EQ.0.0) VISCF=ONE
-           IF (ALPHA.EQ.0.) IFQ = 0
+       IF (MFROT/=0.AND.VISCF==0.0) VISCF=ONE
+           IF (ALPHA==0.) IFQ = 0
 C
-           IF (MODFR.EQ.0) MODFR = 1
-           IF (MODFR.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
-           IF (MODFR.EQ.2)VISCF=ZERO
+           IF (MODFR==0) MODFR = 1
+           IF (MODFR==2.AND.IFQ<10) IFQ = IFQ + 10
+           IF (MODFR==2)VISCF=ZERO
 C
-           IF (IFQ.GT.0) THEN
-             IF (IFQ.EQ.10) XFILTR = ONE
-             IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-             IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
-             IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
-             IF (XFILTR.LT.ZERO) THEN
+           IF (IFQ>0) THEN
+             IF (IFQ==10) XFILTR = ONE
+             IF (MOD(IFQ,10)==1) XFILTR = ALPHA
+             IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+             IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
+             IF (XFILTR<ZERO) THEN
                CALL ANCMSG(MSGID=554,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=NOINT,
      .                     C1=TITR,
      .                     R1=ALPHA)
-             ELSEIF (XFILTR.GT.1.AND.MOD(IFQ,10).LE.2) THEN
+             ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
                 CALL ANCMSG(MSGID=554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -449,9 +449,9 @@ C
 C
       WRITE(IOUT,1549)
 C  
-      IF( (IGAP.GE.2 .AND. IGAP.NE.1000).
-     .           OR.IGSTI.GT.1 .AND. IGSTI.NE.1000)THEN
-         IF(IGSTI.EQ.1)THEN
+      IF( (IGAP>=2 .AND. IGAP/=1000).
+     .           OR.IGSTI>1 .AND. IGSTI/=1000)THEN
+         IF(IGSTI==1)THEN
             WRITE(IOUT,1538)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,FRIC,IGAP,GAP,GAPMAX,
      .                 GAPSCALE,STARTT,STOPT,                 
@@ -465,7 +465,7 @@ C
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
          ENDIF
-      ELSEIF(STFAC.GE.ZERO)THEN
+      ELSEIF(STFAC>=ZERO)THEN
           WRITE(IOUT,1594)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,IGAP,GAP,STARTT,STOPT,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
@@ -480,7 +480,7 @@ C
      . '    LAGRANGE MULTIPLIER WITH /DT/INTER/LAG. . '
        ENDIF
 C
-       IF(IDEL7N.NE.0) THEN
+       IF(IDEL7N/=0) THEN
           WRITE(IOUT,'(A,A,I5/)')
      . '    DELETION FLAG ON FAILURE OF MAIN ELEMENT',
      . ' (1:YES-ALL/2:YES-ANY) : ',IDEL7N
@@ -490,53 +490,53 @@ C
           ENDIF         
        ENDIF
 
-       IF(IFQ.GE.10) THEN
+       IF(IFQ>=10) THEN
           WRITE(IOUT,1518)
        ELSE
           WRITE(IOUT,1519)
        ENDIF
        WRITE(IOUT,1520)MOD(IFQ,10), XFILTR
-       IF(MFROT.EQ.0)THEN
+       IF(MFROT==0)THEN
           WRITE(IOUT,1524) FRIC
-       ELSEIF(MFROT.EQ.1)THEN
+       ELSEIF(MFROT==1)THEN
           WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5)
-       ELSEIF(MFROT.EQ.2)THEN
+       ELSEIF(MFROT==2)THEN
           WRITE(IOUT,1522)FRIC,FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5),FRIC_P(6)
-       ELSEIF(MFROT.EQ.3)THEN
+       ELSEIF(MFROT==3)THEN
           WRITE(IOUT,1523)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5),FRIC_P(6)
        ENDIF
 
 
-       IF(IBAG.NE.1000) THEN
+       IF(IBAG/=1000) THEN
           WRITE(IOUT,*)'    AIRBAG POROSITY COUPLING ON   '
        ENDIF
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -549,7 +549,7 @@ C------------
       RETURN
 
  1549 FORMAT(//
-     .    '    TYPE.EQ.7   PARALLEL/AUTO IMPACTING           ' //)
+     .    '    TYPE==7   PARALLEL/AUTO IMPACTING           ' //)
 
  1538 FORMAT(
      .       '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,

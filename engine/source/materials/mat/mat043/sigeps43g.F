@@ -145,8 +145,8 @@ C-----------------------------------------------
        NRATE = NINT(UPARAM(IADBUF+1))
        EPSMAX=UPARAM(IADBUF+NS+2*NRATE+1)
 C
-       IF(EPSMAX.EQ.ZERO)THEN
-         IF(TF(NPF(IFUNC(1)+1)-1).EQ.ZERO)THEN
+       IF(EPSMAX==ZERO)THEN
+         IF(TF(NPF(IFUNC(1)+1)-1)==ZERO)THEN
           EPSMAX=TF(NPF(IFUNC(1)+1)-2)
        ELSE
           EPSMAX= EP30
@@ -205,8 +205,8 @@ C
          ENDDO           
        ENDIF
 C
-      IF (ISIGI.EQ.0) THEN
-      IF(TIME.EQ.0.0)THEN
+      IF (ISIGI==0) THEN
+      IF(TIME==0.0)THEN
         DO I=1,NEL
          UVAR(I,1)=ZERO
          UVAR(I,2)=ZERO
@@ -256,7 +256,7 @@ C-------------------
       DO I=1,NEL
         IADBUF = IPM(7,MAT(I))-1
         DO J=2,NRATE-1
-          IF(EPSP(I).GE.UPARAM(IADBUF+NS+J)) JJ(I) = J
+          IF(EPSP(I)>=UPARAM(IADBUF+NS+J)) JJ(I) = J
         ENDDO
         RATE(I,1)=UPARAM(IADBUF+NS+JJ(I))
         RATE(I,2)=UPARAM(IADBUF+NS+JJ(I)+1)
@@ -324,12 +324,12 @@ C     GATHER PLASTIC FLOW
 C-------------------------
       NINDX=0
       DO I=1,NEL
-      IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+      IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
         NINDX=NINDX+1
         INDEX(NINDX)=I
       ENDIF
       ENDDO
-      IF(NINDX.EQ.0) RETURN
+      IF(NINDX==0) RETURN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -345,12 +345,12 @@ C---------------------------
        S2=A02*NU*TWO - A03
        S12=A03-NU*(A01+A02)
        S3=SQRT(NU2(I)*(A01-A02)*(A01-A02)+S12*S12)
-       IF (ABS(S1).LT.EM20) THEN 
+       IF (ABS(S1)<EM20) THEN 
         Q12(I)=ZERO
        ELSE
         Q12(I)=-(A01-A02+S3)/S1
        ENDIF
-       IF (ABS(S2).LT.EM20) THEN 
+       IF (ABS(S2)<EM20) THEN 
         Q21(I)=ZERO
        ELSE
         Q21(I)=(A01-A02+S3)/S2
@@ -424,9 +424,9 @@ C-------------------------------
         SFNM=A*(ANMXX(I)-ANM_XY(I))+B*(ANMYY(I)-AMN_XY(I))
      .      +C*ANMXY(I)
         C1=ABS(SFNM)/MAX(SFN,SFM)
-        IF (C1.LT.TOL) THEN
+        IF (C1<TOL) THEN
               S(I)=ZERO
-        ELSEIF (SFNM.LT.ZERO) THEN
+        ELSEIF (SFNM<ZERO) THEN
          S(I)=-ONE
         ELSE
          S(I)=ONE
@@ -508,7 +508,7 @@ C------------------------------------------
       ENDDO
 C
       DO I=1,NEL
-       IF(PLA(I).GT.EPSMAX.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
+       IF(PLA(I)>EPSMAX.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
       ENDDO
 C
       RETURN

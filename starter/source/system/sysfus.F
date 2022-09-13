@@ -156,15 +156,15 @@ C-----------------------------------------------
       CALL C_HASH_FIND(H_NODE,IU,J)
       USR2SYS = J
 
-      IF(NSUBDOM > 0 .OR. USR2SYS < 0 .OR. ITABM1(MAX(1,J)) .NE. IU) THEN
+      IF(NSUBDOM > 0 .OR. USR2SYS < 0 .OR. ITABM1(MAX(1,J)) /= IU) THEN
         JINF=1
         JSUP=NUMNOD
         J=MAX(1,NUMNOD/2)
-   10   IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
-          IF ((NSUBDOM.GT.0).AND.(FLG_SPLIT.EQ.1)) THEN
+   10   IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
+          IF ((NSUBDOM>0).AND.(FLG_SPLIT==1)) THEN
 C-----  -------Multidomaines -> On check dans la liste des noeuds suprimes-----
             NN=R2R_SYS(IU,ITABM1,MESS)
-            IF (NN.EQ.0) THEN
+            IF (NN==0) THEN
               CALL ANCMSG(MSGID=895,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANSTOP,
@@ -182,11 +182,11 @@ C-----  ------------------------------------------------------
           ENDIF      
           RETURN
         ENDIF
-        IF((IU-ITABM1(J)).EQ.0)THEN
+        IF((IU-ITABM1(J))==0)THEN
 C       >CAS IU=TABM FIN DE LA RECHERCHE
            USR2SYS=ITABM1(J+NUMNOD)
            RETURN
-        ELSE IF (IU-ITABM1(J).LT.0) THEN
+        ELSE IF (IU-ITABM1(J)<0) THEN
 C       >CAS IU<TABM
            JSUP=J-1
         ELSE
@@ -244,15 +244,15 @@ C-----------------------------------------------
          USRTOS=0
          RETURN
       ENDIF
-      IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN    ! not found
+      IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN    ! not found
         USRTOS=0
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          USRTOS=ITABM1(J+NUMNOD)
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -305,15 +305,15 @@ C-----------------------------------------------
       JINF=1
       JSUP=NUMNOD
       J=MAX(1,NUMNOD/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
         ITABM1_SEARCH=-1
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          ITABM1_SEARCH=J
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -368,11 +368,11 @@ C-----------------------------------------------
       JINF=1
       JSUP=NUMNOD
       J=MAX(1,NUMNOD/2)
-   10 IF(JSUP.LE.JINF.AND.(IU-ITABM1(J)).NE.0) THEN
-        IF (NSUBDOM.GT.0) THEN
+   10 IF(JSUP<=JINF.AND.(IU-ITABM1(J))/=0) THEN
+        IF (NSUBDOM>0) THEN
 C------------Multidomaines -> On check dans la liste des noeuds suprimes-----
           NN=R2R_SYS(IU,ITABM1,MESS)
-          IF (NN.EQ.0) THEN
+          IF (NN==0) THEN
             CALL ANCMSG(MSGID=895,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANSTOP,
@@ -389,12 +389,12 @@ C-----------------------------------------------------------
         ENDIF     
         RETURN
       ENDIF
-      IF((IU-ITABM1(J)).EQ.0)THEN
+      IF((IU-ITABM1(J))==0)THEN
 C     >CAS IU=TABM FIN DE LA RECHERCHE
          JINDEX=J
          USR2SYS2=ITABM1(J+NUMNOD)
          RETURN
-      ELSE IF (IU-ITABM1(J).LT.0) THEN
+      ELSE IF (IU-ITABM1(J)<0) THEN
 C     >CAS IU<TABM
          JSUP=J-1
       ELSE
@@ -460,7 +460,7 @@ C-----------------------
         K=1
         NOLD = INDEX(NLIST+1)
         DO I=1,NLIST
-          IF(NOLD.NE.INDEX(NLIST+I))K=K+1
+          IF(NOLD/=INDEX(NLIST+I))K=K+1
           LIST(K) = INDEX(NLIST+I)
           NOLD    = INDEX(NLIST+I)
         ENDDO
@@ -480,10 +480,10 @@ C cas d erreur
         END IF
 C
         DO I=2,NNOD
-          DO WHILE(LIST(I).GT.ITABM1(J).AND.J.LT.NUMNOD)
+          DO WHILE(LIST(I)>ITABM1(J).AND.J<NUMNOD)
             J=J+1
           ENDDO
-          IF(LIST(I).EQ.ITABM1(J))THEN
+          IF(LIST(I)==ITABM1(J))THEN
             LIST(I)=ITABM1(NUMNOD+J)
           ELSE
             CALL ANCMSG(MSGID=78,
@@ -573,7 +573,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      IF (NLIST.GE.2)THEN
+      IF (NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -629,7 +629,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      IF (NLIST.GE.2)THEN
+      IF (NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -694,7 +694,7 @@ C-----------------------------------------------
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------
-      IF(IR.EQ.1)THEN
+      IF(IR==1)THEN
         DO I=1,NLIST
           INDEX(I,3)=NINT(RLIST(1,I))
         ENDDO
@@ -709,7 +709,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID.EQ.IDM)THEN
+          IF(ID==IDM)THEN
              CALL ANCMSG(MSGID=79,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -759,7 +759,7 @@ C-----------------------------------------------
       POINTER(IINDEX,INDEX(1))
       INTEGER INDEX
 #endif
-      IF (INVERS.GE.40.AND.NLIST.GE.2)THEN
+      IF (INVERS>=40.AND.NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -826,8 +826,8 @@ C
       DO I=2,NLIST
          IDM=ID
          ID=INDEX(INDEX(I,1),3)
-         IF(ID.EQ.IDM)THEN
-            IF (STATUS .LT. 0) THEN
+         IF(ID==IDM)THEN
+            IF (STATUS < 0) THEN
 C     CAS D ONE WARNING STATUS Negatif
                STATUS = -1*STATUS
                CALL ANCMSG(MSGID=ERRID,
@@ -957,7 +957,7 @@ C-----------------------------------------------
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------
-      IF(IR.EQ.1)THEN
+      IF(IR==1)THEN
         DO I=1,NLIST
           INDEX(I,3)=NINT(RLIST(1,I))
         ENDDO
@@ -972,7 +972,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID.EQ.IDM)THEN
+          IF(ID==IDM)THEN
              CALL ANCMSG(MSGID=79,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -1025,7 +1025,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      IF (NLIST.GE.2)THEN
+      IF (NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -1082,7 +1082,7 @@ C-----------------------------------------------
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------
-      IF(IR.EQ.1)THEN
+      IF(IR==1)THEN
         DO I=1,NLIST
           INDEX(I,3)=NINT(RLIST(1,I))
         ENDDO
@@ -1097,7 +1097,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID.EQ.IDM)THEN
+          IF(ID==IDM)THEN
              IDS=LIST(1,I)
              CALL ANCMSG(MSGID=1108,
      .                   MSGTYPE=MSGERROR,
@@ -1151,7 +1151,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      IF (NLIST.GE.2)THEN
+      IF (NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -1208,7 +1208,7 @@ C-----------------------------------------------
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------
-      IF(IR.EQ.1)THEN
+      IF(IR==1)THEN
         DO I=1,NLIST
           INDEX(I,3)=NINT(RLIST(1,I))
         ENDDO
@@ -1223,7 +1223,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID.EQ.IDM)THEN
+          IF(ID==IDM)THEN
              IDS=LIST(2,I)
              CALL ANCMSG(MSGID=1154,
      .                   MSGTYPE=MSGERROR,
@@ -1286,7 +1286,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      IF (NLIST.GE.2)THEN
+      IF (NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -1343,7 +1343,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      IF (NLIST.GE.2)THEN
+      IF (NLIST>=2)THEN
 #if CPP_comp == f90
          ALLOCATE(INDEX(3*NLIST))
 #else
@@ -1400,7 +1400,7 @@ C-----------------------------------------------
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------
-      IF(IR.EQ.1)THEN
+      IF(IR==1)THEN
         DO I=1,NLIST
           INDEX(I,3)=NINT(RLIST(I))
         ENDDO
@@ -1415,7 +1415,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID.EQ.IDM)THEN
+          IF(ID==IDM)THEN
              CALL ANCMSG(MSGID=79,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
@@ -1467,7 +1467,7 @@ C-----------------------------------------------
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C-----------------------
-      IF(IR.EQ.1)THEN
+      IF(IR==1)THEN
         DO I=1,NLIST
           INDEX(I,3)=NINT(RLIST(I))
         ENDDO
@@ -1482,7 +1482,7 @@ C
       DO I=2,NLIST
           IDM=ID
           ID=INDEX(INDEX(I,1),3)
-          IF(ID.EQ.IDM)THEN
+          IF(ID==IDM)THEN
              CALL ANCMSG(MSGID=1814,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,

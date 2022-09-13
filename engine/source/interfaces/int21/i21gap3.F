@@ -66,7 +66,7 @@ C------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
       
-      IF(IGAP.GE.2)THEN
+      IF(IGAP>=2)THEN
        DO I=NSNF,NSNL
         GAP_S(I) = MAX(HALF*GAPSCALE*(THKNOD(NSV(I))-THKNOD0(I))
      .                                            +GAP_S0(I),ZERO)
@@ -76,7 +76,7 @@ C---------------------------------------------
 C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
-      IF (IGAP.EQ.0) THEN
+      IF (IGAP==0) THEN
         CRITER =MAX(GAP,EM01*MAX(DEPTH,DRAD,GAP+DGAPLOAD))
         DIST   =TZINF-MAX(GAP+DGAPLOAD,DEPTH,DRAD)
       ELSE

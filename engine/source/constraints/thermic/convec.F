@@ -83,7 +83,7 @@ C=======================================================================
       FCY_OLD= ZERO
       HEAT_CONV_L = ZERO
       S1 = NUMNOD
-      IF(IPARIT.EQ.0) THEN
+      IF(IPARIT==0) THEN
         ITSK = OMP_GET_THREAD_NUM()
 
 C-----------------------------------------------------------

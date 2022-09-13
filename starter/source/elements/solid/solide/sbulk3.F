@@ -84,11 +84,11 @@ C
       DATA IPERM202/0,0,0,0,0,0,0,0,2,3,4,1,5,6,7,8,6,7,8,5/
 C-----------------------------------------------------------------------
 C
-      IF(NNC.EQ.6) GOTO 60
-      IF(NNC.EQ.8) GOTO 80
-      IF(NNC.EQ.10)GOTO 100
-      IF(NNC.EQ.16)GOTO 160
-      IF(NNC.EQ.20)GOTO 200
+      IF(NNC==6) GOTO 60
+      IF(NNC==8) GOTO 80
+      IF(NNC==10)GOTO 100
+      IF(NNC==16)GOTO 160
+      IF(NNC==20)GOTO 200
 C 
 C     4 nodes tetrahedra
       DO I=LFT,LLT
@@ -166,7 +166,7 @@ C     10 nodes tetrahedra :
        BNS(6,I)=CV1
        BNS(5,I)=CV1
        DO N=5,10         
-         IF(NC(I,N).NE.0)THEN
+         IF(NC(I,N)/=0)THEN
            VNSX(N-4,I)=AV2
            BNSX(N-4,I)=CV2
          ELSE
@@ -207,7 +207,7 @@ C     16 nodes thick shells :
        BNS(7,I)=CV1
        BNS(8,I)=CV1
        DO N=9,16        
-         IF(NC(I,N).NE.0)THEN
+         IF(NC(I,N)/=0)THEN
            VNSX(N-4,I)=AV2
            BNSX(N-4,I)=CV2
          ELSE
@@ -247,7 +247,7 @@ C     20 nodes bricks :
        BNS(7,I)=CV1
        BNS(8,I)=CV1
        DO N=9,20        
-         IF(NC(I,N).NE.0)THEN
+         IF(NC(I,N)/=0)THEN
            VNSX(N-4,I)=AV2
            BNSX(N-4,I)=CV2
          ELSE

@@ -164,7 +164,7 @@ C!  Initialization
 C-----------------------------------------------
        IF(FLAG_PERTURB == 0) THEN
          DO I =1,NEL
-           IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) .EQ. 1 ) THEN
+           IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) == 1 ) THEN
              hydros= (SIGNXX(I)+ SIGNYY(I))/3.0
              vmises= sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3.0*SIGNXY(I)**2))
              triaxs = hydros / MAX(EM20,vmises)
@@ -243,13 +243,13 @@ C-----------------------------------------------
              DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
              DFMAX(I) = MIN(ONE,DFMAX(I))
            
-           IF (OFFL(I).EQ.1. .AND. DFMAX(I).GE.1.0) THEN
+           IF (OFFL(I)==1. .AND. DFMAX(I)>=1.0) THEN
              FOFF(I)       = 0
              NINDX1        = NINDX1 + 1
              INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE .GE. ONE .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. ONE) THEN
+           IF (DAMAGE >= ONE .AND. UVAR(I,2) == ZERO .AND. OFFL(I) == ONE) THEN
              UVAR(I,2) = ONE  
              UEL1(I)   = UEL1(I) + ONE
              IF (INT(UEL1(I)) == NPTOT) THEN
@@ -268,7 +268,7 @@ C-----------------------------------------------
          ENDDO
        ELSEIF(FLAG_PERTURB == 1) THEN
          DO I =1,NEL
-           IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) .EQ. 1 ) THEN
+           IF(OFF(I) == ONE .AND. DPLA(I) /= ZERO .AND. FOFF(I) == 1 ) THEN
            hydros= (SIGNXX(I)+ SIGNYY(I))/3.0
            vmises= sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3.0*SIGNXY(I)**2))
            triaxs = hydros / MAX(EM20,vmises)
@@ -347,13 +347,13 @@ C-----------------------------------------------
              DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
              DFMAX(I) = MIN(ONE,DFMAX(I))
              
-           IF (OFFL(I).EQ.1. .AND. DFMAX(I).GE.1.0) THEN
+           IF (OFFL(I)==1. .AND. DFMAX(I)>=1.0) THEN
              FOFF(I)       = 0
              NINDX1        = NINDX1 + 1
              INDX1(NINDX1) = I  
            ENDIF
            
-           IF (DAMAGE .GT. ONE .AND. UVAR(I,2) .EQ. ZERO .AND. OFFL(I) .EQ. ONE) THEN
+           IF (DAMAGE > ONE .AND. UVAR(I,2) == ZERO .AND. OFFL(I) == ONE) THEN
              UVAR(I,2) = ONE   
              UEL1(I)   = UEL1(I) + ONE
              IF (INT(UEL1(I)) == NPTOT) THEN

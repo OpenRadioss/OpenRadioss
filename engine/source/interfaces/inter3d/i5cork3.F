@@ -151,7 +151,7 @@ C
        IL=I+NFT
        IG=NSV(IL)
        L=IRTL(IL)
-       IF (ANS(I).LT.ZERO) THEN
+       IF (ANS(I)<ZERO) THEN
         J = J + 1
         NS_IMP(J+NUM_IMP)=IL
         NE_IMP(J+NUM_IMP)=L

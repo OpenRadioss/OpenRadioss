@@ -1186,20 +1186,20 @@ C----
       ENDIF ! IF (IS_ENCRYPTED)
 C-----------------------------
       IF (FLGCHK  ==  1) THEN
-        IF ((CHECK(1,2).NE.CHECK(1,3)).OR.
-     .      (CHECK(2,2).NE.CHECK(2,3)).OR.
-     .      (CHECK(3,2).NE.CHECK(3,3)).OR.
-     .      (CHECK(6,2).NE.CHECK(6,3)).OR.
-     .      (CHECK(10,2).NE.CHECK(10,3)).OR.
-     .      (CHECK(11,2).NE.CHECK(11,3)).OR.
-     .      (CHECK(13,2).NE.CHECK(13,3)).OR.
-     .      (CHECK(1,5).NE.CHECK(1,6)).OR.
-     .      (CHECK(2,5).NE.CHECK(2,6)).OR.
-     .      (CHECK(3,5).NE.CHECK(3,6)).OR.
-     .      (CHECK(6,5).NE.CHECK(6,6)).OR.
-     .      (CHECK(10,5).NE.CHECK(10,6)).OR.
-     .      (CHECK(11,5).NE.CHECK(11,6)).OR.
-     .      (CHECK(13,5).NE.CHECK(13,6))) THEN
+        IF ((CHECK(1,2)/=CHECK(1,3)).OR.
+     .      (CHECK(2,2)/=CHECK(2,3)).OR.
+     .      (CHECK(3,2)/=CHECK(3,3)).OR.
+     .      (CHECK(6,2)/=CHECK(6,3)).OR.
+     .      (CHECK(10,2)/=CHECK(10,3)).OR.
+     .      (CHECK(11,2)/=CHECK(11,3)).OR.
+     .      (CHECK(13,2)/=CHECK(13,3)).OR.
+     .      (CHECK(1,5)/=CHECK(1,6)).OR.
+     .      (CHECK(2,5)/=CHECK(2,6)).OR.
+     .      (CHECK(3,5)/=CHECK(3,6)).OR.
+     .      (CHECK(6,5)/=CHECK(6,6)).OR.
+     .      (CHECK(10,5)/=CHECK(10,6)).OR.
+     .      (CHECK(11,5)/=CHECK(11,6)).OR.
+     .      (CHECK(13,5)/=CHECK(13,6))) THEN
           CALL ANCMSG(MSGID=462,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_2,

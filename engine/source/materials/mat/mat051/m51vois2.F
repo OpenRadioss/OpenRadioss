@@ -100,8 +100,8 @@ C-----------------------------------------------
         IVOI  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
         ML    = 51
         IFORM = 1000
-        IF(IVOI.NE.0)THEN
-          IF(IVOI.LE.NUMELQ)THEN
+        IF(IVOI/=0)THEN
+          IF(IVOI<=NUMELQ)THEN
             ML     = NINT(PM(19,IXQ(1,IVOI))) 
             IADBUF = IPM(7,IXQ(1,IVOI))
             IF(ML==51)IFORM  = BUFMAT(IADBUF+31-1)     !si voisin est materiau 51 alors on recupere UPARAM(31)=IFLG (IFLG=0,1 pour IFROM=0,1ou10)
@@ -147,7 +147,7 @@ C-----------------------------------------------
              VDZ(I)=VDZ(I)-HALF*(W(3,IX1)+W(3,IX2))        
          ENDIF
          VD2(I)=VDY(I)**2+VDZ(I)**2
-         IF(VDY(I)*ZN+VDZ(I)*YN.LE.ZERO)THEN
+         IF(VDY(I)*ZN+VDZ(I)*YN<=ZERO)THEN
            VDY(I)=ZERO
            VDZ(I)=ZERO
          ENDIF
@@ -158,18 +158,18 @@ C-----------------------------------------------
          VN2=V(2,IX2)*YN+V(3,IX2)*ZN
          VEL(I)=(MIN(VN1,VN2))**2                                        
          VN(I)=HALF*(VN1+VN2)                                      
-         IF(VN(I).GE.ZERO)VEL(I)=ZERO                                                                             
+         IF(VN(I)>=ZERO)VEL(I)=ZERO                                                                             
 
-        IF(IVOI.LE.NUMELQ)THEN
+        IF(IVOI<=NUMELQ)THEN
           !element du processeur                           
  	  DO N=1,NGROUP                                    
  	     KTY = IPARG(5,N)                              
  	     KLT = IPARG(2,N)                              
  	     MFT = IPARG(3,N)                              
- 	     IF (KTY.EQ.2 .AND. IVOI.LE.KLT+MFT) EXIT      
+ 	     IF (KTY==2 .AND. IVOI<=KLT+MFT) EXIT      
  	  ENDDO                                            
 
- 	  IF (KTY.NE.2 .OR. IVOI.GT.KLT+MFT) CYCLE
+ 	  IF (KTY/=2 .OR. IVOI>KLT+MFT) CYCLE
           GBUF  => ELBUF_TAB(N)%GBUF
           LBUF  => ELBUF_TAB(N)%BUFLY(1)%LBUF(1,1,1)
           MBUF  => ELBUF_TAB(N)%BUFLY(1)%MAT(1,1,1)
@@ -226,7 +226,7 @@ C-----------------------------------------------
           RHO0V(4,I) = BUFMAT(IADBUF+47-1)  !UPARAM(47) = RHO40                  
           RHO0V(0,I) = BUFMAT(IADBUF+69-1)  !UPARAM(69) = RHO0
                                                  
-        ELSE !(IVOI.GT.NUMELQ)
+        ELSE !(IVOI>NUMELQ)
 
           !cas SPMD et voisin remote : aller chercher dans BUFVOIS
           !BUFVOIS rempli dans ALEMAIN (spmf_cfd.F : SPMD_L51VOIS)

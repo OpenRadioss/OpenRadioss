@@ -286,9 +286,9 @@ C=======================================================================
 
       ISMSTR  = IPARG(9,NG)     
 
-      IF(ITY.EQ.1.OR.ITY.EQ.2)THEN
+      IF(ITY==1.OR.ITY==2)THEN
          JEUL    = IPARG(11,NG) 
-      ELSEIF (MTN .EQ. 151 .AND. ITY .EQ. 7) THEN
+      ELSEIF (MTN == 151 .AND. ITY == 7) THEN
          JEUL    = IPARG(11,NG) 
       ELSE             ! attention dkt9_s3 utilise ce flag
          JEUL    = 0

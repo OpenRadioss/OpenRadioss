@@ -176,8 +176,8 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 350
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 350
+        IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
           OFFSET = NELEM - 1
           NEL   =IPARG(2,NG)
@@ -187,7 +187,7 @@ C
           IPRTSPH=IPARG(69,NG)
           LFT=1
           LLT=MIN(NVSIZ,NEL-NELEM+1)
-          IF(ITY.EQ.1.AND.IPRTSPH.NE.0) THEN
+          IF(ITY==1.AND.IPRTSPH/=0) THEN
 C-----------
             GBUF => ELBUF_TAB(NG)%GBUF
             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -195,11 +195,11 @@ C-----------
 C-----
 C----TETRA---     
 C-----
-            IF (IPARG(28,NG).EQ.4) THEN
+            IF (IPARG(28,NG)==4) THEN
 C-----
             DO I=LFT,LLT
               N=NFT+I
-              IF(GBUF%OFF(I).NE.ZERO) THEN
+              IF(GBUF%OFF(I)/=ZERO) THEN
 C
                 N1=IXS(2,N)
                 N2=IXS(3,N)
@@ -256,7 +256,7 @@ C----HEXA---
 C-----
             DO I=LFT,LLT
               N=NFT+I
-              IF(GBUF%OFF(I).NE.ZERO) THEN
+              IF(GBUF%OFF(I)/=ZERO) THEN
 C
                 N1=IXS(2,N)
                 N2=IXS(3,N)
@@ -333,7 +333,7 @@ C
 C--------
             ENDIF
           ENDIF
-          IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+          IF (IDDW>0) CALL STOPTIMEG(NG)
         END DO
 C--------
  350    CONTINUE
@@ -372,12 +372,12 @@ C
               NISKYL = NISKY
               NISKY = NISKY + 8
 #include "lockoff.inc"
-              IF (NISKYL+8 .GT. LSKYI) THEN
+              IF (NISKYL+8 > LSKYI) THEN
                  CALL ANCMSG(MSGID=243,ANMODE=ANINFO_BLIND)
                  CALL ARRET(2)
               ENDIF
 C
-              IF (SOL2SPH_TYP(SPH2SOL(NP)).EQ.4) THEN
+              IF (SOL2SPH_TYP(SPH2SOL(NP))==4) THEN
 C---------------
 C------ Tetra -- 
 C---------------
@@ -617,12 +617,12 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUNC
         NG = IGROUNC(IG)         
-        IF(IPARG(8,NG).EQ.1)GOTO 300
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)
+        IF(IPARG(8,NG)==1)GOTO 300
+        IF (IDDW>0) CALL STARTIMEG(NG)
         OFFSET  = 0
         ITY     = IPARG(5,NG)
         IPARTSPH= IPARG(69,NG)
-        IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+        IF(ITY==1.AND.IPARTSPH/=0) THEN
 C
 C---
           CALL INITBUF (IPARG    ,NG      ,                              
@@ -651,13 +651,13 @@ C-----------
      .                  JR0,JS0,JT0,NEL)
 C
 C----------- HEPH -------
-          IF (JHBE.EQ.24) THEN
+          IF (JHBE==24) THEN
 C------------------------
           SIG_HEPH(1:MVSIZ,1:6,1:7) = ZERO
           CALL SIG_HEPH1(JR0     ,JS0  ,JT0  ,GBUF%SIG  ,GBUF%HOURG,
      .                   SIG_HEPH,PM   ,IXS  ,II        ,NEL       )          
 C
-          IF(ISORTH.EQ.0)THEN
+          IF(ISORTH==0)THEN
            DO J=1,7
            DO I=LFT,LLT
 C hourglass stress in corotational system
@@ -713,12 +713,12 @@ C hourglass stress in orthotropic system
            END DO
            ENDIF
 C----------- HA8  -------
-          ELSEIF (JHBE.EQ.14) THEN
+          ELSEIF (JHBE==14) THEN
 C------------------------
           NPTR   = ELBUF_TAB(NG)%NPTR
           NPTS   = ELBUF_TAB(NG)%NPTS
           NPTT   = ELBUF_TAB(NG)%NPTT
-          IF(ISORTH.EQ.0)THEN
+          IF(ISORTH==0)THEN
            DO IR=1,NPTR
            DO IS=1,NPTS
            DO IT=1,NPTT
@@ -1065,7 +1065,7 @@ C             TENSOR wrt ORTHOTROPIC SYSTEM
           END IF
 C-----------
           DO I=LFT,LLT
-            IF(GBUF%OFF(I).EQ.ZERO) CYCLE
+            IF(GBUF%OFF(I)==ZERO) CYCLE
             N=NFT+I
 C
 C           SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
@@ -1090,7 +1090,7 @@ C
 C
 C             group was not computed 
 C             (there is no cloud active particle within the group)
-C             IF(IPARG(8,MG).EQ.1)CYCLE
+C             IF(IPARG(8,MG)==1)CYCLE
 C
               GBUFSP%EINT(J)        =GBUF%EINT(I)
 C
@@ -1100,7 +1100,7 @@ C
               ENDDO
 !
 C-----------
-              IF (JHBE.EQ.14) THEN
+              IF (JHBE==14) THEN
 C HA8 stress
                 IR=IRST(1,NP-FIRST_SPHSOL+1)
                 IS=IRST(2,NP-FIRST_SPHSOL+1)
@@ -1108,7 +1108,7 @@ C HA8 stress
                 DO K=1,6
                   GBUFSP%SIG(JJ(K)+J)=SIG_HA8(I,IR,IS,IT,K)
                 ENDDO
-              ELSEIF (JHBE.EQ.24) THEN
+              ELSEIF (JHBE==24) THEN
 C Hourglass stress contribution for HEPH
                 IR=IRST(1,NP-FIRST_SPHSOL+1)
                 IS=IRST(2,NP-FIRST_SPHSOL+1)
@@ -1255,7 +1255,7 @@ C-----------
             ENDDO
           ENDDO
         END IF
-        IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+        IF (IDDW>0) CALL STOPTIMEG(NG)
 C--------
  300      CONTINUE
       END DO

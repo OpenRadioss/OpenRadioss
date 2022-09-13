@@ -116,13 +116,13 @@ C-----------------------------------------------
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
 C-----------------------------------------------
-      IF (DT1.EQ.ZERO) THEN
+      IF (DT1==ZERO) THEN
         DT1INV=ZERO
       ELSE
         DT1INV=ONE/DT1
       END IF
 C-----------------------------------------------
-      IF (IPARIT.NE.0) THEN
+      IF (IPARIT/=0) THEN
 #include "lockon.inc"
         NISKYL = NISKY
         NISKY  = NISKY + NSC + NSP
@@ -161,11 +161,11 @@ C---------------------------------
 C----------------------------------------------------------
 C     MOMENTS ET STABILITE.
 C----------------------------------------------------------
-      IF(KDTINT.EQ.0)THEN
+      IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSC(I+NDEB)
         IN=KSI(IL)
-        IF(IMPACT(IL).GT.0)THEN
+        IF(IMPACT(IL)>0)THEN
          ST(I)=STF+TWO*WST(IN)*DT1INV
         ELSE
          ST(I)=ZERO
@@ -175,7 +175,7 @@ C----------------------------------------------------------
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSC(I+NDEB)
         IN=KSI(IL)
-        IF(IMPACT(IL).GT.0)THEN
+        IF(IMPACT(IL)>0)THEN
          ST(I)=STF+WST(IN)*DT1INV
         ELSE
          ST(I)=ZERO
@@ -215,11 +215,11 @@ C        est majore par :
 C---------------------------------
       ENDDO
 C----------------------------------------------------------
-      IF(KDTINT.NE.0)THEN
+      IF(KDTINT/=0)THEN
        DO I=1,MIN(MVSIZ,NREST)
         IL=KSC(I+NDEB)
         IN=KSI(IL)
-        IF(IMPACT(IL).GT.0)THEN
+        IF(IMPACT(IL)>0)THEN
          ST(I)=STF
         ELSE
          ST(I)=ZERO
@@ -229,7 +229,7 @@ C----------------------------------------------------------
 C---------------------------------
 C     Assemblage des FORCES aux noeuds seconds.
 C---------------------------------
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
 C-----------------------------------------------
 #include "vectorize.inc"
       DO I=1,MIN(MVSIZ,NREST)
@@ -246,7 +246,7 @@ C      Stabilite
        ENDDO
       ELSE
 C-----------------------------------------------
-      IF(KDTINT.EQ.0)THEN
+      IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
        IL=KSC(I+NDEB)
        IN=KSI(IL)
@@ -278,9 +278,9 @@ C 2C dans modsti        FSKYI(NISKYL,5)=2.*WST(IN)
 C------------------------------------------------------------
 C     ANIM (FORCES DE CONTACT).
 C------------------------------------------------------------
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
 #include "vectorize.inc"
         DO I=1,MIN(MVSIZ,NREST)
@@ -305,7 +305,7 @@ C---------------------------------
 C---------------------------------
 C     Groupe suivant.
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 50
@@ -344,7 +344,7 @@ C----------------------------------------------------------
 C     Coefficient de Frottement :
 C     MU=F(FORCE NORMALE LOCALE).
 C----------------------------------------------------------
-      IF (NFRIC.EQ.0) THEN
+      IF (NFRIC==0) THEN
        DO I=1,MIN(MVSIZ,NREST)
         KFRIC(I)=FRIC
        ENDDO
@@ -426,13 +426,13 @@ C     nouvelle normale.
 C-------------------------------
       XPVN1 =XQ(1,I)**(DGR-1)
       SGNXN=-ONE
-      IF (XPVN1*XQ(1,I).GE.ZERO) SGNXN=ONE
+      IF (XPVN1*XQ(1,I)>=ZERO) SGNXN=ONE
       YPVN1 =XQ(2,I)**(DGR-1)
       SGNYN=-ONE
-      IF (YPVN1*XQ(2,I).GE.ZERO) SGNYN=ONE
+      IF (YPVN1*XQ(2,I)>=ZERO) SGNYN=ONE
       ZPVN1 =XQ(3,I)**(DGR-1)
       SGNZN=-ONE
-      IF (ZPVN1*XQ(3,I).GE.ZERO) SGNZN=ONE     
+      IF (ZPVN1*XQ(3,I)>=ZERO) SGNZN=ONE     
       N1 =SGNXN*XPVN1*AN
       N2 =SGNYN*YPVN1*BN
       N3 =SGNZN*ZPVN1*CN
@@ -509,7 +509,7 @@ C---------------------------------
 C----------------------------------------------------------
 C     MOMENTS ET STABILITE.
 C----------------------------------------------------------
-      IF(KDTINT.EQ.0)THEN
+      IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
        IL=KSP(I+NDEB)
        IN=KSI(IL)
@@ -557,7 +557,7 @@ C---------------------------------
 C---------------------------------
 C     Assemblage des FORCES aux noeuds seconds.
 C---------------------------------
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
 C-----------------------------------------------
 #include "vectorize.inc"
       DO I=1,MIN(MVSIZ,NREST)
@@ -574,7 +574,7 @@ C      Stabilite
        ENDDO
       ELSE
 C-----------------------------------------------
-      IF(KDTINT.EQ.0)THEN
+      IF(KDTINT==0)THEN
        DO I=1,MIN(MVSIZ,NREST)
        IL=KSP(I+NDEB)
        IN=KSI(IL)
@@ -606,9 +606,9 @@ C 2C dans modsti        FSKYI(NISKYL,5)=2.*WST(IN)
 C------------------------------------------------------------
 C     ANIM (FORCES DE CONTACT).
 C------------------------------------------------------------
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 #include "lockon.inc"
 #include "vectorize.inc"
         DO I=1,MIN(MVSIZ,NREST)
@@ -633,7 +633,7 @@ C---------------------------------
 C---------------------------------
 C     Groupe suivant.
 C---------------------------------
-      IF (NREST-MVSIZ.GT.0) THEN
+      IF (NREST-MVSIZ>0) THEN
         NREST=NREST-MVSIZ
         NDEB =NDEB +MVSIZ
         GOTO 100
@@ -642,7 +642,7 @@ C---------------------------------
 C     Travail des forces d'interface avec Madymo.
 C---------------------------------
       FS(7)=FS(7)+DE*DT1*HALF
-      IF (IGRSURF(KSURF)%TYPE.EQ.100) THEN
+      IF (IGRSURF(KSURF)%TYPE==100) THEN
 C     Sorties Ellipdoides Madymo.
 #include "atomic.inc"
           TFEXT=TFEXT+DE*DT1*HALF

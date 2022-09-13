@@ -117,7 +117,7 @@ C
        SIG(I,6)=SIG(I,6)+G1(I)*D6(I)
       ENDDO
 
-      IF (JSPH.EQ.0)THEN
+      IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO    ,BID1   ,BID2    ,SSP    ,
      2        BID3    ,STIFN   ,DT2T   ,NELTST ,ITYPTST ,AIRE   ,
      3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2     ,DELTAX , 
@@ -254,7 +254,7 @@ C
        DAV=-THIRD*(D1(I)+D2(I)+D3(I))
       ENDDO
 
-      IF (JSPH.EQ.0)THEN
+      IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO    ,BID1   ,BID2    ,SSP    ,
      2        BID3    ,STIFN   ,DT2T   ,NELTST ,ITYPTST ,AIRE   ,
      3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2     ,DELTAX ,
@@ -524,7 +524,7 @@ C--------switch to Ismstr11
           END IF !(JCVT>0) THEN
         END IF !(NLAR < LLT)
 
-      ELSEIF (ISMSTR.EQ.11) THEN
+      ELSEIF (ISMSTR==11) THEN
           DO I=LFT,LLT
             ES1(I)=MFXX(I)
             ES2(I)=MFYY(I)
@@ -595,7 +595,7 @@ C--------switch to Ismstr11
         ENDDO
       END IF
 C
-      IF (JSPH.EQ.0)THEN
+      IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO     ,BID1    ,BID2    ,SSP ,
      2        BID3    ,STIFN   ,DT2T    ,NELTST  ,ITYPTST ,AIRE  ,
      3        OFFG    ,GEO     ,PID     ,VNEW    ,VD2     ,DELTAX ,
@@ -683,7 +683,7 @@ C--------- [B]=[F][F]^t -1 strain-----
       ENDDO
 C
 C         for a simple precision executing
-c      IF (IRESP.EQ.1) THEN
+c      IF (IRESP==1) THEN
 c        CALL VALPVECDP(AV,EVV,DIRPRV,NEL)
 c      ELSE
 c        CALL VALPVEC(AV,EVV,DIRPRV,NEL)

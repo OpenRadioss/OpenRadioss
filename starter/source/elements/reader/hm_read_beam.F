@@ -138,22 +138,22 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_BEAM(I) .NE. 0)THEN
-          IF(IPARTP(I) .NE. 0) IPARTP(I) = IPARTP(I) + OFF_PART(SUB_BEAM(I)) 
-          IF(IXP(NIXP,I) .NE. 0) IXP(NIXP,I) = IXP(NIXP,I) + OFF_EL(SUB_BEAM(I))
+        IF(SUB_BEAM(I) /= 0)THEN
+          IF(IPARTP(I) /= 0) IPARTP(I) = IPARTP(I) + OFF_PART(SUB_BEAM(I)) 
+          IF(IXP(NIXP,I) /= 0) IXP(NIXP,I) = IXP(NIXP,I) + OFF_EL(SUB_BEAM(I))
           DO J=2,5
-            IF(IXP(J,I) .NE. 0) IXP(J,I) = IXP(J,I) + OFF_NOD(SUB_BEAM(I))
+            IF(IXP(J,I) /= 0) IXP(J,I) = IXP(J,I) + OFF_NOD(SUB_BEAM(I))
           ENDDO
         ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) .NE. IPARTP(I) )THEN  
+        IF( IPART(4,INDEX_PART) /= IPARTP(I) )THEN  
           DO J=1,NPART                            
-            IF(IPART(4,J).EQ. IPARTP(I) ) INDEX_PART = J            
+            IF(IPART(4,J)== IPARTP(I) ) INDEX_PART = J            
           ENDDO  
         ENDIF
-        IF(IPART(4,INDEX_PART) .NE. IPARTP(I)) THEN
+        IF(IPART(4,INDEX_PART) /= IPARTP(I)) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -168,7 +168,7 @@ C--------------------------------------------------
         IPID=IPART(2,INDEX_PART)  
         IXP(1,I)=MT                               
         IXP(5,I)=IPID 
-        IF (IXP(6,I).GT.ID_LIMIT) THEN               
+        IF (IXP(6,I)>ID_LIMIT) THEN               
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXP(6,I),C1=LINE,C2='/BEAM')
         ENDIF
@@ -215,7 +215,7 @@ C-------------------------------------
         IF(N4>0)N4=ITAB(N4)                
         WRITE (IOUT,'(7(I10,1X))')I,IXP(6,I),MID,PID,N2,N3,N4
       ENDDO
-      IF(I2.EQ.NUMELP)GOTO 200
+      IF(I2==NUMELP)GOTO 200
       I1=I1+50
       I2=MIN0(I2+50,NUMELP)
       GOTO 90

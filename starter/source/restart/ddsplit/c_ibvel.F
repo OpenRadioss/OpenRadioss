@@ -73,7 +73,7 @@ C
       ENDDO
 C
       LLBVEL_L = ILP
-      IF(IPARI0.NE.0) NSKYRBM_L = LLBVEL_L
+      IF(IPARI0/=0) NSKYRBM_L = LLBVEL_L
 C
       RETURN
       END

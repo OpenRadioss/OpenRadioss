@@ -179,7 +179,7 @@ C
       END DO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           NNX(I,5)=FOURTH*(NNX(I,1)+NNX(I,2)+NNX(I,3)+NNX(I,4))
           NNY(I,5)=FOURTH*(NNY(I,1)+NNY(I,2)+NNY(I,3)+NNY(I,4))
           NNZ(I,5)=FOURTH*(NNZ(I,1)+NNZ(I,2)+NNZ(I,3)+NNZ(I,4))

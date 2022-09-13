@@ -71,12 +71,12 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C     PART                                                              
 C-----------------------------------------------                        
-      IF(NUMELP + NUMELT + NUMELR.NE.0)THEN                             
+      IF(NUMELP + NUMELT + NUMELR/=0)THEN                             
       JJ = 0                                                            
       DO 500 IPRT=1,NPART                                               
-       IF(MATER(IPRT).NE.3)GOTO 500                                     
-       IF(NUMELX.GT.0)THEN                                              
-         IF(NFACPTX(1,IPRT).GT.0)GOTO 500                               
+       IF(MATER(IPRT)/=3)GOTO 500                                     
+       IF(NUMELX>0)THEN                                              
+         IF(NFACPTX(1,IPRT)>0)GOTO 500                               
        ENDIF                                                            
        NPAR = NPAR + 1                                                  
        DO 490 NG=1,NGROUP                                               
@@ -90,10 +90,10 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       TRUSS                                                           
 C-----------------------------------------------                        
-        IF(ITY.EQ.4)THEN                                                
+        IF(ITY==4)THEN                                                
          DO 140 I=LFT,LLT                                               
           N = I + NFT                                                   
-          IF(IPARTT(N).NE.IPRT)GOTO 140                                 
+          IF(IPARTT(N)/=IPRT)GOTO 140                                 
           II(1) = IXT(2,N)-1                                            
           II(2) = IXT(3,N)-1                                            
           CALL WRITE_I_C(II,2)                                          
@@ -104,10 +104,10 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       POUTRES                                                         
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.5)THEN                                            
+        ELSEIF(ITY==5)THEN                                            
          DO 150 I=LFT,LLT                                               
           N = I + NFT                                                   
-          IF(IPARTP(N).NE.IPRT)GOTO 150                                 
+          IF(IPARTP(N)/=IPRT)GOTO 150                                 
           II(1) = IXP(2,N)-1                                            
           II(2) = IXP(3,N)-1                                            
           CALL WRITE_I_C(II,2)                                          
@@ -118,17 +118,17 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       RESSORTS                                                        
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.6)THEN                                            
+        ELSEIF(ITY==6)THEN                                            
          DO 160 I=LFT,LLT                                               
           N = I + NFT                                                   
-          IF(IPARTR(N).NE.IPRT)GOTO 160                                 
+          IF(IPARTR(N)/=IPRT)GOTO 160                                 
           II(1) = IXR(2,N)-1                                            
           II(2) = IXR(3,N)-1                                            
           CALL WRITE_I_C(II,2)                                          
           IE = IE + 1                                                   
           EL2FA(NN8+N) = IE                                             
           JJ = JJ + 2                                                   
-          IF(MTN.EQ.3)THEN                                              
+          IF(MTN==3)THEN                                              
             II(1) = IXR(3,N)-1                                          
             II(2) = IXR(4,N)-1                                          
             CALL WRITE_I_C(II,2)                                        
@@ -148,11 +148,11 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C     X-ELEMENTS PARTS ARE WRITTEN AFTER ALL (BUT RBODIES) 1D PARTS.   
 C-----------------------------------------------                        
-      IF (NANIM1D.GT.0) THEN                                            
+      IF (NANIM1D>0) THEN                                            
       NAX1D=0                                                           
       DO 600 IPRT=1,NPART                                               
-       IF(MATER(IPRT).NE.3)GOTO 600                                     
-       IF(NFACPTX(1,IPRT).NE.0) THEN                                    
+       IF(MATER(IPRT)/=3)GOTO 600                                     
+       IF(NFACPTX(1,IPRT)/=0) THEN                                    
          NPAR = NPAR + 1                                                
          DO J=1,NFACPTX(1,IPRT)                                         
           II(1)=IXEDGE(1,NAX1D+J)-1                                     

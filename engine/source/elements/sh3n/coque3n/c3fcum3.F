@@ -69,7 +69,7 @@ C               POUR ISIGI = 5 OU -5
 C     CHANGEMENT DE REPERE DE FZERO POUR TT=DT1
 C          REPERE GLOBAL ---> REPERE LOCAL
 C-----------------------------------------------
-      IF(IABS(ISIGI).EQ.5.AND.NCYCLE.EQ.1.AND.IRUN.EQ.1) THEN
+      IF(IABS(ISIGI)==5.AND.NCYCLE==1.AND.IRUN==1) THEN
         DO I=JFT,JLT
           DO J=1,3
             TEMP1=FZERO(1,J,I)
@@ -86,8 +86,8 @@ C               POUR ISIGI = 5 OU -5
 C     PRISE EN COMPTE DES FORCES D EQUILIBRAGE
 C      DANS L EVALUATION DES EFFORTS INTERNES
 C-----------------------------------------------
-      IF((IABS(ISIGI).EQ.5.AND.NCYCLE.GE.1.AND.IRUN.EQ.1).OR.
-     .   (IABS(ISIGI).EQ.5.AND.IRUN.GT.1)) THEN
+      IF((IABS(ISIGI)==5.AND.NCYCLE>=1.AND.IRUN==1).OR.
+     .   (IABS(ISIGI)==5.AND.IRUN>1)) THEN
         DO I=JFT,JLT
           G11 = F11(I)+FZERO(1,1,I)
           G21 = F21(I)+FZERO(2,1,I)
@@ -109,7 +109,7 @@ C-----------------------------------------------
           F33(I) = E1Z(I)*G13 + E2Z(I)*G23 + E3Z(I)*G33
         ENDDO
       ENDIF
-      IF(IABS(ISIGI).NE.5.OR.TT.EQ.0) THEN
+      IF(IABS(ISIGI)/=5.OR.TT==0) THEN
         DO I=JFT,JLT
     	  G11 = F11(I)
     	  G21 = F21(I)

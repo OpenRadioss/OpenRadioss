@@ -83,17 +83,17 @@ c     norme r s t
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 50 I=LFT,LLT
       aa = sqrt(ux(I)*ux(I) + uy(I)*uy(I) + uz(I)*uz(I))
-      if ( aa.ne.ZERO) aa = ONE/ aa
+      if ( aa/=ZERO) aa = ONE/ aa
       ux(I) = ux(I) * aa
       uy(I) = uy(I) * aa
       uz(I) = uz(I) * aa
       aa = sqrt(vx(I)*vx(I) + vy(I)*vy(I) + vz(I)*vz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       vx(I) = vx(I) * aa
       vy(I) = vy(I) * aa
       vz(I) = vz(I) * aa
       aa = sqrt(wx(I)*wx(I) + wy(I)*wy(I) + wz(I)*wz(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       wx(I) = wx(I) * aa
       wy(I) = wy(I) * aa
       wz(I) = wz(I) * aa
@@ -119,25 +119,25 @@ c
        e3z(I) = ux(I) * vy(I) - uy(I) * vx(I) + wz(I)
 c
        bb = sqrt(e1x(I)*e1x(I) + e1y(I)*e1y(I) + e1z(I)*e1z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        ux(I) = e1x(I) * bb
        uy(I) = e1y(I) * bb
        uz(I) = e1z(I) * bb
 c
        bb = sqrt(e2x(I)*e2x(I) + e2y(I)*e2y(I) + e2z(I)*e2z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        vx(I) = e2x(I) * bb
        vy(I) = e2y(I) * bb
        vz(I) = e2z(I) * bb
 c
        bb = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-       if ( bb.ne.ZERO) bb = ONE / bb
+       if ( bb/=ZERO) bb = ONE / bb
        wx(I) = e3x(I) * bb
        wy(I) = e3y(I) * bb
        wz(I) = e3z(I) * bb
 c
  100  CONTINUE
-      IF (N.LT.NITER) GOTO 111
+      IF (N<NITER) GOTO 111
 c     norme et orthogonalisation
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 200 I=LFT,LLT
@@ -150,7 +150,7 @@ c
       e3z(I) = e1x(I) * vy(I) - e1y(I) * vx(I)
 c
       aa = sqrt(e3x(I)*e3x(I) + e3y(I)*e3y(I) + e3z(I)*e3z(I))
-      if ( aa.ne.ZERO) aa = ONE / aa
+      if ( aa/=ZERO) aa = ONE / aa
       e3x(I) = e3x(I) * aa
       e3y(I) = e3y(I) * aa
       e3z(I) = e3z(I) * aa

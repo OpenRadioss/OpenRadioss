@@ -300,7 +300,7 @@ c
                 TENS(3,EL2FA(NNI+N)) = R4(3)                           
               ENDDO                                                    
             ENDIF ! IF (MLW == 1)
-          ELSEIF (ITENS.GE.101.AND.ITENS.LE.200) THEN                  
+          ELSEIF (ITENS>=101.AND.ITENS<=200) THEN                  
             IF (MLW == 1.OR.MLW == 3.OR.MLW == 23) THEN                  
               DO I=LFT,LLT                                             
                 N = I + NFT                                            
@@ -378,7 +378,7 @@ C-----------------------------------------------
         CALL WRITE_R_C(R4,3)                                            
       ENDDO                                                             
 C-----------------------------------------------                        
-      IF (NELCUT .GT. 0) THEN                                              
+      IF (NELCUT > 0) THEN                                              
         DO I=1,NELCUT                                                   
           CALL WRITE_R_C(R4,3)                                          
         ENDDO                                                           

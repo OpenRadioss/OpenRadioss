@@ -75,15 +75,15 @@ C-----------------------------------------------
         LFT=1                                                           
         LLT=NEL                                                         
 C-----------------------------------------------                        
-        IF(ITY.EQ.51)THEN                                               
+        IF(ITY==51)THEN                                               
 C          PARTICULES SPH.                                              
 C-----------------------------------------------                        
            GBUF => ELBUF_TAB(NG)%GBUF                                                      
            IALEL=IPARG(7,NG)+IPARG(11,NG)                               
            DO I=LFT,LLT                                                 
              N = I + NFT                                                
-             IF(EL2FA(NN1+N).NE.0)THEN                                  
-               IF(IALEL.EQ.0)THEN                                       
+             IF(EL2FA(NN1+N)/=0)THEN                                  
+               IF(IALEL==0)THEN                                       
                  IPRT=IPARTSP(N)                                        
                  MT  =IPART(1,IPRT)                                     
                  VALUE=PM(89,MT)*GBUF%VOL(I)                        

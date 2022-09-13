@@ -167,7 +167,7 @@ C------------------------------------------------------------
 C
 C.....* CHECKS *.....
 C
-      IF(GAP.EQ.0.)GAP=TWO*EM02
+      IF(GAP==0.)GAP=TWO*EM02
 C------------------------------------------------------------
 C  Card3
 C------------------------------------------------------------
@@ -181,8 +181,8 @@ C------------------------------------------------------------
 
 C.....* CHECKS *.....
 
-      IF(HIERA.EQ.0)HIERA=ITIED+1
-      IF(BCOPT.EQ.0)BCOPT=2
+      IF(HIERA==0)HIERA=ITIED+1
+      IF(BCOPT==0)BCOPT=2
       IPARI(26)=HIERA
       NHIN2=MAX(NHIN2,HIERA)
 
@@ -191,7 +191,7 @@ C
 C------------------------------------------------------------
 C  Optional Card4 Card5 Card6 : Transformation parameters 
 C------------------------------------------------------------
-      IF(ITIED.EQ.2)THEN
+      IF(ITIED==2)THEN
          CALL HM_GET_FLOATV('type12_Xc', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_Yc', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('type12_Zc', ZC, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -226,7 +226,7 @@ C------------------------------------------------------------
       FRIGAP(2)=GAP
 
 C FRIGAP 5->14 EST MIS A JOUR DANS IN12R
-      IF(ITIED.EQ.2) THEN
+      IF(ITIED==2) THEN
         FRIGAP(4)=TETA
         FRIGAP(5)=XT
         FRIGAP(6)=YT
@@ -240,15 +240,15 @@ C FRIGAP 5->14 EST MIS A JOUR DANS IN12R
       ELSE
          IPARI(20)=ILEV
          IPARI(21)=0
-         IF(ICENTER.GT.0)THEN
+         IF(ICENTER>0)THEN
            IPARI(22)=USR2SYS(ICENTER,ITABM1,MESS,IPARI(15))
          ELSE
            IPARI(22)=0
          ENDIF
-         IF(ILEV.EQ.1)THEN
-          IF(ISKEW.GT.0)THEN
+         IF(ILEV==1)THEN
+          IF(ISKEW>0)THEN
            DO 640 J=0,NUMSKW
-            IF(ISKEW.EQ.ISKN(4,J+1)) THEN
+            IF(ISKEW==ISKN(4,J+1)) THEN
               ISKEW=J
               GO TO 660
             ENDIF
@@ -258,7 +258,7 @@ C FRIGAP 5->14 EST MIS A JOUR DANS IN12R
  641       FORMAT(' ** ERROR INTERF TYPE 12 WRONG SKEW SYSTEM NUMBER')
            IERR=IERR+1
  660       CONTINUE
-           IF(ISKN(1,J+1).EQ.0)THEN
+           IF(ISKN(1,J+1)==0)THEN
              WRITE(ISTDO,'(a)')'** WARNING INTERFACE 12'
              IWARN=IWARN+1
              WRITE(IOUT,642) ICENTER
@@ -286,33 +286,33 @@ C     PRINTOUT
 C------------------------------------------------------------
 C
         WRITE(IOUT,1512)GAP,ITIED,IPARI(11)
-        IF(IPARI(20).EQ.1)WRITE(IOUT,2512)IPARI(21),ICENTER
-        IF(IPARI(20).EQ.2)WRITE(IOUT,2513)IPARI(21)
-        IF(ITIED.EQ.2) WRITE(IOUT,1513)XT,YT,ZT,XC,YC,ZC,XR,YR,ZR,TETA
+        IF(IPARI(20)==1)WRITE(IOUT,2512)IPARI(21),ICENTER
+        IF(IPARI(20)==2)WRITE(IOUT,2513)IPARI(21)
+        IF(ITIED==2) WRITE(IOUT,1513)XT,YT,ZT,XC,YC,ZC,XR,YR,ZR,TETA
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -326,7 +326,7 @@ C------------
 
 
  1512 FORMAT(//
-     .    '    TYPE.EQ.12  FLUID/FLUID INTERFACE           ' //,
+     .    '    TYPE==12  FLUID/FLUID INTERFACE           ' //,
      .    '    TOLERANCE TO FIND MAIN SEGMENT  . . . . . ',1PG20.13/,
      .    '    ITIED . . . . . . . . . . . . . . . . . . . ',I1/,
      .    '       0: SLIDING (NOVOID)'/,

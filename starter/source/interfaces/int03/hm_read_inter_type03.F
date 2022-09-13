@@ -182,7 +182,7 @@ C
           IDEL3=ABS(IDEL3)
        END IF
        IPARI(61)=IDELKEEP
-       IF (IDEL3.GT.2.OR.N2D.EQ.1) IDEL3 = 0
+       IF (IDEL3>2.OR.N2D==1) IDEL3 = 0
        IPARI(17)=IDEL3
 
 C.......* Storage IPARI FRIGAP *........
@@ -194,7 +194,7 @@ C.......* Storage IPARI FRIGAP *........
 C
 C....* Card2  *.............
 C
-       IF(STFAC.EQ.ZERO) STFAC=ONE_FIFTH
+       IF(STFAC==ZERO) STFAC=ONE_FIFTH
 
        IF (STOPT == ZERO) STOPT = EP30
 
@@ -232,7 +232,7 @@ C------------------------------------------------------------
 C
         WRITE(IOUT,1503)IBC1,IBC2,IBC3,STFAC,FRIC,GAP,STARTT,STOPT,
      .                 IRS,IRM,PTMAX
-        IF(IDEL3.NE.0) THEN
+        IF(IDEL3/=0) THEN
           WRITE(IOUT,'(A,A,I5/)')
      . '    DELETION FLAG ON FAILURE OF ELEMENT',
      . ' (1:YES-ALL/2:YES-ANY) SET TO ',IDEL3
@@ -243,28 +243,28 @@ C
         ENDIF
 
 C--------------------------------------------------------------
-      IF(IS1.EQ.0)THEN
+      IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
-      ELSEIF(IS1.EQ.1)THEN
+      ELSEIF(IS1==1)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.2)THEN
+      ELSEIF(IS1==2)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
-      ELSEIF(IS1.EQ.3)THEN
+      ELSEIF(IS1==3)THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS1.EQ.4 )THEN
+      ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
-      ELSEIF(IS1.EQ.5 )THEN
+      ELSEIF(IS1==5 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
       ENDIF
-      IF(IS2.EQ.0)THEN
+      IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
-      ELSEIF(IS2.EQ.1)THEN
+      ELSEIF(IS2==1)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.2)THEN
+      ELSEIF(IS2==2)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY NODES'
-      ELSEIF(IS2.EQ.3)THEN
+      ELSEIF(IS2==3)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'
-      ELSEIF(IS2.EQ.4)THEN
+      ELSEIF(IS2==4)THEN
         WRITE(IOUT,'(6X,A)')'MAIN SURFACE REFERS ',
      .                      'TO HYPER-ELLIPSOIDAL SURFACE'
       ENDIF
@@ -277,7 +277,7 @@ C------------
       RETURN
 
  1503 FORMAT(//
-     .    '    TYPE.EQ.3   SLIDING AND VOIDS             ' //,
+     .    '    TYPE==3   SLIDING AND VOIDS             ' //,
      .    '    BOUND. COND. DELETED AFTER IMPACT IN X DIR  ',I1/,
      .    '       (1:YES 0:NO)                      Y DIR  ',I1/,
      .    '                                         Z DIR  ',I1/,

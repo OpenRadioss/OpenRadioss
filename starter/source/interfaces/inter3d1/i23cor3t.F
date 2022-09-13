@@ -74,7 +74,7 @@ C
 !      EQUIVALENCE (X4,BV(1,10)),(Y4,BV(1,11)),(Z4,BV(1,12))
 !      EQUIVALENCE (XI,BV(1,13)),(YI,BV(1,14)),(ZI,BV(1,15))
 C-----------------------------------------------
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=LFT,LLT
           GAPV(I)=GAP
         END DO

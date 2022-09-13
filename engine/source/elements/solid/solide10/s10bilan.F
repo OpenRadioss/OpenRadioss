@@ -169,7 +169,7 @@ C
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         N = 1
         DO I=LFT,LLT
           XX(I) =X(I,N)
@@ -296,14 +296,14 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
 C
-      IF(JTUR.NE.0)THEN
+      IF(JTUR/=0)THEN
         DO I=LFT,LLT
          M=IPARTS(I)
          PARTSAV(7,M)=PARTSAV(7,M) + RK(I)*VOL(I)
         ENDDO
       ENDIF
 C
-      IF(IEXPAN.NE.0)THEN
+      IF(IEXPAN/=0)THEN
         DO I=LFT,LLT
          M=IPARTS(I)
          PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)

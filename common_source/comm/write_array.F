@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      !IF (SIZE(ARRAY).LE.0)RETURN
+      !IF (SIZE(ARRAY)<=0)RETURN
       !LB=LBOUND(ARRAY)
       !UB=UBOUND(ARRAY)
       !IF(IDX1<LB)IDX1=LB
@@ -80,13 +80,13 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       NUM=0
       DO I=IDX1,IDX2
-        IF(ARRAY(I).NE.0)NUM=NUM+1
+        IF(ARRAY(I)/=0)NUM=NUM+1
       ENDDO
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NUM
       
       DO I=IDX1,IDX2
-        IF(ARRAY(I).NE.0)THEN
+        IF(ARRAY(I)/=0)THEN
           LVARINT=LVARINT+1
           TABVINT(LVARINT)=I
         ENDIF

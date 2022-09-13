@@ -106,7 +106,7 @@ C-----------------------------------------------
 
       SIZE_NUMELS(1:NSPMD) = 0
 #ifdef MPI 
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
  
       DO I = 1,NUMELS
 !        SDNODG(I) = IXS(NIXS,I)

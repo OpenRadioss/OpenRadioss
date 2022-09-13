@@ -78,7 +78,7 @@ C     At least one card is one char, so we do 1039 / 2 (one char one comma...)
       call getenv ( 'DO_QA', env )
       doqa = 0
 
-      if ( env .ne. 'ON' ) then
+      if ( env /= 'ON' ) then
         return
       endif
 
@@ -96,7 +96,7 @@ C     At least one card is one char, so we do 1039 / 2 (one char one comma...)
 C     In engine step we append print in the extract file, in starter we
 C     create the file from scratch
 
-      if (step(1:LEN_TRIM(step)) .EQ. "engine") then
+      if (step(1:LEN_TRIM(step)) == "engine") then
 
 C       We get the next index value (in the case we are in engine, we want
 C       to continue the id at the following, so read the RD.extract file
@@ -162,7 +162,7 @@ C     If the env variable QAPRINT_LIMIT is defined, we replace the limit
           read(QAPRINT_LIMIT_ENV,'(i12)') qaprint_limit
         endif
 
-        if (qaprint_limit .gt. qaprint_limit_maxx) then
+        if (qaprint_limit > qaprint_limit_maxx) then
           qaprint_limit = qaprint_limit_maxx
         endif
 
@@ -246,7 +246,7 @@ C         enddo
           textout=textin
 
           do i=1,LEN_TRIM(textout)
-              if (textout(i:i) .EQ. ' ') then
+              if (textout(i:i) == ' ') then
                   textout(i:i)='_';
               endif
           enddo     
@@ -282,9 +282,9 @@ C         enddo
       
       qaprint_limit_char = ' '
 
-      if ( doqa .ne. 1  ) return
+      if ( doqa /= 1  ) return
 
-      if (qaid .eq. qaprint_limit) then
+      if (qaid == qaprint_limit) then
 C       We don't go over a specified limit (default or manual set or limit threshold)
         return
       endif
@@ -301,16 +301,16 @@ C       Forcing the id to 0, we don't want to add any name suffix in this case
         id = abs(idin)
       endif
 
-      if ( id .gt. 99999 ) id = 90000 + mod(id,10000)
+      if ( id > 99999 ) id = 90000 + mod(id,10000)
 
 
-      if ( id .eq. 0 ) then
+      if ( id == 0 ) then
         intstart = 6
         siid = ' '
       else
         write (siid,'(i6.6)') id
         intstart = 1
-        if ( id .le. 999 ) intstart = 3
+        if ( id <= 999 ) intstart = 3
         siid(intstart:intstart) = '_'
       endif
 
@@ -318,7 +318,7 @@ C       Forcing the id to 0, we don't want to add any name suffix in this case
       is = 4
 
       rvalue = value  !(i)
-      if ( rvalue .eq. 0.0 ) then
+      if ( rvalue == 0.0 ) then
 !     normalize zero to limit p4 differences between platforms
          srvalue = ' 0.00000'
       else
@@ -329,7 +329,7 @@ C       Replace possible blank char in name (when it comes from array print)
       call blank2underscore(name,name2)
 
 C       We don't go over 9999 lines, this is a default limitation
-      if (qaid .eq. qaprint_limit) then
+      if (qaid == qaprint_limit) then
 
         write(qaprint_limit_char, '(i12)') qaprint_limit
         qaprint_limit_char = ADJUSTL(qaprint_limit_char)
@@ -386,20 +386,20 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       integer ma4cmplx, idx
       data ma4cmplx/-999/
 
-      if ( doqa .ne. 1  ) return
+      if ( doqa /= 1  ) return
 
       qaid = qaid + 1
       
       id = abs(idin)
-      if ( id .gt. 99999 ) id = 90000 + mod(id,10000)
+      if ( id > 99999 ) id = 90000 + mod(id,10000)
 
-      if ( id .eq. 0 ) then
+      if ( id == 0 ) then
         intstart = 6
         siid = ' '
       else
         write (siid,'(i6.6)') id
         intstart = 1
-        if ( id .le. 999 ) intstart = 3
+        if ( id <= 999 ) intstart = 3
         siid(intstart:intstart) = '_'
       endif
 
@@ -407,7 +407,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       is = 4
 
       rvalue = value  !(i)
-      if ( rvalue .eq. 0.0 ) then
+      if ( rvalue == 0.0 ) then
 !     normalize zero to limit p4 differences between platforms
          srvalue = ' 0.00000'
       else
@@ -415,7 +415,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       endif
 
       rvalue2 = value2  !(i)
-      if ( rvalue2 .eq. 0.0 ) then
+      if ( rvalue2 == 0.0 ) then
 !     normalize zero to limit p4 differences between platforms
          srvalue2 = ' 0.00000'
       else
@@ -441,7 +441,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 #include "implicit_f.inc"
       integer istatus
 
-      if ( doqa .eq. 1) then
+      if ( doqa == 1) then
          istatus = 1
       else
          istatus = 0
@@ -494,7 +494,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
 #include "implicit_f.inc"
       integer i
 
-      if ( doqa .ne. 1  ) return
+      if ( doqa /= 1  ) return
 
 C     Exclusive section in case of SPM (concurrence!) only the 1st thread executes this
 !$OMP SINGLE
@@ -548,12 +548,12 @@ C             A trick to pass an integer is to use idin (2nd parameter) and valu
       logical tf
 
       tf = .FALSE.
-      if ( doqa .ne. 1  ) return
+      if ( doqa /= 1  ) return
       
       do i=1,size(split_qakey_env)
 C         Remove leading blank if any
           value_without_leading_blank=ADJUSTL(split_qakey_env(i))
-          if (value_without_leading_blank(1:LEN_TRIM(value_without_leading_blank)) .EQ. value(1:LEN_TRIM(value))) then
+          if (value_without_leading_blank(1:LEN_TRIM(value_without_leading_blank)) == value(1:LEN_TRIM(value))) then
                 tf = .TRUE.
                 exit
           endif
@@ -598,7 +598,7 @@ C         Remove leading blank if any
       integer l,lmax
 
 c      lmax = len(a)
-c      do while ( l .le. lmax .and. a(l:l) .gt. ' ' )
+c      do while ( l <= lmax .and. a(l:l) > ' ' )
 c        l = l + 1
 c      enddo
 c      lastchar = l
@@ -621,7 +621,7 @@ C       subroutine qaskip()
 C #include "implicit_f.inc"      
 C       integer iqa
 C       call qastatus(iqa)
-C       if (iqa .le. 0) return
+C       if (iqa <= 0) return
 C       call qaprint('QASKIP',0, 0.0D0)
 C       call qaclose()
 C       stop 0
@@ -649,9 +649,9 @@ C       double precision rqavar(4,NQAVAR), vari
 C !
 C       data ifirst /1/, iqavar /LIQAVAR*0/, rqavar /LRQAVAR*0.0d0/
 C !
-C       if (doqa .ne. 1) return
+C       if (doqa /= 1) return
 C !
-C       if (ifirst .eq. 1) then
+C       if (ifirst == 1) then
 C          do i = 1,NQAVAR
 C             iqavar(1,i) = 0
 C             iqavar(2,i) = 0
@@ -666,11 +666,11 @@ C       endif
 C !
 C       do i = 1,ndim
 C          vari = ivar(i)
-C          if (vari .lt. rqavar(1,index)) then
+C          if (vari < rqavar(1,index)) then
 C             rqavar(1,index) = vari
 C             iqavar(1,index) = iqavar(3,index) + i
 C          endif
-C          if (vari .gt. rqavar(2,index)) then
+C          if (vari > rqavar(2,index)) then
 C             rqavar(2,index) = vari
 C             iqavar(2,index) = iqavar(3,index) + i
 C          endif
@@ -681,11 +681,11 @@ C       iqavar(3,index) = iqavar(3,index) + ndim
 C !
 C       nlen = lastchar(name)
 C !
-C       if (ilast .ne. 0) then
-C          if (iqavar(3,index) .eq. 0) then
+C       if (ilast /= 0) then
+C          if (iqavar(3,index) == 0) then
 C             write(tmpmsg,'(A,A)') name(1:nlen),'-ndim'
 C             call qaprint(tmpmsg,0, 1.0d0*iqavar(3,index))
-C          else if (iqavar(3,index) .eq. 1) then
+C          else if (iqavar(3,index) == 1) then
 C             write(tmpmsg,'(A,A)') name(1:nlen),'-var'
 C             call qaprint(tmpmsg,0, 1.0d0*ivar(1))
 C          else
@@ -738,9 +738,9 @@ C       double precision rqavar(4,NQAVAR), vari
 C !
 C       data ifirst /1/, iqavar /LIQAVAR*0/, rqavar /LRQAVAR*0.0d0/
 C !
-C       if (doqa .ne. 1) return
+C       if (doqa /= 1) return
 C !
-C       if (ifirst .eq. 1) then
+C       if (ifirst == 1) then
 C          do i = 1,NQAVAR
 C             rqavar(1,i) = 1.0d99
 C             rqavar(2,i) =-1.0d99
@@ -750,11 +750,11 @@ C       endif
 C !
 C       do i = 1,ndim
 C          vari = rvar(i)
-C          if (vari .lt. rqavar(1,index)) then
+C          if (vari < rqavar(1,index)) then
 C             rqavar(1,index) = vari
 C             iqavar(1,index) = iqavar(3,index) + i
 C          endif
-C          if (vari .gt. rqavar(2,index)) then
+C          if (vari > rqavar(2,index)) then
 C             rqavar(2,index) = vari
 C             iqavar(2,index) = iqavar(3,index) + i
 C          endif
@@ -765,11 +765,11 @@ C       iqavar(3,index) = iqavar(3,index) + ndim
 C !
 C       nlen = lastchar(name)
 C !
-C       if (ilast .ne. 0) then
-C          if (iqavar(3,index) .eq. 0) then
+C       if (ilast /= 0) then
+C          if (iqavar(3,index) == 0) then
 C             write(tmpmsg,'(A,A)') name(1:nlen),'-ndim'
 C             call qaprint(tmpmsg,0, 1.0d0*iqavar(3,index))
-C          else if (iqavar(3,index) .eq. 1) then
+C          else if (iqavar(3,index) == 1) then
 C             write(tmpmsg,'(A,A)') name(1:nlen),'-var'
 C             call qaprint(tmpmsg,0, 1.0d0*rvar(1))
 C          else
@@ -820,29 +820,29 @@ C       end subroutine qaprint_ra
 !      logical chk
 !
 !
-!      if ( doqa .ne. 1  ) return
+!      if ( doqa /= 1  ) return
 !
 !      qaid = qaid + 1
 !      
 !      id = abs(idin)
-!      if ( id .gt. 99999 ) &
+!      if ( id > 99999 ) &
 !        id = 90000 + mod(id,10000)
 !
 !
-!      if ( id .eq. 0 ) then
+!      if ( id == 0 ) then
 !        intstart = 6
 !        siid = ' '
 !      else
 !        write (siid,'(i6.6)') id
 !        intstart = 1
-!        if ( id .le. 999 ) intstart = 3
+!        if ( id <= 999 ) intstart = 3
 !        siid(intstart:intstart) = '_'
 !      endif
 !
 !      simg = '<M> '
 !
 !        rvalue = ABS(CMPLX(value(1),value(2)))
-!        if ( rvalue .eq. 0.0D0 ) then
+!        if ( rvalue == 0.0D0 ) then
 !!     normalize zero to limit p4 differences between platforms
 !           srvalue = ' 0.00000'
 !        else
@@ -855,11 +855,11 @@ C       end subroutine qaprint_ra
 !
 !        simg = '<A> '
 !
-!        if ( rvalue .ne. 0.0D0 ) then
+!        if ( rvalue /= 0.0D0 ) then
 !           rvalue = ATAN2(value(2),value(1))
 !        end if
 !        
-!        if ( rvalue .eq. 0.0D0 ) then
+!        if ( rvalue == 0.0D0 ) then
 !!     normalize zero to limit p4 differences between platforms
 !           srvalue = ' 0.00000'
 !        else

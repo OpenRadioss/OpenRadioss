@@ -68,7 +68,7 @@ C
        NBCS = NBCS + 1
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5,25X,I10)',
      .      ERR=9990)KEY2,KEY3,K4,NBC
-       IF ( BCS_SK_FR(NBCS).GT.99999) K4 = BCS_SK_FR(NBCS)
+       IF ( BCS_SK_FR(NBCS)>99999) K4 = BCS_SK_FR(NBCS)
        K=K+1
        KK=K
        NS=0
@@ -76,16 +76,16 @@ C
         CALL WCIUSC2(IKAD(IKEY)+K,1,N,KEY0(IKEY))
         READ(IUSC2,*,ERR=9990,END=9990)(IV1(J),J=1,N)
         K=K+1
-        IF(KEY2.EQ.'TRA  ')THEN
+        IF(KEY2=='TRA  ')THEN
          WRITE(IIN,'(I10,1X,I3.3,4X,4X,4X,I10)')
      .            (IV1(J),IXYZ(KEY3),K4,J=1,N)
-        ELSEIF(KEY2.EQ.'ROT  ')THEN
+        ELSEIF(KEY2=='ROT  ')THEN
          WRITE(IIN,'(I10,4X,1X,I3.3,4X,4X,I10)')
      .            (IV1(J),IXYZ(KEY3),K4,J=1,N)
-        ELSEIF(KEY2.EQ.'ALE  ')THEN
+        ELSEIF(KEY2=='ALE  ')THEN
          WRITE(IIN,'(I10,4X,4X,1X,I3.3,4X,I10)')
      .            (IV1(J),IXYZ(KEY3),K4,J=1,N)
-        ELSEIF(KEY2.EQ.'LAG  ')THEN
+        ELSEIF(KEY2=='LAG  ')THEN
          WRITE(IIN,'(I10,4X,4X,4X,1X,I3.3,I10)')
      .            (IV1(J),IXYZ(KEY3),K4,J=1,N)
         ELSE
@@ -106,16 +106,16 @@ C
         CALL WCIUSC2(IKAD(IKEY)+K,1,N,KEY0(IKEY))
         READ(IUSC2,*,ERR=9990,END=9990)(IV1(J),J=1,N)
         K=K+1
-        IF(KEY2.EQ.'TRA  ')THEN
+        IF(KEY2=='TRA  ')THEN
          WRITE(IIN,'(I10,1X,I3.3,4X,4X,4X,I10)')
      .            (IV1(J),2*IXYZ(KEY3),K4,J=1,N)
-        ELSEIF(KEY2.EQ.'ROT  ')THEN
+        ELSEIF(KEY2=='ROT  ')THEN
          WRITE(IIN,'(I10,4X,1X,I3.3,4X,4X,I10)')
      .            (IV1(J),2*IXYZ(KEY3),K4,J=1,N)
-        ELSEIF(KEY2.EQ.'ALE  ')THEN
+        ELSEIF(KEY2=='ALE  ')THEN
          WRITE(IIN,'(I10,4X,4X,1X,I3.3,4X,I10)')
      .            (IV1(J),2*IXYZ(KEY3),K4,J=1,N)
-        ELSEIF(KEY2.EQ.'LAG  ')THEN
+        ELSEIF(KEY2=='LAG  ')THEN
          WRITE(IIN,'(I10,4X,4X,4X,1X,I3.3,I10)')
      .            (IV1(J),2*IXYZ(KEY3),K4,J=1,N)
         ELSE

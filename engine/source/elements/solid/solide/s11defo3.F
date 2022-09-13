@@ -96,16 +96,16 @@ c
         IVOI=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
         ML   = 11
         IFLG = 6
-        IF(IVOI.NE.0)ML=NINT(PM(19,IXS(1,IVOI)))
-        IF(ML.NE.11)EXIT
-        IF(ML.EQ.51)THEN
+        IF(IVOI/=0)ML=NINT(PM(19,IXS(1,IVOI)))
+        IF(ML/=11)EXIT
+        IF(ML==51)THEN
           IADBUF = NINT(PM(27,IXS(1,IVOI)))
           IFLG = NINT(BUFMAT(31+IADBUF-1)) 
-          IF(IFLG.LE.1)EXIT
+          IF(IFLG<=1)EXIT
         ENDIF 
        ENDDO
        
-       IF(ML.EQ.11 .OR. (ML.EQ.51.AND.(IFLG.EQ.6.OR.IFLG.EQ.3)))THEN  
+       IF(ML==11 .OR. (ML==51.AND.(IFLG==6.OR.IFLG==3)))THEN  
          DXX(I)=ZERO
          DYY(I)=ZERO
          DZZ(I)=ZERO

@@ -190,7 +190,7 @@ C
         PZ2(I)=-AJ78(I)+AJI9(I)
       ENDDO  
 C
-      IF(JHBE.NE.0)THEN
+      IF(JHBE/=0)THEN
         DO I=LFT,LLT
 C 1 -1 1 -1 1 -1 1 -1
          HX=(X1(I)-X2(I)+X3(I)-X4(I)+X5(I)-X6(I)+X7(I)-X8(I))

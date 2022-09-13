@@ -75,10 +75,10 @@ C-----------------------------------------------
       INTEGER  NGR2USR
       EXTERNAL NGR2USR
 C-----------------------------------------------
-      IF (ND.GT.0) THEN
+      IF (ND>0) THEN
         IF (IDAMP0 == 1) THEN
-          IF (ND.GT.1) THEN
-           IF (ISPMD.EQ.0)THEN
+          IF (ND>1) THEN
+           IF (ISPMD==0)THEN
             WRITE(ISTDO,*)' ** ERROR:  INPUT ERROR IN OPTION DAMP'
             WRITE(IOUT,* )' ** ERROR:  INPUT ERROR IN OPTION DAMP'
             WRITE(IOUT,*) '    V41 FORMAT ALLOWS ONLY ONE /DAMP OPTION'
@@ -88,15 +88,15 @@ C-----------------------------------------------
           DAMPA0 = 0.
           DAMPB0 = 0.
           READ (IIN,'(I8,2E16.9,I8)') IDNEW,DAMPA0,DAMPB0,NGR
-          IF (MCHECK.EQ.0) THEN
+          IF (MCHECK==0) THEN
             IDAMPG = NGR2USR(NGR,IGRNOD,NGRNOD)
-            IF (IDAMPG.EQ.0) NGR = 0
+            IF (IDAMPG==0) NGR = 0
             DAMPA  = DAMPA0
             DAMPB  = DAMPB0
-            IF (ISPMD.EQ.0) WRITE(IOUT,2241) NGR,DAMPA,DAMPB
+            IF (ISPMD==0) WRITE(IOUT,2241) NGR,DAMPA,DAMPB
           ENDIF
-        ELSEIF (NDAMP.GT.0) THEN
-          IF (ISPMD.EQ.0) WRITE (IOUT,2000) ND
+        ELSEIF (NDAMP>0) THEN
+          IF (ISPMD==0) WRITE (IOUT,2000) ND
           DO K=1,ND
             READ (IIN,'(I10,2E20.0,2I10,E20.0)') IDNEW,DAMPA,DAMPB,NGR,
      .                                           KORTH,FACTB
@@ -104,8 +104,8 @@ c            READ (IIN,'(I10,2E20.0,2I10,2E20.0)') IDNEW,DAMPA,DAMPB,NGR,
 c     .                                           KORTH,TSTART,TSTOP
 c            FACTB = ZERO
 c            IF(TSTOP == ZERO) TSTOP = EP30
-            IF (NGR.NE.0) THEN
-             IF (ISPMD.EQ.0) THEN
+            IF (NGR/=0) THEN
+             IF (ISPMD==0) THEN
               WRITE(ISTDO,*)' ** ERROR:  INPUT ERROR IN OPTION DAMP'
               WRITE(IOUT,* )' ** ERROR:  INPUT ERROR IN OPTION DAMP'
               WRITE(IOUT,*) '            NOT A V44 FORMAT '
@@ -113,9 +113,9 @@ c            IF(TSTOP == ZERO) TSTOP = EP30
              CALL ARRET(2)
             ENDIF
             IF (FACTB == ZERO) FACTB = ONE
-            IF(KORTH.EQ.0)THEN
-              IF (ISPMD.EQ.0) WRITE (IOUT,2200) IDNEW,DAMPA,DAMPB,FACTB
-c              IF (ISPMD.EQ.0) WRITE (IOUT,2200) IDNEW,DAMPA,DAMPB,FACTB,
+            IF(KORTH==0)THEN
+              IF (ISPMD==0) WRITE (IOUT,2200) IDNEW,DAMPA,DAMPB,FACTB
+c              IF (ISPMD==0) WRITE (IOUT,2200) IDNEW,DAMPA,DAMPB,FACTB,
 c     .                                          TSTART,TSTOP
               OK=0
               IF (NDAMP == 1 .AND. IDNEW == 0) THEN
@@ -127,7 +127,7 @@ c     .                                          TSTART,TSTOP
               ELSE
                 DO L=1,NDAMP
                   ID = DAMPR(1,L)
-                  IF(ID.EQ.IDNEW) THEN
+                  IF(ID==IDNEW) THEN
                     DAMPR(3,L) = DAMPA
                     DAMPR(4,L) = DAMPB
                     DAMPR(5,L)  = DAMPA  
@@ -148,9 +148,9 @@ c                    DAMPR(18,L) = TSTOP
                 ENDDO
               ENDIF
             ELSE
-              IF(NRDAMP.LT.15)THEN
+              IF(NRDAMP<15)THEN
                IERR=IERR+1
-               IF (ISPMD.EQ.0) THEN
+               IF (ISPMD==0) THEN
                  CALL ANCMSG(MSGID=203,ANMODE=ANINFO,
      .                       I1=IDNEW)
                END IF
@@ -161,17 +161,17 @@ c                    DAMPR(18,L) = TSTOP
               READ (IIN,'(2E20.0)') DAMPARX,DAMPBRX
               READ (IIN,'(2E20.0)') DAMPARY,DAMPBRY
               READ (IIN,'(2E20.0)') DAMPARZ,DAMPBRZ
-              IF (ISPMD.EQ.0) WRITE (IOUT,2250) IDNEW,
+              IF (ISPMD==0) WRITE (IOUT,2250) IDNEW,
      .                    DAMPA,DAMPB,DAMPAY,DAMPBY,DAMPAZ,DAMPBZ,
      .            DAMPARX,DAMPBRX,DAMPARY,DAMPBRY,DAMPARZ,DAMPBRZ
-c              IF (ISPMD.EQ.0) WRITE (IOUT,2250) IDNEW,
+c              IF (ISPMD==0) WRITE (IOUT,2250) IDNEW,
 c     .                    DAMPA,DAMPB,DAMPAY,DAMPBY,DAMPAZ,DAMPBZ,
 c     .            DAMPARX,DAMPBRX,DAMPARY,DAMPBRY,DAMPARZ,DAMPBRZ,
 c     .            TSTART,TSTOP
               OK=0
               DO L=1,NDAMP
                 ID = DAMPR(1,L)
-                IF(ID.EQ.IDNEW) THEN
+                IF(ID==IDNEW) THEN
                   DAMPR(3,L)  = DAMPA
                   DAMPR(4,L)  = DAMPB
                   DAMPR(5,L)  = DAMPAY
@@ -191,9 +191,9 @@ c                  DAMPR(18,L) = TSTOP
                 ENDIF
               ENDDO
             END IF
-            IF(OK.EQ.0)THEN
+            IF(OK==0)THEN
              IERR=IERR+1
-             IF (ISPMD.EQ.0) THEN
+             IF (ISPMD==0) THEN
                CALL ANCMSG(MSGID=203,ANMODE=ANINFO,
      .                     I1=IDNEW)
              END IF
@@ -201,7 +201,7 @@ c                  DAMPR(18,L) = TSTOP
             ENDIF
           ENDDO
         ELSE
-         IF (ISPMD.EQ.0) THEN
+         IF (ISPMD==0) THEN
           CALL ANCMSG(MSGID=204,ANMODE=ANINFO)
          END IF
          CALL ARRET(2)

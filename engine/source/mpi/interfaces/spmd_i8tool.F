@@ -87,7 +87,7 @@ C-----------------------------------------------
       !CALL STARTIME(97,1)
       BUFLEN=0
       DO I = 1,NSPMD
-         IF(I-1 .NE.ISPMD) THEN
+         IF(I-1 /=ISPMD) THEN
          BUFLEN = BUFLEN+BUFFER(I)%NBSECND_TOT
          ENDIF
       ENDDO
@@ -104,7 +104,7 @@ C-----------------------------------------------
       K2= 0
       BUFPOS = 1
       DO I = 1,NSPMD
-       IF( ISPMD .NE. I-1) THEN
+       IF( ISPMD /= I-1) THEN
         DO J = 1,BUFFER(I)%NBSECND_TOT
          N = BUFFER(I)%SECND_ID(J)
 C        BUFFER(I)%DISTANCE(J) = DISTANCE(N) 
@@ -149,7 +149,7 @@ C        BUFFER(I)%NEW_MAIN_UID(J) = ITAB(MSR(ILOC(N)))
          CALL MPI_WAIT(RQR1(I),STAT2,IERR)
          BUFPOS = TAB_BUFPOS(I) - 1
          I = TAB_RANK(I)
-         IF(ISPMD .NE. I-1) THEN
+         IF(ISPMD /= I-1) THEN
          N = BUFFER(I)%NBSECND_TOT
          DO J = 1,N
             K = BUFFER(I)%SECND_ID(J)
@@ -366,7 +366,7 @@ C-----------------------------------------------
         ! if ispmd shares main nodes with i
         ! then send the number of secnd to exchange
 C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
-        IF(ISPMD .NE. I-1 .AND.BUFFER(I)%NBMAIN >0 ) THEN
+        IF(ISPMD /= I-1 .AND.BUFFER(I)%NBMAIN >0 ) THEN
         K = K +1
         CALL MPI_ISEND(NB_SECND_SENT(I),1,
      .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(K),IERR)
@@ -381,7 +381,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       ! size of reception buffer
       BUFLEN = 0
       DO I = 1,NSPMD
-        IF(ISPMD .NE. I-1) THEN
+        IF(ISPMD /= I-1) THEN
         BUFLEN = BUFLEN + NB_SECND_RECV(I) 
         ENDIF
       ENDDO
@@ -398,7 +398,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       KRECV = 0
       !send the data corresponding of the secnds to exchange
       DO I = 1,NSPMD
-        IF(ISPMD .NE. I-1) THEN
+        IF(ISPMD /= I-1) THEN
           J = NB_SECND_SENT(I)*2
           IF(J > 0) THEN
             KSENT = KSENT + 1
@@ -428,7 +428,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       DO ISECND=1,NBSECNDS
         RMAX_UID_LOCAL = ITAB(NSV(ISECND))
         DO I = 1,NSPMD
-          IF(ISPMD .NE. I-1) THEN
+          IF(ISPMD /= I-1) THEN
            J = NB_SECND_RECV(I)
            IF(J > 0) THEN
            ! if ISPMD recieves secnds from proc I
@@ -507,7 +507,7 @@ C-----------------------------------------------
          !CALL STARTIME(99,1)
          !compute the number of secnd nodes per frontier main node 
          DO P = 1,NSPMD
-          IF(ISPMD .NE. P-1) THEN
+          IF(ISPMD /= P-1) THEN
           BUFFER(P)%NBSECND = 0 
           ENDIF
          ENDDO
@@ -667,7 +667,7 @@ C-----------------------------------------------
       BUFPOS2 = 1
       NBRQ = 0
       DO I = 1,NSPMD
-       IF( ISPMD .NE. I-1) THEN
+       IF( ISPMD /= I-1) THEN
         DO J = 1,BUFFER(I)%NBSECND_TOT
          N = BUFFER(I)%SECND_ID(J)
 C
@@ -705,7 +705,7 @@ C
       BUFPOS2 = 0
 
       DO I = 1,NSPMD
-        IF(ISPMD .NE. I-1) THEN
+        IF(ISPMD /= I-1) THEN
         N = BUFFER(I)%NBSECND_TOT
         DO J = 1,N
           K = BUFFER(I)%SECND_ID(J)
@@ -803,7 +803,7 @@ C-----------------------------------------------
 c     IF(FLAG == 1) THEN
 c       POS = 0
 c       DO I=1,NSPMD
-c         IF(ISPMD .NE. I-1) THEN
+c         IF(ISPMD /= I-1) THEN
 c           POS = POS + 1
 c           CALL MPI_ISEND(TAB,N,REAL,I-1,TAG,MPI_COMM_WORLD,RQ(POS),IERR)
 c         ENDIF
@@ -813,7 +813,7 @@ c     ELSEIF(FLAG ==2) THEN
 c       ALLOCATE(BUF(N),STAT=IERR)
 c       BUF(1:N) = 0
 c       DO I=1,NSPMD
-c         IF(ISPMD .NE. I-1) THEN
+c         IF(ISPMD /= I-1) THEN
 c           CALL MPI_RECV(BUF,N,REAL,I-1,TAG,MPI_COMM_WORLD,IERR)
 c           DO J=1,N
 c              TAB(J) = TAB(J) + BUF(J)

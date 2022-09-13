@@ -94,7 +94,7 @@ c
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
 
-              IF(IPART(10,IPARTC(NFT+I)) .NE.0 .AND. NINT(MIN(GBUF%OFF(I),ONE)) .NE. ONE) THEN
+              IF(IPART(10,IPARTC(NFT+I)) /=0 .AND. NINT(MIN(GBUF%OFF(I),ONE)) /= ONE) THEN
                 SHELL_SCALAR(OFFSET+NFT+I) = ZERO
               ELSE
                 SHELL_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),ONE))
@@ -111,7 +111,7 @@ c
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=1,NEL
 
-              IF(IPART(10,IPARTTG(NFT+I)) .NE.0 .AND. NINT(MIN(GBUF%OFF(I),ONE)) .NE. ONE) THEN
+              IF(IPART(10,IPARTTG(NFT+I)) /=0 .AND. NINT(MIN(GBUF%OFF(I),ONE)) /= ONE) THEN
                 SHELL_SCALAR(OFFSET+NFT+I) = ZERO
               ELSE
                 SHELL_SCALAR(OFFSET+NFT+I) = NINT(MIN(GBUF%OFF(I),ONE))

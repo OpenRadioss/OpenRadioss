@@ -106,7 +106,7 @@ C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
       CALL HM_GET_INTV('SKEW_CSID',ISK,IS_AVAILABLE,LSUBMODEL)
-      IF(ISK == 0 .AND. SUB_ID .NE. 0 ) ISK = LSUBMODEL(SUB_ID)%SKEW
+      IF(ISK == 0 .AND. SUB_ID /= 0 ) ISK = LSUBMODEL(SUB_ID)%SKEW
       CALL HM_GET_INTV('ISENSOR',ISENS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('ISFLAG',IFL,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ifail',IFAIL,IS_AVAILABLE,LSUBMODEL)
@@ -215,21 +215,21 @@ C----
      .               I1=IG,
      .               C1=IDTITL)
       ENDIF
-       IF(IECROU.EQ.6.AND.(IFUNC.EQ.0.OR.IFUNC2.EQ.0))THEN
+       IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        ENDIF
-       IF(IECROU.EQ.7.AND.IFUNC==0)THEN
+       IF(IECROU==7.AND.IFUNC==0)THEN
           CALL ANCMSG(MSGID=1058,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        
-       ELSEIF(IECROU.EQ.7.AND.IFUNC2.EQ.0)THEN
+       ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -371,21 +371,21 @@ C----
      .               I1=IG,
      .               C1=IDTITL)
       ENDIF
-       IF(IECROU.EQ.6.AND.(IFUNC.EQ.0.OR.IFUNC2.EQ.0))THEN
+       IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        ENDIF
-       IF(IECROU.EQ.7.AND.IFUNC==0)THEN
+       IF(IECROU==7.AND.IFUNC==0)THEN
           CALL ANCMSG(MSGID=1058,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        
-       ELSEIF(IECROU.EQ.7.AND.IFUNC2.EQ.0)THEN
+       ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -537,21 +537,21 @@ C----
      .               I1=IG,
      .               C1=IDTITL)
       ENDIF
-       IF(IECROU.EQ.6.AND.(IFUNC.EQ.0.OR.IFUNC2.EQ.0))THEN
+       IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        ENDIF
-       IF(IECROU.EQ.7.AND.IFUNC==0)THEN
+       IF(IECROU==7.AND.IFUNC==0)THEN
           CALL ANCMSG(MSGID=1058,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        
-       ELSEIF(IECROU.EQ.7.AND.IFUNC2.EQ.0)THEN
+       ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
@@ -685,21 +685,21 @@ C----
      .               I1=IG,
      .               C1=IDTITL)
       ENDIF
-       IF(IECROU.EQ.6.AND.(IFUNC.EQ.0.OR.IFUNC2.EQ.0))THEN
+       IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        ENDIF
-       IF(IECROU.EQ.7.AND.IFUNC==0)THEN
+       IF(IECROU==7.AND.IFUNC==0)THEN
           CALL ANCMSG(MSGID=1058,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
        
-       ELSEIF(IECROU.EQ.7.AND.IFUNC2.EQ.0)THEN
+       ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,

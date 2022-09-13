@@ -226,7 +226,7 @@ c
       BID = ZERO
 C
       NF1 = NFT+1
-      IF(JCVT.EQ.0)THEN
+      IF(JCVT==0)THEN
         CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT, 
      .        PID, IX1, IX2, IX3, IX4, 
      .        Y1, Y2, Y3, Y4,
@@ -256,7 +256,7 @@ C
      .     AREA, DELTAX, 
      .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
-      IF(JEUL.NE.0) CALL EDLEN2(VEUL(1,NF1), AREA, DELTAX)
+      IF(JEUL/=0) CALL EDLEN2(VEUL(1,NF1), AREA, DELTAX)
       DO I=LFT,LLT
         Y12(I) = Y1(I) - Y2(I)
         Y34(I) = Y3(I) - Y4(I)
@@ -330,13 +330,13 @@ C
 C----------------------------------------
 C     INITIALISATION DE LA THERMIQUE ET TURBULENCE
 C----------------------------------------
-      IF(JTHE.NE.0)CALL ATHERI(MAT ,PM  ,LBUF%TEMP)
-      IF(JTUR.NE.0)CALL ATURI2(IPARGG   ,LBUF%RHO,PM,IXQ,X,
+      IF(JTHE/=0)CALL ATHERI(MAT ,PM  ,LBUF%TEMP)
+      IF(JTUR/=0)CALL ATURI2(IPARGG   ,LBUF%RHO,PM,IXQ,X,
      .                         LBUF%RK  ,LBUF%RE, AREA)
 C------------------------------------------
 C     INITIALISATION DE LA MATRICE DE MASSE
 C------------------------------------------
-      IF(JLAG+JALE+JEUL.NE.0)
+      IF(JLAG+JALE+JEUL/=0)
      .  CALL QMASI2(PM,MAT,MS,GBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,
      .     IX1, IX2, IX3, IX4,X ,V)
 C-------------------------------------------
@@ -346,9 +346,9 @@ C-------------------------------------------
      .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AREA, 
      .     GBUF%VOL, DTX, IGEO)
        DO 10 I=LFT,LLT
-        IF(IXQ(6,I+NFT).NE.0) THEN
-          IF(IGTYP.NE.0 .AND. IGTYP.NE.6 .AND.
-     .       IGTYP.NE.14.AND.IGTYP.NE.15)THEN
+        IF(IXQ(6,I+NFT)/=0) THEN
+          IF(IGTYP/=0 .AND. IGTYP/=6 .AND.
+     .       IGTYP/=14.AND.IGTYP/=15)THEN
              IPID1=IXQ(NIXQ-1,I+NFT)
              CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
              CALL ANCMSG(MSGID=226,

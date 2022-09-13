@@ -67,7 +67,7 @@ C
         TAG(I) = 0
       ENDDO
 C
-      IF (N2D.EQ.0) THEN
+      IF (N2D==0) THEN
         NIR = 4
       ELSE
         NIR = 2
@@ -77,7 +77,7 @@ C determination des main nodes reellement utilises
         J = INTBUF_TAB%IRTLM(I)
         DO K = 1, NIR
           M = IRECTM(K,J)
-          IF (TAG(M).EQ.0) THEN
+          IF (TAG(M)==0) THEN
             NMNU = NMNU + 1
             TAG(M) = NMNU
             MSRU(NMNU) = MSR(M)
@@ -96,7 +96,7 @@ C---------------------------------------------------------------
         DO K = 1, NIR
           M = IRECTM(K,I)
           NM = TAG(M)
-          IF (NM.EQ.0) THEN
+          IF (NM==0) THEN
             IRECTM(K,I) = 1
           ELSE
 CGW            IRECTM(K,I) = NM

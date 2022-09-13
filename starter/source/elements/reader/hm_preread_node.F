@@ -143,10 +143,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_NOD(N) .NE. 0)THEN
-          IF(ITAB(N) .NE. 0) ITAB(N) = ITAB(N) + OFF_NOD(SUB_NOD(N))
-          IF(UID_NOD(N) .NE. 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
-          IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID .NE. 0) 
+        IF(SUB_NOD(N) /= 0)THEN
+          IF(ITAB(N) /= 0) ITAB(N) = ITAB(N) + OFF_NOD(SUB_NOD(N))
+          IF(UID_NOD(N) /= 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
+          IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
      .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
         ENDIF
         IF ( ITAB(N) > ID_LIMIT )THEN
@@ -156,7 +156,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      UNITS
 C--------------------------------------------------
-        IF(UID_NOD(N) .NE. UID )THEN
+        IF(UID_NOD(N) /= UID )THEN
           UID = UID_NOD(N)
           IFLAGUNIT = 0          
           DO J=1,NUNITS                   
@@ -166,10 +166,10 @@ C--------------------------------------------------
               EXIT                              
             ENDIF                               
           ENDDO                    
-          IF (UID.NE.0 .AND. IFLAGUNIT.EQ.0 .AND. I .LE. NUMNUSR)THEN
+          IF (UID/=0 .AND. IFLAGUNIT==0 .AND. I <= NUMNUSR)THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/NODE')
-          ELSEIF (UID.NE.0 .AND. IFLAGUNIT.EQ.0 .AND. I .GT. NUMNUSR)THEN
+          ELSEIF (UID/=0 .AND. IFLAGUNIT==0 .AND. I > NUMNUSR)THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/CNODE')
           ENDIF 

@@ -67,7 +67,7 @@ C-----------------------------------------------
         A(3,N)=ZERO     
       ENDDO
 
-      IF(ISIGI.EQ.2.OR.ISIGI.EQ.4) THEN
+      IF(ISIGI==2.OR.ISIGI==4) THEN
 #include      "vectorize.inc"
         DO I=NODFT,NODLT
           A(1,I)=FZERO(1,I)
@@ -75,7 +75,7 @@ C-----------------------------------------------
           A(3,I)=FZERO(3,I)
         ENDDO
       ENDIF
-      IF(IRODDL.NE.0) THEN
+      IF(IRODDL/=0) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           VR(1,N)=VR(1,N)+DT12*AR(1,N)
@@ -93,7 +93,7 @@ C-----------------------------------------------
       IF(INT22>0) THEN  !FVM
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
-         IF(NALE(N).NE.0)THEN
+         IF(NALE(N)/=0)THEN
           V(1,N) =ZERO
           V(2,N) =ZERO
           V(3,N) =ZERO

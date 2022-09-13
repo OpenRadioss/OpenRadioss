@@ -140,7 +140,7 @@ C-----------------------------------------------
       INTEGER J1
 C
       J1 = J
-      IF (NBPLINE .GT. 5)NBPLINE = 5
+      IF (NBPLINE > 5)NBPLINE = 5
       DO K=1,CPT
         IF (MOD(K,NBPLINE) == 0) THEN
           SELECT CASE (NBPLINE)

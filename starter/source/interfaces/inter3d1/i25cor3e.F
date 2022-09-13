@@ -85,7 +85,7 @@ C-----------------------------------------------
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)
 C-----------------------------------------------
       DO I=1,JLT
-        IF(CAND_S(I).LE.NEDGE) THEN
+        IF(CAND_S(I)<=NEDGE) THEN
 
           I1=LEDGE(1,CAND_S(I))
           J1=LEDGE(2,CAND_S(I))
@@ -132,7 +132,7 @@ C-----------------------------------------------
 
       DO I=1,JLT
         GAPE_M(I)=GAPE(CAND_M(I))
-	IF(CAND_S(I).LE.NEDGE) THEN
+	IF(CAND_S(I)<=NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
         ELSE ! TBD
 	END IF
@@ -141,7 +141,7 @@ C-----------------------------------------------
       IF(IGAP==3) THEN
         DO I=1,JLT
            GAPE_M(I)=MIN(GAPE_M(I),GAP_E_L(CAND_M(I)))
-	   IF(CAND_S(I).LE.NEDGE) THEN
+	   IF(CAND_S(I)<=NEDGE) THEN
               GAPE_S(I)=MIN(GAPE_S(I),GAP_E_L(CAND_S(I)))
               GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I))
            ENDIF

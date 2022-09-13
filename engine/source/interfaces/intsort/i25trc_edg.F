@@ -87,13 +87,13 @@ C
         ASSERT(CAND_S(I) <= NEDGE) ! ici nedge = nedge + nedge_remote
 
 
-C       IF(NN.LE.NEDGE_L)THEN
+C       IF(NN<=NEDGE_L)THEN
         IF (IFQ == 0) THEN
-          IF(CAND_P(I).EQ.ZERO)THEN
+          IF(CAND_P(I)==ZERO)THEN
             CAND_S(I) = NEDGE+1
           ENDIF
         ELSE
-         IF(IFPEN(I)==0.AND.CAND_P(I).EQ.ZERO)THEN
+         IF(IFPEN(I)==0.AND.CAND_P(I)==ZERO)THEN
             CAND_S(I) = NEDGE+1
           ENDIF 
         ENDIF

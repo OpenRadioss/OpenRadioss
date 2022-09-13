@@ -136,7 +136,7 @@ C
       ENDDO
 C
       DO I=1,NEL
-        IF(DET(I).GT.ZERO) CYCLE
+        IF(DET(I)>ZERO) CYCLE
         CALL ANCMSG(MSGID=245,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,

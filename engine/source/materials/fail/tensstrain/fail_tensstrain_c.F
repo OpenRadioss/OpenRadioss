@@ -147,7 +147,7 @@ c
 
           SELECT CASE (S_FLAG)
           CASE (2)
-            IF (IFUNC(2) .NE. 0)THEN
+            IF (IFUNC(2) /= 0)THEN
               LAMBDA = UVAR(I,1) / EL_REF
               FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
               UVAR(I,1) = FAC
@@ -155,7 +155,7 @@ c
               UVAR(I,1) = ONE
             ENDIF
           CASE (3)
-            IF (IFUNC(2) .NE. 0)THEN
+            IF (IFUNC(2) /= 0)THEN
               LAMBDA = UVAR(I,1) / EL_REF
               FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
               UVAR(I,1) = FAC

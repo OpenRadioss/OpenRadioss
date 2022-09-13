@@ -275,7 +275,7 @@ c----------------------------------------------------
 
       IF(IGAP/=0)THEN
         CALL MY_BARRIER
-        IF(JTASK.EQ.1)THEN
+        IF(JTASK==1)THEN
           ALLOCATE(SOLIDN_NORMAL (3,NUMNOD))
           CALL I20NORMS(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,SOLIDN_NORMAL,
      2           IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG,INTBUF_TAB%GAP_SH,
@@ -304,13 +304,13 @@ c   Courbure quadratique ou Igap/=0 pour solides (GAP=0)
 c----------------------------------------------------
       IF(ICURV==3)THEN
         CALL MY_BARRIER()
-        IF(JTASK.EQ.1)THEN
+        IF(JTASK==1)THEN
           ALLOCATE(NOD_NORMAL (3,NUMNOD))
-          IF(IPARIT.EQ.0)THEN
+          IF(IPARIT==0)THEN
             CALL I20NORM(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,NOD_NORMAL,
      .                  IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
 cc        CALL MY_BARRIER()
-            IF(NSPMD.GT.1)THEN
+            IF(NSPMD>1)THEN
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
               CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
             END IF
@@ -342,18 +342,18 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-      IF(IADM.NE.0)THEN
+      IF(IADM/=0)THEN
          CALL MY_BARRIER()
-         IF(JTASK.EQ.1)THEN
+         IF(JTASK==1)THEN
            ALLOCATE(RCURV(NRTMDIM),ANGLM(NRTMDIM))
            ALLOCATE(NOD_NORMAL (3,NUMNOD))
 
-           IF(IPARIT.EQ.0)THEN
+           IF(IPARIT==0)THEN
 	     CALL I20NORMN(
      .         IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X ,NOD_NORMAL,
      .  		 IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG)
 cc             CALL MY_BARRIER()
-             IF(NSPMD.GT.1)THEN
+             IF(NSPMD>1)THEN
                LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
                CALL SPMD_EXCH_N(NOD_NORMAL,IAD_ELEM,FR_ELEM,LENR)
              END IF
@@ -401,7 +401,7 @@ C
       I_STOK = INTBUF_TAB%I_STOK(1)
 C decoupage statique
       NB_LOC = I_STOK / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -422,7 +422,7 @@ C inbuf == cand_n
         ENDIF
       ENDDO
 c------------------------------------------------
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
       ENDIF
@@ -434,7 +434,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -506,9 +506,9 @@ C
      K CMAJ)
         JLT = JLT_NEW
         IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
-        IF(JLT_NEW.NE.0) THEN
+        IF(JLT_NEW/=0) THEN
           IPARI(29) = 1
-          IF (DEBUG(3).GE.1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
+          IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 C
           IF( INTTH > 0 ) THEN 
              CALL I7THERM(JLT   ,IPARG ,PM  ,IXS   ,IFORM ,X      ,   
@@ -595,7 +595,7 @@ C----------------------------------------------------------------------
 C  cette partie est effectuee en // apres le calcul des forces des elem.
 C decoupage statique
         NB_LOC = I_STOK / NTHREAD
-        IF (JTASK.EQ.NTHREAD) THEN
+        IF (JTASK==NTHREAD) THEN
           I_STOK_LOC = I_STOK-NB_LOC*(NTHREAD-1)
         ELSE
           I_STOK_LOC = NB_LOC
@@ -611,7 +611,7 @@ C           inbuf == cand_S
             INTBUF_TAB%LCAND_S(I) = -INTBUF_TAB%LCAND_S(I)
           ENDIF
         ENDDO
-        IF (DEBUG(3).GE.1) THEN
+        IF (DEBUG(3)>=1) THEN
           NB_JLT = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
         ENDIF
@@ -622,7 +622,7 @@ C
             SFSAVPARIT = SFSAVPARIT + 1
           ENDIF
         ENDDO
-        IF (SFSAVPARIT .NE. 0) THEN
+        IF (SFSAVPARIT /= 0) THEN
           ALLOCATE(FSAVPARIT(NISUB+1,11,I_STOK),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
@@ -680,9 +680,9 @@ C         preparation candidats retenus
      C      SOLIDN_NORMAL_FE,NSMS)
           JLT = JLT_NEW
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
-          IF(JLT_NEW.NE.0) THEN
+          IF(JLT_NEW/=0) THEN
             IPARI(29) = 1
-            IF (DEBUG(3).GE.1)
+            IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
             CALL I20FOR3E(
      1 JLT          ,A            ,V            ,IBC        ,ICODT    ,
@@ -705,7 +705,7 @@ C         preparation candidats retenus
 
           ENDIF
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
-          IF(IMPL_S0.EQ.1) THEN
+          IF(IMPL_S0==1) THEN
             DO I = 1 ,JLT_NEW
              NS_IMP(I+NUM_IMP)=CS_LOC(I)
              NE_IMP(I+NUM_IMP)=CM_LOC(I)
@@ -749,11 +749,11 @@ C----------------------------------------------------------------------
           END IF
         END IF
       END IF
-      IF(ICURV==3.OR.IADM.NE.0)THEN
+      IF(ICURV==3.OR.IADM/=0)THEN
           CALL MY_BARRIER()
           IF(JTASK == 1)DEALLOCATE(NOD_NORMAL)
       END IF
-      IF(IADM.NE.0)THEN
+      IF(IADM/=0)THEN
           CALL MY_BARRIER()
           IF(JTASK == 1)DEALLOCATE(RCURV,ANGLM)
       END IF

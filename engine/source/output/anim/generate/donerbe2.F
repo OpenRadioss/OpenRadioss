@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       IF (NSPMD>1) THEN
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
             NERBE2_1 = NERBE2_1 + NERBE2T(I)
         ENDIF
       ELSE

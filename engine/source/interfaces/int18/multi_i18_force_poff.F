@@ -129,7 +129,7 @@ C
          IG=NSVG(I)
          ! --------------------
          ! local node
-         IF (IG .GT. 0) THEN
+         IF (IG > 0) THEN
             IG = IG - NUMNOD
             NG = IGROUPS(IG)
             NFT=IPARG(3,NG)

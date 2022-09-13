@@ -62,9 +62,9 @@ C-----------------------------------------------
 C
       NAD=0
       DO IG = 1, NUMGEO
-        IF(INT(GEO(12,IG)).EQ.15)THEN
+        IF(INT(GEO(12,IG))==15)THEN
           N=INT(GEO(31,IG))
-          IF(N.GT.0)THEN
+          IF(N>0)THEN
             DO J = NAD+1, NAD+N
               NN = PORNOD(J)
               IF(NLOCAL(NN,PROC+1)==1)THEN

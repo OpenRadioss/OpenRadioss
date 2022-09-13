@@ -177,7 +177,7 @@ C
 #include   "nofusion.inc"
       DO I=JFT,JLT
         IF( FAIL_OLD(I) < 4.OR.
-     .     (FAIL_OLD(I) < 8.AND. IOFF(I).LT.0) )THEN
+     .     (FAIL_OLD(I) < 8.AND. IOFF(I)<0) )THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         END IF
@@ -350,7 +350,7 @@ C-------------------------------------------------------------------
 #include "vectorize.inc"
         DO I=JFT,JLT
          IMATLY=MATLY(I)
-         IF(WPLA(I).NE.ZERO) THEN
+         IF(WPLA(I)/=ZERO) THEN
            SIGYT1 = PM(141,IMATLY)*
      .           (ONE+PM(142,IMATLY)*EXP(PM(143,IMATLY)*LOG(WPLA(I))))
            SIGYT2 =PM(146,IMATLY)*
@@ -582,7 +582,7 @@ C
          FMAX(I)= ONE
         ELSE
          EPSP(I)=ONE + CC(I) * EPSP(I)
-         IF (WPLA(I).NE.ZERO) THEN
+         IF (WPLA(I)/=ZERO) THEN
             FYLD(I)=(ONE +CB(I)*EXP(CN(I)*LOG(WPLA(I))))*EPSP(I)
          ELSE
             FYLD(I)=EPSP(I)
@@ -704,7 +704,7 @@ C
      .            F33(I)*S4(I)*S4(I) + TWO*F12(I)*S1(I)*S2(I)
             COEFB=F1(I)*S1(I)+F2(I)*S2(I)
             DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I) 
-            IF(DELTA.LT.ZERO)THEN
+            IF(DELTA<ZERO)THEN
              IF(IMCONV == 1)THEN
 #include "lockon.inc"
              WRITE(IOUT,3000) DELTA
@@ -767,22 +767,22 @@ C ----------------------------------------------------------
         ENDDO
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          IF (WVEC(I)>FYLD(I).AND.OFF(I)==ONE) COEF(I)=ONE    
           CNN=CN(I)-ONE
           WVEC(I)=ZERO
-          IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
+          IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 C
 Cst CRASURV +++
         DO  111 I=JFT,JLT                                                       
           BETA(I)=ONE                                                           
-          IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 111                       
+          IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 111                       
            COEFA= F11(I)*S1(I)*S1(I) + F22(I)*S2(I)*S2(I) + 
      .            F33(I)*S4(I)*S4(I) + F12(I)*S1(I)*S2(I)
            DELTA = FYLD(I) / COEFA
-          IF(DELTA .LT.ZERO)THEN                                                
-             IF(IMCONV.EQ.1)THEN 
+          IF(DELTA <ZERO)THEN                                                
+             IF(IMCONV==1)THEN 
 #include "lockon.inc"                                                        
                WRITE(IOUT,3000) DELTA  
 #include "lockoff.inc"                                                       
@@ -791,8 +791,8 @@ Cst CRASURV +++
           ELSE 
 CC
            DELTA = SQRT(DELTA)
-           IF(ABS(COEFA).LE.EM15) THEN                                        
-                IF(IMCONV.EQ.1)THEN
+           IF(ABS(COEFA)<=EM15) THEN                                        
+                IF(IMCONV==1)THEN
 #include "lockon.inc"                                                        
                    WRITE(IOUT,3010) COEFA
 #include "lockoff.inc"                                                       
@@ -800,7 +800,7 @@ CC
                 GO TO 111                            
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(ONE-DELTA).LE.                              
+          IF(ABS(ONE-DELTA)<=                              
      .       ABS(ONE+DELTA)) THEN                            
            BETA(I)= DELTA                             
           ELSE                                                                 
@@ -839,16 +839,16 @@ C ----------------------------------------------------------
         ENDDO      
 C
         DO I=JFT,JLT
-          IF (WVEC(I).GT.FYLD(I).AND.OFF(I).EQ.ONE) COEF(I)=ONE    
+          IF (WVEC(I)>FYLD(I).AND.OFF(I)==ONE) COEF(I)=ONE    
           CNN=CN(I)-ONE
           WVEC(I)=ZERO
-          IF(WPLA(I).GT.ZERO.AND.FYLD(I).LT.FMAX(I)) 
+          IF(WPLA(I)>ZERO.AND.FYLD(I)<FMAX(I)) 
      .           WVEC(I)=EPSP(I)*EXP(CNN*LOG(WPLA(I)))
         ENDDO
 CC
         DO  112 I=JFT,JLT                                                       
           BETA(I)=ONE                                                           
-          IF(COEF(I).EQ.ZERO.OR.IFLAG(I).EQ.0) GO TO 112 
+          IF(COEF(I)==ZERO.OR.IFLAG(I)==0) GO TO 112 
            IF(IYEILD(I) > 0) THEN     
 C--------------------------------------------------------------
 C  TSAI HILL
@@ -856,8 +856,8 @@ C--------------------------------------------------------------
              COEFA =F11(I)*S1(I)*S1(I) + F22(I)*S2(I)*S2(I)+ 
      .              F33(I)*S4(I)*S4(I) + F12(I)*S1(I)*S2(I)
              DELTA = FYLD(I) / COEFA
-             IF(DELTA .LT.ZERO)THEN  
-               IF(IMCONV.EQ.1)THEN 
+             IF(DELTA <ZERO)THEN  
+               IF(IMCONV==1)THEN 
 #include "lockon.inc"                                                        
                 WRITE(IOUT,3000) DELTA 
 #include "lockoff.inc"                                                       
@@ -866,8 +866,8 @@ C--------------------------------------------------------------
              ELSE 
 C
               DELTA = SQRT(DELTA)
-               IF(ABS(COEFA).LE.EM15) THEN 
-                  IF(IMCONV.EQ.1)THEN
+               IF(ABS(COEFA)<=EM15) THEN 
+                  IF(IMCONV==1)THEN
 #include "lockon.inc"                                                        
                    WRITE(IOUT,3010) COEFA
 #include "lockoff.inc"                                                       
@@ -875,7 +875,7 @@ C
                  GO TO 112                           
                ENDIF 
              ENDIF 
-             IF(ABS(ONE-DELTA).LE. ABS(ONE+DELTA)) THEN
+             IF(ABS(ONE-DELTA)<= ABS(ONE+DELTA)) THEN
                 BETA(I)= DELTA                             
               ELSE 
                  BETA(I)=-DELTA                                  
@@ -896,8 +896,8 @@ C --------------------------------------------------------------------
      .            F33(I)*S4(I)*S4(I) + TWO*F12(I)*S1(I)*S2(I)
             COEFB=F1(I)*S1(I)+F2(I)*S2(I)
             DELTA=COEFB*COEFB + FOUR*COEFA*FYLD(I)                         
-            IF(DELTA.LT.ZERO)THEN 
-              IF(IMCONV.EQ.1)THEN 
+            IF(DELTA<ZERO)THEN 
+              IF(IMCONV==1)THEN 
 #include "lockon.inc"                                                        
                WRITE(IOUT,3000) DELTA 
 #include "lockoff.inc"                                                       
@@ -906,9 +906,9 @@ C --------------------------------------------------------------------
              ELSE 
               DELTA=SQRT(DELTA)
           ENDIF                                                                
-          IF(ABS(COEFA).LE.EM15) THEN                                          
-            IF(ABS(COEFB).LE.EM15) THEN                                        
-             IF(IMCONV.EQ.1)THEN                                               
+          IF(ABS(COEFA)<=EM15) THEN                                          
+            IF(ABS(COEFB)<=EM15) THEN                                        
+             IF(IMCONV==1)THEN                                               
 #include "lockon.inc"                                                        
                WRITE(IOUT,3010) COEFB                                          
 #include "lockoff.inc"                                                       
@@ -918,7 +918,7 @@ C --------------------------------------------------------------------
                BETA(I)=FYLD(I)/COEFB                                           
             ENDIF                                                              
           ENDIF                                                                
-          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA).LE.                              
+          IF(ABS(ONE+(COEFB-DELTA)/TWO/COEFA)<=                              
      .       ABS(ONE+(COEFB+DELTA)/TWO/COEFA)) THEN                            
            BETA(I)=(-COEFB+DELTA)/TWO/COEFA                                   
           ELSE                                                                 

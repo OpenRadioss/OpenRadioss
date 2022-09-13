@@ -78,7 +78,7 @@ C
         IAD_RECV(1) = 1      
         DO I=1,NSPMD
           SIZ = 4*(ANCHOR_REMOTE%ADD_PROC(I+1)-ANCHOR_REMOTE%ADD_PROC(I))
-          IF(SIZ.NE.0)THEN
+          IF(SIZ/=0)THEN
             MSGTYP = 10000 + NSPMD*(I-1) + LOC_PROC
             CALL MPI_IRECV(
      S           RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -129,7 +129,7 @@ C
       IF (N_ANCHOR_REMOTE > 0) THEN
         DO I = 1, NSPMD
           NB_NOD = ANCHOR_REMOTE%ADD_PROC(I+1)-ANCHOR_REMOTE%ADD_PROC(I)
-          IF(NB_NOD.GT.0)THEN
+          IF(NB_NOD>0)THEN
             CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
             L = IAD_RECV(I)
 #include        "vectorize.inc"

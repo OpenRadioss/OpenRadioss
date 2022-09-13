@@ -90,7 +90,7 @@ c      !---------------------------------!
 c      ! Fill buffer from submaterial id !
 c      !---------------------------------!
 c      !case of generic input, material cards must be read before. It is done if program is here.
-c      IF(IFORM.EQ.12)THEN
+c      IF(IFORM==12)THEN
 c        CALL FILL_BUFFER_51(IPM,PM,UPARAM,BUFMAT)
 c        PM(38,MAT(1)) = UPARAM(42)
 c      ENDIF

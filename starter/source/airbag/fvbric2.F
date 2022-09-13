@@ -82,7 +82,7 @@ C-----------------------------------------------
 C
       NELA=0
       DO I=1,NEL
-         IF (TAGELS(I).EQ.0) THEN
+         IF (TAGELS(I)==0) THEN
             NELA=NELA+1
             TAGELA(NELA)=I
             ELEMA(1,NELA)=ELEM(1,I)
@@ -100,7 +100,7 @@ C
          NTYPE=TBRIC(2,I)
          NFAC=NFACE(NTYPE)
          DO J=1,NFAC
-            IF (TFAC(2*(J-1)+1,I).EQ.3) THEN
+            IF (TFAC(2*(J-1)+1,I)==3) THEN
 C La facette de solide est libre a l'interieur de l'airbag
                IF (NTYPE==2) THEN
                   NELA=NELA+1
@@ -127,7 +127,7 @@ C La facette de solide est libre a l'interieur de l'airbag
                   ELEMA(2,NELA)=KK
                   TAGELA(NELA)=-I
 C
-                  IF(NOD6(J).EQ.4) THEN
+                  IF(NOD6(J)==4) THEN
                      NELA=NELA+1
                      KK=FAC6(1,J)
                      KK=ITABINV(IXS(1+KK,II))
@@ -153,7 +153,7 @@ C
                   ELEMA(2,NELA)=KK
                   TAGELA(NELA)=-I
 C
-                  IF(NOD5(J).EQ.4) THEN
+                  IF(NOD5(J)==4) THEN
                      NELA=NELA+1
                      KK=FAC5(1,J)
                      KK=ITABINV(IXS(1+KK,II))

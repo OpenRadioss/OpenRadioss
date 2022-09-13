@@ -148,25 +148,25 @@ C=======================================================================
       IPRI=1
       IFLAG =0
       IF(TT0==-ONE)TT0=TT
-      IF(T1S.EQ.TT)IPRI=MOD(NCYCLE,IABS(NCPRI))
+      IF(T1S==TT)IPRI=MOD(NCYCLE,IABS(NCPRI))
       INFO=MDESS-MANIM
       ITHIS=0
       IABFIS=0
-      IF(TT.LT.THIS)ITHIS=1
-      IF(TT.LT.TABFIS(1))IABFIS=1
+      IF(TT<THIS)ITHIS=1
+      IF(TT<TABFIS(1))IABFIS=1
 C--------Multidomains : control of time history for subdomains-----------
-      IF ((IRAD2R.EQ.1).AND.(R2R_SIU.EQ.1).AND.(IDDOM.NE.0)) THEN
+      IF ((IRAD2R==1).AND.(R2R_SIU==1).AND.(IDDOM/=0)) THEN
         ITHIS=1
         DO I=1,10
-          IF (R2R_TH_MAIN(I).GT.0) ITHIS=0
+          IF (R2R_TH_MAIN(I)>0) ITHIS=0
         ENDDO
       ENDIF
 C get and reset elapsed time
       IF(IMON > 0) CALL ELAPSTIME(ETIME)
-      IF(IPRI.NE.0.AND.ITHIS.NE.0.AND.
-     .   INFO.LE.0.AND.ISTAT.EQ.0
-     .   .AND.NTH.EQ.0.AND.NANIM.EQ.0 .AND.
-     .    (IABFIS.NE.0.OR.ABFILE(1)==0) ) RETURN
+      IF(IPRI/=0.AND.ITHIS/=0.AND.
+     .   INFO<=0.AND.ISTAT==0
+     .   .AND.NTH==0.AND.NANIM==0 .AND.
+     .    (IABFIS/=0.OR.ABFILE(1)==0) ) RETURN
 C
 C     initialization / see corrections rbodies...
       EAMS=ENCIN 
@@ -188,8 +188,8 @@ C
 C
       IFLAG =1
       IF(N2D == 0 .AND. .NOT. MULTI_FVM%IS_USED) THEN
-       IF (IMPL_S.EQ.1) THEN
-        IF (IDYNA.GT.0) THEN
+       IF (IMPL_S==1) THEN
+        IF (IDYNA>0) THEN
          DT05=(ONE-DY_G)*DT1
          DO I = 1, NUMNOD
           MAS=MS(I)*WEIGHT_MD(I)
@@ -295,9 +295,9 @@ C--------DMAS,DMASND are used only at Ncycle=0, update MS_ND for restart
         MS_ND = MAS_ND        
       ENDIF
 C
-      IF(IRODDL.NE.0)THEN
-       IF (IMPL_S.EQ.1) THEN
-        IF (IDYNA.GT.0) THEN
+      IF(IRODDL/=0)THEN
+       IF (IMPL_S==1) THEN
+        IF (IDYNA>0) THEN
          DO I = 1, NUMNOD
           VX = DY_VR(1,I) - DT05*DY_AR(1,I)
           VY = DY_VR(2,I) - DT05*DY_AR(2,I)
@@ -326,7 +326,7 @@ C       ENROTD=0.5*ENROTD
 C
       ENINTD = EPOR + USREINT + (DAMPW+EDAMP)*DT05
       DAMPW = EDAMP
-      IF (NFXBODY.GT.0) THEN
+      IF (NFXBODY>0) THEN
          DO I=1,NFXBODY
             ADRRPM=FXBIPM(14,I)
             ENINTD=ENINTD+FXBRPM(ADRRPM+10)-FXBRPM(ADRRPM+14)
@@ -347,7 +347,7 @@ C
          NTY   =IPARI(7,I)
          IF(NTY==7.OR.NTY==21) THEN
             INTHE   =IPARI(47,I)  
-            IF (INTHE.GT.0) THEN   
+            IF (INTHE>0) THEN   
               ENINTD = ENINTD + QFRICINT(I)
             ENDIF
          ENDIF
@@ -370,15 +370,15 @@ C
       ZMOMT=ZMOMT+ZMOMTD
       XMASS=XMASS+XMASSD
 C
-      IF (IMPL_S.EQ.1) THEN
-       IF (IDYNA.EQ.0) THEN
+      IF (IMPL_S==1) THEN
+       IF (IDYNA==0) THEN
         ENCIN =ZERO
         ENROT =ZERO
         ENCIN2 =ZERO
         ENROT2 =ZERO        
         TFEXT=ENINT
-       ELSEIF (IDY_DAMP.GT.0) THEN
-C        IF (NSPMD.GT.1) CALL SPMD_SUM_S(DY_EDAMP)
+       ELSEIF (IDY_DAMP>0) THEN
+C        IF (NSPMD>1) CALL SPMD_SUM_S(DY_EDAMP)
         ENINT = ENINT + DY_EDAMP
        ENDIF
       ENDIF
@@ -399,7 +399,7 @@ C.....sommer les contributions puis standard
         ENTMP(11) = ENROT2                
         ENTMP(12) = EAMS    
         CALL SPMD_GLOB_DSUM9(ENTMP,12)
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           ENCIN = ENTMP(1)
           ENROT = ENTMP(2)
           ENINT = ENTMP(3)
@@ -414,19 +414,19 @@ C.....sommer les contributions puis standard
           EAMS   = ENTMP(12) 
         ENDIF
 C
-        IF (ISTAT.EQ.2) THEN
+        IF (ISTAT==2) THEN
 C istat=2 => relaxation : broadcast de encin et enrot
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,2,0,2)
-          IF (ISPMD.NE.0) THEN
+          IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
             ENROT = ENTMP(2)
             ENCIN2 = ENTMP(10)
             ENROT2 = ENTMP(11)            
           ENDIF
-        ELSEIF (ISTAT.EQ.3) THEN
+        ELSEIF (ISTAT==3) THEN
 C istat=3 => ADYREL : broadcast de encin et enrot ENINT
           CALL SPMD_RBCAST(ENTMP,ENTMP,1,3,0,3)
-          IF (ISPMD.NE.0) THEN
+          IF (ISPMD/=0) THEN
             ENCIN = ENTMP(1)
             ENROT = ENTMP(2)
             ENINT = ENTMP(3)
@@ -441,7 +441,7 @@ C
         ENTMP(6) = ECONTD   
         ENTMP(7) = ECONT_CUMU                             
         CALL SPMD_GLOB_DSUM9(ENTMP,7)
-        IF(ISPMD.NE.0) THEN
+        IF(ISPMD/=0) THEN
           TFEXT = ZERO
           EHOUR = ZERO
           ECONTV = ZERO
@@ -461,7 +461,7 @@ C
       ENDIF
 C
 C     EAMS = [ 1/2 v.Mv - 1/2 m v^2 ]/ 1/2 m v^2   
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         IF(IDTMINS/=0.OR.IDTMINS_INT/=0)THEN
           IF(EAMS > EM20)THEN
             EAMS = (ENCIN-EAMS)/EAMS
@@ -476,10 +476,10 @@ C     ENCIN + ENINT + ENROT + ENCIN2 + ENROT2
 C     ENTOT1B =
 C     (NC=0,ENCIN + ENINT + ENROT - TFEXT - TFEXT_MD) 
 C     + DEF + TFEXT + DELTAE + TFEXT_MD       
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
        ENTOT = ENCIN + ENINT + ENROT
        ENTOTB = ENTOT + ENCIN2 + ENROT2       
-       IF(NCYCLE.EQ.0) THEN
+       IF(NCYCLE==0) THEN
         ENTOT0=ENTOT - TFEXT - TFEXT_MD
         DELTAE=ENCIN2 + ENROT2                
         MASS0 = XMASS - DMAS
@@ -488,7 +488,7 @@ C     + DEF + TFEXT + DELTAE + TFEXT_MD
        ENTOT0= ENTOT0 + DEF       
        ENTOT1=ENTOT0 + TFEXT
        ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
-       IF(ABS(ENTOT1B).GT.EM20)THEN
+       IF(ABS(ENTOT1B)>EM20)THEN
          ERR = ENTOTB/ENTOT1B - ONE
          ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
        ELSE
@@ -499,29 +499,29 @@ C     + DEF + TFEXT + DELTAE + TFEXT_MD
 C-----------------------------------------------
 C /STATE/LSENSOR
 C-----------------------------------------------
-       IF (NSTATSENS.NE.0) THEN
+       IF (NSTATSENS/=0) THEN
           MSTATT = 0
           DO I=1,NSTATSENS
              ISENS = LSTATSENS(I)
              TS = SENSOR(2,ISENS)       
-             IF(TT.GE.TS)THEN
+             IF(TT>=TS)THEN
                 MSTAT(I) = MSTAT(I)+1    
              ENDIF
-             IF(MSTAT(I).EQ.1)  MSTATT=1
+             IF(MSTAT(I)==1)  MSTATT=1
           ENDDO
        ENDIF
 C-----------------------------------------------
 C /OUTP/LSENSOR
 C-----------------------------------------------
-       IF (NOUTPSENS.NE.0) THEN
+       IF (NOUTPSENS/=0) THEN
           MOUTPT = 0
           DO I=1,NOUTPSENS
              ISENS = LOUTPSENS(I)
              TS = SENSOR(2,ISENS)       
-             IF(TT.GE.TS)THEN
+             IF(TT>=TS)THEN
                 MOUTP(I) = MOUTP(I)+1    
              ENDIF
-             IF(MOUTP(I).EQ.1)  MOUTPT=1
+             IF(MOUTP(I)==1)  MOUTPT=1
           ENDDO
        ENDIF
 
@@ -549,36 +549,36 @@ C-----------------------------------------------
                 IWARN=IWARN+1
                 MSTOP=1
                 MREST=1
-                IF(NSTH.NE.0)THEN  !IF THIST FILE
+                IF(NSTH/=0)THEN  !IF THIST FILE
                    THIS= TT
                    IPRI= 0
                 ENDIF
-                IF(NSABF.NE.0)THEN  !IF ABF FILE
+                IF(NSABF/=0)THEN  !IF ABF FILE
                    DO J=1,10 
-                     IF(ABFILE(J).NE.0) THEN
+                     IF(ABFILE(J)/=0) THEN
                         TABFIS(J) = TT
                         TABFWR(J) = TT
                      ENDIF
                    ENDDO
                 ENDIF
-                IF(NSANIM.NE.0)THEN !IF ANIM FILE 
+                IF(NSANIM/=0)THEN !IF ANIM FILE 
                    MDESS = 1
                    TANIM = TT
                    IPRI  = 0
                 ENDIF 
-                IF(NSSTAT.NE.0)THEN !IF STAT FILE 
+                IF(NSSTAT/=0)THEN !IF STAT FILE 
                    TSTAT = TT
                    IPRI  = 0
                 ENDIF 
-                IF(NSOUTP.NE.0)THEN !IF OUTP FILE 
+                IF(NSOUTP/=0)THEN !IF OUTP FILE 
                   TOUTP = TT
                   IPRI  = 0
                ENDIF 
-                IF(NSH3D.NE.0)THEN !IF H3D FILE 
+                IF(NSH3D/=0)THEN !IF H3D FILE 
                    H3D_DATA%TH3D = TT
                    IPRI  = 0
                 ENDIF 
-                IF(NSDYNANIN.NE.0)THEN !IF DYNAIN FILE 
+                IF(NSDYNANIN/=0)THEN !IF DYNAIN FILE 
                    TDYNAIN = TT
                    IPRI  = 0
                 ENDIF 
@@ -586,60 +586,60 @@ C-----------------------------------------------
           ENDDO
        ENDIF
 C
-       IF((NERR_POSIT==0.AND.ABS(ERR).GT.DEMXK).OR.
-     .    (NERR_POSIT==1.AND.ERR.GT.DEMXK))THEN
+       IF((NERR_POSIT==0.AND.ABS(ERR)>DEMXK).OR.
+     .    (NERR_POSIT==1.AND.ERR>DEMXK))THEN
          CALL ANCMSG(MSGID=205,ANMODE=ANINFO)
          IERR=IERR+1
          MSTOP=1
-         IF(NTH.NE.0)THEN
+         IF(NTH/=0)THEN
           THIS= TT
           IPRI= 0
          ENDIF
-         IF(NANIM.NE.0)THEN
+         IF(NANIM/=0)THEN
           MDESS = 1
           TANIM = TT
           IPRI  = 0
          ENDIF                 
-       ELSEIF((NERR_POSIT==0.AND.ABS(ERR).GT.DEMXS).OR.
-     .        (NERR_POSIT==1.AND.ERR.GT.DEMXS))THEN
+       ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
+     .        (NERR_POSIT==1.AND.ERR>DEMXS))THEN
          CALL ANCMSG(MSGID=206,ANMODE=ANINFO)
          IWARN=IWARN+1
          MSTOP=1
          MREST=1
-         IF(NTH.NE.0)THEN
+         IF(NTH/=0)THEN
           THIS= TT
           IPRI= 0
          ENDIF
-         IF(NANIM.NE.0)THEN
+         IF(NANIM/=0)THEN
           MDESS = 1
           TANIM = TT
           IPRI  = 0
          ENDIF 
        ENDIF
 C
-       IF(EMASS.GT.DMTMXK)THEN
+       IF(EMASS>DMTMXK)THEN
          CALL ANCMSG(MSGID=207,ANMODE=ANINFO)
          IERR=IERR+1
          MSTOP=1
-         IF(NTH.NE.0)THEN
+         IF(NTH/=0)THEN
           THIS= TT
           IPRI = 0
          ENDIF
-         IF(NANIM.NE.0)THEN
+         IF(NANIM/=0)THEN
           MDESS = 1
           TANIM = TT
           IPRI  = 0
          ENDIF 
-       ELSEIF(EMASS.GT.DMTMXS)THEN
+       ELSEIF(EMASS>DMTMXS)THEN
          CALL ANCMSG(MSGID=208,ANMODE=ANINFO)
          IWARN=IWARN+1
          MSTOP=1
          MREST=1
-         IF(NTH.NE.0)THEN
+         IF(NTH/=0)THEN
           THIS= TT
           IPRI = 0
          ENDIF
-         IF(NANIM.NE.0)THEN
+         IF(NANIM/=0)THEN
           MDESS = 1
           TANIM = TT
           IPRI  = 0
@@ -650,7 +650,7 @@ C
 C Communication MSTOP & MREST
 C
       IF(NSPMD > 1) THEN
-        IF (ISPMD.EQ.0) THEN
+        IF (ISPMD==0) THEN
           RTMP(1) = MSTOP
           RTMP(2) = MREST
           RTMP(3) = MDESS
@@ -664,7 +664,7 @@ C
         ENDIF
 C
         CALL SPMD_RBCAST(RTMP,RTMP,10,1,0,2)
-        IF (ISPMD.NE.0) THEN
+        IF (ISPMD/=0) THEN
           MSTOP = NINT(RTMP(1))
           MREST = NINT(RTMP(2))
           MDESS = NINT(RTMP(3))
@@ -676,26 +676,26 @@ C
           TDYNAIN = RTMP(10)
         ENDIF
 
-        IF(INFO .GT. 0) CALL SPMD_EXCH_FVSTATS(MONVOL)
+        IF(INFO > 0) CALL SPMD_EXCH_FVSTATS(MONVOL)
 
-        IF(ISPMD.NE.0) RETURN
+        IF(ISPMD/=0) RETURN
         ! Only processor 0 will continue
 
       ENDIF
 
 C-----------------------------------------------
-      IF(IPRI.EQ.0)THEN
-        IF (NLPRI .NE. 0) ILIGN = NLPRI
+      IF(IPRI==0)THEN
+        IF (NLPRI /= 0) ILIGN = NLPRI
         JPRI=MOD(NCYCLE,ILIGN*IABS(NCPRI))
-C        IF(ITYPTS.EQ.0)ITYPTS=3
-        IF(JPRI.EQ.0) WRITE(IOUT,1000)
+C        IF(ITYPTS==0)ITYPTS=3
+        IF(JPRI==0) WRITE(IOUT,1000)
         WRITE(IOUT,1100) NCYCLE,TT,DT2,ELTYP(ITYPTS),NELTS,
      +        ERR1,ENINT,ENCIN,ENROT,TFEXT,EMASS,XMASS,XMASS-MASS0
 !             WRITE(IOUT,'(A)')
 !      +        '---------------------------------'
 !             WRITE(IOUT,'(A,F14.2,A,F14.2)')
 !      +        'ENTOTB',ENTOTB,' ENTOT1B',ENTOT1B
-!           IF(NCYCLE.EQ.0) THEN
+!           IF(NCYCLE==0) THEN
 !             WRITE(IOUT,'(A)')
 !      +        '---------------------------------------------'
 !             WRITE(IOUT,'(A,F14.2,A,F14.2,A,F14.2)')
@@ -718,15 +718,15 @@ C        IF(ITYPTS.EQ.0)ITYPTS=3
 !             WRITE(IOUT,'(A)')
 !      +        '---------------------------------------------'
         CALL MY_FLUSH(IOUT)
-        IF(NCPRI.LT.0) THEN
-          IF(DEBUG(10).NE.0)THEN
-            IF(NCYCLE.GE.DEBUG(10))THEN
+        IF(NCPRI<0) THEN
+          IF(DEBUG(10)/=0)THEN
+            IF(NCYCLE>=DEBUG(10))THEN
               write (*,*) "      ALE ADVECTION SET OFF"
             ENDIF
           ENDIF            
           WRITE(ISTDO,'(A,I8,2(A,1PE11.4),A,0PF5.1,A,1PE11.4)')
      .   ' NC=',NCYCLE,' T=',TT,' DT=',DT2,' ERR=',ERR1,'% DM/M=',EMASS 
-          IF(LAG_NC.GT.0) THEN
+          IF(LAG_NC>0) THEN
             WRITE(ISTDO,'(2(A,I8),A,1PE11.4)')
      .      '     LAG_NC=',LAG_NC,',   NITER_GC=',NITER_GC,
      .      ',   LAG_ERSQ2=',LAG_ERSQ2
@@ -742,7 +742,7 @@ C calcul temps restant
         ENDIF
       ENDIF
 C
-      IF(INFO.GT.0)THEN
+      IF(INFO>0)THEN
        WRITE (IUSC3,'(//,A)',ERR=990)        ' CURRENT STATE:'
        WRITE (IUSC3,'(A,/)',ERR=990)         ' --------------'
        WRITE (IUSC3,'(A,I10)',ERR=990)       ' CYCLE      =',NCYCLE

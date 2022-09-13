@@ -49,9 +49,9 @@ C-----------------------------------------------
       my_real
      . XX(3),XO(3),XR(3),RR,TET,P(9)
 C
-      IF(ILEV.EQ.1)THEN
+      IF(ILEV==1)THEN
 C        ORIG=ISKWN(1,IREF+1)
-       IF(ICEN.GT.0)THEN
+       IF(ICEN>0)THEN
          XO(1)=X(1,ICEN)
          XO(2)=X(2,ICEN)
          XO(3)=X(3,ICEN)

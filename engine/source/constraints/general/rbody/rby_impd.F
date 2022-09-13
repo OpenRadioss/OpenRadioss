@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N,K
 C-----------------------------------------------
-      IF( IMP_LR .GT. 0 ) THEN
+      IF( IMP_LR > 0 ) THEN
         DO I=1,NRBYAC
           N=IRBYAC(I)
           K=IRBYAC(I+NRBYKIN)+1
@@ -68,7 +68,7 @@ C-----------------------------------------------
      2                MS       ,IN  ,NDOF ,D   ,DR   )
         END DO
       ELSE
-       IF (ITRMAX.EQ.0) THEN
+       IF (ITRMAX==0) THEN
         DO I=1,NRBYAC
          N=IRBYAC(I)
          K=IRBYAC(I+NRBYKIN)+1
@@ -87,7 +87,7 @@ C-----------------------------------------------
        END IF
       END IF
 
-      IF (NUMELR.GT.0) THEN
+      IF (NUMELR>0) THEN
        CALL RBY_IMRD(NRBYAC,IRBYAC,X  ,RBY,LPBY,
      1               NPBY,SKEW,ISKEW,ITAB,WEIGHT,
      2               MS ,IN  ,SENSOR,NDOF ,D   ,
@@ -137,9 +137,9 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C optimisation spmd
-      IF (IMACH.EQ.3.AND.M.LT.0) RETURN
+      IF (IMACH==3.AND.M<0) RETURN
       NSN  =NBY(2)
-C       IF (NDOF(M).LT.6) WRITE(*,*)'WARNING'
+C       IF (NDOF(M)<6) WRITE(*,*)'WARNING'
        DO I=1,NSN
         N = NOD(I)
         XS=X(1,N)-X(1,M)
@@ -148,7 +148,7 @@ C       IF (NDOF(M).LT.6) WRITE(*,*)'WARNING'
         D(1,N)=D(1,M)+DR(2,M)*ZS-DR(3,M)*YS
         D(2,N)=D(2,M)-DR(1,M)*ZS+DR(3,M)*XS
         D(3,N)=D(3,M)+DR(1,M)*YS-DR(2,M)*XS
-        IF (NDOF(N).GT.3) THEN
+        IF (NDOF(N)>3) THEN
          DR(1,N)= DR(1,M)
          DR(2,N)= DR(2,M)
          DR(3,N)= DR(3,M)
@@ -186,7 +186,7 @@ C     REAL
       my_real
      .   XS,YS,ZS
 C-----------------------------------------------
-      IF (M.LT.0) RETURN
+      IF (M<0) RETURN
         XS=X(1,N)-X(1,M)
         YS=X(2,N)-X(2,M)
         ZS=X(3,N)-X(3,M)
@@ -249,7 +249,7 @@ C
          K=IRBYAC(I+NRBYKIN)
          M=NPBY(1,N)
          NSN=NPBY(2,N)
-         IF (M.GT.0) THEN
+         IF (M>0) THEN
           DO J=1,NSN
            NS=LPBY(K+J)
            ITAG(NS) =M
@@ -260,7 +260,7 @@ C
         DO I=1,NUMELR
          N1= IXR(2,I)
          N2= IXR(3,I)
-         IF (ITAG(N1).GT.0.AND.ITAG(N1).EQ.ITAG(N2)) THEN
+         IF (ITAG(N1)>0.AND.ITAG(N1)==ITAG(N2)) THEN
           CALL RBY_IMP4( X  ,N1 ,N2  ,ITAG(N1),D  ,DR )
          ENDIF
         ENDDO
@@ -338,7 +338,7 @@ C
        YS=X(2,N2)-X(2,N1)
        ZS=X(3,N2)-X(3,N1)
        L0 = SQRT(XS*XS+YS*YS+ZS*ZS)
-       IF (L0.LT.EM10) THEN
+       IF (L0<EM10) THEN
         D(1,N2)=D(1,N1)
         D(2,N2)=D(2,N1)
         D(3,N2)=D(3,N1)
@@ -400,7 +400,7 @@ C     REAL
 C-----------------------------------------------
       M    =NBY(1)
 C optimisation spmd
-      IF (IMACH.EQ.3.AND.M.LT.0) RETURN
+      IF (IMACH==3.AND.M<0) RETURN
       NSN  =NBY(2)
 C---determine iteration num.
       LMAX = ZERO
@@ -416,7 +416,7 @@ C---determine iteration num.
        ENDDO
        NP = RMAX*SQRT(LMAX)*FIVEUANTE
        NP = MIN(ITRMAX,NP)
-      IF (NP.LE.1) THEN
+      IF (NP<=1) THEN
        DO I=1,NSN
         N = NOD(I)
         XS=X(1,N)-X(1,M)
@@ -425,7 +425,7 @@ C---determine iteration num.
         D(1,N)=D(1,M)+DR(2,M)*ZS-DR(3,M)*YS
         D(2,N)=D(2,M)-DR(1,M)*ZS+DR(3,M)*XS
         D(3,N)=D(3,M)+DR(1,M)*YS-DR(2,M)*XS
-        IF (NDOF(N).GT.3) THEN
+        IF (NDOF(N)>3) THEN
          DR(1,N)= DR(1,M)
          DR(2,N)= DR(2,M)
          DR(3,N)= DR(3,M)
@@ -460,16 +460,16 @@ C---determine iteration num.
           D(1,N)=D(1,M)+D(1,N)-X(1,N)
           D(2,N)=D(2,M)+D(2,N)-X(2,N)
           D(3,N)=D(3,M)+D(3,N)-X(3,N)
-         IF (NDOF(N).GT.3) THEN
+         IF (NDOF(N)>3) THEN
           DR(1,N)= DR(1,M)
           DR(2,N)= DR(2,M)
           DR(3,N)= DR(3,M)
          ENDIF
         ENDDO
-      END IF !(NP.LE.1) THEN
+      END IF !(NP<=1) THEN
 C
        DO I=1,NSN
-        IF (LSM(I).GT.EM10) THEN
+        IF (LSM(I)>EM10) THEN
          N = NOD(I)
          XS=X(1,N)-X(1,M)+D(1,N)-D(1,M)
          YS=X(2,N)-X(2,M)+D(2,N)-D(2,M)
@@ -532,7 +532,7 @@ C-----------------------------------------------
 
       M = NBY(1)
 C optimisation spmd
-      IF (IMACH.EQ.3.AND.M.LT.0) RETURN
+      IF (IMACH==3.AND.M<0) RETURN
 
       DO I = 1, 3
         VRM(I) = DR(I,M)
@@ -549,7 +549,7 @@ C optimisation spmd
           D(J,N) = D(J,M) + DS(J)
         END DO
 
-        IF (NDOF(N).GT.3) THEN
+        IF (NDOF(N)>3) THEN
          DR(1,N)= DR(1,M)
          DR(2,N)= DR(2,M)
          DR(3,N)= DR(3,M)

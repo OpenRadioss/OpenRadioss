@@ -137,12 +137,12 @@ C-----------------------------------------------
       !======================================================!             
       !INTERFACE 22 ONLY - OUTPUT---------------!
       debug_outp = .false.
-      if(ibug22_flux22.ne.0)then
+      if(ibug22_flux22/=0)then
         debug_outp = .false.
-        if(ibug22_flux22.GT.0)then
+        if(ibug22_flux22>0)then
           do ib=nbf,nbl
              ie = brick_list(nin,ib)%id
-            if(ixs(11,ie).eq.ibug22_flux22)debug_outp=.true.
+            if(ixs(11,ie)==ibug22_flux22)debug_outp=.true.
           enddo
         elseif(ibug22_flux22==-1)then
           debug_outp = .true.
@@ -192,9 +192,9 @@ C-----------------------------------------------
         !======================================================!
         !COMPUTES LOCAL(VALEL) AND ADJACENT (VALVOIS) MOMENTUMS!
         !======================================================!        
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL      = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
           NBCUT                         = BRICK_LIST(NIN,IB)%NBCUT
           Jm                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
           IEm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3) 
@@ -249,7 +249,7 @@ C-----------------------------------------------
               !======================================================!
               IMAT                          = IXS(1,IE)
               IALEFVM_FLG                   = IPM(251,IMAT)
-              IF(IALEFVM_IFORM.NE.0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
+              IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
               
               
               SELECT CASE(I_ALE_SOLVER)
@@ -328,7 +328,7 @@ C-----------------------------------------------
                   IF(IBv /= 0)THEN
                     FACE                    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
                     FACEv                   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf 
-                    IF(FACEv.LT.FACE) CF(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Center(1:3)
+                    IF(FACEv<FACE) CF(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Center(1:3)
                   ENDIF
                   ZZadj(1)                  = Zadj(1)-Z(1)                                            
                   ZZadj(2)                  = Zadj(2)-Z(2)                                            
@@ -339,7 +339,7 @@ C-----------------------------------------------
                   PS                        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)     
                   ZZadj_                    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2                 
                   LAMBDA                    = PS / MAX(EM20,ZZadj_)                                   
-                  IF(lambda.LT.ZERO .OR. lambda .GT.ONE)then                          
+                  IF(lambda<ZERO .OR. lambda >ONE)then                          
                     print *, "labmda=", lambda                                       
 c                   pause                                                            
                   endif                                                              
@@ -366,8 +366,8 @@ c                   pause
               
               
               cellFLUX(J,ICELL,IB,IADj)      = (VF(1)*Norm(1,J) + VF(2)*Norm(2,J) + VF(3)*Norm(3,J)) 
-             !if(ncycle.GE.1 )then
-             !if(ixs(11,ie).eq.1802081 )then
+             !if(ncycle>=1 )then
+             !if(ixs(11,ie)==1802081 )then
              ! print *, "brick   =", ixs(11,ie)
              ! print *, "brickV  =", ixs(11,brick_list(nin,ibv)%id), brick_list(nin,ibv)%id
              ! print *, "eflux3 - brickID=", ixs(11,ie), icell
@@ -429,18 +429,18 @@ c                   pause
       if(debug_outp)then    
       call my_barrier
         if(itask==0)then                                                               
-        if(ibug22_flux22.gt.0 .OR. ibug22_flux22.eq.-1)then                     
+        if(ibug22_flux22>0 .OR. ibug22_flux22==-1)then                     
           print *, "    |------e22flux3_int22_fvm.F------|"  
           do ib=1,nb                                                    
             ie = brick_list(nin,ib)%Id 
-            if (ibug22_flux22.gt.0 .and. ibug22_flux22.NE. ixs(11,ie))CYCLE 
+            if (ibug22_flux22>0 .and. ibug22_flux22/= ixs(11,ie))CYCLE 
             icell = 0
             ncell = brick_list(nin,ib)%nbcut
             mcell = brick_list(nin,ib)%mainid
             NBCUT = ncell
-            DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+            DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
               ICELL      = ICELL +1
-              IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9
+              IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
               !print *, "      brique     =", ixs(11,ie)      
               !print *, "          id     =", brick_list(nin,ib)%id                                      
               !print *, "      NCYCLE     =", NCYCLE                                              
@@ -450,7 +450,7 @@ c                   pause
               do i=1,6                    
                 NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(i)%NAdjCell  
                 !do k=1,NADJ
-                !IF(ABS(cellFLUX(i,ICELL,IB,K)).LE.EM20)   cellFLUX(i,ICELL,IB,K) = ZERO 
+                !IF(ABS(cellFLUX(i,ICELL,IB,K))<=EM20)   cellFLUX(i,ICELL,IB,K) = ZERO 
                 !enddo
                                                                          
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(1)%Adjacent_FLUX(1:Nadj)
@@ -491,9 +491,9 @@ c                   pause
         NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
         MCELL             =  BRICK_LIST(NIN,IB)%MainID       
         ICELL             =  0  
-        DO WHILE (ICELL.LE.NCELL) ! loop on polyhedron {1:NCELL} U {9}
+        DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL.NE.0)ICELL=9 
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9 
           DO J=1,6
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (1)  = ZERO
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (2)  = ZERO
@@ -520,9 +520,9 @@ c                   pause
               IBv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
               Jv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)              
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)
-              IF(IDV.EQ.0)THEN
+              IF(IDV==0)THEN
                cellFLUX(J,ICELL,IB,IADJ)=cellFLUX(J,ICELL,IB,IADJ)*REDUC
-              ELSEIF(IDV.GT.0)THEN
+              ELSEIF(IDV>0)THEN
                NG      = BRICK_LIST(NIN,IB)%NG
                ISILENT = IPARG(64,NG)
                IF(ISILENT==1)THEN

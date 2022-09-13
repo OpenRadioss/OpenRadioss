@@ -103,7 +103,7 @@ C       creation des skews (prepare l'addition des conditions cinematiques).
          INOD=KXSP(3,I)
 C        SKEWS were built when LECSKW.
 C        ISKN(4,J)=-1
-         IF (ICODE(INOD).NE.0) THEN
+         IF (ICODE(INOD)/=0) THEN
              ISK=ISKEW(INOD)
              DO K=1,LSKEW
               SKEW(K,J)=SKEW(K,ISK)
@@ -158,19 +158,19 @@ C         prepares particles to be symetrized with respect to the condition.
              VOL   =MP/RHO
              DI    =GET_U_GEO(6,IPROP)
 C            Default=Characteristic length of hexagonal compact net:
-             IF(DI.EQ.0.) DI=(SQRT(2.)*VOL)**UNTIERS
-             IF (DD.LT.EM3*DI) THEN
+             IF(DI==0.) DI=(SQRT(2.)*VOL)**UNTIERS
+             IF (DD<EM3*DI) THEN
                 ISPTAG(N)=ISPTAG(N)+1
              ENDIF
           ENDDO
 C---------
 C        boundary conditions addition on nodes group.
-          IF(IGRS.NE.0)THEN
+          IF(IGRS/=0)THEN
             DO 888 J=1,IGRNOD(IGRS)%NENTITY
                 INOD=IGRNOD(IGRS)%ENTITY(J)
                 IC =ICODE(INOD)
                 ISK=ISKEW(INOD)
-                IF(IC.NE.0.AND.ISKN(1,ISK).NE.0) THEN
+                IF(IC/=0.AND.ISKN(1,ISK)/=0) THEN
 C                  WRITE(IOUT,*)
 C     .' ** ERROR INCOMPATIBLE KINEMATIC CONDITIONS :',
 C     .' SPH KINEMATIC CONDITION + BOUNDARY CONDITION',
@@ -193,27 +193,27 @@ C---------------
                 J6(6)=(IC2-4*J6(4)-2*J6(5))
                 NC=0
                 DO K=1,3
-                 IF(J6(K).NE.0) NC=NC+1
+                 IF(J6(K)/=0) NC=NC+1
                 ENDDO
-                IF(NC.EQ.3) THEN
+                IF(NC==3) THEN
 C---------------
                    CALL ANCMSG(MSGID=395,
      .                         MSGTYPE=MSGWARNING,
      .                         ANMODE=ANINFO_BLIND_2,
      .                         I1=ITAB(INOD))
-                ELSEIF(NC.EQ.2)THEN
+                ELSEIF(NC==2)THEN
 C---------------
 C               2 conditions deja realisees + 1 condition :
-                 IF(J6(1).EQ.1)THEN
+                 IF(J6(1)==1)THEN
                   K=1
-                  IF(J6(2).EQ.1)THEN
+                  IF(J6(2)==1)THEN
                    K2=4
                    K3=7
                   ELSE
                    K2=7
                    K3=4
                   ENDIF
-                 ELSEIF(J6(2).EQ.1)THEN
+                 ELSEIF(J6(2)==1)THEN
                   K =4
                   K2=7
                   K3=1
@@ -222,7 +222,7 @@ C               2 conditions deja realisees + 1 condition :
                  WY=SKEW(K3+1,ISK)
                  WZ=SKEW(K3+2,ISK)
                  PS=UX*WX+UY*WY+UZ*WZ
-                 IF(ABS(PS).LT.EM20) THEN
+                 IF(ABS(PS)<EM20) THEN
                     CALL ANCMSG(MSGID=396,
      .                          MSGTYPE=MSGWARNING,
      .                          ANMODE=ANINFO_BLIND_2,
@@ -232,14 +232,14 @@ C               2 conditions deja realisees + 1 condition :
                  J6(1)=0
                  J6(2)=0
                  J6(3)=0
-                 IF(K3.EQ.1)J6(1)=1
-                 IF(K3.EQ.4)J6(2)=1
-                 IF(K3.EQ.7)J6(3)=1
+                 IF(K3==1)J6(1)=1
+                 IF(K3==4)J6(2)=1
+                 IF(K3==7)J6(3)=1
                  IC1=J6(1)*4+J6(2)*2+J6(3)
                  IC2=0
                  IC=IC1*512+IC2*64
                  ICODE(INOD)=MY_OR(IC,ICODE(INOD))
-               ELSEIF(NC.EQ.1)THEN
+               ELSEIF(NC==1)THEN
 C---------------
                  K=7*J6(3)+4*J6(2)+J6(1)
                  VX=SKEW(K,ISK)
@@ -249,7 +249,7 @@ C---------------
                  WY=VZ*UX-VX*UZ
                  WZ=VX*UY-VY*UX
                  NW=SQRT(WX*WX+WY*WY+WZ*WZ)
-                 IF(NW.LT.EM20) THEN
+                 IF(NW<EM20) THEN
                     CALL ANCMSG(MSGID=397,
      .                          MSGTYPE=MSGWARNING,
      .                          ANMODE=ANINFO_BLIND_2)
@@ -266,9 +266,9 @@ C---------------
                  TY=TY/MAX(NT,EM20)
                  TZ=TZ/MAX(NT,EM20)
                  K2=K+3
-                 IF(K2.GT.9)K2=1
+                 IF(K2>9)K2=1
                  K3=K2+3
-                 IF(K3.GT.9)K3=1
+                 IF(K3>9)K3=1
                  SKEW(K2,ISK)  =TX
                  SKEW(K2+1,ISK)=TY
                  SKEW(K2+2,ISK)=TZ
@@ -278,18 +278,18 @@ C---------------
                  J6(1)=0
                  J6(2)=0
                  J6(3)=0
-                 IF(K2.EQ.1)J6(1)=1
-                 IF(K2.EQ.4)J6(2)=1
-                 IF(K2.EQ.7)J6(3)=1
+                 IF(K2==1)J6(1)=1
+                 IF(K2==4)J6(2)=1
+                 IF(K2==7)J6(3)=1
                  IC1=J6(1)*4+J6(2)*2+J6(3)
                  IC2=0
                  IC=IC1*512+IC2*64
                  ICODE(INOD)=MY_OR(IC,ICODE(INOD))
-               ELSEIF(NC.EQ.0)THEN
+               ELSEIF(NC==0)THEN
                  DO K=1,9
                   SKEW(K,ISK)=XFRAME(K,IFR)
                  ENDDO
-                 IF(ISLIDE.EQ.0)THEN
+                 IF(ISLIDE==0)THEN
                   IC1=7
                  ELSE
                   IC1=2**(3-ICSP)

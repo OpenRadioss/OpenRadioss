@@ -137,28 +137,28 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Crz',CRZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(.NOT.IS_AVAILABLE) OFLAG = OFLAG + 1
 C-----------------------
-      IF (IDSK1.LE.0.OR.IDSK1.LE.0) THEN
+      IF (IDSK1<=0.OR.IDSK1<=0) THEN
          CALL ANCMSG(MSGID=386,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF
-      IF (KNN.EQ.0.) THEN
+      IF (KNN==0.) THEN
          CALL ANCMSG(MSGID=387,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF
-      IF (CR.LT.ZERO.OR.CR.GT.1.) THEN
+      IF (CR<ZERO.OR.CR>1.) THEN
          CALL ANCMSG(MSGID=388,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
       ENDIF
-      IF (CR.EQ.ZERO) CR = FIVEEM2
+      IF (CR==ZERO) CR = FIVEEM2
 C
       XTYP = ITYP
       XFLG = SKFLAG
@@ -167,12 +167,12 @@ C
       MASS = ZERO
       INER = ZERO
 C
-      IF(CRX.EQ.ZERO.AND.IFUN_CRX.NE.0)CRX = ONE
-      IF(CRY.EQ.ZERO.AND.IFUN_CRY.NE.0)CRY = ONE
-      IF(CRZ.EQ.ZERO.AND.IFUN_CRZ.NE.0)CRZ = ONE
-      IF(KRX.EQ.ZERO.AND.IFUN_RX.NE.0) KRX = ONE
-      IF(KRY.EQ.ZERO.AND.IFUN_RY.NE.0) KRY = ONE
-      IF(KRZ.EQ.ZERO.AND.IFUN_RZ.NE.0) KRZ = ONE
+      IF(CRX==ZERO.AND.IFUN_CRX/=0)CRX = ONE
+      IF(CRY==ZERO.AND.IFUN_CRY/=0)CRY = ONE
+      IF(CRZ==ZERO.AND.IFUN_CRZ/=0)CRZ = ONE
+      IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE
+      IF(KRY==ZERO.AND.IFUN_RY/=0) KRY = ONE
+      IF(KRZ==ZERO.AND.IFUN_RZ/=0) KRZ = ONE
 C-----------------------
       IF (IFUN_RX  /= 0) KRX = KRX * FAC_MM
       IF (IFUN_RY  /= 0) KRY = KRY * FAC_MM
@@ -230,7 +230,7 @@ C-----------------------
       IF(IS_CRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-       IF (OFLAG.EQ.6) THEN
+       IF (OFLAG==6) THEN
          WRITE(IOUT,1001) IDSK1,IDSK2,XK,CR,KNN,KRX,KRY,KRZ,
      .                    IFUN_RX,IFUN_RY,IFUN_RZ
        ELSE

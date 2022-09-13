@@ -246,7 +246,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
          BC2=VKSI(1,NG)*TBC(EP,1,2)+VETA(1,NG)*TBC(EP,2,2)
 C          I = 1; JJ = 3*KK =0
 C---------CONTRIBUTION DU <T1> :EPS-X
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -317,7 +317,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
 C
 C         I = 1; JJ = 3*KK =9
 C---------:EPS-X:EPS-Y:EPS-XY
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -388,7 +388,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
          BC2=VKSI(3,NG)*TBC(EP,1,2)+VETA(3,NG)*TBC(EP,2,2)
 C         I = 1;JJ = 3*KK=18
 C---------:EPS-X:EPS-Y:EPS-XY
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -461,7 +461,7 @@ C         I = 1; JJ = 3*KK =27
           BM(I,29)=VQ(EP,1,2,NG)*C2
           BMF(I,29)=THK(EP)*BM(I,29)+VQ(EP,1,2,NG)*BC2
 C---------CONTRIBUTION DU <T> :EPS-XY
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -617,7 +617,7 @@ C--------TERMES <ASI>-------
           BC(I,30)=V11(4)*VASTN(EP,16)
        ENDDO 
 C--------pour rigidite en rzz-------
-       IF (ISROT.EQ.0) THEN
+       IF (ISROT==0) THEN
 #include "vectorize.inc"
        DO I=NPLAT+1,JLT 
         EP=IPLAT(I)
@@ -630,7 +630,7 @@ C--------pour rigidite en rzz-------
         BZZ(I,7)=TC(EP,1,1)*VKSI(4,NG)+TC(EP,2,1)*VETA(4,NG)
         BZZ(I,8)=TC(EP,1,2)*VKSI(4,NG)+TC(EP,2,2)*VETA(4,NG)
        ENDDO 
-       END IF !(ISROT.EQ.0) THEN
+       END IF !(ISROT==0) THEN
        RETURN
        END
 C   ----nouvelle routine ---

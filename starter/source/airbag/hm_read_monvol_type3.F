@@ -440,7 +440,7 @@ C-----------------------------------------------
      .     /15X,'  (TOTAL AREA IS CONSIDERED)            ',
      .     /15X,'AVENT (VENT HOLE AREA OR SCALE FACTOR) =',1PG20.13,
      .     /15X,'  IF IPDEF=0    : VENT HOLE AREA '
-     .     /15X,'  IF IPDEF.NE.0 : VENT HOLE AREA SCALE FACTOR'
+     .     /15X,'  IF IPDEF/=0 : VENT HOLE AREA SCALE FACTOR'
      .     /15X,'POROSITY FUNCTION / TIME. . . . . . . .=',I10,
      .     /15X,'POROSITY FUNCTION / PRESSURE. . . . . .=',I10,
      .     /15X,'POROSITY FUNCTION / AREA. . . . . . . .=',I10,
@@ -458,7 +458,7 @@ C-----------------------------------------------
      .     /15X,'  (DELETED ELEMENTS AREA IS CONSIDERED) ',
      .     /15X,'AVENT (VENT HOLE AREA OR SCALE FACTOR) =',1PG20.13,
      .     /15X,'  IF IPDEF=0    : VENT HOLE AREA '
-     .     /15X,'  IF IPDEF.NE.0 : VENT HOLE AREA SCALE FACTOR'
+     .     /15X,'  IF IPDEF/=0 : VENT HOLE AREA SCALE FACTOR'
      .     /15X,'POROSITY FUNCTION / TIME. . . . . . . .=',I10,
      .     /15X,'POROSITY FUNCTION / PRESSURE. . . . . .=',I10,
      .     /15X,'POROSITY FUNCTION / AREA. . . . . . . .=',I10,

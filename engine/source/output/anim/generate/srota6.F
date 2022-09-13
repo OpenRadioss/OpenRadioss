@@ -130,9 +130,9 @@ C        Corotational frame - hexa spotwelds
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,                       
      .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,                       
      .     R11, R12, R13, R21, R22, R23, R31, R32, R33)          
-       ELSEIF(KHBE.NE.15)THEN
+       ELSEIF(KHBE/=15)THEN
 C        REPERE CONVECTE
-         IF (KHBE.EQ.24.OR.KHBE.EQ.14) THEN
+         IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,               
      .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,               
@@ -155,7 +155,7 @@ C        REPERE CONVECTE
 C-----------
 C     ORTHOTROPIC ELEMENTS : Rotation from ORHTOROPIC FRAME TO LOCAL FRAME
 C-----------
-      IF (KCVT.EQ.2) THEN
+      IF (KCVT==2) THEN
         IF (ISORTH > 0) THEN
         G11=GAMA(1)
         G21=GAMA(2)

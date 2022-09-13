@@ -66,7 +66,7 @@ C---  Node 1 skew
       XT1(1) = XT1(1)*NORM
       XT1(2) = XT1(2)*NORM
       XT1(3) = XT1(3)*NORM
-      IF (ABS(XT1(1)).GT.ZEP99) THEN
+      IF (ABS(XT1(1))>ZEP99) THEN
         ZT1(1) =-XT1(3)
         ZT1(2) = ZERO
         ZT1(3) = XT1(1)
@@ -90,7 +90,7 @@ C---  Node 2 skew
       XT2(1) = XT2(1)*NORM
       XT2(2) = XT2(2)*NORM
       XT2(3) = XT2(3)*NORM
-      IF (ABS(XT2(1)).GT.ZEP99) THEN
+      IF (ABS(XT2(1))>ZEP99) THEN
         ZT2(1) =-XT2(3)
         ZT2(2) = ZERO
         ZT2(3) = XT2(1)

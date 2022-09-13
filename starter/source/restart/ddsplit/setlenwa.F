@@ -83,7 +83,7 @@ C Interface
       NINTWA  = NMNT0+L_MUL_LAG1                                    ! en toute rigueur NMNT local
 C
 C Assemblage
-      IF(IMACH.NE.3) THEN
+      IF(IMACH/=3) THEN
 C SMP : allocation memoire partagee dans le WA (appel asspar2)
         NASSNMP = 4*NUMNOD0+2
 C valeur precedente divisee par 2 car au moins 2 taches
@@ -148,23 +148,23 @@ C MULTIMAX : parametre servant a allouer les buffer de comm interface engine (SP
 C
       MULTIMAX = 0
       ICONT = 0
-      IF(IMACH.EQ.3) THEN
+      IF(IMACH==3) THEN
         DO I = 1, NINTER
           MULTIMP = IPARI(23,I)
-	  IF(MULTIMP.LE.4) THEN
+	  IF(MULTIMP<=4) THEN
 	    MULTIMAX = MAX(MULTIMAX,4*MULTIMP)
-	  ELSEIF(MULTIMP.LE.12)THEN
+	  ELSEIF(MULTIMP<=12)THEN
 	    MULTIMAX= MAX(MULTIMAX,3*MULTIMP)
-	  ELSEIF(MULTIMP.GT.12)THEN
+	  ELSEIF(MULTIMP>12)THEN
 	    MULTIMAX= MAX(MULTIMAX,2*MULTIMP)
 	  END IF
           ITY = IPARI(7,I)
-          IF(ITY.EQ.7.OR.ITY.EQ.10.OR.ITY.EQ.11.OR.
-     .       ITY.EQ.22)ICONT=1
+          IF(ITY==7.OR.ITY==10.OR.ITY==11.OR.
+     .       ITY==22)ICONT=1
         END DO
-        IF(NUMSPH.NE.0.AND.MULTIMAX.EQ.0)MULTIMAX=1
-        IF(NUMELX.NE.0.AND.MULTIMAX.EQ.0)MULTIMAX=4
-        IF(NINTER.GT.0.AND.ICONT.EQ.0)MULTIMAX=100
+        IF(NUMSPH/=0.AND.MULTIMAX==0)MULTIMAX=1
+        IF(NUMELX/=0.AND.MULTIMAX==0)MULTIMAX=4
+        IF(NINTER>0.AND.ICONT==0)MULTIMAX=100
       END IF
 C
       RETURN

@@ -96,7 +96,7 @@ C
 C-----------------------------------------------                        
 C       TRUSS                                                           
 C-----------------------------------------------                        
-        IF(ITY.EQ.4)THEN                                                
+        IF(ITY==4)THEN                                                
          DO I=LFT,LLT                                                   
             N = I + NFT                                                 
             N_FA = I + NFT_FA                                           
@@ -113,7 +113,7 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       POUTRES                                                         
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.5)THEN                                            
+        ELSEIF(ITY==5)THEN                                            
          DO I=LFT,LLT                                                   
             N = I + NFT                                                 
             N_FA = I + NFT_FA                                           
@@ -130,15 +130,15 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       RESSORTS                                                        
 C-----------------------------------------------                        
-        ELSEIF(ITY.EQ.6)THEN                                            
-          IF(MLW.EQ.3)THEN                                              
+        ELSEIF(ITY==6)THEN                                            
+          IF(MLW==3)THEN                                              
            DO I=LFT,LLT                                                 
             N = I + NFT                                                 
             N_FA = I + NFT_FA                                           
               MAS(EL2FA(NN8+N_FA))   = HALF*GEO(1,IXR(1,N))           
               MAS(EL2FA(NN8+N_FA)+1) = HALF*GEO(1,IXR(1,N))           
            ENDDO                                                        
-          ELSEIF(MLW.EQ.5) THEN                                         
+          ELSEIF(MLW==5) THEN                                         
 cc           NB1 =IAD - 1                                                 
 cc           NB2 =NB1  + NEL                                              
            NUVAR =  NINT(GEO(25,IXR(1,1+NFT)))                          

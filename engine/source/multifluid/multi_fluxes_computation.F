@@ -136,7 +136,7 @@ C-----------------------------------------------
 
       PSHIFT = MULTI_FVM%PRES_SHIFT
 
-      IF (NBMAT .GT. 1) THEN
+      IF (NBMAT > 1) THEN
 !DIR$ NOVECTOR
          DO IMAT = 1, NBMAT
             LBUFS(IMAT)%LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
@@ -156,7 +156,7 @@ C     3D
             GLOBAL_ID_CURRENT_ELM(II) = IXS(NIXS,I)
          ENDDO
       CASE (1, 2)
-         IF (ITY .EQ. 2) THEN
+         IF (ITY == 2) THEN
 C     QUADS
             NB_FACE = 4
             NUMEL_SPMD = NUMELQ
@@ -167,7 +167,7 @@ C     QUADS
             I = II + NFT
             GLOBAL_ID_CURRENT_ELM(II) = IXQ(NIXQ,I)
          ENDDO
-         ELSEIF (ITY .EQ. 7) THEN
+         ELSEIF (ITY == 7) THEN
 C     TRIANGLES
             NB_FACE = 3
             NUMEL_SPMD = NUMELTG
@@ -204,7 +204,7 @@ C     Face normal
             ID_GLOBAL_VOIS_1 = GLOBAL_ID_CURRENT_ELM(II)            
             ID_GLOBAL_VOIS_2 = ID_GLOBAL_VOIS( NB_FACE * (I_OLD - 1) + KFACE3 )
 !   -----------------------------------------------
-            IF (J_OLD .GT. 0 .AND. I_OLD .LT. J_OLD) THEN
+            IF (J_OLD > 0 .AND. I_OLD < J_OLD) THEN
                ! ----------------------
                KFACE_OLD = KFACE3
                KFACE2_OLD = MULTI_FVM%FVM_CONNECTIVITY%KVOIS(NB_FACE * (I_OLD - 1) + KFACE3)
@@ -283,7 +283,7 @@ C     Specific for Low Mach number corrections
 C     Intermediate pressure
                PSTAR2 = PII + RHOII * (SSTAR - NORMAL_VELII) * (SL - NORMAL_VELII)
 C               PSTAR2 = HALF * (PSTAR + PJJ + RHOJJ * (SSTAR - NORMAL_VELJJ) * (SR - NORMAL_VELJJ))
-               IF (MIN(MACHII, MACHJJ) .LT. EM01) THEN
+               IF (MIN(MACHII, MACHJJ) < EM01) THEN
                   THETA = MIN(MACHII, MACHJJ)
                ELSE
                   THETA = ONE
@@ -303,7 +303,7 @@ C               PSTAR2 = HALF * (PSTAR + PJJ + RHOJJ * (SSTAR - NORMAL_VELJJ) * 
                   PP(5) = SSTAR * (PSTAR2 + PSHIFT)
                ENDIF
 
-               IF (SL .GT. NORMALW) THEN
+               IF (SL > NORMALW) THEN
 C     Take the fluxes of cell II
 C     ===
 C     Global fluxes
@@ -323,7 +323,7 @@ C     Normal physical flux curent element
                   massflux1 = MULTI_FVM%FLUXES(1, KFACE_OLD, I_OLD)
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT > 1) THEN
                      massflux2 = ZERO
                      DO IMAT = 1, NBMAT
                         ALPHAII = MULTI_FVM%PHASE_ALPHA(IMAT, I)
@@ -343,7 +343,7 @@ C     Submaterial fluxes
                      ENDDO
                   ENDIF                  
 C     
-               ELSEIF (SL .LE. NORMALW .AND. NORMALW .LE. SSTAR) THEN
+               ELSEIF (SL <= NORMALW .AND. NORMALW <= SSTAR) THEN
 C     Global fluxes
                   VII(1) = RHOII
                   VII(2) = RHOII * VXII
@@ -368,7 +368,7 @@ C     Global fluxes
                   massflux1 = MULTI_FVM%FLUXES(1, KFACE_OLD, I_OLD)
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT > 1) THEN
                      massflux2 = ZERO
                      DO IMAT = 1, NBMAT
                         MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
@@ -378,7 +378,7 @@ C     Submaterial fluxes
                         ALPHASTAR = ALPHAII
                         SUB_RHOSTAR = SUB_RHOII * (NORMAL_VELII - SL) / (SSTAR - SL)
                         SUB_PII = MULTI_FVM%PHASE_PRES(IMAT, I)
-                        IF (ALPHASTAR .GT. ZERO) THEN
+                        IF (ALPHASTAR > ZERO) THEN
 c$$$                           CALL ENERGY_JUMP(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
 c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_PII, (SSTAR - NORMAL_VELII) / (SSTAR - SL), 
 c$$$     .                          LBUFS(IMAT)%LBUF%BFRAC(II), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
@@ -402,7 +402,7 @@ c$$$     .                          SUB_ESTAR, BUFMAT)
                         massflux2 = massflux2 + MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE_OLD, I_OLD)
                      ENDDO
                   ENDIF
-               ELSEIF (SSTAR .LT. NORMALW .AND. NORMALW .LE. SR) THEN
+               ELSEIF (SSTAR < NORMALW .AND. NORMALW <= SR) THEN
 C     Global fluxes
                   VII(1) = RHOJJ
                   VII(2) = RHOJJ * VXJJ
@@ -427,7 +427,7 @@ C     Global fluxes
                   massflux1 = MULTI_FVM%FLUXES(1, KFACE_OLD, I_OLD)
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT > 1) THEN
                      massflux2 = ZERO
                      DO IMAT = 1, NBMAT
                         MATLAW(IMAT) = IPM(2, LOCAL_MATID(IMAT))
@@ -437,7 +437,7 @@ C     Submaterial fluxes
                         ALPHASTAR = ALPHAII
                         SUB_RHOSTAR = SUB_RHOII * (NORMAL_VELJJ - SR) / (SSTAR - SR)
                         SUB_PII = MULTI_FVM%PHASE_PRES(IMAT, J)
-                        IF (ALPHASTAR .GT. ZERO) THEN
+                        IF (ALPHASTAR > ZERO) THEN
 c$$$                           CALL ENERGY_JUMP(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
 c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_PII, (SSTAR - NORMAL_VELJJ) / (SSTAR - SR), 
 c$$$     .                          LBUFS(IMAT)%LBUF%BFRAC(II), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
@@ -462,7 +462,7 @@ c$$$     .                          SUB_ESTAR, BUFMAT)
                         massflux2 = massflux2 + MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE_OLD, I_OLD)
                      ENDDO
                   ENDIF
-               ELSE IF (SR .LT. NORMALW) THEN
+               ELSE IF (SR < NORMALW) THEN
 C     Take the fluxes of cell JJ
 C     ===
 C     Global fluxes
@@ -482,7 +482,7 @@ C     Normal physical flux curent element
                   massflux1 = MULTI_FVM%FLUXES(1, KFACE_OLD, I_OLD)
 C     ===
 C     Submaterial fluxes
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT > 1) THEN
                      massflux2 = ZERO
                      DO IMAT = 1, NBMAT
                         ALPHAII = MULTI_FVM%PHASE_ALPHA(IMAT, J)
@@ -506,9 +506,9 @@ C     Submaterial fluxes
 C
                ENDIF
 
-               IF (J_OLD .LE. NUMEL_SPMD) THEN
+               IF (J_OLD <= NUMEL_SPMD) THEN
                   MULTI_FVM%FLUXES(1:6, KFACE2_OLD, J_OLD) = -MULTI_FVM%FLUXES(1:6, KFACE_OLD, I_OLD)
-                  IF (NBMAT .GT. 1) THEN
+                  IF (NBMAT > 1) THEN
                      DO IMAT = 1, NBMAT
                         MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE2_OLD, J_OLD) = -MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE_OLD, I_OLD)
                         MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE2_OLD, J_OLD) = -MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE_OLD, I_OLD)
@@ -519,7 +519,7 @@ C
                   !PRINT*, "VOISIN DOMAINE"
                ENDIF
 !   -----------------------------------------------
-            ELSE IF(J_OLD .LE. 0) THEN
+            ELSE IF(J_OLD <= 0) THEN
                ELEMID = I_OLD
                VX = MULTI_FVM%VEL(1, ELEMID)
                VY = MULTI_FVM%VEL(2, ELEMID)
@@ -547,7 +547,7 @@ C     Intermediate wave speed
                MULTI_FVM%FLUXES(6, KFACE3, ELEMID) = SURF * NORMALW
 C     ===
 C     Submaterial fluxes
-               IF (NBMAT .GT. 1) THEN
+               IF (NBMAT > 1) THEN
                   DO IMAT = 1, NBMAT
                      MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE3, I_OLD) = ZERO
                      MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE3, I_OLD) = ZERO
@@ -607,13 +607,13 @@ C     Initialization
       TEMP = ZERO
       ITER = 0
       CONT = .TRUE.
-      DO WHILE(CONT .AND. ITER .LT. MAX_ITER) 
+      DO WHILE(CONT .AND. ITER < MAX_ITER) 
          ITER = ITER + 1
          CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, RHOSTAR * ESTAR, PSTAR, RHOSTAR, SSP, VOL, GRUN, 
      .        PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
      .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF)
 
-         IF (GRUN .EQ. ZERO) THEN
+         IF (GRUN == ZERO) THEN
             ERROR = ZERO
             CONT = .FALSE.
             ESTAR = EINT
@@ -622,18 +622,18 @@ C     Initialization
             FUNC = ESTAR - EINT + ALPHA / RHOSTAR * HALF * (PSTAR + PRES)
             DFUNC = ONE + ALPHA * HALF * GRUN
             INCR = - FUNC / DFUNC
-c$$$  IF (INCR .LT. ZERO) THEN
+c$$$  IF (INCR < ZERO) THEN
 c$$$  INCR = MAX(INCR, - HALF * ESTAR)
 c$$$  ENDIF
             ESTAR = ESTAR + INCR
             ERROR = ABS(INCR)
-            IF (ERROR .LT. TOL * ABS(ESTAR)) THEN
+            IF (ERROR < TOL * ABS(ESTAR)) THEN
                CONT = .FALSE.
             ENDIF
          ENDIF
       ENDDO
       
-      IF (ERROR .GT. TOL * ABS(ESTAR)) THEN
+      IF (ERROR > TOL * ABS(ESTAR)) THEN
 !         PRINT*, "ESTAR NOT FOUND"
          ESTAR = EINT
          PSTAR = PRES

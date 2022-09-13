@@ -101,31 +101,31 @@ C-----------------------------------------------
       NBT8 = 0
     
 
-      IF (IMPL_S.EQ.1) IAD = 1
+      IF (IMPL_S==1) IAD = 1
 C
       DO 200 N=1,NINTER
        NTY   =IPARI(7,N)
        ! used to identify the communication
        ! Will be replace by MPI_Request with
        ! MPI 3.0 support
-c      IF(ISPMD.NE.0) GOTO 200 !TO REMOVE
-       IF(NTY.EQ.8) THEN
+c      IF(ISPMD/=0) GOTO 200 !TO REMOVE
+       IF(NTY==8) THEN
         NBT8 = NBT8 + 1    
-        IF(IPARI(16,N).EQ.NCYCLE)THEN
+        IF(IPARI(16,N)==NCYCLE)THEN
         ELSE
         IPARI(16,N) = NCYCLE
 C 
          ISENS = 0
 
-         IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+         IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
          ENDIF
 C
-         IF(N2D.EQ.0)THEN
-           IF(IMPL_S.NE.1)THEN
-              IF(TT.GE.TS) THEN
+         IF(N2D==0)THEN
+           IF(IMPL_S/=1)THEN
+              IF(TT>=TS) THEN
                 CALL INTVO8(
      1        IPARI(1,N) ,X,A    ,
      2        ICODT      ,FSAV(1,N)    ,V ,MS       ,
@@ -137,7 +137,7 @@ C
              ENDIF
            ELSE
              NUM_IMP(N) =0
-              IF(TT.GE.TS) THEN
+              IF(TT>=TS) THEN
                 CALL INTVO8(
      1          IPARI(1,N) ,X ,A        ,
      2          ICODT      ,FSAV(1,N)    ,V ,MS       ,
@@ -153,7 +153,7 @@ C
 
          ENDIF !N2D
         ENDIF !IPARI(16)
-       ENDIF !NTY.EQ.8
+       ENDIF !NTY==8
   200 CONTINUE
 C
 
@@ -161,12 +161,12 @@ C
       NBT8 = 0
       DO N=1,NINTER
          NTY   =IPARI(7,N)
-c        IF(ISPMD.NE.0) GOTO 200 !TO REMOVE
-         IF(NTY.EQ.8) THEN
+c        IF(ISPMD/=0) GOTO 200 !TO REMOVE
+         IF(NTY==8) THEN
            NBT8 = NBT8+1
            STARTT=INTBUF_TAB(N)%VARIABLES(3)
            STOPT=INTBUF_TAB(N)%VARIABLES(11)
-           IF(STARTT.LE.TT .AND. TT.LE. STOPT) THEN
+           IF(STARTT<=TT .AND. TT<= STOPT) THEN
              IF(IPARI(48,N) == 2) THEN
                NSLV = IPARI(5,N)         
                ALLOCATE(FTSAV_BUF(3,NSLV))
@@ -190,7 +190,7 @@ c        IF(ISPMD.NE.0) GOTO 200 !TO REMOVE
       ENDDO
       ENDIF
 
-      IF (IMPL_S.EQ.1) NT_IMP=IAD-1
+      IF (IMPL_S==1) NT_IMP=IAD-1
       !CALL STOPTIME(96,1)
 
 C      

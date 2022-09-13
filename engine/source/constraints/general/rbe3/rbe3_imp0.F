@@ -68,7 +68,7 @@ C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(18*MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(18*MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       IADJ=1
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
@@ -76,8 +76,8 @@ C-----------------------------------------------
         NML = IRBE3(5,N)
 	IROT =IRBE3(6,N)
 	NSJ  =IRBE3(8,N)
-       IF (NS.EQ.0.OR.NDOF(NS).EQ.0) CYCLE
-       IF (WEIGHT(NS).NE.0) THEN
+       IF (NS==0.OR.NDOF(NS)==0) CYCLE
+       IF (WEIGHT(NS)/=0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  ,IRBE3(2,N))
@@ -90,7 +90,7 @@ C-----------------------------------------------
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C
       RETURN
       END
@@ -142,18 +142,18 @@ C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(18*MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(18*MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       IADJ=1
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
-        IF (NS.EQ.0) CYCLE
+        IF (NS==0) CYCLE
         NML = IRBE3(5,N)
 	IROT =IRBE3(6,N)
 	DO J =1,3
            JR(J,N)=0
 	ENDDO
-       IF (WEIGHT(NS).NE.0.AND.NDOF(NS).GT.0) THEN
+       IF (WEIGHT(NS)/=0.AND.NDOF(NS)>0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  ,IRBE3(2,N))
@@ -166,7 +166,7 @@ C-----------------------------------------------
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C
       RETURN
       END
@@ -218,7 +218,7 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-       IF (NDOF(NS).LE.0) RETURN
+       IF (NDOF(NS)<=0) RETURN
 C
        IP=4
        I = NS
@@ -249,7 +249,7 @@ C
 C        CALL UPDK_BC(JT,JR,KDD,ISTIF)
 C
 C-------Update K(main node)---
-C	IF (ISTIF.GT.0) THEN
+C	IF (ISTIF>0) THEN
          DO J=1,NML
           NJ=IML(J)
           ND = NDOF(NJ)
@@ -262,7 +262,7 @@ C-------Update CDI^t[KDD]CDJ---
            CALL UPDK_CDIJ(FDSTNB(1,J),MDSTNB(1,J),FDSTNB(1,I1),
      .                    MDSTNB(1,I1),KDD,KIJ,IROT,NDM )
            CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KIJ,ND,NDOF(NM),IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,IP )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,IP )
           ENDDO
          ENDDO
 C	END IF
@@ -286,20 +286,20 @@ C--------no diag--Kjm=sum(KjsCsm)--
           ENDDO
           ENDDO
           CALL GET_KIJ(NI,I,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,NDOF(I),IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,IP )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,IP )
 C------- Update ---
 C          CALL UPDK_BC2(JT,JR,KDD,ISTIF)
-C	  IF (ISTIF.GT.0) THEN
+C	  IF (ISTIF>0) THEN
            DO J=1,NML
             NJ=IML(J)
             NDJ = NDOF(NJ)
-            IF (NI.EQ.NJ) THEN
+            IF (NI==NJ) THEN
              CALL UPDK_CDI(FDSTNB(1,J),MDSTNB(1,J),KDD,KII,IROT,NDM,1)
              CALL PUT_KII(NJ,IDDL ,IADK,DIAG_K,LT_K ,KII,NDJ)
 	    ELSE
              CALL UPDK_CDI(FDSTNB(1,J),MDSTNB(1,J),KDD,KII,IROT,NDM,0)
              CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NIDOF,NDJ,IR)
-             IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,IP )
+             IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,IP )
             ENDIF
           ENDDO
 C          ENDIF
@@ -354,14 +354,14 @@ C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(18*MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(18*MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
-        IF (NS.EQ.0) CYCLE
+        IF (NS==0) CYCLE
         NML = IRBE3(5,N)
 	IROT =IRBE3(6,N)
-       IF (WEIGHT(NS).NE.0) THEN
+       IF (WEIGHT(NS)/=0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB ,IRBE3(2,N) )
@@ -372,7 +372,7 @@ C-----------------------------------------------
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C
       RETURN
       END
@@ -413,7 +413,7 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-       IF (NDOF(NS).LE.0) RETURN
+       IF (NDOF(NS)<=0) RETURN
 C
        I = NS
         DO K=1,NDOF(I)
@@ -487,14 +487,14 @@ C-----------------------------------------------
       IADS = SLRBE3/2
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
       ALLOCATE(FDSTNB(18*MAX_M))
-      IF (IROTG.GT.0) ALLOCATE(MDSTNB(18*MAX_M))
+      IF (IROTG>0) ALLOCATE(MDSTNB(18*MAX_M))
       DO N=1,NRBE3
         IAD = IRBE3(1,N)
         NS  = IRBE3(3,N)
-        IF (NS.EQ.0) CYCLE
+        IF (NS==0) CYCLE
         NML = IRBE3(5,N)
 	IROT =IRBE3(6,N)
-       IF (WEIGHT(NS).NE.0) THEN
+       IF (WEIGHT(NS)/=0) THEN
         CALL RBE3CL(LRBE3(IAD+1),LRBE3(IADS+IAD+1),NS     ,X    ,
      .              FRBE3(6*IAD+1),SKEW    ,NML     ,IROT   ,FDSTNB ,
      .              MDSTNB  ,IRBE3(2,N))
@@ -505,7 +505,7 @@ C-----------------------------------------------
       ENDDO
 C
       DEALLOCATE(FDSTNB)
-      IF (IROTG.GT.0) DEALLOCATE(MDSTNB)
+      IF (IROTG>0) DEALLOCATE(MDSTNB)
 C
       RETURN
       END
@@ -548,16 +548,16 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C
        I = NS
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
        ND = 6
       ELSE
        ND = 3
       ENDIF
-       IF (NDOF(I).EQ.0) THEN
+       IF (NDOF(I)==0) THEN
         DO K=1,3
          BD(K)=A(K,I)
         ENDDO
-        IF (ND.EQ.3) THEN
+        IF (ND==3) THEN
          DO K=ND+1,6
           BD(K)=ZERO
          ENDDO
@@ -579,7 +579,7 @@ C-------Update K(main node)---
              ID = IDDL(NJ)+K
              B(ID)=BI(K) 
             ENDDO 
-           IF (IROT.GT.0) THEN
+           IF (IROT>0) THEN
             DO K=4,6
              ID = IDDL(NJ)+K
              B(ID)=BI(K) 
@@ -605,12 +605,12 @@ C
 C-------Update K(main node)---
         DO J=1,NML
           NJ=IML(J)
-         IF (NDOF(NJ).EQ.0) THEN
+         IF (NDOF(NJ)==0) THEN
           CALL UPDB_CDI(FDSTNB(1,J),MDSTNB(1,J),BD,BI,IROT)
             DO K=1,3
              A(K,NJ)=A(K,NJ)+BI(K)
             ENDDO
-           IF (IROT.GT.0) THEN
+           IF (IROT>0) THEN
             DO K=1,3
              AR(K,NJ)=AR(K,NJ)+BI(K+3)
             ENDDO
@@ -661,7 +661,7 @@ C
           R=R+ABS(K(I,J))
          ENDDO
         ENDDO
-	IF (R.LT.EM30) THEN
+	IF (R<EM30) THEN
 	 ISTIF = 0
 	ELSE
 	 ISTIF = 1
@@ -710,7 +710,7 @@ C
           R=R+ABS(K(I,J))
          ENDDO
         ENDDO
-	IF (R.LT.EM30) THEN
+	IF (R<EM30) THEN
 	 ISTIF = 0
 	ELSE
 	 ISTIF = 1
@@ -753,7 +753,7 @@ C
 	  BI(I)=BI(I)+FDI(I,J)*BD(J)
          ENDDO
         ENDDO
-       IF (IROT.GT.0) THEN
+       IF (IROT>0) THEN
         DO I=4,6
          DO J=1,6
 	  BI(I)=BI(I)+MDI(I-3,J)*BD(J)
@@ -809,7 +809,7 @@ C----   FDI[KDD]FDI^t------
 	   KII(J,I)=KII(I,J)
          ENDDO
         ENDDO
-       IF (IROT.GT.0) THEN
+       IF (IROT>0) THEN
 C----   MDI[KDD]MDI^t------
         DO I=1,3
          DO J=I,3
@@ -884,7 +884,7 @@ C----   FDI[KDD]FDJ^t------
           ENDDO
          ENDDO
         ENDDO
-       IF (IROT.GT.0) THEN
+       IF (IROT>0) THEN
 C----   MDI[KDD]MDJ^t------
         DO I=1,3
          DO J=1,3
@@ -957,7 +957,7 @@ C----   FDI[KDD]------
           ENDDO
          ENDDO
         ENDDO
-       IF (IROT.GT.0) THEN
+       IF (IROT>0) THEN
 C----   MDI[KDD]------
         DO I=1,ND
          DO J=1,3
@@ -968,7 +968,7 @@ C----   MDI[KDD]------
         ENDDO
        ENDIF
 C
-       IF (ISYM.EQ.1) THEN
+       IF (ISYM==1) THEN
         DO I=1,6
          DO J=1,6
           KIJ(I,J)=KIJ(I,J)+KIJ(J,I)
@@ -1016,7 +1016,7 @@ C
           R=R+ABS(K(I,J))
          ENDDO
         ENDDO
-	IF (R.LT.EM30) THEN
+	IF (R<EM30) THEN
 	 ISTIF = 0
 	ELSE
 	 ISTIF = 1
@@ -1070,7 +1070,7 @@ C-----------------------------------------------
        K0(3,1) = K0(1,3)
        K0(3,2) = K0(2,3)
        CALL UPDFRK_BC(JT,K0 ,ISTIF)
-       IF (ISTIF.GT.0) THEN
+       IF (ISTIF>0) THEN
         DO J=1,NIR
          CALL UPDK_CDII(FDSTNB(1,J),MDSTNB(1,J),
      .                  K0 ,KIJ ,IROT ,ND   )
@@ -1124,7 +1124,7 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-       IF (NDOF(NS).LE.0) RETURN
+       IF (NDOF(NS)<=0) RETURN
         CALL RBE3CL(IML  ,ISK   ,NS      ,X      ,FRBE3  ,
      .              SKEW ,NML   ,IROT    ,FDSTNB ,MDSTNB ,ID)
         CALL RBE3_FR1(NS    ,NML   ,IML    ,X     ,IROT   ,
@@ -1182,7 +1182,7 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-       IF (NDOF(NS).LE.0) RETURN
+       IF (NDOF(NS)<=0) RETURN
 C
        NDOFI = 3
        IP=4
@@ -1192,7 +1192,7 @@ C
          KDD(K,J)=ZERO
         ENDDO
         ENDDO
-       IF (ISS.GT.0) THEN
+       IF (ISS>0) THEN
         DO K=1,NDOFI
          KDD(K,K) = KSS(K)
         ENDDO
@@ -1205,7 +1205,7 @@ C
 C        CALL UPDFRK_BC(JT,KDD,ISTIF)
 C
 C-------Update K(main node)---
-C        IF (ISTIF.GT.0) THEN
+C        IF (ISTIF>0) THEN
          DO J=1,NML
           NJ=IML(J)
           ND = NDOF(NJ)
@@ -1219,14 +1219,14 @@ C-------Update CDI^t[KDD]CDJ---
      .                    MDSTNB(1,I1),KDD,KII,IROT,NDOFI)
            CALL PUT_KMIJ(IDLM(J) ,IDLM(I1) ,IADK,JDIK,LT_K,
      .                   KII,ND ,ND  ,IR )
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,IP )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,IP )
           ENDDO
          ENDDO
         ELSE
         END IF
-C       END IF !(ISS.GT.0) THEN
+C       END IF !(ISS>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
-       IF (ISM.GT.0) THEN
+       IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI
@@ -1235,7 +1235,7 @@ C--------no diag--Kjm=sum(KjsCsm)--
           ENDDO
 C------- Update ---
 C          CALL UPDFRK_BC(JT,KDD,ISTIF)
-C	  IF (ISTIF.GT.0) THEN
+C	  IF (ISTIF>0) THEN
            DO J=1,NML
             NJ=IML(J)
             CALL UPDK_CDI(FDSTNB(1,J),MDSTNB(1,J),KDD,KII,IROT,NDOFI,0)

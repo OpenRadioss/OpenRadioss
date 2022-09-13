@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       S1 = 1
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF2
 
         CALL MPI_SEND(LEN,S1,MPI_INTEGER,

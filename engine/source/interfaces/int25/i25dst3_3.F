@@ -881,7 +881,7 @@ C
 C          
         IT = SUBTRIA(I)
 C
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
 C
           H0 = FOURTH * LA(I)
           IF(IT==1)THEN
@@ -965,7 +965,7 @@ C pene_old(5,N) is defined from the real_gap, gap = 2*real_gap, pene is measured
             IF(IRTLM(1,N) < 0)THEN ! new impact
                PENE_OLD(5,N)= MAX(ZERO,PENE(I)-HALF*GAPV(I))              
             ENDIF
-            IF(PENE(I).GE.HALF*GAPV(I)) IF_ADH(N) = 1
+            IF(PENE(I)>=HALF*GAPV(I)) IF_ADH(N) = 1
             BASE_ADH(I) = PENE_OLD(5,N) + HALF*GAPV(I) 
             IFADHI(I) = IF_ADH(N)        
           ELSE
@@ -973,7 +973,7 @@ C pene_old(5,N) is defined from the real_gap, gap = 2*real_gap, pene is measured
             IF(IRTLM_FI(NIN)%P(1,JG) < 0)THEN 
               PENE_OLDFI(NIN)%P(5,JG)= MAX(ZERO,PENE(I)-HALF*GAPV(I))
             ENDIF
-            IF(PENE(I).GE.HALF*GAPV(I)) IF_ADHFI(NIN)%P(JG) = 1 
+            IF(PENE(I)>=HALF*GAPV(I)) IF_ADHFI(NIN)%P(JG) = 1 
             BASE_ADH(I) = PENE_OLDFI(NIN)%P(5,JG) + HALF*GAPV(I)
             IFADHI(I) = IF_ADHFI(NIN)%P(JG)  
           ENDIF

@@ -261,7 +261,7 @@ C.....memoire necessaire
  110  CONTINUE
  
 C add Tetra10
-      IF(NUMELS10.GT.0) THEN
+      IF(NUMELS10>0) THEN
         DO J=1,NUMELS10
           DO K=1,6
             N = IXS10(K,J) + 1
@@ -303,7 +303,7 @@ Cel traitement a part du 3eme noeud optionnel sauf type 12
       ENDDO
       DO I=1,NUMELR
         N = IXR(4,I) + 1
-        IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,I)))==12) THEN
           ADSKY(N) = ADSKY(N) + 1
         ENDIF
       ENDDO
@@ -350,7 +350,7 @@ C
       LCNE = ADSKY(NUMNOD+1)
       ALLOCATE(CNE(LCNE),STAT=IERR1)
 C
-      IF(IERR1.NE.0)THEN
+      IF(IERR1/=0)THEN
         CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
       END IF
@@ -367,31 +367,31 @@ C poids sous forme reel pour compatibilite RSB ancienne
       OPEN(UNIT=71,FILE=FILNAM(1:ROOTLEN+9),
      .   ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 C
-      IF (IO_ERR1.NE.0) THEN
+      IF (IO_ERR1/=0) THEN
          FILNAM=ROOTNAM(1:ROOTLEN)//'D01'
          OPEN(UNIT=71,FILE=FILNAM(1:ROOTLEN+3),
      .      ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
       ENDIF
 C
-      IF (IO_ERR1.EQ.0) THEN
+      IF (IO_ERR1==0) THEN
          OPEN(UNIT=72,FORM='FORMATTED',STATUS='SCRATCH')
          ELEMD = 0
  10      READ(71,'(A)',END=20) KEYA
  11      CONTINUE
-           IF(KEYA(1:12).EQ.'/DEL/SHELL/1') THEN
+           IF(KEYA(1:12)=='/DEL/SHELL/1') THEN
  30          READ(71,'(A)',END=20) KEYA
-             IF(KEYA(1:1).EQ.'#')GOTO 30
-             IF(KEYA(1:1).EQ.'$')GOTO 30
-               IF(KEYA(1:1).EQ.'/')GOTO 11
+             IF(KEYA(1:1)=='#')GOTO 30
+             IF(KEYA(1:1)=='$')GOTO 30
+               IF(KEYA(1:1)=='/')GOTO 11
 Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              REWIND(72)
              WRITE(72,'(A)')KEYA
              REWIND(72)
              READ(72,*,END=20)ISH1,ISH2
              DO I = 1, NUMELC
-               IF(IXC(NIXC,I).GE.ISH1.AND.IXC(NIXC,I).LE.ISH2) THEN
+               IF(IXC(NIXC,I)>=ISH1.AND.IXC(NIXC,I)<=ISH2) THEN
                  DO J = ISH1, ISH2
-                   IF(IXC(NIXC,I).EQ.J) THEN
+                   IF(IXC(NIXC,I)==J) THEN
                      WD(I+NUMELS+NUMELQ) = 0.0001
                      ELEMD = ELEMD + 1
                      GOTO 35
@@ -401,20 +401,20 @@ Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
  35            CONTINUE
              ENDDO
              GOTO 30
-           ELSEIF(KEYA(1:12).EQ.'/DEL/BRICK/1') THEN
+           ELSEIF(KEYA(1:12)=='/DEL/BRICK/1') THEN
  60          READ(71,'(A)',END=20) KEYA
-             IF(KEYA(1:1).EQ.'#')GOTO 60
-             IF(KEYA(1:1).EQ.'$')GOTO 60
-             IF(KEYA(1:1).EQ.'/')GOTO 11
+             IF(KEYA(1:1)=='#')GOTO 60
+             IF(KEYA(1:1)=='$')GOTO 60
+             IF(KEYA(1:1)=='/')GOTO 11
 Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              REWIND(72)
              WRITE(72,'(A)')KEYA
              REWIND(72)
              READ(72,*,END=20)ISH1,ISH2
              DO I = 1, NUMELS
-               IF(IXS(NIXS,I).GE.ISH1.AND.IXS(NIXS,I).LE.ISH2) THEN
+               IF(IXS(NIXS,I)>=ISH1.AND.IXS(NIXS,I)<=ISH2) THEN
                  DO J = ISH1, ISH2
-                   IF(IXS(NIXS,I).EQ.J) THEN
+                   IF(IXS(NIXS,I)==J) THEN
                      WD(I) = 0.0001
                      ELEMD = ELEMD + 1
                      GOTO 65
@@ -425,21 +425,21 @@ Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              ENDDO
              GOTO 60
 C
-           ELSEIF(KEYA(1:12).EQ.'/DEL/SH_3N/1') THEN
+           ELSEIF(KEYA(1:12)=='/DEL/SH_3N/1') THEN
  90          READ(71,'(A)',END=20) KEYA
-             IF(KEYA(1:1).EQ.'#')GOTO 90
-             IF(KEYA(1:1).EQ.'$')GOTO 90
-             IF(KEYA(1:1).EQ.'/')GOTO 11
+             IF(KEYA(1:1)=='#')GOTO 90
+             IF(KEYA(1:1)=='$')GOTO 90
+             IF(KEYA(1:1)=='/')GOTO 11
 Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
              REWIND(72)
              WRITE(72,'(A)')KEYA
              REWIND(72)
              READ(72,*,END=20)ISH1,ISH2
              DO I = 1, NUMELTG
-               IF(IXTG(NIXTG,I).GE.ISH1
-     .            .AND.IXTG(NIXTG,I).LE.ISH2) THEN
+               IF(IXTG(NIXTG,I)>=ISH1
+     .            .AND.IXTG(NIXTG,I)<=ISH2) THEN
                  DO J = ISH1, ISH2
-                   IF(IXTG(NIXTG,I).EQ.J) THEN
+                   IF(IXTG(NIXTG,I)==J) THEN
                      WD(I+NUMELS+NUMELQ+NUMELC+NUMELT
      .                   +NUMELP+NUMELR) = 0.0001
                      ELEMD = ELEMD + 1
@@ -456,7 +456,7 @@ Cel ko sur cray               READ(KEYA,*,END=20)ISH1,ISH2
          CLOSE(71)
          CLOSE(72)
 C msg sur D01 lu (delete optimise)
-         IF(IDDLEVEL.EQ.0) THEN
+         IF(IDDLEVEL==0) THEN
             WRITE(IOUT,*)' '
             WRITE(IOUT,'(A)')
      .   ' SPMD IS CHECKING FOR ELEMENT DELETION IN : ',' '//FILNAM
@@ -464,7 +464,7 @@ C msg sur D01 lu (delete optimise)
 C
       ELSE
 C msg sur D01 non lu (delete non optimise)
-         IF(IDDLEVEL.EQ.0) THEN
+         IF(IDDLEVEL==0) THEN
             WRITE(IOUT,*)' '
             WRITE(IOUT,'(A)')
      .   ' SPMD IS NOT ABLE TO CHECK FOR ELEMENT DELETION IN'//
@@ -478,8 +478,8 @@ C-----------------------------------------------
       ELEMD_OLD = ELEMD
       ISOLBAR=0
       DO II = 1, NUMELS
-        IF((ISOLOFF(II).EQ.1.OR.ISOLOFF(II).EQ.3).AND.
-     *      WD(II).NE.0.0001)THEN
+        IF((ISOLOFF(II)==1.OR.ISOLOFF(II)==3).AND.
+     *      WD(II)/=0.0001)THEN
           WD(II) = 0.0001
           ELEMD = ELEMD + 1
         END IF
@@ -490,54 +490,54 @@ C additional test for barrier
         JALE_FROM_PROP = IGEO(62,PID)
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
         MLN = NINT(PM(19,MID))
-        IF(JALE.EQ.0.AND.(MLN.EQ.28.OR.MLN.EQ.68))THEN
+        IF(JALE==0.AND.(MLN==28.OR.MLN==68))THEN
           ISOLBAR=ISOLBAR+1
         ENDIF
       END DO
 C
       DO II = 1, NUMELQ
-        IF((IQUAOFF(II).EQ.1.OR.IQUAOFF(II).EQ.3).AND.
-     *      WD(II+NUMELS).NE.0.0001)THEN
+        IF((IQUAOFF(II)==1.OR.IQUAOFF(II)==3).AND.
+     *      WD(II+NUMELS)/=0.0001)THEN
           WD(II+NUMELS) = 0.0001
           ELEMD = ELEMD + 1
         END IF
       END DO
 C
       DO II = 1, NUMELC
-        IF((ISHEOFF(II).EQ.1.OR.ISHEOFF(II).EQ.3).AND.
-     *      WD(II+NUMELS+NUMELQ).NE.0.0001)THEN
+        IF((ISHEOFF(II)==1.OR.ISHEOFF(II)==3).AND.
+     *      WD(II+NUMELS+NUMELQ)/=0.0001)THEN
           WD(II+NUMELS+NUMELQ) = 0.0001
           ELEMD = ELEMD + 1
         END IF
       END DO
 C
       DO II = 1, NUMELT
-        IF((ITRUOFF(II).EQ.3 ).AND.
-     *      WD(II+NUMELS+NUMELQ+NUMELC).NE.0.0001 )THEN
+        IF((ITRUOFF(II)==3 ).AND.
+     *      WD(II+NUMELS+NUMELQ+NUMELC)/=0.0001 )THEN
           WD(II+NUMELS+NUMELQ+NUMELC) = 0.0001
           ELEMD = ELEMD + 1
         END IF
       END DO
 C
       DO II = 1, NUMELP
-        IF((IPOUOFF(II).EQ.3 ).AND.
-     *      WD(II+NUMELS+NUMELQ+NUMELC+NUMELT).NE.0.0001 )THEN
+        IF((IPOUOFF(II)==3 ).AND.
+     *      WD(II+NUMELS+NUMELQ+NUMELC+NUMELT)/=0.0001 )THEN
           WD(II+NUMELS+NUMELQ+NUMELC+NUMELT) = 0.0001
           ELEMD = ELEMD + 1
         END IF
       END DO
 C
       DO II = 1, NUMELR
-        IF((IRESOFF(II).EQ.3 ).AND.
-     *      WD(II+NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP).NE.0.0001 )THEN
+        IF((IRESOFF(II)==3 ).AND.
+     *      WD(II+NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP)/=0.0001 )THEN
           WD(II+NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP) = 0.0001
           ELEMD = ELEMD + 1
         END IF
       END DO
 C
       DO II = 1, NUMELTG
-        IF(ITRIOFF(II).EQ.1.AND.WD(II+NUMELS+NUMELQ+NUMELC+NUMELT
-     .                               +NUMELP+NUMELR).NE.0.0001)THEN
+        IF(ITRIOFF(II)==1.AND.WD(II+NUMELS+NUMELQ+NUMELC+NUMELT
+     .                               +NUMELP+NUMELR)/=0.0001)THEN
           WD(II+NUMELS+NUMELQ+NUMELC+NUMELT
      .         +NUMELP+NUMELR) = 0.0001
           ELEMD = ELEMD + 1
@@ -546,10 +546,10 @@ C
 C
 Cel test pour by-passer la creation du niveau "elem deletes" et eviter cas de plantage si elemd=1
 C
-      IF (NELEM .GT. 0) THEN
-       IF(FLOAT(NELEM-ELEMD)/FLOAT(NELEM).GT.ZEP95) ELEMD = 0
+      IF (NELEM > 0) THEN
+       IF(FLOAT(NELEM-ELEMD)/FLOAT(NELEM)>ZEP95) ELEMD = 0
       END IF
-      IF(IDDLEVEL.EQ.0.AND.ELEMD.GT.ELEMD_OLD) THEN
+      IF(IDDLEVEL==0.AND.ELEMD>ELEMD_OLD) THEN
             WRITE(IOUT,*)' '
             WRITE(IOUT,'(A)')
      .   ' DOMAIN DECOMPOSITION OPTIMIZED FOR ELEMENT DEACTIVATION'//
@@ -557,7 +557,7 @@ C
       ENDIF
 C
 C-----------------------------------------------
-      IF (IDDLEVEL.EQ.1) THEN        
+      IF (IDDLEVEL==1) THEN        
         WRITE(IOUT,'(A)')' '
         WRITE(IOUT,'(A)')
      .  ' --------------------------------------'
@@ -568,22 +568,22 @@ C-----------------------------------------------
       ENDIF
       WRITE(ISTDO,'(A)')' .. DOMAIN DECOMPOSITION'
       WRITE(IOUT,'(A)')' '
-      IF(DECTYP.EQ.3)THEN
+      IF(DECTYP==3)THEN
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION USING MULTILEVEL KWAY'
-      ELSEIF(DECTYP.EQ.4)THEN
+      ELSEIF(DECTYP==4)THEN
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION USING MULTILEVEL RSB'
-      ELSEIF(DECTYP.EQ.5)THEN
+      ELSEIF(DECTYP==5)THEN
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION USING MULTILEVEL KWAY FOR IMPLICIT AND AMS'
-      ELSEIF(DECTYP.EQ.4)THEN
+      ELSEIF(DECTYP==4)THEN
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION USING MULTILEVEL RSB FOR IMPLICIT'
       END IF
       WRITE(IOUT,'(A)')
      .  ' ------------------------------------------'
-      IF (IPARI0.EQ.1) THEN
+      IF (IPARI0==1) THEN
           WRITE(IOUT,'(A)')
      .    ' DOMAIN DECOMPOSITION OPTIMIZED FOR PARALLEL ARITHMETIC ON'
       ELSE
@@ -614,7 +614,7 @@ C We have to tag elements for know theirs number of nodes
         ENDDO 
       ENDDO
 C add Tetra10
-      IF(NUMELS10.GT.0) THEN
+      IF(NUMELS10>0) THEN
         DO J=1,NUMELS10
           TAGELEM(ABS(-(NUMELS8+J)))=2
           DO K=1,6
@@ -688,7 +688,7 @@ C
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
         ENDDO
-        IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,I)))==12) THEN
           N = IXR(4,I)
           CNE(ADSKY(N)) = I+OFF
           ADSKY(N) = ADSKY(N) + 1
@@ -796,7 +796,7 @@ C
 C 
       IF((ICINTS+ICINTM>100) .AND.
      +   (NELEM < ICINTS+ICINTM .OR.
-     +    FLOAT(NELEM-ICINTS-ICINTM)/FLOAT(NELEM).LE.ZEP95)) THEN
+     +    FLOAT(NELEM-ICINTS-ICINTM)/FLOAT(NELEM)<=ZEP95)) THEN
         NCOND=NCOND+1
         ICINTS=NCOND
         NCOND=NCOND+1
@@ -814,7 +814,7 @@ C
       END IF
       IF((ICINT2>100) .AND.
      +   (NELEM < ICINT2 .OR.
-     +    FLOAT(NELEM-ICINT2)/FLOAT(NELEM).LE.ZEP98)) THEN
+     +    FLOAT(NELEM-ICINT2)/FLOAT(NELEM)<=ZEP98)) THEN
         NCOND=NCOND+1
         ICINT2=NCOND
       ELSE
@@ -823,7 +823,7 @@ C
 C test bypass contact for small test cases
       IF((ICCAND>100) .AND.
      +   (NELEM < ICCAND .OR.
-     +    FLOAT(NELEM-ICCAND)/FLOAT(NELEM).LE.ZEP95)) THEN
+     +    FLOAT(NELEM-ICCAND)/FLOAT(NELEM)<=ZEP95)) THEN
         NCOND=NCOND+1
         ICCAND=NCOND
       ELSE
@@ -846,25 +846,25 @@ c          NK = NK+NKI
           NK = NK+MIN(NKI,1)
         END DO
 c        print *,'n cond=',NK,FLOAT(NUMNOD-NK)/FLOAT(NUMNOD)
-        IF(FLOAT(NUMNOD-NK)/FLOAT(NUMNOD).GT.ZEP95) NK = 0   
+        IF(FLOAT(NUMNOD-NK)/FLOAT(NUMNOD)>ZEP95) NK = 0   
         IF(NK > 20000) THEN ! needs a sufficient number of kin.cond.
           NCOND = NCOND+1
           ICKIN = NCOND
         END IF
       END IF
 C      
-      IF(DECTYP.EQ.5.OR.DECTYP.EQ.6)THEN
+      IF(DECTYP==5.OR.DECTYP==6)THEN
 C permutation poids element <=> ddl
         NCOND = NCOND+1
         ICDDL=1
         ICELEM=NCOND
-        IF(ELEMD.GT.0) THEN
+        IF(ELEMD>0) THEN
           NCOND = NCOND+1
           ICDEL = NCOND
         END IF
 
       ELSE
-        IF(ILAG.EQ.1.AND.(IALE.EQ.1.OR.IEULER.EQ.1))THEN
+        IF(ILAG==1.AND.(IALE==1.OR.IEULER==1))THEN
 C if FSI 
           NCOND = NCOND+1
           NB_ELEM_ALE = 0
@@ -872,7 +872,7 @@ C if FSI
             MID = ABS(IXS(1,I))
             JALE = NINT(PM(72,MID))
             MLN = NINT(PM(19,MID))
-            IF(JALE.EQ.0.AND.MLN.NE.18)THEN
+            IF(JALE==0.AND.MLN/=18)THEN
 
             ELSE
               NB_ELEM_ALE = NB_ELEM_ALE + 1
@@ -919,19 +919,19 @@ C Priority is  ELEM then FSI
         END IF
         IF(ISOLBAR > 10000 .AND. ICFSI == 0 .AND. NUMELC > NUMELS)THEN
 C if more than 10K solid law28/LAW68, decompose solid like there is a barrier
-C          IF(IDDLEVEL.EQ.1.) THEN
+C          IF(IDDLEVEL==1.) THEN
               WRITE(IOUT,'(A)')
      .     ' DOMAIN DECOMPOSITION OPTIMIZED FOR BARRIER '
 C          ENDIF
           NCOND = NCOND+1
           ICSOL=NCOND
         END IF
-        IF(ELEMD.GT.0) THEN
+        IF(ELEMD>0) THEN
           NCOND = NCOND+1
           ICDEL = NCOND
         END IF
       END IF        
-      IF(NSUBDOM.GT.0)THEN
+      IF(NSUBDOM>0)THEN
         NUMEL_R2R = 0
         DO I = 1, NUMELS
           IF (TAG_ELSF(I) /= 0)  NUMEL_R2R =  NUMEL_R2R+1
@@ -939,7 +939,7 @@ C          ENDIF
         DO I = 1, NUMELC
           IF (TAG_ELCF(I) /= 0)  NUMEL_R2R =  NUMEL_R2R+1
         END DO
-        IF (NUMEL_R2R.GE.NSPMD) THEN         
+        IF (NUMEL_R2R>=NSPMD) THEN         
           WRITE(IOUT,'(A)')
      .     ' DOMAIN DECOMPOSITION OPTIMIZED FOR MULTIDOMAINS '
           NCOND = NCOND+1
@@ -964,15 +964,15 @@ Cel optimisation des poids par defaut
      .             IPARTS,NPART,POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL,
      .             MID_PID_SHELL,MID_PID_TRI,MID_PID_SOL,IDDLEVEL)
 C
-      IF(NSUBDOM.GT.0)THEN
+      IF(NSUBDOM>0)THEN
         COST_R2R = ZERO
         DO I=1,NELEM
           SCAL = ONE
-          IF (I.LE.NUMELS) THEN
+          IF (I<=NUMELS) THEN
               JALE = NINT(PM(72,MID))
               MLN = NINT(PM(19,MID))
-              IF (JALE.NE.0) SCAL = 2.5
-              IF (MLN.EQ.51) SCAL = 4.5
+              IF (JALE/=0) SCAL = 2.5
+              IF (MLN==51) SCAL = 4.5
           ENDIF
           COST_R2R = COST_R2R + WD(I)
         END DO
@@ -989,7 +989,7 @@ C
        IF(ISOLNOD(I)==4.OR.ISOLNOD(I)==10)THEN
          DO K=1,8
            N = IXS(K+1,I)
-           IF(N.NE.0)THEN
+           IF(N/=0)THEN
              FAC=ONE/(ADSKY(N+1)-ADSKY(N))
              NNC = NNC+ADSKY(N+1)-ADSKY(N)
              IF(ICDDL/=0)RWD(NCOND*(I-1)+ICDDL)=RWD(NCOND*(I-1)+ICDDL)
@@ -1013,7 +1013,7 @@ C
            II = I-NUMELS8
            DO K=1,6
              N = IXS10(K,II)
-             IF(N.NE.0)THEN
+             IF(N/=0)THEN
 C take care of non connected node
                FAC=ONE/MAX(ADSKY(N+1)-ADSKY(N),1)
                NNC = NNC+ADSKY(N+1)-ADSKY(N)
@@ -1041,7 +1041,7 @@ cc           IF(ICNOD /= 0) RWD(NCOND*(I-1)+ICNOD) = ONE/FIVE ! a definir si bes
        ELSE
         DO K=1,8
           N = IXS(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
 C take care of non connected node
             FAC=ONE/MAX(ADSKY(N+1)-ADSKY(N),1)
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
@@ -1082,7 +1082,7 @@ C
         ENDIF
         DO K=1,4
           N = IXC(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
@@ -1111,7 +1111,7 @@ C
         NNC=0
         DO K=1,2
           N = IXT(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL)  = 
@@ -1140,7 +1140,7 @@ C
         NNC=0
         DO K=1,2
           N = IXP(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) = 
@@ -1169,7 +1169,7 @@ C
         NNC=0
         DO K=1,2
           N = IXR(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
@@ -1189,9 +1189,9 @@ C
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
         ENDDO
-        IF(NINT(GEO(12,IXR(1,I))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,I)))==12) THEN
           N = IXR(4,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
@@ -1220,7 +1220,7 @@ C
         NNC=0
         DO K=1,3
           N = IXTG(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
@@ -1250,7 +1250,7 @@ C
         NNC=0
         DO K=1,4
           N = IXUR(K+1,I)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
@@ -1281,7 +1281,7 @@ C
         DO K=1,NELX
           ADDX = KXX(4,I)+K-1
           N=IXX(ADDX)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
             IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
@@ -1356,7 +1356,7 @@ C.....construction des couples Ei Ej connectes par un point
         ENDDO
       ENDDO
 C
-      IF (IDDLEVEL.EQ.1) NEDGES = NEDGES+NELEMINT
+      IF (IDDLEVEL==1) NEDGES = NEDGES+NELEMINT
 C
 C----------------------------------------------
 !     SIDDCONNECT minimum size NELEM. Value set to 10*NELEM
@@ -1423,9 +1423,9 @@ C+------------------------------------------------------------+
 C         C_NEIGH_MAX = MAX(C_NEIGH_MAX,C_NEIGH)
           IF (C_NEIGH > 0 ) THEN 
             DO J=1,C_NEIGH
-              IF(I .NE. PREV_NEIGH) THEN
+              IF(I /= PREV_NEIGH) THEN
 c              WRITE(6,*) I,"--",PREV_NEIGH,"=",CONNECT_WEIGHT(PREV_NEIGH)
-                IF(CONNECT_WEIGHT(PREV_NEIGH).GE.NELMIN) THEN
+                IF(CONNECT_WEIGHT(PREV_NEIGH)>=NELMIN) THEN
                   CALL IDDCONNECTPLUS(I,PREV_NEIGH,NELEM)
                   CALL IDDCONNECTPLUS(PREV_NEIGH,I,NELEM)
                 ENDIF
@@ -1470,19 +1470,19 @@ C+------------------------------------------------------------+
 
        
 C     DEALLOCATE(TAGELEM)
-      IF (IDDLEVEL.EQ.1) THEN
+      IF (IDDLEVEL==1) THEN
 C-----------------------------------------------
 C by pass des elements outils
 C-----------------------------------------------
         IWARN1 = 0
         DO I = 1, NELEM
-          IF(IELEM21(I).EQ.1)THEN
-            IF(WD(I).GT.0.01)THEN
+          IF(IELEM21(I)==1)THEN
+            IF(WD(I)>0.01)THEN
               IWARN1 = 1
             END IF
           END IF
         END DO
-        IF(IWARN1.NE.0)THEN
+        IF(IWARN1/=0)THEN
             WRITE(IOUT,*)' '
             WRITE(IOUT,'(A)')
      .  '  ONE OR MORE ELEMENT OF MAIN SIDE OF INTERF. TYPE21',
@@ -1515,13 +1515,13 @@ C
 Cel hierarchy : type 2 now, contacts after (type 7 & others)
         DO I = 1, NELEMINT
           N=IXINT(5,I)
-          IF (N.LE.NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
+          IF (N<=NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
             NUMG1=ABS(CNE(ADSKY(N)))
 Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
             NUMG2=NUMG1
             ITYPINT=ABS(IXINT(6,I))
-            IF(ITYPINT.EQ.2) THEN
-             IF(ADSKY(N+1)-ADSKY(N).GT.0)THEN
+            IF(ITYPINT==2) THEN
+             IF(ADSKY(N+1)-ADSKY(N)>0)THEN
               N=IXINT(1,I)
               N1=IXINT(2,I)
               N2=IXINT(3,I)
@@ -1529,10 +1529,10 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
                 NUMG2=ABS(CNE(I1))
                 DO I2 = ADSKY(N1), ADSKY(N1+1)-1
                   NUMG3=ABS(CNE(I2))
-                  IF(NUMG3.EQ.NUMG2) THEN
+                  IF(NUMG3==NUMG2) THEN
                     DO I3 = ADSKY(N2), ADSKY(N2+1)-1
                       NUMG4=ABS(CNE(I3))
-                      IF(NUMG4.EQ.NUMG2) GOTO 100
+                      IF(NUMG4==NUMG2) GOTO 100
                     ENDDO
                   ENDIF
                 ENDDO
@@ -1571,9 +1571,9 @@ C sorting of NELEMINT : negative value for IXINT(6) means that distance is small
             ISORT(I)=(-IXINT(6,I)) + 100
             INDEX_SORT(I)=I
             ITYPINT=ABS(IXINT(6,I))
-C             IF(ITYPINT.EQ.7 .OR. ITYPINT == 25 .AND IXINT(6,I) < 0) THEN
+C             IF(ITYPINT==7 .OR. ITYPINT == 25 .AND IXINT(6,I) < 0) THEN
 CC Add even more priority on edges connecting different colors
-C             IF(COLORS(CNE(ADSKY(IXINT(5,I)))) .NE.
+C             IF(COLORS(CNE(ADSKY(IXINT(5,I)))) /=
 C      .           COLORS(CNE(ADSKY(IXINT(1,I))))) THEN
 C                 ISORT(I) = ISORT(I) - 1 
 C             ENDIF
@@ -1587,7 +1587,7 @@ Cel hierarchy : type 2 before, contact now
         DO II = 1, NELEMINT
           I = INDEX_SORT(II)
           N=IXINT(5,I)
-          IF (N.LE.NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
+          IF (N<=NUMNOD) THEN  !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
             NUMG1=-1
 C searching for the first connected element not seen
             CEP_MIN = HUGE(CEP_MIN)
@@ -1602,12 +1602,12 @@ C searching for the first connected element not seen
 Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
             NUMG2=-1
             ITYPINT=ABS(IXINT(6,I))
-            IF(ITYPINT.EQ.7) THEN
-             IF(ADSKY(N+1)-ADSKY(N).GT.0)THEN
+            IF(ITYPINT==7) THEN
+             IF(ADSKY(N+1)-ADSKY(N)>0)THEN
               N=IXINT(1,I)
               N1=IXINT(2,I)
               N2=IXINT(3,I)
-              IF (N.LE.NUMNOD) THEN !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
+              IF (N<=NUMNOD) THEN !  POUR LES ELEMENTS ISOGEOMETRIQUES (PARTIE FICTIVE A NE PAS CONSIDERER)
                DO I1 = ADSKY(N), ADSKY(N+1)-1
                  NUMG2=ABS(CNE(I1))
                  IF(NUMG2 == NUMG1) THEN
@@ -1617,11 +1617,11 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
                    DO I2 = ADSKY(N1), ADSKY(N1+1)-1
                      NUMG3=ABS(CNE(I2))
                      IF(NUMG3 == NUMG1)  GOTO 107
-                     IF(NUMG3.EQ.NUMG2) THEN
+                     IF(NUMG3==NUMG2) THEN
                        DO I3 = ADSKY(N2), ADSKY(N2+1)-1
                          NUMG4=ABS(CNE(I3))
                          IF(NUMG4 == NUMG1) GOTO 107
-                         IF(NUMG4.EQ.NUMG2) GOTO 107
+                         IF(NUMG4==NUMG2) GOTO 107
                        ENDDO
                      ENDIF
                    ENDDO
@@ -1631,7 +1631,7 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
  107          CONTINUE
 
               IF(NUMG1 /= NUMG2 .AND. (NUMG1 >0 ) .AND. (NUMG2 > 0)) THEN
-                IF(CEP(NUMG1).EQ.0.OR.CEP(NUMG2).EQ.0) THEN
+                IF(CEP(NUMG1)==0.OR.CEP(NUMG2)==0) THEN
                   number_of_added_edges = number_of_added_edges + 1
 C test to limit number of edges added for contact interfaces
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
@@ -1663,8 +1663,8 @@ C 5:1 ratio between potential impact and just candidat
               END IF
 
              ENDIF
-            ELSEIF(ITYPINT.EQ.11) THEN
-             IF(ADSKY(N+1)-ADSKY(N).GT.0)THEN
+            ELSEIF(ITYPINT==11) THEN
+             IF(ADSKY(N+1)-ADSKY(N)>0)THEN
               N1=IXINT(3,I)
               N2=IXINT(4,I)
               DO I1 = ADSKY(N1), ADSKY(N1+1)-1
@@ -1672,13 +1672,13 @@ C 5:1 ratio between potential impact and just candidat
                 IF(NUMG2 /= NUMG1) THEN
                   DO I2 = ADSKY(N2), ADSKY(N2+1)-1
                     NUMG3=ABS(CNE(I2))
-                    IF(NUMG3.EQ.NUMG2) GOTO 111
+                    IF(NUMG3==NUMG2) GOTO 111
                   ENDDO
                 END IF
               ENDDO
  111          CONTINUE
               IF(NUMG1 /= NUMG2 .AND.(NUMG1>0 .AND. NUMG2 > 0)) THEN
-                IF(CEP(NUMG1).EQ.0.OR.CEP(NUMG2).EQ.0) THEN
+                IF(CEP(NUMG1)==0.OR.CEP(NUMG2)==0) THEN
 C test to limit number of edges added for contact interfaces
                   number_of_added_edges = number_of_added_edges + 1
 
@@ -1704,8 +1704,8 @@ cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
               END IF
 
              ENDIF
-            ELSEIF(ITYPINT.EQ.24.OR.ITYPINT.EQ.25)THEN
-             IF(ADSKY(N+1)-ADSKY(N).GT.0)THEN
+            ELSEIF(ITYPINT==24.OR.ITYPINT==25)THEN
+             IF(ADSKY(N+1)-ADSKY(N)>0)THEN
               N=IXINT(1,I)
               N1=IXINT(2,I)
               N2=IXINT(3,I)
@@ -1716,11 +1716,11 @@ cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
                   DO I2 = ADSKY(N1), ADSKY(N1+1)-1
                     NUMG3=ABS(CNE(I2))
                     IF(NUMG3 == NUMG1) GOTO 124
-                    IF(NUMG3.EQ.NUMG2) THEN
+                    IF(NUMG3==NUMG2) THEN
                       DO I3 = ADSKY(N2), ADSKY(N2+1)-1
                         NUMG4=ABS(CNE(I3))
                         IF(NUMG4 == NUMG1) GOTO 124
-                        IF(NUMG4.EQ.NUMG2) GOTO 124
+                        IF(NUMG4==NUMG2) GOTO 124
                       ENDDO
                     ENDIF
                   ENDDO
@@ -1728,7 +1728,7 @@ cc                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
               ENDDO
  124          CONTINUE
               IF(NUMG1 /= NUMG2 .AND. (NUMG1>0 .AND. NUMG2 > 0)) THEN
-                IF(CEP(NUMG1).EQ.0.OR.CEP(NUMG2).EQ.0) THEN
+                IF(CEP(NUMG1)==0.OR.CEP(NUMG2)==0) THEN
                   number_of_added_edges = number_of_added_edges + 1
 
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
@@ -1918,7 +1918,7 @@ C
        ENDIF
 !   ----------------------------------------------------------------
 
-      IF (NEDGES.GT.0 .AND. NSPMD .GT. 1) THEN      
+      IF (NEDGES>0 .AND. NSPMD > 1) THEN      
 !       structures Metis 1/2
         ALLOCATE(XADJ(NELEM+1),STAT=IERR1)
 !       init XADJ
@@ -2085,7 +2085,7 @@ C         OPTIONS(8) = 4
 C        OPTIONS(8)=1 
 #endif
 C Domain decomposition CRASH ou FSI
-        IF(ICFSI.EQ.0)THEN
+        IF(ICFSI==0)THEN
           DO I = 1, NELEM
 C normalisation des poids (elem delete a 0)
             IWD(NCOND*(I-1)+ICELEM) = NINT(WD(I)*100)
@@ -2093,11 +2093,11 @@ C poids interface deja calcul
           END DO
         ELSE
           DO I = 1, NELEM
-            IF(I.LE.NUMELS)THEN
+            IF(I<=NUMELS)THEN
               MID = ABS(IXS(1,I))
               JALE = NINT(PM(72,MID))
               MLN = NINT(PM(19,MID))
-              IF(JALE.EQ.0.AND.MLN.NE.18)THEN
+              IF(JALE==0.AND.MLN/=18)THEN
                 IWD(NCOND*(I-1)+ICELEM) = NINT(WD(I)*100)
                 IWD(NCOND*(I-1)+ICFSI) = 0
               ELSE
@@ -2111,10 +2111,10 @@ C normalisation des poids (elem delete a 0)
 C poids interface deja calcul
           END DO 
         END IF
-        IF(ICDEL.GT.0)THEN
+        IF(ICDEL>0)THEN
           DO I = 1, NELEM
 Celem delete
-            IF(WD(I).EQ.0.0001)THEN
+            IF(WD(I)==0.0001)THEN
               IWD(NCOND*(I-1)+ICDEL) = 1
             ELSE
               IWD(NCOND*(I-1)+ICDEL) = 0
@@ -2151,7 +2151,7 @@ C
           DO J = 1, NELEM
             WS = WS + IWD(NCOND*(J-1)+I)
           END DO
-          IF(WS.GT.2*EP9)THEN
+          IF(WS>2*EP9)THEN
             WRITE(IOUT,'(A,I4)')
      .      ' WEIGHT PRECISION DECREASED TO ENABLE CRITERION',I
             DO J = 1, NELEM
@@ -2179,7 +2179,7 @@ c        i=0
 c        call METIS_EstimateMemory(NELEM,XADJ,ADJNCY,0,2,I)
 c        print *,'estimate memory=',i,nelem,XADJ(NELEM+1)
  1999    CONTINUE
-         IF(DECTYP.EQ.3.OR.DECTYP.EQ.5)THEN
+         IF(DECTYP==3.OR.DECTYP==5)THEN
 C KWAY METIS
 #if defined(METIS5)
       
@@ -2209,7 +2209,7 @@ C weight only on vertices
      1      NELEM,NCOND,XADJ,ADJNCY,IWD,0,
      2      IWFLG,NFLAG,NNODE,UBVEC,OPTIONS,NEC,CEP)
 #endif
-         ELSEIF(DECTYP.EQ.4.OR.DECTYP.EQ.6)THEN
+         ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
 C RSB METIS
 #if defined(METIS5)
           IERR1 = Wrap_METIS_PartGraphRecursive(
@@ -2244,7 +2244,7 @@ C       1234567123456789012345123456789012345123456789012345123456789012345
 
 C     CHECK Quality of Domain Decomp on elements
 C If ( ALE .or. first domdec) .and. (first try)) then check load balance
-        IF( ( MAIN_TARGET == 7 .OR. IDDLEVEL.EQ.1) .AND. (DECTYP==3 .OR. DECTYP==5) )THEN
+        IF( ( MAIN_TARGET == 7 .OR. IDDLEVEL==1) .AND. (DECTYP==3 .OR. DECTYP==5) )THEN
           IF(DMIN(MAIN_TARGET) < AVERAGE(MAIN_TARGET)*0.90  )THEN
             WRITE(IOUT,'(A)')
      .      '** INFO: DECOMPOSITION UNBALANCING DETECTED'
@@ -2319,7 +2319,7 @@ C---------------------------------------------------------------------
             DD_UNBALANCED = DD_UNBALANCED .OR.  (DMAX(MAIN_TARGET) >  AVERAGE(MAIN_TARGET)*1.1)
             WD_MAX0 = 0.0
             DO N = 1, NVOLU 
-              IF(FVM_ELEM(N) .NE. 0) THEN  
+              IF(FVM_ELEM(N) /= 0) THEN  
                 WD_MAX0= MAX(WD_MAX0,DBLE(WD(FVM_ELEM(N))))
               ENDIF
             ENDDO
@@ -2344,7 +2344,7 @@ C      CHECK Quality of Domain Decomp on elements
             IF(FVM_DOMDEC .AND. DD_FVMBAG_TRY <= MAX_TRY) THEN
               WD_MAX = WD_MAX / (0.1D0 * WD_MAX_FACTOR)
               DO N = 1, NVOLU 
-                IF(FVM_ELEM(N) .NE. 0) THEN  
+                IF(FVM_ELEM(N) /= 0) THEN  
                   IF(WD(FVM_ELEM(N)) > WD_MAX) THEN
                      WD(FVM_ELEM(N)) = WD_MAX
                      IWD(NCOND*(FVM_ELEM(N)-1)+ICELEM) = NINT(WD_MAX*100)
@@ -2511,31 +2511,31 @@ C
         ENDDO         
         !---------------------!       
 C
-        IF(DECTYP.EQ.5.OR.DECTYP.EQ.6)THEN
+        IF(DECTYP==5.OR.DECTYP==6)THEN
            IF(DDNOD_SMS==0)THEN
              WRITE(IOUT,1000)
            ELSE
              WRITE(IOUT,1100)
            END IF
-        ELSEIF(ICFSI.EQ.0) THEN
-          IF(ICSOL.EQ.0.AND.ICDEL.EQ.0)THEN
+        ELSEIF(ICFSI==0) THEN
+          IF(ICSOL==0.AND.ICDEL==0)THEN
             WRITE(IOUT,2000)
-          ELSEIF(ICSOL.NE.0.AND.ICDEL.EQ.0)THEN
+          ELSEIF(ICSOL/=0.AND.ICDEL==0)THEN
             WRITE(IOUT,3000)
-          ELSEIF(ICSOL.NE.0.AND.ICDEL.NE.0)THEN
+          ELSEIF(ICSOL/=0.AND.ICDEL/=0)THEN
             WRITE(IOUT,4000)
-          ELSEIF(ICSOL.EQ.0.AND.ICDEL.NE.0)THEN
+          ELSEIF(ICSOL==0.AND.ICDEL/=0)THEN
             WRITE(IOUT,5000)
           END IF
-        ELSEIF(ICFSI.NE.0)THEN
-          IF(ICDEL.EQ.0)THEN
+        ELSEIF(ICFSI/=0)THEN
+          IF(ICDEL==0)THEN
             WRITE(IOUT,6000)
           ELSE
             WRITE(IOUT,7000)
           END IF
         END IF
         DO I = 1, NSPMD
-          IF(DECTYP.EQ.5.OR.DECTYP.EQ.6)THEN
+          IF(DECTYP==5.OR.DECTYP==6)THEN
             IF(DDNOD_SMS==0)THEN
               WRITE(IOUT,'(I4,8F15.0)')
      .        I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WDDL(I)
@@ -2543,24 +2543,24 @@ C
               WRITE(IOUT,'(I4,8F15.0)')
      .        I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WDDL(I),WNOD_SMS(I)
             END IF
-          ELSEIF(ICFSI.EQ.0)THEN
-            IF(ICSOL.EQ.0.AND.ICDEL.EQ.0)THEN
+          ELSEIF(ICFSI==0)THEN
+            IF(ICSOL==0.AND.ICDEL==0)THEN
               WRITE(IOUT,'(I4,8F15.0)')
      .        I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WKIN(I)
-            ELSEIF(ICSOL.NE.0.AND.ICDEL.EQ.0)THEN
+            ELSEIF(ICSOL/=0.AND.ICDEL==0)THEN
               WRITE(IOUT,'(I4,8F15.0)')
      .        I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WSOL(I),WKIN(I)
-            ELSEIF(ICSOL.NE.0.AND.ICDEL.NE.0)THEN
+            ELSEIF(ICSOL/=0.AND.ICDEL/=0)THEN
               WRITE(IOUT,'(I4,8F15.0)')
      .        I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WSOL(I),WDEL(I),WKIN(I)
-            ELSEIF(ICSOL.EQ.0.AND.ICDEL.NE.0)THEN
+            ELSEIF(ICSOL==0.AND.ICDEL/=0)THEN
               WRITE(IOUT,'(I4,8F15.0)')
      .        I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WDEL(I),WKIN(I)
             ENDIF
-          ELSEIF(ICFSI.NE.0.AND.ICDEL.EQ.0)THEN
+          ELSEIF(ICFSI/=0.AND.ICDEL==0)THEN
             WRITE(IOUT,'(I4,8F15.0)')
      .      I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WFSI(I)
-          ELSEIF(ICFSI.NE.0.AND.ICDEL.NE.0)THEN
+          ELSEIF(ICFSI/=0.AND.ICDEL/=0)THEN
             WRITE(IOUT,'(I4,8F15.0)')
      .      I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WFSI(I),WDEL(I)
           ENDIF
@@ -2738,7 +2738,7 @@ C calcul du facteur de poids relatif
  
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
-          IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+          IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
             YI = X(2,IG)
             Y1 = X(2,IX1)
             Y2 = X(2,IX2)
@@ -2746,7 +2746,7 @@ C calcul du facteur de poids relatif
             Y4 = X(2,IX4)
             YMIN = MIN(Y1,Y2,Y3,Y4)-SEUIL
             YMAX = MAX(Y1,Y2,Y3,Y4)+SEUIL
-            IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+            IF (YMIN<=YI.AND.YMAX>=YI) THEN
               XI = X(1,IG)
               X1 = X(1,IX1)
               X2 = X(1,IX2)
@@ -2754,7 +2754,7 @@ C calcul du facteur de poids relatif
               X4 = X(1,IX4)
               XMIN = MIN(X1,X2,X3,X4)-SEUIL
               XMAX = MAX(X1,X2,X3,X4)+SEUIL
-              IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+              IF (XMIN<=XI.AND.XMAX>=XI) THEN
                 IXINT(6,I)=-7
               ENDIF
             ENDIF
@@ -2890,7 +2890,7 @@ c      SEUIL = MAX(GAP +DGAPLOAD,DRAD)
           SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))+DGAPLOAD
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
-          IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+          IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
             YI = X(2,IG)
             Y1 = X(2,IX1)
             Y2 = X(2,IX2)
@@ -2898,7 +2898,7 @@ c      SEUIL = MAX(GAP +DGAPLOAD,DRAD)
             Y4 = X(2,IX4)
             YMIN = MIN(Y1,Y2,Y3,Y4)-SEUIL
             YMAX = MAX(Y1,Y2,Y3,Y4)+SEUIL
-            IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+            IF (YMIN<=YI.AND.YMAX>=YI) THEN
               XI = X(1,IG)
               X1 = X(1,IX1)
               X2 = X(1,IX2)
@@ -2906,7 +2906,7 @@ c      SEUIL = MAX(GAP +DGAPLOAD,DRAD)
               X4 = X(1,IX4)
               XMIN = MIN(X1,X2,X3,X4)-SEUIL
               XMAX = MAX(X1,X2,X3,X4)+SEUIL
-              IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+              IF (XMIN<=XI.AND.XMAX>=XI) THEN
                 IXINT(6,II)=-24
               ENDIF
             ENDIF
@@ -2987,7 +2987,7 @@ C      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
           SEUIL=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))+DGAPLOAD
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
-          IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+          IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
             YI = X(2,IG)
             Y1 = X(2,IX1)
             Y2 = X(2,IX2)
@@ -2995,7 +2995,7 @@ C      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
             Y4 = X(2,IX4)
             YMIN = MIN(Y1,Y2,Y3,Y4)-SEUIL
             YMAX = MAX(Y1,Y2,Y3,Y4)+SEUIL
-            IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+            IF (YMIN<=YI.AND.YMAX>=YI) THEN
               XI = X(1,IG)
               X1 = X(1,IX1)
               X2 = X(1,IX2)
@@ -3003,7 +3003,7 @@ C      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
               X4 = X(1,IX4)
               XMIN = MIN(X1,X2,X3,X4)-SEUIL
               XMAX = MAX(X1,X2,X3,X4)+SEUIL
-              IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+              IF (XMIN<=XI.AND.XMAX>=XI) THEN
                 IXINT(6,II)=-25
               ENDIF
             ENDIF
@@ -3051,17 +3051,17 @@ C
       IFITMP = IFIEND + NSN*6
 C
       NIR=2
-      IF(N2D.EQ.0)NIR=4
+      IF(N2D==0)NIR=4
 C
       NN = 0
       DO N = 1, NSN
         I = NSV(N)
         L = IRTL(N)
-        IF(L.NE.0)THEN         ! cas erreur segment non trouve
+        IF(L/=0)THEN         ! cas erreur segment non trouve
           NN = NN + 1
           IXINT(1,NN)=IRECT(1,L)
           IXINT(2,NN)=IRECT(2,L)
-          IF (NIR.EQ.2) THEN
+          IF (NIR==2) THEN
             IXINT(3,NN)=IRECT(1,L)
             IXINT(4,NN)=IRECT(2,L)
           ELSE
@@ -3153,7 +3153,7 @@ c NUMSPH ACTIVE less SPH2SOL/=0
       END DO
 C
 
-      IF (NEDGES.GT.0) THEN
+      IF (NEDGES>0) THEN
         ALLOCATE(IEND(2*NEDGES))
         NI = 0
         DO N = 1, NUMSPHA
@@ -3206,7 +3206,7 @@ C first node
         xadj(nod2+1)=xadj(nod2+1)+1
         DO I = 2, NEDGES
 C test to suppress duplicate entry
-          IF (NOD1.NE.IEND(2*I-1).OR.NOD2.NE.IEND(2*I)) THEN
+          IF (NOD1/=IEND(2*I-1).OR.NOD2/=IEND(2*I)) THEN
             NEWEDGE = NEWEDGE + 1
             IEND(2*NEWEDGE-1) = IEND(2*I-1)
             IEND(2*NEWEDGE) = IEND(2*I)
@@ -3278,7 +3278,7 @@ C Proc attribution on NUMSPA cells
 C
       IF (NEDGES > 0 .AND. NSPMD > 1) THEN
 C KWAY METIS
-        IF(DECTYP.EQ.3.OR.DECTYP.EQ.5)THEN
+        IF(DECTYP==3.OR.DECTYP==5)THEN
 #if defined(METIS5)
           IERR1 = Wrap_METIS_PartGraphKway(
      1      NUMSPHA,NCOND,XADJ,ADJNCY,
@@ -3289,7 +3289,7 @@ C KWAY METIS
      1      NUMSPHA,NCOND,XADJ,ADJNCY,IWD,0,
      2      IWFLG,NFLAG,NNODE,UBVEC,OPTIONS,NEC,CEPSL)
 #endif
-        ELSEIF(DECTYP.EQ.4.OR.DECTYP.EQ.6)THEN
+        ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
 C RSB METIS
 #if defined(METIS5)
           IERR1 = Wrap_METIS_PartGraphRecursive(
@@ -3338,10 +3338,10 @@ C SPH generated from solids are enforced on the same proc as the solid
       END DO
 C
       WRITE(IOUT,'(A)')' '
-      IF(DECTYP.EQ.3.OR.DECTYP.EQ.5)THEN
+      IF(DECTYP==3.OR.DECTYP==5)THEN
         WRITE(IOUT,'(A)')
      .  ' SPH DOMAIN DECOMPOSITION USING MULTILEVEL KWAY'
-      ELSEIF(DECTYP.EQ.4.OR.DECTYP.EQ.6)THEN
+      ELSEIF(DECTYP==4.OR.DECTYP==6)THEN
         WRITE(IOUT,'(A)')
      .  ' SPH DOMAIN DECOMPOSITION USING MULTILEVEL RSB'
       END IF
@@ -3355,7 +3355,7 @@ C
       DO I = 1, NSPMD
         IW = 0
         DO J = 1, NUMSPH
-          IF (CEPSP(J)+1.EQ.I) THEN
+          IF (CEPSP(J)+1==I) THEN
             IW = IW + IWD(J)
           ENDIF
         ENDDO
@@ -3391,13 +3391,13 @@ C-----------------------------------------------
       REAL MUL,ALPHA
       Y = 0
 
-      IF (X.LE.10)THEN
+      IF (X<=10)THEN
 
         DO I=1,LTAB
 
         MUL = 1.
         DO J=1,LTAB
-          IF (I.NE.J) THEN
+          IF (I/=J) THEN
             MUL= MUL * (X-LX(J))/(LX(I)-LX(J))
           ENDIF
         ENDDO
@@ -3406,7 +3406,7 @@ C-----------------------------------------------
 
         ENDDO
       ENDIF
-      IF(X.GT.10.or.Y.LE.0)THEN
+      IF(X>10.or.Y<=0)THEN
         Alpha = (TAB(3)-TAB(1))/(LX(3)-LX(1))
         Y = X*ALPHA + TAB(3)-ALPHA*LX(3)
       ENDIF
@@ -4390,7 +4390,7 @@ C---------------------------------------------
           N = IXR(K+1,ELEM)
           ELEMNODES(K) = N
         ENDDO
-        IF(NINT(GEO(12,IXR(1,ELEM))).EQ.12) THEN
+        IF(NINT(GEO(12,IXR(1,ELEM)))==12) THEN
           N = IXR(4,ELEM)
           ELEMNODES(3) = N
         ENDIF
@@ -4596,7 +4596,7 @@ C===============================================================================
                   TAGGED_ELEM(K0) = .TRUE.
                   DO I=2,NTGT
                      J = ELTG(I)! ELTG 
-                     IF (J.LE.NUMELC) THEN
+                     IF (J<=NUMELC) THEN
                        K = OFFC + J
                          ! The weight of the super element is incremented
                         IF(.NOT.(TAGGED_ELEM(K))) THEN
@@ -4605,7 +4605,7 @@ c                        CALL IDDCONNECTPLUS(K,K0,NELEM)
                          WD(K0) = WD(K0) +1.0d0* WD(K)
                          TAGGED_ELEM(K) = .TRUE.
                        ENDIF
-                     ELSEIF (J.GT.NUMELC) THEN
+                     ELSEIF (J>NUMELC) THEN
                        K = OFFTG+ (J-NUMELC)
                          ! The weight of the super element is incremented
                        IF(.NOT.(TAGGED_ELEM(K))) THEN

@@ -156,7 +156,7 @@ C
       NB_EC = 0
       DO I=1,NRTM
 C on ne retient pas les facettes detruites
-        IF(STF(I).NE.ZERO)THEN
+        IF(STF(I)/=ZERO)THEN
           NB_EC = NB_EC + 1
           BPE(NB_EC) = I
         ENDIF
@@ -167,10 +167,10 @@ C elements du processeur
 C
       NB_NC = 0
       DO I=1,NSN
-        IF(STFN(I).NE.ZERO) THEN
-         IF(XLOC(1,I).GE.XMIN.AND.XLOC(1,I).LE.XMAX.AND.
-     .      XLOC(2,I).GE.YMIN.AND.XLOC(2,I).LE.YMAX.AND.
-     .      XLOC(3,I).GE.ZMIN.AND.XLOC(3,I).LE.ZMAX)THEN
+        IF(STFN(I)/=ZERO) THEN
+         IF(XLOC(1,I)>=XMIN.AND.XLOC(1,I)<=XMAX.AND.
+     .      XLOC(2,I)>=YMIN.AND.XLOC(2,I)<=YMAX.AND.
+     .      XLOC(3,I)>=ZMIN.AND.XLOC(3,I)<=ZMAX)THEN
           NB_NC=NB_NC+1
           BPN(NB_NC) = I
          ENDIF
@@ -193,9 +193,9 @@ C
 C    1- DETERMINER LA DIRECTION A DIVISER X,Y OU Z
 C
       DIR = 1
-      IF(DY.EQ.DSUP) THEN
+      IF(DY==DSUP) THEN
         DIR = 2
-      ELSE IF(DZ.EQ.DSUP) THEN
+      ELSE IF(DZ==DSUP) THEN
         DIR = 3
       ENDIF
       SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))*0.5
@@ -205,10 +205,10 @@ C
       NB_NCN= 0
       NB_NCN1= 0
       ADDNN= ADD(1,I_ADD)
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
 #include "vectorize.inc"
         DO I=1,NB_NC
-         IF(XLOC(DIR,BPN(I)).LT.SEUIL) THEN
+         IF(XLOC(DIR,BPN(I))<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
@@ -218,7 +218,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
 C
 #include "vectorize.inc"
         DO I=1,NB_NC
-         IF(XLOC(DIR,BPN(I)).GE.SEUIL) THEN
+         IF(XLOC(DIR,BPN(I))>=SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
           NB_NCN = NB_NCN + 1
           BPN(NB_NCN) = BPN(I)
@@ -228,7 +228,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
         GAPSMX = ZERO
 #include "vectorize.inc"
         DO I=1,NB_NC
-         IF(XLOC(DIR,BPN(I)).LT.SEUIL) THEN
+         IF(XLOC(DIR,BPN(I))<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           NB_NCN1 = NB_NCN1 + 1
           ADDNN = ADDNN + 1
@@ -240,7 +240,7 @@ C
         BGAPSMX = ZERO
 #include "vectorize.inc"
         DO I=1,NB_NC
-         IF(XLOC(DIR,BPN(I)).GE.SEUIL) THEN
+         IF(XLOC(DIR,BPN(I))>=SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
           NB_NCN = NB_NCN + 1
           BPN(NB_NCN) = BPN(I)
@@ -251,10 +251,10 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
 C
 C    3- DIVISER LES ELEMENTS
 C
-      IF(IGAP.EQ.0) THEN
+      IF(IGAP==0) THEN
        NB_ECN= 0
        ADDNE= ADD(2,I_ADD)
-       IF(NB_NCN1.EQ.0) THEN
+       IF(NB_NCN1==0) THEN
 #include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
@@ -263,13 +263,13 @@ C
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMAX=MAX(XX1,XX2,XX3,XX4)+TZINF
-         IF(XMAX.GE.SEUIL) THEN
+         IF(XMAX>=SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_ECN = NB_ECN + 1
           BPE(NB_ECN) = NE
          ENDIF
         ENDDO
-       ELSEIF(NB_NCN.EQ.0) THEN
+       ELSEIF(NB_NCN==0) THEN
 #include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
@@ -278,7 +278,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMIN=MIN(XX1,XX2,XX3,XX4)-TZINF
-         IF(XMIN.LT.SEUIL) THEN
+         IF(XMIN<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1
           PE(ADDNE) = NE
@@ -293,7 +293,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMIN=MIN(XX1,XX2,XX3,XX4)-TZINF
-         IF(XMIN.LT.SEUIL) THEN
+         IF(XMIN<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1
           PE(ADDNE) = NE
@@ -308,7 +308,7 @@ C
          XX3=XM0(DIR, IRECT(3,NE))
          XX4=XM0(DIR, IRECT(4,NE))
          XMAX=MAX(XX1,XX2,XX3,XX4)+TZINF
-         IF(XMAX.GE.SEUIL) THEN
+         IF(XMAX>=SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_ECN = NB_ECN + 1
           BPE(NB_ECN) = NE
@@ -319,7 +319,7 @@ C Optimisation gap variable
       ELSE
        NB_ECN= 0
        ADDNE= ADD(2,I_ADD)
-       IF(NB_NCN1.EQ.0) THEN
+       IF(NB_NCN1==0) THEN
 #include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
@@ -330,13 +330,13 @@ C Optimisation gap variable
          XMAX=MAX(XX1,XX2,XX3,XX4)
      +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      +       +MARGE
-         IF(XMAX.GE.SEUIL) THEN
+         IF(XMAX>=SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_ECN = NB_ECN + 1
           BPE(NB_ECN) = NE
          ENDIF
         ENDDO
-       ELSEIF(NB_NCN.EQ.0) THEN
+       ELSEIF(NB_NCN==0) THEN
 #include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
@@ -347,7 +347,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
          XMIN=MIN(XX1,XX2,XX3,XX4)
      -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      -       -MARGE
-         IF(XMIN.LT.SEUIL) THEN
+         IF(XMIN<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1
           PE(ADDNE) = NE
@@ -364,7 +364,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
          XMIN=MIN(XX1,XX2,XX3,XX4)
      -       -MAX(MIN(MAX(GAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      -       -MARGE
-         IF(XMIN.LT.SEUIL) THEN
+         IF(XMIN<SEUIL) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1
           PE(ADDNE) = NE
@@ -381,7 +381,7 @@ C
          XMAX=MAX(XX1,XX2,XX3,XX4)
      +       +MAX(MIN(MAX(BGAPSMX,GAPMIN),GAPMAX)+DGAPLOAD,DEPTH,DRAD)
      +       +MARGE
-         IF(XMAX.GE.SEUIL) THEN
+         IF(XMAX>=SEUIL) THEN
 C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           NB_ECN = NB_ECN + 1
           BPE(NB_ECN) = NE
@@ -413,7 +413,7 @@ C
       NB_EC = NB_ECN
 C     on incremente le niveau de descente avant de sortir
       I_ADD = I_ADD + 1
-      IF(I_ADD+1.GE.I_ADD_MAX) THEN
+      IF(I_ADD+1>=I_ADD_MAX) THEN
         I_MEM = 3
         RETURN
       ENDIF
@@ -430,7 +430,7 @@ C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-------------------TEST SUR MEMOIRE DEPASSEE------------
 C
-      IF(ADD(2,I_ADD)+NB_EC.GT.MAXSIZ) THEN
+      IF(ADD(2,I_ADD)+NB_EC>MAXSIZ) THEN
 C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
         I_MEM = 1
         RETURN
@@ -438,7 +438,7 @@ C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
 C
 C--------------------TEST SUR BOITE VIDES--------------
 C
-      IF(NB_EC.NE.0.AND.NB_NC.NE.0) THEN
+      IF(NB_EC/=0.AND.NB_NC/=0) THEN
 C
         DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
         DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
@@ -452,18 +452,18 @@ C
 C       NCAND_PROV=NB_EC*NB_NC
 Cel NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
 C
-        IF(NB_EC+NB_NC.LE.NVECSZ) THEN
+        IF(NB_EC+NB_NC<=NVECSZ) THEN
           NCAND_PROV = NB_EC*NB_NC
         ELSE
           NCAND_PROV = NVECSZ+1
         ENDIF
 C
-        IF(DSUP.LT.MINBOX.OR.(NB_NC.LE.NB_N_B)
-     &     .OR.(NCAND_PROV.LE.NVECSZ)) THEN
-Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
+        IF(DSUP<MINBOX.OR.(NB_NC<=NB_N_B)
+     &     .OR.(NCAND_PROV<=NVECSZ)) THEN
+Cel necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
           NCAND_PROV = NB_EC*NB_NC
-          IF(IVECTOR.EQ.1.AND.NCAND_PROV.LE.NVECSZ)THEN
-           IF(IGAP.EQ.0)THEN
+          IF(IVECTOR==1.AND.NCAND_PROV<=NVECSZ)THEN
+           IF(IGAP==0)THEN
             DO I = 1, NB_EC
               NE = BPE(I)
               TN1(I)=IRECT(1,NE)
@@ -500,15 +500,15 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
                I = 1+(L-1)/NB_NC
                J = L-(I-1)*NB_NC
                NN=BPN(J)
-               IF(XLOC(1,NN).GT.TXMIN(I).AND.XLOC(1,NN).LT.TXMAX(I).AND.
-     &            XLOC(2,NN).GT.TYMIN(I).AND.XLOC(2,NN).LT.TYMAX(I).AND.
-     &          XLOC(3,NN).GT.TZMIN(I).AND.XLOC(3,NN).LT.TZMAX(I) ) THEN
+               IF(XLOC(1,NN)>TXMIN(I).AND.XLOC(1,NN)<TXMAX(I).AND.
+     &            XLOC(2,NN)>TYMIN(I).AND.XLOC(2,NN)<TYMAX(I).AND.
+     &          XLOC(3,NN)>TZMIN(I).AND.XLOC(3,NN)<TZMAX(I) ) THEN
                  J_STOK = J_STOK + 1
                  PROV_N(J_STOK) = BPN(J)
                  PROV_E(J_STOK) = BPE(I)
                ENDIF
               ENDDO
-             IF(J_STOK.GE.NVSIZ)THEN
+             IF(J_STOK>=NVSIZ)THEN
               CALL I21STO(
      1              NVSIZ ,IRECT  ,XLOC  ,II_STOK,CAND_N,
      2              CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
@@ -516,7 +516,7 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
      4              IGAP   ,GAP   ,GAP_S ,GAPMIN ,GAPMAX,
      5              CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH ,DRAD,
      6              DGAPLOAD)
-              IF(I_MEM.EQ.2)RETURN
+              IF(I_MEM==2)RETURN
               J_STOK = J_STOK-NVSIZ
 #include "vectorize.inc"
               DO J=1,J_STOK
@@ -563,18 +563,18 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
                J = L-(I-1)*NB_NC
                NN=BPN(J)
                GAPL=MAX(MAX(MIN(GAP_S(BPN(J)),GAPMAX),GAPMIN)+DGAPLOAD,DEPTH,DRAD)
-               IF(XLOC(1,NN).GT.TXMIN(I)-GAPL.AND.
-     &            XLOC(1,NN).LT.TXMAX(I)+GAPL.AND.
-     &            XLOC(2,NN).GT.TYMIN(I)-GAPL.AND.
-     &            XLOC(2,NN).LT.TYMAX(I)+GAPL.AND.
-     &            XLOC(3,NN).GT.TZMIN(I)-GAPL.AND.
-     &            XLOC(3,NN).LT.TZMAX(I)+GAPL ) THEN
+               IF(XLOC(1,NN)>TXMIN(I)-GAPL.AND.
+     &            XLOC(1,NN)<TXMAX(I)+GAPL.AND.
+     &            XLOC(2,NN)>TYMIN(I)-GAPL.AND.
+     &            XLOC(2,NN)<TYMAX(I)+GAPL.AND.
+     &            XLOC(3,NN)>TZMIN(I)-GAPL.AND.
+     &            XLOC(3,NN)<TZMAX(I)+GAPL ) THEN
                  J_STOK = J_STOK + 1
                  PROV_N(J_STOK) = BPN(J)
                  PROV_E(J_STOK) = BPE(I)
                ENDIF
               ENDDO
-              IF(J_STOK.GE.NVSIZ)THEN
+              IF(J_STOK>=NVSIZ)THEN
                CALL I21STO(
      1              NVSIZ ,IRECT  ,XLOC  ,II_STOK,CAND_N,
      2              CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
@@ -582,7 +582,7 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
      4              IGAP   ,GAP   ,GAP_S ,GAPMIN ,GAPMAX,
      5              CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH,DRAD,
      6              DGAPLOAD)
-              IF(I_MEM.EQ.2)RETURN
+              IF(I_MEM==2)RETURN
               J_STOK = J_STOK-NVSIZ
 #include "vectorize.inc"
               DO J=1,J_STOK
@@ -594,7 +594,7 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
            END IF
           ELSE
            DO K=1,NCAND_PROV,NVSIZ
-             IF(IGAP.EQ.0) THEN
+             IF(IGAP==0) THEN
               DO L=K,MIN(K-1+NVSIZ,NCAND_PROV)
                I = 1+(L-1)/NB_NC
                J = L-(I-1)*NB_NC
@@ -623,9 +623,9 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
                ZMIN=MIN(XX1,XX2,XX3,XX4)-TZINF
 
                NN=BPN(J)
-               IF(XLOC(1,NN).GT.XMIN.AND.XLOC(1,NN).LT.XMAX.AND.
-     &            XLOC(2,NN).GT.YMIN.AND.XLOC(2,NN).LT.YMAX.AND.
-     &            XLOC(3,NN).GT.ZMIN.AND.XLOC(3,NN).LT.ZMAX ) THEN
+               IF(XLOC(1,NN)>XMIN.AND.XLOC(1,NN)<XMAX.AND.
+     &            XLOC(2,NN)>YMIN.AND.XLOC(2,NN)<YMAX.AND.
+     &            XLOC(3,NN)>ZMIN.AND.XLOC(3,NN)<ZMAX ) THEN
                  J_STOK = J_STOK + 1
                  PROV_N(J_STOK) = BPN(J)
                  PROV_E(J_STOK) = NE
@@ -662,16 +662,16 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
                ZMIN=MIN(XX1,XX2,XX3,XX4)-TZ
 
                NN=BPN(J)
-               IF(XLOC(1,NN).GT.XMIN.AND.XLOC(1,NN).LT.XMAX.AND.
-     &            XLOC(2,NN).GT.YMIN.AND.XLOC(2,NN).LT.YMAX.AND.
-     &            XLOC(3,NN).GT.ZMIN.AND.XLOC(3,NN).LT.ZMAX ) THEN
+               IF(XLOC(1,NN)>XMIN.AND.XLOC(1,NN)<XMAX.AND.
+     &            XLOC(2,NN)>YMIN.AND.XLOC(2,NN)<YMAX.AND.
+     &            XLOC(3,NN)>ZMIN.AND.XLOC(3,NN)<ZMAX ) THEN
                  J_STOK = J_STOK + 1
                  PROV_N(J_STOK) = BPN(J)
                  PROV_E(J_STOK) = NE
                ENDIF
               ENDDO
              END IF
-             IF(J_STOK.GE.NVSIZ)THEN
+             IF(J_STOK>=NVSIZ)THEN
                CALL I21STO(
      1               NVSIZ,IRECT   ,XLOC  ,II_STOK,CAND_N,
      2               CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
@@ -679,7 +679,7 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
      4               IGAP  ,GAP   ,GAP_S  ,GAPMIN ,GAPMAX ,
      5               CURV_MAX ,XM0 ,NOD_NORMAL,DEPTH,DRAD ,
      6               DGAPLOAD)
-               IF(I_MEM.EQ.2)RETURN
+               IF(I_MEM==2)RETURN
                  J_STOK = J_STOK-NVSIZ
 #include "vectorize.inc"
                DO J=1,J_STOK
@@ -701,7 +701,7 @@ C       FIN DE BRANCHE
 C       on decremente le niveau de descente avant de recommencer
 C-------------------------------------------------------------------------
       I_ADD = I_ADD - 1
-      IF (I_ADD.NE.0) THEN
+      IF (I_ADD/=0) THEN
 C-------------------------------------------------------------------------
 C         IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C         AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
@@ -714,7 +714,7 @@ C=======================================================================
 C-------------------------------------------------------------------------
 C     FIN DU TRI
 C-------------------------------------------------------------------------
-      IF(J_STOK.NE.0)CALL I21STO(
+      IF(J_STOK/=0)CALL I21STO(
      1              J_STOK,IRECT  ,XLOC  ,II_STOK,CAND_N,
      2              CAND_E ,MULNSN,NOINT ,MARGE  ,I_MEM ,
      3              PROV_N ,PROV_E,ESHIFT,INACTI ,NSN   ,

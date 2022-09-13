@@ -61,11 +61,11 @@ C
         DO 520 J=NC1,NC2
         JJ=JJ+1
  520    IV2(JJ)=IV1(J)
-        IF(JJ.LT.10)GOTO 550
+        IF(JJ<10)GOTO 550
          WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
          NC1=NC2+1
          JJ=0
-         IF(NC2.NE.N)GOTO 510
+         IF(NC2/=N)GOTO 510
  550   CONTINUE
       RETURN
       END

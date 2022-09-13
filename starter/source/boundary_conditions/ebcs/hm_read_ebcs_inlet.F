@@ -130,7 +130,7 @@ C-----------------------------------------------
           EXIT                                                   
         ENDIF                                                    
       ENDDO                                                      
-      IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN                      
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
         CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
      .              I2=UID,
      .              I1=ID,
@@ -147,25 +147,25 @@ C-----------------------------------------------
          ISU=0
          IVEL_TYP = EBCS%fvm_inlet_data%VECTOR_VELOCITY
          INGR2USR => IGRSURF(1:NSURF)%ID
-         IF (SURF.NE.0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
+         IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
          NSEG=0
-         IF (ISU.NE.0) NSEG=IGRSURF(ISU)%NSEG
-         IF(SURF.EQ.0)THEN
+         IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
+         IF(SURF==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
             WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
-         ELSEIF(ISU.EQ.0)THEN
+         ELSEIF(ISU==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
             WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
-         ELSEIF(NSEG.EQ.0)THEN
+         ELSEIF(NSEG==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
             WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
          ENDIF
        
-         IF(TYP.EQ.8)WRITE(IOUT,1018)ID,TRIM(TITR)
-         IF (TYP .EQ. 8) THEN
+         IF(TYP==8)WRITE(IOUT,1018)ID,TRIM(TITR)
+         IF (TYP == 8) THEN
             IF (KEY2(1:2) == 'VP') THEN
                EBCS%fvm_inlet_data%FORMULATION = 1
                WRITE(IOUT,1021)
@@ -190,18 +190,18 @@ C-----------------------------------------------
 
             IF(IVEL_TYP==0)THEN
               !NORMAL VELOCITY
-              IF(IVX.GT.0)THEN
+              IF(IVX>0)THEN
                FOUND = .FALSE.
                DO J=1,NFUNCT
-                 IF(IVX.EQ.NPC(J)) THEN 
+                 IF(IVX==NPC(J)) THEN 
                    WRITE(IOUT,1133)IVX,VX
                    IVX=J
                    FOUND = .TRUE.
                    EXIT
                  ENDIF
                ENDDO
-            ELSEIF(IVX.EQ.0)THEN
-                IF(VY.NE.ZERO.OR.VZ.NE.ZERO)THEN
+            ELSEIF(IVX==0)THEN
+                IF(VY/=ZERO.OR.VZ/=ZERO)THEN
                 !check that user is defining VX ocrrectly
                   CALL ANCMSG(MSGID=1602,
      .                 MSGTYPE=MSGERROR,
@@ -211,10 +211,10 @@ C-----------------------------------------------
      .                 C2 = "NORMAL VELOCITY MUST BE INPUT WITH COMPONENT-1 WHEN VEL_FLAG SET TO 0")                
                 ENDIF
                 WRITE(IOUT,1134)VX
-            ELSEIF(IVX.EQ.-1)THEN
+            ELSEIF(IVX==-1)THEN
                 WRITE(IOUT,1135)IVX
             ENDIF
-            IF(IVX.LT.-1 .OR. (IVX.GT.0.AND. .NOT.FOUND))THEN
+            IF(IVX<-1 .OR. (IVX>0.AND. .NOT.FOUND))THEN
                  CALL ANCMSG(MSGID  = 1602,
      .                       MSGTYPE= MSGERROR,
      .                       ANMODE = ANINFO,
@@ -224,22 +224,22 @@ C-----------------------------------------------
             ENDIF
             ELSE
               !VELOCITY COMPONENTS
-              IF(IVX.GT.0)THEN
+              IF(IVX>0)THEN
                FOUND = .FALSE.
                DO J=1,NFUNCT
-                 IF(IVX.EQ.NPC(J)) THEN 
+                 IF(IVX==NPC(J)) THEN 
                    WRITE(IOUT,1121)IVX,VX
                    IVX=J
                    FOUND = .TRUE.
                    EXIT
                  ENDIF
                ENDDO
-              ELSEIF(IVX.EQ.0)THEN
+              ELSEIF(IVX==0)THEN
                 WRITE(IOUT,1124)IVX
-              ELSEIF(IVX.EQ.-1)THEN
+              ELSEIF(IVX==-1)THEN
                 WRITE(IOUT,1127)IVX
               ENDIF
-              IF(IVX.LT.-1 .OR. (IVX.GT.0.AND. .NOT.FOUND))THEN
+              IF(IVX<-1 .OR. (IVX>0.AND. .NOT.FOUND))THEN
                  CALL ANCMSG(MSGID  = 1602,
      .                       MSGTYPE= MSGERROR,
      .                       ANMODE = ANINFO,
@@ -248,22 +248,22 @@ C-----------------------------------------------
      .                       C2     = "INVALID FUNCTION ID FOR VELOCITY-X")
               ENDIF
 
-              IF(IVY.GT.0)THEN
+              IF(IVY>0)THEN
                FOUND = .FALSE.
                DO J=1,NFUNCT
-                 IF(IVY.EQ.NPC(J)) THEN 
+                 IF(IVY==NPC(J)) THEN 
                    WRITE(IOUT,1122)IVY,VY
                    IVY=J
                    FOUND = .TRUE.
                    EXIT
                  ENDIF
                ENDDO
-              ELSEIF(IVY.EQ.0)THEN
+              ELSEIF(IVY==0)THEN
                 WRITE(IOUT,1125)IVY
-              ELSEIF(IVY.EQ.-1)THEN
+              ELSEIF(IVY==-1)THEN
                 WRITE(IOUT,1128)IVY
               ENDIF
-              IF(IVY.LT.-1 .OR. (IVY.GT.0.AND. .NOT.FOUND))THEN
+              IF(IVY<-1 .OR. (IVY>0.AND. .NOT.FOUND))THEN
                  CALL ANCMSG(MSGID  = 1602,
      .                       MSGTYPE= MSGERROR,
      .                       ANMODE = ANINFO,
@@ -272,22 +272,22 @@ C-----------------------------------------------
      .                       C2     = "INVALID FUNCTION ID FOR VELOCITY-Y")
               ENDIF
 
-              IF(IVZ.GT.0)THEN
+              IF(IVZ>0)THEN
                FOUND = .FALSE.
                DO J=1,NFUNCT
-                 IF(IVZ.EQ.NPC(J)) THEN 
+                 IF(IVZ==NPC(J)) THEN 
                    WRITE(IOUT,1123)IVZ,VZ
                    IVZ=J
                    FOUND = .TRUE.
                    EXIT
                  ENDIF
                ENDDO
-              ELSEIF(IVZ.EQ.0)THEN
+              ELSEIF(IVZ==0)THEN
                 WRITE(IOUT,1126)IVZ
-              ELSEIF(IVZ.EQ.-1)THEN
+              ELSEIF(IVZ==-1)THEN
                 WRITE(IOUT,1129)IVZ
               ENDIF
-              IF(IVZ.LT.-1 .OR. (IVZ.GT.0.AND. .NOT.FOUND))THEN
+              IF(IVZ<-1 .OR. (IVZ>0.AND. .NOT.FOUND))THEN
                  CALL ANCMSG(MSGID  = 1602,
      .                       MSGTYPE= MSGERROR,
      .                       ANMODE = ANINFO,
@@ -318,10 +318,10 @@ C-----------------------------------------------
                U_IRHO  =IRHO
                U_IPRES =IPRES
                !check and get internal function id
-               IF(IALPHA.GT.0)THEN
+               IF(IALPHA>0)THEN
                  FOUND = .FALSE.
                  DO J=1,NFUNCT
-                    IF(IALPHA.EQ.NPC(J)) THEN 
+                    IF(IALPHA==NPC(J)) THEN 
                        IALPHA=J
                        FOUND=.TRUE.
                        EXIT
@@ -340,10 +340,10 @@ C-----------------------------------------------
                  ENDIF
                ENDIF
                !check and get internal function id
-               IF(IRHO.GT.0)THEN
+               IF(IRHO>0)THEN
                  FOUND = .FALSE.
                  DO J=1,NFUNCT
-                    IF(IRHO.EQ.NPC(J)) THEN 
+                    IF(IRHO==NPC(J)) THEN 
                        IRHO=J
                        FOUND=.TRUE.
                        EXIT
@@ -362,10 +362,10 @@ C-----------------------------------------------
                  ENDIF
                ENDIF
                !check and get internal function id
-               IF(IPRES.GT.0)THEN
+               IF(IPRES>0)THEN
                  FOUND = .FALSE.
                  DO J=1,NFUNCT
-                    IF(IPRES.EQ.NPC(J)) THEN 
+                    IF(IPRES==NPC(J)) THEN 
                        IPRES=J
                        FOUND=.TRUE.
                        EXIT
@@ -384,7 +384,7 @@ C-----------------------------------------------
                  ENDIF
                ENDIF
 
-              IF(ALPHA.LT.ZERO)THEN
+              IF(ALPHA<ZERO)THEN
                 CALL ANCMSG(MSGID  = 1602,                                              
      .                      MSGTYPE= MSGERROR,                                          
      .                      ANMODE = ANINFO,                                            
@@ -392,7 +392,7 @@ C-----------------------------------------------
      .                      C1     = TRIM(TITR),                                        
      .                      C2     = "VOLUME FRACTION CANNOT BE NEGATIVE") 
               ENDIF
-              IF(RHO.LT.ZERO)THEN        
+              IF(RHO<ZERO)THEN        
                 CALL ANCMSG(MSGID  = 1602,                                              
      .                      MSGTYPE= MSGERROR,                                          
      .                      ANMODE = ANINFO,                                            
@@ -412,7 +412,7 @@ C-----------------------------------------------
                WRITE(IOUT,1132)ALPHA,RHO,PRES
             ENDDO
             WRITE(IOUT, FMT='(/)' )
-            IF(CHECK_CUMUL_VF(1)==ZERO .AND. CHECK_CUMUL_VF(2).EQ.ZERO)THEN
+            IF(CHECK_CUMUL_VF(1)==ZERO .AND. CHECK_CUMUL_VF(2)==ZERO)THEN
               CALL ANCMSG(MSGID  = 1602,                                                
      .                    MSGTYPE= MSGERROR,                                            
      .                    ANMODE = ANINFO,                                              

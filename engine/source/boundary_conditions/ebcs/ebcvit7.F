@@ -51,7 +51,7 @@ C-----------------------------------------------
       my_real
      .     VN,LCAR,ALP,ALPDT,AX,AY,AZ,C
 C
-      IF(TT.EQ.ZERO)THEN
+      IF(TT==ZERO)THEN
           DO I=1,NOD
             N=LISTE(I)
             RESO(1,I)=A(1,N)
@@ -63,10 +63,10 @@ C
       C=EBCS%c
       LCAR=EBCS%lcar
       ALP=ZERO
-      IF(LCAR.GT.ZERO)ALP=C/LCAR
+      IF(LCAR>ZERO)ALP=C/LCAR
       ALPDT=ALP*DT1
 C
-      IF(ALP.GT.ZERO)THEN
+      IF(ALP>ZERO)THEN
         DO I=1,NOD
           N=LISTE(I)
           AX=RESO(1,I)+ALPDT*(A(1,N)-RESO(1,I))

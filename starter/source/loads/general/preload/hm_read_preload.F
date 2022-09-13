@@ -121,7 +121,7 @@ C
             EXIT
           ENDIF
         ENDDO                                  
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='BOLT PRELOAD',
      .                 C2='BOLT PRELOAD',
@@ -263,7 +263,7 @@ c-----------------------------output------------------------------------------
          WRITE (IOUT,'(I10,1X,I10,1X,1PE10.3,1X,I10,6(1X,1PE10.3))') I,
      .        IUGRP(I), AREA(I), IDSENSOR(I), NX(I), NY(I), NZ(I), LVAL(I), TS(I), TE(I)
        ENDDO
-       IF(I2.EQ.NPRELOAD)GOTO 200
+       IF(I2==NPRELOAD)GOTO 200
        I1=I1+50
        I2=MIN0(I2+50,NPRELOAD)
        GOTO 90

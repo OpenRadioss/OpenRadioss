@@ -114,12 +114,12 @@ C-----------------------------------------------
 C
       DO I=1,NOD
         N=LISTE(I)
-c        if(FAC.GT.0.)write(6,*)'ebcclap',I,N,V(1,N)
+c        if(FAC>0.)write(6,*)'ebcclap',I,N,V(1,N)
         VX=V(1,N)+A(1,N)*DT12
         VY=V(2,N)+A(2,N)*DT12
         VZ=V(3,N)+A(3,N)*DT12
         VN=FAC*(VX*NORM(1,I)+VY*NORM(2,I)+VZ*NORM(3,I))
-        IF(VN.LT.0)THEN
+        IF(VN<0)THEN
           V(1,N)=ZERO
           V(2,N)=ZERO
           V(3,N)=ZERO

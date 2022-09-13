@@ -517,7 +517,7 @@ C         for SMS ::
           STIF(K) = (ONE+STBRK)*STFN(II)
 C
           IF (IRODDL == 1) THEN
-            IF (IN(I).GT.ZERO) THEN 
+            IF (IN(I)>ZERO) THEN 
               SAV_FOR_PENA(5,I) = SAV_FOR_PENA(5,I) - MGX + MRX
               SAV_FOR_PENA(6,I) = SAV_FOR_PENA(6,I) - MGY + MRY  
               SAV_FOR_PENA(7,I) = SAV_FOR_PENA(7,I) - MGZ + MRZ
@@ -629,7 +629,7 @@ C
             FNCONT(3,IX4(K)) = FNCONT(3,IX4(K)) + FZ(4)*W
           ENDIF
 
-          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2.GT.0) THEN ! Normal/Tangential forces output
+          IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
 
             FNCONTP(1,I) = FNCONTP(1,I)  - FN(1) * W
             FNCONTP(2,I) = FNCONTP(2,I)  - FN(2) * W
@@ -691,7 +691,7 @@ c
      2                NSVG  ,H      ,STIF ,NOINT ,
      3                DMINT2(1,KK),NODNX_SMS ,VIS   ,
      4                STF_MOM ,DTI   )
-         IF(DTI.LT.DT2T)THEN
+         IF(DTI<DT2T)THEN
            DT2T    = DTI
            NELTST  = NOINT
            ITYPTST = 10

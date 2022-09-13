@@ -186,15 +186,15 @@ C=======================================================================
         DO I=1,NSEG_EXT
           DO J1=1,4
             J2=IPERM(J1)
-            IF (SURF_NODE_EXT(J2,I) .NE. 0 .AND.
-     .          SURF_NODE_EXT(J1,I) .GT. SURF_NODE_EXT(J2,I)) THEN
+            IF (SURF_NODE_EXT(J2,I) /= 0 .AND.
+     .          SURF_NODE_EXT(J1,I) > SURF_NODE_EXT(J2,I)) THEN
               K=K+1
               IW1(K)=SURF_NODE_EXT(J2,I)
               IW2(K)=SURF_NODE_EXT(J1,I)
               IW5(K)=SURF_ELTYP_EXT(I)  
               IW6(K)=SURF_ELEM_EXT(I)
-            ELSEIF (SURF_NODE_EXT(J1,I) .NE. 0 .AND.
-     .              SURF_NODE_EXT(J1,I) .LT. SURF_NODE_EXT(J2,I)) THEN
+            ELSEIF (SURF_NODE_EXT(J1,I) /= 0 .AND.
+     .              SURF_NODE_EXT(J1,I) < SURF_NODE_EXT(J2,I)) THEN
               K=K+1
               IW1(K)=SURF_NODE_EXT(J1,I)
               IW2(K)=SURF_NODE_EXT(J2,I)
@@ -216,8 +216,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       REMOVE INTERNAL SEGMENTS (EXCEPT BOUNDARY)
 C-----------------------------------------------
-          IF (IW1(INDEX(1)) .NE. IW1(INDEX(2)).OR.
-     .        IW2(INDEX(1)) .NE. IW2(INDEX(2)))THEN
+          IF (IW1(INDEX(1)) /= IW1(INDEX(2)).OR.
+     .        IW2(INDEX(1)) /= IW2(INDEX(2)))THEN
             NSEG=NSEG+1
             LINE_ORD(1,NSEG) = IW1(INDEX(1))
             LINE_ORD(2,NSEG) = IW2(INDEX(1))
@@ -225,10 +225,10 @@ C-----------------------------------------------
             LINE_ORD(4,NSEG) = IW6(INDEX(1))
           ENDIF
           DO I=2,K-1
-            IF ((IW1(INDEX(I-1)) .NE. IW1(INDEX(I)).OR.
-     .           IW2(INDEX(I-1)) .NE. IW2(INDEX(I))).AND.
-     .          (IW1(INDEX(I+1)) .NE. IW1(INDEX(I)).OR.
-     .           IW2(INDEX(I+1)) .NE. IW2(INDEX(I)))) THEN
+            IF ((IW1(INDEX(I-1)) /= IW1(INDEX(I)).OR.
+     .           IW2(INDEX(I-1)) /= IW2(INDEX(I))).AND.
+     .          (IW1(INDEX(I+1)) /= IW1(INDEX(I)).OR.
+     .           IW2(INDEX(I+1)) /= IW2(INDEX(I)))) THEN
               NSEG=NSEG+1
               LINE_ORD(1,NSEG) = IW1(INDEX(I))
               LINE_ORD(2,NSEG) = IW2(INDEX(I))
@@ -236,8 +236,8 @@ C-----------------------------------------------
               LINE_ORD(4,NSEG) = IW6(INDEX(I))
             ENDIF
           ENDDO
-          IF (IW1(INDEX(K-1)) .NE. IW1(INDEX(K)).OR.
-     .        IW2(INDEX(K-1)) .NE. IW2(INDEX(K))) THEN
+          IF (IW1(INDEX(K-1)) /= IW1(INDEX(K)).OR.
+     .        IW2(INDEX(K-1)) /= IW2(INDEX(K))) THEN
             NSEG=NSEG+1
             LINE_ORD(1,NSEG) = IW1(INDEX(K))
             LINE_ORD(2,NSEG) = IW2(INDEX(K))
@@ -263,15 +263,15 @@ C-----------------------------------------------
         DO I=1,NSEG_ALL
           DO J1=1,4
             J2=IPERM(J1)
-            IF (SURF_NODE_ALL(J2,I) .NE. 0 .AND.
-     .          SURF_NODE_ALL(J1,I) .GT. SURF_NODE_ALL(J2,I)) THEN
+            IF (SURF_NODE_ALL(J2,I) /= 0 .AND.
+     .          SURF_NODE_ALL(J1,I) > SURF_NODE_ALL(J2,I)) THEN
               K=K+1
               IW1(K)=SURF_NODE_ALL(J2,I)
               IW2(K)=SURF_NODE_ALL(J1,I)
               IW5(K)=SURF_ELTYP_ALL(I)
               IW6(K)=SURF_ELEM_ALL(I)
-            ELSEIF (SURF_NODE_ALL(J1,I) .NE. 0 .AND.
-     .              SURF_NODE_ALL(J1,I) .LT. SURF_NODE_ALL(J2,I)) THEN
+            ELSEIF (SURF_NODE_ALL(J1,I) /= 0 .AND.
+     .              SURF_NODE_ALL(J1,I) < SURF_NODE_ALL(J2,I)) THEN
               K=K+1
               IW1(K)=SURF_NODE_ALL(J1,I)
               IW2(K)=SURF_NODE_ALL(J2,I)
@@ -299,8 +299,8 @@ C-----------------------------------------------
           LINE_ORD(3,NSEG) = IW5(INDEX(1))
           LINE_ORD(4,NSEG) = IW6(INDEX(1))
           DO I=2,K
-            IF (IW1(INDEX(I-1)) .NE. IW1(INDEX(I)).OR.
-     .          IW2(INDEX(I-1)) .NE. IW2(INDEX(I))) THEN
+            IF (IW1(INDEX(I-1)) /= IW1(INDEX(I)).OR.
+     .          IW2(INDEX(I-1)) /= IW2(INDEX(I))) THEN
               NSEG = NSEG + 1
               LINE_ORD(1,NSEG) = IW1(INDEX(I))
               LINE_ORD(2,NSEG) = IW2(INDEX(I))

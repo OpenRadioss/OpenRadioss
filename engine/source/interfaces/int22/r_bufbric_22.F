@@ -79,7 +79,7 @@ C-----------------------------------------------
       TRIMATL = TRIMAT
       N0PHASL = N0PHAS
       NVPHASL = NVPHAS
-      IF(TRIMATL.LT.0)then 
+      IF(TRIMATL<0)then 
         TRIMATL = 0  !law37 TRIMAT =-2 law51 TRIMAT=4
         N0PHASL = 0
         NVPHASL = 0
@@ -92,13 +92,13 @@ C---------------------------------------------------------------------C
       IF(INT22>0)THEN      
         IF( IBUG22_CC_LENGTH/=0 )print *, "CUT CELL BUFFER LENGTH, LEN=", I22LEN                                                                                                             
         IF(.NOT.ALLOCATED(NBOLD))            ALLOCATE(NBOLD(INT22)                                            ,STAT=IERR1)                                          
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                     
+        IF(IERR1>0)GOTO 1000                                                                                                                                     
         IF(.NOT.ALLOCATED(LIST_B_OLD))       ALLOCATE(LIST_B_OLD(INT22,I22LEN)                                ,STAT=IERR1)                                          
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                     
+        IF(IERR1>0)GOTO 1000                                                                                                                                     
         IF(.NOT.ALLOCATED(BRICK_LIST))       ALLOCATE(BRICK_LIST(INT22,I22LEN)                                ,STAT=IERR1)                                          
-        IF(IERR1.GT.0)GOTO 1000
+        IF(IERR1>0)GOTO 1000
           ISIZ = MAX (I22LAW37, I22LAW51)
-          IF(ISIZ.NE.0)THEN
+          IF(ISIZ/=0)THEN
            DO NIN =1,INT22   
              DO IB=1,I22LEN
                  ALLOCATE(BRICK_LIST(NIN,IB)%bakMAT%UVAR(1:ISIZ))
@@ -106,47 +106,47 @@ C---------------------------------------------------------------------C
            ENDDO!net NIN 
           ENDIF                                                                                                                             
         IF(.NOT.ALLOCATED(EDGE_LIST))        ALLOCATE(EDGE_LIST(INT22,I22LEN*12)                              ,STAT=IERR1)                                          
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                     
+        IF(IERR1>0)GOTO 1000                                                                                                                                     
         IF(.NOT.ALLOCATED(IIAD22))           ALLOCATE(IIAD22(INT22,NUMELS+NUMELQ)                             ,STAT=IERR1)                                          
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                              
         IF(.NOT.ALLOCATED(UVARL))            ALLOCATE(UVARL(0:NTHREAD-1,I22LEN,N0PHASL+TRIMATL*NVPHASL+I22LAW37) ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                     
+        IF(IERR1>0)GOTO 1000                                                                                                                                     
         IF(.NOT.ALLOCATED(SuperCellVOL_L))   ALLOCATE(SuperCellVOL_L(0:NTHREAD-1,0:TRIMATL+I22LAW37,I22LEN)             ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(EINT_L))           ALLOCATE(EINT_L(0:NTHREAD-1,I22LEN)                              ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(RHO_L))            ALLOCATE(RHO_L(0:NTHREAD-1,I22LEN)                               ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(MOM_L))            ALLOCATE(MOM_L(1:3,0:NTHREAD-1,I22LEN)                           ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(SIG_L))            ALLOCATE(SIG_L(0:NTHREAD-1,1:6,I22LEN)                           ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(VOLD_L))           ALLOCATE(VOLD_L(0:NTHREAD-1,0:TRIMATL+I22LAW37,I22LEN)                     ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(IMERGEL))          ALLOCATE(IMERGEL(0:NTHREAD-1)                                    ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(OLD_SecndList))    ALLOCATE(OLD_SecndList(INT22,I22LEN)                             ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(UNLINKED_CELLS_L)) ALLOCATE(UNLINKED_CELLS_L(0:NTHREAD-1,2,I22LEN)                  ,STAT=IERR1)          !index2: 1:IB, 2:ICELL                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(N_UNLINKED_L))     ALLOCATE(N_UNLINKED_L(0:NTHREAD-1)                               ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(V22MAX_L))         ALLOCATE(V22MAX_L(0:NTHREAD-1)                                   ,STAT=IERR1)         
-        IF(IERR1.GT.0)GOTO 1000                                                                                                                                              
+        IF(IERR1>0)GOTO 1000                                                                                                                                              
         IF(.NOT.ALLOCATED(DX22MIN_L))        ALLOCATE(DX22MIN_L(0:NTHREAD-1)                                  ,STAT=IERR1)         
-        IF(IERR1.GT.0)GOTO 1000    
+        IF(IERR1>0)GOTO 1000    
 
         IF(.NOT.ALLOCATED(NGB))              ALLOCATE(NGB(1:I22LEN)                                           ,STAT=IERR1)         
-        IF(IERR1.GT.0)GOTO 1000    
+        IF(IERR1>0)GOTO 1000    
         IF(.NOT.ALLOCATED(IDB))              ALLOCATE(IDB(1:I22LEN)                                           ,STAT=IERR1)         
-        IF(IERR1.GT.0)GOTO 1000    
+        IF(IERR1>0)GOTO 1000    
         IF(.NOT.ALLOCATED(NELB))             ALLOCATE(NELB(1:I22LEN)                                          ,STAT=IERR1)         
-        IF(IERR1.GT.0)GOTO 1000    
+        IF(IERR1>0)GOTO 1000    
         IF(.NOT.ALLOCATED(IDLOCB))           ALLOCATE(IDLOCB(1:I22LEN)                                        ,STAT=IERR1)         
-        IF(IERR1.GT.0)GOTO 1000   
+        IF(IERR1>0)GOTO 1000   
 
         IF(.NOT.ALLOCATED(INT22_FCELL_ANIM)) ALLOCATE(INT22_FCELL_ANIM(NUMELS)                                ,STAT=IERR1)                                                   
-        IF(IERR1.GT.0)GOTO 1000                                                                                 
+        IF(IERR1>0)GOTO 1000                                                                                 
 
         CALL I22DATAINIT()                                                                                                                                                                                                                                                                                                 
         ICAA = 1                                                                                                                                                    
@@ -614,7 +614,7 @@ C---------------------------------------------------------------------C
         CALL  READ_DB ( READ_RTAB                                 , I22LEN)
         BRICK_LIST(NIN,1:I22LEN)%bakMAT%ssp = READ_RTAB(1:I22LEN)
         ISIZ = MAX (I22LAW37, I22LAW51)
-        IF(ISIZ.NE.0)THEN
+        IF(ISIZ/=0)THEN
           DO K=1,I22LEN
            DO I=1,ISIZ 
                    CALL  READ_DB ( BRICK_LIST(NIN,K)%bakMAT%UVAR(I)                             , 1)
@@ -659,7 +659,7 @@ C---------------------------------------------------------------------C
 C----------------------------------------------- 
  1000 CONTINUE
       IF(INT22>0)THEN
-        IF (IERR1.NE.0) THEN
+        IF (IERR1/=0) THEN
           WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION (INTER22)'
           WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION (INTER22)'
           CALL ARRET(2)

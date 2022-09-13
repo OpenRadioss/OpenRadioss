@@ -66,14 +66,14 @@ C-----------------------------------------------
      .   TITR
 C-----------------------------------------------
       ELEGROR=0
-      IF(IGU.EQ.0)RETURN
+      IF(IGU==0)RETURN
 C
       IG=0
       DO I=1,NGRELE
-        IF(IGRELE(I)%ID.EQ.IGU)IG=I
+        IF(IGRELE(I)%ID==IGU)IG=I
       ENDDO
 C
-C     IF(IG.EQ.0)THEN
+C     IF(IG==0)THEN
 C        CALL ANCMSG(MSGID=171,
 C    .               MSGTYPE=MSGERROR,
 C    .               ANMODE=ANINFO,
@@ -88,7 +88,7 @@ C
       IF (NFRAM > 0 .OR. ISTYP >= 1) THEN
         DO L=1,IGRELE(IG)%NENTITY
           IE=IGRELE(IG)%ENTITY(L)
-          IF ( TAGELEMS(IE) .NE. 0 ) ELEGROR = ELEGROR + 1
+          IF ( TAGELEMS(IE) /= 0 ) ELEGROR = ELEGROR + 1
         ENDDO
       ELSE
         ELEGROR=IGRELE(IG)%NENTITY

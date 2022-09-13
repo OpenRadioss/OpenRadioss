@@ -81,9 +81,9 @@ C     REAL
      .   FAC(MVSIZ),SMIN,S1,NU12,NU21,EFAC
 C-----------------------------------------------
       CALL GET_ETFAC_S(NEL,FAC,MTN)
-      IF (IORTH.GT.0) THEN
+      IF (IORTH>0) THEN
        CALL GETTRANS(JFT,JLT,GAMA,QC,QCG,QGC,QG)
-       IF (MTN.EQ.14.OR.MTN.EQ.12) THEN
+       IF (MTN==14.OR.MTN==12) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(1,1,I) =PM(40,MX)
@@ -98,7 +98,7 @@ C-----------------------------------------------
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN.EQ.25) THEN
+       ELSEIF (MTN==25) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          NU12 =PM(35,MX)
@@ -116,7 +116,7 @@ C-----------------------------------------------
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN.EQ.28.OR.MTN.EQ.50.OR.MTN.EQ.68) THEN
+       ELSEIF (MTN==28.OR.MTN==50.OR.MTN==68) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(1,1,I) = UPARAM(1)
@@ -131,7 +131,7 @@ C-----------------------------------------------
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN.EQ.53) THEN
+       ELSEIF (MTN==53) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(1,1,I) = UPARAM(1)
@@ -163,7 +163,7 @@ C-------GG:2G---HH(2,I):G-------
       ELSE 
 C-------iso------
 C------hyperelastic------      
-       IF (MTN.EQ.42) THEN
+       IF (MTN==42) THEN
         EFAC=TWOP5
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -173,7 +173,7 @@ C-------GG:2G---HH(2,I):G-------
          HH(1,I)=LAMDA
          HH(2,I)=GG*HALF
         ENDDO
-       ELSEIF (MTN.EQ.62.OR.MTN.EQ.62.OR.MTN.EQ.69.OR.MTN.EQ.82) THEN
+       ELSEIF (MTN==62.OR.MTN==62.OR.MTN==69.OR.MTN==82) THEN
         EFAC=TWOP5
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -197,11 +197,11 @@ C-------GG:2G---HH(2,I):G-------
          HH(2,I)=GG*HALF
         ENDDO
        ENDIF
-      ENDIF    !   IF (IORTH.GT.0) THEN
+      ENDIF    !   IF (IORTH>0) THEN
 C-------------KT Condinuum---sig:mean value-------------
-      IF (IKT.EQ.2) THEN
+      IF (IKT==2) THEN
 C-------------KT Condinuum---sig:per ip------------
-      ELSEIF (IKT.EQ.3) THEN
+      ELSEIF (IKT==3) THEN
        SELECT CASE (MTN)
        CASE(1)                                            
        CASE(2,36)                                   
@@ -209,23 +209,23 @@ C-------------KT Condinuum---sig:per ip------------
         DO I=JFT,JLT
          MX      =MAT(I)
 candr ---- make the 0-th iteration always elastic
-           IF(FAC(I).LT.ONE.AND.ITER_NL.GT.0) THEN
+           IF(FAC(I)<ONE.AND.ITER_NL>0) THEN
 C          QH(I)= FAC(I)*TWO*HH(2,I)
           IPLAST =1
 C         ELSE
 C          QH(I)=ZERO
          ENDIF
         ENDDO
-C        IF (IPLAST.GT.0) THEN
+C        IF (IPLAST>0) THEN
 C          DO I=JFT,JLT
 C           G33(1,1,I)=QH(I)
 C          ENDDO
 C        ENDIF 
-        IF (IORTH.EQ.0.AND.IPLAST.EQ.1) IORTH=1
+        IF (IORTH==0.AND.IPLAST==1) IORTH=1
        CASE(10)                                        
        END SELECT      
 C-------------KT Consistent--sig: per ip-------------
-      ELSEIF (IKT.EQ.4) THEN
+      ELSEIF (IKT==4) THEN
        S1=ONE*NPPT
        SELECT CASE (MTN)
        CASE(1)                                            
@@ -233,12 +233,12 @@ C-------------KT Consistent--sig: per ip-------------
         IPLAST =0
         DO I=JFT,JLT
 candr ---  make the 0-th iteration always elastic
-           IF(FAC(I).LT.ONE.AND.ITER_NL.GT.0) IPLAST =1
+           IF(FAC(I)<ONE.AND.ITER_NL>0) IPLAST =1
         ENDDO
-        IF (IORTH.EQ.0.AND.IPLAST.EQ.1) IORTH=1
+        IF (IORTH==0.AND.IPLAST==1) IORTH=1
        CASE(10)                                        
        END SELECT      
-      ENDIF !IF (IKT.EQ.2) THEN
+      ENDIF !IF (IKT==2) THEN
  
 C
       RETURN
@@ -302,7 +302,7 @@ C
        ENDDO
        DO J= 1,3
         K = J+1
-        IF (K.GT.3) K = 1
+        IF (K>3) K = 1
         DO I=JFT,JLT
          QG(1,J,I)=E1(I,J)*E2(I,K)+E2(I,J)*E1(I,K)
          QG(2,J,I)=E2(I,J)*E3(I,K)+E3(I,J)*E2(I,K)
@@ -494,7 +494,7 @@ C----------  verifier-------------------------------------
       ENDDO
 C----------HT(i)>0 
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         SS(1,I)=SIG(I,1)+P
         SS(2,I)=SIG(I,2)+P
@@ -506,7 +506,7 @@ C----------HT(i)>0
       ENDDO
 C      
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         DS(1,I)=DD(1,1,I)*SS(1,I)+DD(1,2,I)*SS(2,I)+DD(1,3,I)*SS(3,I)
         DS(2,I)=DD(2,1,I)*SS(1,I)+DD(2,2,I)*SS(2,I)+DD(2,3,I)*SS(3,I)
         DS(3,I)=DD(3,1,I)*SS(1,I)+DD(3,2,I)*SS(2,I)+DD(3,3,I)*SS(3,I)
@@ -514,7 +514,7 @@ C
       ENDDO
 C      
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         SS2=SS(1,I)**2+SS(2,I)**2+SS(3,I)**2
         ST2=ST(1,I)**2+ST(2,I)**2+ST(3,I)**2
         SIGY49=TWO_THIRD*SS2+TWO_THIRD*ST2
@@ -526,7 +526,7 @@ c        NORM(I)=SQRT(DS2+ST2*G(I)+SIGY49*HT(I))
       ENDDO
 C      
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         NORMI = SQRT(HALF)/MAX(EM20,NORM(I))
         DO J=1,3
          DS(J,I)=DS(J,I)*NORMI
@@ -536,7 +536,7 @@ C
       ENDDO
 C-----------GT->u-------- 
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         DO J=1,3
         DO K=J,3
          DD(J,K,I)=DD(J,K,I)-DS(J,I)*DS(K,I)
@@ -779,7 +779,7 @@ C----------  verifier-------------------------------------
       ENDDO
 C----------HT(i)>0 
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         P  =-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         SS(1,I)=SIG(I,1)+P
         SS(2,I)=SIG(I,2)+P
@@ -791,7 +791,7 @@ C----------HT(i)>0
       ENDDO
 C      
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         SS2=(SS(1,I)**2+SS(2,I)**2+SS(3,I)**2)*HALF
         ST2=ST(1,I)**2+ST(2,I)**2+ST(3,I)**2
         SIGY2=MAX(EM20,THREE*(SS2+ST2))
@@ -801,7 +801,7 @@ C
       ENDDO
 C      
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         DO J=1,3
          SS(J,I)=SS(J,I)*NORM(I)
          ST(J,I)=ST(J,I)*NORM(I)
@@ -810,7 +810,7 @@ C
       ENDDO
 C-----------GT->u-------- 
       DO I=LFT,LLT
-       IF (HT(I).GT.ZERO) THEN
+       IF (HT(I)>ZERO) THEN
         DO J=1,3
         DO K=J,3
          DD(J,K,I)=DD(J,K,I)-SS(J,I)*SS(K,I)
@@ -969,7 +969,7 @@ C----------  verifier-------------------------------------
 C----------HT(i)>0 
       DO I=LFT,LLT
 c .....(R(I) is the alpha parameter of the radial return .. 
-       IF (R(I).NE.ONE) THEN
+       IF (R(I)/=ONE) THEN
 c ..... SS(), ST() contain deviatoric stresses ..
         SS(1,I)=SIG(1,I)
         SS(2,I)=SIG(2,I)
@@ -987,7 +987,7 @@ C-----------GT->u--------
 c .....(R(I) is the alpha parameter of the radial return ..
 c         print *,'[Ce]='
 c         print *,DD(1,1,I),DD(1,2,I),GT(1,1,I)
-       IF (R(I).NE.ONE) THEN
+       IF (R(I)/=ONE) THEN
         DO J=1,3
         DO K=J,3
          DD(J,K,I)=DD(J,K,I)-SS(J,I)*SS(K,I)
@@ -995,7 +995,7 @@ c         print *,DD(1,1,I),DD(1,2,I),GT(1,1,I)
          DD(K,J,I)=DD(J,K,I)
          GT(K,J,I)=GT(J,K,I)
         ENDDO
-C         IF (DD(J,J,I).LT.EM10.OR.GT(J,J,I).LT.EM10) THEN
+C         IF (DD(J,J,I)<EM10.OR.GT(J,J,I)<EM10) THEN
 C          print *,'GT(J,J,I)=',GT(J,J,I)
           DD(J,J,I)=MAX(EM10,DD(J,J,I))
           GT(J,J,I)=MAX(EM10,GT(J,J,I))
@@ -1129,8 +1129,8 @@ C     REAL
 C-----------------------------------------------
       SFAC=ONE
       IF (ISMDISP>0) SFAC=EM05
-      IF (IORTH.GT.0) THEN
-       IF (IKT.EQ.3) THEN
+      IF (IORTH>0) THEN
+       IF (IKT==3) THEN
           DO I=LFT,LLT
 C           QH(I)=GM(1,1,I)
 candr           write(*,*)' QH(I)=', QH(I)!.. contains H modulus ..
@@ -1153,7 +1153,7 @@ c           G(I) = HH(2,I)
          CALL GETHKT3(LFT ,LLT ,QH ,IR,IS,IT)
          CALL SKTVONM3(LFT ,LLT ,DM  ,HH   ,SIG  ,
      .                 DGM ,GM  ,QH  ,NEL  )
-       ELSEIF (IKT.EQ.4) THEN
+       ELSEIF (IKT==4) THEN
           DO I=LFT,LLT
            QH(I)= HH(1,I)
            G(I) = HH(2,I)
@@ -1180,7 +1180,7 @@ candr (DG is non-symmetric)
         ENDDO
 
       ELSE
-      IF (JHBE.EQ.15) THEN
+      IF (JHBE==15) THEN
        DO I=LFT,LLT
          TV=HH(1,I)*VOL(I)
          GG(I)=HH(2,I)*VOL(I)
@@ -1198,7 +1198,7 @@ candr (DG is non-symmetric)
          DD(3,1,I)=ZERO
          DD(3,2,I)=ZERO
        ENDDO
-      ELSEIF (JHBE.EQ.14.AND.ICSIG.GT.0) THEN
+      ELSEIF (JHBE==14.AND.ICSIG>0) THEN
        ICS=ICSIG/100
        ICT=MOD(ICSIG/10,10)
        ICR=MOD(ICSIG,10)
@@ -1213,7 +1213,7 @@ candr (DG is non-symmetric)
          DD(2,2,I)=TV
          DD(3,3,I)=SFAC*EE
        ENDDO
-       IF (ICS.EQ.1) THEN
+       IF (ICS==1) THEN
         DO I=LFT,LLT
          TT=DD(1,1,I)
          TV=DD(2,2,I)
@@ -1226,7 +1226,7 @@ candr (DG is non-symmetric)
          DD(3,1,I)=ZERO
          DD(3,2,I)=ZERO
         ENDDO
-       ELSEIF (ICT.EQ.1) THEN
+       ELSEIF (ICT==1) THEN
         DO I=LFT,LLT
          TT=DD(1,1,I)
          TV=DD(2,2,I)
@@ -1240,7 +1240,7 @@ candr (DG is non-symmetric)
          DD(3,1,I)=TV
          DD(3,2,I)=ZERO
         ENDDO
-       ELSEIF (ICR.EQ.1) THEN
+       ELSEIF (ICR==1) THEN
         DO I=LFT,LLT
          TT=DD(1,1,I)
          TV=DD(2,2,I)
@@ -1271,7 +1271,7 @@ candr (DG is non-symmetric)
          DD(3,2,I)=TV
        ENDDO
       ENDIF
-      END IF !(IORTH.GT.0) THEN
+      END IF !(IORTH>0) THEN
 C
       RETURN
       END

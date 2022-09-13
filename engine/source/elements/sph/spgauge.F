@@ -152,9 +152,9 @@ C------
 C------
      	DO J=1,NVOIS
      	  JNOD=IXSP(J,N)
-     	  IF(JNOD.GT.0)THEN
+     	  IF(JNOD>0)THEN
      	    M=NOD2SP(JNOD)
-            IF(KXSP(2,M).LE.0) CYCLE
+            IF(KXSP(2,M)<=0) CYCLE
      	    XJ=X(1,JNOD)
      	    YJ=X(2,JNOD)
      	    ZJ=X(3,JNOD)
@@ -176,7 +176,7 @@ C       partie symetrique.
         K = NVOIS
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
           JS=IXSP(J,N)
-          IF(JS.GT.0)THEN
+          IF(JS>0)THEN
             SM=JS/(NSPCOND+1)
             NC=MOD(JS,NSPCOND+1)
             JS=ISPSYM(NC,SM)
@@ -289,7 +289,7 @@ C-----------------------------------------------
      . PI1,PI8,PI38,SPI8,SPI38,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,
      , X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,D,DD,D2,DP,E,G,F
 C
-      IF(FF.EQ.ZERO)THEN
+      IF(FF==ZERO)THEN
         DO J=1,N
           P2(J,1) = P(J)
         ENDDO

@@ -84,7 +84,7 @@ C-----------------------------------------------
          IF(SENS_GROUP(NGR_SENSOR)%NUM_PART>0) THEN
             IF(SENS_GROUP(NGR_SENSOR)%NUM_PART==1) THEN
                 DO I=JFT,JLT
-                    IF( OFF(I).NE.ZERO ) THEN
+                    IF( OFF(I)/=ZERO ) THEN
                         FSTPARIT(I,1) = EI(I)
                         FSTPARIT(I,2) = EK(I)
                     ELSE
@@ -104,7 +104,7 @@ C-----------------------------------------------
                     LOCAL_INDEX = 0     
                     DO I=JFT,JLT
                         MX=IPART(I)
-                        IF( (IPART_SENS==MX).AND.(OFF(I).NE.ZERO) ) THEN
+                        IF( (IPART_SENS==MX).AND.(OFF(I)/=ZERO) ) THEN
                             LOCAL_INDEX = LOCAL_INDEX + 1
                             FSTPARIT(LOCAL_INDEX,1) = EI(I)
                             FSTPARIT(LOCAL_INDEX,2) = EK(I)   

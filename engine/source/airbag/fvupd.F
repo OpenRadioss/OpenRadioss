@@ -82,7 +82,7 @@ C
 C
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
            IFV=MONVOL(K1-1+45)
 
 C
@@ -109,7 +109,7 @@ C
               IF(NSKIP >= 1) GO TO 200
 
               IMESH=MONVOL(K1-1+56)
-              IF (IMESH.EQ.0) THEN
+              IF (IMESH==0) THEN
                                 
         
                NNS=MONVOL(K1-1+32)
@@ -147,11 +147,11 @@ C
 
       DO N=1,NVOLU
          ITYP=MONVOL(K1-1+2)
-         IF (ITYP.EQ.6.OR.ITYP.EQ.8) THEN
+         IF (ITYP==6.OR.ITYP==8) THEN
            IFV=MONVOL(K1-1+45)
            IF(NSKIP_TAB(N) >= 1) GO TO 100
            IMESH=MONVOL(K1-1+56)
-           IF (IMESH.EQ.1) THEN
+           IF (IMESH==1) THEN
             MONVOL(K1-1+56)=0
            ELSE
 C
@@ -193,7 +193,7 @@ C
             NFVMERGE(3)=0
             NFVMERGE(4)=0
 C
-            IF (ITYP .EQ. 8) THEN
+            IF (ITYP == 8) THEN
                FVBAG_DTMIN = FVDATA(IFV)%DTMIN
             ELSE
                FVBAG_DTMIN = DTMIN1(52)
@@ -329,7 +329,7 @@ C traitement necessaire pour rester p/on
            FVSPMD(IFV)%XXX(3,I1)=X(3,I2)
          ENDDO
 C
-         IF (KMESH(IFV) .GE. 2) THEN
+         IF (KMESH(IFV) >= 2) THEN
             DO I = 1, FVSPMD(IFV)%NNA_L
                I1=FVSPMD(IFV)%IBUFA_L(1,I)
                I2=FVSPMD(IFV)%IBUFA_L(2,I)
@@ -367,7 +367,7 @@ C
            FVSPMD(IFV)%VVV(3,I1)=V(3,I2)
          ENDDO
 C
-         IF (KMESH(IFV) .GE. 2) THEN
+         IF (KMESH(IFV) >= 2) THEN
             DO I = 1, FVSPMD(IFV)%NNA_L
                I1=FVSPMD(IFV)%IBUFA_L(1,I)
                I2=FVSPMD(IFV)%IBUFA_L(2,I)
@@ -410,9 +410,9 @@ c    .                                V,FVSPMD(IFV)%VVV,FVSPMD(IFV)%WAV )
 
 c        CALL SPMD_FVB_GATH(IFV, X, XXX, WA, XXXSA, 3)
 C WA utilise temporairement pour stocker XXXA
-         IF (KMESH(IFV) .GE. 2) THEN
+         IF (KMESH(IFV) >= 2) THEN
             DO I=1,NNA
-               IF (NCONA(2, I) .NE. 0) THEN
+               IF (NCONA(2, I) /= 0) THEN
                   XXXA(1,I)=FVSPMD(IFV)%WAX(1,I)
                   XXXA(2,I)=FVSPMD(IFV)%WAX(2,I)
                   XXXA(3,I)=FVSPMD(IFV)%WAX(3,I)
@@ -438,7 +438,7 @@ C WA utilise temporairement pour stocker VVVA
            END IF
          END DO
 C
-         IF (ISPMD.NE.FVSPMD(IFV)%PMAIN-1) GOTO 300      
+         IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) GOTO 300      
       ENDIF
 C
       IF(TT == DT1) THEN
@@ -461,7 +461,7 @@ C Calcul position et vitesse des noeuds internes
            FVSPMD(IFV)%WAV(2,I)=ZERO
            FVSPMD(IFV)%WAV(3,I)=ZERO
            II=NCONA(1,I)
-          IF(II.EQ.0) CYCLE
+          IF(II==0) CYCLE
            DO J=1,II
              K=NCONA(J+2,I)
              FVSPMD(IFV)%WAV(1,I)=FVSPMD(IFV)%WAV(1,I)+VVVA(1,K)
@@ -505,7 +505,7 @@ C Calcul la position des noeuds internes
 C Calcul la position de tous les points 
 !$OMP DO SCHEDULE(GUIDED,1) 
       DO I=1,NNS
-         IF (IFVNOD(1,I).EQ.1) THEN
+         IF (IFVNOD(1,I)==1) THEN
             IEL=IFVNOD(2,I)
             KSI=RFVNOD(1,I)
             ETA=RFVNOD(2,I)
@@ -513,7 +513,7 @@ C
             N1=ELEMA(1,IEL)
             N2=ELEMA(2,IEL)
             N3=ELEMA(3,IEL)
-            IF (TAGELA(IEL).GT.0) THEN
+            IF (TAGELA(IEL)>0) THEN
                X1=FVSPMD(IFV)%XXX(1,N1)
                Y1=FVSPMD(IFV)%XXX(2,N1)
                Z1=FVSPMD(IFV)%XXX(3,N1)
@@ -523,7 +523,7 @@ C
                X3=FVSPMD(IFV)%XXX(1,N3)
                Y3=FVSPMD(IFV)%XXX(2,N3)
                Z3=FVSPMD(IFV)%XXX(3,N3)
-            ELSEIF (TAGELA(IEL).LT.0) THEN
+            ELSEIF (TAGELA(IEL)<0) THEN
                X1=XXXA(1,N1)
                Y1=XXXA(2,N1)
                Z1=XXXA(3,N1)
@@ -537,7 +537,7 @@ C
             PNOD(1,I)=(ONE-KSI-ETA)*X1+KSI*X2+ETA*X3
             PNOD(2,I)=(ONE-KSI-ETA)*Y1+KSI*Y2+ETA*Y3
             PNOD(3,I)=(ONE-KSI-ETA)*Z1+KSI*Z2+ETA*Z3
-         ELSEIF (IFVNOD(1,I).EQ.2) THEN
+         ELSEIF (IFVNOD(1,I)==2) THEN
             I2=IFVNOD(3,I)
             PNOD(1,I)=XXXA(1,I2)
             PNOD(2,I)=XXXA(2,I2)
@@ -548,7 +548,7 @@ C
 
 !$OMP DO SCHEDULE(GUIDED,1) 
       DO I=1,NNS
-         IF (IFVNOD(1,I).EQ.3) THEN
+         IF (IFVNOD(1,I)==3) THEN
             I1=IFVNOD(2,I)
             I2=IFVNOD(3,I)
             FAC=RFVNOD(1,I)
@@ -559,7 +559,7 @@ C
       ENDDO
 !$OMP END DO
 
-      IF (NPOLH_ANIM.GT.0) THEN
+      IF (NPOLH_ANIM>0) THEN
 !$OMP DO SCHEDULE(GUIDED,1) 
          DO I=1,NNS_ANIM             
             II=REDIR_ANIM(I)         
@@ -596,7 +596,7 @@ C Normale et aire des triangles
          NRZ=X12*Y13-Y12*X13
          AREA2=SQRT(NRX**2+NRY**2+NRZ**2)
          PAREA(I)=HALF*AREA2
-         IF (AREA2.GT.0) THEN
+         IF (AREA2>0) THEN
             PNORM(1,I)=NRX/AREA2
             PNORM(2,I)=NRY/AREA2
             PNORM(3,I)=NRZ/AREA2
@@ -621,24 +621,24 @@ C Boucle sur les triangles du polygone
                KK=IFVPOLY(K)
                AREA=PAREA(KK)
                IEL=IFVTRI(4,KK)
-               IF (IEL.GT.0) THEN
+               IF (IEL>0) THEN
                   NX=PNORM(1,KK)
                   NY=PNORM(2,KK)
                   NZ=PNORM(3,KK)
                ELSE
                   IP1=IFVTRI(5,KK)
                   IP2=IFVTRI(6,KK)
-                  IF (IP1.EQ.I) THEN
+                  IF (IP1==I) THEN
                      NX=PNORM(1,KK)
                      NY=PNORM(2,KK)
                      NZ=PNORM(3,KK)
                   ENDIF
-                  IF (IP2.EQ.I) THEN
+                  IF (IP2==I) THEN
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
                   ENDIF   
-                  IF (IP1.EQ.I.AND.IP2.EQ.I) THEN
+                  IF (IP1==I.AND.IP2==I) THEN
                      NX=ZERO
                      NY=ZERO
                      NZ=ZERO
@@ -667,13 +667,13 @@ C Volume moyen
       VM=ZERO
       NPA=0
       DO I=1,NPOLH
-         IF (PVOLU(I).GT.ZERO) THEN
+         IF (PVOLU(I)>ZERO) THEN
             VM=VM+PVOLU(I)
             NPA=NPA+1
          ENDIF
       ENDDO
       VM=VM/NPA
-      IF (IVMIN.EQ.1) THEN
+      IF (IVMIN==1) THEN
          VOLUMIN=VM*RVOLU(31)
       ELSE
          VOLUMIN=RVOLU(33)*RVOLU(31)
@@ -686,9 +686,9 @@ C Aire des polygones et polyhedres appuyes
          POLHAPP(2,I)=0
          DO J=IFVTADR(I),IFVTADR(I+1)-1
             JJ=IFVPOLY(J)
-            IF (JJ.EQ.-1) GOTO 50
+            IF (JJ==-1) GOTO 50
             IEL=IFVTRI(4,JJ)
-            IF (IEL.EQ.0) THEN
+            IF (IEL==0) THEN
               IP1=IFVTRI(5,JJ)
               IP2=IFVTRI(6,JJ)
               AREAPOLY(I)=AREAPOLY(I)+PAREA(JJ)
@@ -698,7 +698,7 @@ C Aire des polygones et polyhedres appuyes
          ENDDO
   50  ENDDO
 C
-      IF (NPOLH.EQ.1) GOTO 300      
+      IF (NPOLH==1) GOTO 300      
   100 DO I=1,NPOLH
          ITAG(I)=0
       ENDDO
@@ -715,10 +715,10 @@ C Volume max de voisins
             DO K=IFVTADR(JJ), IFVTADR(JJ+1)-1
                KK=IFVPOLY(K)
                IEL=IFVTRI(4,KK)
-               IF (IEL.EQ.0) THEN
-                  IF (IFVTRI(5,KK).EQ.I) THEN
+               IF (IEL==0) THEN
+                  IF (IFVTRI(5,KK)==I) THEN
                      II=IFVTRI(6,KK)
-                  ELSEIF (IFVTRI(6,KK).EQ.I) THEN
+                  ELSEIF (IFVTRI(6,KK)==I) THEN
                      II=IFVTRI(5,KK)
                   ENDIF
                   VVMAX(I)=MAX(VVMAX(I),PVOLU(II))
@@ -736,17 +736,17 @@ C
 C
       ILOOP=0
       DO I=1,NPOLH
-         IF (ITAG(I).NE.0) CYCLE
-         IF (PVOLU(I).LE.VOLUMIN.OR.PVOLU(I).LE.VVMAX(I).OR.
-     .       MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO.OR.
+         IF (ITAG(I)/=0) CYCLE
+         IF (PVOLU(I)<=VOLUMIN.OR.PVOLU(I)<=VVMAX(I).OR.
+     .       MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO.OR.
      .       (DTMERGV12 == 0 .AND. DTPOLH(I) <= DTMIN .AND. 
      .       PVOLU(I) <= TEN*VOLUMIN) .OR.
-     .       (DTMERGV12 == 1 .AND. DTPOLH(I).LE.DTMIN) ) THEN
+     .       (DTMERGV12 == 1 .AND. DTPOLH(I)<=DTMIN) ) THEN
 C
             ITYPM=1
-            IF (PVOLU(I).GT.VOLUMIN) ITYPM=2
-            IF (MPOLH(I).LE.ZERO.OR.EPOLH(I).LE.ZERO) ITYPM=3
-            IF (DTPOLH(I).LE.DTMIN) ITYPM=4
+            IF (PVOLU(I)>VOLUMIN) ITYPM=2
+            IF (MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO) ITYPM=3
+            IF (DTPOLH(I)<=DTMIN) ITYPM=4
 C
 C Recherche le polyedre voisin Imax ayant la plus grande surface commune avec le polyedre I
 C
@@ -757,11 +757,11 @@ C
                AREA=AREAPOLY(JJ)
                IP1=POLHAPP(1,JJ)
                IP2=POLHAPP(2,JJ)
-               IF (AREA.GT.AREAMAX) THEN
-                  IF (IP1.EQ.I) THEN
+               IF (AREA>AREAMAX) THEN
+                  IF (IP1==I) THEN
                      IMAX=IP2
                      AREAMAX=AREA
-                  ELSEIF (IP2.EQ.I) THEN
+                  ELSEIF (IP2==I) THEN
                      IMAX=IP1
                      AREAMAX=AREA
                   ENDIF
@@ -770,7 +770,7 @@ C
 C Only one polyhedron remaining
             IF(IMAX==0) CYCLE
 C
-            IF (ITAG(IMAX).NE.0) THEN 
+            IF (ITAG(IMAX)/=0) THEN 
 C Polyedre Imax a deja re   u un polyedre
                ILOOP=1
             ELSE
@@ -780,8 +780,8 @@ C Merge polyedre I dans polyedre Imax
                   K=IFVTADR(JJ)
                   KK=IFVPOLY(K)
 C Tag polygone commun aux polyedres Imax et I
-                  IF (IFVTRI(4,KK).EQ.0.AND.(IFVTRI(5,KK).EQ.I.OR.
-     .                                       IFVTRI(6,KK).EQ.I))
+                  IF (IFVTRI(4,KK)==0.AND.(IFVTRI(5,KK)==I.OR.
+     .                                       IFVTRI(6,KK)==I))
      .               ITAGP(JJ)=1
                ENDDO
 C
@@ -799,25 +799,25 @@ C
                IF (ILVOUT >= 2) THEN
                   IDP1=IDPOLH(I)
                   IDP2=IDPOLH(IMAX)
-                  IF (ITYPM.EQ.1) THEN
+                  IF (ITYPM==1) THEN
                      WRITE(IOUT,
      .               '(A46,I8,A6,G11.4,A1,A20,I8,A7,G11.4,A1,A12,I10)') 
      .  ' ** GLOBAL MERGE:       MERGING FINITE VOLUME ',IDP1,
      .  ' (VOL=',VOL1,')',
      .  ' WITH FINITE VOLUME ',IDP2,' (VOL=',VOL2,')','  MONVOL ID ',ID
-                  ELSEIF (ITYPM.EQ.2) THEN
+                  ELSEIF (ITYPM==2) THEN
                      WRITE(IOUT,
      .               '(A46,I8,A6,G11.4,A1,A20,I8,A7,G11.4,A1,A12,I10)') 
      .  ' ** NEIGHBORHOOD MERGE: MERGING FINITE VOLUME ',IDP1,
      .  ' (VOL=',VOL1,')',
      .  ' WITH FINITE VOLUME ',IDP2,' (VOL=',VOL2,')','  MONVOL ID ',ID
-                  ELSEIF (ITYPM.EQ.3) THEN
+                  ELSEIF (ITYPM==3) THEN
                      WRITE(IOUT,
      .               '(A46,I8,A6,G11.4,A1,A20,I8,A7,G11.4,A1,A12,I10)') 
      .  ' ** STABILITY MERGE:    MERGING FINITE VOLUME ',IDP1,
      .  ' (VOL=',VOL1,')',
      .  ' WITH FINITE VOLUME ',IDP2,' (VOL=',VOL2,')','  MONVOL ID ',ID
-                  ELSEIF (ITYPM.EQ.4) THEN
+                  ELSEIF (ITYPM==4) THEN
                      WRITE(IOUT,
      .               '(A46,I8,A6,G11.4,A1,A20,I8,A7,G11.4,A1,A12,I10)') 
      .  ' ** TIME STEP MERGE:    MERGING FINITE VOLUME ',IDP1,
@@ -834,7 +834,7 @@ C
             JJ=IFVPOLH(J)
             K=IFVTADR(JJ)
             KK=IFVPOLY(K)
-            IF (IFVTRI(4,KK).EQ.0.AND.IFVTRI(5,KK).EQ.IFVTRI(6,KK)) THEN
+            IF (IFVTRI(4,KK)==0.AND.IFVTRI(5,KK)==IFVTRI(6,KK)) THEN
                ITAGP(JJ)=1
             ENDIF
          ENDDO
@@ -844,14 +844,14 @@ C
       ENDDO
       DO I=1,NPOLH
          II=ITAG(I)
-         IF (II.GT.0) COUNT(II)=COUNT(II)+1
+         IF (II>0) COUNT(II)=COUNT(II)+1
       ENDDO
 
       CMAX=0
       DO I=1,NPOLH
          CMAX=MAX(CMAX,COUNT(I))
       ENDDO
-      IF (CMAX.EQ.1) GOTO 300      
+      IF (CMAX==1) GOTO 300      
 C
       ALLOCATE(MERGE(CMAX+1,NPOLH))
       DO I=1,NPOLH
@@ -860,7 +860,7 @@ C
       ENDDO
       DO I=1,NPOLH
          II=ITAG(I)
-         IF (II.GT.0) THEN
+         IF (II>0) THEN
             CC=MERGE(1,II)
             CC=CC+1
             MERGE(1,II)=CC
@@ -928,7 +928,7 @@ C
       NNP=0
       DO I=1,NPOLH_OLD
         CC=MERGE(1,I)
-        IF (CC.EQ.0) CYCLE
+        IF (CC==0) CYCLE
         NPOLH=NPOLH+1
         IFVPADR(NPOLH)=NNP+1
         IF(CC == 1) THEN
@@ -936,7 +936,7 @@ C
           REDIR(JJ)=NPOLH
           DO K=IFVPADR_OLD(JJ),IFVPADR_OLD(JJ+1)-1
              KK=IFVPOLH_OLD(K)
-             IF (ITAGP(KK).EQ.1) CYCLE
+             IF (ITAGP(KK)==1) CYCLE
              NNP=NNP+1
              IFVPOLH(NNP)=KK
           ENDDO
@@ -947,7 +947,7 @@ C
           QPOLH(3,NPOLH)=QPOLH_OLD(3,JJ)
           EPOLH(NPOLH)=EPOLH_OLD(JJ)
 C
-          IF (MPOLH(NPOLH).LE.ZERO.OR.EPOLH(NPOLH).LE.ZERO) ILOOP=1
+          IF (MPOLH(NPOLH)<=ZERO.OR.EPOLH(NPOLH)<=ZERO) ILOOP=1
 C
           PVOLU(NPOLH)=PVOLU_OLD(JJ)
           GPOLH(NPOLH)=GPOLH_OLD(JJ)
@@ -969,7 +969,7 @@ C
             REDIR(JJ)=NPOLH
             DO K=IFVPADR_OLD(JJ),IFVPADR_OLD(JJ+1)-1
                KK=IFVPOLH_OLD(K)
-               IF (ITAGP(KK).EQ.1) CYCLE
+               IF (ITAGP(KK)==1) CYCLE
                NNP=NNP+1
                IFVPOLH(NNP)=KK
             ENDDO
@@ -981,7 +981,7 @@ C
             EPOLH(NPOLH)=EPOLH(NPOLH)+EPOLH_OLD(JJ)
             PVOLU(NPOLH)=PVOLU(NPOLH)+PVOLU_OLD(JJ)
 C
-            IF (MPOLH(NPOLH).LE.ZERO.OR.EPOLH(NPOLH).LE.ZERO) ILOOP=1
+            IF (MPOLH(NPOLH)<=ZERO.OR.EPOLH(NPOLH)<=ZERO) ILOOP=1
             IF (PVOLU(NPOLH) <= ZERO) ILOOP=1
 C
             IF(MPOLH_OLD(JJ) > 0) THEN
@@ -1021,7 +1021,7 @@ C     been calculated if mergind had occured during starter
 C
 
       DO I=1,NNTR
-         IF (IFVTRI(4,I).LE.0) THEN
+         IF (IFVTRI(4,I)<=0) THEN
             IP1=IFVTRI(5,I)
             IP2=IFVTRI(6,I)
             IFVTRI(5,I)=REDIR(IP1)
@@ -1029,14 +1029,14 @@ C
          ENDIF
       ENDDO
       DO I=1,NPOLY
-         IF (ITAGP(I).EQ.1) THEN
+         IF (ITAGP(I)==1) THEN
             DO J=IFVTADR(I),IFVTADR(I+1)-1
                IFVPOLY(J)=-1
             ENDDO
          ENDIF
          IP1=POLHAPP(1,I)
          IP2=POLHAPP(2,I)
-         IF (IP1.GT.0) THEN
+         IF (IP1>0) THEN
             POLHAPP(1,I)=REDIR(IP1)
             POLHAPP(2,I)=REDIR(IP2)
          ENDIF
@@ -1097,7 +1097,7 @@ C
              IP1=IFVTRI(5,KK)
              IP2=IFVTRI(6,KK)
              IP3=IFVTRI(1,KK)
-             IF(KKK.EQ.1) THEN
+             IF(KKK==1) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                WRITE(IOUT,'(3I10,3G10.3,5X,I6,4X,I6,4X,G14.6,3I10,
      .                      G14.6)') I,I1,I2,PVOLU(I),MPOLH(I),TPOLH(I),
@@ -1114,8 +1114,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         ENDDO
       ENDIF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF (ILOOP.EQ.1) THEN
-         IF (NPOLH.EQ.1) THEN
+      IF (ILOOP==1) THEN
+         IF (NPOLH==1) THEN
             WRITE(IOUT,'(A,I10)') ' ** MONVOL ID ',ID
             WRITE(IOUT,'(A)')'  ONLY ONE FINITE VOLUME REMAIN - EXITING'
             GOTO 300      

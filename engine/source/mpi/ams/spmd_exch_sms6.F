@@ -81,7 +81,7 @@ C-----------------------------------------------
           END IF
         END DO
 
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
@@ -112,8 +112,8 @@ C   echange messages
 C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
-ccc       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
-       IF(IAD_SEND(I+1)-IAD_SEND(I).GT.0)THEN
+ccc       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
+       IF(IAD_SEND(I+1)-IAD_SEND(I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -125,8 +125,8 @@ C--------------------------------------------------------------------
       ENDDO
 C
       DO I = 1, NSPMD
-ccc        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
-        IF(IAD_RECV(I+1)-IAD_RECV(I).GT.0)THEN
+ccc        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
+        IF(IAD_RECV(I+1)-IAD_RECV(I)>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 #include      "vectorize.inc"
@@ -145,8 +145,8 @@ ccc        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
       END DO
 C
       DO I = 1, NSPMD
-ccc        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
-        IF(IAD_SEND(I+1)-IAD_SEND(I).GT.0)THEN
+ccc        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
+        IF(IAD_SEND(I+1)-IAD_SEND(I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

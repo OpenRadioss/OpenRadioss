@@ -65,14 +65,14 @@ C-----------------------------------------------
       
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNOD,1)
       
-      IF(NUMNOD.GE.1)THEN
+      IF(NUMNOD>=1)THEN
         ITABM1(1)        = ITAB(INDX(1))
         ITABM1(NUMNOD+1) = INDX(1)
       ENDIF
       
       DO I = 2, NUMNOD
         ITABM1(I) = ITAB(INDX(I))
-        IF(ITABM1(I).EQ.ITABM1(I-1))THEN
+        IF(ITABM1(I)==ITABM1(I-1))THEN
 C         An error might have been written during pre-reading of Nodes and Cnodes
 C         CALL ANCMSG(MSGID=56,
 C    .                MSGTYPE=MSGERROR,

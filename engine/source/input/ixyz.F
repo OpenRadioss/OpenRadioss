@@ -49,17 +49,17 @@ C-----------------------------------------------
       IZ=0
       IER=0
       DO 10 I=1,5
-       IF(CHR(I:I).EQ.'X')THEN
+       IF(CHR(I:I)=='X')THEN
         IX=100
-       ELSEIF(CHR(I:I).EQ.'Y')THEN
+       ELSEIF(CHR(I:I)=='Y')THEN
         IY=10
-       ELSEIF(CHR(I:I).EQ.'Z')THEN
+       ELSEIF(CHR(I:I)=='Z')THEN
         IZ=1
-       ELSEIF(CHR(I:I).NE.' ')THEN
+       ELSEIF(CHR(I:I)/=' ')THEN
         IER=1
        ENDIF
  10   CONTINUE
-      IF(IER.EQ.1)CALL ERRMSG(CHR)
+      IF(IER==1)CALL ERRMSG(CHR)
       IXYZ=IX+IY+IZ
       RETURN
       END

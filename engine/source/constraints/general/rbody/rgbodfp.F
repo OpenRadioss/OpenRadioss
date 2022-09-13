@@ -84,9 +84,9 @@ C-----------------------------------------------
 C
 c      M   =NBY(1)
 C rajout optimisation pour spmd
-      IF (M.LT.0) RETURN
+      IF (M<0) RETURN
 Cel premiere passe : calcul de force sur tous les r.b.
-      IF (IFLAG.EQ.1) THEN
+      IF (IFLAG==1) THEN
 
 C CORRECTION DE L'INERTIE DU RIGID BODY POUR DT NODAL
        RBY(10) = MAX(RBY(10),IN(M))
@@ -192,7 +192,7 @@ c
 C
 C phase 2 : sauvegarde anim + rby
 C
-      ELSEIF (IFLAG.EQ.2) THEN
+      ELSEIF (IFLAG==2) THEN
 c       NSN =NBY(2)
 C
 C Traitement Parith/ON apres echange
@@ -236,8 +236,8 @@ c
      +            RBF6(8,1)+RBF6(8,2)+RBF6(8,3)+
      +            RBF6(8,4)+RBF6(8,5)+RBF6(8,6)
 C
-CGW      IF(NBY(3).EQ.1)THEN
-      IF(IMCONV.EQ.1)THEN
+CGW      IF(NBY(3)==1)THEN
+      IF(IMCONV==1)THEN
        !---
        ! reaction forces/moments in rbody TH/RBODY
        !---
@@ -283,7 +283,7 @@ C
        FOPTA(5)=ARM2*WEIGHT(M)
        FOPTA(6)=ARM3*WEIGHT(M)
 C
-       IF (IPARSENS .NE. 0)THEN
+       IF (IPARSENS /= 0)THEN
           DO I=1,6
             FBSAV6(1,I) = RBF6(3,I)*WEIGHT(M)
             FBSAV6(2,I) = RBF6(4,I)*WEIGHT(M)
@@ -302,7 +302,7 @@ C
 c
       ISK =ISKEW(M)
       LCOD=ICODR(M)
-      IF(LCOD.NE.0.AND.IMCONV.EQ.1)THEN
+      IF(LCOD/=0.AND.IMCONV==1)THEN
 C
 C      rotation de la matrice d'orientation (directions principales)
        IF(N2D==0) THEN
@@ -387,14 +387,14 @@ C      ajout des termes [Iglobal] vr ^ vr
           WA3=ZERO
        ENDIF
 C
-       IF (IMPL_S.EQ.0) THEN
+       IF (IMPL_S==0) THEN
           AM(1,M)=AM(1,M)+(WA2*VR(3,M)-WA3*VR(2,M))
           AM(2,M)=AM(2,M)+(WA3*VR(1,M)-WA1*VR(3,M))
           AM(3,M)=AM(3,M)+(WA1*VR(2,M)-WA2*VR(1,M))
        END IF
 
 C
-       IF(ISK.EQ.1)THEN
+       IF(ISK==1)THEN
 C------------------
 C       REPERE GLOBAL :
 C       Resolution [Iglobal] gama = M, compte-tenu des conditions aux limites
@@ -407,40 +407,40 @@ C           | Ixx Ixy | { gamax }   { Mx }
 C           | Iyx Iyy | { gamay } = { My }
 C           et gamaz=0
 C------------------
-        IF(LCOD.EQ.1)THEN
+        IF(LCOD==1)THEN
           DET=ONE/(RBY(17)*RBY(21)-RBY(18)*RBY(20))
           WA1=AM(1,M)
           WA2=AM(2,M)
           AM(1,M)=( RBY(21)*WA1-RBY(20)*WA2)*DET
           AM(2,M)=(-RBY(18)*WA1+RBY(17)*WA2)*DET
           AM(3,M)=ZERO
-        ELSEIF(LCOD.EQ.2)THEN
+        ELSEIF(LCOD==2)THEN
           DET=ONE/(RBY(17)*RBY(25)-RBY(19)*RBY(23))
           WA1=AM(1,M)
           WA2=AM(3,M)
           AM(1,M)=( RBY(25)*WA1-RBY(23)*WA2)*DET
           AM(2,M)=ZERO
           AM(3,M)=(-RBY(19)*WA1+RBY(17)*WA2)*DET
-        ELSEIF(LCOD.EQ.3)THEN
+        ELSEIF(LCOD==3)THEN
           AM(1,M)=AM(1,M)/RBY(17)
           AM(2,M)=ZERO
           AM(3,M)=ZERO
-        ELSEIF(LCOD.EQ.4)THEN
+        ELSEIF(LCOD==4)THEN
           DET=ONE/(RBY(21)*RBY(25)-RBY(22)*RBY(24))
           WA1=AM(2,M)
           WA2=AM(3,M)
           AM(1,M)=ZERO
           AM(2,M)=( RBY(25)*WA1-RBY(24)*WA2)*DET
           AM(3,M)=(-RBY(22)*WA1+RBY(21)*WA2)*DET
-        ELSEIF(LCOD.EQ.5)THEN
+        ELSEIF(LCOD==5)THEN
           AM(1,M)=ZERO
           AM(2,M)=AM(2,M)/RBY(21)
           AM(3,M)=ZERO
-        ELSEIF(LCOD.EQ.6)THEN
+        ELSEIF(LCOD==6)THEN
           AM(1,M)=ZERO
           AM(2,M)=ZERO
           AM(3,M)=AM(3,M)/RBY(25)
-        ELSEIF(LCOD.EQ.7)THEN
+        ELSEIF(LCOD==7)THEN
           AM(1,M)=ZERO
           AM(2,M)=ZERO
           AM(3,M)=ZERO
@@ -482,7 +482,7 @@ C           | IL1 IL2 IL3 | { gama1 }   { M1 }            | IL1 IL2 IL3 | { gama
 C           | IL4 IL5 IL6 | { gama2 } = { M2 }       <==> | IL4 IL5 IL6 | { gama2 } = { M2 }
 C           | IL7 IL8 IL9 | { 0     }   { M3 + DM3  }
 C
-        IF(LCOD.EQ.1)THEN
+        IF(LCOD==1)THEN
 C12345678901234567890123456789012345678901234567890123456789012345678901
          II1=RBY(17)*SKEW(1,ISK)+RBY(18)*SKEW(2,ISK)+RBY(19)*SKEW(3,ISK)
          II2=RBY(17)*SKEW(4,ISK)+RBY(18)*SKEW(5,ISK)+RBY(19)*SKEW(6,ISK)
@@ -502,7 +502,7 @@ C
          AM(2,M)=(-IL2*WA1+IL1*WA2)*DET
          AM(3,M)=ZERO
 C        VL(3)=ZERO
-        ELSEIF(LCOD.EQ.2)THEN
+        ELSEIF(LCOD==2)THEN
          II1=RBY(17)*SKEW(1,ISK)+RBY(18)*SKEW(2,ISK)+RBY(19)*SKEW(3,ISK)
          II3=RBY(17)*SKEW(7,ISK)+RBY(18)*SKEW(8,ISK)+RBY(19)*SKEW(9,ISK)
          II4=RBY(20)*SKEW(1,ISK)+RBY(21)*SKEW(2,ISK)+RBY(22)*SKEW(3,ISK)
@@ -521,7 +521,7 @@ C
          AM(2,M)=ZERO
          AM(3,M)=(-IL3*WA1+IL1*WA2)*DET
 C        VL(2)=ZERO
-        ELSEIF(LCOD.EQ.3)THEN
+        ELSEIF(LCOD==3)THEN
          II1=RBY(17)*SKEW(1,ISK)+RBY(18)*SKEW(2,ISK)+RBY(19)*SKEW(3,ISK)
          II4=RBY(20)*SKEW(1,ISK)+RBY(21)*SKEW(2,ISK)+RBY(22)*SKEW(3,ISK)
          II7=RBY(23)*SKEW(1,ISK)+RBY(24)*SKEW(2,ISK)+RBY(25)*SKEW(3,ISK)
@@ -532,7 +532,7 @@ C
          AM(3,M)=ZERO
 C        VL(2)=ZERO
 C        VL(3)=ZERO
-        ELSEIF(LCOD.EQ.4)THEN
+        ELSEIF(LCOD==4)THEN
          II2=RBY(17)*SKEW(4,ISK)+RBY(18)*SKEW(5,ISK)+RBY(19)*SKEW(6,ISK)
          II3=RBY(17)*SKEW(7,ISK)+RBY(18)*SKEW(8,ISK)+RBY(19)*SKEW(9,ISK)
          II5=RBY(20)*SKEW(4,ISK)+RBY(21)*SKEW(5,ISK)+RBY(22)*SKEW(6,ISK)
@@ -551,7 +551,7 @@ C
          AM(2,M)=( IL9*WA1-IL8*WA2)*DET
          AM(3,M)=(-IL6*WA1+IL5*WA2)*DET
 C        VL(1)=ZERO
-        ELSEIF(LCOD.EQ.5)THEN
+        ELSEIF(LCOD==5)THEN
          II2=RBY(17)*SKEW(4,ISK)+RBY(18)*SKEW(5,ISK)+RBY(19)*SKEW(6,ISK)
          II5=RBY(20)*SKEW(4,ISK)+RBY(21)*SKEW(5,ISK)+RBY(22)*SKEW(6,ISK)
          II8=RBY(23)*SKEW(4,ISK)+RBY(24)*SKEW(5,ISK)+RBY(25)*SKEW(6,ISK)
@@ -562,7 +562,7 @@ C
          AM(3,M)=ZERO
 C        VL(1)=ZERO
 C        VL(3)=ZERO
-        ELSEIF(LCOD.EQ.6)THEN
+        ELSEIF(LCOD==6)THEN
          II3=RBY(17)*SKEW(7,ISK)+RBY(18)*SKEW(8,ISK)+RBY(19)*SKEW(9,ISK)
          II6=RBY(20)*SKEW(7,ISK)+RBY(21)*SKEW(8,ISK)+RBY(22)*SKEW(9,ISK)
          II9=RBY(23)*SKEW(7,ISK)+RBY(24)*SKEW(8,ISK)+RBY(25)*SKEW(9,ISK)
@@ -573,7 +573,7 @@ C
          AM(3,M)=AM(3,M)/IL9
 C        VL(1)=ZERO
 C        VL(2)=ZERO
-        ELSEIF(LCOD.EQ.7)THEN
+        ELSEIF(LCOD==7)THEN
          AM(1,M)=ZERO
          AM(2,M)=ZERO
          AM(3,M)=ZERO
@@ -595,7 +595,7 @@ C      EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
        AM(2,M)=IN(M)*AM(2,M)
        AM(3,M)=IN(M)*AM(3,M)
 C
-      ELSEIF (IMCONV.EQ.1) THEN
+      ELSEIF (IMCONV==1) THEN
        IF(N2D==0) THEN
          WA1=AM(1,M)
          WA2=AM(2,M)
@@ -609,7 +609,7 @@ C les contributions des vr ne sont ajoutees que sur le processeur main
          VI(2)=RBY(4)*VR(1,M)+RBY(5)*VR(2,M)+RBY(6)*VR(3,M)
          VI(3)=RBY(7)*VR(1,M)+RBY(8)*VR(2,M)+RBY(9)*VR(3,M)
          CALL ROTBMR(VI,RBY,DT1)
-         IF (IMPL_S.EQ.0) THEN
+         IF (IMPL_S==0) THEN
            AM(1,M) = AM(1,M) + (RBY(11)-RBY(12))*VI(2)*VI(3)
            AM(2,M) = AM(2,M) + (RBY(12)-RBY(10))*VI(3)*VI(1)
            AM(3,M) = AM(3,M) + (RBY(10)-RBY(11))*VI(1)*VI(2)
@@ -618,7 +618,7 @@ C
 C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
-         IF (IMPL_S.EQ.0) THEN
+         IF (IMPL_S==0) THEN
            WA1 = AM(1,M)*IN(M)/RBY(10)
            WA2 = AM(2,M)*IN(M)/RBY(11)
            WA3 = AM(3,M)*IN(M)/RBY(12)
@@ -657,7 +657,7 @@ C
 C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
-         IF (IMPL_S.EQ.0) THEN
+         IF (IMPL_S==0) THEN
            WA1 = ZERO
            WA2 = ZERO
            WA3 = AM(3,M)*IN(M)/RBY(12)
@@ -689,7 +689,7 @@ C
 C CALCUL D'ONE PSEUDO MOMENT:
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
 C
-         IF (IMPL_S.EQ.0) THEN
+         IF (IMPL_S==0) THEN
            WA1 = AM(1,M)*IN(M)/RBY(10)
            WA2 = ZERO
            WA3 = ZERO

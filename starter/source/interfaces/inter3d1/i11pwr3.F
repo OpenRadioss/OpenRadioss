@@ -79,11 +79,11 @@ C
       ENDDO
 C
         DO 100 I=LFT,LLT
-          IF(IPRI.GE.1)THEN
+          IF(IPRI>=1)THEN
             WRITE(IOUT,FMT=FMW_4I)
      2       ITAB(N1(I)),ITAB(N2(I)),ITAB(M1(I)),ITAB(M2(I))
           ENDIF
-          IF(PENE(I).GT.ZERO)THEN
+          IF(PENE(I)>ZERO)THEN
            IF(IPRI>=5)THEN
             WRITE(IOUT,1000)PENE(I)
             WRITE(IOUT,FMT=FMW_I_3F)ITAB(N1(I)),
@@ -96,19 +96,19 @@ C
      .                                  X(3,N2(I))+PENE(I)*NZ(I)
            ENDIF
 C
-            IF(INACTI.NE.6)THEN
+            IF(INACTI/=6)THEN
               PENE(I) = PENE(I) + EM8*PENE(I)
-              IF(INACTI.EQ.1) THEN
+              IF(INACTI==1) THEN
 C               DESACTIVATION DES NOEUDS
                 WRITE(IOUT,'(A)')'SECONDARY STIFFNESS IS SET TO ZERO'
                 STFS(CAND_S(I)) = ZERO
-              ELSE IF(INACTI.EQ.2) THEN
+              ELSE IF(INACTI==2) THEN
 C               DESACTIVATION DES ELEMENTS
                 WRITE(IOUT,'(A)')'MAIN STIFFNESS IS SET TO ZERO'
                 STFM(CAND_M(I)) = ZERO
-              ELSE IF(INACTI.EQ.5) THEN
+              ELSE IF(INACTI==5) THEN
 C               REDUCTION DU GAP 
-                IF(PENE(I).GE.GAPV(I)*ZEP995)THEN
+                IF(PENE(I)>=GAPV(I)*ZEP995)THEN
                   WRITE(IOUT,'(A)')' *** PENETRATION > GAP - 0.5% !! '
                   WRITE(IOUT,'(A)')'SECONDARY STIFFNESS IS SET TO ZERO'
                   PENE(I)=GAPV(I)
@@ -125,8 +125,8 @@ C               REDUCTION DU GAP
               ENDIF
 C
             ELSE
-C             INACTI.EQ.6
-              IF(PENE(I).GE.GAPV(I)*ZEP995)THEN
+C             INACTI==6
+              IF(PENE(I)>=GAPV(I)*ZEP995)THEN
                 WRITE(IOUT,'(A)')' *** PENETRATION > GAP - 0.5% !! '
                 WRITE(IOUT,'(A)')'SECONDARY STIFFNESS IS SET TO ZERO'
                 PENE(I)=GAPV(I)

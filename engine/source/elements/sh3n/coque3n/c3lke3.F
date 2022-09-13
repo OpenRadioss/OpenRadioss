@@ -190,7 +190,7 @@ C
         M23(1,2,EP)=M23(1,2,EP)+GPX1PY3
         M23(2,2,EP)=M23(2,2,EP)+PY2PY3(EP)*GF(EP)
        ENDDO
-       IF (IORTH.EQ.1) THEN
+       IF (IORTH==1) THEN
 #include "vectorize.inc"
         DO EP=JFT,JLT 
          C2=VOL(EP)
@@ -504,7 +504,7 @@ C------ Mzz  pour tous-------
          M33(3,3,EP)=M33(3,3,EP)+DHZ(EP)*PY3PY3(EP)
        ENDDO
 C------ renforce positive  ----------
-      IF (NEIG.EQ.0) THEN
+      IF (NEIG==0) THEN
        DO EP=JFT,JLT
         C1 = EM8*M11(3,3,EP)
         C2 = EM8*M22(3,3,EP)
@@ -542,7 +542,7 @@ C---------membrane--only-----
         ENDDO
        ENDDO
 C------ renforce positive  ----------
-        IF (NEIG.EQ.0.AND.IDRIL==0.AND.IORTH>0) THEN
+        IF (NEIG==0.AND.IDRIL==0.AND.IORTH>0) THEN
          DO EP=JFT,JLT
           C1 = MIN(H11(EP),H22(EP),H33(EP))
           IF (C1 < ZERO) THEN
@@ -659,7 +659,7 @@ C--------Bi: Bi*A--- DM: DM/A
         DM(1,3,EP)=ZERO
         DM(2,3,EP)=ZERO
        ENDDO
-       IF (IORTH.EQ.1) THEN
+       IF (IORTH==1) THEN
         DO EP=JFT,JLT
          C2=VOL(EP)
          DM(1,3,EP)=HMOR(EP,1)*C2
@@ -885,7 +885,7 @@ C------ Mzz  ----------
         M33(3,3,EP)=M33(3,3,EP)+PRX(3,EP)*CBRX(3,EP)+
      .              PRY(3,EP)*CBRY(3,EP)+PRXY(3,EP)*CBRZ(3,EP)
        ENDDO
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO EP=JFT,JLT 
@@ -946,7 +946,7 @@ C
           M23(3,1,EP)=-PY3(EP)*CBRY(2,EP)
           M23(3,2,EP)=                   PY3(EP)*CBRZ(2,EP)
         ENDDO
-       ENDIF !IF (IORTH.EQ.1)
+       ENDIF !IF (IORTH==1)
 C
        RETURN
        END

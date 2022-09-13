@@ -77,7 +77,7 @@ C-----------------------------------------------
       LOC_PROC = ISPMD + 1
       LEN=NRBYKIN*(A_AR+1)
       IDEB=1
-      IF(LOC_PROC.EQ.PMAIN) THEN
+      IF(LOC_PROC==PMAIN) THEN
         DO P = 2, NSPMD
           MSGTYP = MSGOFF 
           CALL MPI_IRECV(

@@ -48,7 +48,7 @@ C----------------------------------------
      .  C2,C21,AUX
 C----------------------------------------
        DO I=NODFT,NODLT
-        IF(MS(I).GT.ZERO)THEN
+        IF(MS(I)>ZERO)THEN
          C2      = FOUR*VISCN(I)*VISCN(I)
          C21     = EIGHT*MS(I)*STIFN(I)
          AUX     = SQRT(C2+C21)+2.*VISCN(I)

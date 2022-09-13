@@ -103,7 +103,7 @@ C=======================================================================
      .         ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT
 C
       NUMPRESLOAD = 0
-      IF(IPARIT.EQ.0) THEN
+      IF(IPARIT==0) THEN
 C code SPMD Parith/OFF or SMP 
        DO  NP=1,NLOADP_HYD
 
@@ -119,11 +119,11 @@ C code SPMD Parith/OFF or SMP
            FCY = LOADP(1,NP)
            FCX = LOADP(2,NP)
 C
-           IF(ISENS.EQ.0)THEN
+           IF(ISENS==0)THEN
               TS=TT
            ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.ZERO)CYCLE
+              IF(TS<ZERO)CYCLE
            ENDIF    
 
 
@@ -179,7 +179,7 @@ C----------------
 
              IF(SEGCONT == 0) THEN
 
-               IF(N4.NE.0)THEN
+               IF(N4/=0)THEN
 
                   NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                   NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
@@ -256,7 +256,7 @@ C
                     A(1,N1)=A(1,N1)+FX
                     A(2,N1)=A(2,N1)+FY
                     A(3,N1)=A(3,N1)+FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N1) = FEXT(1,N1)+FX
                        FEXT(2,N1) = FEXT(2,N1)+FY
                        FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -267,7 +267,7 @@ C
                      A(1,N2)=A(1,N2)+FX
                      A(2,N2)=A(2,N2)+FY
                      A(3,N2)=A(3,N2)+FZ
-                     IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                     IF(IANIM >0 .AND.IMPL_S==0) THEN
                         FEXT(1,N2) = FEXT(1,N2)+FX
                         FEXT(2,N2) = FEXT(2,N2)+FY
                         FEXT(3,N2) = FEXT(3,N2)+FZ
@@ -278,7 +278,7 @@ C
                     A(1,N3)=A(1,N3)+FX
                     A(2,N3)=A(2,N3)+FY
                     A(3,N3)=A(3,N3)+FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N3) = FEXT(1,N3)+FX
                        FEXT(2,N3) = FEXT(2,N3)+FY
                        FEXT(3,N3) = FEXT(3,N3)+FZ
@@ -289,7 +289,7 @@ C
                      A(1,N4)=A(1,N4)+FX
                      A(2,N4)=A(2,N4)+FY
                      A(3,N4)=A(3,N4)+FZ
-                     IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                     IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N4) = FEXT(1,N4)+FX
                        FEXT(2,N4) = FEXT(2,N4)+FY
                        FEXT(3,N4) = FEXT(3,N4)+FZ
@@ -378,7 +378,7 @@ C
                     A(1,N1)=A(1,N1)+FX
                     A(2,N1)=A(2,N1)+FY
                     A(3,N1)=A(3,N1)+FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N1) = FEXT(1,N1)+FX
                        FEXT(2,N1) = FEXT(2,N1)+FY
                        FEXT(3,N1) = FEXT(3,N1)+FZ
@@ -389,7 +389,7 @@ C
                      A(1,N2)=A(1,N2)+FX
                      A(2,N2)=A(2,N2)+FY
                      A(3,N2)=A(3,N2)+FZ
-                     IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                     IF(IANIM >0 .AND.IMPL_S==0) THEN
                         FEXT(1,N2) = FEXT(1,N2)+FX
                         FEXT(2,N2) = FEXT(2,N2)+FY
                         FEXT(3,N2) = FEXT(3,N2)+FZ
@@ -400,7 +400,7 @@ C
                     A(1,N3)=A(1,N3)+FX
                     A(2,N3)=A(2,N3)+FY
                     A(3,N3)=A(3,N3)+FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N3) = FEXT(1,N3)+FX
                        FEXT(2,N3) = FEXT(2,N3)+FY
                        FEXT(3,N3) = FEXT(3,N3)+FZ
@@ -441,11 +441,11 @@ C-------------------------
            FCY = LOADP(1,NP)
            FCX = LOADP(2,NP)
 C
-           IF(ISENS.EQ.0)THEN
+           IF(ISENS==0)THEN
               TS=TT
            ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.ZERO)CYCLE
+              IF(TS<ZERO)CYCLE
            ENDIF    
 
          ! -------------
@@ -456,8 +456,8 @@ C
              N3=LLOADP(IAD+4*(N-1)+2)
              N4=LLOADP(IAD+4*(N-1)+3)
 
-             IF(N4.NE.0 .AND. N1.NE.N2 .AND. N1.NE.N3 .AND. N1.NE.N4 .AND.
-     .                      N2.NE.N3 .AND. N2.NE.N4 .AND. N3.NE.N4 )THEN
+             IF(N4/=0 .AND. N1/=N2 .AND. N1/=N3 .AND. N1/=N4 .AND.
+     .                      N2/=N3 .AND. N2/=N4 .AND. N3/=N4 )THEN
                 UP_BOUND=4
              ELSE
                 UP_BOUND=3
@@ -522,7 +522,7 @@ C----------------
             
              IF(SEGCONT == 0) THEN       
 
-               IF(N4.NE.0)THEN
+               IF(N4/=0)THEN
 
                   NX = (X(2,N3)-X(2,N1))*(X(3,N4)-X(3,N2)) - (X(3,N3)-X(3,N1))*(X(2,N4)-X(2,N2))
                   NY = (X(3,N3)-X(3,N1))*(X(1,N4)-X(1,N2)) - (X(1,N3)-X(1,N1))*(X(3,N4)-X(3,N2))
@@ -600,7 +600,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N1) = FEXT(1,N1) + FX
                        FEXT(2,N1) = FEXT(2,N1) + FY
                        FEXT(3,N1) = FEXT(3,N1) + FZ
@@ -612,7 +612,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N2) = FEXT(1,N2) + FX
                        FEXT(2,N2) = FEXT(2,N2) + FY
                        FEXT(3,N2) = FEXT(3,N2) + FZ
@@ -624,7 +624,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N3) = FEXT(1,N3) + FX
                        FEXT(2,N3) = FEXT(2,N3) + FY
                        FEXT(3,N3) = FEXT(3,N3) + FZ
@@ -636,7 +636,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N4) = FEXT(1,N4) + FX
                        FEXT(2,N4) = FEXT(2,N4) + FY
                        FEXT(3,N4) = FEXT(3,N4) + FZ
@@ -727,7 +727,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N1) = FEXT(1,N1) + FX
                        FEXT(2,N1) = FEXT(2,N1) + FY
                        FEXT(3,N1) = FEXT(3,N1) + FZ
@@ -739,7 +739,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N2) = FEXT(1,N2) + FX
                        FEXT(2,N2) = FEXT(2,N2) + FY
                        FEXT(3,N2) = FEXT(3,N2) + FZ
@@ -751,7 +751,7 @@ C
                     FSKY(1,IADN) = FX
                     FSKY(2,IADN) = FY
                     FSKY(3,IADN) = FZ
-                    IF(IANIM .GT.0 .AND.IMPL_S.EQ.0) THEN
+                    IF(IANIM >0 .AND.IMPL_S==0) THEN
                        FEXT(1,N3) = FEXT(1,N3) + FX
                        FEXT(2,N3) = FEXT(2,N3) + FY
                        FEXT(3,N3) = FEXT(3,N3) + FZ

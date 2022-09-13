@@ -137,7 +137,7 @@ C-----------------------------------------------
         VIS(I) = ZERO
       ENDDO!next I
 
-      IF (IFLG(1) .EQ. 6) THEN
+      IF (IFLG(1) == 6) THEN
         DO I=LFT,LLT
           DTX(I)=EP20
         ENDDO
@@ -146,21 +146,21 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         !---submat-1---!
-        IF(AV1(I).GT.ZERO) THEN
+        IF(AV1(I)>ZERO) THEN
           DPDM1(I) = C11(I)+C51(I)*E01(I)+C41(I)*(C01(I)+C41(I)*E01(I))
           DPDM1(I) = G1(I) + MAX(DPDM1(I), C11(I))
         ELSE
           DPDM1(I) = ZERO
         ENDIF
         !---submat-2---!
-        IF(AV2(I).GT.ZERO) THEN
+        IF(AV2(I)>ZERO) THEN
           DPDM2(I) = C12(I)+C52(I)*E02(I)+C42(I)*(C02(I)+C42(I)*E02(I))
           DPDM2(I) = G2(I) + MAX(DPDM2(I), C12(I))
         ELSE
           DPDM2(I) = ZERO
         ENDIF
         !---submat-3---!
-        IF(AV3(I).GT.ZERO) THEN
+        IF(AV3(I)>ZERO) THEN
           DPDM3(I) = C13(I)+C53(I)*E03(I)+C43(I)*(C03(I)+C43(I)*E03(I))
           DPDM3(I) = G3(I) + MAX(DPDM3(I), C13(I))
         ELSE
@@ -170,25 +170,25 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
         !---submat-1---!      
-        IF(AV1(I).GT.ZERO) THEN
+        IF(AV1(I)>ZERO) THEN
           SSP1(I) = SQRT(ABS(DPDM1(I))/RHO10(I))
         ELSE
           SSP1(I) = ZERO
         ENDIF
         !---submat-2---!        
-        IF(AV2(I).GT.ZERO) THEN        
+        IF(AV2(I)>ZERO) THEN        
           SSP2(I)=SQRT(ABS(DPDM2(I))/RHO20(I))
         ELSE
           SSP2(I)=ZERO
         ENDIF
         !---submat-3---!        
-        IF(AV3(I).GT.ZERO) THEN        
+        IF(AV3(I)>ZERO) THEN        
           SSP3(I)=SQRT(ABS(DPDM3(I))/RHO30(I))
         ELSE
           SSP3(I)=ZERO
         ENDIF        
         !---submat-3---!  
-        IF(AV4(I).GT.ZERO) THEN        
+        IF(AV4(I)>ZERO) THEN        
           SSP4(I)=VDET(I)
         ELSE
           SSP4(I)=ZERO
@@ -204,7 +204,7 @@ C-----------------------------------------------
      .            + AV2(I)*RHO20(I)*SSP2(I)**2 
      .            + AV3(I)*RHO30(I)*SSP3(I)**2 
      .            + AV4(I)*RHO40(I)*SSP4(I)**2
-        IF (RHO0(I) .GT. ZERO) THEN
+        IF (RHO0(I) > ZERO) THEN
            SSP(I)  = SQRT(BULK(I)/RHO0(I))
            RHO0_BAK(I)=RHO0(I)
         ELSE
@@ -216,7 +216,7 @@ C-----------------------------------------------
       !----------------------------------------------!
       !  ELEMENTARY TIME STEP (ARTIFICIAL VISCOSITY) !
       !----------------------------------------------!
-      IF(JSPH.EQ.0)THEN
+      IF(JSPH==0)THEN
        CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0_BAK, VIS, DELTAX, AIRE, VOL, DTX)
       ELSE
        CALL DTSPH(SSP,PM,GEO,PID,MAT, RHO0_BAK, VIS, DELTAX, VOL, DTX)

@@ -79,17 +79,17 @@ C
       NISKYL1 = 0
       DO I=1,JLT
        IF(NSMS(I)==0.OR.STIF(I)==ZERO) CYCLE
-       IF (H1(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-       IF (H2(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-       IF (H3(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
-       IF (H4(I).NE.ZERO) NISKYL1 = NISKYL1 + 1
+       IF (H1(I)/=ZERO) NISKYL1 = NISKYL1 + 1
+       IF (H2(I)/=ZERO) NISKYL1 = NISKYL1 + 1
+       IF (H3(I)/=ZERO) NISKYL1 = NISKYL1 + 1
+       IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
       ENDDO
 #include "lockon.inc"
       NISKYL     = NISKY_SMS
       NISKY_SMS  = NISKY_SMS + NISKYL1
 #include "lockoff.inc"
 C
-      IF (NISKYL+NISKYL1 .GT. LSKYI_SMS) THEN
+      IF (NISKYL+NISKYL1 > LSKYI_SMS) THEN
         CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)         
         CALL ARRET(2)
       ENDIF
@@ -109,28 +109,28 @@ C
 C
        IG =NSVG(I)
        IF(IG >  0)THEN
-        IF(H1(I).NE.ZERO)THEN
+        IF(H1(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H1(I))*MAS
          ISKYI_SMS(NISKYL,1)=IG
          ISKYI_SMS(NISKYL,2)=IX1(I)
          ISKYI_SMS(NISKYL,3)=ISPMD+1
         END IF
-        IF(H2(I).NE.ZERO)THEN
+        IF(H2(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H2(I))*MAS
          ISKYI_SMS(NISKYL,1)=IG
          ISKYI_SMS(NISKYL,2)=IX2(I)
          ISKYI_SMS(NISKYL,3)=ISPMD+1
         END IF
-        IF(H3(I).NE.ZERO)THEN
+        IF(H3(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H3(I))*MAS
          ISKYI_SMS(NISKYL,1)=IG
          ISKYI_SMS(NISKYL,2)=IX3(I)
          ISKYI_SMS(NISKYL,3)=ISPMD+1
         END IF
-        IF(H4(I).NE.ZERO)THEN
+        IF(H4(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H4(I))*MAS
          ISKYI_SMS(NISKYL,1)=IG
@@ -139,28 +139,28 @@ C
         END IF
        ELSE
         NN = -IG
-        IF(H1(I).NE.ZERO)THEN
+        IF(H1(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H1(I))*MAS
          ISKYI_SMS(NISKYL,1)=NODAMSFI(NIN)%P(NN)
          ISKYI_SMS(NISKYL,2)=IX1(I)
          ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
         END IF
-        IF(H2(I).NE.ZERO)THEN
+        IF(H2(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H2(I))*MAS
          ISKYI_SMS(NISKYL,1)=NODAMSFI(NIN)%P(NN)
          ISKYI_SMS(NISKYL,2)=IX2(I)
          ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
         END IF
-        IF(H3(I).NE.ZERO)THEN
+        IF(H3(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H3(I))*MAS
          ISKYI_SMS(NISKYL,1)=NODAMSFI(NIN)%P(NN)
          ISKYI_SMS(NISKYL,2)=IX3(I)
          ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
         END IF
-        IF(H4(I).NE.ZERO)THEN
+        IF(H4(I)/=ZERO)THEN
          NISKYL=NISKYL+1
          MSKYI_SMS(NISKYL)=ABS(H4(I))*MAS
          ISKYI_SMS(NISKYL,1)=NODAMSFI(NIN)%P(NN)

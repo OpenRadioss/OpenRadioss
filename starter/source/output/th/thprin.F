@@ -69,7 +69,7 @@ C-----------------------------------------------
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-      IF(IPRI.LT.1)RETURN
+      IF(IPRI<1)RETURN
 C
         WRITE(IOUT,'(//)')
         WRITE(IOUT,'(2A)')' TH GROUP: ',KEY
@@ -77,7 +77,7 @@ C
 
         DO N=1,NUM
           NVAR=IPASU(NVPS,N)
-          IF(NVAR.GT.0)THEN
+          IF(NVAR>0)THEN
             IAD1=IPASU(NVPS+1,N)
             ID=IPASU(NID,N)
             CALL FRETITL2(TITR,IPASU(NPASU-LTITR+1,N),LTITR)
@@ -145,7 +145,7 @@ C-----------------------------------------------
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-      IF(IPRI.LT.1)RETURN
+      IF(IPRI<1)RETURN
 C
         WRITE(IOUT,'(//)')
         WRITE(IOUT,'(2A)')' TH GROUP: ',KEY
@@ -153,7 +153,7 @@ C
 
         DO N=1,NUM
           NVAR = SUBSET(N)%NVARTH(ITHFLAG)
-          IF(NVAR.GT.0)THEN
+          IF(NVAR>0)THEN
             IAD1=SUBSET(N)%THIAD
             ID=SUBSET(N)%ID
             TITR=SUBSET(N)%TITLE

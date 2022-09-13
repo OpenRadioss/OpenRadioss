@@ -63,10 +63,10 @@ C-----
        IN2=KSI(2,IL)
        IN3=KSI(3,IL)
        IN4=KSI(4,IL)
-       IF (IACTIV(1,IL).GT.0
-     . .OR.IACTIV(2,IL).GT.0    
-     . .OR.IACTIV(3,IL).GT.0    
-     . .OR.IACTIV(4,IL).GT.0) THEN
+       IF (IACTIV(1,IL)>0
+     . .OR.IACTIV(2,IL)>0    
+     . .OR.IACTIV(3,IL)>0    
+     . .OR.IACTIV(4,IL)>0) THEN
         IMARQND(IN1)=1
         IMARQND(IN2)=1
         IMARQND(IN3)=1
@@ -78,7 +78,7 @@ C-----
        IN1=KSI(1,IL)
        IN2=KSI(2,IL)
        IN3=KSI(3,IL)
-       IF (IACTIV(1,IL).GT.0) THEN
+       IF (IACTIV(1,IL)>0) THEN
         IMARQND(IN1)=1
         IMARQND(IN2)=1
         IMARQND(IN3)=1
@@ -88,7 +88,7 @@ C-----
       NNC=0
       DO I=1,NSN
        IN=KSN(I)
-       IF (IMARQND(IN).NE.0) THEN
+       IF (IMARQND(IN)/=0) THEN
         NNC=NNC+1
         KNC(NNC)=IN
        ENDIF

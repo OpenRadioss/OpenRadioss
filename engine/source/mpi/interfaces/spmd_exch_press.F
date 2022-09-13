@@ -106,17 +106,17 @@ C
         ENDDO
         IALLOCS = LEN*(IRLEN7+IRLEN25) + LEN*(IRLEN7T+IRLEN25T)  + LEN*IRLEN20 + LEN*IRLEN20T
         IERROR=0
-        IF(IALLOCS.GT.0)
+        IF(IALLOCS>0)
      +  ALLOCATE(BBUFS(IALLOCS+NBINTC*NSPMD),STAT=IERROR) ! nbintc*NSPMD majorant place supplementaire bufs
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
         IALLOCR = LEN*(ISLEN7+ISLEN25) + LEN*(ISLEN7T+ISLEN25T) + LEN*ISLEN20 + LEN*ISLEN20T
         IERROR=0
-        IF(IALLOCR.GT.0)
+        IF(IALLOCR>0)
      +    ALLOCATE(BBUFR(IALLOCR+NBINTC*NSPMD),STAT=IERROR) ! nbintc*NSPMD majorant place supplementaire bufs
-        IF(IERROR.NE.0) THEN
+        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
         END IF
@@ -129,22 +129,22 @@ C
           ADD = L+1
           ADDR(P) = ADD
           SIZ = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
 Cel test en plus pour savoir si com globale necessaire entre les 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               NB = NSNSI(NIN)%P(P)
               NTY = IPARI(7,NIN)
-              IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.20.OR.NTY.EQ.22.OR.
-     .           NTY.EQ.23.OR.NTY.EQ.24.OR.NTY.EQ.25) THEN
-                IF(NB.GT.0) THEN
+              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==22.OR.
+     .           NTY==23.OR.NTY==24.OR.NTY==25) THEN
+                IF(NB>0) THEN
                   L = L + 1 + NB*LEN
                 ENDIF
               ENDIF
             ENDDO
             SIZ = L+1-ADD
             ASSERT(ADD + SIZ -1 <= IALLOCR+NBINTC*NSPMD)
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF
               CALL MPI_IRECV(
      .          BBUFR(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
@@ -161,20 +161,20 @@ C
           ADD = L+1
           ADDS(P) = ADD
           SIZ = 0
-          IF(P.NE.LOC_PROC)THEN
+          IF(P/=LOC_PROC)THEN
 Cel test en plus pour savoir si com globale necessaire entre les 2 procs
             DO II = 1, NBINTC
               NIN = INTLIST(II)
               IDEB = DEBUT(NIN)
               NB = NSNFI(NIN)%P(P)
               NTY  = IPARI(7,NIN)
-              IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.20.OR.NTY.EQ.22.OR.
-     .           NTY.EQ.23.OR.NTY.EQ.24.OR.NTY.EQ.25) THEN
-               IF(NB.GT.0) THEN
+              IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==22.OR.
+     .           NTY==23.OR.NTY==24.OR.NTY==25) THEN
+               IF(NB>0) THEN
                 LL = L+1
                 L = L + 1
                 DO N = 1, NB
-                  IF(NSVFI(NIN)%P(IDEB+N).LT.0)THEN
+                  IF(NSVFI(NIN)%P(IDEB+N)<0)THEN
 C noeud generant une force
                     BBUFS(L+1) = -NSVFI(NIN)%P(IDEB+N)
                     BBUFS(L+2) = FNCONTI(NIN)%P(1,IDEB+N)
@@ -198,7 +198,7 @@ C noeud generant une force
               END IF
             ENDDO
             SIZ = L+1-ADD
-            IF(SIZ.GT.0)THEN
+            IF(SIZ>0)THEN
               MSGTYP = MSGOFF 
               ASSERT(ADD + SIZ -1 <= IALLOCS+NBINTC*NSPMD)
               CALL MPI_ISEND(
@@ -215,15 +215,15 @@ C
 C Attente IRECV
 C
         DO P = 1, NSPMD
-          IF(ADDR(P+1)-ADDR(P).GT.0) THEN
+          IF(ADDR(P+1)-ADDR(P)>0) THEN
             CALL MPI_WAIT(REQ_RI(P),STATUS,IERROR)
             L = ADDR(P)
             DO II = 1, NBINTC
               NIN = INTLIST(II)
-              IF(NSNSI(NIN)%P(P).GT.0)THEN
+              IF(NSNSI(NIN)%P(P)>0)THEN
                 NTY   =IPARI(7,NIN)
-                IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.20.OR.NTY.EQ.22.OR.
-     .             NTY.EQ.23.OR.NTY.EQ.24.OR.NTY.EQ.25)THEN
+                IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==22.OR.
+     .             NTY==23.OR.NTY==24.OR.NTY==25)THEN
                   NB = NINT(BBUFR(L))
                   L = L + 1
                   DO I = 1, NB
@@ -232,7 +232,7 @@ C
 C ----
 C T24 E2E Fictive nodes may have Node ID over NUMNOD
 C 
-                    IF(NOD.LE.NUMNOD)THEN
+                    IF(NOD<=NUMNOD)THEN
                       FNCONT(1,NOD) = FNCONT(1,NOD) + BBUFR(L+LEN*(I-1)+1)
                       FNCONT(2,NOD) = FNCONT(2,NOD) + BBUFR(L+LEN*(I-1)+2)
                       FNCONT(3,NOD) = FNCONT(3,NOD) + BBUFR(L+LEN*(I-1)+3)
@@ -248,19 +248,19 @@ C
           ENDIF
         ENDDO
 C Deallocation R
-        IF(IALLOCR.GT.0) THEN
+        IF(IALLOCR>0) THEN
           DEALLOCATE(BBUFR)
         END IF
 C
 C Attente ISEND
 C
         DO P = 1, NSPMD
-          IF(ADDS(P+1)-ADDS(P).GT.0) THEN
+          IF(ADDS(P+1)-ADDS(P)>0) THEN
             CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
           ENDIF
         ENDDO
 C Deallocation S
-        IF(IALLOCS.GT.0) THEN
+        IF(IALLOCS>0) THEN
           DEALLOCATE(BBUFS)
         END IF
 C

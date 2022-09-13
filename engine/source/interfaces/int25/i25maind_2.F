@@ -89,16 +89,16 @@ C
 C
         STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
         STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-        IF(STARTT.GT.TT) CYCLE
-        IF(TT.GT.STOPT)  CYCLE
+        IF(STARTT>TT) CYCLE
+        IF(TT>STOPT)  CYCLE
 C
         ISENS = IPARI(64,NIN) 
-        IF(ISENS.NE.0) THEN    ! Interface activated by sensor
+        IF(ISENS/=0) THEN    ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
         ENDIF
-        IF(TT.LT.TS) CYCLE
+        IF(TT<TS) CYCLE
 
         CALL I25COMP_2(
      1    IPARI   ,INTBUF_TAB(NIN),X   ,ITAB      ,NIN          ,

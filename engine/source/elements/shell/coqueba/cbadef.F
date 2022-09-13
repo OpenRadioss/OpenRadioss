@@ -162,7 +162,7 @@ C
      3            +BC(EP,6)*RXYZ(EP,2)+BC(EP,12)*RXYZ(EP,4)
      4            +BC(EP,18)*RXYZ(EP,8)
        ENDDO
-       IF (ISROT.GT.0) THEN
+       IF (ISROT>0) THEN
 #include "vectorize.inc"
         DO I=JFT,NPLAT
          EP=IPLAT(I)
@@ -172,7 +172,7 @@ C----------no more constant shear-----------
      1             +BM(EP,5)*VXYZ(EP,1)+BM(EP,6)*VXYZ(EP,4)
      1             +BM(EP,7)*VXYZ(EP,7)
         END DO
-       END IF !(ISROT.GT.0) THEN
+       END IF !(ISROT>0) THEN
 C------------ELEMENT GAUCH-------------------
 #include "vectorize.inc"
        DO 150 I=NPLAT+1,JLT 
@@ -251,7 +251,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
          BC1=VKSI(1,NG)*TBC(1,1)+VETA(1,NG)*TBC(2,1)
          BC2=VKSI(1,NG)*TBC(1,2)+VETA(1,NG)*TBC(2,2)
 C          I = 1; JJ = 3*KK =0
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -343,7 +343,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
          BC2=VKSI(2,NG)*TBC(1,2)+VETA(2,NG)*TBC(2,2)
 C
 C         I = 1; JJ = 3*KK =9
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -433,7 +433,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
          BC1=VKSI(3,NG)*TBC(1,1)+VETA(3,NG)*TBC(2,1)
          BC2=VKSI(3,NG)*TBC(1,2)+VETA(3,NG)*TBC(2,2)
 C         I = 1;JJ = 3*KK=18
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -520,7 +520,7 @@ C--------TERMES ASSOCIEES AUX U,V,W DE [B1]=<T>BCI-------
          BC1=VKSI(4,NG)*TBC(1,1)+VETA(4,NG)*TBC(2,1)
          BC2=VKSI(4,NG)*TBC(1,2)+VETA(4,NG)*TBC(2,2)
 C         I = 1; JJ = 3*KK =27
-         IF (ISROT.GT.0) THEN
+         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -1276,7 +1276,7 @@ C
         VDEF(EP,7)=ZERO
         VDEF(EP,8)=ZERO
        ENDDO
-       IF (ISROT.GT.0) THEN
+       IF (ISROT>0) THEN
 #include "vectorize.inc"
         DO I=JFT,NPLAT
          EP=IPLAT(I)
@@ -1286,7 +1286,7 @@ C----------no more constant shear-----------
      1             +BM(EP,5)*VXYZ(EP,1)+BM(EP,6)*VXYZ(EP,4)
      1             +BM(EP,7)*VXYZ(EP,7)
         END DO
-       END IF !(ISROT.GT.0) THEN
+       END IF !(ISROT>0) THEN
 C       
        RETURN
        END
@@ -1431,7 +1431,7 @@ C     +           BF(3,1,I)*RXYZ(1,1,I)+BF(3,2,I)*RXYZ(1,2,I)+
 C     +           BF(3,3,I)*RXYZ(1,3,I)+BF(3,4,I)*RXYZ(1,4,I)
 C      
       END DO
-      IF (ISROT.GT.0) THEN
+      IF (ISROT>0) THEN
 #include "vectorize.inc"
        DO I=JFT,JLT
 C---------------
@@ -1449,7 +1449,7 @@ C---------------
      1                BMRZ(I,4,1)*RLZ(EP,1)+BMRZ(I,4,2)*RLZ(EP,2)
      2               +BMRZ(I,4,3)*RLZ(EP,3)+BMRZ(I,4,4)*RLZ(EP,4)
        ENDDO
-      END IF !(ISROT.GT.0) THEN
+      END IF !(ISROT>0) THEN
 C      
        RETURN
        END
@@ -1524,7 +1524,7 @@ C-------- exy---
          VDEF(EP,3)=BM(EP,5,1)*VXYZ(EP,1,1)+BM(EP,6,1)*VXYZ(EP,1,2)
      1             +BM(EP,7,1)*VXYZ(EP,1,3)
        ENDDO
-      IF (ISROT.GT.0) THEN
+      IF (ISROT>0) THEN
 #include "vectorize.inc"
        DO I=JFT,NPLAT
 C---------------
@@ -1542,7 +1542,7 @@ C---------------
      1                BMRZ(I,4,1)*RXYZ(EP,1)+BMRZ(I,4,2)*RXYZ(EP,2)
      2               +BMRZ(I,4,3)*RXYZ(EP,3)+BMRZ(I,4,4)*RXYZ(EP,4)
        ENDDO
-      END IF !(ISROT.GT.0) THEN
+      END IF !(ISROT>0) THEN
 C      
        RETURN
        END
@@ -1635,7 +1635,7 @@ C--------TERMES DE [B0]=<T>CI-------
          C1=VKSI(1,NG)*TC(EP,1,1)+VETA(1,NG)*TC(EP,2,1)
          C2=VKSI(1,NG)*TC(EP,1,2)+VETA(1,NG)*TC(EP,2,2)
 C          I = 1; JJ = 3*KK =0
-c         IF (ISROT.GT.0) THEN
+c         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -1662,7 +1662,7 @@ C--------TERMES DE [B0]=<T>CI-------
          C1=VKSI(2,NG)*TC(EP,1,1)+VETA(2,NG)*TC(EP,2,1)
          C2=VKSI(2,NG)*TC(EP,1,2)+VETA(2,NG)*TC(EP,2,2)
 C         I = 1; JJ = 3*KK =9
-c         IF (ISROT.GT.0) THEN
+c         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -1689,7 +1689,7 @@ C--------- [B0], [B01]---------
 C--------TERMES DE [B0]=<T>CI-------
          C1=VKSI(3,NG)*TC(EP,1,1)+VETA(3,NG)*TC(EP,2,1)
          C2=VKSI(3,NG)*TC(EP,1,2)+VETA(3,NG)*TC(EP,2,2)
-c         IF (ISROT.GT.0) THEN
+c         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2
@@ -1712,7 +1712,7 @@ C---------- TERMES ASSOCIEES AU BETA ----------
 C--------TERMES DE [B0]=<T>CI-------
          C1=VKSI(4,NG)*TC(EP,1,1)+VETA(4,NG)*TC(EP,2,1)
          C2=VKSI(4,NG)*TC(EP,1,2)+VETA(4,NG)*TC(EP,2,2)
-c         IF (ISROT.GT.0) THEN
+c         IF (ISROT>0) THEN
           BXY(1)=VQ(EP,1,1,NG)*C2
           BXY(2)=VQ(EP,2,1,NG)*C2
           BXY(3)=VQ(EP,3,1,NG)*C2

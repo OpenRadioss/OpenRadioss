@@ -200,7 +200,7 @@ C verif convergence
 #include "vectorize.inc"
       DO N = 1,NINDEX2
         I = INDEX(N)
-        IF (I.NE.0) THEN
+        IF (I/=0) THEN
           SCLE2(I) = MIN(ONE,SCLE2(I))
           SCLE2(I) = MAX(ZERO,SCLE2(I))
         ENDIF

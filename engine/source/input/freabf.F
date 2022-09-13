@@ -68,7 +68,7 @@ C-----------------------------------------------
       DTABFWR0(CPT) = ZERO
       K = 0
 
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(3X,A,1X,A,1X,A)',
      .      ERR=9990)KEY2,KEY3,KEY4
        K=K+1

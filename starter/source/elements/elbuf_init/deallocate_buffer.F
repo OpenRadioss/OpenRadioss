@@ -224,7 +224,7 @@ c---------ELEMENT PROPERTY
               NLAY = 1
             ENDIF      
 C     Multifluid law
-            IF (MLW .EQ. 151) THEN
+            IF (MLW == 151) THEN
                NLAY = IPARG(20, NG)
             ENDIF
           ELSEIF (TSHELL == 1) THEN    ! NLAY >= 1
@@ -387,7 +387,7 @@ c------------------------------------------------------
             NPTT = MAX(1,NPT)    ! attention to global integration 
           ENDIF
           IF (IGTYP == 17 .and. ISHPLYXFEM == 1) NINTLAY = NLAY-1
-          IF (ITY == 7 .AND. MLW .EQ. 151) THEN
+          IF (ITY == 7 .AND. MLW == 151) THEN
              NLAY = IPARG(20, NG)
           ENDIF
 

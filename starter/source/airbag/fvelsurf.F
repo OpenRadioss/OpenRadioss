@@ -117,14 +117,14 @@ C
             DO J=1,CNS(I1,1)
                ITY=CNS(I1,1+2*(J-1)+1)
                JJ=CNS(I1,1+2*(J-1)+2)
-               IF (ITY.EQ.1) THEN
+               IF (ITY==1) THEN
                   DO K=1,4
                      KK=IXC(1+K,JJ)
                      ITAG(KK)=1
                   ENDDO
-                  IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                  IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELQ+JJ
-                     IF (FLAG .AND. (JJ .EQ. ELEM_ID(I))) THEN
+                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
                         IFOUND=NUMELQ+JJ
                      ENDIF
                   ENDIF
@@ -132,14 +132,14 @@ C
                      KK=IXC(1+K,JJ)
                      ITAG(KK)=0
                   ENDDO
-               ELSEIF (ITY.EQ.2) THEN
+               ELSEIF (ITY==2) THEN
                   DO K=1,3
                      KK=IXTG(1+K,JJ)
                      ITAG(KK)=1
                   ENDDO
-                  IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                  IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELC+JJ
-                     IF (FLAG .AND. (JJ .EQ. ELEM_ID(I))) THEN
+                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
                         IFOUND=NUMELQ+NUMELC+JJ
                      ENDIF
                   ENDIF
@@ -149,18 +149,18 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            IF (IFOUND.NE.0) GOTO 100
+            IF (IFOUND/=0) GOTO 100
             DO J=1,CNS(I2,1)
                ITY=CNS(I2,1+2*(J-1)+1)
                JJ=CNS(I2,1+2*(J-1)+2)
-               IF (ITY.EQ.1) THEN
+               IF (ITY==1) THEN
                   DO K=1,4
                      KK=IXC(1+K,JJ)
                      ITAG(KK)=1
                   ENDDO
-                  IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                  IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELQ+JJ
-                     IF (FLAG .AND. (JJ .EQ. ELEM_ID(I))) THEN
+                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
                         IFOUND=NUMELQ+JJ
                      ENDIF
                   ENDIF
@@ -168,14 +168,14 @@ C
                      KK=IXC(1+K,JJ)
                      ITAG(KK)=0
                   ENDDO
-               ELSEIF (ITY.EQ.2) THEN
+               ELSEIF (ITY==2) THEN
                   DO K=1,3
                      KK=IXTG(1+K,JJ)
                      ITAG(KK)=1
                   ENDDO
-                  IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                  IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELC+JJ
-                     IF (FLAG .AND. JJ .EQ. ELEM_ID(I)) THEN
+                     IF (FLAG .AND. JJ == ELEM_ID(I)) THEN
                         IFOUND=NUMELQ+NUMELC+JJ
                      ENDIF
                   ENDIF
@@ -185,18 +185,18 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            IF (IFOUND.NE.0) GOTO 100
+            IF (IFOUND/=0) GOTO 100
             DO J=1,CNS(I3,1)
                ITY=CNS(I3,1+2*(J-1)+1)
                JJ=CNS(I3,1+2*(J-1)+2)
-               IF (ITY.EQ.1) THEN
+               IF (ITY==1) THEN
                   DO K=1,4
                      KK=IXC(1+K,JJ)
                      ITAG(KK)=1
                   ENDDO
-                  IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                  IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELQ+JJ
-                     IF (FLAG .AND. (JJ .EQ. ELEM_ID(I))) THEN
+                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
                         IFOUND=NUMELQ+JJ
                      ENDIF
                   ENDIF
@@ -204,14 +204,14 @@ C
                      KK=IXC(1+K,JJ)
                      ITAG(KK)=0
                   ENDDO
-               ELSEIF (ITY.EQ.2) THEN
+               ELSEIF (ITY==2) THEN
                   DO K=1,3
                      KK=IXTG(1+K,JJ)
                      ITAG(KK)=1
                   ENDDO
-                  IF (ITAG(I1).EQ.1.AND.ITAG(I2).EQ.1.AND.ITAG(I3).EQ.1) THEN
+                  IF (ITAG(I1)==1.AND.ITAG(I2)==1.AND.ITAG(I3)==1) THEN
                      IF (.NOT. FLAG) IFOUND=NUMELC+JJ
-                     IF (FLAG .AND. (JJ .EQ. ELEM_ID(I))) THEN
+                     IF (FLAG .AND. (JJ == ELEM_ID(I))) THEN
                         IFOUND=NUMELQ+NUMELC+JJ
                      ENDIF
                   ENDIF
@@ -232,18 +232,18 @@ C     STORE MATERIAL NUMBER
 C-----------------------
          DO I=1,NEL
             J=ELTG(I)
-            IF (J.LE.NUMELC) THEN
+            IF (J<=NUMELC) THEN
                MATTG(I) =IXC(1,J)
-            ELSEIF (J.GT.NUMELC) THEN
+            ELSEIF (J>NUMELC) THEN
                MATTG(I) =IXTG(1,J-NUMELC)
             ENDIF
          ENDDO
       ELSE
          DO I=1,NEL
             J=ELTG(I)
-            IF (J.LE.NUMELC) THEN
+            IF (J<=NUMELC) THEN
                MATTG(I) =IXC(1,J)
-            ELSEIF (J.GT.NUMELC) THEN
+            ELSEIF (J>NUMELC) THEN
                MATTG(I) =IXTG(1,J-NUMELC)
             ENDIF
          ENDDO

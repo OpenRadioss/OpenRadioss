@@ -89,8 +89,8 @@ C-----------------------------------------------
       
       MSTOP1=0
       MSTOP2=0
-      IF(MSTOP.EQ.1)MSTOP1=1
-      IF(MSTOP.EQ.2)MSTOP2=1
+      IF(MSTOP==1)MSTOP1=1
+      IF(MSTOP==2)MSTOP2=1
 C
       LOC_PROC=ISPMD+1
 C
@@ -143,8 +143,8 @@ C
       IWIOUT   = NINT(RBUF(7))
       MSTOP1   = NINT(RBUF(8))
       MSTOP2   = NINT(RBUF(9))
-      IF(MSTOP1.NE.0)MSTOP=1
-      IF(MSTOP2.NE.0)MSTOP=2
+      IF(MSTOP1/=0)MSTOP=1
+      IF(MSTOP2/=0)MSTOP=2
       ISMSCH   = RBUF(10)
 C
       IF (INT24USE==1)THEN

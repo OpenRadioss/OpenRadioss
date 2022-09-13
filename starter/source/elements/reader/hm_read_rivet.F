@@ -160,22 +160,22 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
-        IF(SUB_RIVET(I) .NE. 0)THEN
-          IF(IPART_RIVET(I) .NE. 0) IPART_RIVET(I) = IPART_RIVET(I) + OFF_PART(SUB_RIVET(I)) 
-          IF(IXRI(4,I) .NE. 0) IXRI(4,I) = IXRI(4,I) + OFF_EL(SUB_RIVET(I))
+        IF(SUB_RIVET(I) /= 0)THEN
+          IF(IPART_RIVET(I) /= 0) IPART_RIVET(I) = IPART_RIVET(I) + OFF_PART(SUB_RIVET(I)) 
+          IF(IXRI(4,I) /= 0) IXRI(4,I) = IXRI(4,I) + OFF_EL(SUB_RIVET(I))
           DO J=2,3
-            IF(IXRI(J,I) .NE. 0) IXRI(J,I) = IXRI(J,I) + OFF_NOD(SUB_RIVET(I))
+            IF(IXRI(J,I) /= 0) IXRI(J,I) = IXRI(J,I) + OFF_NOD(SUB_RIVET(I))
           ENDDO
         ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) .NE. IPART_RIVET(I) )THEN  
+        IF( IPART(4,INDEX_PART) /= IPART_RIVET(I) )THEN  
           DO J=1,NPART                            
-            IF(IPART(4,J).EQ. IPART_RIVET(I) ) INDEX_PART = J            
+            IF(IPART(4,J)== IPART_RIVET(I) ) INDEX_PART = J            
           ENDDO  
         ENDIF
-        IF(IPART(4,INDEX_PART) .NE. IPART_RIVET(I)) THEN
+        IF(IPART(4,INDEX_PART) /= IPART_RIVET(I)) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -188,7 +188,7 @@ C--------------------------------------------------
         MT=IPART(1,INDEX_PART)                         
         IPID=IPART(2,INDEX_PART)  
         IXRI(1,I)=IPID   
-        IF (IXRI(4,I).GT.ID_LIMIT) THEN               
+        IF (IXRI(4,I)>ID_LIMIT) THEN               
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXRI(4,I),C1=LINE,C2='/RIVET')
         ENDIF
@@ -210,7 +210,7 @@ C--------------------------------------------------
         DO J=1,NRIVET
           IF1 = NLOCAL(IXRI(2,J),P)
           IF2 = NLOCAL(IXRI(3,J),P)
-          IF (IF1.EQ.1.OR.IF2.EQ.1) THEN
+          IF (IF1==1.OR.IF2==1) THEN
             CALL IFRONTPLUS(IXRI(2,J),P)
             CALL IFRONTPLUS(IXRI(3,J),P)
           ENDIF
@@ -226,7 +226,7 @@ C-------------------------------------
         DO P = 1, NSPMD
           IF1 = IF1 + NLOCAL(IXRI(2,J),P)
         ENDDO
-        IF (IF1.EQ.0) THEN
+        IF (IF1==0) THEN
           CALL IFRONTPLUS(IXRI(2,J),1)
           CALL IFRONTPLUS(IXRI(3,J),1)	  
         ENDIF      
@@ -242,7 +242,7 @@ C
          WRITE (IOUT,270) I,IXRI(4,I),PID,
      .                 ITAB(IXRI(2,I)),ITAB(IXRI(3,I))
       ENDDO
-      IF(I2.EQ.NRIVET)RETURN
+      IF(I2==NRIVET)RETURN
       I1=I1+50
       I2=MIN0(I2+50,NRIVET)
       GOTO 90

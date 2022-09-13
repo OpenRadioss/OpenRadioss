@@ -188,9 +188,9 @@ C
           !--------------------
           !    SPMD EXCHANGE OF ADJACENT ELEMS 
           !--------------------
-        IF(IALE+IEULER+ITHERM .NE. 0)THEN	     
+        IF(IALE+IEULER+ITHERM /= 0)THEN	     
           LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD.GT.1) THEN
+          IF (NSPMD>1) THEN
             ! Partie non parallele smt
             CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2      	       LESDVOIS,LENCOM  )

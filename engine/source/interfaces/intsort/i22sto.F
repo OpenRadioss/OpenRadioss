@@ -81,7 +81,7 @@ c        if(ibug22_trivox==1)print *, "   lockon", ITASK
 
       I_STOK = II_STOK
 
-      IF(I_STOK + J_STOK.GT.MULNSN) THEN
+      IF(I_STOK + J_STOK>MULNSN) THEN
         I_MEM = 2 ! Pas assez de place allouee  
         IsSTO = .FALSE.
         !II_STOK = ZERO fait dans i22buce     

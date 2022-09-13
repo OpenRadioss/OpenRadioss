@@ -53,7 +53,7 @@ C
       ICODE(N)=ICODE(N)+512*(ICODT(N)-ICODE(N)/512)
    10 CONTINUE
 C
-      IF(IRODDL.GT.0)THEN
+      IF(IRODDL>0)THEN
        DO 20 N=1,NUMNOD
        IC=ICODE(N)
        IC1=IC/512
@@ -65,7 +65,7 @@ C
    20  CONTINUE
       END IF
 C
-      IF(IALE.GT.0) THEN
+      IF(IALE>0) THEN
       DO 30 N=1,NUMNOD
        IC=ICODE(N)
        IC1=IC/512

@@ -206,7 +206,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     SPECIFIC TREATMENT FOR LAW20 (OBSOLETE)
 C-----------------------------------------------
-      IF(JMULT.NE.0)THEN
+      IF(JMULT/=0)THEN
         DO I=LFT,LLT
           UPW(I) =PM(16,MAT(I))
         ENDDO

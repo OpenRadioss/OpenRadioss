@@ -204,7 +204,7 @@ C
         P = CEPSP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
-          IF (CEPSP(NFT+INDEX(I)).NE.P) THEN
+          IF (CEPSP(NFT+INDEX(I))/=P) THEN
             DD_IAD(P+1,NSPGROUP+N) = NB
             NB = 1
             P = CEPSP(NFT+INDEX(I))
@@ -277,7 +277,7 @@ C
        DO P = 1, NSPMD
         NGP(P)=0
         NEL = DD_IAD(P+1,NSPGROUP+N)-DD_IAD(P,NSPGROUP+N)
-        IF (NEL.GT.0) THEN
+        IF (NEL>0) THEN
          NEL_PREC = DD_IAD(P,NSPGROUP+N)-DD_IAD(1,NSPGROUP+N)
          NGP(P)=NGROUP
          NG  = (NEL-1)/NVSIZ + 1
@@ -287,7 +287,7 @@ C ngroup global
           NGROUP=NGROUP+1
           II = EADD(N)+NFT
           IPRT  =IPARTSP(II)
-          IF (NSUBDOM.GT.0) IPARTR2R = TAG_PART(IPRT)          
+          IF (NSUBDOM>0) IPARTR2R = TAG_PART(IPRT)          
           MT    =IPART(1,IPRT)
           MLN   =NINT(PM(19,ABS(MT)))
           IG    =IPART(2,IPRT)
@@ -303,13 +303,13 @@ C ngroup global
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
 
           JLAG=0
-          IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
+          IF(JALE==0.AND.MLN/=18)JLAG=1
           JEUL=0
-          IF(JALE.EQ.2)THEN
+          IF(JALE==2)THEN
             JALE=0
             JEUL=1
           ENDIF
-          IF (JALE+JEUL.NE.0) THEN
+          IF (JALE+JEUL/=0) THEN
 C           WRITE(ISTDO,*) ' ** ERROR : BAD ANALYSIS TYPE'
 C           WRITE(IOUT,*)  ' ** ERROR : BAD ANALYSIS TYPE'
 C           WRITE(IOUT,*)  ' ** ERROR : ALE AND EULERIAN ANALYSIS',
@@ -335,8 +335,8 @@ C     full geometric non linearities.
            IFAIL = 1
           ENDIF
 C-------------------------------------------------          
-          IF((MLN.NE.14).AND.(MLN.NE.24).AND.(MLN.NE.25).AND.
-     .       (MLN.LT.28))THEN
+          IF((MLN/=14).AND.(MLN/=24).AND.(MLN/=25).AND.
+     .       (MLN<28))THEN
             NUMBER_FAILURE = IPM(220, MT)
             DO IJK = 1, NE1
               II = EADD(N)+NFT-1+IJK
@@ -359,7 +359,7 @@ C
             KXSP(2,EADD(N)-1+NFT+IJK)=
      .                SIGN(NGROUP,ISLEEP)
           END DO
-          IF (MT.NE.0) THEN
+          IF (MT/=0) THEN
             IPARG(1,NGROUP)=MLN
           ELSE
             IPARG(1,NGROUP)=IGTYP
@@ -370,9 +370,9 @@ C
           IPARG(5,NGROUP)=51
           IPARG(6,NGROUP)=NPT
           IPARG(7,NGROUP) =JALE
-          IF(ISLEEP.EQ.-1.OR.ISPH2SOL.NE.0)IPARG(8,NGROUP) =1
+          IF(ISLEEP==-1.OR.ISPH2SOL/=0)IPARG(8,NGROUP) =1
           IPARG(9,NGROUP) =ISSN
-          IF(ISLEEP.GT.0)IPARG(10,NGROUP)=NE1
+          IF(ISLEEP>0)IPARG(10,NGROUP)=NE1
           IPARG(11,NGROUP)=JEUL
           IPARG(12,NGROUP)=JTUR
           IPARG(13,NGROUP)=JTHE
@@ -390,13 +390,13 @@ C
           IPARG(62,NGROUP)=IG
           IPARG(69,NGROUP)=ISPH2SOL
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM.GT.0) IPARG(71,NGROUP)= IPARTR2R
+          IF (NSUBDOM>0) IPARG(71,NGROUP)= IPARTR2R
 C         thermal expansion
           IF(IPM(218,MT) > 0 .AND. MLN /= 0 .AND. MLN /= 13) IPARG(49,NGROUP)= 1 
 C
-          IF(MLN.NE.14.AND.MLN.NE.24.AND.MLN.NE.25.AND.MLN.LT.28)THEN
+          IF(MLN/=14.AND.MLN/=24.AND.MLN/=25.AND.MLN<28)THEN
             IPARG(44,NGROUP)= ISTRAIN
-          ELSEIF(MLN.GE.28)THEN
+          ELSEIF(MLN>=28)THEN
             ISTRAIN=2
             IPARG(44,NGROUP)=ISTRAIN
           ENDIF

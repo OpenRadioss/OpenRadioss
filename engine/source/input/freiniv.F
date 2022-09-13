@@ -72,35 +72,35 @@ C-----------------------------------------------
        READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(7X,A,1X,A,1X,I5,25X,I10)',
      .        ERR=9990)KEY2,KEY3,K3,NBC
        K=K+1
-       IF (KEY2.EQ.'TRA  ') THEN
+       IF (KEY2=='TRA  ') THEN
          M=1
-         IF(KEY3(1:1).EQ.'X') THEN
+         IF(KEY3(1:1)=='X') THEN
            JJ=1
-         ELSEIF(KEY3(1:1).EQ.'Y') THEN
+         ELSEIF(KEY3(1:1)=='Y') THEN
            JJ=2
-         ELSEIF(KEY3(1:1).EQ.'Z') THEN
+         ELSEIF(KEY3(1:1)=='Z') THEN
            JJ=3
          ELSE
            CALL ERRMSG(KEY2)
          ENDIF
-       ELSEIF (KEY2.EQ.'ROT  ') THEN
+       ELSEIF (KEY2=='ROT  ') THEN
          M=1
-         IF(KEY3(1:1).EQ.'X') THEN
+         IF(KEY3(1:1)=='X') THEN
            JJ=4
-         ELSEIF(KEY3(1:1).EQ.'Y') THEN
+         ELSEIF(KEY3(1:1)=='Y') THEN
            JJ=5
-         ELSEIF(KEY3(1:1).EQ.'Z') THEN
+         ELSEIF(KEY3(1:1)=='Z') THEN
            JJ=6
          ELSE
            CALL ERRMSG(KEY2)
          ENDIF
-       ELSEIF (KEY2.EQ.'AXIS ') THEN
+       ELSEIF (KEY2=='AXIS ') THEN
          M=2
-         IF(KEY3(1:1).EQ.'X') THEN
+         IF(KEY3(1:1)=='X') THEN
            JJ=-1
-         ELSEIF(KEY3(1:1).EQ.'Y') THEN
+         ELSEIF(KEY3(1:1)=='Y') THEN
            JJ=-2
-         ELSEIF(KEY3(1:1).EQ.'Z') THEN
+         ELSEIF(KEY3(1:1)=='Z') THEN
            JJ=-3
          ELSE
            CALL ERRMSG(KEY2)
@@ -124,7 +124,7 @@ c        deuxi  me ligne
          READ(IUSC2,*,IOSTAT=IOS) V
        ENDIF
 C
-       IF(NBC.LE.M .OR. IOS /= 0 .OR.(K3==2.AND.NBC/=(M+1))) THEN
+       IF(NBC<=M .OR. IOS /= 0 .OR.(K3==2.AND.NBC/=(M+1))) THEN
          CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY))
          CALL ARRET(2)
        END IF

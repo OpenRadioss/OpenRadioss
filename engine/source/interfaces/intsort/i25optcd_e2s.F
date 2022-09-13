@@ -205,7 +205,7 @@ C-----
 C-----------------------------------------------
 C      solid edges on main side
 C-----------------------------------------------
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -213,7 +213,7 @@ C
          NLS2 = NSEG+1
          DO IS = 1, NSEG
            I=JS+IS
-           IF(CAND_S(I).LE.NEDGE)THEN
+           IF(CAND_S(I)<=NEDGE)THEN
 
              IF(SH_EDGE==1.AND.
      .          LEDGE(7,CAND_S(I))/=1.AND.
@@ -340,7 +340,7 @@ C          S = ZERO
          DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE(8,CAND_S(I)) == D_ES,S)
 #endif
 
-         IF (S.NE.ZERO) THEN
+         IF (S/=ZERO) THEN
            N1(IS)= LEDGE(5,CAND_S(I))
            N2(IS)= LEDGE(6,CAND_S(I))
            Z1S=X(3,N1(IS))
@@ -363,7 +363,7 @@ C          S = ZERO
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE(8,CAND_S(I)) == D_ES,ZMINM)
 #endif
 
-           IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+           IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
            ENDIF
@@ -397,7 +397,7 @@ C ======== LOCAL TIRM 2
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE(8,CAND_S(I)) == D_ES,YMINM)
 #endif
 
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -430,13 +430,13 @@ C ======== LOCAL TIRM 3
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE(8,CAND_S(I)) == D_ES,XMINM)
 #endif
 
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
           ENDIF
        ENDDO
 C
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
          NLF = NLS2
          NLT = NSEG
 C =========  REMOTE 
@@ -468,13 +468,13 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE_FIE(NIN)%P(E_GLOBAL_ID,CAND_S(I)-NEDGE) == D_ES,STIFIE(NIN)%P(II))
 #endif
 
-          IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
+          IF (STIFIE(NIN)%P(II)/=ZERO) THEN
            NN1 = 2*(II-1)+1
            NN2 = 2*II
            Z1S=XFIE(NIN)%P(3,NN1)
            Z2S=XFIE(NIN)%P(3,NN2)
 C          L  = LEDGE(1,CAND_M(I))
-C          IF (STF(L).NE.ZERO) THEN
+C          IF (STF(L)/=ZERO) THEN
            GAPVD = GAPV(IS)
            ZMINS = MIN(Z1S,Z2S)-GAPVD
            ZMAXS = MAX(Z1S,Z2S)+GAPVD
@@ -493,7 +493,7 @@ C          IF (STF(L).NE.ZERO) THEN
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE_FIE(NIN)%P(E_GLOBAL_ID,CAND_S(I)-NEDGE) == D_ES,ZMINM)
 #endif
 
-           IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+           IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
            ENDIF
@@ -535,7 +535,7 @@ C ============= REMOTE TRIM 2
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE_FIE(NIN)%P(E_GLOBAL_ID,CAND_S(I)-NEDGE) == D_ES,YMINM)
 #endif
 
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -568,7 +568,7 @@ C ================ REMOTE TRIM 3
             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE_FIE(NIN)%P(E_GLOBAL_ID,CAND_S(I)-NEDGE) == D_ES,XMINM)
 #endif
 
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
 
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1

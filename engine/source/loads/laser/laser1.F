@@ -69,7 +69,7 @@ C-----------------------------------------------
       DO I=1,NLASER
        ITYP    = LAS(K1+5)
        NL = LAS(K1)
-       IF(ITYP.EQ.0)THEN
+       IF(ITYP==0)THEN
          N1 = LAS(K1+1)
          N2 = LAS(K1+2)
          WA(3,N1) = ZERO
@@ -88,7 +88,7 @@ C
        IFUNC   = LAS(K1+3)
        IAFUNC  = LAS(K1+4)
        ITYP    = LAS(K1+5)
-       IF(ITYP.EQ.1)THEN
+       IF(ITYP==1)THEN
          CALL LASER3(NL        ,N1      ,N2   ,IFUNC    ,IAFUNC    ,
      .               LAS(K1+6) ,XLAS(K2),X    ,ELBUF_TAB,PM        ,
      .               WA        ,IPARG   ,IXQ  ,TF       ,NPF       )
@@ -105,7 +105,7 @@ C
       DO I=1,NLASER
        ITYP    = LAS(K1+5)
        NL = LAS(K1)
-       IF(ITYP.EQ.0)THEN
+       IF(ITYP==0)THEN
          N1 = LAS(K1+1)
          N2 = LAS(K1+2)
          WA(1,N1) = ONE
@@ -120,15 +120,15 @@ C
       DO I=1,NLASER
        ITYP    = LAS(K1+5)
        NL = LAS(K1)
-       IF(ITYP.EQ.0)THEN
+       IF(ITYP==0)THEN
          N1 = LAS(K1+1)
          N2 = LAS(K1+2)
-         IF(WA(1,N1) .EQ. ONE)THEN
+         IF(WA(1,N1) == ONE)THEN
           W(3,N1) = V(3,N1) - WA(3,N1) / MS(N1)
           WA(1,N1) = ZERO
           WA(3,N1) = ZERO
          ENDIF
-         IF(WA(1,N2) .EQ. ONE)THEN
+         IF(WA(1,N2) == ONE)THEN
           W(3,N2) = V(3,N2) - WA(3,N2) / MS(N2)
           WA(1,N2) = ZERO
           WA(3,N2) = ZERO

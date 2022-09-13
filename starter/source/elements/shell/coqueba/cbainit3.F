@@ -302,7 +302,7 @@ c---------------------------
      .               NPTR,NPTS,NPTT,IGTYP)
       ENDIF
 C      
-       IF (( ISIGSH.NE.0 .OR. ITHKSHEL == 2) .and. MPT>0) THEN
+       IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. MPT>0) THEN
            CALL LAYINI1(
      .        ELBUF_STR  ,LFT        ,LLT        ,GEO        ,IGEO      ,
      .        MAT        ,PID        ,MATLY      ,POSLY      ,IGTYP     ,
@@ -330,7 +330,7 @@ c
      .                 Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X )
 c
-          IF (( ISIGSH.NE.0 .OR. ITHKSHEL == 2) .and. IHBE == 11) THEN
+          IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. IHBE == 11) THEN
             IF (MPT>0) 
      .       CALL CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,LFT    ,LLT    ,
      .             NLAY     ,IREP    ,NEL     ,
@@ -352,7 +352,7 @@ c
      3                   SIGSH   )
           ENDIF
 c
-          IF (IUSER == 1. AND. MTN.GE.28 .AND. IHBE == 11) THEN
+          IF (IUSER == 1. AND. MTN>=28 .AND. IHBE == 11) THEN
             NPG = 4
             CALL CUSERINI4(ELBUF_STR,
      1                   LFT     ,LLT    ,NFT   ,NEL    ,ISTRAIN  ,
@@ -467,7 +467,7 @@ c----
           ENDDO                                 
         ENDIF
 c---
-        IF (ISIGSH.NE.0 .OR. ITHKSHEL == 2) THEN
+        IF (ISIGSH/=0 .OR. ITHKSHEL == 2) THEN
           IPG = 0
             IF (MPT>0) 
      .       CALL CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,LFT    ,LLT    ,

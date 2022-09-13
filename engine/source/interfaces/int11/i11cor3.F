@@ -99,13 +99,13 @@ C-----------------------------------------------
      .        TM,DIST,SECS,SECM,XS,YS,ZS,XM,YM,ZM,LS,LM,CT,ST,AREA1,AREA2
 C-----------------------------------------------
 C
-      IF(IGAP.EQ.0)THEN
+      IF(IGAP==0)THEN
         DO I=1,JLT
           GAPV(I)=GAP
         ENDDO
       ELSE
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             GAPV(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
             IF(IGAP == 3)  
      .      GAPV(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV(I))
@@ -121,7 +121,7 @@ C
 C
       IF(IGSTI == 1)THEN
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=ABS(STFS(CAND_S(I)))*STFM(CAND_M(I))
      .             / MAX(EM20,ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
@@ -132,7 +132,7 @@ C
         END DO
       ELSEIF(IGSTI == 5)THEN
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=ABS(STFS(CAND_S(I)))*STFM(CAND_M(I))
      .             / MAX(EM20,ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
@@ -144,7 +144,7 @@ C
         END DO
       ELSEIF(IGSTI == 2)THEN
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=HALF*(ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
             NN = CAND_S(I) - NRTS            
@@ -154,7 +154,7 @@ C
         END DO
       ELSEIF(IGSTI == 3)THEN
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=MAX(ABS(STFS(CAND_S(I))),STFM(CAND_M(I)))
           ELSE
             NN = CAND_S(I) - NRTS            
@@ -164,7 +164,7 @@ C
         END DO
       ELSEIF(IGSTI == 4)THEN
         DO I=1,JLT
-          IF(CAND_S(I).LE.NRTS) THEN
+          IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=MIN(ABS(STFS(CAND_S(I))),STFM(CAND_M(I)))
           ELSE
             NN = CAND_S(I) - NRTS            
@@ -175,7 +175,7 @@ C
       END IF
 C
       DO I=1,JLT
-        IF(CAND_S(I).LE.NRTS) THEN
+        IF(CAND_S(I)<=NRTS) THEN
           N1(I)=IRECTS(1,CAND_S(I))
           N2(I)=IRECTS(2,CAND_S(I))
           M1(I)=IRECTM(1,CAND_M(I))
@@ -247,7 +247,7 @@ C
 C
       IF(IDTMINS==2)THEN
        DO I=1,JLT
-        IF(CAND_S(I).LE.NRTS)THEN
+        IF(CAND_S(I)<=NRTS)THEN
           NSMS(I)=NODNX_SMS(N1(I))+NODNX_SMS(N2(I))+
      .            NODNX_SMS(M1(I))+NODNX_SMS(M2(I))
         ELSE
@@ -257,7 +257,7 @@ C
        ENDDO
        IF(IDTMINS_INT/=0)THEN
          DO I=1,JLT
-          IF(NSMS(I).EQ.0)NSMS(I)=-1
+          IF(NSMS(I)==0)NSMS(I)=-1
          ENDDO
        END IF
       ELSEIF(IDTMINS_INT/=0)THEN
@@ -273,7 +273,7 @@ C
         IF(IFORM == 0) THEN
 C
           DO I=1,JLT
-           IF(CAND_S(I).LE.NRTS) THEN
+           IF(CAND_S(I)<=NRTS) THEN
 C     SECND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     AREA COMPUTING
@@ -312,7 +312,7 @@ C
         ELSE
 C
           DO I=1,JLT
-           IF(CAND_S(I).LE.NRTS) THEN
+           IF(CAND_S(I)<=NRTS) THEN
 C     SECND EDGE AREA
              SECS=AREAS(CAND_S(I))
 C     main EDGE AREA
@@ -391,7 +391,7 @@ C
          DO I=1,JLT
            NI = CAND_S(I)
            L  = CAND_M(I)
-           IF(NI.LE.NRTS)THEN
+           IF(NI<=NRTS)THEN
              IPARTFRICSI(I)= IPARTFRICS(NI)
            ELSE
              NN = NI - NRTS

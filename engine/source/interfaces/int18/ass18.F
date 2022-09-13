@@ -96,7 +96,7 @@ c      PBAG = FSAVBAG(3,NBAG)-101325.
      .                +SURF(2,I)*SURF(2,I)
      .                +SURF(3,I)*SURF(3,I))
         NN = 4
-        IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+        IF(IRECT(3,I)==IRECT(4,I))NN=3
         BBB = ONE/NN
         AAA = SURFLOC*BBB
         CDGX = ZERO
@@ -138,7 +138,7 @@ C
       CALL SUM_6_FLOAT(1 ,NRTM ,F4, I18F6(4,1), 5)
       CALL SUM_6_FLOAT(1 ,NRTM ,F5, I18F6(5,1), 5)
 
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         CALL SPMD_EXCH_FR6(FR_I18,I18F6,5*6)
       ENDIF
 
@@ -163,7 +163,7 @@ C
       DO I = 1, NRTM
         N = IRECT(1,I)
         NN = 4
-        IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+        IF(IRECT(3,I)==IRECT(4,I))NN=3
         VOLUME = ZERO
         PRESVOL = ZERO
         DO J=1,NN
@@ -188,7 +188,7 @@ C
       CALL SUM_6_FLOAT(1 ,NRTM ,F1, I18FB6(1,1),2)
       CALL SUM_6_FLOAT(1 ,NRTM ,F2, I18FB6(2,1),2)
 
-      IF(NSPMD.GT.1) THEN
+      IF(NSPMD>1) THEN
         CALL SPMD_EXCH_FR6(FR_I18,I18FB6,2*6)
       ENDIF
 C
@@ -204,7 +204,7 @@ c          ALPHA = PBAG/PRESVOL
 c        ENDIF
 c        DO I = 1, NRTM
 c          NN = 4
-c          IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+c          IF(IRECT(3,I)==IRECT(4,I))NN=3
 c          DO J=1,NN
 c              N = IRECT(J,I)
 c              AAA = (ALPHA-ONE)*PRES(I)-PBAG
@@ -215,12 +215,12 @@ c          ENDDO
 c        ENDDO
 c      ENDIF
       
-c      IF(ANIM_V(4)+OUTP_V(4).GT.0.AND.
-c     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.
-c     .              (MANIM.GE.4.AND.MANIM.LE.15)))THEN
+c      IF(ANIM_V(4)+OUTP_V(4)>0.AND.
+c     .          (TT>=TANIM.OR.TT>=TOUTP.OR.
+c     .              (MANIM>=4.AND.MANIM<=15)))THEN
 c       DO I=1,NRTM
 c        NN = 4
-c        IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+c        IF(IRECT(3,I)==IRECT(4,I))NN=3
 c         DO J=1,NN
 c           N = IRECT(J,I)
 c           AAA = ALPHA*PRES(I)/MAX(SURFN(N),EM20)
@@ -253,11 +253,11 @@ c     ELSEIF(IBAG==5)THEN
 c           PRESM = ALPHA
       ENDIF
 C------------------------------------------------------
-c      IF(IBAG.NE.5)THEN
-      IF(IPARIT.EQ.0)THEN
+c      IF(IBAG/=5)THEN
+      IF(IPARIT==0)THEN
         DO I = 1, NRTM
           NN = 4
-          IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+          IF(IRECT(3,I)==IRECT(4,I))NN=3
           DO J=1,NN
             N = IRECT(J,I)
             A(1,N) = A(1,N) - PRESM*SURF(1,I)
@@ -266,10 +266,10 @@ c      IF(IBAG.NE.5)THEN
           ENDDO
         ENDDO
       ELSE
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
          DO I = 1, NRTM
            NN = 4
-           IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+           IF(IRECT(3,I)==IRECT(4,I))NN=3
            DO J=1,NN
              N = IRECT(J,I)
              NISKY = NISKY + 1
@@ -283,7 +283,7 @@ c      IF(IBAG.NE.5)THEN
         ELSE
          DO I = 1, NRTM
            NN = 4
-           IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+           IF(IRECT(3,I)==IRECT(4,I))NN=3
            DO J=1,NN
              N = IRECT(J,I)
              NISKY = NISKY + 1
@@ -299,13 +299,13 @@ c      IF(IBAG.NE.5)THEN
       END IF
 C------------------------------------------------------
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0.AND.
-     .              (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D .OR.
-     .                  (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D .NE. 0))THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0.AND.
+     .              (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D .OR.
+     .                  (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
 C
             DO I=1,NRTM
               NN = 4
-              IF(IRECT(3,I).EQ.IRECT(4,I))NN=3
+              IF(IRECT(3,I)==IRECT(4,I))NN=3
               DO J=1,NN
                 N = IRECT(J,I)
 c                AAA = PRESM/MAX(SURFN(N),EM20)
@@ -319,7 +319,7 @@ c                FCONT(3,N) = FCONT(3,N) - AAA*SURF(3,I)
             ENDDO
       ENDIF
 C-------------------------------------------------------
-      IF(ISPMD.EQ.0)THEN
+      IF(ISPMD==0)THEN
         FSAV(16)=PRESVOL
         FSAV(17)=PRESMOY
         FSAV(18)=PRESMED

@@ -113,7 +113,7 @@ Chd|====================================================================
 C=======================================================================
 C
       GET_U_NUMSENS = 0
-      IF(IDSENS.LE.0)THEN
+      IF(IDSENS<=0)THEN
         RETURN
       ENDIF
 C---
@@ -123,8 +123,8 @@ C---
         CALL GET_VAR_USER_I(7,K+2,ITYP)
 cow41k4---
 C       LSENSOR(I,J) == ILOCA(K + I)
-        IF(IDSENS.EQ.ID)THEN
-          IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
+        IF(IDSENS==ID)THEN
+          IF (ITYP>=29 .AND. ITYP<=31)THEN
             GET_U_NUMSENS = J
             RETURN
           ENDIF
@@ -148,7 +148,7 @@ Chd|====================================================================
 C=======================================================================
 C
       GET_U_SENS_ID = 0
-      IF(ISENS.LE.0)THEN
+      IF(ISENS<=0)THEN
         RETURN
       ENDIF
       K=(ISENS-1)*NSENSI+1
@@ -196,15 +196,15 @@ C=======================================================================
 C
 C
       SET_U_SENS_VALUE = -1
-      IF(NSENS.EQ.0)THEN
+      IF(NSENS==0)THEN
         RETURN
       ENDIF
-      IF(IVAR.GT.LSENBUF-1)THEN
+      IF(IVAR>LSENBUF-1)THEN
         WRITE(*,*)"ERROR WRITING USER SENSOR / TOO MANY VARIABLES"
         RETURN
       ENDIF
       SHIFT = 0
-      IF (ISECTOR.EQ.1) SHIFT = LSENBUF
+      IF (ISECTOR==1) SHIFT = LSENBUF
       K = (NSENS-1)*NSENSI+2
       L = (NSENS-1)*NSENSR+ISENBUF+SHIFT+IVAR
 C       LSENSOR(I,NSENS) == ILOCA(K + I)
@@ -212,8 +212,8 @@ C       SENSOR (I,NSENS) ==  LOCA(L + I)
 C
       CALL GET_VAR_USER_I(7,K,ITYP)
 C
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
-        IF (IRESP .EQ.1) THEN
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
+        IF (IRESP ==1) THEN
           CALL SET_VAR_USER_F_SP(8,L,VAR)
         ELSE
           CALL SET_VAR_USER_F(8,L,VAR)
@@ -261,23 +261,23 @@ C=======================================================================
 C
 
       GET_U_SENS_VALUE = -1
-      IF(NSENS.EQ.0)THEN
+      IF(NSENS==0)THEN
         VAR = 0.0
         RETURN
       ENDIF
-      IF(IVAR.GT.LSENBUF-1)THEN
+      IF(IVAR>LSENBUF-1)THEN
         WRITE(*,*)"ERROR READING USER SENSOR / TOO MANY VARIABLES"
         RETURN
       ENDIF
       SHIFT = LSENBUF
-      IF (ISECTOR.EQ.1) SHIFT = 0
+      IF (ISECTOR==1) SHIFT = 0
       K = (NSENS-1)*NSENSI+2
       L = (NSENS-1)*NSENSR+ISENBUF+SHIFT+IVAR
 C       LSENSOR(I,NSENS) == ILOCA(K + I)
 C       SENSOR (I,NSENS) ==  LOCA(L + I)
       CALL GET_VAR_USER_I(7,K,ITYP)
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
-        IF (IRESP .EQ. 1) THEN
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
+        IF (IRESP == 1) THEN
           CALL GET_VAR_USER_F_SP(8,L,VAR)
         ELSE
           CALL GET_VAR_USER_F (8,L,VAR)
@@ -318,21 +318,21 @@ C-----------------------------------------------
      .      VAR,MAXV
 C=======================================================================
       SET_U_SENS_MAXVALUE = -1
-      IF(NSENS.EQ.0)THEN
+      IF(NSENS==0)THEN
         RETURN
       ENDIF
-      IF(IVAR.GT.LSENBUF-1)THEN
+      IF(IVAR>LSENBUF-1)THEN
         WRITE(*,*)"ERROR WRITING USER SENSOR / TOO MANY VARIABLES"
         RETURN
       ENDIF
       SHIFT = 0
-      IF (ISECTOR.EQ.1) SHIFT = LSENBUF
+      IF (ISECTOR==1) SHIFT = LSENBUF
       K = (NSENS-1)*NSENSI+2
       L = (NSENS-1)*NSENSR+ISENBUF+SHIFT+IVAR
       CALL GET_VAR_USER_I(7,K,ITYP)
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
         CALL MY_BARRIER()
-        IF (IRESP .EQ.1) THEN
+        IF (IRESP ==1) THEN
           CALL GET_VAR_USER_F_SP(8,L,MAXV)
           MAXV = MAX(MAXV,VAR)
           CALL SET_VAR_USER_F_SP(8,L,MAXV)
@@ -369,7 +369,7 @@ C=======================================================================
 C
 
       GET_U_SENS_FPAR = -1
-      IF(IVAR.GT.NSENPARR)THEN
+      IF(IVAR>NSENPARR)THEN
         WRITE(IOUT,*)
      .      ' **ERROR NUMBER OF USER PARAMETER(',IVAR,
      .      ') EXCEED MAXNUPARAM(',NSENPARR,')'
@@ -385,8 +385,8 @@ C
 C       LSENSOR(I,NSENS) == ILOCA(K + I)
 C       SENSOR (I,NSENS) ==  LOCA(L + I)
       CALL GET_VAR_USER_I(7,K,ITYP)
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
-        IF (IRESP.EQ.1) THEN 
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
+        IF (IRESP==1) THEN 
            CALL GET_VAR_USER_F_SP(8,L,VAR)
         ELSE
            CALL GET_VAR_USER_F(8,L,VAR)
@@ -412,7 +412,7 @@ Chd|====================================================================
 C=======================================================================
 
       GET_U_SENS_IPAR = -1
-      IF(IVAR.GT.NSENPARI)THEN
+      IF(IVAR>NSENPARI)THEN
         WRITE(IOUT,*)
      .      ' **ERROR NUMBER OF USER PARAMETER(',IVAR,
      .      ') EXCEED MAXNUPARAM(',NSENPARI,')'
@@ -427,7 +427,7 @@ C       LSENSOR(I,NSENS) == ILOCA(K + I)
       K =(NSENS-1)*NSENSI
       KL=K+2
       CALL GET_VAR_USER_I(7,KL,ITYP)
-      IF (ITYP.GE.29 .AND. ITYP.LE.31)THEN
+      IF (ITYP>=29 .AND. ITYP<=31)THEN
         KL=K+ISENPARI+IVAR
         CALL GET_VAR_USER_I(7,KL,VAR)
         GET_U_SENS_IPAR = 0
@@ -613,24 +613,24 @@ C     LSENSOR(I,J) == ILOCA(ISH5+I+(J-1)*NSENSI)
 C     SENSOR(I,J)  == LOCA(ISH6+I+(J-1)*NSENSR)
 
       GET_U_SENS = ZERO
-      IF(USENS.EQ.0)THEN
+      IF(USENS==0)THEN
         GET_U_SENS = TT
         RETURN
       ENDIF
       DO J=1,NSENSOR
-C       IF(USENS.EQ.LSENSOR(1,J))THEN
+C       IF(USENS==LSENSOR(1,J))THEN
           DECALAGE = 1+(J-1)*NSENSI
           CALL GET_VAR_USER_I (7,DECALAGE,LI)
-          IF (USENS .EQ. LI) THEN 
-C         IF(TT.GT.SENSOR(2,J))THEN
+          IF (USENS == LI) THEN 
+C         IF(TT>SENSOR(2,J))THEN
 C
             DECALAGE=2+(J-1)*NSENSR
-            IF (IRESP.EQ.1) THEN
+            IF (IRESP==1) THEN
              CALL GET_VAR_USER_F_SP(8,DECALAGE,LT)
             ELSE
              CALL GET_VAR_USER_F(8,DECALAGE,LT)
             ENDIF
-            IF (TT .GT. LT) THEN
+            IF (TT > LT) THEN
             GET_U_SENS = TT - LT
           ENDIF
           RETURN
@@ -665,12 +665,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       GET_U_SENS_DELAY = ZERO
-      IF(NSENS.EQ.0)THEN
+      IF(NSENS==0)THEN
         GET_U_SENS_DELAY = TT
         RETURN
       ENDIF
       L=(NSENS-1)*NSENSR+1
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL GET_VAR_USER_F_SP(8,L,TDELAY)
       ELSE
         CALL GET_VAR_USER_F(8,L,TDELAY)

@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO NC=1,NSPCOND
       ILEV=ISPCOND(1,NC)
-      IF(ILEV.EQ.1)THEN
+      IF(ILEV==1)THEN
        IS  =ISPCOND(3,NC)
        IC  =ISPCOND(2,NC)
        ISLIDE=ISPCOND(5,NC)
@@ -99,22 +99,22 @@ C-----------------------------------------------
        UX=XFRAME(3*(IC-1)+1,IS)
        UY=XFRAME(3*(IC-1)+2,IS)
        UZ=XFRAME(3*(IC-1)+3,IS)
-       IF(ISLIDE.EQ.1)THEN
-         IF (IC.EQ.1) THEN
+       IF(ISLIDE==1)THEN
+         IF (IC==1) THEN
             VX=XFRAME(4,IS)
             VY=XFRAME(5,IS)
             VZ=XFRAME(6,IS)
             WX=XFRAME(7,IS)
             WY=XFRAME(8,IS)
             WZ=XFRAME(9,IS)
-         ELSEIF (IC.EQ.2) THEN
+         ELSEIF (IC==2) THEN
             VX=XFRAME(7,IS)
             VY=XFRAME(8,IS)
             VZ=XFRAME(9,IS)
             WX=XFRAME(1,IS)
             WY=XFRAME(2,IS)
             WZ=XFRAME(3,IS)
-         ELSEIF (IC.EQ.3) THEN
+         ELSEIF (IC==3) THEN
             VX=XFRAME(1,IS)
             VY=XFRAME(2,IS)
             VZ=XFRAME(3,IS)
@@ -134,13 +134,13 @@ C-----------------------------------------------
           VZI=V(3,INOD)
           DI =SPBUF(1,N)
           DD=(XI-OX)*UX+(YI-OY)*UY+(ZI-OZ)*UZ
-          IF(DD.LT.-EM20*DI)THEN
+          IF(DD<-EM20*DI)THEN
 C--------------------------------
 C          Echange les positions et les vitesses
            XS=XI-TWO*DD*UX
            YS=YI-TWO*DD*UY
            ZS=ZI-TWO*DD*UZ
-           IF(ISLIDE.EQ.0)THEN
+           IF(ISLIDE==0)THEN
             VXS=-VXI
             VYS=-VYI
             VZS=-VZI
@@ -162,11 +162,11 @@ C          A(2,INOD)=0.
 C          A(3,INOD)=0.
 C--------------------------------
 C          Echange les contraintes 
-           IF(ISLIDE.EQ.1)THEN
+           IF(ISLIDE==1)THEN
 C-----------
 C            Recherche du groupe d'appartenance.
              NG=MOD(KXSP(2,N),NGROUP+1)
-             IF(NG.GT.0)THEN
+             IF(NG>0)THEN
               CALL INITBUF (IPARG    ,NG      ,
      2           MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
      3           NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,

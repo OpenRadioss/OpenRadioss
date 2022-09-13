@@ -200,7 +200,7 @@ Cf51e11 +2
 C
         LTITL = 40
 Cvf      ENDIF
-      IF(ANIM_VERS.LT.44)THEN
+      IF(ANIM_VERS<44)THEN
        ISPH3D=1
       ELSE
        ISPH3D=0
@@ -219,14 +219,14 @@ Cvf      ENDIF
 C-----------------------------------------------
 C   OPEN FILE
 C-----------------------------------------------
-      IF(ANIM_VERS.GE.50)THEN
-        IF(IANIM.GE.10000)IANIM=1
+      IF(ANIM_VERS>=50)THEN
+        IF(IANIM>=10000)IANIM=1
         WRITE(CHANIM1,'(I4.4)')IANIM
         FILNAM=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//
      .         ROOTNAM(1:ROOTLEN)//'_'//CHANIM1//'.ani'
         FILEN = OUTFILE_NAME_LEN + ROOTLEN + 9
       ELSE
-        IF(IANIM.GE.1000)IANIM=1
+        IF(IANIM>=1000)IANIM=1
         WRITE(CHANIM,'(I3.3)')IANIM
         FILNAM=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//
      .         ROOTNAM(1:ROOTLEN)//'A'//CHANIM
@@ -241,9 +241,9 @@ C
 C-----------------------------------------------
 C      ANIM MULTI-LEVEL DOMDEC
 C-----------------------------------------------
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
          WRITE(CTITR(1),'(A25)') 'SPMD Domain Decomposition'
-      ELSEIF (DSANIM.EQ.1) THEN
+      ELSEIF (DSANIM==1) THEN
          WRITE(CTITR(1),'(A30,I3)') 'Impl. graph - Dom. Dec. Level ',1
       ENDIF
       DO I=2,NLEVEL
@@ -256,13 +256,13 @@ C-----------------------------------------------
       NSKEWA=NUMELP + NUMELT + NUMSKW
       NB1D  =NUMELP + NUMELT + NUMELR
       DO I=1,NUMELR
-        IF(NINT(GEO(12,IXR(1,I))).EQ.4 .OR.
-     .     NINT(GEO(12,IXR(1,I))).EQ.13.OR.
-     .     NINT(GEO(12,IXR(1,I))).EQ.45.OR.     
-     .       (NINT(GEO(12,IXR(1,I))).GE.29.AND.
-     .        NINT(GEO(12,IXR(1,I))).LE.33))THEN
+        IF(NINT(GEO(12,IXR(1,I)))==4 .OR.
+     .     NINT(GEO(12,IXR(1,I)))==13.OR.
+     .     NINT(GEO(12,IXR(1,I)))==45.OR.     
+     .       (NINT(GEO(12,IXR(1,I)))>=29.AND.
+     .        NINT(GEO(12,IXR(1,I)))<=33))THEN
           NSKEWA=NSKEWA+1
-        ELSEIF(NINT(GEO(12,IXR(1,I))).EQ.12)THEN
+        ELSEIF(NINT(GEO(12,IXR(1,I)))==12)THEN
           NSKEWA=NSKEWA+2
           NB1D =NB1D+1
         ENDIF
@@ -311,7 +311,7 @@ C-----------------------------------------------
       NERWL = 0
       NNWL  = 0
       NESBW2= 0
-      IF(NSECT+NRWALL.GT.0) THEN
+      IF(NSECT+NRWALL>0) THEN
          CALL DSECCNT(NESCT,NERWL,NESBW2,NSTRF,
      1                RWBUF ,NPRW,NNWL,IXS)
       END IF
@@ -319,7 +319,7 @@ C-----------------------------------------------
       NESRG=0
       NNSRG=0
       NSURG=0
-      IF (NSURF.GT.0)
+      IF (NSURF>0)
      . CALL DSRGCNT(IGRSURF, NSURG,NESRG,NNSRG,NESBW2)
       NESMD=0
       NNSMD=0
@@ -327,7 +327,7 @@ C-----------------------------------------------
       NESPH=0
       NNSPH=0
       NNSPHG = 0
-      IF (ISPH3D.EQ.1.AND.NUMSPH_T+MAXPJET.GT.0)
+      IF (ISPH3D==1.AND.NUMSPH_T+MAXPJET>0)
      .  CALL DSPHCNT(NESPH,NNSPH,NESPHG,NNSPHG)
 C-----------------------------------------------
 C   MAILLAGE VOLUMES FINIS POUR FVMBAG
@@ -336,14 +336,14 @@ C-----------------------------------------------
       NFVTR=0
       NFVPART=0
       NFVSUBS=0
-      IF (NFVBAG.GT.0) THEN
+      IF (NFVBAG>0) THEN
          IDMAX=0
          DO I=1,NUMNOD
             IDMAX=MAX(IDMAX,ITAB(I))
          ENDDO
       ENDIF
 C
-      IF (IFVANI.EQ.1) THEN
+      IF (IFVANI==1) THEN
          DO I=1,NFVBAG
             NFVTR=NFVTR+FVDATA(I)%NNTR
             FVOFF(1,I)=NUMNOD+NODCUT+NSECT+NRWALL+NNWL
@@ -355,7 +355,7 @@ C
          ENDDO
       ENDIF
 C
-      IF (NFVTR.GT.0)
+      IF (NFVTR>0)
      .   ALLOCATE(FVEL2FA(NFVTR), FVINUM(NFVTR))
 C
 C-----------------------------------------------
@@ -378,13 +378,13 @@ C
       CALL WRITE_I_C(ANIM_M,1)
       CALL WRITE_I_C(1,1)
 C
-      IF(NUMELS_T+ISPH3D*(NUMSPH_T+MAXPJET).EQ.0) THEN
+      IF(NUMELS_T+ISPH3D*(NUMSPH_T+MAXPJET)==0) THEN
         CALL WRITE_I_C(0,1)
       ELSE
         CALL WRITE_I_C(1,1)
       ENDIF
       IFLAG1D = NUMELT_T+NUMELP_T+NUMELR_T+NANIM1D+NRBODY
-      IF (IFLAG1D.NE.0) IFLAG1D = 1
+      IF (IFLAG1D/=0) IFLAG1D = 1
       CALL WRITE_I_C(IFLAG1D,1)
 C
 C HIERARCHIE
@@ -392,14 +392,14 @@ C HIERARCHIE
 C TH
       CALL WRITE_I_C(0,1)
 C REP. SHELL
-      IF(ISHFRAM.EQ.1)THEN
+      IF(ISHFRAM==1)THEN
         CALL WRITE_I_C(0,1)
       ELSE
         CALL WRITE_I_C(1,1)
       ENDIF
 C
-      IF(ISPH3D.EQ.0.AND.
-     .   (NUMSPH_T+MAXPJET.NE.0))THEN
+      IF(ISPH3D==0.AND.
+     .   (NUMSPH_T+MAXPJET/=0))THEN
        CALL WRITE_I_C(1,1)
       ELSE
        CALL WRITE_I_C(0,1)
@@ -408,7 +408,7 @@ C
         CALL WRITE_I_C(0,1)
       CALL WRITE_I_C(0,1)
 C
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
          NFVNODT=NFVNOD+3
       ELSE
          NFVNODT=0
@@ -421,18 +421,18 @@ C
       CALL WRITE_I_C(NBPART+NCUTS
      .     +NSECT+NRWALL+NSURG+NSMAD+NFVPART,1)
       CALL WRITE_I_C(NN_ANI,1)
-      IF(NBF+NELCUT+NESBW2+NFVTR.EQ.0)THEN
+      IF(NBF+NELCUT+NESBW2+NFVTR==0)THEN
         CALL WRITE_I_C(0,1)
       ELSE
-        IF (DSANIM.EQ.1) THEN
+        IF (DSANIM==1) THEN
            NCE_ANI=NCE_ANI+NLEVEL
-        ELSEIF (DECANI.EQ.1) THEN
+        ELSEIF (DECANI==1) THEN
            NCE_ANI=NCE_ANI+1
         ENDIF
         CALL WRITE_I_C(NCE_ANI,1)
       ENDIF
       CALL WRITE_I_C(NV_ANI,1)
-      IF(NBF+NELCUT+NESBW2+NFVTR.EQ.0)THEN
+      IF(NBF+NELCUT+NESBW2+NFVTR==0)THEN
         CALL WRITE_I_C(0,1)
       ELSE
         CALL WRITE_I_C(NCT_ANI,1)
@@ -476,22 +476,22 @@ C
          CALL WRITE_R_C(R4,1)
       END DO
 C
-      IF(NSECT+NRWALL.GT.0) CALL DXYZSECT(
+      IF(NSECT+NRWALL>0) CALL DXYZSECT(
      2                  NSTRF,RWBUF,NPRW  ,X,XMIN,
      3                  YMIN,ZMIN,XMAX,YMAX,ZMAX,
      4                  ITAB)
 C
-      IF (NSURG.GT.0) CALL DXYZSRG(NESRG,IGRSURF,BUFSF)
+      IF (NSURG>0) CALL DXYZSRG(NESRG,IGRSURF,BUFSF)
 C
       SNNSPHG = 0
-      IF (ISPH3D*(NUMSPH_T+MAXPJET).GT.0)
+      IF (ISPH3D*(NUMSPH_T+MAXPJET)>0)
      .   CALL DXYZSPH(NESPH,KXSP,X,SPBUF,SNNSPHG,NNSPH)
 C
       SZ16 = NUMELS16
-      IF (SZ16.GT.0)
+      IF (SZ16>0)
      2   CALL XYZ16(IXS,IXS10,IXS20,IXS16,X)
 C
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
          DO I=1,NFVBAG
             DO J=1,FVDATA(I)%NNS_ANIM
                R4=FVDATA(I)%NOD_ANIM(1,J)
@@ -536,15 +536,15 @@ C-----------------------------------------------
      .            MATER,IPARTQ,IPARTC,IPARTUR,IPARTTG,
      .            ELBUF_TAB)
 C
-      IF(NSECT+NRWALL.GT.0) CALL DPARRWS(
+      IF(NSECT+NRWALL>0) CALL DPARRWS(
      1            NESBW2,NSTRF, IXC  ,
      2            IXTG ,X    ,NODCUT,RWBUF,NPRW,
      3            IXS)
 C
-      IF (NSURG.GT.0) CALL DPARSRG(NSURG,NNWL,NODCUT)
+      IF (NSURG>0) CALL DPARSRG(NSURG,NNWL,NODCUT)
 C
       II=0
-      IF (IFVANI.EQ.1) THEN
+      IF (IFVANI==1) THEN
          ELOFF=0
          DO I=1,NFVBAG
             ALLOCATE(ITAGT(FVDATA(I)%NNTR))
@@ -559,7 +559,7 @@ C
                   DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                      FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                      NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                     IF (ITAGT(NN).EQ.1) CYCLE
+                     IF (ITAGT(NN)==1) CYCLE
                      INOD(1)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(1,NN)-1
                      INOD(2)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(2,NN)-1
                      INOD(3)=FVOFF(1,I)+FVDATA(I)%IFVTRI_ANIM(3,NN)-1
@@ -567,10 +567,10 @@ C
                      II=II+1
 C Nombre de noeuds distincts de la coque (apres fusion dans FVMESH)
                      NND=1
-                     IF (INOD(2).NE.INOD(1)) NND=NND+1
-                     IF (INOD(3).NE.INOD(1).AND.
-     .                   INOD(3).NE.INOD(2)) NND=NND+1
-                     IF (NND.NE.3) THEN
+                     IF (INOD(2)/=INOD(1)) NND=NND+1
+                     IF (INOD(3)/=INOD(1).AND.
+     .                   INOD(3)/=INOD(2)) NND=NND+1
+                     IF (NND/=3) THEN
                         INOD(1)=NBID1-1
                         INOD(2)=NBID2-1
                         INOD(3)=NBID3-1
@@ -597,7 +597,7 @@ C
         CALL WRITE_C_C(1,1)
       ENDDO
 C
-      IF (IFVANI.EQ.1) THEN
+      IF (IFVANI==1) THEN
          ALLOCATE(OFFTR(NFVTR))
          DO I=1,NFVTR
             OFFTR(I)=0
@@ -610,16 +610,16 @@ C
                   DO N=FVDATA(I)%IFVTADR(KK),
      .                      FVDATA(I)%IFVTADR(KK+1)-1
                      NN=FVDATA(I)%IFVPOLY(N)
-                     IF (NN.GT.0) THEN
+                     IF (NN>0) THEN
                         N1=FVDATA(I)%IFVTRI_ANIM(1,NN)
                         N2=FVDATA(I)%IFVTRI_ANIM(2,NN)
                         N3=FVDATA(I)%IFVTRI_ANIM(3,NN)
                         NND=1
-                        IF (N2.NE.N1) NND=NND+1
-                        IF (N3.NE.N2.AND.N3.NE.N1) NND=NND+1
+                        IF (N2/=N1) NND=NND+1
+                        IF (N3/=N2.AND.N3/=N1) NND=NND+1
 C
                         NN=FVEL2FA(ELOFF+NN)
-                        IF (NND.EQ.3) OFFTR(NN)=1
+                        IF (NND==3) OFFTR(NN)=1
                      ENDIF
                   ENDDO
                ENDDO
@@ -653,7 +653,7 @@ C
       END DO
       NESMD1=0
 C
-      IF (IFVANI.EQ.1) THEN
+      IF (IFVANI==1) THEN
          FVIAD=NELCUT+NBF+NESCT+NERWL+NESRG+NESMD1
          DO I=1,NFVBAG
             ALLOCATE(ITAGT(FVDATA(I)%NNTR))
@@ -668,7 +668,7 @@ C
                   DO N=FVDATA(I)%IFVTADR_ANIM(KK),
      .                       FVDATA(I)%IFVTADR_ANIM(KK+1)-1
                      NN=FVDATA(I)%IFVPOLY_ANIM(N)
-                     IF (ITAGT(NN).EQ.0) THEN
+                     IF (ITAGT(NN)==0) THEN
                         FVIAD=FVIAD+1
                         ITAGT(NN)=1
                      ENDIF
@@ -685,7 +685,7 @@ C   PART HEAD
 C-----------------------------------------------
       IDPART2DMAX=0
       DO I=1,NPART
-       IF(MATER(I).NE.0)THEN
+       IF(MATER(I)/=0)THEN
          IDPART2DMAX=MAX(IDPART2DMAX,IPART(4,I))
          WRITE(STR,'(I8,A1)')IPART(4,I),':'
          DO J=1,9
@@ -694,7 +694,7 @@ C-----------------------------------------------
          IB = 9
          CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),LTITL)
          DO J=1,LTITL
-           IF(TITL(J:J).NE.' ') IB = J+9
+           IF(TITL(J:J)/=' ') IB = J+9
            CTEXT(J+9)=ICHAR(TITL(J:J))
          ENDDO
          CTEXT(IB+1)=0
@@ -706,7 +706,7 @@ C     CUTS PART
 C-----------------------------------------------
 c       print*,'685(664)-870' 
 c       return 
-      IF (INVSTR.LT.40) THEN
+      IF (INVSTR<40) THEN
        DO ISECT=1,NSECT
         WRITE(STR,'(I8,A2,A7)') ISECT,': ','Section'
          DO J=1,17
@@ -733,7 +733,7 @@ c       return
        END DO
       END IF
 C
-      IF (INVSTR.LT.40) THEN
+      IF (INVSTR<40) THEN
        DO IRWL=1,NRWALL
          WRITE(STR,'(I8,A2,A10)') IRWL,': ','Rigid Wall'
          DO J=1,20
@@ -762,7 +762,7 @@ C
 C
       ISRG=1
       DO ISRF=1,NSURF
-        IF (IGRSURF(ISRF)%TYPE.EQ.101) THEN
+        IF (IGRSURF(ISRF)%TYPE==101) THEN
 C        RADIOSS'S ellipsoid.
          WRITE(STR,'(I8,A1)') ISRG,':'
          DO J=1,9
@@ -771,7 +771,7 @@ C        RADIOSS'S ellipsoid.
          IB=9
          TITL = IGRSURF(ISRF)%TITLE
          DO J=1,LTITL
-           IF(TITL(J:J).NE.' ') IB = J+9
+           IF(TITL(J:J)/=' ') IB = J+9
            CTEXT(J+9)=ICHAR(TITL(J:J))
          END DO
          CTEXT(IB+1)=0
@@ -783,7 +783,7 @@ C        RADIOSS'S ellipsoid.
 C-------------------------------------------------------
 C   FVMBAG
 C-------------------------------------------------------
-      IF (IFVANI.EQ.1) THEN
+      IF (IFVANI==1) THEN
          DO I=1,NFVBAG
             DO J=1,FVDATA(I)%NPOLH_ANIM
                WRITE(STR,'(I8,A1)') J+IDPART2DMAX,':'
@@ -807,21 +807,21 @@ C-----------------------------------------------
       CALL XYZNOR(XNORM)
 C
       CALL DSECNOR(X    ,RWBUF,NPRW)
-      IF (NSURG.GT.0) CALL DSRGNOR(IGRSURF,BUFSF)
+      IF (NSURG>0) CALL DSRGNOR(IGRSURF,BUFSF)
       SNNSPHG = 0
-      IF (ISPH3D*(NUMSPH_T+MAXPJET).GT.0)
+      IF (ISPH3D*(NUMSPH_T+MAXPJET)>0)
      .   CALL DSPHNOR(KXSP,X,SPBUF,NNSPHG)
-      IF (NUMELS16.GT.0)
+      IF (NUMELS16>0)
      .    CALL XYZNOR16(IXS,IXS10,IXS20,IXS16,X)
 C
-      IF (IFVANI.EQ.1) THEN
+      IF (IFVANI==1) THEN
          DO I=1,NFVNOD
             INORM(1) = 0
             INORM(2) = 0
             INORM(3) = 0
             CALL WRITE_S_C(INORM,3)
          ENDDO
-         IF (NFVNOD.GT.0) THEN
+         IF (NFVNOD>0) THEN
             DO I=1,3
                INORM(1) = 0
                INORM(2) = 0
@@ -833,8 +833,8 @@ C
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_CE(3).EQ.1.OR.
-     .   ANIM_CE(25).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_CE(3)==1.OR.
+     .   ANIM_CE(25)==1)THEN
          CALL DMASANIC(ELBUF_TAB, X    ,D    ,GEO  ,IPARG,
      .               IXQ  ,IXC  ,IXTG ,MAS  ,PM   ,
      .               EL2FA,NBF  ,IXUR )
@@ -845,7 +845,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E(quad+shell+truss+..) FUNC TEXT
 C-----------------------------------------------
-      IF(NBF+NELCUT+NESBW2.NE.0)THEN
+      IF(NBF+NELCUT+NESBW2/=0)THEN
        DO I=1,NMANIM
           WRITE(CTMOD,'(A7,I4,A8,I4,A18)')
      .  'Fxbody ',FXANI(1,I),' - Mode ',FXANI(2,I),' - Specific Energy'
@@ -875,11 +875,11 @@ C-----------------------------------------------
      .  'Fxbody ',FXANI(1,I),' - Mode ',FXANI(2,I),' - Stress XZ'
           CALL ANI_TXT(CTMOD,35)
        ENDDO
-       IF (DSANIM.EQ.1) THEN
+       IF (DSANIM==1) THEN
           DO I=1,NLEVEL
              CALL ANI_TXT(CTITR(I),33)
           ENDDO
-       ELSEIF (DECANI.EQ.1) THEN
+       ELSEIF (DECANI==1) THEN
           CALL ANI_TXT(CTITR(1),25)
        ENDIF
       ENDIF
@@ -892,10 +892,10 @@ C-----------------------------------------------
       NDMA2= NUMNOD*(MIN(1,ANIM_N(1)+OUTP_N(1))
      .              +MIN(1,ANIM_N(2)+OUTP_N(2))
      .              +MIN(1,ANIM_N(12)+OUTP_N(3)))
-      IF((NBF+NELCUT+NESBW2.NE.0)) THEN
+      IF((NBF+NELCUT+NESBW2/=0)) THEN
        DO I = 1,MX_ANI
         IFUNC = I
-        IF(ANIM_CE(I).EQ.1) THEN
+        IF(ANIM_CE(I)==1) THEN
 
           CALL DFUNCC(ELBUF_TAB,BUFEL,WAFT ,IFUNC,IPARG,
      .                IXQ      ,IXC  ,IXTG ,PM   ,EL2FA,
@@ -905,7 +905,7 @@ C-----------------------------------------------
             CALL WRITE_R_C(R4,1)
           ENDDO
 C
-          IF (NFVTR.GT.0) THEN
+          IF (NFVTR>0) THEN
              R4=ZERO
              DO J=1,NFVTR
                 CALL WRITE_R_C(R4,1)
@@ -934,7 +934,7 @@ C
              DO K=1,NESBW2
                CALL WRITE_R_C(R4,1)
              ENDDO
-             IF (NFVTR.GT.0) THEN
+             IF (NFVTR>0) THEN
                 R4=ZERO
                 DO K=1,NFVTR
                    CALL WRITE_R_C(R4,1)
@@ -943,7 +943,7 @@ C
           ENDDO
        ENDDO
 c
-       IF (DSANIM.EQ.1) THEN
+       IF (DSANIM==1) THEN
           DO I=1,NLEVEL
              DO J=1,NBF
                 FUNC(J)=ZERO
@@ -965,14 +965,14 @@ C
              DO J=1,NESBW2
                CALL WRITE_R_C(R4,1)
              ENDDO
-             IF (NFVTR.GT.0) THEN
+             IF (NFVTR>0) THEN
                 R4=ZERO
                 DO J=1,NFVTR
                    CALL WRITE_R_C(R4,1)
                 ENDDO
              ENDIF
           ENDDO
-       ELSEIF (DECANI.EQ.1) THEN
+       ELSEIF (DECANI==1) THEN
           DO I=1,NBF
              FUNC(I)=ZERO
           ENDDO
@@ -993,7 +993,7 @@ C
           DO I=1,NESBW2
             CALL WRITE_R_C(R4,1)
           ENDDO
-          IF (NFVTR.GT.0) THEN
+          IF (NFVTR>0) THEN
              R4=ZERO
              DO J=1,NFVTR
                 CALL WRITE_R_C(R4,1)
@@ -1017,7 +1017,7 @@ C
 C-----------------------------------------------
 C   2D TENSOR TEXT
 C-----------------------------------------------
-      IF((NBF+NELCUT+NESBW2.NE.0))THEN
+      IF((NBF+NELCUT+NESBW2/=0))THEN
        DO I=1,NMANIM
           WRITE(CTMOD,'(A7,I4,A8,I4,A21)')
      .  'Fxbody ',FXANI(1,I),' - Mode ',FXANI(2,I),
@@ -1033,7 +1033,7 @@ C   2D TENSOR
 C-----------------------------------------------
         DO I = 1,MX_ANI
          IFUNC = I
-         IF(ANIM_CT(I).EQ.1)THEN
+         IF(ANIM_CT(I)==1)THEN
            CALL TENSORC(ELBUF_TAB ,IPARG,IFUNC,
      .             INVERT,NELCUT,EL2FA,NBF  ,WAFT ,
      .             IAD,NBF_L,NBPART,
@@ -1067,7 +1067,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        DO I=1,NBF
           R4 = MAS(I)
           CALL WRITE_R_C(R4,1)
@@ -1077,7 +1077,7 @@ C
        DO J=1,NESBW2+NELCUT
         CALL WRITE_R_C(R4,1)
        ENDDO
-       IF (NFVTR.GT.0) THEN
+       IF (NFVTR>0) THEN
          R4=ZERO
          DO J=1,NFVTR
             CALL WRITE_R_C(R4,1)
@@ -1092,7 +1092,7 @@ C-----------------------------------------------
 
        DO N=1,NRBYKIN
          M=NPBY(1,N)
-         IF (M.GT.0) THEN
+         IF (M>0) THEN
            WA4(M)=WA4(M)+(RBY(15,N)-MS(M))
          ENDIF
        ENDDO
@@ -1108,7 +1108,7 @@ C
        DO N=1,NSECT+NRWALL+NNWL+NNSRG+NNSMD+SZNNSPH+2*SZ16
          CALL WRITE_R_C(R4,1)
        ENDDO
-       IF (NFVNOD.GT.0) THEN
+       IF (NFVNOD>0) THEN
           R4=ZERO
           DO N=1,NFVNOD+3
              CALL WRITE_R_C(R4,1)
@@ -1125,9 +1125,9 @@ C-------------------
        CALL WRITE_I_C(0,1)
       ENDDO
 C
-      IF (NFVNOD.GT.0) THEN
+      IF (NFVNOD>0) THEN
          DO I=1,NFVBAG
-            IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+            IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                DO J=1,FVDATA(I)%NNS_ANIM
                   JJ=FVOFF(2,I)+J
                   CALL WRITE_I_C(JJ,1)
@@ -1147,7 +1147,7 @@ C--------------------
       DO J=1,NESBW2
        CALL WRITE_I_C(0,1)
       ENDDO
-      IF (NFVTR.GT.0) THEN
+      IF (NFVTR>0) THEN
          DO I=1,NFVTR
             CALL WRITE_I_C(IDCMAX+FVINUM(I),1)
          ENDDO
@@ -1164,8 +1164,8 @@ C       Subset Surfaces == NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWAL
 C       Subset global   == NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWAL
 C                                +MIN(1,NSURG+NSMAD)
       DO I=1,NPART
-        IF(MATER(I).EQ.1) THEN
-         IF (IPART(3,I).LT.NSUBS) THEN
+        IF(MATER(I)==1) THEN
+         IF (IPART(3,I)<NSUBS) THEN
           CALL WRITE_I_C(IPART(3,I)-1,1)
          ELSE
           CALL WRITE_I_C(NSUBS
@@ -1193,12 +1193,12 @@ C                                +MIN(1,NSURG+NSMAD)
         CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)
      .                      +MIN(1,NRWALL)-1,1)
       END DO
-      IF (NFVTR.GT.0) THEN
+      IF (NFVTR>0) THEN
          II=NSUBS
      .       +MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)
      .       +MIN(1,NSURG+NSMAD)-1
          DO I=1,NFVBAG
-            IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+            IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                II=II+1
                DO J=1,FVDATA(I)%NPOLH_ANIM
                   CALL WRITE_I_C(II-1,1)
@@ -1208,7 +1208,7 @@ C                                +MIN(1,NSURG+NSMAD)
       ENDIF
 C
       DO I=1,NPART
-        IF(MATER(I).EQ.1)CALL WRITE_I_C(IPART(1,I),1)
+        IF(MATER(I)==1)CALL WRITE_I_C(IPART(1,I),1)
       ENDDO
       DO I=1,NCUTS+NRWALL+NSECT+NSURG+NSMAD
         CALL WRITE_I_C(0,1)
@@ -1218,7 +1218,7 @@ C
       ENDDO
 C
       DO I=1,NPART
-        IF(MATER(I).EQ.1)CALL WRITE_I_C(IPART(2,I),1)
+        IF(MATER(I)==1)CALL WRITE_I_C(IPART(2,I),1)
       ENDDO
       DO I=1,NCUTS+NRWALL+NSECT+NSURG+NSMAD
         CALL WRITE_I_C(0,1)
@@ -1231,15 +1231,15 @@ C
 C      BRICKS
 C
 C=======================================================================
-      IF (NUMELS_T+NUMELS16_T+ISPH3D*(NUMSPH_T+MAXPJET).GE.0.OR.
-     .    (ISPH3D.EQ.1.AND.NUMSPH_T+MAXPJET.GT.0)) THEN
-         IF (DSANIM.EQ.1) THEN
+      IF (NUMELS_T+NUMELS16_T+ISPH3D*(NUMSPH_T+MAXPJET)>=0.OR.
+     .    (ISPH3D==1.AND.NUMSPH_T+MAXPJET>0)) THEN
+         IF (DSANIM==1) THEN
             NSE_ANI=NSE_ANI+NLEVEL
-         ELSEIF (DECANI.EQ.1) THEN
+         ELSEIF (DECANI==1) THEN
             NSE_ANI=NSE_ANI+1
          ENDIF
       ENDIF
-      IF(NUMELS_T+NUMELS16_T+ISPH3D*(NUMSPH_T+MAXPJET).EQ.0)GOTO 400
+      IF(NUMELS_T+NUMELS16_T+ISPH3D*(NUMSPH_T+MAXPJET)==0)GOTO 400
 C-----------------------------------------------
 C   PART COUNT
 C-----------------------------------------------
@@ -1255,7 +1255,7 @@ C
 
 C       3D geometry is not yet treated.
 
-      IF(ISPH3D.NE.0)THEN
+      IF(ISPH3D/=0)THEN
        DO I=1,NUMSPH+MAXPJET
         MATER(IPARTSP(I))=2
         EL2FA(NUMELS+3*NUMELS16+I)=0
@@ -1300,7 +1300,7 @@ C-----------------------------------------------
 C   PART HEAD
 C-----------------------------------------------
       DO I=1,NPART
-       IF(MATER(I).EQ.2)THEN
+       IF(MATER(I)==2)THEN
          WRITE(STR,'(I8,A1)')IPART(4,I),':'
          DO J=1,9
            CTEXT(J)=ICHAR(STR(J:J))
@@ -1308,7 +1308,7 @@ C-----------------------------------------------
          IB = 9
            CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),LTITL)
            DO J=1,LTITL
-             IF(TITL(J:J).NE.' ') IB = J+9
+             IF(TITL(J:J)/=' ') IB = J+9
              CTEXT(J+9)=ICHAR(TITL(J:J))
            END DO
            CTEXT(IB+1)=0
@@ -1318,8 +1318,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_SE(3).EQ.1.OR.
-     .   ANIM_SE(25).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_SE(3)==1.OR.
+     .   ANIM_SE(25)==1)THEN
          CALL DMASANIS(ELBUF_TAB,IPARG   ,
      2              IXS     ,MAS     ,PM      ,EL2FA   ,NUMELS  ,
      3              IPART   ,IPARTSP ,ISPH3D  )
@@ -1357,11 +1357,11 @@ C-----------------------------------------------
      . 'Fxbody ',FXANI(1,I),' - Mode ',FXANI(2,I),' - Stress XZ'
          CALL ANI_TXT(CTMOD,35)
       ENDDO
-      IF (DSANIM.EQ.1) THEN
+      IF (DSANIM==1) THEN
          DO I=1,NLEVEL
             CALL ANI_TXT(CTITR(I),33)
          ENDDO
-      ELSEIF (DECANI.EQ.1) THEN
+      ELSEIF (DECANI==1) THEN
           CALL ANI_TXT(CTITR(1),25)
       ENDIF
 C-----------------------------------------------
@@ -1373,7 +1373,7 @@ C-----------------------------------------------
       NNN = NUMELS+ISPH3D*(NUMSPH+MAXPJET)+3*NUMELS16
       DO I = 1,MX_ANI
         IFUNC = I
-        IF(ANIM_SE(I).EQ.1) THEN
+        IF(ANIM_SE(I)==1) THEN
           CALL DFUNCS(ELBUF_TAB ,WAFT    ,IFUNC   ,IPARG   ,
      2              IXS     ,PM      ,EL2FA   ,NNN     ,ISPH3D  )
         ENDIF
@@ -1395,7 +1395,7 @@ C
      .                  IXS,PM   ,EL2FA,   NNN,ISPH3D)
          ENDDO
       ENDDO
-      IF (DSANIM.EQ.1) THEN
+      IF (DSANIM==1) THEN
          DO I=1,NLEVEL
             DO J=1,NNN
                FUNC(J)=ZERO
@@ -1410,7 +1410,7 @@ C
                CALL WRITE_R_C(R4,1)
             ENDDO
          ENDDO
-      ELSEIF (DECANI.EQ.1) THEN
+      ELSEIF (DECANI==1) THEN
          DO I=1,NNN
             FUNC(I)=ZERO
          ENDDO
@@ -1419,7 +1419,7 @@ C Brick
          CALL DELSUB(1,     CEP,    1, OFF, NUMELS,
      .               EL2FA, FUNC)
 C Particules SPH
-         IF (ISPH3D.EQ.1) THEN
+         IF (ISPH3D==1) THEN
             OFF=1
             CALL DELSUB(1, CEPSP,1 ,OFF, NUMSPH,
      .                  EL2FA(1+NUMELS), FUNC)
@@ -1443,7 +1443,7 @@ C   3D TENSOR
 C-----------------------------------------------
       DO I = 1,MX_ANI
        IFUNC = I
-       IF(ANIM_ST(I).EQ.1)THEN
+       IF(ANIM_ST(I)==1)THEN
            CALL TENSORS(ELBUF_TAB ,IPARG   ,IFUNC   ,IXS     ,PM      ,
      2                  EL2FA   ,NNN     ,WAFT    ,
      3                  X       ,IPART   ,IPARTSP ,ISPH3D  ,IPM     )
@@ -1461,7 +1461,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        DO I=1,NNN
           R4 = MAS(I)
           CALL WRITE_R_C(R4,1)
@@ -1476,8 +1476,8 @@ C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
       DO I=1,NPART
-       IF(MATER(I).EQ.2)THEN
-         IF (IPART(3,I).LT.NSUBS) THEN
+       IF(MATER(I)==2)THEN
+         IF (IPART(3,I)<NSUBS) THEN
           CALL WRITE_I_C(IPART(3,I)-1,1)
          ELSE
           CALL WRITE_I_C(NSUBS
@@ -1487,10 +1487,10 @@ C-----------------------------------------------
        END IF
       ENDDO
       DO I=1,NPART
-        IF(MATER(I).EQ.2)CALL WRITE_I_C(IPART(1,I),1)
+        IF(MATER(I)==2)CALL WRITE_I_C(IPART(1,I),1)
       ENDDO
       DO I=1,NPART
-        IF(MATER(I).EQ.2)CALL WRITE_I_C(IPART(2,I),1)
+        IF(MATER(I)==2)CALL WRITE_I_C(IPART(2,I),1)
       ENDDO
 C=======================================================================
  400  CONTINUE
@@ -1501,10 +1501,10 @@ C     + RBODIES
 C
 C=======================================================================
       NERBY = 0
-      IF (NRBODY.GT.0)
+      IF (NRBODY>0)
      .    CALL DRBYCNT(NERBY,NPBY)
       NB1D_T = NB1D
-      IF(NB1D+NANIM1D+NERBY.EQ.0) GOTO 600
+      IF(NB1D+NANIM1D+NERBY==0) GOTO 600
 C-----------------------------------------------
 C   PART COUNT
 C-----------------------------------------------
@@ -1520,7 +1520,7 @@ C
       ENDDO
       DO I=1,NUMELX
         IPRT=IPARTX(I)
-        IF (NFACPTX(1,IPRT).GT.0) THEN
+        IF (NFACPTX(1,IPRT)>0) THEN
          MATER(IPRT)=3
         ELSE
          MATER(IPRT)=0
@@ -1540,9 +1540,9 @@ C   WRITE CONTROL
 C-----------------------------------------------
       CALL WRITE_I_C(NB1D+NANIM1D+NERBY,1)
       CALL WRITE_I_C(NBPART+NRBODY,1)
-      IF (DSANIM.EQ.1) THEN
+      IF (DSANIM==1) THEN
          NFE_ANI=NFE_ANI+NLEVEL
-      ELSEIF (DECANI.EQ.1) THEN
+      ELSEIF (DECANI==1) THEN
          NFE_ANI=NFE_ANI+1
       ENDIF
       CALL WRITE_I_C(NFE_ANI,1)
@@ -1556,7 +1556,7 @@ C-----------------------------------------------
       CALL PARSORF(IAD  ,IPARG,IXT  ,IXP  ,IXR  ,
      .            MATER,EL2FA,
      .            IPARTT,IPARTP,IPARTR,NFACPTX,IXEDGE)
-      IF(NRBODY.GT.0) THEN
+      IF(NRBODY>0) THEN
         CALL DPARRBY(LPBY ,NPBY )
       ENDIF
 C-----------------------------------------------
@@ -1583,7 +1583,7 @@ C-----------------------------------------------
 C   PART HEAD
 C-----------------------------------------------
       DO I=1,NPART
-       IF(MATER(I).EQ.3)THEN
+       IF(MATER(I)==3)THEN
          WRITE(STR,'(I8,A1)')IPART(4,I),':'
          DO J=1,9
            CTEXT(J)=ICHAR(STR(J:J))
@@ -1592,7 +1592,7 @@ C-----------------------------------------------
 
            CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),LTITL)
            DO J=1,LTITL
-             IF(TITL(J:J).NE.' ') IB = J+9
+             IF(TITL(J:J)/=' ') IB = J+9
              CTEXT(J+9)=ICHAR(TITL(J:J))
            END DO
            CTEXT(IB+1)=0
@@ -1601,7 +1601,7 @@ C-----------------------------------------------
        ENDIF
       ENDDO
 C
-      IF (INVSTR.LT.40) THEN
+      IF (INVSTR<40) THEN
        DO IRBY=1,NRBODY
          WRITE(STR,'(I8,A2,A10)') IRBY,': ','Rigid Body'
          DO J=1,20
@@ -1632,7 +1632,7 @@ C
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_FE(3).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_FE(3)==1)THEN
          CALL DMASANIF(X     ,D    ,ELBUF_TAB,GEO  ,IPARG,
      .                 IXT   ,IXP  ,IXR      ,MAS  ,PM   ,
      .                 EL2FA ,NB1D )
@@ -1666,11 +1666,11 @@ C-----------------------------------------------
      . 'Fxbody ',FXANI(1,I),' - Mode ',FXANI(2,I),' - Stress XZ'
          CALL ANI_TXT(CTMOD,35)
       ENDDO
-      IF (DSANIM.EQ.1) THEN
+      IF (DSANIM==1) THEN
          DO I=1,NLEVEL
             CALL ANI_TXT(CTITR(I),33)
          ENDDO
-      ELSEIF (DECANI.EQ.1) THEN
+      ELSEIF (DECANI==1) THEN
          CALL ANI_TXT(CTITR(1),25)
       ENDIF
 C-----------------------------------------------
@@ -1681,7 +1681,7 @@ C-----------------------------------------------
      .              +MIN(1,ANIM_N(12)+OUTP_N(3)))
       DO I = 1,MX_ANI
         IFUNC = I
-        IF(ANIM_FE(I).EQ.1) THEN
+        IF(ANIM_FE(I)==1) THEN
 
           CALL DFUNCF(ELBUF_TAB,WAFT  ,IFUNC ,IPARG  ,GEO   ,
      .                IXT      ,IXP   ,IXR   ,MAS    ,PM    ,
@@ -1714,7 +1714,7 @@ C
             ENDDO
          ENDDO
       ENDDO
-      IF (DSANIM.EQ.1) THEN
+      IF (DSANIM==1) THEN
          DO I=1,NLEVEL
             DO J=1,NB1D
                FUNC(J)=ZERO
@@ -1736,7 +1736,7 @@ C
               CALL WRITE_R_C(R4,1)
             ENDDO
          ENDDO
-      ELSEIF (DECANI.EQ.1) THEN
+      ELSEIF (DECANI==1) THEN
          DO I=1,NB1D
             FUNC(I)=ZERO
          ENDDO
@@ -1772,7 +1772,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        DO I=1,NB1D
           R4 = MAS(I)
           CALL WRITE_R_C(R4,1)
@@ -1795,8 +1795,8 @@ C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
       DO I=1,NPART
-         IF(MATER(I).EQ.3)THEN
-           IF (IPART(3,I).LT.NSUBS) THEN
+         IF(MATER(I)==3)THEN
+           IF (IPART(3,I)<NSUBS) THEN
             CALL WRITE_I_C(IPART(3,I)-1,1)
            ELSE
             CALL WRITE_I_C(NSUBS
@@ -1810,13 +1810,13 @@ c     Subset Rbodies  == NSUBS
           CALL WRITE_I_C(NSUBS-1,1)
       END DO
       DO I=1,NPART
-        IF(MATER(I).EQ.3)CALL WRITE_I_C(IPART(1,I),1)
+        IF(MATER(I)==3)CALL WRITE_I_C(IPART(1,I),1)
       ENDDO
       DO I=1,NRBODY
           CALL WRITE_I_C(0,1)
       ENDDO
       DO I=1,NPART
-        IF(MATER(I).EQ.3)CALL WRITE_I_C(IPART(2,I),1)
+        IF(MATER(I)==3)CALL WRITE_I_C(IPART(2,I),1)
       ENDDO
       DO I=1,NRBODY
           CALL WRITE_I_C(0,1)
@@ -1830,7 +1830,7 @@ C
 C=======================================================================
        J=0
        DO I=1,NPART
-         IF(MATER(I).EQ.1)THEN
+         IF(MATER(I)==1)THEN
            J=J+1
            MATER(I)=J
          ELSE
@@ -1841,14 +1841,14 @@ C=======================================================================
        J=J+NCUTS+NRWALL+NSECT+NSURG+NSMAD
        M1=J
        DO I=1,NPART
-         IF(MATER(I).EQ.-2)THEN
+         IF(MATER(I)==-2)THEN
            J=J+1
            MATER(I)=J
          ENDIF
        ENDDO
        M2=J
        DO I=1,NPART
-         IF(MATER(I).EQ.-3)THEN
+         IF(MATER(I)==-3)THEN
            J=J+1
            MATER(I)=J
          ENDIF
@@ -1863,7 +1863,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   SUBSET HEAD/PARENT/
 C-----------------------------------------------
-       IF (NSUBS.EQ.1) THEN
+       IF (NSUBS==1) THEN
 C-----------------------------
 C ONE SEUL SUBSET OU INPUT V31
 C-----------------------------
@@ -1871,7 +1871,7 @@ C-----------------------------
 C-----------------
 C SUBSET RBODIES
 C-----------------
-          IF (NRBODY.GT.0) THEN
+          IF (NRBODY>0) THEN
            WRITE(STR,'(I8,A14)')MXSUBS+1,':RBODIES MODEL'
            DO J=1,22
             CTEXT(J)=ICHAR(STR(J:J))
@@ -1902,7 +1902,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SECTIONS
 C-----------------
-          IF (NSECT.GT.0) THEN
+          IF (NSECT>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS+MIN(1,NRBODY)+1,':SECTIONS MODEL'
            DO J=1,23
             CTEXT(J)=ICHAR(STR(J:J))
@@ -1933,7 +1933,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET RWALLS
 C-----------------
-          IF (NRWALL.GT.0) THEN
+          IF (NRWALL>0) THEN
            WRITE(STR,'(I8,A13)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY)+1,':RWALLS MODEL'
            DO J=1,21
@@ -1965,7 +1965,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SURFACES
 C-----------------
-          IF (NSURG+NSMAD.GT.0) THEN
+          IF (NSURG+NSMAD>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)+1,
      .              ':SURFACES MODEL'
@@ -1998,13 +1998,13 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSETS FVMBAG
 C-----------------
-          IF (NFVSUBS.GT.0) THEN
+          IF (NFVSUBS>0) THEN
              II=NSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)
      .         +MIN(1,NSURG+NSMAD)
              OFFPART=NBPART2D
              DO I=1,NFVBAG
-                IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+                IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                    II=II+1
                    WRITE(STR,'(I8,A11,I8)')
      .                 II,':FVMBAG ID ',FVDATA(I)%ID
@@ -2047,16 +2047,16 @@ C #SUBSETS FILS
           CALL WRITE_I_C(MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)
      .                   +MIN(1,NSURG+NSMAD)+NFVSUBS,1)
 C SUBSETS FILS
-          IF (NRBODY.GT.0)
+          IF (NRBODY>0)
      .      CALL WRITE_I_C(NSUBS-1,1)
-          IF (NSECT.GT.0)
+          IF (NSECT>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NRBODY)-1,1)
-          IF (NRWALL.GT.0)
+          IF (NRWALL>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)-1,1)
-          IF (NSURG+NSMAD.GT.0)
+          IF (NSURG+NSMAD>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)
      .                          +MIN(1,NRWALL)-1,1)
-          IF (NFVSUBS.GT.0) THEN
+          IF (NFVSUBS>0) THEN
              II=MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)
      .                   +MIN(1,NSURG+NSMAD)+1
              DO I=1,NFVBAG
@@ -2069,11 +2069,11 @@ C #PARTS FILLES
           N2=0
           N3=0
           DO K=1,NPART
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)THEN
+            IF(MATER(K)>0.AND.MATER(K)<=M01)THEN
                N1=N1+1
-            ELSEIF(MATER(K).GT.M1.AND.MATER(K).LE.M2)THEN
+            ELSEIF(MATER(K)>M1.AND.MATER(K)<=M2)THEN
                N2=N2+1
-            ELSEIF(MATER(K).GT.M2)THEN
+            ELSEIF(MATER(K)>M2)THEN
                N3=N3+1
             ENDIF
           ENDDO
@@ -2082,7 +2082,7 @@ C CUTS DANS LE SUBSET GLOBAL
 C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
           DO K=1,NPART
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)
+            IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
 C CUTS DANS LE SUBSET GLOBAL
@@ -2092,13 +2092,13 @@ C CUTS DANS LE SUBSET GLOBAL
 C PARTS FILLES 3D
           CALL WRITE_I_C(N2,1)
           DO K=1,NPART
-            IF(MATER(K).GT.M1.AND.MATER(K).LE.M2)
+            IF(MATER(K)>M1.AND.MATER(K)<=M2)
      .          CALL WRITE_I_C(MATER(K)-M1-1,1)
           ENDDO
 C PARTS FILLES 1D
           CALL WRITE_I_C(N3,1)
           DO K=1,NPART
-            IF(MATER(K).GT.M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
+            IF(MATER(K)>M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
           ENDDO
        ELSE
 C----------------
@@ -2106,7 +2106,7 @@ C +SIEURS SUBSET ET INPUT V4.X
 C----------------
         MXSUBS=0
         DO I=1,NSUBS-1
-          IF (SUBSET(I)%ID .GT. MXSUBS) MXSUBS=SUBSET(I)%ID
+          IF (SUBSET(I)%ID > MXSUBS) MXSUBS=SUBSET(I)%ID
           WRITE(STR,'(I8,A1)')SUBSET(I)%ID,':'
           DO J=1,9
             CTEXT(J)=ICHAR(STR(J:J))
@@ -2114,13 +2114,13 @@ C----------------
           IB = 9
           TITL = SUBSET(I)%TITLE
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+9
+            IF(TITL(J:J)/=' ') IB = J+9
             CTEXT(J+9)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
           CALL WRITE_C_C(CTEXT,10+LTITL)
 C SUBSET PARENT
-          IF (SUBSET(I)%PARENT .LT. NSUBS) THEN
+          IF (SUBSET(I)%PARENT < NSUBS) THEN
            CALL WRITE_I_C(SUBSET(I)%PARENT-1,1)
           ELSE
            CALL WRITE_I_C(SUBSET(I)%PARENT
@@ -2139,11 +2139,11 @@ C #PARTS FILLES
           N3=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)THEN
+            IF(MATER(K)>0.AND.MATER(K)<=M01)THEN
                N1=N1+1
-            ELSEIF(MATER(K).GT.M1.AND.MATER(K).LE.M2)THEN
+            ELSEIF(MATER(K)>M1.AND.MATER(K)<=M2)THEN
                N2=N2+1
-            ELSEIF(MATER(K).GT.M2)THEN
+            ELSEIF(MATER(K)>M2)THEN
                N3=N3+1
             ENDIF
           ENDDO
@@ -2151,27 +2151,27 @@ C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)
+            IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
 C PARTS FILLES 3D
           CALL WRITE_I_C(N2,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M1.AND.MATER(K).LE.M2)
+            IF(MATER(K)>M1.AND.MATER(K)<=M2)
      .          CALL WRITE_I_C(MATER(K)-M1-1,1)
           ENDDO
 C PARTS FILLES 1D
           CALL WRITE_I_C(N3,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
+            IF(MATER(K)>M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
           ENDDO
         ENDDO
 C-----------------
 C SUBSET RBODIES
 C-----------------
-          IF (NRBODY.GT.0) THEN
+          IF (NRBODY>0) THEN
            WRITE(STR,'(I8,A14)')MXSUBS+1,':RBODIES MODEL'
            DO J=1,22
             CTEXT(J)=ICHAR(STR(J:J))
@@ -2202,7 +2202,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SECTIONS
 C-----------------
-          IF (NSECT.GT.0) THEN
+          IF (NSECT>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS+MIN(1,NRBODY)+1,':SECTIONS MODEL'
            DO J=1,23
             CTEXT(J)=ICHAR(STR(J:J))
@@ -2233,7 +2233,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET RWALLS
 C-----------------
-          IF (NRWALL.GT.0) THEN
+          IF (NRWALL>0) THEN
            WRITE(STR,'(I8,A13)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY)+1,':RWALLS MODEL'
            DO J=1,21
@@ -2265,7 +2265,7 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSET SURFACES
 C-----------------
-          IF (NSURG+NSMAD.GT.0) THEN
+          IF (NSURG+NSMAD>0) THEN
            WRITE(STR,'(I8,A15)')MXSUBS
      .              +MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)+1,
      .              ':SURFACES MODEL'
@@ -2298,13 +2298,13 @@ C PARTS FILLES 1D
 C-----------------
 C SUBSETS FVMBAG
 C-----------------
-          IF (NFVSUBS.GT.0) THEN
+          IF (NFVSUBS>0) THEN
              II=NSUBS
      .         +MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)
      .         +MIN(1,NSURG+NSMAD)-1
              OFFPART=NBPART2D
              DO I=1,NFVBAG
-                IF (FVDATA(I)%NPOLH_ANIM.GT.0) THEN
+                IF (FVDATA(I)%NPOLH_ANIM>0) THEN
                    II=II+1
                    WRITE(STR,'(I8,A11,I8)')
      .                 II,':FVMBAG ID ',FVDATA(I)%ID
@@ -2342,7 +2342,7 @@ C--------------
           IB = 9
           TITL = SUBSET(NSUBS)%TITLE
           DO J=1,LTITL
-            IF(TITL(J:J).NE.' ') IB = J+9
+            IF(TITL(J:J)/=' ') IB = J+9
             CTEXT(J+9)=ICHAR(TITL(J:J))
           ENDDO
           CTEXT(IB+1)=0
@@ -2357,16 +2357,16 @@ C SUBSETS FILS
           DO J=1,SUBSET(NSUBS)%NCHILD
             CALL WRITE_I_C(SUBSET(NSUBS)%CHILD(J)-1,1)
           ENDDO
-          IF (NRBODY.GT.0)
+          IF (NRBODY>0)
      .      CALL WRITE_I_C(NSUBS-1,1)
-          IF (NSECT.GT.0)
+          IF (NSECT>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NRBODY)-1,1)
-          IF (NRWALL.GT.0)
+          IF (NRWALL>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)-1,1)
-          IF (NSURG+NSMAD.GT.0)
+          IF (NSURG+NSMAD>0)
      .      CALL WRITE_I_C(NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)
      .                          +MIN(1,NRWALL)-1,1)
-          IF (NFVSUBS.GT.0) THEN
+          IF (NFVSUBS>0) THEN
              II=NSUBS+MIN(1,NSECT)+MIN(1,NRBODY)+MIN(1,NRWALL)
      .                   +MIN(1,NSURG+NSMAD)
              DO I=1,NFVBAG
@@ -2380,11 +2380,11 @@ C #PARTS FILLES
           N3=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)THEN
+            IF(MATER(K)>0.AND.MATER(K)<=M01)THEN
                N1=N1+1
-            ELSEIF(MATER(K).GT.M1.AND.MATER(K).LE.M2)THEN
+            ELSEIF(MATER(K)>M1.AND.MATER(K)<=M2)THEN
                N2=N2+1
-            ELSEIF(MATER(K).GT.M2)THEN
+            ELSEIF(MATER(K)>M2)THEN
                N3=N3+1
             ENDIF
           ENDDO
@@ -2394,7 +2394,7 @@ C PARTS FILLES 2D
           CALL WRITE_I_C(N1,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.0.AND.MATER(K).LE.M01)
+            IF(MATER(K)>0.AND.MATER(K)<=M01)
      .         CALL WRITE_I_C(MATER(K)-1,1)
           ENDDO
 C CUTS DANS LE SUBSET GLOBAL
@@ -2405,14 +2405,14 @@ C PARTS FILLES 3D
           CALL WRITE_I_C(N2,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M1.AND.MATER(K).LE.M2)
+            IF(MATER(K)>M1.AND.MATER(K)<=M2)
      .          CALL WRITE_I_C(MATER(K)-M1-1,1)
           ENDDO
 C PARTS FILLES 1D
           CALL WRITE_I_C(N3,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
+            IF(MATER(K)>M2)CALL WRITE_I_C(MATER(K)-M2-1,1)
           ENDDO
        ENDIF
 C-----------------------------------------------
@@ -2432,7 +2432,7 @@ C-----------------------------------------------
          IB = 9
          CALL FRETITL2(TITL,IPM(NPROPMI-LTITR+1,I),LTITL)
          DO J=1,LTITL
-           IF(TITL(J:J).NE.' ') IB = J+9
+           IF(TITL(J:J)/=' ') IB = J+9
            CTEXT(J+9)=ICHAR(TITL(J:J))
          ENDDO
          CTEXT(IB+1)=0
@@ -2457,7 +2457,7 @@ C-----------------------------------------------
          IB = 9
          CALL FRETITL2(TITL,IGEO(NPROPGI-LTITR+1,I),LTITL)
          DO J=1,LTITL
-           IF(TITL(J:J).NE.' ') IB = J+9
+           IF(TITL(J:J)/=' ') IB = J+9
            CTEXT(J+9)=ICHAR(TITL(J:J))
          ENDDO
          CTEXT(IB+1)=0
@@ -2475,7 +2475,7 @@ C
 C     Additional particles description, case of /ANIM/VERS/44 only.
 C
 C=======================================================================
-      IF(ISPH3D.EQ.1.OR.NUMSPH_T+MAXPJET.EQ.0) GOTO 700
+      IF(ISPH3D==1.OR.NUMSPH_T+MAXPJET==0) GOTO 700
 C-----------------------------------------------
 C   prepare sorties SUBSET : PART FILLES meshless
 C-----------------------------------------------
@@ -2492,7 +2492,7 @@ C-----------------------------------------------
 C
       NBPART = 0
       DO I=1,NPART
-        IF(MATER(I).EQ.4)NBPART = NBPART + 1
+        IF(MATER(I)==4)NBPART = NBPART + 1
       ENDDO
 C-----------------------------------------------
 C   WRITE CONTROL
@@ -2520,7 +2520,7 @@ C-----------------------------------------------
 C   PART HEAD
 C-----------------------------------------------
       DO I=1,NPART
-       IF(MATER(I).EQ.4)THEN
+       IF(MATER(I)==4)THEN
          WRITE(STR,'(I8,A1)')IPART(4,I),':'
          DO J=1,9
            CTEXT(J)=ICHAR(STR(J:J))
@@ -2528,7 +2528,7 @@ C-----------------------------------------------
          IB = 9
          CALL FRETITL2(TITL,IPART(LIPART1-LTITR+1,I),LTITL)
          DO J=1,LTITL
-           IF(TITL(J:J).NE.' ') IB = J+9
+           IF(TITL(J:J)/=' ') IB = J+9
            CTEXT(J+9)=ICHAR(TITL(J:J))
          ENDDO
          CTEXT(IB+1)=0
@@ -2538,8 +2538,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS FOR MAS & FUNC
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1.OR.ANIM_SE(3).EQ.1.OR.
-     .   ANIM_SE(25).EQ.1)THEN
+      IF(ANIM_M==1.OR.ANIM_SE(3)==1.OR.
+     .   ANIM_SE(25)==1)THEN
          CALL DMASANI0(ELBUF_TAB   ,IPARG   ,
      2           MAS     ,PM      ,EL2FA   ,IPART   ,IPARTSP )
       ENDIF
@@ -2548,11 +2548,11 @@ C   FUNC TEXT
 C-----------------------------------------------
       CTEXT(81)=0
       CALL ANI_TXT('Diameter',8)
-      IF (DSANIM.EQ.1) THEN
+      IF (DSANIM==1) THEN
          DO I=1,NLEVEL
             CALL ANI_TXT(CTITR(I),33)
          ENDDO
-      ELSEIF (DECANI.EQ.1) THEN
+      ELSEIF (DECANI==1) THEN
           CALL ANI_TXT(CTITR(1),25)
       ENDIF
 C-----------------------------------------------
@@ -2561,12 +2561,12 @@ C-----------------------------------------------
       NNN = NUMSPH+MAXPJET
       DO I = 0,MX_ANI
         IFUNC = I
-        IF(IFUNC.EQ.0.OR.(IFUNC.GT.0.AND.ANIM_SE(I).EQ.1)) THEN
+        IF(IFUNC==0.OR.(IFUNC>0.AND.ANIM_SE(I)==1)) THEN
           CALL DFUNC0(ELBUF_TAB ,WAFT   ,IFUNC   ,IPARG   ,PM      ,
      .               EL2FA      ,NNN    ,SPBUF   ,IPART   ,IPARTSP )
         ENDIF
       ENDDO
-      IF (DECANI.EQ.1) THEN
+      IF (DECANI==1) THEN
          DO I=1,NUMSPH
             FUNC(I)=ZERO
          ENDDO
@@ -2592,7 +2592,7 @@ C   3D TENSOR (SPH)
 C-----------------------------------------------
       DO I = 1,MX_ANI
        IFUNC = I
-       IF(ANIM_ST(I).EQ.1)THEN
+       IF(ANIM_ST(I)==1)THEN
            CALL TENSOR0(ELBUF_TAB ,IPARG   ,IFUNC   ,PM      ,EL2FA   ,
      2                  NNN     ,WAFT    ,IPART   ,IPARTSP )
        ENDIF
@@ -2600,7 +2600,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   ELEMENT MASS (SPH)
 C-----------------------------------------------
-      IF(ANIM_M.EQ.1)THEN
+      IF(ANIM_M==1)THEN
        DO I=1,NNN
           R4 = MAS(I)
           CALL WRITE_R_C(R4,1)
@@ -2614,8 +2614,8 @@ C-----------------------------------------------
 C   HIERARCHIE
 C-----------------------------------------------
        DO I=1,NPART
-        IF(MATER(I).EQ.4)THEN
-          IF (IPART(3,I).LT.NSUBS) THEN
+        IF(MATER(I)==4)THEN
+          IF (IPART(3,I)<NSUBS) THEN
            CALL WRITE_I_C(IPART(3,I)-1,1)
           ELSE
            CALL WRITE_I_C(NSUBS
@@ -2625,34 +2625,34 @@ C-----------------------------------------------
         END IF
        ENDDO
        DO I=1,NPART
-         IF(MATER(I).EQ.4)CALL WRITE_I_C(IPART(1,I),1)
+         IF(MATER(I)==4)CALL WRITE_I_C(IPART(1,I),1)
        ENDDO
        DO I=1,NPART
-         IF(MATER(I).EQ.4)CALL WRITE_I_C(IPART(2,I),1)
+         IF(MATER(I)==4)CALL WRITE_I_C(IPART(2,I),1)
        ENDDO
 C-----------------------------------------------
 C   SUBSET : PART FILLES MESHLESS
 C-----------------------------------------------
         J=M3
         DO I=1,NPART
-          IF(MATER(I).EQ.4)THEN
+          IF(MATER(I)==4)THEN
             J=J+1
             MATER(I)=J
           ENDIF
         ENDDO
         M4=J
-        IF (NSUBS.EQ.1) THEN
+        IF (NSUBS==1) THEN
 C #PARTS FILLES meshless
           N0=0
           DO K=1,NPART
-            IF(MATER(K).GT.M3)THEN
+            IF(MATER(K)>M3)THEN
                N0=N0+1
             ENDIF
           ENDDO
 C PARTS FILLES meshless
           CALL WRITE_I_C(N0,1)
           DO K=1,NPART
-            IF(MATER(K).GT.M3)
+            IF(MATER(K)>M3)
      .         CALL WRITE_I_C(MATER(K)-M3-1,1)
           ENDDO
         ELSE
@@ -2664,7 +2664,7 @@ C #PARTS FILLES meshless
           N0=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)THEN
+            IF(MATER(K)>M3)THEN
                N0=N0+1
             ENDIF
           ENDDO
@@ -2672,7 +2672,7 @@ C PARTS FILLES meshless
           CALL WRITE_I_C(N0,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)
+            IF(MATER(K)>M3)
      .         CALL WRITE_I_C(MATER(K)-M3-1,1)
           ENDDO
         ENDDO
@@ -2683,7 +2683,7 @@ C #PARTS FILLES meshless
           N0=0
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)THEN
+            IF(MATER(K)>M3)THEN
                N0=N0+1
             ENDIF
           ENDDO
@@ -2691,13 +2691,13 @@ C PARTS FILLES meshless
           CALL WRITE_I_C(N0,1)
           DO J=1,SUBSET(I)%NPART
             K = SUBSET(I)%PART(J)
-            IF(MATER(K).GT.M3)
+            IF(MATER(K)>M3)
      .         CALL WRITE_I_C(MATER(K)-M3-1,1)
           ENDDO
         ENDIF
 C--------------
         DO I=1,NPART
-          IF(MATER(I).LT.0)MATER(I)=-MATER(I)
+          IF(MATER(I)<0)MATER(I)=-MATER(I)
         ENDDO
 C=======================================================================
  700  CONTINUE
@@ -2757,10 +2757,10 @@ C-----------------------------------------------
         N6 = IXS16(2,J)
         N7 = IXS16(3,J)
         N8 = IXS16(4,J)
-        IF(N5.EQ.0)N5=N1
-        IF(N6.EQ.0)N6=N2
-        IF(N7.EQ.0)N7=N3
-        IF(N8.EQ.0)N8=N4
+        IF(N5==0)N5=N1
+        IF(N6==0)N6=N2
+        IF(N7==0)N7=N3
+        IF(N8==0)N8=N4
         XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
      .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
         YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))
@@ -2781,10 +2781,10 @@ C-----------------------------------------------
         N6 = IXS16(6,J)
         N7 = IXS16(7,J)
         N8 = IXS16(8,J)
-        IF(N5.EQ.0)N5=N1
-        IF(N6.EQ.0)N6=N2
-        IF(N7.EQ.0)N7=N3
-        IF(N8.EQ.0)N8=N4
+        IF(N5==0)N5=N1
+        IF(N6==0)N6=N2
+        IF(N7==0)N7=N3
+        IF(N8==0)N8=N4
         XX = HALF *(X(1,N5)+X(1,N6)+X(1,N7)+X(1,N8))
      .      -FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
         YY = HALF *(X(2,N5)+X(2,N6)+X(2,N7)+X(2,N8))

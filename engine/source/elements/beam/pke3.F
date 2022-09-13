@@ -137,7 +137,7 @@ C-------------------------
      3           SH1    ,SH2    ,R11     ,R12    ,R13    ,
      4           R21    ,R22    ,R23     ,R31    ,R32    ,
      5           R33    ,KE11   ,KE12    ,KE22   )
-      IF (IKGEO.GT.0) THEN
+      IF (IKGEO>0) THEN
        DO I =JFT ,JLT
         FX(I)=GBUF%FOR(2*NEL+I)
 !!        J = (I-JFT)*3
@@ -147,7 +147,7 @@ C-------------------------
      1            FX     ,AL     ,KE11    ,KE12    ,KE22   )
       ENDIF 
       
-             IF (NEIG.GT.0) CALL PEOFF(
+             IF (NEIG>0) CALL PEOFF(
      1                   NIXP, JFT, JLT, NCC, ETAG,
      2                   OFF )
              CALL ASSEM_P(NIXP,6 ,

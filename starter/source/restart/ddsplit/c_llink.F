@@ -73,7 +73,7 @@ C
 C
       NLLINK_L = ILP
 C espace memoire P/ON
-      IF(IPARI0.NE.0) THEN
+      IF(IPARI0/=0) THEN
         NSKYLL_L = ILP
       ELSE
         NSKYLL_L = 0

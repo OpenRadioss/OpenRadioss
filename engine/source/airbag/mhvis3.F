@@ -105,7 +105,7 @@ C     REAL
      .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),A11(MVSIZ),EHOU(MVSIZ), 
      .   PX1V, PX2V, PY1V, PY2V, EHOURT,VV ,SCALE(MVSIZ),FAC1 
 C-----------------------------------------------
-      IF(ISMSTR.NE.3.AND.IHBE.GE.1)THEN
+      IF(ISMSTR/=3.AND.IHBE>=1)THEN
        DO I=JFT,JLT
          PX1V    = PX1(I)*VHX(I)
          PX2V    = PX2(I)*VHX(I)
@@ -125,7 +125,7 @@ C-----------------------------------------------
        ENDDO
       ENDIF
 C
-      IF(INVSTR.GE.35)THEN
+      IF(INVSTR>=35)THEN
        MX=MAT(JFT)
        DO I=JFT,JLT
         IPID=PID(I)
@@ -164,7 +164,7 @@ C-----------------------------------
 C     TRIANGLES
 C-----------------------------------
       DO 360 I=JFT,JLT
-      IF(IXC(4,I).NE.IXC(5,I))GOTO 360
+      IF(IXC(4,I)/=IXC(5,I))GOTO 360
        H1Q(I)=ZERO
        H1L(I)=ZERO
        H2Q(I)=ZERO
@@ -184,7 +184,7 @@ C-----------------------------------
       IGTYP = IGEO(11,IPID) 
       IGMAT = IGEO(98,IPID)
       IPGMAT  = 700
-      IF(NODADT.NE.0.OR.IDT1SH.EQ.1.OR.IDTMINS==2)THEN
+      IF(NODADT/=0.OR.IDT1SH==1.OR.IDTMINS==2)THEN
 C    
         !!IF(IDTMINS == 2) IGMAT = 1
         DO I=JFT,JLT
@@ -199,7 +199,7 @@ C
             A11(I)  = GEO(IPGMAT +5 ,PID(I))
             G(I)    = GEO(IPGMAT+4,PID(I)) 
             A11R(I) = GEO(IPGMAT+7,PID(I))
-            IF (OFF(I).EQ.ZERO) THEN
+            IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
                 STIR(I) = ZERO
             ELSE
@@ -220,7 +220,7 @@ C
           ENDDO
 !!        
           DO I=JFT,JLT
-            IF (OFF(I).EQ.ZERO) THEN
+            IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
                 STIR(I) = ZERO
             ELSE
@@ -235,7 +235,7 @@ C
 C-----------------------------------
 C     FORCES ANTISABLIER DE MEMBRANE
 C-----------------------------------
-      IF(ISMSTR.EQ.3.OR.IHBE.LT.1)THEN
+      IF(ISMSTR==3.OR.IHBE<1)THEN
        DO 400 I=JFT,JLT
        HG1(I)=VX1(I)-VX2(I)+VX3(I)-VX4(I)
        HG2(I)=VY1(I)-VY2(I)+VY3(I)-VY4(I)
@@ -287,7 +287,7 @@ C-----------------------------------
 C----------------------------------------------------------------
 C     FORCES ANTISABLIER DE FLEXION W OU PARABOLOIDE HYPERBOLIQUE
 C----------------------------------------------------------------
-      IF(ISMSTR.EQ.3.OR.IHBE.LT.1)THEN
+      IF(ISMSTR==3.OR.IHBE<1)THEN
        DO 600 I=JFT,JLT
        HG1(I)=VZ1(I)-VZ2(I)+VZ3(I)-VZ4(I)
  600   CONTINUE
@@ -371,8 +371,8 @@ C
         EHOUR = EHOUR + EHOURT
 #include "atomend.inc"
 C
-      IF((ANIM_E(25).EQ.1).OR.(ANIM_CE(25).EQ.1).OR.
-     &                 (OUTP_CS(25).EQ.1))THEN
+      IF((ANIM_E(25)==1).OR.(ANIM_CE(25)==1).OR.
+     &                 (OUTP_CS(25)==1))THEN
         DO I=JFT,JLT
           EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I)+EHOU(I)
         ENDDO

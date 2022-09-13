@@ -78,14 +78,14 @@ C-----------------------------------------------
 
          LOC_PROC = ISPMD+1
          DO I = 1, NSPMD
-           IF(I.NE.LOC_PROC) THEN
+           IF(I/=LOC_PROC) THEN
              MSGTYP = MSGOFF1
              CALL MPI_ISEND(
      C         INDSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G         MPI_COMM_WORLD,REQ_S1(I),IERROR) 
 
              SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
-             IF(SIZ.GT.0)THEN
+             IF(SIZ>0)THEN
                MSGTYP = MSGOFF2
                CALL MPI_ISEND(
      C           IBUFSEGLO,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
@@ -95,14 +95,14 @@ C-----------------------------------------------
          ENDDO
       
          DO I = 1, NSPMD
-           IF(I.NE.LOC_PROC) THEN
+           IF(I/=LOC_PROC) THEN
              MSGTYP = MSGOFF1
              CALL MPI_RECV(
      .         RSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .         MPI_COMM_WORLD,STATUS,IERROR)
              
                SIZ = RSEGLO(NINTER+1)-RSEGLO(1)
-               IF(SIZ.GT.0)THEN
+               IF(SIZ>0)THEN
                  ALLOCATE(RBUF(SIZ))
                  MSGTYP = MSGOFF2
                  CALL MPI_RECV(
@@ -112,7 +112,7 @@ C-----------------------------------------------
                    DO NG=1,NINTER
                       IND_SEG=RSEGLO(NG+1)-RSEGLO(NG)
                       IAD=RSEGLO(NG)
-                      IF(IND_SEG .GT.0)THEN
+                      IF(IND_SEG >0)THEN
                         IF(IPARI(7,NG)==24)THEN
                           NRTM=IPARI(4,NG)
                           CALL I24_REMOVE_GLOBAL_SEGMENT(RBUF(IAD),IND_SEG,NG,NRTM,
@@ -122,20 +122,20 @@ C-----------------------------------------------
                           CALL I25_REMOVE_GLOBAL_SEGMENT(RBUF(IAD),IND_SEG,NG,NRTM,
      .                                 INTBUF_TAB(NG)%MSEGLO,INTBUF_TAB(NG)%MVOISIN,2)
                         END IF
-                      ENDIF   ! IF(IND_SEG .GT.0)
+                      ENDIF   ! IF(IND_SEG >0)
                    ENDDO     ! DO NG=1,NINTER
                  DEALLOCATE(RBUF)
-               ENDIF       ! IF(SIZ.GT.0)THEN
-           ENDIF           ! IF(I.NE.LOC_PROC) THEN
+               ENDIF       ! IF(SIZ>0)THEN
+           ENDIF           ! IF(I/=LOC_PROC) THEN
          ENDDO
 C
 C Test reception envoi BUFR
 C
       DO I = 1, NSPMD
-        IF(I.NE.LOC_PROC) THEN
+        IF(I/=LOC_PROC) THEN
           CALL MPI_WAIT(REQ_S1(I),STATUS,IERROR)
           SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
-          IF(SIZ.GT.0)THEN
+          IF(SIZ>0)THEN
               CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
           ENDIF
         ENDIF

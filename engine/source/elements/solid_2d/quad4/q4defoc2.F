@@ -86,7 +86,7 @@ C-----------------------------------------------
 C
 C     SHEAR STRAIN RATE AND INTRINSIC ROTATION
       DO I=LFT,LLT
-        IF(AIRE(I).GT.ZERO) THEN
+        IF(AIRE(I)>ZERO) THEN
           DZY(I) = PYC1(I)*VZ13(I)+PYC2(I)*VZ24(I)
           DYZ(I) = PZC1(I)*VY13(I)+PZC2(I)*VY24(I)
           DYY(I) = PYC1(I)*VY13(I)+PYC2(I)*VY24(I)
@@ -98,7 +98,7 @@ C     SHEAR STRAIN RATE AND INTRINSIC ROTATION
           DZZ(I) = ZERO
         ENDIF
       ENDDO
-      IF(JCVT.EQ.0) THEN
+      IF(JCVT==0) THEN
         DO I=LFT,LLT
 c          WXX(I) = HALF*DT1*(DZY(I)-DYZ(I))
           EYZ(I) = DZY(I)+DYZ(I)
@@ -118,7 +118,7 @@ C     X- NORMAL STRAIN RATE
       ENDIF
 C
 C     VOLUMETRIC STRAIN RATE
-      IF(ICP.GT.0) THEN
+      IF(ICP>0) THEN
         DO I=LFT,LLT
           DSV(I) = DYY(I)+DZZ(I)+EXX(I)
         ENDDO

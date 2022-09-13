@@ -61,7 +61,7 @@ C======================================================================|
       INOD(4) = N0
 C--- vx
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -71,7 +71,7 @@ C--- vx
      .              C3=TITR)
       ENDIF
       IADLL(NC+1) = IADLL(NC) + 10
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -103,7 +103,7 @@ C--- vx
       JLL(IK) = 1
 C--- vy
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -113,7 +113,7 @@ C--- vy
      .              C3=TITR)
       ENDIF
       IADLL(NC+1) = IADLL(NC) + 10
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -145,7 +145,7 @@ C--- vy
       JLL(IK) = 2
 C--- vz
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -155,7 +155,7 @@ C--- vz
      .              C3=TITR)
       ENDIF
       IADLL(NC+1) = IADLL(NC) + 10
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -187,7 +187,7 @@ C--- vz
       JLL(IK) = 3
 C --- wx
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -197,7 +197,7 @@ C --- wx
      .              C3=TITR)
       ENDIF
       IADLL(NC+1) = IADLL(NC) + 10
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -229,7 +229,7 @@ C --- wx
       JLL(IK) = 4
 C --- wy
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -239,7 +239,7 @@ C --- wy
      .              C3=TITR)
       ENDIF
       IADLL(NC+1) = IADLL(NC) + 10
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -271,7 +271,7 @@ C --- wy
       JLL(IK) = 5
 C --- wz
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -281,7 +281,7 @@ C --- wz
      .              C3=TITR)
       ENDIF
       IADLL(NC+1) = IADLL(NC) + 10
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -316,7 +316,7 @@ C     Local Constraints
 C --- local X
       INOD(4) = N0
       NC = NC + 1
-      IF(NC.GT.LAG_NCF)THEN
+      IF(NC>LAG_NCF)THEN
         CALL ANCMSG(MSGID=468,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -326,7 +326,7 @@ C --- local X
      .              C3=TITR)
       ENDIF
       IADLL(NC+1)=IADLL(NC) + 12
-      IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+      IF(IADLL(NC+1)-1>LAG_NKF)THEN
         CALL ANCMSG(MSGID=469,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
@@ -368,7 +368,7 @@ C
 C     local Y 
       DO I=1,3
         NC = NC + 1
-        IF(NC.GT.LAG_NCF)THEN
+        IF(NC>LAG_NCF)THEN
           CALL ANCMSG(MSGID=468,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -378,7 +378,7 @@ C     local Y
      .              C3=TITR)
         ENDIF
         IADLL(NC+1)=IADLL(NC) + 6
-        IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+        IF(IADLL(NC+1)-1>LAG_NKF)THEN
           CALL ANCMSG(MSGID=469,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -410,7 +410,7 @@ C
 C     local Z
       DO I=1,3
         NC = NC + 1
-        IF(NC.GT.LAG_NCF)THEN
+        IF(NC>LAG_NCF)THEN
           CALL ANCMSG(MSGID=468,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -420,7 +420,7 @@ C     local Z
      .                C3=TITR)
         ENDIF
         IADLL(NC+1)=IADLL(NC) + 6
-        IF(IADLL(NC+1)-1.GT.LAG_NKF)THEN
+        IF(IADLL(NC+1)-1>LAG_NKF)THEN
           CALL ANCMSG(MSGID=469,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

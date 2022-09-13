@@ -56,14 +56,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C    Time History
 C-----------------------------------------------
-        IF (CPTREAC .GE. 1) THEN
+        IF (CPTREAC >= 1) THEN
           FLAG_MOM = 0
           INDX = 0
 C
           DO 460 I = NODFT,NODLAST,1024
             NINDX = 0
             DO 450 N=I,MIN(NODLAST,I+1023)
-              IF (NODREAC(N).GT.0)THEN
+              IF (NODREAC(N)>0)THEN
                 NINDX = NINDX + 1
                 INDX(NINDX) = N
               ENDIF
@@ -72,12 +72,12 @@ C
      &                      FTHDTM,DT3)
   460     CONTINUE
 C
-          IF(IRODDL.NE.0) THEN
+          IF(IRODDL/=0) THEN
             FLAG_MOM = 3
             DO 480 I = NODFT,NODLAST,1024
               NINDX = 0
               DO 470 N=I,MIN(NODLAST,I+1023)
-                IF (NODREAC(N).GT.0)THEN
+                IF (NODREAC(N)>0)THEN
                   NINDX = NINDX + 1
                   INDX(NINDX) = N
                 ENDIF

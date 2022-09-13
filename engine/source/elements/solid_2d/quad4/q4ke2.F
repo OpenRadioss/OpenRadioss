@@ -281,7 +281,7 @@ C
 C     GATHER NODAL INFORMATION & 
 C     COMPUTE INTRINSIC ROTATION FOR CO-ROTATIONAL CASE & 
 C     PROJECT NODAL COORDINATES INTO CO-ROTATIONAL SYSTEM
-      IF (JCVT.EQ.0) THEN
+      IF (JCVT==0) THEN
         CALL QCOOR2(X,IXQ(1,NF1),
      2              Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      3              NC1,NC2,NC3,NC4,
@@ -339,14 +339,14 @@ C     COMPUTE VOLUME/(2*PI) FOR AXISYMMETRIC CASE
 C     
 C
       ICPG = 0
-      IF(ICPG.EQ.2) ICPG = 1
+      IF(ICPG==2) ICPG = 1
 C
 C
       NPTR = 2
       NPTS = 2
       NNPT = NPTR*NPTS
 C
-      IF (MTN.GE.28) THEN
+      IF (MTN>=28) THEN
         IADBUF = IPM(7,MXT(1))
       ELSE
         IADBUF = 0
@@ -439,7 +439,7 @@ C
      5            K23L,K24L,K33L,K34L,K44L,
      6            DD,GG,DG,G33,IKORTH,ICPG,OFFG)
 C
-c      IF (IKGEO.LT.0) THEN
+c      IF (IKGEO<0) THEN
 c        CALL Q4KEG2(
 c     1              PY1,PY2,PY3,PY4,
 c     2              PZ1,PZ2,PZ3,PZ4,AY,
@@ -460,8 +460,8 @@ C
      4              HH,VOLU,FAC,ICPG,OFFG)
       ENDIF
 C
-c      IF (IKGEO.GT.0) THEN
-      IF (IKGEO.NE.0) THEN
+c      IF (IKGEO>0) THEN
+      IF (IKGEO/=0) THEN
         CALL Q4KEGA2(
      1               PYC1,PYC2,PZC1,PZC2,AY,
      2               K11,K12,K13,K14,K22,
@@ -469,7 +469,7 @@ c      IF (IKGEO.GT.0) THEN
      4               GBUF%SIG,VOLU,OFFG,NEL)
       ENDIF
 C
-c      IF (N2D.EQ.1 .AND. JHBE.EQ.17) THEN
+c      IF (N2D==1 .AND. JHBE==17) THEN
 c        CALL Q4ASYM(LFT, LLT, K11, K11U, K11L)
 c        CALL Q4ASYM(LFT, LLT, K22, K22U, K22L)
 c        CALL Q4ASYM(LFT, LLT, K33, K33U, K33L)
@@ -482,14 +482,14 @@ c        CALL Q4ASYM(LFT, LLT, K24, K24U, K24L)
 c        CALL Q4ASYM(LFT, LLT, K34, K34U, K34L)
 c      ENDIF
 C
-      IF (JCVT.NE.0) THEN
+      IF (JCVT/=0) THEN
         CALL Q4KEROT2(
      1                R22,R32,R23,R33,
      2                K11,K12,K13,K14,K22,
      3                K23,K24,K33,K34,K44)
       ENDIF
 C
-C     IF (NEIG.GT.0) THEN
+C     IF (NEIG>0) THEN
 C       CALL Q4EOFF(LFT, LLT, IXQ(1,NF1), ETAG, OFFG)
 C     ENDIF
 C
@@ -539,11 +539,11 @@ C-----------------------------------------------
       DO I=1,2
         AA = KIJ(I,J,EP) + KIJU(I,J,EP)
         BB = KIJ(I,J,EP) + KIJL(I,J,EP)
-        IF (AA.LT.ZERO .AND. BB.LT.ZERO) THEN
+        IF (AA<ZERO .AND. BB<ZERO) THEN
 c          KIJ(I,J,EP) = 0.5*(AA+BB)
 c          KIJ(I,J,EP) = MIN(AA,BB)
 c          KIJ(I,J,EP) = MAX(AA,BB)
-        ELSEIF (AA.GT.ZERO .AND. BB.GT.ZERO) THEN
+        ELSEIF (AA>ZERO .AND. BB>ZERO) THEN
 c          KIJ(I,J,EP) = 0.5*(AA+BB)
 c          KIJ(I,J,EP) = MIN(AA,BB)
 c          KIJ(I,J,EP) = MAX(AA,BB)

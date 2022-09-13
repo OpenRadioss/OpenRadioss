@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER K, N, NN, KIND(NJOINT), ICSIZE
 C-----------------------------------------------
 C
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         
         K=1
         DO N=1,NJOINT
@@ -77,7 +77,7 @@ C
 
       ENDIF
 
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C
         CALL MY_BARRIER
 C
@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER K, N, KIND(NJOINT), ICSIZE
 C-----------------------------------------------
 C
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         
         K=1
         DO N=1,NJOINT
@@ -148,7 +148,7 @@ C
 
       ENDIF
 
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C
         CALL MY_BARRIER
 C
@@ -202,7 +202,7 @@ C-----------------------------------------------
       INTEGER K, N, KIND(NJOINT), ICSIZE
 C-----------------------------------------------
 C
-      IF(ISPMD.EQ.0) THEN
+      IF(ISPMD==0) THEN
         
         K=1
         DO N=1,NJOINT
@@ -221,7 +221,7 @@ C
 
       ENDIF
 
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C
         CALL MY_BARRIER
 C
@@ -312,7 +312,7 @@ C----------------------------
       ZCDG=ZCDG+X(3,N)*MS(N)
   100 CONTINUE
 C
-      IF (MASSE.GT.ZERO) THEN
+      IF (MASSE>ZERO) THEN
         XCDG=XCDG/MASSE
         YCDG=YCDG/MASSE
         ZCDG=ZCDG/MASSE
@@ -363,7 +363,7 @@ C
       FS(5)=FS(5)+AYY*DT12
       FS(6)=FS(6)+AZZ*DT12
 C
-      IF (INER.GT.ZERO) THEN
+      IF (INER>ZERO) THEN
         AXX=AXX/INER
         AYY=AYY/INER
         AZZ=AZZ/INER
@@ -409,7 +409,7 @@ C
       VY=VY-N2*A0
       VZ=VZ-N3*A0
 C
-      IF (MASSE.GT.ZERO) THEN
+      IF (MASSE>ZERO) THEN
 	VX=VX/MASSE
 	VY=VY/MASSE
 	VZ=VZ/MASSE
@@ -439,7 +439,7 @@ C
       VYY=VYY-N2*A0
       VZZ=VZZ-N3*A0
 C
-      IF (INER.GT.ZERO) THEN
+      IF (INER>ZERO) THEN
 	VXX=VXX/INER
 	VYY=VYY/INER
 	VZZ=VZZ/INER
@@ -573,7 +573,7 @@ C
       AY= DMS(N)*(A(2,N)-N2*A0)
       AZ= DMS(N)*(A(3,N)-N3*A0)
 C
-      IF (DMASSE.GT.ZERO) THEN
+      IF (DMASSE>ZERO) THEN
         AX=AX/DMASSE
         AY=AY/DMASSE
         AZ=AZ/DMASSE

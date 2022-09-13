@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER I,IPROV
 C
       I_ADD = I_ADD - 1
-      IF(I_ADD.EQ.0) RETURN
+      IF(I_ADD==0) RETURN
 C
 C     1- PILE DES NOEUDS
       IPROV = 2*(I_ADD-1)

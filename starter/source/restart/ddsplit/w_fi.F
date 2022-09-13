@@ -128,9 +128,9 @@ C
         NINDX_TAG = 0
         ITYP = IPARI(7,NI)
 C
-        IF(ITYP.EQ.7.OR.ITYP.EQ.10.OR.ITYP.EQ.11.OR.
-     .    (ITYP.EQ.17.AND.IPARI(33,NI).EQ.0).OR.ITYP.EQ.20.OR.
-     .    ITYP.EQ.22.OR.ITYP.EQ.23.OR.ITYP.EQ.24.OR.ITYP.EQ.25)THEN
+        IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.
+     .    (ITYP==17.AND.IPARI(33,NI)==0).OR.ITYP==20.OR.
+     .    ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.ITYP==25)THEN
 Cel ecriture nsnsi : 0
           DO P = 1, NSPMD
             NSNFI(P) = 0
@@ -138,8 +138,8 @@ Cel ecriture nsnsi : 0
           CALL WRITE_I_C(NSNFI,NSPMD) ! NSNSI at engine
           LEN_IA = LEN_IA + NSPMD
           INACTI = IPARI(22,NI)
-          IF(((INACTI.NE.5.AND.INACTI.NE.6.AND.INACTI.NE.7).OR.
-     .        ITYP.EQ.10).AND.ITYP.NE.23.AND.INACTI.NE.-1) THEN
+          IF(((INACTI/=5.AND.INACTI/=6.AND.INACTI/=7).OR.
+     .        ITYP==10).AND.ITYP/=23.AND.INACTI/=-1) THEN
 Cel ecriture nsnfi : 0 si inacti # 5, 6 et 7
             CALL WRITE_I_C(NSNFI,NSPMD) ! nsnfi at engine
             LEN_IA = LEN_IA + NSPMD
@@ -158,15 +158,15 @@ Cel ecriture nsnfi : 0 si inacti # 5, 6 et 7
            NSNE  = 0
            IEDGE4 = 0
 ! +++++++++++++++++++++++++++++++++++++++++++++++
-           IF(ITYP.EQ.7.OR.ITYP.EQ.22.OR.ITYP.EQ.23.OR.ITYP.EQ.24.OR.
-     .        ITYP.EQ.25)THEN
+           IF(ITYP==7.OR.ITYP==22.OR.ITYP==23.OR.ITYP==24.OR.
+     .        ITYP==25)THEN
 
             IF(ITYP==24) THEN
                NSNE  = IPARI(55,NI)
                IEDGE4 = IPARI(59,NI)
             ENDIF
             I_STOK = INTBUF_TAB(NI)%I_STOK(1)
-!            IF (MULTI_FVM%IS_USED .AND. INACTI .EQ. 7) THEN
+!            IF (MULTI_FVM%IS_USED .AND. INACTI == 7) THEN
 !C     Interface type 18 for law151
 !               ALLOCATE(TAG(NUMNOD+NSNE+NUMELS))
 !               TAG(1:NUMNOD+NSNE+NUMELS) = 0
@@ -181,7 +181,7 @@ Cel ecriture nsnfi : 0 si inacti # 5, 6 et 7
             ALLOCATE(ITAFI(NSN))
             ALLOCATE(TAGE(NRTM))
             IF (ITYP==24) ALLOCATE(IRTLMFI(2,NSN))
-            IF (ITYP.EQ.25) THEN
+            IF (ITYP==25) THEN
               ALLOCATE(IRTLMFI(4,NSN))
               IRTLMFI(1:4,1:NSN)=0
             END IF
@@ -197,9 +197,9 @@ C
                DO K=1,NSN
                   N = INTBUF_TAB(NI)%NSV(K)
                   NSNLOCAL(K) = 0
-                  IF(TAG(N).EQ.0) THEN 
+                  IF(TAG(N)==0) THEN 
                      SPLIST=0 
-                     IF(N.LE.NUMNOD) THEN
+                     IF(N<=NUMNOD) THEN
                         CALL PLIST_IFRONT(PLIST,N,SPLIST) 
                         PLOC = 0
                         IF(NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L) PLOC = 1
@@ -249,30 +249,30 @@ C
 C
             DO K = 1, I_STOK
               E = INTBUF_TAB(NI)%CAND_E(K)
-              IF (TAGE(E).NE.0) THEN
+              IF (TAGE(E)/=0) THEN
                 N = INTBUF_TAB(NI)%CAND_N(K)
 C Add boolean in order to treat INACTI=5 Candidates
                 INACTI_CASE = .FALSE.
                 ND = INTBUF_TAB(NI)%NSV(N)
-                IF (ND .LE. NUMNOD)THEN
+                IF (ND <= NUMNOD)THEN
                   MY_NODE = INTBUF_TAB(NI)%NSV(N)
                   IF(NODLOCAL( MY_NODE )==0.OR.NODLOCAL( MY_NODE )>NUMNOD_L ) INACTI_CASE=.TRUE.
                 ELSE
                   SE1 = INTBUF_TAB(NI)%IS2SE(2*(ND-NUMNOD-1)+1)
-                  IF (INTERCEP(2,NI)%P(SE1).NE.(PROC+1) ) INACTI_CASE=.TRUE.
+                  IF (INTERCEP(2,NI)%P(SE1)/=(PROC+1) ) INACTI_CASE=.TRUE.
                 ENDIF 
 c                IF (INTBUF_TAB(NI)%NSV(N) > NUMNOD) CYCLE
                  
                 IF(INACTI_CASE .EQV. .TRUE.) THEN
 C ne traiter qu une seule fois les noeuds
-                  IF(NSNP(N).GT.0) THEN
+                  IF(NSNP(N)>0) THEN
                     P = NSNP(N)
                     NSNP(N) = -P
                     NSNFI(P) = NSNFI(P) + 1
                     NODFI = NODFI + 1
                     NSVFI(NODFI) = NSNLOCAL(N)
                     ND = INTBUF_TAB(NI)%NSV(N)
-                    IF(ND.LE.NUMNOD)THEN
+                    IF(ND<=NUMNOD)THEN
                       ITAFI(NODFI) = ITAB(ND)
                     ELSE
                       ITAFI(NODFI) = INTBUF_TAB(NI)%IS2ID(ND-NUMNOD)
@@ -294,11 +294,11 @@ C ne traiter qu une seule fois les noeuds
             END DO
 C
 
-            IF(NODFI.GT.0) THEN
+            IF(NODFI>0) THEN
               ALLOCATE(INDEX(2*NODFI))
               ALLOCATE(CLEF(2,NODFI))
               IF(ITYP==24)ALLOCATE(IRTLMFI2(2,NODFI))
-              IF(ITYP.EQ.25)ALLOCATE(IRTLMFI2(4,NODFI))
+              IF(ITYP==25)ALLOCATE(IRTLMFI2(4,NODFI))
               ALLOCATE(ITAFI2(NODFI))
               DO K = 1, NODFI
                 CLEF(1,K)=PFI(K)
@@ -334,7 +334,7 @@ C
               DEALLOCATE(INDEX)
               DEALLOCATE(CLEF)
               DEALLOCATE(ITAFI2)
-              IF(ITYP==24.OR.ITYP.EQ.25) DEALLOCATE(IRTLMFI2)
+              IF(ITYP==24.OR.ITYP==25) DEALLOCATE(IRTLMFI2)
             END IF
             DEALLOCATE(PFI)
 C
@@ -358,7 +358,7 @@ Cel Void writing for IPARTFRICSFI
                CALL WRITE_I_C(NSVFI,NODFI)
                LEN_IA = LEN_IA + NODFI
             ENDIF
-            IF(ITYP.EQ.24)THEN
+            IF(ITYP==24)THEN
 C   write dummy irtlm_fi = 2xnodfi 
               CALL WRITE_I_C(IRTLMFI,NODFI*2)
               LEN_IA = LEN_IA + NODFI*2
@@ -395,7 +395,7 @@ C Write dummy IS2SE_FI : 2*NODFI
              IF(INTNITSCHE>0) CALL WRITE_I_C(NSVFI,3*NODFI)
             ENDIF
 
-            IF(ITYP.EQ.25)THEN
+            IF(ITYP==25)THEN
 C   write dummy PMAINFI
               CALL WRITE_I_C(NSVFI,NODFI)
               LEN_IA = LEN_IA + NODFI
@@ -422,10 +422,10 @@ C
             DEALLOCATE(NSVFI)
             DEALLOCATE(ITAFI)
             DEALLOCATE(TAGE)
-            IF (ITYP==24.OR.ITYP.EQ.25)DEALLOCATE(IRTLMFI)
+            IF (ITYP==24.OR.ITYP==25)DEALLOCATE(IRTLMFI)
 C fin type 7
 ! +++++++++++++++++++++++++++++++++++++++++++++++
-           ELSEIF(ITYP.EQ.11)THEN
+           ELSEIF(ITYP==11)THEN
 
             I_STOK = INTBUF_TAB(NI)%I_STOK(1)
             ALLOCATE(NRTSLOCAL(NRTS))
@@ -483,13 +483,13 @@ C
 C
             DO K = 1, I_STOK
               E = INTBUF_TAB(NI)%CAND_E(K)
-              IF (TAGE(E).NE.0) THEN
+              IF (TAGE(E)/=0) THEN
                 L  = INTBUF_TAB(NI)%CAND_N(K)
                 N1 = INTBUF_TAB(NI)%IRECTS((L-1)*2+1)
                 N2 = INTBUF_TAB(NI)%IRECTS((L-1)*2+2)
                  IF((NODLOCAL( N1 )==0.OR.NODLOCAL( N1 )>NUMNOD_L).AND.
      +             (NODLOCAL( N2 )==0.OR.NODLOCAL( N2 )>NUMNOD_L) ) THEN
-                 IF(NRTSP(L).GT.0)THEN
+                 IF(NRTSP(L)>0)THEN
                    P = NRTSP(L)
                    NRTSP(L) = -P
                    NSNFI(P) = NSNFI(P) + 1
@@ -501,7 +501,7 @@ C
               END IF
             END DO
 C
-            IF(NODFI.GT.0) THEN
+            IF(NODFI>0) THEN
               ALLOCATE(INDEX(2*NODFI))
               ALLOCATE(CLEF(2,NODFI))
               DO K = 1, NODFI
@@ -540,7 +540,7 @@ C
             DEALLOCATE(NSVFI)
             DEALLOCATE(TAGE)
 C fin type 11
-           ELSEIF(ITYP.EQ.20)THEN
+           ELSEIF(ITYP==20)THEN
 C type 20 (partie non edge)
             IFQ    = IPARI(31,NI)
             NLN    = IPARI(35,NI)
@@ -565,7 +565,7 @@ C
               N = INTBUF_TAB(NI)%NLG(NL)
 C
               NSNLOCAL(K) = 0
-              IF(TAG(N).EQ.0) THEN
+              IF(TAG(N)==0) THEN
                  IF(NODLOCAL( N )/=0.AND.NODLOCAL( N )<=NUMNOD_L) THEN
                  NUMP(PROC+1) = NUMP(PROC+1) + 1
                  NSNLOCAL(K) = NUMP(PROC+1)
@@ -573,9 +573,9 @@ C
                ENDIF
 C
                DO P = 1, NSPMD
-                IF(P.NE.PROC+1.AND.NLOCAL(N,P)==1) THEN
+                IF(P/=PROC+1.AND.NLOCAL(N,P)==1) THEN
                   NUMP(P) = NUMP(P) + 1
-                  IF(NSNLOCAL(K).EQ.0) THEN
+                  IF(NSNLOCAL(K)==0) THEN
                     NSNLOCAL(K) = NUMP(P)
                     NSNP(K) = P
                   END IF
@@ -604,13 +604,13 @@ C
 C
             DO K = 1, I_STOK
               E = INTBUF_TAB(NI)%CAND_E(K)
-              IF (TAGE(E).NE.0) THEN
+              IF (TAGE(E)/=0) THEN
                 N = INTBUF_TAB(NI)%CAND_N(K)
                 NL = INTBUF_TAB(NI)%NSV(N)
                 NN = INTBUF_TAB(NI)%NLG(NL)
                 IF(NODLOCAL( NN )==0.OR.NODLOCAL( NN )>NUMNOD_L) THEN
 C ne traiter qu une seule fois les noeuds
-                  IF(NSNP(N).GT.0) THEN
+                  IF(NSNP(N)>0) THEN
                     P = NSNP(N)
                     NSNP(N) = -P
                     NSNFI(P) = NSNFI(P) + 1
@@ -622,7 +622,7 @@ C ne traiter qu une seule fois les noeuds
               END IF
             END DO
 C
-            IF(NODFI.GT.0) THEN
+            IF(NODFI>0) THEN
               ALLOCATE(INDEX(2*NODFI))
               ALLOCATE(CLEF(2,NODFI))
               DO K = 1, NODFI
@@ -666,14 +666,14 @@ C
 C fin interface de contact inacti
           END IF
 C Type20 ajout pour edge
-          IF (ITYP.EQ.20)THEN
+          IF (ITYP==20)THEN
 Cel ecriture nsnsie : 0
              DO P = 1, NSPMD
                NSNFI(P) = 0
              END DO
              CALL WRITE_I_C(NSNFI,NSPMD)
              INACTI = IPARI(22,NI)
-             IF(INACTI.NE.5.AND.INACTI.NE.6.AND.INACTI.NE.7) THEN
+             IF(INACTI/=5.AND.INACTI/=6.AND.INACTI/=7) THEN
 Cel ecriture nsnfie : 0 si inacti # 5, 6 et 7
                CALL WRITE_I_C(NSNFI,NSPMD)
              ELSE
@@ -719,9 +719,9 @@ C
                  END IF
 C
                  DO P = 1, NSPMD
-                   IF(P.NE.PROC+1.AND.NLOCAL(N1,P)==1.AND.
+                   IF(P/=PROC+1.AND.NLOCAL(N1,P)==1.AND.
      .                NLOCAL(N2,P)==1) THEN
-                     IF(NRTSLOCAL(K).EQ.0) THEN
+                     IF(NRTSLOCAL(K)==0) THEN
                        NUMP(P) = NUMP(P) + 1
                        NRTSLOCAL(K) = NUMP(P)
                        NRTSP(K) = P
@@ -748,7 +748,7 @@ C
 C
                DO K = 1, I_STOK
                  E = INTBUF_TAB(NI)%LCAND_S(K)
-                 IF (TAGE(E).NE.0) THEN
+                 IF (TAGE(E)/=0) THEN
                    L = INTBUF_TAB(NI)%IXLINS(K)
                    N1L = INTBUF_TAB(NI)%IXLINS((L-1)*2+1)
                    N2L = INTBUF_TAB(NI)%IXLINS((L-1)*2+2)
@@ -756,7 +756,7 @@ C
                    N2 =  INTBUF_TAB(NI)%NLG(N2L)
                  IF( (NODLOCAL( N1 )==0.OR.NODLOCAL( N1 )>NUMNOD_L).AND.
      +               (NODLOCAL( N2 )==0.OR.NODLOCAL( N2 )>NUMNOD_L) ) THEN
-                     IF(NRTSP(L).GT.0)THEN
+                     IF(NRTSP(L)>0)THEN
                        P = NRTSP(L)
                        NRTSP(L) = -P
                        NSNFI(P) = NSNFI(P) + 1
@@ -768,7 +768,7 @@ C
                  END IF
                END DO
 C
-               IF(NODFI.GT.0) THEN
+               IF(NODFI>0) THEN
                  ALLOCATE(INDEX(2*NODFI))
                  ALLOCATE(CLEF(2,NODFI))
                  DO K = 1, NODFI
@@ -850,7 +850,7 @@ Cel Void writing for IPARTFRIC_FIE
            
           ENDIF ! TYPE25+EDGE
 C
-          IF(IPARI(36,NI).GT.0.AND.ITYP.NE.17) THEN
+          IF(IPARI(36,NI)>0.AND.ITYP/=17) THEN
 C init a 0 des structures de sous interfaces
             NUMP(1:NSPMD) = 0
             CALL WRITE_I_C(NUMP,NSPMD)
@@ -863,7 +863,7 @@ C
         END IF
 
 
-        IF(ITYP.EQ.21 ) THEN
+        IF(ITYP==21 ) THEN
           INTTH = IPARI(47,NI)
           IF(INTTH==2.OR.IPARI(95,NI) > 0) THEN
 Cel ecriture NMNSI : 0

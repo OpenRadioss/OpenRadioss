@@ -110,7 +110,7 @@ C-----------------------------------------------
 C
       EHOURT = ZERO
 C
-      IF(ISMSTR.NE.3.AND.IHBE.NE.0)THEN
+      IF(ISMSTR/=3.AND.IHBE/=0)THEN
        DO I=JFT,JLT
          PX1V    = PX1(I)*VHX(I)
          PX2V    = PX2(I)*VHX(I)
@@ -150,7 +150,7 @@ C-----------------------------------
 C     TRIANGLES
 C-----------------------------------
       DO I=JFT,JLT
-       IF(IXC(4,I).EQ.IXC(5,I))THEN
+       IF(IXC(4,I)==IXC(5,I))THEN
          H3Q(I)=ZERO
          H3L(I)=ZERO
          H1(I)=ZERO
@@ -163,7 +163,7 @@ C-----------------------------------
        DO I=JFT,JLT
           SCALE(I) = ZERO
       ENDDO
-      IF(NODADT.NE.0.OR.IDT1SH.EQ.1.OR.IDTMINS==2)THEN
+      IF(NODADT/=0.OR.IDT1SH==1.OR.IDTMINS==2)THEN
         DO I=JFT,JLT
           SCALE(I) = +MAX(GAMA1(I)*GAMA1(I),GAMA2(I)*GAMA2(I),
      .              GAMA3(I)*GAMA3(I),GAMA4(I)*GAMA4(I)) *
@@ -178,7 +178,7 @@ C
      .                                       .AND. IGMAT > 0)) THEN
           IF(NADMESH==0)THEN
              DO I=JFT,JLT
-              IF (OFF(I).EQ.ZERO) THEN
+              IF (OFF(I)==ZERO) THEN
                STI(I) = ZERO
                STIR(I) = ZERO          
              ELSE
@@ -192,7 +192,7 @@ C
              ENDDO
          ELSE
             DO I=JFT,JLT
-             IF (OFF(I).EQ.ZERO) THEN
+             IF (OFF(I)==ZERO) THEN
               STI(I) = ZERO
               STIR(I) = ZERO          
             ELSE
@@ -207,7 +207,7 @@ C
         ELSE ! IGTYP
           IF(NADMESH==0)THEN
              DO I=JFT,JLT
-              IF (OFF(I).EQ.ZERO) THEN
+              IF (OFF(I)==ZERO) THEN
                STI(I) = ZERO
                STIR(I) = ZERO          
              ELSE
@@ -220,7 +220,7 @@ c     ..                + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
              ENDDO
          ELSE
             DO I=JFT,JLT
-             IF (OFF(I).EQ.ZERO) THEN
+             IF (OFF(I)==ZERO) THEN
               STI(I) = ZERO
               STIR(I) = ZERO          
             ELSE
@@ -314,8 +314,8 @@ C
         EHOUR = EHOUR + EHOURT
 #include "atomend.inc"
 C
-      IF((ANIM_E(25).EQ.1).OR.(ANIM_CE(25).EQ.1).OR.
-     &             (OUTP_CS(25).EQ.1)) THEN
+      IF((ANIM_E(25)==1).OR.(ANIM_CE(25)==1).OR.
+     &             (OUTP_CS(25)==1)) THEN
         DO I=JFT,JLT
           EANI(NFT+NUMELS+I) = EANI(NFT+NUMELS+I)+EHOU(I)
         ENDDO

@@ -80,11 +80,11 @@ C Init Parith/ON
          FRL6(15,K) = ZERO
        END DO
 
-       IF(IC.EQ.0)GOTO 150
+       IF(IC==0)GOTO 150
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=MS(N)
           F2(I)=MS(N)*A(1,N)
           F3(I)=MS(N)*A(2,N)
@@ -104,11 +104,11 @@ C
        CALL SUM_6_FLOAT(1  ,NSN  ,F3, FRL6(3,1), 15)
        CALL SUM_6_FLOAT(1  ,NSN  ,F4, FRL6(4,1), 15)
 
-  150  IF(ICR.EQ.0.OR.IRODDL.EQ.0)RETURN
+  150  IF(ICR==0.OR.IRODDL==0)RETURN
 C
        DO I=1,NSN
         N = NOD(I)
-        IF(WEIGHT(N).EQ.1) THEN
+        IF(WEIGHT(N)==1) THEN
           F1(I)=IN(N)
           F2(I)=IN(N)*AR(1,N)
           F3(I)=IN(N)*AR(2,N)
@@ -131,7 +131,7 @@ C
 C
       ELSEIF(IFLAG == 2)THEN
 C
-       IF(IC.EQ.0)GOTO 250
+       IF(IC==0)GOTO 250
 C
        MASS = FRL6(1,1)+FRL6(1,2)+FRL6(1,3)+
      +        FRL6(1,4)+FRL6(1,5)+FRL6(1,6)
@@ -142,31 +142,31 @@ C
        AZ = FRL6(4,1)+FRL6(4,2)+FRL6(4,3)+
      +      FRL6(4,4)+FRL6(4,5)+FRL6(4,6)
 C
-       IF(MASS.EQ.ZERO)GOTO 250
+       IF(MASS==ZERO)GOTO 250
        AX=AX/MASS
        AY=AY/MASS
        AZ=AZ/MASS
 C
-       IF(IC.EQ.1.OR.IC.EQ.3.OR.IC.EQ.5.OR.IC.EQ.7)THEN
+       IF(IC==1.OR.IC==3.OR.IC==5.OR.IC==7)THEN
         DO 110 I=1,NSN
          N = NOD(I)
          A(3,N) =AZ
   110   CONTINUE
        ENDIF
-       IF(IC.EQ.2.OR.IC.EQ.3.OR.IC.EQ.6.OR.IC.EQ.7)THEN
+       IF(IC==2.OR.IC==3.OR.IC==6.OR.IC==7)THEN
         DO 120 I=1,NSN
          N = NOD(I)
          A(2,N) =AY
   120   CONTINUE
        ENDIF
-       IF(IC.EQ.4.OR.IC.EQ.5.OR.IC.EQ.6.OR.IC.EQ.7)THEN
+       IF(IC==4.OR.IC==5.OR.IC==6.OR.IC==7)THEN
         DO 130 I=1,NSN
          N = NOD(I)
          A(1,N) =AX
   130   CONTINUE
        ENDIF
 C
-  250  IF(ICR.EQ.0.OR.IRODDL.EQ.0)RETURN
+  250  IF(ICR==0.OR.IRODDL==0)RETURN
 C
        INER = FRL6(5,1)+FRL6(5,2)+FRL6(5,3)+
      +        FRL6(5,4)+FRL6(5,5)+FRL6(5,6)
@@ -177,25 +177,25 @@ C
        AZ = FRL6(8,1)+FRL6(8,2)+FRL6(8,3)+
      +      FRL6(8,4)+FRL6(8,5)+FRL6(8,6)
 C
-       IF(INER.EQ.ZERO)RETURN
+       IF(INER==ZERO)RETURN
 C
        AX=AX/INER
        AY=AY/INER
        AZ=AZ/INER
 C
-       IF(ICR.EQ.1.OR.ICR.EQ.3.OR.ICR.EQ.5.OR.ICR.EQ.7)THEN
+       IF(ICR==1.OR.ICR==3.OR.ICR==5.OR.ICR==7)THEN
         DO 210 I=1,NSN
          N = NOD(I)
          AR(3,N) =AZ
   210   CONTINUE
        ENDIF
-       IF(ICR.EQ.2.OR.ICR.EQ.3.OR.ICR.EQ.6.OR.ICR.EQ.7)THEN
+       IF(ICR==2.OR.ICR==3.OR.ICR==6.OR.ICR==7)THEN
         DO 220 I=1,NSN
          N = NOD(I)
          AR(2,N) =AY
   220   CONTINUE
        ENDIF
-       IF(ICR.EQ.4.OR.ICR.EQ.5.OR.ICR.EQ.6.OR.ICR.EQ.7)THEN
+       IF(ICR==4.OR.ICR==5.OR.ICR==6.OR.ICR==7)THEN
         DO 230 I=1,NSN
          N = NOD(I)
          AR(1,N) =AX

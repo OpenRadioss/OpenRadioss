@@ -61,7 +61,7 @@ C     REAL
      .   TX(MVSIZ), TY(MVSIZ),TZ(MVSIZ), RR
 C-----------------------------------------------
 C
-      IF (JSPH.EQ.1) THEN
+      IF (JSPH==1) THEN
         DO I=LFT,LLT
           AX(I)=A(I,1)
           AY(I)=A(I,2)
@@ -74,8 +74,8 @@ C
           CZ(I)=AX(I)*BY(I)-AY(I)*BX(I)
         END DO
 C
-      ELSEIF(JCVT.EQ.0)THEN
-       IF (N2D.EQ.0) THEN
+      ELSEIF(JCVT==0)THEN
+       IF (N2D==0) THEN
         DO I=LFT,LLT
           RR=ONE/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
           RX(I)=RX(I)*RR

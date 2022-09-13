@@ -54,7 +54,7 @@ C
         NALL=ETAG(N1)*ETAG(N2)*ETAG(N3)*ETAG(N4)
         DO J=1,6
          NI=IXS10(J,IEL)
-         IF (NI.GT.0) NALL=NALL*ETAG(NI)
+         IF (NI>0) NALL=NALL*ETAG(NI)
         ENDDO
         OFF(IEL)=NALL
       ENDDO

@@ -248,7 +248,7 @@ C
        ENDDO
        ENDDO
 C ----add shear part with drilling dof-----
-      IF (IDRIL.GT.0) THEN
+      IF (IDRIL>0) THEN
        DO I=1,2
         I1 = IN(I)
        DO J=I,2
@@ -304,7 +304,7 @@ C
        ENDDO
       END IF
 C ----ajoute termes sup. due au orthotrope-----
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO M=JFT,JLT 
@@ -870,7 +870,7 @@ C
         ENDDO
        ENDDO
 C------ Mzz  pour tous----x:1,3,5,7;y:2,4,6,8---
-      IF (IDRIL.EQ.0) THEN
+      IF (IDRIL==0) THEN
         DO EP=JFT,JLT
           M11(3,3,EP)=M11(3,3,EP)+DHZ(EP)
      1                *(BZZ(EP,1)*BZZ(EP,1)+BZZ(EP,2)*BZZ(EP,2))
@@ -894,7 +894,7 @@ C------ Mzz  pour tous----x:1,3,5,7;y:2,4,6,8---
      1                *(BZZ(EP,7)*BZZ(EP,7)+BZZ(EP,8)*BZZ(EP,8))
        ENDDO
 C------ renforce positive  ----------
-       IF (NEIG.EQ.0) THEN
+       IF (NEIG==0) THEN
        DO EP=JFT,JLT
         C1 = EM8*M11(3,3,EP)
         C2 = EM8*M22(3,3,EP)
@@ -906,7 +906,7 @@ C------ renforce positive  ----------
         M44(3,3,EP)=M44(3,3,EP)+C4
        ENDDO
        ENDIF 
-      END IF !(IDRIL.EQ.0) THEN
+      END IF !(IDRIL==0) THEN
 C---+----1----+----2----+warped elements----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
        DO M=NF,JLT
@@ -1134,7 +1134,7 @@ C
         ENDDO
        ENDDO
        ENDDO
-       IF (IORTH.EQ.1) THEN
+       IF (IORTH==1) THEN
         L=3
         K=1
         DO I=1,3
@@ -1493,9 +1493,9 @@ C
        ENDDO
        ENDDO
 C       
-       ENDIF !(IORTH.EQ.1)
+       ENDIF !(IORTH==1)
 C
-       IF (IKGEO.EQ.1) THEN
+       IF (IKGEO==1) THEN
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)
@@ -1546,7 +1546,7 @@ C
           T34(1,2,EP)=FXX(EP)*T34(1,1,EP)+FYY(EP)*T34(2,2,EP)
         ENDDO
 C
-        IF (IDRIL.GT.0) THEN
+        IF (IDRIL>0) THEN
 #include "vectorize.inc"
         DO M=JFT,JLT
          EP=IPLAT(M)
@@ -1608,7 +1608,7 @@ C
          ENDDO
         ENDDO
 C------ renforce positive  ----------
-        IF (NEIG.EQ.0.AND.IDRIL==0.AND. IORTH >0 ) THEN
+        IF (NEIG==0.AND.IDRIL==0.AND. IORTH >0 ) THEN
          DO EP=JFT,JLT
           C1 = MIN(T11(1,2,EP),T22(1,2,EP),T33(1,2,EP),T44(1,2,EP))
           IF (C1 < ZERO) THEN
@@ -1622,7 +1622,7 @@ C------ renforce positive  ----------
          ENDDO
         ENDIF
 C        
-       END IF !IF (IKGEO.EQ.1)
+       END IF !IF (IKGEO==1)
 C    
       RETURN
       END
@@ -1704,7 +1704,7 @@ C
         ENDDO
        ENDDO
        ENDDO
-       IF (IKGEO.EQ.1) THEN
+       IF (IKGEO==1) THEN
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)
@@ -1823,7 +1823,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         DM(1,3,M)=ZERO
         DM(2,3,M)=ZERO
        ENDDO
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
         DO M=JFT,JLT
          EP=IPLAT(M)
          C2=VOL(EP)
@@ -1963,7 +1963,7 @@ C
         FM34(3,1,EP)=FM34(3,1,EP)+ BMRZ1(EP,4,3)
         FM34(3,2,EP)=FM34(3,2,EP)+ BMRZ2(EP,4,3)
        ENDDO
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
         DO M=JFT,JLT 
@@ -2066,7 +2066,7 @@ C
           M34(3,2,EP)=M34(3,2,EP)
      .                +PX(4,EP)*CBR1(3,EP)+PY(4,EP)*CBR3(3,EP)
          ENDDO
-       ENDIF !IF (IORTH.EQ.1)
+       ENDIF !IF (IORTH==1)
 C--------warped elements--------
        DO I=1,3
        DO J=I,3
@@ -2334,7 +2334,7 @@ C------ Mzz  ----------
      .              PRY(4,M)*CBRY(4,M)+PRXY(4,M)*CBRZ(4,M)
        ENDDO
 C       
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
 C ----add Rz-bending coupling terms of orthotrope--warped element---
 C     MIJ(i,3)=BF(I)^t*CBRi(J) 
 C     MIJ(3,i)=BF(J)^t*CBRi(I)
@@ -2455,9 +2455,9 @@ C
      .               +BMF(EP,3,I,4)*CBR3(3,EP)
          ENDDO
         END DO !I=1,3
-       END IF !(IORTH.EQ.1) THEN
+       END IF !(IORTH==1) THEN
 C------ Geometrical stiffness associated w/ Rz  ----------
-       IF (IKGEO.EQ.1) THEN
+       IF (IKGEO==1) THEN
 #include "vectorize.inc"
         DO M=JFT,JLT 
          EP=IPLAT(M)

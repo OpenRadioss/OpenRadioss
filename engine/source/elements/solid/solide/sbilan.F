@@ -162,7 +162,7 @@ C
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
-      IF(FLAG.EQ.1) THEN
+      IF(FLAG==1) THEN
         IF(INT22==0 .OR. IFVM22==0)THEN
           !FEM : from nodes
           DO I=LFT,LLT
@@ -299,7 +299,7 @@ C
         ENDDO
       ENDIF
 C
-      IF(IEXPAN.NE.0)THEN
+      IF(IEXPAN/=0)THEN
         DO I=LFT,LLT
          M=IPARTS(I)
          PARTSAV(27,M)=PARTSAV(27,M) + EINTTH(I)*VOL(I)

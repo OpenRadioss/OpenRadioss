@@ -92,7 +92,7 @@ C-----------------------------------------------
 C     si FROM = 0 ADD = 2 broadcast depuis 0 sur les autres
 C     si FROM = NSPMD  ADD = 1 de NSPMD sur les autres
 
-      IF(ISPMD.EQ.FROM)THEN
+      IF(ISPMD==FROM)THEN
         call MPI_BCAST(TABI,N1*N2,REAL,FROM,
      .                 MPI_COMM_WORLD,ierror)
       ELSE

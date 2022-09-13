@@ -143,7 +143,7 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C     DEFAULTS   
 C----------------------------------------------- 
-      IF(IFORM.LE.0 .OR. IFORM.GE.4)IFORM=2
+      IF(IFORM<=0 .OR. IFORM>=4)IFORM=2
 C----------------------------------------------- 
 C     YIELD PARAMETERS   
 C-----------------------------------------------
@@ -163,7 +163,7 @@ C-----------------------------------------------
       A1 = SIX*K*ALPHA
       A2 = NINE*ALPHA*ALPHA
 
-      IF(E.LE.ZERO)THEN
+      IF(E<=ZERO)THEN
         chain='YOUNG MODULUS MUST BE DEFINED                           '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
@@ -175,7 +175,7 @@ C-----------------------------------------------
      .                C3=chain)   
       ENDIF 
 
-      IF(NU.LE.ZERO)THEN
+      IF(NU<=ZERO)THEN
         chain='POISSON RATIO MUST BE DEFINED                           '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
@@ -188,12 +188,12 @@ C-----------------------------------------------
       ENDIF 
 
       PSTAR = -INFINITY
-      IF(A2.EQ.ZERO .AND. A1/=ZERO)THEN 
+      IF(A2==ZERO .AND. A1/=ZERO)THEN 
         PSTAR=-A0/A1 
-      ELSEIF(A2.NE.ZERO)THEN
+      ELSEIF(A2/=ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
-        IF(DELTA .GE. ZERO)THEN
+        IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
         
@@ -214,8 +214,8 @@ C-----------------------------------------------
         PSTAR = -INFINITY
       ENDIF
 C
-      IF(AMAX.EQ.ZERO) AMAX = INFINITY
-      IF(PMIN.EQ.ZERO) PMIN =-INFINITY
+      IF(AMAX==ZERO) AMAX = INFINITY
+      IF(PMIN==ZERO) PMIN =-INFINITY
 
       RHOR=RHO0
       PM(1) = RHOR

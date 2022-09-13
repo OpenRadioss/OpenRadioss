@@ -166,9 +166,9 @@ C--         Cooques 4n
             IEL  = NOD2ELC(IAD)
             MG=IXC(6,IEL)
             IP = IPARTC(IEL)
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKSECND = MAX(THKSECND,THK_PART(IP))
-            ELSEIF ( THK(I) .NE. ZERO) THEN
+            ELSEIF ( THK(I) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
               THKSECND = MAX(THKSECND,GEO(1,MG))
@@ -179,9 +179,9 @@ C--         Cooques 3n
             IEL  = NOD2ELTG(IAD)  
             MG=IXTG(5,IEL)
             IP = IPARTTG(IEL)
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKSECND = MAX(THKSECND,THK_PART(IP))
-            ELSEIF ( THK(I) .NE. ZERO) THEN
+            ELSEIF ( THK(I) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
               THKSECND = MAX(THKSECND,GEO(1,MG))
@@ -199,27 +199,27 @@ C--         Cooques 3n
      .            NELTG,I,GEO  ,PM     ,KNOD2ELC ,
      .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,2,IGEO ,
      .            PM_STACK , IWORKSH)
-          IF (NELC .NE. 0) THEN
+          IF (NELC /= 0) THEN
             MG=IXC(6,NELC)
             IP = IPARTC(NELC) 
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKMAIN = MAX(THKMAIN,THK_PART(IP))
-            ELSEIF ( THK(I) .NE. ZERO) THEN
+            ELSEIF ( THK(I) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK(NELC))
             ELSE
               THKMAIN = MAX(THKMAIN,GEO(1,MG))
             ENDIF
-          ELSEIF (NELTG .NE. 0)THEN
+          ELSEIF (NELTG /= 0)THEN
             MG=IXTG(5,NELTG)
             IP = IPARTTG(NELTG) 
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKMAIN = MAX(THKMAIN,THK_PART(IP))
-            ELSEIF ( THK(I) .NE. ZERO) THEN
+            ELSEIF ( THK(I) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK(NUMELC+NELTG))
             ELSE
               THKMAIN = MAX(THKMAIN,GEO(1,MG))
             ENDIF
-          ELSEIF(NELS.NE.0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
+          ELSEIF(NELS/=0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
             DO JJ=1,8
               JJJ=IXS(JJ+1,NELS)
               XC(JJ)=X(1,JJJ)
@@ -232,7 +232,7 @@ C
           ENDIF
         ENDDO
 C       TAILLE BUCKET MIN = TZINF05
-        IF(TZINF05.EQ.ZERO)
+        IF(TZINF05==ZERO)
      .           TZINF05 = MAX(ZEP05*DD,0.6*(THKMAIN+THKSECND))
         MAXBOX= TWO*TZINF05
         MINBOX= HALF*MAXBOX
@@ -269,7 +269,7 @@ C        LONGUEUR COTE 4
   10    CONTINUE
 C       TAILLE BUCKET MIN = TZINF05
         DD = SQRT(DD/NRTM/FOUR)
-        IF(TZINF05.EQ.ZERO)TZINF05 = DD
+        IF(TZINF05==ZERO)TZINF05 = DD
         MAXBOX= TWO*TZINF05
         MINBOX= HALF*MAXBOX
         TZINFMIN = TZINF05*EM01
@@ -415,17 +415,17 @@ C       SEPARER B ET N EN TWO
 C------------------
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0
         GO TO 100
-      ELSE IF(I_MEM.EQ.2) THEN
+      ELSE IF(I_MEM==2) THEN
         TZINF05 = THREE_OVER_4*TZINF05
 C        ne pas dimunuer la taille des boite
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
         I_MEM = 0
-        IF( TZINF05.LT.TZINFMIN ) THEN
+        IF( TZINF05<TZINFMIN ) THEN
           CALL ANCMSG(MSGID=83,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -434,10 +434,10 @@ C        MAXBOX= THREE_OVER_4*MAXBOX
         ENDIF
         GO TO 100
       ENDIF
-      IF(I_ADD.NE.0) GO TO 200
+      IF(I_ADD/=0) GO TO 200
 C     FIN BOUCLE TANT QUE
 C---------------------------------
-      IF(J_STOK.NE.0)THEN
+      IF(J_STOK/=0)THEN
          LFT = 1
          LLT = J_STOK
          CALL I2COR3(X  ,IRECT ,NSV  ,PROV_E ,PROV_N,

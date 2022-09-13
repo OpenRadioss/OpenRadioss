@@ -149,7 +149,7 @@ c
         IPPID = 100
         NIP = NPT
         IPMAT = 2 + NIP 
-        IF(MTN.LE.28)THEN
+        IF(MTN<=28)THEN
           DO I=LFT,LLT
             DO N=1,NIP
               J=I+(N-1)*LLT
@@ -231,7 +231,7 @@ c
             ENDDO
           ENDDO
 c  
-      ELSEIF (MTN.LE.28)THEN
+      ELSEIF (MTN<=28)THEN
         DO I=LFT,LLT
           SSP(I)=PM(27,IMAT)
         ENDDO
@@ -439,7 +439,7 @@ C----------------------------------------------------------
 C----------------------------------------------------------
       IF(ISMSTR == 3)THEN
         DO I=LFT,LLT
-         IF(GEO(5,IPROP).NE.ZERO)GEO(5,IPROP)= MIN(GEO(5,IPROP),DT(I))
+         IF(GEO(5,IPROP)/=ZERO)GEO(5,IPROP)= MIN(GEO(5,IPROP),DT(I))
         ENDDO
       ELSE
         DO I=LFT,LLT

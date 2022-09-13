@@ -43,7 +43,7 @@ C-----------------------------------------------
 C----add ID--at end--if not inside already----------------
       IF (ID/=0) THEN
        DO I =1,N
-        IF (IC(I).EQ.ID) RETURN
+        IF (IC(I)==ID) RETURN
        ENDDO
       END IF 
       N =N+1
@@ -106,7 +106,7 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
        INTAB=.FALSE.
        DO I =1,NIC
-        IF (N.EQ.IC(I)) THEN
+        IF (N==IC(I)) THEN
          INTAB=.TRUE.
          RETURN
         ENDIF

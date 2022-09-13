@@ -73,9 +73,9 @@ C----------------------------
 C     NODAL COORDINATES     
 C----------------------------
       IF (ISMSTR==1.OR.ISMSTR==11) RETURN
-      IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1).EQ.3)THEN
+      IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3)THEN
        DO I=LFT,LLT
-       IF(ABS(OFFG(I)).GT.ONE)THEN
+       IF(ABS(OFFG(I))>ONE)THEN
        ELSE
         X1(I)=X(1,NC1(I))
         Y1(I)=X(2,NC1(I))
@@ -111,7 +111,7 @@ C----------------------------
 C     TETRAHEDRON VOLUME
 C----------------------------
       DO I=LFT,LLT
-       IF (OFFG(I) == ZERO .OR. ABS(OFFG(I)).GT.ONE) THEN
+       IF (OFFG(I) == ZERO .OR. ABS(OFFG(I))>ONE) THEN
          DET(I)= ZERO
        ELSE
          X43 = X4(I) - X3(I)
@@ -214,7 +214,7 @@ C     NODAL COORDINATES
 C----------------------------
        NE_SM = 0
 C-----case ISMSTR=1,11,2,12
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.11)THEN
+      IF(ISMSTR==1.OR.ISMSTR==11)THEN
        NE_SM = LLT
        DO I=LFT,LLT
         VX1(I)=V(1,NC1(I))
@@ -263,9 +263,9 @@ C-----case ISMSTR=1,11,2,12
            Z4(I)=ZERO
          ENDDO
        END IF
-      ELSEIF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1).EQ.3) THEN
+      ELSEIF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3) THEN
        DO I=LFT,LLT
-         IF(ABS(OFFG(I)).GT.ONE)THEN
+         IF(ABS(OFFG(I))>ONE)THEN
           NE_SM = NE_SM+1
           INDEX(NE_SM)=I
           X1(NE_SM)=SAV(I,1)
@@ -365,7 +365,7 @@ C-----rho/rho0=1+AMU(t)-dvol
       !Parith-On treatment
       CALL FOAT_TO_6_FLOAT(1  ,NE_SM  ,VOL ,DET6 )
 
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.11)THEN
+      IF(ISMSTR==1.OR.ISMSTR==11)THEN
         DO I=LFT,LLT
           !Parith-On treatment
           DO K=1,6

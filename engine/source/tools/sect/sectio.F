@@ -82,9 +82,9 @@ C-----------------------------------------------
 C---------------------------------------------------------
 #include "sync_dir.inc"
 C---------------------------------------------------------
-       IF(NSEG.EQ.0)RETURN
-       IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-       IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+       IF(NSEG==0)RETURN
+       IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+       IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
        NSA=0
 C
@@ -96,16 +96,16 @@ C
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        DO I=1,16
          FST(I)=ZERO
@@ -120,7 +120,7 @@ C
          ENDDO
        ENDIF
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -137,7 +137,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
              FZ1(K)=-FZ(I,II)
@@ -199,7 +199,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
              FZ1(K)=-FZ(I,II)
@@ -322,7 +322,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXS(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)- FX(I,II)
              SECFCUM(2,N)=SECFCUM(2,N)- FY(I,II)
@@ -412,9 +412,9 @@ C-----------------------------------------------
 C---------------------------------------------------------
 #include "sync_dir.inc"
 C---------------------------------------------------------
-       IF(NSEG.EQ.0)RETURN
-       IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-       IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+       IF(NSEG==0)RETURN
+       IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+       IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
        NSA=0
 C
@@ -426,16 +426,16 @@ C
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        IF(IPARSENS/=0) THEN
          ALLOCATE(FSTPARIT(12,NSA))
@@ -450,7 +450,7 @@ C
          FST(I)=ZERO
        ENDDO
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -467,7 +467,7 @@ C
          IPACK = MOD(NSTRF(2,J),256)
          DO II=1,4
            I1=IPERM(II)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
              FZ1(K)=-FZ(I,II)
@@ -529,7 +529,7 @@ C
          IPACK = MOD(NSTRF(2,J),256)
          DO II=1,4
            I1=IPERM(II)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
              FZ1(K)=-FZ(I,II)
@@ -607,7 +607,7 @@ C
         ENDDO
        ENDIF  
 C
-       IF(ISOLNOD.EQ.10)THEN
+       IF(ISOLNOD==10)THEN
         IF(IPARSENS==0) THEN     ! Parith/Off
         DO K=1,NSA
          J  = JJJ(K)
@@ -615,7 +615,7 @@ C
          IPACK = NSTRF(2,J)
          DO II=5,10
            I1=II+4
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
              FZ1(K)=-FZ(I,II)
@@ -677,7 +677,7 @@ C
          IPACK = NSTRF(2,J)
          DO II=5,10
            I1=II+4
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              FX1(K)=-FX(I,II)
              FY1(K)=-FY(I,II)
              FZ1(K)=-FZ(I,II)
@@ -801,7 +801,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = MOD(NSTRF(2,J),256)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXS(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)- FX(I,II)
              SECFCUM(2,N)=SECFCUM(2,N)- FY(I,II)
@@ -809,14 +809,14 @@ C
            ENDIF
          ENDDO
         ENDDO
-        IF(ISOLNOD.EQ.10)THEN
+        IF(ISOLNOD==10)THEN
          DO II=5,10
           I1=II+4
           DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              N = IXS10(I1-8,NSTRF(1,J)-NUMELS8)
              SECFCUM(1,N)=SECFCUM(1,N)- FX(I,II)
              SECFCUM(2,N)=SECFCUM(2,N)- FY(I,II)
@@ -907,9 +907,9 @@ C-----------------------------------------------
 C---------------------------------------------------------
 #include "sync_dir.inc"
 C---------------------------------------------------------
-       IF(NSEG.EQ.0)RETURN
-       IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-       IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+       IF(NSEG==0)RETURN
+       IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+       IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
        NSA=0
 C
@@ -921,16 +921,16 @@ C
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        DO I=1,16
          FST(I)=ZERO
@@ -945,7 +945,7 @@ C
          ENDDO
        ENDIF
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
          CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2     XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3     XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -961,7 +961,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = MOD(NSTRF(2,J),256)
          DO I1=1,8
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,I1)
              FY1(K)=-FY(I,I1)
              FZ1(K)=-FZ(I,I1)
@@ -1022,7 +1022,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = MOD(NSTRF(2,J),256)
          DO I1=1,8
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=-FX(I,I1)
              FY1(K)=-FY(I,I1)
              FZ1(K)=-FZ(I,I1)
@@ -1100,7 +1100,7 @@ C
        ENDDO
       ENDIF
 C
-       IF(ISOLNOD.EQ.20)THEN
+       IF(ISOLNOD==20)THEN
 C       bricks 20
         IF(IPARSENS==0) THEN     ! Parith/Off
         DO K=1,NSA
@@ -1108,7 +1108,7 @@ C       bricks 20
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
            DO I1=9,20
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              FX1(K)=-FX(I,I1)
              FY1(K)=-FY(I,I1)
              FZ1(K)=-FZ(I,I1)
@@ -1169,7 +1169,7 @@ C
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
            DO I1=9,20
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              FX1(K)=-FX(I,I1)
              FY1(K)=-FY(I,I1)
              FZ1(K)=-FZ(I,I1)
@@ -1246,7 +1246,7 @@ C
          ENDDO
        ENDDO
        ENDIF
-       ELSE IF(ISOLNOD.EQ.16)THEN
+       ELSE IF(ISOLNOD==16)THEN
 C       shells 16
         IF(IPARSENS==0) THEN     ! Parith/Off
         DO K=1,NSA
@@ -1254,7 +1254,7 @@ C       shells 16
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
            DO I1=9,16
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              FX1(K)=-FX(I,I1)
              FY1(K)=-FY(I,I1)
              FZ1(K)=-FZ(I,I1)
@@ -1315,7 +1315,7 @@ C
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
            DO I1=9,16
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              FX1(K)=-FX(I,I1)
              FY1(K)=-FY(I,I1)
              FZ1(K)=-FZ(I,I1)
@@ -1437,7 +1437,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = MOD(NSTRF(2,J),256)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXS(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)-FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)-FY(I,I1)
@@ -1445,14 +1445,14 @@ C
            ENDIF
          ENDDO
        ENDDO
-       IF(ISOLNOD.EQ.20)THEN
+       IF(ISOLNOD==20)THEN
 C       bricks 20
         DO I1=9,20
          DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              N = IXS20(I1-8,NSTRF(1,J)-NUMELS8-NUMELS10)
              SECFCUM(1,N)=SECFCUM(1,N)-FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)-FY(I,I1)
@@ -1460,14 +1460,14 @@ C       bricks 20
            ENDIF
          ENDDO
        ENDDO
-       ELSE IF(ISOLNOD.EQ.16)THEN
+       ELSE IF(ISOLNOD==16)THEN
 C       shells 16
         DO I1=9,16
          DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(MOD(IPACK/POWER2(I1),2).NE.0)THEN
+           IF(MOD(IPACK/POWER2(I1),2)/=0)THEN
              N = IXS16(I1-8,NSTRF(1,J)-NUMELS8-NUMELS10-NUMELS20)
              SECFCUM(1,N)=SECFCUM(1,N)-FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)-FY(I,I1)
@@ -1563,26 +1563,26 @@ C
 C---------------------------------------------------------
 #include "sync_dir.inc"
 C---------------------------------------------------------
-      IF(NSEG.EQ.0) RETURN
-      IF(LFT+NFT.GT.NSTRF(1,NSEG)) RETURN
-      IF(LLT+NFT.LT.NSTRF(1,1   )) RETURN
+      IF(NSEG==0) RETURN
+      IF(LFT+NFT>NSTRF(1,NSEG)) RETURN
+      IF(LLT+NFT<NSTRF(1,1   )) RETURN
 C---------------------------------------------------------
       NSA=0
 C
-       IF(IVECTOR.EQ.0) THEN
+       IF(IVECTOR==0) THEN
         DO 20 J=1,NSEG
         I=NSTRF(1,J)-NFT
-        IF (LFT.GT.I) GOTO 20
-        IF (LLT.LT.I) GOTO 30
+        IF (LFT>I) GOTO 20
+        IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20    CONTINUE
   30    CONTINUE
        ELSE
-         IF (NSEG.GT.15) THEN
+         IF (NSEG>15) THEN
            DO J=1,NSEG
              I=NSTRF(1,J)-NFT
-             IF (LFT.LE.I.AND.LLT.GE.I) THEN
+             IF (LFT<=I.AND.LLT>=I) THEN
                NSA=NSA+1
                JJJ(NSA)=J
              ENDIF
@@ -1591,7 +1591,7 @@ C
 #include "scalar.inc"
            DO J=1,NSEG
              I=NSTRF(1,J)-NFT
-             IF (LFT.LE.I.AND.LLT.GE.I) THEN
+             IF (LFT<=I.AND.LLT>=I) THEN
                NSA=NSA+1
                JJJ(NSA)=J
              ENDIF
@@ -1599,9 +1599,9 @@ C
          ENDIF
        ENDIF
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        IF(IPARSENS/=0) THEN
          ALLOCATE(FSTPARIT(12,NSA))
@@ -1616,7 +1616,7 @@ C
          FST(I)=ZERO
        ENDDO
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -1628,13 +1628,13 @@ C
 C
      
       IF((IPARSENS==0)) THEN      ! Parith/Off
-       IF (NSA.GT.15.OR.IVECTOR.EQ.0) THEN
+       IF (NSA>15.OR.IVECTOR==0) THEN
         DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
           DO I1=1,4
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
 C
              N = IXC(I1+1,NSTRF(1,J))
              DX11=X(1,N)
@@ -1698,7 +1698,7 @@ C
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
           DO I1=1,4
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXC(I1+1,NSTRF(1,J))
 C
              DX11=X(1,N)
@@ -1756,13 +1756,13 @@ C
         ENDDO
        ENDIF
       ELSE   ! Parith/On
-       IF (NSA.GT.15.OR.IVECTOR.EQ.0) THEN
+       IF (NSA>15.OR.IVECTOR==0) THEN
         DO K=1,NSA
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
           DO I1=1,4
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
 C
              N = IXC(I1+1,NSTRF(1,J))
              DX11=X(1,N)
@@ -1851,7 +1851,7 @@ C
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
           DO I1=1,4
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXC(I1+1,NSTRF(1,J))
 C
              DX11=X(1,N)
@@ -1958,7 +1958,7 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              IF(ISHSUB.NE.0)THEN
+              IF(ISHSUB/=0)THEN
                 FSAVSAV(1)=FSAVSAV(1)+FST(1)
                 FSAVSAV(2)=FSAVSAV(2)+FST(2)
                 FSAVSAV(3)=FSAVSAV(3)+FST(3)
@@ -1985,7 +1985,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXC(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)+FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)+FY(I,I1)
@@ -2080,24 +2080,24 @@ C-----------------------------------------------
       DATA UNPACK/1,0,1,
      .            0,1,1/
 C
-      IF(NSEG.EQ.0)RETURN
-      IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-      IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+      IF(NSEG==0)RETURN
+      IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+      IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C--------------------------------------------------------
       NSA=0
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        DO I=1,16
          FST(I)=ZERO
@@ -2112,7 +2112,7 @@ C
          ENDDO
        ENDIF
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -2128,7 +2128,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,2
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -2189,7 +2189,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,2
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -2310,7 +2310,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXT(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)+FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)+FY(I,I1)
@@ -2400,24 +2400,24 @@ C-----------------------------------------------
       DATA UNPACK/1,0,1,
      .            0,1,1/
 C
-      IF(NSEG.EQ.0)RETURN
-      IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-      IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+      IF(NSEG==0)RETURN
+      IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+      IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
       NSA=0
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        DO I=1,16
          FST(I)=ZERO
@@ -2432,7 +2432,7 @@ C
          ENDDO
        ENDIF
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -2448,7 +2448,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,2
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -2518,7 +2518,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,2
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -2648,7 +2648,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXP(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)+FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)+FY(I,I1)
@@ -2741,24 +2741,24 @@ C-----------------------------------------------
       DATA UNPACK/1,0,1,
      .            0,1,1/
 C
-      IF(NSEG.EQ.0)RETURN
-      IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-      IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+      IF(NSEG==0)RETURN
+      IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+      IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
       NSA=0
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        DO I=1,16
          FST(I)=0.
@@ -2774,7 +2774,7 @@ C
        ENDIF
 
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -2790,7 +2790,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,2
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -2860,7 +2860,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,2
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -2990,7 +2990,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXR(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)+FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)+FY(I,I1)
@@ -3084,24 +3084,24 @@ C-----------------------------------------------
      .            0,0,1,1,0,0,1,1,
      .            0,0,0,0,1,1,1,1/
 C
-      IF(NSEG.EQ.0)RETURN
-      IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-      IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+      IF(NSEG==0)RETURN
+      IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+      IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
       NSA=0
 C
       DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20  CONTINUE
   30  CONTINUE
 C
-      IF(NSA.EQ.0)RETURN
+      IF(NSA==0)RETURN
 C
-      IF(TYPE+NSINT.EQ.0)THEN
+      IF(TYPE+NSINT==0)THEN
 C
        DO I=1,16
          FST(I)=ZERO
@@ -3116,7 +3116,7 @@ C
          ENDDO
        ENDIF
 C	   
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3   XXN, YYN, ZZN,IFRAM,NNOD,NOD,MS)
@@ -3132,7 +3132,7 @@ C
         I  = NSTRF(1,J)-NFT
         IPACK = NSTRF(2,J)
          DO I1 = 1,3
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -3202,7 +3202,7 @@ C
          I  = NSTRF(1,J)-NFT
          IPACK = NSTRF(2,J)
          DO I1 = 1,3
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -3315,7 +3315,7 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              IF(ISHSUB.NE.0)THEN
+              IF(ISHSUB/=0)THEN
                 FSAVSAV(1)=FSAVSAV(1)+FST(1)
                 FSAVSAV(2)=FSAVSAV(2)+FST(2)
                 FSAVSAV(3)=FSAVSAV(3)+FST(3)
@@ -3342,7 +3342,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              N = IXTG(I1+1,NSTRF(1,J))
              SECFCUM(1,N)=SECFCUM(1,N)+FX(I,I1)
              SECFCUM(2,N)=SECFCUM(2,N)+FY(I,I1)
@@ -3429,16 +3429,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C WRITE FILE
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         K0 = NSTRF(25)
         DO J=1,NSECT
-         IF(NSTRF(K0).GE.1 .AND. NSTRF(K0).LE.10 )THEN
+         IF(NSTRF(K0)>=1 .AND. NSTRF(K0)<=10 )THEN
           WRITE(LCHRUN,'(I2.2)')IRUN 
           LROOTLEN=0 
           DO I=1,500
 c ncharline of starter =500
             FILNAM(I:I)=CHAR(NOM_SECT((J-1)*500+I))
-            IF(FILNAM(I:I).NE.' ')LROOTLEN=LROOTLEN+1
+            IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
           ENDDO  
           IF (LROOTLEN == 0 .AND. ABS(IOLDSECT) == 1) THEN
             IOLDSECT = 1
@@ -3448,7 +3448,7 @@ c ncharline of starter =500
          ENDIF
          K0  = NSTRF(K0+24)
         ENDDO
-        IF(NSTRF(1).GE.1 .AND. IOLDSECT == 1)THEN
+        IF(NSTRF(1)>=1 .AND. IOLDSECT == 1)THEN
 Csm  FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
           WRITE(LCHRUN,'(I2.2)')IRUN      
           FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//LCHRUN
@@ -3459,15 +3459,15 @@ Csm  FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
           ENDDO
           CALL CUR_FIL_C(42)
           CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
-        ELSEIF(NSTRF(1).GE.1) THEN
+        ELSEIF(NSTRF(1)>=1) THEN
           K0 = NSTRF(25)
           DO J=1,NSECT
-           IF(NSTRF(K0).GE.1 .AND. NSTRF(K0).LE.10 )THEN
+           IF(NSTRF(K0)>=1 .AND. NSTRF(K0)<=10 )THEN
             WRITE(LCHRUN,'(I2.2)')IRUN 
             LROOTLEN=0 
             DO I=1,500
 c ncharline of starter =500
-              IF(CHAR(NOM_SECT((J-1)*500+I)).NE.' ')THEN
+              IF(CHAR(NOM_SECT((J-1)*500+I))/=' ')THEN
                 LROOTLEN=LROOTLEN+1
                 FILNAM(LROOTLEN:LROOTLEN)=CHAR(NOM_SECT((J-1)*500+I))
               ENDIF
@@ -3499,14 +3499,14 @@ c ncharline of starter =500
 C-----------------------------------------------
 C READ FILES 
 C-----------------------------------------------
-       IF(NSTRF(2).GE.1)THEN
+       IF(NSTRF(2)>=1)THEN
         LROOTLEN=0
         DO I=1,500
 c ncharline of starter =500
           FILNAM(I:I)=CHAR(NOM_SECT((ISECTR-1)*500+I))
-          IF(FILNAM(I:I).NE.' ')LROOTLEN=LROOTLEN+1
+          IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
         ENDDO 
-        IF(TT.EQ.ZERO)THEN
+        IF(TT==ZERO)THEN
           TT1=ZERO
           TT2=ZERO
           FILNAM=FILNAM(1:LROOTLEN)//'SC01'
@@ -3650,7 +3650,7 @@ C
 C MAJ SPMD sur proc remote
 C
       IF (NSPMD > 1) THEN
-       IF(ISPMD.EQ.0) THEN
+       IF(ISPMD==0) THEN
          TMP(1) = NSTRF(4)
          TMP(2) = NSTRF(5)
          TMP(3) = SECBUF(2)
@@ -3743,19 +3743,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
 C---------------------------------------------------------
-      IF(NSECT.EQ.0)RETURN
+      IF(NSECT==0)RETURN
 C-----------------------------------------------
 C BILAN SUR SECTION AVEC SECFCUM
 C---------------------------------------------------------
       K0=NSTRF(25)
       DO I=1,NSECT
-         IF(NSTRF(K0)+NSTRF(K0+14).GT.0)THEN
+         IF(NSTRF(K0)+NSTRF(K0+14)>0)THEN
 C
 C traitement des noeuds frontieres : 
 C cumul de SECFCUM sur proc main puis mise a zero ailleurs
 C
            K2 = K0 + 30 + NSTRF(K0+14)
-           IF(IRODDL.NE.0)THEN
+           IF(IRODDL/=0)THEN
              SIZE = 6
            ELSE
              SIZE = 3
@@ -3775,7 +3775,7 @@ C
          ENDIF
          K0=NSTRF(K0+24)
       ENDDO
-      IF(NSTRF(1).EQ.0.AND.NSTRF(2).EQ.0)RETURN
+      IF(NSTRF(1)==0.AND.NSTRF(2)==0)RETURN
 C-----------------------------------------------
 C WRITE FILE
 C-----------------------------------------------
@@ -3785,13 +3785,13 @@ C-----------------------------------------------
       TT1 = SECBUF(2)
       TT2 = SECBUF(3)
       TT3 = SECBUF(4)
-      IF(NSTRF(1).GE.1.AND.TNEXT.LE.TT)THEN
+      IF(NSTRF(1)>=1.AND.TNEXT<=TT)THEN
         SECBUF(5) = TNEXT + DELTAT
 C
         K0  = NSTRF(25)
 C
         KC = 1
-        IF(ISPMD.EQ.0 .AND. IOLDSECT == 1) THEN
+        IF(ISPMD==0 .AND. IOLDSECT == 1) THEN
           CALL CUR_FIL_C(42)
           R4 = TT
           CALL WRITE_R_C(R4,1)
@@ -3800,7 +3800,7 @@ C
         ENDIF
         DO N=1,NSECT
           TYPE=NSTRF(K0)
-          IF(ISPMD.EQ.0 .AND. IOLDSECT /= 1 .AND. TYPE .GE. 1) THEN
+          IF(ISPMD==0 .AND. IOLDSECT /= 1 .AND. TYPE >= 1) THEN
             CALL CUR_FIL_C(41+N)
             R4 = TT
             CALL WRITE_R_C(R4,1)
@@ -3812,25 +3812,25 @@ C
           K2=K1+NBINTER
           NNOD = NSTRF(K0+6)
           TYPE=NSTRF(K0)
-          IF(TYPE.GE.1)THEN
+          IF(TYPE>=1)THEN
 C ecriture deplacements
             ID_SEC=NSTRF(K0+23)
-            IF(NSPMD.EQ.1) THEN
+            IF(NSPMD==1) THEN
               CALL WRITE_I_C(ID_SEC,1)
               CALL WRITE_I_C(TYPE,1)
               CALL WRITE_I_C(NNOD,1)
-            ELSEIF(ISPMD.EQ.0) THEN
+            ELSEIF(ISPMD==0) THEN
               CALL WRITE_I_C(ID_SEC,1)
               CALL WRITE_I_C(TYPE,1)
               NNODG = IAD_CUT(NSPMD+2,N)
               CALL WRITE_I_C(NNODG,1)
             ENDIF
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
 C-----------------------------------------------------
 C Comm SPMD + Ecriture
 C-----------------------------------------------------
-              IF(NSPMD.GT.1) THEN
-               IF (ISPMD.EQ.0) THEN
+              IF(NSPMD>1) THEN
+               IF (ISPMD==0) THEN
                 NSIZE = IAD_CUT(NSPMD+1,N)
                 NNODG = IAD_CUT(NSPMD+2,N)
                ELSE
@@ -3860,8 +3860,8 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C Comm SPMD + Ecriture
 C-----------------------------------------------------
-              IF(NSPMD.GT.1) THEN
-               IF (ISPMD.EQ.0) THEN
+              IF(NSPMD>1) THEN
+               IF (ISPMD==0) THEN
                 NSIZE = IAD_CUT(NSPMD+1,N)
                 NNODG = IAD_CUT(NSPMD+2,N)
                ELSE
@@ -3887,14 +3887,14 @@ C-----------------------------------------------------
               ENDIF
             ENDIF
           ENDIF
-          IF(TYPE.GE.2)THEN
+          IF(TYPE>=2)THEN
 C ecriture forces
-            IF(IRODDL.NE.0)THEN
+            IF(IRODDL/=0)THEN
 C-----------------------------------------------------
 C Comm SPMD + Ecriture
 C-----------------------------------------------------
-              IF(NSPMD.GT.1) THEN
-               IF (ISPMD.EQ.0) THEN
+              IF(NSPMD>1) THEN
+               IF (ISPMD==0) THEN
                 NSIZE = IAD_CUT(NSPMD+1,N)
                 NNODG = IAD_CUT(NSPMD+2,N)
                ELSE
@@ -3924,8 +3924,8 @@ C-----------------------------------------------------
 C-----------------------------------------------------
 C Comm SPMD + Ecriture
 C-----------------------------------------------------
-              IF(NSPMD.GT.1) THEN
-               IF (ISPMD.EQ.0) THEN
+              IF(NSPMD>1) THEN
+               IF (ISPMD==0) THEN
                 NSIZE = IAD_CUT(NSPMD+1,N)
                 NNODG = IAD_CUT(NSPMD+2,N)
                ELSE
@@ -3953,15 +3953,15 @@ C-----------------------------------------------------
           ENDIF
 
           K0  = NSTRF(K0+24)
-          IF(TYPE.GE.1) KC = KC + NNOD
+          IF(TYPE>=1) KC = KC + NNOD
         ENDDO
-        IF(ISPMD.EQ.0) CALL FLU_FIL_C
+        IF(ISPMD==0) CALL FLU_FIL_C
       ENDIF
 C-----------------------------------------------
 C FORCES ERROR 
 C T = TT
 C-----------------------------------------------
-      IF(NSTRF(2).GE.1)THEN
+      IF(NSTRF(2)>=1)THEN
 C-----------------------------------------------
 C Calcul erreur locale cummulee dans FSAVE
 C-----------------------------------------------
@@ -3973,7 +3973,7 @@ C-----------------------------------------------
           NNOD = NSTRF(K0+6)
           TYPE=NSTRF(K0)
           NBINTER = NSTRF(K0+14)
-          IF(TYPE.GE.101)THEN
+          IF(TYPE>=101)THEN
             K2 = K0 + 30 + NBINTER
             KR1 = KR0 + 10
             KR2 = KR1 + 12*NNOD
@@ -3987,7 +3987,7 @@ C-----------------------------------------------
               ERR(K+4) = ZERO 
               DO I=1,NNOD
                 II = NSTRF(K2+I-1)
-                IF(WEIGHT_MD(II).EQ.1)THEN
+                IF(WEIGHT_MD(II)==1)THEN
                   FOLD = SECFCUM(K,II,N)
                   D2 = SECBUF(KR22+6*I-7+K)
                   D1 = SECBUF(KR21+6*I-7+K)
@@ -3996,10 +3996,10 @@ C-----------------------------------------------
                   ERR(4) = ERR(4) + (FF - FOLD)**2
                 END IF
               ENDDO            
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
                 DO I=1,NNOD
                   II = NSTRF(K2+I-1)
-                  IF(WEIGHT_MD(II).EQ.1)THEN
+                  IF(WEIGHT_MD(II)==1)THEN
                     FOLD = SECFCUM(K+4,II,N)
                     D2 = SECBUF(KR22+6*I-4+K)
                     D1 = SECBUF(KR21+6*I-4+K)
@@ -4027,14 +4027,14 @@ C-----------------------------------------------
 C READ FILE dans l ordre des sections lues sur le fichier
 C  T = TT + DT2
 C-----------------------------------------------
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
          CALL SECT_READ (TT+DT2 ,NSTRF  ,SECBUF)
        ELSE
          NNODT = 0
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            K0  = NSTRF(25)
            DO I = 1, NSECT
-             IF(NSTRF(K0).GE.100) NNODT = NNODT + IAD_CUT(NSPMD+2,I)
+             IF(NSTRF(K0)>=100) NNODT = NNODT + IAD_CUT(NSPMD+2,I)
              K0  = NSTRF(K0+24)
            END DO
          END IF
@@ -4050,7 +4050,7 @@ C-----------------------------------------------
        TT1 = SECBUF(2)
        TT2 = SECBUF(3)
        TT3 = SECBUF(4)
-       IF(NSTRF(2).GE.1)THEN
+       IF(NSTRF(2)>=1)THEN
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
         K0  = NSTRF(25)
@@ -4060,7 +4060,7 @@ C-----------------------------------------------
           TYPE=NSTRF(K0)
           NBINTER = NSTRF(K0+14)
           ALPHA = 1.-SECBUF(KR0+2)
-          IF(TYPE.GE.100.AND.ALPHA.NE.0.0)THEN
+          IF(TYPE>=100.AND.ALPHA/=0.0)THEN
             K2 = K0 + 30 + NBINTER
             KR1 = KR0 + 10
             KR2 = KR1 + 12*NNOD
@@ -4068,7 +4068,7 @@ C-----------------------------------------------
             KR11 = KR1 + IFRL2*6*NNOD
             KR12 = KR1 + IFRL1*6*NNOD
             DW   = SECBUF(KR0+1)
-            IF(ISPMD.EQ.0) THEN
+            IF(ISPMD==0) THEN
               TFEXTL=DW*DT1
             ELSE
               TFEXTL=ZERO
@@ -4088,7 +4088,7 @@ C-----------------------------------------------
                VI = (DD-D(K,II))/DT2
                AA = ALPHA*((VI-V(K,II))/DT12 - A(K,II))
                A(K,II) = A(K,II) + AA
-               IF(WEIGHT(II).EQ.1) THEN
+               IF(WEIGHT(II)==1) THEN
                 DV = DT12*A(K,II)
                 DW = DW + HALF*(V(K,II)+HALF*DV)*MS(II)*AA
                 ERR(K)=ERR(K)+WEIGHT_MD(II)*MS(II)*(VI-V(K,II)-DV)
@@ -4096,7 +4096,7 @@ C-----------------------------------------------
      .               + WEIGHT_MD(II)*MS(II)*(VI**2-(V(K,II)+DV)**2)
                ENDIF
               ENDDO            
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
                 DO I=1,NNOD
                  II = NSTRF(K2+I-1)
                  D2 = SECBUF(KR12+6*I-4+K)
@@ -4105,7 +4105,7 @@ C-----------------------------------------------
                  VI = (DD-DR(K,II))/DT2
                  AA = ALPHA*((VI-VR(K,II))/DT12 - AR(K,II))
                  AR(K,II) = AR(K,II) + AA
-                 IF(WEIGHT(II).EQ.1) THEN
+                 IF(WEIGHT(II)==1) THEN
                   DV = DT12*AR(K,II)
                   DW = DW + HALF*(VR(K,II)+HALF*DV)*IN(II)*AA
                   ERR(K+4)=ERR(K+4)
@@ -4122,8 +4122,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C SPMD SPECIFIC : MAJ DW
 C-----------------------------------------------
-            IF(NSPMD.GT.1) THEN
-             IF (ISPMD.EQ.0) THEN
+            IF(NSPMD>1) THEN
+             IF (ISPMD==0) THEN
               WA(1) = SECBUF(KR0+1)
               WA(2) = SECBUF(KR0+3)
               WA(3) = SECBUF(KR0+4)
@@ -4234,20 +4234,20 @@ C-----------------------------------------------
      .   DW, TT1, TT2, TT3, VI, DD, D1, D2,TFEXTL,
      .   TNEXT, DELTAT,ERR(8), FF, FOLD, ALPHA,AA,DTINV
 C
-      IF(NSECT.EQ.0)RETURN
-      IF(NSTRF(2).EQ.0)RETURN
+      IF(NSECT==0)RETURN
+      IF(NSTRF(2)==0)RETURN
 C-----------------------------------------------
 C READ FILE dans l'ordre des sections lues sur le fichier
 C  T = TT 
 C-----------------------------------------------
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
          CALL SECT_READ (TT ,NSTRF  ,SECBUF)
        ELSE
          NNODT = 0
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            K0  = NSTRF(25)
            DO I = 1, NSECT
-             IF(NSTRF(K0).GE.100) NNODT = NNODT + IAD_CUT(NSPMD+2,I)
+             IF(NSTRF(K0)>=100) NNODT = NNODT + IAD_CUT(NSPMD+2,I)
              K0  = NSTRF(K0+24)
            END DO
          END IF
@@ -4263,8 +4263,8 @@ C-----------------------------------------------
        TT2 = SECBUF(3)
        TT3 = SECBUF(4)
        DTINV=ZERO
-       IF(DT1.GT.ZERO)DTINV=ONE/DT1
-       IF(NSTRF(2).GE.1)THEN
+       IF(DT1>ZERO)DTINV=ONE/DT1
+       IF(NSTRF(2)>=1)THEN
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
         K0  = NSTRF(25)
@@ -4274,7 +4274,7 @@ C-----------------------------------------------
           TYPE=NSTRF(K0)
           NBINTER = NSTRF(K0+14)
           ALPHA = SECBUF(KR0+2)
-          IF(TYPE.GE.101.AND.ALPHA.NE.0.0)THEN
+          IF(TYPE>=101.AND.ALPHA/=0.0)THEN
             K2 = K0 + 30 + NBINTER
             KR1 = KR0 + 10
             KR2 = KR1 + 12*NNOD
@@ -4284,7 +4284,7 @@ C-----------------------------------------------
             KR21 = KR2 + IFRL2*6*NNOD
             KR22 = KR2 + IFRL1*6*NNOD
             DW   = SECBUF(KR0+3)
-            IF(ISPMD.EQ.0) THEN
+            IF(ISPMD==0) THEN
               TFEXTL=DW*DT1
             ELSE
               TFEXTL=ZERO
@@ -4302,11 +4302,11 @@ C-----------------------------------------------
                 DD = MS(II)*(D2-D1) / (TT2-TT1) 
                 AA = DD*DTINV + AA
                 A(K,II) = A(K,II) + AA
-                IF(WEIGHT(II).EQ.1) THEN
+                IF(WEIGHT(II)==1) THEN
                   DW = DW + HALF*V(K,II)*AA
                 ENDIF
               ENDDO            
-              IF(IRODDL.NE.0)THEN
+              IF(IRODDL/=0)THEN
                 DO I=1,NNOD
                   II = NSTRF(K2+I-1)
                   D2 = SECBUF(KR22+6*I-4+K)
@@ -4317,7 +4317,7 @@ C-----------------------------------------------
                   DD = IN(II)*(D2-D1) / (TT2-TT1) 
                   AA = DD*DTINV + AA
                   AR(K,II) = AR(K,II) + AA
-                  IF(WEIGHT(II).EQ.1) THEN
+                  IF(WEIGHT(II)==1) THEN
                     DW = DW + HALF*VR(K,II)*AA
                   ENDIF
                 ENDDO
@@ -4389,7 +4389,7 @@ C
          FST(I)=ZERO
        ENDDO
 C
-       IF(NSPMD.EQ.1) THEN
+       IF(NSPMD==1) THEN
         CALL SEC_SKEW(N1 ,N2 ,N3 ,X , XXC, YYC, ZZC,
      2    XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6,
      3    XXN, YYN, ZZN,IFRAM,NNOD,NSTRF,MS)
@@ -4399,7 +4399,7 @@ C
      3                  XXN, YYN, ZZN, IFRAM, N1  , XSEC)
        END IF
 C
-       IF(IRODDL.NE.0)THEN
+       IF(IRODDL/=0)THEN
          DO I=1,NNOD
              N=NSTRF(I)
 C
@@ -4646,21 +4646,21 @@ C-----------------------------------------------
       TT2 = SECBUF(3)
       TT3 = SECBUF(4)
       IEXTRA=NSTRF(3)
-      IF(NSTRF(2).GE.1.AND.TTT.GE.TT2.AND.IEXTRA.EQ.0
-     .       .AND. TTT .LE. TSTOP)THEN
+      IF(NSTRF(2)>=1.AND.TTT>=TT2.AND.IEXTRA==0
+     .       .AND. TTT <= TSTOP)THEN
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
         L=1
         CALL CUR_FIL_C(4)
-        DOWHILE(TT2.LE.TTT)
+        DOWHILE(TT2<=TTT)
           IFRL1=IFRL2
           IFRL2=MOD(IFRL1+1,2)
           CALL READ_R_C(R4,1)
 C test EOF-------------------------------------------------------------------
-          IF(R4.GE.0.0)THEN
+          IF(R4>=0.0)THEN
             TT1=TT2
             TT2=R4
-          ELSEIF(TT3.EQ.EP30)THEN
+          ELSEIF(TT3==EP30)THEN
             CALL CLOSE_C()
             IEXTRA=1
             NSTRF(3)=IEXTRA
@@ -4673,9 +4673,9 @@ C test EOF-------------------------------------------------------------------
             LROOTLEN=0
             DO I=1,8
                 FILNAM(I:I)=CHAR(NSTRF(15+I))
-                IF(FILNAM(I:I).NE.' ')LROOTLEN=LROOTLEN+1
+                IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
             ENDDO
-            DOWHILE(TT3.LE.TTT.AND.IR.LT.100)
+            DOWHILE(TT3<=TTT.AND.IR<100)
               IR=IR+1
               WRITE(LCHRUN,'(I2.2)')IR
               FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
@@ -4701,7 +4701,7 @@ C test EOF-------------------------------------------------------------------
                 TT3=R4
               ENDIF
             ENDDO
-            IF(IR.EQ.100)THEN
+            IF(IR==100)THEN
               TT3=EP30
               IEXTRA=1
               NSTRF(3)=IEXTRA
@@ -4744,9 +4744,9 @@ C-----------------------------------------------
             KR0 = NSTRF(26)
             FOUND=0
             N=0
-            DOWHILE(FOUND.EQ.0.AND.N.LT.NSECT)
+            DOWHILE(FOUND==0.AND.N<NSECT)
                 N=N+1
-                IF(ID_SEC.EQ.NSTRF(K0+23))THEN
+                IF(ID_SEC==NSTRF(K0+23))THEN
                   FOUND=1
                 ELSE
                   KR0 = NSTRF(K0+25)
@@ -4759,26 +4759,26 @@ C-----------------------------------------------
             KR3 = KR2 + 12*NNOD
             CALL READ_I_C(TYPE,1)
             CALL READ_I_C(NNODR,1)
-            IF (NNOD.NE.NNODR .AND. FOUND == 1) THEN
+            IF (NNOD/=NNODR .AND. FOUND == 1) THEN
               CALL ANCMSG(MSGID=35,ANMODE=ANINFO_BLIND,
      .                    I1=ID_SEC,I2=NNODR,I3=NNOD)
               CALL ARRET(2)
             END IF
-            IF(FOUND.EQ.0.OR.NSTRF(K0).LT.100)THEN
+            IF(FOUND==0.OR.NSTRF(K0)<100)THEN
 C skip deplacements et forces 
-              IF(TYPE.GE.1)THEN
+              IF(TYPE>=1)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
                 ENDDO
               ENDIF            
-              IF(TYPE.GE.2)THEN
+              IF(TYPE>=2)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
                 ENDDO            
               ENDIF
-            ELSEIF(NSTRF(K0).EQ.100)THEN
+            ELSEIF(NSTRF(K0)==100)THEN
 C lecture deplacements
-              IF(TYPE.GE.1)THEN
+              IF(TYPE>=1)THEN
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
                   SECBUF(KR1+6*I-6)=R4
@@ -4796,15 +4796,15 @@ C lecture deplacements
               ELSE
 C Pb de compatibilite type_new>=100 et type_old<1
               ENDIF           
-              IF(TYPE.GE.2)THEN
+              IF(TYPE>=2)THEN
 C skip forces
                 DO I=1,6*NNOD
                   CALL READ_R_C(R4,1)
                 ENDDO            
               ENDIF
-            ELSEIF(NSTRF(K0).EQ.101)THEN
+            ELSEIF(NSTRF(K0)==101)THEN
 C lecture deplacements
-              IF(TYPE.GE.1)THEN
+              IF(TYPE>=1)THEN
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
                   SECBUF(KR1+6*I-6)=R4
@@ -4822,7 +4822,7 @@ C lecture deplacements
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<1
               ENDIF
-              IF(TYPE.GE.2)THEN
+              IF(TYPE>=2)THEN
 C lecture forces
                 DO I=1,NNOD
                   CALL READ_R_C(R4,1)
@@ -4841,7 +4841,7 @@ C lecture forces
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<2
               ENDIF
-            ELSEIF(NSTRF(K0).GE.102)THEN
+            ELSEIF(NSTRF(K0)>=102)THEN
 C a faire
             ENDIF
           ENDDO
@@ -4928,7 +4928,7 @@ C READ FILE dans l'ordre des sections lues sur le fichier
 C  TTT = TT ou TT + DT2
 C-----------------------------------------------
 Cel debranchement pi <> p0
-      IF(ISPMD.NE.0) GO TO 100
+      IF(ISPMD/=0) GO TO 100
 Cel Init buffer communication 
       DO I = 1, NSECT
         BUFCOM(I) = ZERO
@@ -4942,24 +4942,24 @@ C
       TT2 = SECBUF(3)
       TT3 = SECBUF(4)
       IEXTRA=NSTRF(3)
-      IF(NSTRF(2).GE.1.AND.TTT.GE.TT2.AND.IEXTRA.EQ.0
-     .       .AND. TTT .LE. TSTOP)THEN
+      IF(NSTRF(2)>=1.AND.TTT>=TT2.AND.IEXTRA==0
+     .       .AND. TTT <= TSTOP)THEN
         IFRL1=NSTRF(7)
         IFRL2=MOD(IFRL1+1,2)
         LL=1
-        IF(ISPMD.EQ.0) THEN
+        IF(ISPMD==0) THEN
           CALL CUR_FIL_C(4)
         END IF
         L = 0
-        DO WHILE(TT2.LE.TTT)
+        DO WHILE(TT2<=TTT)
           IFRL1=IFRL2
           IFRL2=MOD(IFRL1+1,2)
           CALL READ_R_C(R4,1)
 C test EOF-------------------------------------------------------------------
-          IF(R4.GE.0.0)THEN
+          IF(R4>=0.0)THEN
             TT1=TT2
             TT2=R4
-          ELSEIF(TT3.EQ.EP30)THEN
+          ELSEIF(TT3==EP30)THEN
             CALL CLOSE_C()
             IEXTRA=1
             NSTRF(3)=IEXTRA
@@ -4972,9 +4972,9 @@ C test EOF-------------------------------------------------------------------
             LROOTLEN=0
             DO I=1,8
                 FILNAM(I:I)=CHAR(NSTRF(15+I))
-                IF(FILNAM(I:I).NE.' ')LROOTLEN=LROOTLEN+1
+                IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
             ENDDO
-            DOWHILE(TT3.LE.TTT.AND.IR.LT.100)
+            DOWHILE(TT3<=TTT.AND.IR<100)
               IR=IR+1
               WRITE(LCHRUN,'(I2.2)')IR
               FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
@@ -4999,7 +4999,7 @@ C test EOF-------------------------------------------------------------------
                 TT3=R4
               ENDIF
             ENDDO
-            IF(IR.EQ.100)THEN
+            IF(IR==100)THEN
               TT3=EP30
               IEXTRA=1
               NSTRF(3)=IEXTRA
@@ -5030,7 +5030,7 @@ C
             NSTRF(5) = IR2
 C
             CALL READ_R_C(R4,1)
-            IF(R4 .NE. ZERO) L = 0
+            IF(R4 /= ZERO) L = 0
             TT1=TT2
             TT2=R4
           ENDIF          
@@ -5043,16 +5043,16 @@ C-----------------------------------------------
             KR0 = NSTRF(26)
             FOUND=0
             N=0
-            DOWHILE(FOUND.EQ.0.AND.N.LT.NSECT)
+            DOWHILE(FOUND==0.AND.N<NSECT)
                 N=N+1
-                IF(ID_SEC.EQ.NSTRF(K0+23))THEN
+                IF(ID_SEC==NSTRF(K0+23))THEN
                   FOUND=1
                 ELSE
 C                  KR0 = NSTRF(K0+25)
                   K0  = NSTRF(K0+24)
                 ENDIF
             ENDDO
-            IF(FOUND.EQ.1) THEN
+            IF(FOUND==1) THEN
               NNOD = IAD_CUT(NSPMD+2,N)
             END IF
 C            NNOD = NSTRF(K0+6)
@@ -5061,26 +5061,26 @@ C            KR2 = KR1 + 12*NNOD
 C            KR3 = KR2 + 12*NNOD
             CALL READ_I_C(TYPE,1)
             CALL READ_I_C(NNODR,1)
-            IF (NNOD.NE.NNODR .AND. FOUND == 1) THEN
+            IF (NNOD/=NNODR .AND. FOUND == 1) THEN
               CALL ANCMSG(MSGID=35,ANMODE=ANINFO_BLIND,
      .                    I1=ID_SEC,I2=NNODR,I3=NNOD)
               CALL ARRET(2)
             END IF
-            IF(FOUND.EQ.0.OR.NSTRF(K0).LT.100)THEN
+            IF(FOUND==0.OR.NSTRF(K0)<100)THEN
 C skip deplacements et forces 
-              IF(TYPE.GE.1)THEN
+              IF(TYPE>=1)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
                 ENDDO
               ENDIF            
-              IF(TYPE.GE.2)THEN
+              IF(TYPE>=2)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
                 ENDDO            
               ENDIF
-            ELSEIF(NSTRF(K0).EQ.100)THEN
+            ELSEIF(NSTRF(K0)==100)THEN
 C lecture deplacements
-              IF(TYPE.GE.1)THEN
+              IF(TYPE>=1)THEN
                 BUFCOM(N) = 1
                 BUFCOM(N+NSECT+IFRL1*NSECT) = 1
                 ADDSEC(N+IFRL1*NSECT) = L+1
@@ -5102,15 +5102,15 @@ C lecture deplacements
               ELSE
 C Pb de compatibilite type_new>=100 et type_old<1
               ENDIF           
-              IF(TYPE.GE.2)THEN
+              IF(TYPE>=2)THEN
 C skip forces
                 DO I=1,6*NNOD
                   CALL READ_R_C(R4,1)
                 ENDDO            
               ENDIF
-            ELSEIF(NSTRF(K0).EQ.101)THEN
+            ELSEIF(NSTRF(K0)==101)THEN
 C lecture deplacements
-              IF(TYPE.GE.1)THEN
+              IF(TYPE>=1)THEN
                 BUFCOM(N) = 1
                 BUFCOM(N+NSECT+IFRL1*NSECT) = 1
                 ADDSEC(N+IFRL1*NSECT) = L+1
@@ -5132,7 +5132,7 @@ C lecture deplacements
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<1
               ENDIF
-              IF(TYPE.GE.2)THEN
+              IF(TYPE>=2)THEN
 C lecture forces
                 BUFCOM(N) = 2
 c                BUFCOM(N+NSECT+IFRL1*NSECT) = 1
@@ -5155,7 +5155,7 @@ c                ADDSEC(N+IFRL1*NSECT) = L+1
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<2
               ENDIF
-            ELSEIF(NSTRF(K0).GE.102)THEN
+            ELSEIF(NSTRF(K0)>=102)THEN
 C a faire
             ENDIF
           ENDDO
@@ -5175,7 +5175,7 @@ C
       BUFCOM(3*NSECT+7) = SECBUF(4)
  100  CONTINUE
       CALL SPMD_RBCAST(BUFCOM,BUFCOM,3*NSECT+7,1,0,2)
-      IF(ISPMD.NE.0) THEN
+      IF(ISPMD/=0) THEN
          NSTRF(3) = NINT(BUFCOM(3*NSECT+1))
          NSTRF(4) = NINT(BUFCOM(3*NSECT+2))
          NSTRF(5) = NINT(BUFCOM(3*NSECT+3))
@@ -5192,34 +5192,34 @@ C
       K0  = NSTRF(25)
       KR0 = NSTRF(26)
       DO I = 1, NSECT
-        IF(NINT(BUFCOM(I)).GT.0) THEN
-          IF(ISPMD.EQ.0) THEN
+        IF(NINT(BUFCOM(I))>0) THEN
+          IF(ISPMD==0) THEN
             NNODG = IAD_CUT(NSPMD+2,I)
           ELSE
             NNODG = 0
           END IF
           NNOD = NSTRF(K0+6)
           IFLG = NINT(BUFCOM(I))
-          IF(NINT(BUFCOM(NSECT+I)).EQ.1) THEN
+          IF(NINT(BUFCOM(NSECT+I))==1) THEN
 C remplissage secbuf avec ifrl1 = 0
             IFRL1 = 0
             KR1 = KR0 + 10 + IFRL1*6*NNOD
             KR2 = KR1 + 12*NNOD
             KR3 = KR2 + 12*NNOD
-            IF(ISPMD.EQ.0) THEN
+            IF(ISPMD==0) THEN
               L = ADDSEC(I+IFRL1*NSECT)
             END IF
             CALL SPMD_SD_CUT(
      1        SECBUFG(L),NNODG       ,SECBUF(KR1),SECBUF(KR2),NNOD,
      2        FR_CUT(KC),IAD_CUT(1,I),IFLG                        )
           END IF
-          IF(NINT(BUFCOM(2*NSECT+I)).EQ.1) THEN
+          IF(NINT(BUFCOM(2*NSECT+I))==1) THEN
 C remplissage secbuf avec ifrl1 = 1
             IFRL1 = 1
             KR1 = KR0 + 10 + IFRL1*6*NNOD
             KR2 = KR1 + 12*NNOD
             KR3 = KR2 + 12*NNOD
-            IF(ISPMD.EQ.0) THEN
+            IF(ISPMD==0) THEN
               L = ADDSEC(I+IFRL1*NSECT)
             END IF
             CALL SPMD_SD_CUT(
@@ -5227,7 +5227,7 @@ C remplissage secbuf avec ifrl1 = 1
      2        FR_CUT(KC),IAD_CUT(1,I),IFLG                        )
           END IF
         END IF
-        IF(NSTRF(K0).GE.100.AND.ISPMD.EQ.0) THEN
+        IF(NSTRF(K0)>=100.AND.ISPMD==0) THEN
           KC = KC + IAD_CUT(NSPMD+1,I)
         END IF
         KR0 = NSTRF(K0+25)
@@ -5291,26 +5291,26 @@ C
 C---------------------------------------------------------
 #include "sync_dir.inc"
 C---------------------------------------------------------
-       IF(NSEG.EQ.0)RETURN
-       IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-       IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+       IF(NSEG==0)RETURN
+       IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+       IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
        NSA=0
 C
-       IF(IVECTOR.EQ.0) THEN
+       IF(IVECTOR==0) THEN
         DO 20 J=1,NSEG
         I=NSTRF(1,J)-NFT
-        IF (LFT.GT.I) GOTO 20
-        IF (LLT.LT.I) GOTO 30
+        IF (LFT>I) GOTO 20
+        IF (LLT<I) GOTO 30
          NSA=NSA+1
          JJJ(NSA)=J
   20    CONTINUE
   30    CONTINUE
        ELSE
-         IF (NSEG.GT.15) THEN
+         IF (NSEG>15) THEN
            DO J=1,NSEG
              I=NSTRF(1,J)-NFT
-             IF (LFT.LE.I.AND.LLT.GE.I) THEN
+             IF (LFT<=I.AND.LLT>=I) THEN
                NSA=NSA+1
                JJJ(NSA)=J
              ENDIF
@@ -5319,7 +5319,7 @@ C
 #include "scalar.inc"
            DO J=1,NSEG
              I=NSTRF(1,J)-NFT
-             IF (LFT.LE.I.AND.LLT.GE.I) THEN
+             IF (LFT<=I.AND.LLT>=I) THEN
                NSA=NSA+1
                JJJ(NSA)=J
              ENDIF
@@ -5327,7 +5327,7 @@ C
          ENDIF
        ENDIF
 C
-       IF(NSA.EQ.0)RETURN
+       IF(NSA==0)RETURN
 C
        DO I=1,15
          FST(I)=ZERO
@@ -5373,12 +5373,12 @@ C
        ZZC=ZZ1+D13*ZZ4
 C
        DO I1=1,4
-        IF (NSA.GT.15.OR.IVECTOR.EQ.0) THEN
+        IF (NSA>15.OR.IVECTOR==0) THEN
          DO K=1,NSA
            J  =JJJ(K)
            I  =NSTRF(1,J)-NFT
            IPACK =NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FSX=FX(I,I1)
              FSY=FY(I,I1)
              FSZ=FZ(I,I1)
@@ -5437,7 +5437,7 @@ C
            J  =JJJ(K)
            I  =NSTRF(1,J)-NFT
            IPACK =NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FSX=FX(I,I1)
              FSY=FY(I,I1)
              FSZ=FZ(I,I1)
@@ -5577,22 +5577,22 @@ C
      .            0,1,1,0,0,1,1,
      .            0,0,0,1,1,1,1/
 C
-       IF(NSEG.EQ.0)RETURN
-       IF(LFT+NFT.GT.NSTRF(1,NSEG))RETURN
-       IF(LLT+NFT.LT.NSTRF(1,1   ))RETURN
+       IF(NSEG==0)RETURN
+       IF(LFT+NFT>NSTRF(1,NSEG))RETURN
+       IF(LLT+NFT<NSTRF(1,1   ))RETURN
 C---------------------------------------------------------
        NSA=0
 C
        DO 20 J=1,NSEG
        I=NSTRF(1,J)-NFT
-       IF (LFT.GT.I) GOTO 20
-       IF (LLT.LT.I) GOTO 30
+       IF (LFT>I) GOTO 20
+       IF (LLT<I) GOTO 30
         NSA=NSA+1
         JJJ(NSA)=J
   20   CONTINUE
   30   CONTINUE
 C
-       IF(NSA.EQ.0)RETURN
+       IF(NSA==0)RETURN
 C
        DO I=1,15
          FST(I)=ZERO
@@ -5642,7 +5642,7 @@ C
            J  = JJJ(K)
            I  = NSTRF(1,J)-NFT
            IPACK = NSTRF(2,J)
-           IF(UNPACK(IPACK,I1).NE.0)THEN
+           IF(UNPACK(IPACK,I1)/=0)THEN
              FX1(K)=FX(I,I1)
              FY1(K)=FY(I,I1)
              FZ1(K)=FZ(I,I1)
@@ -5777,7 +5777,7 @@ C-----------------------------------------------
      .   AL4, AL6, AL5, D13, MAS, X1N, Y1N, Z1N
 C
 C
-      IF(IFRAM.LT.10)THEN
+      IF(IFRAM<10)THEN
 C      CALCUL DES MOMEMTS/REPERE N1 N2 N3
        XX1=X(1,N1)
        YY1=X(2,N1)
@@ -5817,7 +5817,7 @@ C
        YYN=YY6
        ZZN=ZZ6
 C
-       ELSEIF (N1.NE.0) THEN
+       ELSEIF (N1/=0) THEN
 C      CALCUL DES MOMEMTS/REPERE GLOBAL
        XX4=X(1,N2)-X(1,N1)
        YY4=X(2,N2)-X(2,N1)
@@ -5860,12 +5860,12 @@ C
 C
 C     CALCUL DE L'ORIGINE DU REPERE
 C
-      IF(IFRAM.EQ.0)THEN
+      IF(IFRAM==0)THEN
         D13=(XX3-XX1)*XX4+(YY3-YY1)*YY4+(ZZ3-ZZ1)*ZZ4
         XXC=XX1+D13*XX4
         YYC=YY1+D13*YY4
         ZZC=ZZ1+D13*ZZ4
-      ELSEIF(IFRAM.EQ.10)THEN
+      ELSEIF(IFRAM==10)THEN
         X1N=X(1,N2)-X(1,N1)
         Y1N=X(2,N2)-X(2,N1)
         Z1N=X(3,N2)-X(3,N1)
@@ -5879,7 +5879,7 @@ C
         XXC=X(1,N1)+D13*X1N
         YYC=X(2,N1)+D13*Y1N
         ZZC=X(3,N1)+D13*Z1N
-      ELSEIF(MOD(IFRAM,10).EQ.1)THEN
+      ELSEIF(MOD(IFRAM,10)==1)THEN
         XXC=0.
         YYC=0.
         ZZC=0.
@@ -5893,7 +5893,7 @@ Cel attention : il faut penser a maj de X avant forint
         XXC=XXC/NNOD
         YYC=YYC/NNOD
         ZZC=ZZC/NNOD
-      ELSEIF(MOD(IFRAM,10).EQ.2)THEN
+      ELSEIF(MOD(IFRAM,10)==2)THEN
         XXC=0.
         YYC=0.
         ZZC=0.
@@ -5909,7 +5909,7 @@ Cel attention : il faut penser a maj de X & M avant forint
         XXC=XXC/MAS
         YYC=YYC/MAS
         ZZC=ZZC/MAS
-      ELSEIF(MOD(IFRAM,10).EQ.3)THEN
+      ELSEIF(MOD(IFRAM,10)==3)THEN
         XXC=0.
         YYC=0.
         ZZC=0.
@@ -5958,7 +5958,7 @@ C-----------------------------------------------
      .   AL4, AL6, AL5, D13, MAS, X1N, Y1N, Z1N
 C
 C
-      IF(IFRAM.LT.10)THEN
+      IF(IFRAM<10)THEN
 C      CALCUL DES MOMEMTS/REPERE N1 N2 N3
        XX1=XSEC(1,1)
        YY1=XSEC(1,2)
@@ -5998,7 +5998,7 @@ C
        YYN=YY6
        ZZN=ZZ6
 C
-       ELSEIF (N1.NE.0) THEN
+       ELSEIF (N1/=0) THEN
 C      CALCUL DES MOMEMTS/REPERE GLOBAL
        XX4=XSEC(2,1)-XSEC(1,1)
        YY4=XSEC(2,2)-XSEC(1,2)
@@ -6041,12 +6041,12 @@ C
 C
 C     CALCUL DE L'ORIGINE DU REPERE
 C
-      IF(IFRAM.EQ.0)THEN
+      IF(IFRAM==0)THEN
         D13=(XX3-XX1)*XX4+(YY3-YY1)*YY4+(ZZ3-ZZ1)*ZZ4
         XXC=XX1+D13*XX4
         YYC=YY1+D13*YY4
         ZZC=ZZ1+D13*ZZ4
-      ELSEIF(IFRAM.EQ.10)THEN
+      ELSEIF(IFRAM==10)THEN
         X1N=XSEC(2,1)-XSEC(1,1)
         Y1N=XSEC(2,2)-XSEC(1,2)
         Z1N=XSEC(2,3)-XSEC(1,3)
@@ -6060,7 +6060,7 @@ C
         XXC=XSEC(1,1)+D13*X1N
         YYC=XSEC(1,2)+D13*Y1N
         ZZC=XSEC(1,3)+D13*Z1N
-      ELSEIF(MOD(IFRAM,10).EQ.1)THEN
+      ELSEIF(MOD(IFRAM,10)==1)THEN
         XXC=0.
         YYC=0.
         ZZC=0.
@@ -6074,7 +6074,7 @@ C Deja fait dans spmd_exch_sec
         XXC=XSEC(4,1)
         YYC=XSEC(4,2)
         ZZC=XSEC(4,3)
-      ELSEIF(MOD(IFRAM,10).EQ.2)THEN
+      ELSEIF(MOD(IFRAM,10)==2)THEN
         XXC=0.
         YYC=0.
         ZZC=0.
@@ -6090,7 +6090,7 @@ C Deja fait dans spmd_exch_sec
         XXC=XSEC(4,1)
         YYC=XSEC(4,2)
         ZZC=XSEC(4,3)
-      ELSEIF(MOD(IFRAM,10).EQ.3)THEN
+      ELSEIF(MOD(IFRAM,10)==3)THEN
         XXC=0.
         YYC=0.
         ZZC=0.

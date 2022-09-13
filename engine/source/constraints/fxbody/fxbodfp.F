@@ -78,9 +78,9 @@ C
      .              NME   , NMOD  , RT    )
 C
       IFILE=FXBIPM(29)
-      IF (IFILE.EQ.0) THEN
+      IF (IFILE==0) THEN
          LMOD=FXBIPM(3)*6
-      ELSEIF (IFILE.EQ.1) THEN
+      ELSEIF (IFILE==1) THEN
          LMOD=NSN*6
       ENDIF
       ISH=FXBIPM(16)
@@ -95,7 +95,7 @@ C
       CALL FXBSGMAJ(ELBUF,      FXBELM,  FXBSIG, FXBDEP, FXBIPM,
      .              FXBRPM(15), PARTSAV, RT    , ITN   , IPARG ,
      .              NFX       , LVSIG  , IRCS  ,ELBUF_TAB)
-      IF (ITN.EQ.0) THEN
+      IF (ITN==0) THEN
          DN=FXBIPM(3)-FXBIPM(18)
          IRCM=FXBIPM(30)
          CALL FXBDEPLA(FXBDEP, FXBRPM, X,   D,    DN,   
@@ -108,7 +108,7 @@ C-----------------------------------------------
       DO I=1,NUMNOD
          IFAC(I)=1
       ENDDO
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
          DO I=1,NSPMD
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                JJ=FR_ELEM(J)
@@ -117,7 +117,7 @@ C-----------------------------------------------
          ENDDO
       ENDIF
 C
-      IF (IPARIT.EQ.0) THEN
+      IF (IPARIT==0) THEN
          DO I=1,12
             MFEXT(I)=ZERO
             IAD=(I-1)*LMOD
@@ -129,7 +129,7 @@ C
                IAD=IAD+6
             ENDDO
          ENDDO
-         IF (ISH.GT.0) THEN
+         IF (ISH>0) THEN
             DO I=13,NME
                MFEXT(I)=ZERO
                IAD=(I-1)*LMOD
@@ -143,7 +143,7 @@ C
             ENDDO
          ENDIF      
 C
-         IF (NMOD.GT.0) THEN
+         IF (NMOD>0) THEN
             DO I=1,NMOD
                MFEXT(NME+I)=ZERO
                IAD=(NME+I-1)*LMOD
@@ -181,7 +181,7 @@ C
                IAD=IAD+6
             ENDDO
          ENDDO
-         IF (ISH.GT.0) THEN
+         IF (ISH>0) THEN
             DO I=13,NME
                IAD=(I-1)*LMOD
                DO II=1,NSN
@@ -194,7 +194,7 @@ C
             ENDDO
          ENDIF      
 C
-         IF (NMOD.GT.0) THEN
+         IF (NMOD>0) THEN
             DO I=1,NMOD
                IAD=(NME+I-1)*LMOD
                DO II=1,NSN
@@ -269,7 +269,7 @@ C-----------------------------------------------
       EXTERNAL FINTER
 C
       IBLO=FXBIPM(28)
-      IF (NMOD.GT.0) CALL FXBMAJP2(MC,  RC,     MVN,    NME,   NMOD,
+      IF (NMOD>0) CALL FXBMAJP2(MC,  RC,     MVN,    NME,   NMOD,
      .                             DT1, FXBCPM, FXBCPS, FXBLM, FXBRPM)
 C-----------------------------------------------
 C Projection of gravity forces
@@ -278,7 +278,7 @@ C-----------------------------------------------
          MFGRAV(I)=ZERO
       ENDDO
 C
-      IF (NLGRAV.GT.0) THEN
+      IF (NLGRAV>0) THEN
          IADG=0
          IADGR=0
          DO IG=1,NLGRAV
@@ -286,13 +286,13 @@ C
             IFUNC=IGRV(3,NL)
             ISENS=0
             DO K=1,NSENSOR
-               IF (IGRV(6,NL).EQ.LSENSOR(1,K)) ISENS=K
+               IF (IGRV(6,NL)==LSENSOR(1,K)) ISENS=K
             ENDDO
-            IF (ISENS.EQ.0) THEN
+            IF (ISENS==0) THEN
                TS=TT
             ELSE
                TS=TT-SENSOR(2,ISENS)
-               IF (TS.LT.ZERO) CYCLE
+               IF (TS<ZERO) CYCLE
             ENDIF
             IF (IFUNC > 0) THEN
               FI=AGRV(1,NL)*FINTER(IFUNC,TS,NPC,TF,DYDX)
@@ -337,7 +337,7 @@ C-----------------------------------------------
       NMST=FXBIPM(5)
       ALPHA=FXBRPM(13)
       BETA=FXBRPM(14)
-      IF (NMOD.GT.0.AND.IBLO.EQ.0) THEN 
+      IF (NMOD>0.AND.IBLO==0) THEN 
          DO I=1,NME
             MFINT(I)=ZERO
             IAD=NMOD*(I-1)
@@ -350,7 +350,7 @@ C-----------------------------------------------
             MFINT(I)=ZERO
          ENDDO
       ENDIF
-      IF (NMST.GT.0) THEN
+      IF (NMST>0) THEN
          DO I=1,NMST
             MFINT(NME+I)=ZERO
             FXBFC(I)=ZERO
@@ -367,12 +367,12 @@ C-----------------------------------------------
             FDALPHA(I)=ALPHA*FXBLM(I)*FXBVIT(NME+I)
          ENDDO
       ENDIF
-      IF ((NMOD-NMST).GT.0) THEN
+      IF ((NMOD-NMST)>0) THEN
          DO I=1,NMOD-NMST
             III=NMST+I
             MFINT(NME+III)=ZERO
             FXBFC(III)=ZERO
-            IF (NMST.GT.0) THEN
+            IF (NMST>0) THEN
                DO II=1,NMST
                   IAD=(II-1)*(2*NMOD-II+2)/2+(III-II+1)
                   MFINT(NME+III)=MFINT(NME+III)+FXBFLS(IAD)*
@@ -386,7 +386,7 @@ C-----------------------------------------------
          ENDDO
       ENDIF
       ENINT=ZERO
-      IF (NMOD.GT.0) THEN
+      IF (NMOD>0) THEN
          DO I=1,NMOD
             ENINT=ENINT+HALF*FXBDEP(NME+I)*MFINT(NME+I)
          ENDDO
@@ -400,11 +400,11 @@ C-----------------------------------------------
       DO I=1,NME
          SE(I)=MFEXT(I)-MFINT(I)
       ENDDO
-      IF (NMOD.GT.0) THEN
+      IF (NMOD>0) THEN
          DO I=1,NMOD
             SV(I)=MFEXT(NME+I)-MFINT(NME+I)-FXBFC(I)-FDALPHA(I)
          ENDDO
-         IF (IBLO.EQ.0) THEN
+         IF (IBLO==0) THEN
             DO I=1,NME
                IAD=NMOD*(I-1)
                DO II=1,NMOD
@@ -413,16 +413,16 @@ C-----------------------------------------------
             ENDDO
          ENDIF
       ENDIF
-      IF (IBLO.EQ.1) RETURN
+      IF (IBLO==1) RETURN
       III=0
       DO I=1,NME
          DO II=I,NME
             III=III+1
             MCD(I,II)=FXBGLM(III)
-            IF (I.NE.II) MCD(II,I)=MCD(I,II)
+            IF (I/=II) MCD(II,I)=MCD(I,II)
          ENDDO
       ENDDO
-      IF (NMOD.GT.0) THEN
+      IF (NMOD>0) THEN
          DO I=1,NME
             IAD=NMOD*(I-1)
             DO II=1,NME

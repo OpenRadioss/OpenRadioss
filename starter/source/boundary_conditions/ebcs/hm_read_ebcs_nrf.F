@@ -100,7 +100,7 @@ C-----------------------------------------------
           EXIT                                                   
         ENDIF                                                    
       ENDDO                                                      
-      IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN                      
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
         CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
      .              I2=UID,
      .              I1=ID,
@@ -140,18 +140,18 @@ C-----------------------------------------------
       
          ISU=0
          INGR2USR => IGRSURF(1:NSURF)%ID
-         IF (SURF.NE.0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
+         IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
          NSEG=0
-         IF (ISU.NE.0) NSEG=IGRSURF(ISU)%NSEG
-         IF(SURF.EQ.0)THEN
+         IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
+         IF(SURF==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
             WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
-         ELSEIF(ISU.EQ.0)THEN
+         ELSEIF(ISU==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
             WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
-         ELSEIF(NSEG.EQ.0)THEN
+         ELSEIF(NSEG==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
             WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF

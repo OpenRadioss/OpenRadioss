@@ -98,21 +98,21 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C       SOLIDE                                                          
 C-----------------------------------------------                        
-          IF (ITY.EQ.1 .and. MLW > 0) THEN                                              
+          IF (ITY==1 .and. MLW > 0) THEN                                              
            IALEL=IPARG(7,NG)+IPARG(11,NG)                               
            GBUF => ELBUF_TAB(NG)%GBUF
            DO 130 I=LFT,LLT                                             
              N = I + NFT                                                
              N_FA = I + NFT_FA                                          
-             IF(EL2FA(NN2+N_FA).NE.0)THEN                               
-               IF(IALEL.EQ.0)THEN                                       
+             IF(EL2FA(NN2+N_FA)/=0)THEN                               
+               IF(IALEL==0)THEN                                       
                  MT=IXS(1,N)                                            
                  VALUE=PM(89,MT)*GBUF%VOL(I)                          
                ELSE                                                     
                  OFF = MIN(GBUF%OFF(I),ONE)                             
                  VALUE=GBUF%RHO(I)*GBUF%VOL(I)*OFF                    
                ENDIF                                                    
-               IF(ISOLNOD.EQ.16)THEN                                    
+               IF(ISOLNOD==16)THEN                                    
                  VALUE = FOURTH*VALUE                                    
                  MAS(EL2FA(NN2+N_FA)) = VALUE                           
                  MAS(EL2FA(NN2+N_FA)+1) = VALUE                         
@@ -124,7 +124,7 @@ C-----------------------------------------------
              ENDIF                                                      
  130       CONTINUE                                                     
 C                                                                       
-        ELSEIF(ISPH3D.EQ.1.AND.ITY.EQ.51.and.MLW > 0)THEN                           
+        ELSEIF(ISPH3D==1.AND.ITY==51.and.MLW > 0)THEN                           
 C-----------------------------------------------                        
 C        TETRAS SPH.                                                    
 C-----------------------------------------------                        
@@ -133,8 +133,8 @@ C-----------------------------------------------
            DO 140 I=LFT,LLT                                             
              N = I + NFT                                                
              N_FA = I + NFT_FA                                          
-             IF(EL2FA(NN3+N_FA).NE.0)THEN                               
-               IF(IALEL.EQ.0)THEN                                       
+             IF(EL2FA(NN3+N_FA)/=0)THEN                               
+               IF(IALEL==0)THEN                                       
                  IPRT=IPARTSP(N)                                        
                  MT  =IPART(1,IPRT)                                     
                  VALUE=PM(89,MT)*GBUF%VOL(I)                       

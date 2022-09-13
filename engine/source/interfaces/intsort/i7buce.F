@@ -150,8 +150,8 @@ C
 C boite de tri
       I_MEM = 0
 C
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.
-     .   IFQ.GT.0.OR.NUM_IMP.GT.0.OR.ITIED.NE.0) THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
+     .   IFQ>0.OR.NUM_IMP>0.OR.ITIED/=0) THEN
         ISZNSNR = NSNR
       ELSE
         ISZNSNR = 0
@@ -176,7 +176,7 @@ C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
-      IF (I_MEM .NE. 0) RETURN
+      IF (I_MEM /= 0) RETURN
 
 C
       RETURN
@@ -305,8 +305,8 @@ C boite de tri
       XYZM(6,2) = BMINMA(9)
       I_MEM = 0
 C
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.
-     .   IFQ.GT.0.OR.NUM_IMP.GT.0.OR.ITIED.NE.0) THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.
+     .   IFQ>0.OR.NUM_IMP>0.OR.ITIED/=0) THEN
         ISZNSNR = NSNR
       ELSE
         ISZNSNR = 0
@@ -329,7 +329,7 @@ c      NBZ = NINT(AAA*(BMINMA(3)-BMINMA(6)))
 C
 C Work on the reduce box
 
-      IF( NMN .NE. 0 ) THEN
+      IF( NMN /= 0 ) THEN
         AAA = SQRT(NMN /
      .           ((BMINMA(7)-BMINMA(10))*(BMINMA(8)-BMINMA(11))
      .           +(BMINMA(8)-BMINMA(11))*(BMINMA(9)-BMINMA(12))
@@ -403,16 +403,16 @@ C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C     I_MEM = 3 ==> TROP NIVEAUX PILE 
       IF (I_MEM ==2) RETURN
-      IF(I_MEM.EQ.1)THEN
+      IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NCONT) THEN
+        IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .            I1=NOINT)
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.2) THEN
-        IF(DEBUG(1).GE.1) THEN
+      ELSEIF(I_MEM==2) THEN
+        IF(DEBUG(1)>=1) THEN
           IWARN = IWARN+1
 #include "lockon.inc"
           WRITE(ISTDO,*)' **WARNING INTERFACE/MEMORY'
@@ -427,15 +427,15 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
 C taille de boite non diminuee
 C        MINBOX= THREE_OVER_4*MINBOX
 C        MAXBOX= THREE_OVER_4*MAXBOX
-        IF( TZINF.LE.MAX(GAP+DGAPLOAD,DRAD)  ) THEN
+        IF( TZINF<=MAX(GAP+DGAPLOAD,DRAD)  ) THEN
           CALL ANCMSG(MSGID=98,ANMODE=ANINFO,
      .            I1=NOINT,C1='(I7BUCE)')
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ELSEIF(I_MEM.EQ.3)THEN
+      ELSEIF(I_MEM==3)THEN
         NB_N_B = NB_N_B + 1
-        IF ( NB_N_B .GT. NCONT) THEN
+        IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=100,ANMODE=ANINFO,
      .            I1=NOINT)
           CALL ARRET(2)

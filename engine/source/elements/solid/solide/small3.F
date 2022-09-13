@@ -67,7 +67,7 @@ C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
 C-----------------------------
 C-----------------implicit sm disp option---
-c      IF (ISMDISP.GT.0) THEN
+c      IF (ISMDISP>0) THEN
 c       DO I=LFT,LLT
 c         DV=(DXX(I)+DYY(I)+DZZ(I))*DT1
 cC-----------------------------
@@ -133,9 +133,9 @@ c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
 c         RHO(I) = MAX(RHO(I),EM30)
 c         DVOL(I)=VOL(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
        ENDDO
-c      ELSEIF(ISMSTR.EQ.3)THEN
+c      ELSEIF(ISMSTR==3)THEN
 c       DO I=LFT,LLT
-c       IF(OFFG(I).GT.ONE)THEN
+c       IF(OFFG(I)>ONE)THEN
 cC-----------------------------------------------
 c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
 c         RHO(I) = MAX(RHO(I),EM30)
@@ -148,7 +148,7 @@ c        ENDIF
 c       ENDDO
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.ONE)THEN
+       IF(OFFG(I)>ONE)THEN
 C-----------------------------------------------
          X=SAV(I,1)
          Y=SAV(I,2)
@@ -252,17 +252,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-      IF(ISMSTR.EQ.1.OR.ISMSTR.EQ.3)THEN
+      IF(ISMSTR==1.OR.ISMSTR==3)THEN
         DO I=LFT,LLT
-          IF(OFFG(I).GT.ZERO)OFFG(I)=TWO 
+          IF(OFFG(I)>ZERO)OFFG(I)=TWO 
         ENDDO
       ENDIF
 C
       DO I=LFT,LLT
-        IF(OFF(I).LT.ONE)THEN
+        IF(OFF(I)<ONE)THEN
           IF(OFF(I)==ZERO)THEN
             OFFG(I)=ZERO
-          ELSEIF(OFFG(I).GT.ONE)THEN
+          ELSEIF(OFFG(I)>ONE)THEN
             OFFG(I) = ONE+OFF(I)
           ELSE
             OFFG(I) = OFF(I)
@@ -325,14 +325,14 @@ C-----------------------------
          RHO(I) = MAX(RHO(I),EM30)
          DVOL(I)=VOL(I)*DV1
        ENDDO
-      ELSEIF(ISMSTR.EQ.1.OR.(ISMSTR.EQ.2.AND.IDTMIN(1).EQ.3))THEN
+      ELSEIF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
 C----- to be done outside the integrating point cycle      
       ENDIF
-      IF (ISMDISP.GT.0) THEN
+      IF (ISMDISP>0) THEN
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
 C      ISMSTR=3 <==> ISMSTR=1
        DO I=LFT,LLT
-        IF(OFFG(I).GT.ONE)THEN
+        IF(OFFG(I)>ONE)THEN
          DV=(DXX(I)+DYY(I)+DZZ(I))*DT1+SDV(I)
          RHO(I) = RHOO(I) - RHO(I)*DV
          RHO(I) = MAX(RHO(I),EM30)
@@ -456,10 +456,10 @@ C
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
          SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
        ENDDO
-      ELSEIF(ISMSTR.EQ.1.OR.
-     .  	((ISMSTR.EQ.2.OR.ISMSTR.EQ.12).AND.IDTMIN(1).EQ.3))THEN
+      ELSEIF(ISMSTR==1.OR.
+     .  	((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
        DO I=LFT,LLT
-       IF(OFFG(I).GT.ONE)THEN
+       IF(OFFG(I)>ONE)THEN
 C-----------------------------------------------
          X=SAV(I,1)
          Y=SAV(I,2)

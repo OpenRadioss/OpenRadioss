@@ -145,7 +145,7 @@ c
           ENDIF
         ENDDO 
 
-        IF(ITY.EQ.4 .OR. ITY.EQ.5 .OR. ITY.EQ.6)THEN
+        IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
           DO I=1,NEL
             ONED_SCALAR(OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
           ENDDO
@@ -190,7 +190,7 @@ C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
   	      ELSEIF (ITY == 6) THEN
-  	        IF(MLW.EQ.3)THEN
+  	        IF(MLW==3)THEN
   	          DO I=1,NEL
   	            N = I + NFT
   	            MASS(I) = HALF*GEO(1,IXR(1,N))
@@ -213,7 +213,7 @@ C-----------
 C-----------------------------------------------
 C       TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
 C--------------------------------------------------
           IF (KEYWORD == 'MASS') THEN
 C--------------------------------------------------
@@ -224,7 +224,7 @@ C--------------------------------------------------
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'EPSP')THEN
 C--------------------------------------------------
-           IF(MLW.NE.1)THEN
+           IF(MLW/=1)THEN
             DO  I=1,NEL
               OFF = GBUF%OFF(I)
               VALUE(I) = GBUF%PLA(I)
@@ -318,7 +318,7 @@ C--------------------------------------------------
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
 C--------------------------------------------------
           IF (KEYWORD == 'MASS') THEN
 C--------------------------------------------------
@@ -531,7 +531,7 @@ C--------------------------------------------------
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
 C--------------------------------------------------
           IF (KEYWORD == 'MASS') THEN
 C--------------------------------------------------
@@ -542,49 +542,49 @@ C--------------------------------------------------
 C--------------------------------------------------
           ELSEIF(KEYWORD == 'ENER')THEN
 C--------------------------------------------------
-           IF (MLW.EQ.1) THEN
+           IF (MLW==1) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
-           ELSEIF (MLW.EQ.2) THEN
+           ELSEIF (MLW==2) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
-           ELSEIF (MLW.EQ.3) THEN
+           ELSEIF (MLW==3) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
-           ELSEIF (MLW.EQ.4) THEN
+           ELSEIF (MLW==4) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
-           ELSEIF (MLW.EQ.5) THEN
+           ELSEIF (MLW==5) THEN
 C           user springs.
             DO  I=1,NEL
               VALUE(I) = GBUF%EINT(I)/MAX(EM30,GBUF%MASS(I))
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 Cmw51e4+++  Spring axi
-           ELSEIF (MLW.EQ.6) THEN
+           ELSEIF (MLW==6) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
 C             XM cannot be zero (was checked in starter).
               VALUE(I) = GBUF%EINT(I)*XM
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
-           ELSEIF (MLW.EQ.7) THEN
+           ELSEIF (MLW==7) THEN
             XM = ONE/GEO(1,IXR(1,1+NFT))
             DO  I=1,NEL
               VALUE(I) = GBUF%EINT(I)*XM
@@ -615,7 +615,7 @@ C--------------------------------------------------
               IS_WRITTEN_VALUE(I) = 1
             ENDDO
 C--------------------------------------------------
-          ELSEIF(KEYWORD == 'DT' .AND. GBUF%G_DT.NE.0)THEN  
+          ELSEIF(KEYWORD == 'DT' .AND. GBUF%G_DT/=0)THEN  
 C--------------------------------------------------                     
             DO I=1,NEL
               VALUE(I) = GBUF%DT(I)

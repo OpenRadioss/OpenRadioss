@@ -1245,7 +1245,7 @@ C     REAL
      .   P1(8), P2(8), P3(8),VLINC(MVSIZ,8)
 C-----------------------------------------------
 C      
-      IF (IDTS6.GT.0) THEN
+      IF (IDTS6>0) THEN
        CALL SDLEN_DEGE(VOLG,DELTAX,
      .  X1, X2, X3, X4, X5, X6, X7, X8,
      .  Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
@@ -1347,7 +1347,7 @@ C surface * 16
      .                + (XX3 * YY2 - XX2 * YY3)**2)
       ENDDO
 C volume / 8
-      IF (IDTS6.GT.0) THEN
+      IF (IDTS6>0) THEN
                 DO I=LFT,LLT
                         IF(IDEGE(I)==0)THEN
                                 VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),
@@ -1441,13 +1441,13 @@ C
       NINDX=0    
       NJNDX=0
 C
-      IF (ISMS_SELEC.EQ.1) THEN
+      IF (ISMS_SELEC==1) THEN
 C-- Full AMS
         DO I=LFT,LLT
           NJNDX=NJNDX+1
           JNDEX(NJNDX)=I
         END DO
-      ELSEIF (ISMS_SELEC.EQ.2) THEN
+      ELSEIF (ISMS_SELEC==2) THEN
 C-- AMS by parts    
         DO I=LFT,LLT
           IF(TAGPRT_SMS(IPARTS(I))==0)THEN
@@ -1458,10 +1458,10 @@ C-- AMS by parts
             JNDEX(NJNDX)=I
           END IF
         END DO
-      ELSEIF (ISMS_SELEC.EQ.3) THEN
+      ELSEIF (ISMS_SELEC==3) THEN
 C-- AMS auto - defined by elements
         DO I=LFT,LLT
-          IF(TAGELEM_SMS(I).EQ.0)THEN
+          IF(TAGELEM_SMS(I)==0)THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           ELSE
@@ -1469,10 +1469,10 @@ C-- AMS auto - defined by elements
             JNDEX(NJNDX)=I
           END IF
         END DO
-      ELSEIF (ISMS_SELEC.EQ.4) THEN
+      ELSEIF (ISMS_SELEC==4) THEN
 C-- AMS auto + parts
         DO I=LFT,LLT
-          IF ((TAGELEM_SMS(I).EQ.0).AND.(TAGPRT_SMS(IPARTS(I)).EQ.0)) THEN
+          IF ((TAGELEM_SMS(I)==0).AND.(TAGPRT_SMS(IPARTS(I))==0)) THEN
             NINDX=NINDX+1
             INDEX(NINDX)=I
           ELSE
@@ -1669,7 +1669,7 @@ C surface * 16
         ENDDO
 
 C volume / 8
-      IF (IDTS6.GT.0) THEN
+      IF (IDTS6>0) THEN
                 DO I=LFT,LLT
                         IF(IDEGE(I)==0)THEN
                                 VMIN = MIN(VLINC(I,1),VLINC(I,2),VLINC(I,3),VLINC(I,4),

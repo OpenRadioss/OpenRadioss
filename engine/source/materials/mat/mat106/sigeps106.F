@@ -143,10 +143,10 @@ C-----------------------------------------------
               UVAR(I,8)=ZERO  ! Plastic strain YZ
               UVAR(I,9)=ZERO  ! Plastic strain ZX
 C         Temperature dependent material properties
-              IF (IFUNC(1) .GT. 0) THEN
+              IF (IFUNC(1) > 0) THEN
                   E =  UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX) 
               ENDIF
-              IF (IFUNC(3) .GT. 0) THEN
+              IF (IFUNC(3) > 0) THEN
                   NU = UPARAM(2)*FINTER(IFUNC(3),TEMP(I),NPF,TF,DYDX) 
               ENDIF
               UVAR(I,10)=E   ! Previous Young's modulus
@@ -159,14 +159,14 @@ C         Temperature dependent material properties
          INTERVAL=ONE
          DO I=1,NEL
 C         Temperature dependent material properties
-            IF (IFUNC(1) .GT. 0) THEN
-                IF (IFUNC(2) .LE. 0 .OR. TEMP(I) .GT. UVAR(I,12)) THEN
+            IF (IFUNC(1) > 0) THEN
+                IF (IFUNC(2) <= 0 .OR. TEMP(I) > UVAR(I,12)) THEN
                     E = UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX) 
                 ELSE
                     E = UPARAM(1)*FINTER(IFUNC(2),TEMP(I),NPF,TF,DYDX) 
                 ENDIF
             ENDIF
-            IF (IFUNC(3) .GT. 0) THEN
+            IF (IFUNC(3) > 0) THEN
               NU = UPARAM(2)*FINTER(IFUNC(3),TEMP(I),NPF,TF,DYDX) 
             ENDIF
 C         Important, values newly added element should be initialized
@@ -240,7 +240,7 @@ C=======================================================================
             UVAR(I, 13) = ZERO
             UVAR(I, 14) = ZERO
 
-            IF (F .LE. ZERO) THEN
+            IF (F <= ZERO) THEN
 C=======================================================================
 C     Case 1: pure elastic
 C=======================================================================
@@ -268,21 +268,21 @@ C     Initial condition for Newton method
                CONVERGED = .FALSE.
                ITER = 0
                ITER_MAX = NMAX
-               DO WHILE (.NOT. CONVERGED .AND. ITER .LE. ITER_MAX)
+               DO WHILE (.NOT. CONVERGED .AND. ITER <= ITER_MAX)
                   CALL JC(UVAR(I,1)+V0,TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,JC_VAL,DJC_VAL)
                   FUN = EQVM - THREE * MU * V0 - JC_VAL
                   ERROR1 = ABS(FUN)
-                  CONVERGED = ERROR1 .LT. TOL * NORM_FUN0
+                  CONVERGED = ERROR1 < TOL * NORM_FUN0
                   IF (.NOT. CONVERGED) THEN
                      DFUN = -THREE * MU - DJC_VAL
                      INCR = - FUN / DFUN 
                      ALPHA = ONE
-                     IF (INCR .LT. ZERO) THEN
+                     IF (INCR < ZERO) THEN
                         ALPHA =MIN (ONE , - NINE / TEN * V0 / INCR)
                      ENDIF
                      V0 = V0 + ALPHA * INCR
                      ERROR2 = ABS(ALPHA * INCR)
-                     CONVERGED = ERROR2 .LT. TOL * ABS(V0)
+                     CONVERGED = ERROR2 < TOL * ABS(V0)
                   ENDIF
                   ITER = ITER + 1
                ENDDO
@@ -360,13 +360,13 @@ C---------------------------------------------------
           TR=MAX(T,TREF)
           TR=MIN(TR,TM)
           TR=(TR-TREF)/(TM-TREF)
-          IF (TM .EQ. ZERO) THEN
+          IF (TM == ZERO) THEN
               TR = ZERO
           ENDIF
-          IF(P.LE.ZERO) THEN
+          IF(P<=ZERO) THEN
               JC_YIELD=A*(ONE-TR**CM)
               TAN_JC=ZERO
-          ELSEIF(P.GT.EPSM) THEN
+          ELSEIF(P>EPSM) THEN
               JC_YIELD=(A+B*EPSM**CN)*(ONE-TR**CM)
               TAN_JC=ZERO
           ELSE

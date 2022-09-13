@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       S3000 = THREE1000
       IXNN = S3000
-      IF(FMT_ANI.EQ.4)IXNN=0
+      IF(FMT_ANI==4)IXNN=0
 C
       IF (ISPMD ==0) THEN
         PLYSIZ  = PLYNOD (IPLY)%PLYNUMNODS
@@ -93,7 +93,7 @@ C Les plynods du proc 0
              EMPL =  PLYNOD(IPLY)%PLYNODID(ND)-EMPSIZPL
 
              S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-             IF(S.NE.ZERO)THEN
+             IF(S/=ZERO)THEN
                 S = S3000 / S
                 INORM(1) = XNORM(1,I) * S
                 INORM(2) = XNORM(2,I) * S
@@ -144,7 +144,7 @@ C Les plynods des autres procs
              I = PLYNOD(IPLY)%NODES(ND)
 
              S = SQRT(XNORM(1,I)**2 + XNORM(2,I)**2 + XNORM(3,I)**2)
-             IF(S.NE.ZERO)THEN
+             IF(S/=ZERO)THEN
                 S = S3000 / S
                 INORM(1) = XNORM(1,I) * S
                 INORM(2) = XNORM(2,I) * S

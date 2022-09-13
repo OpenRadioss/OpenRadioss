@@ -171,7 +171,7 @@ C
               EXIT                              
           ENDIF                               
         ENDDO                                  
-        IF (UID.NE.0.AND.IFLAGUNIT.EQ.0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=PARTID,C1='XREF',
      .               C2='XREF',
@@ -266,10 +266,10 @@ C
             CALL HM_GET_FLOAT_ARRAY_INDEX('globaly',YY(J),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('globalz',ZZ(J),J,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C
-            IF(SUB_ID .NE. 0)
+            IF(SUB_ID /= 0)
      .        CALL SUBROTPOINT(XX(J),YY(J),ZZ(J),RTRANS,SUB_ID,LSUBMODEL)
-            IF (NSUBDOM.EQ.0) NN = USR2SYS(ID(J),ITABM1,MESS,PARTID)
-            IF (NSUBDOM.GT.0) THEN
+            IF (NSUBDOM==0) NN = USR2SYS(ID(J),ITABM1,MESS,PARTID)
+            IF (NSUBDOM>0) THEN
               NN = R2R_SYS(ID(J),ITABM1,MESS)
             ENDIF     
             IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,I10,5X,1P3G20.13)') ID(J),XX(J),YY(J),ZZ(J)

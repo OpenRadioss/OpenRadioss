@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_CELL_EXCHANGE            source/mpi/generic/spmd_cell_exchange.F
 Chd|-- called by -----------
@@ -126,33 +126,33 @@ C     et creation des candidats
 C================================================================
       LOC_PROC = ISPMD + 1
       ! save the old NSNFI values
-      IF(INACTI.EQ.5.OR.INACTI.EQ.6.OR.INACTI.EQ.7.OR.IFQ.GT.0
-     .   .OR.ITIED.NE.0.OR.ITYP.EQ.23.OR.ITYP.EQ.24   
-     .   .OR.ITYP.EQ.25) THEN
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
+     .   .OR.ITIED/=0.OR.ITYP==23.OR.ITYP==24   
+     .   .OR.ITYP==25) THEN
          DO P = 1, NSPMD
            NSNFIOLD(P) = INTER_STRUCT(NIN)%NSNFIOLD(P)
          END DO
       END IF
       NSNR = SORT_COMM(NIN)%NSNR
 
-      IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
+      IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
       IF (IMONM > 0) CALL STARTIME(25,1)
 
       ! ---------------------------------------
       ! prepare the rcv --> local number of main node > 0
       ! allocation of buffer + reception
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN  !   local nmn>0
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
 
         RSIZ = SORT_COMM(NIN)%RSIZ
         ISIZ = SORT_COMM(NIN)%ISIZ  
 
-       IF(NSNR.GT.0) THEN   !   nsn remote > 0 --> only on proc with nmn>0
+       IF(NSNR>0) THEN   !   nsn remote > 0 --> only on proc with nmn>0
         
           ALLOCATE(XREM(RSIZ,NSNR),STAT=IERROR)
           ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)          
           
         
-          IF(IERROR.NE.0) THEN
+          IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
@@ -179,8 +179,8 @@ C================================================================
       ! ---------------------------------------
       ! prepare the send --> local number of secondary node > 0 & remote number of main node > 0
       DO P=1,NSPMD
-        IF(P.NE.LOC_PROC) THEN
-            IF(SORT_COMM(NIN)%NB(P).NE.0 ) THEN
+        IF(P/=LOC_PROC) THEN
+            IF(SORT_COMM(NIN)%NB(P)/=0 ) THEN
                 MSGTYP = MSGOFF4
                 SIZE_S = SORT_COMM(NIN)%NB(P) * SORT_COMM(NIN)%RSIZ
                 CALL MPI_ISEND(
@@ -198,8 +198,8 @@ C================================================================
 
       ! ---------------------------------------
       ! wait the rcv comm
-      IF(IRCVFROM(NIN,LOC_PROC).NE.0) THEN  !   nmn > 0
-       IF(NSNR.GT.0) THEN   !   nsnr>0 only on proc with nmn>0
+      IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   nmn > 0
+       IF(NSNR>0) THEN   !   nsnr>0 only on proc with nmn>0
           DO L = 1, SORT_COMM(NIN)%NBIRECV
             CALL MPI_WAITANY(SORT_COMM(NIN)%NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
             CALL MPI_WAITANY(SORT_COMM(NIN)%NBIRECV,REQ_RD2,INDEXI,STATUS,IERROR)
@@ -214,11 +214,11 @@ C================================================================
       ! ---------------------------------------
       ! wait the send comm : only for proc with nsn>0 & nmn>0
       ! for proc with nsn>0 & nmn=0, wait is done after the sort
-      IF(ISENDTO(NIN,LOC_PROC).NE.0) THEN   !   nsn >0
+      IF(ISENDTO(NIN,LOC_PROC)/=0) THEN   !   nsn >0
         DO P = 1, NSPMD
-          IF(IRCVFROM(NIN,P).NE.0) THEN     !   nmn >0
-            IF(P.NE.LOC_PROC) THEN
-              IF(SORT_COMM(NIN)%NB(P).NE.0) THEN
+          IF(IRCVFROM(NIN,P)/=0) THEN     !   nmn >0
+            IF(P/=LOC_PROC) THEN
+              IF(SORT_COMM(NIN)%NB(P)/=0) THEN
                 IF(NMN/=0) THEN
                     CALL MPI_WAIT(SORT_COMM(NIN)%REQ_SD2(P),STATUS,IERROR) 
                     DEALLOCATE(SORT_COMM(NIN)%DATA_PROC(P)%RBUF)

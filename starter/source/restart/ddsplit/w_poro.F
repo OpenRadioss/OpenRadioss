@@ -64,9 +64,9 @@ C
       NAD=0
       N_L = 0
       DO IG = 1, NUMGEO
-        IF(INT(GEO(12,IG)).EQ.15)THEN
+        IF(INT(GEO(12,IG))==15)THEN
           N=INT(GEO(31,IG))
-          IF(N.GT.0)THEN
+          IF(N>0)THEN
             DO J = NAD+1, NAD+N
               NN = PORNOD(J)
               IF(NLOCAL(NN,PROC+1)==1)THEN            
@@ -78,7 +78,7 @@ C
           END IF
         END IF
       END DO
-      if(n_l.ne.NUMPOR_L)print*,'error decomp porosity :',n_l,NUMPOR_L
+      if(n_l/=NUMPOR_L)print*,'error decomp porosity :',n_l,NUMPOR_L
 C
       CALL WRITE_I_C(PORNOD_L,NUMPOR_L)
       LEN_IA = LEN_IA + NUMPOR_L

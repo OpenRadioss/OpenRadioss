@@ -78,7 +78,7 @@ C     REAL
      .   THK2 ,FAC1, FAC2, FC1P
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
-      IF(IEPSDOT.NE.0)THEN
+      IF(IEPSDOT/=0)THEN
         DO I=JFT,JLT
           FAC1  =ONE/AREA(I)
           J = I + NFT

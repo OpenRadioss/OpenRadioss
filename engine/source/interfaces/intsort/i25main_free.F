@@ -96,7 +96,7 @@ C
 !$OMP END SINGLE
       END DO
 C-----------------------------------------------------------
-      IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+      IF (IMON>0 .AND. ITASK==0) THEN
         CALL STARTIME(MACRO_TIMER_T25STFE,1)
       ENDIF
 C       
@@ -114,7 +114,7 @@ C        Also needed in SMP for resetting STFE !
       ENDDO
 !$OMP END SINGLE
 C
-      IF (IMON.GT.0 .AND. ITASK.EQ.0) THEN
+      IF (IMON>0 .AND. ITASK==0) THEN
         CALL STOPTIME(MACRO_TIMER_T25STFE,1)
       ENDIF
 C-----------------------------------------------------------

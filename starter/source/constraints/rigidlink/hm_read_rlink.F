@@ -145,7 +145,7 @@ C--------------------read card-------------------------------------
 C-----------------------------------------------------------------
        IC =J6(1)*4 +J6(2)*2 +J6(3)
        ICR=J6(4)*4 +J6(5)*2 +J6(6)
-       IF (ICR > 0.AND.IRODDL.EQ.0) THEN
+       IF (ICR > 0.AND.IRODDL==0) THEN
          CALL ANCMSG(MSGID=844,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -211,7 +211,7 @@ C
  660     CONTINUE
        ELSE
          DO J=0,NUMFRAM
-           IF(IS.EQ.IFRAME(4,J+1)) THEN
+           IF(IS==IFRAME(4,J+1)) THEN
              IS=J+1
              GO TO 661
            ENDIF

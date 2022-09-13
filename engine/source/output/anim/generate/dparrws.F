@@ -141,7 +141,7 @@ C-----------------------------------------------
         IF(ISPMD==0) RINDEX_PROC(1:NSECT,1:3,1:NSPMD) = 0
         JJ = 0
 
-        IF (NSECT.GT.0) THEN
+        IF (NSECT>0) THEN
                 K0 = NSTRF(25)
                 DO I=1,NSECT
                         N0 = NUMNOD + NODCUT + I - 1
@@ -155,7 +155,7 @@ C-----------------------------------------------
                         DO J=1,NSEGC
                                 KK = K5+2*(J-1)
                                 N  = NSTRF(KK)
-                                IF(NSTRF(KK+1).NE.0) THEN
+                                IF(NSTRF(KK+1)/=0) THEN
                                         JJ = JJ + 4
                                 ENDIF
                         ENDDO
@@ -169,7 +169,7 @@ C-----------------------------------------------
                         DO J=1,NSEGTG
                                 KK = K9+2*(J-1)
                                 N  = NSTRF(KK)
-                                IF(NSTRF(KK+1).NE.0) THEN
+                                IF(NSTRF(KK+1)/=0) THEN
                                         JJ = JJ + 4
                                 ENDIF
                         ENDDO
@@ -181,13 +181,13 @@ C-----------------------------------------------
 !                       ----------------
 !                       SOLID
 !                       ----------------
-                        IF(NSEGS.NE.0)THEN
+                        IF(NSEGS/=0)THEN
                                 JJ = JJ + 4
                         END IF
                         DO J=1,NSEGS
                                 KK=K3+2*(J-1)
                                 IPACK=NSTRF(KK+1)
-                                IF(IPACK.NE.0)THEN
+                                IF(IPACK/=0)THEN
                                         N =NSTRF(KK)
                                         IF (NSPMD == 1) THEN
                                                 II(1)=IXS(2,N)-1
@@ -209,23 +209,23 @@ C-----------------------------------------------
                                                 II(8)=NODGLOB(IXS(9,N))-1
                                         ENDIF
 
-                                        IF(     II(2).EQ.II(1).AND.II(4).EQ.II(3)
-     .                                          .AND.II(8).EQ.II(5).AND.II(7).EQ.II(6))THEN
+                                        IF(     II(2)==II(1).AND.II(4)==II(3)
+     .                                          .AND.II(8)==II(5).AND.II(7)==II(6))THEN
 C tetra4, tetra10
                                                 N1=MOD(IPACK/POWER2(1),2)
                                                 N2=MOD(IPACK/POWER2(3),2)
                                                 N3=MOD(IPACK/POWER2(5),2)
                                                 N4=MOD(IPACK/POWER2(6),2)
-                                                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0)THEN
+                                                IF(N1/=0.AND.N2/=0.AND.N3/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N1.NE.0.AND.N2.NE.0.AND.N4.NE.0)THEN
+                                                IF(N1/=0.AND.N2/=0.AND.N4/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)THEN
+                                                IF(N2/=0.AND.N3/=0.AND.N4/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N3.NE.0.AND.N1.NE.0.AND.N4.NE.0)THEN
+                                                IF(N3/=0.AND.N1/=0.AND.N4/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
                                         ELSE
@@ -238,22 +238,22 @@ C brick, shell16, brick20
                                                 N6=MOD(IPACK/POWER2(6),2)
                                                 N7=MOD(IPACK/POWER2(7),2)
                                                 N8=MOD(IPACK/POWER2(8),2)
-                                                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)THEN
+                                                IF(N1/=0.AND.N2/=0.AND.N3/=0.AND.N4/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N5.NE.0.AND.N6.NE.0.AND.N7.NE.0.AND.N8.NE.0)THEN
+                                                IF(N5/=0.AND.N6/=0.AND.N7/=0.AND.N8/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N1.NE.0.AND.N5.NE.0.AND.N6.NE.0.AND.N2.NE.0)THEN
+                                                IF(N1/=0.AND.N5/=0.AND.N6/=0.AND.N2/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N4.NE.0.AND.N8.NE.0.AND.N7.NE.0.AND.N3.NE.0)THEN
+                                                IF(N4/=0.AND.N8/=0.AND.N7/=0.AND.N3/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N1.NE.0.AND.N4.NE.0.AND.N8.NE.0.AND.N5.NE.0)THEN
+                                                IF(N1/=0.AND.N4/=0.AND.N8/=0.AND.N5/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N2.NE.0.AND.N3.NE.0.AND.N7.NE.0.AND.N6.NE.0)THEN
+                                                IF(N2/=0.AND.N3/=0.AND.N7/=0.AND.N6/=0)THEN
                                                         JJ=JJ+4
                                                 END IF
                                         END IF
@@ -303,15 +303,15 @@ C brick, shell16, brick20
                         DO J=1,NSEGC
                                 KK = K5+2*(J-1)
                                 N  = NSTRF(KK)
-                                IF(NSTRF(KK+1).NE.0) THEN
+                                IF(NSTRF(KK+1)/=0) THEN
                                         N1 = UNPACK(NSTRF(KK+1),1)
                                         N2 = UNPACK(NSTRF(KK+1),2)
-                                        IF(N2.EQ.0)THEN
+                                        IF(N2==0)THEN
                                                 N2 = N1
                                                 N3 = N1
                                         ELSE
                                                 N3 = UNPACK(NSTRF(KK+1),3)
-                                                IF(N3.EQ.0)N3 = N2
+                                                IF(N3==0)N3 = N2
                                         ENDIF
                                         IF (NSPMD == 1) THEN
                                                 BUFFER_S(JJ+1) = N0
@@ -335,15 +335,15 @@ C brick, shell16, brick20
                         DO J=1,NSEGTG
                                 KK = K9+2*(J-1)
                                 N  = NSTRF(KK)
-                                IF(NSTRF(KK+1).NE.0) THEN
+                                IF(NSTRF(KK+1)/=0) THEN
                                         N1 = UNPACK(NSTRF(1+KK),1)
                                         N2 = UNPACK(NSTRF(1+KK),2)
-                                        IF(N2.EQ.0)THEN
+                                        IF(N2==0)THEN
                                                 N2 = N1
                                                 N3 = N1
                                         ELSE
                                                 N3 = UNPACK(NSTRF(1+KK),3)
-                                                IF(N3.EQ.0)N3 = N2
+                                                IF(N3==0)N3 = N2
                                         ENDIF
                                         IF (NSPMD == 1) THEN
                                                 BUFFER_S(JJ+1) = N0
@@ -364,7 +364,7 @@ C brick, shell16, brick20
                         K3=K0+30+NSTRF(K0+14)+NSTRF(K0+6)
                         NSEGS=NSTRF(K0+7)
 
-                        IF(NSEGS.NE.0)THEN
+                        IF(NSEGS/=0)THEN
                                 IF (NSPMD == 1) THEN
                                         BUFFER_S(JJ+1) = N0
                                         BUFFER_S(JJ+2) = N0
@@ -383,7 +383,7 @@ C
                         DO J=1,NSEGS
                                 KK=K3+2*(J-1)
                                 IPACK=NSTRF(KK+1)
-                                IF(IPACK.NE.0)THEN
+                                IF(IPACK/=0)THEN
                                         N =NSTRF(KK)
                                         IF (NSPMD == 1) THEN
                                                 II(1)=IXS(2,N)-1
@@ -405,35 +405,35 @@ C
                                                 II(8)=NODGLOB(IXS(9,N))-1
                                         ENDIF
 
-                                        IF( II(2).EQ.II(1).AND.II(4).EQ.II(3)
-     .                                     .AND.II(8).EQ.II(5).AND.II(7).EQ.II(6))THEN
+                                        IF( II(2)==II(1).AND.II(4)==II(3)
+     .                                     .AND.II(8)==II(5).AND.II(7)==II(6))THEN
 C tetra4, tetra10
                                                 N1=MOD(IPACK/POWER2(1),2)
                                                 N2=MOD(IPACK/POWER2(3),2)
                                                 N3=MOD(IPACK/POWER2(5),2)
                                                 N4=MOD(IPACK/POWER2(6),2)
-                                                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0)THEN
+                                                IF(N1/=0.AND.N2/=0.AND.N3/=0)THEN
                                                         BUFFER_S(JJ+1) =II(1)
                                                         BUFFER_S(JJ+2) =II(3)
                                                         BUFFER_S(JJ+3) =II(5)
                                                         BUFFER_S(JJ+4) =II(5)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N1.NE.0.AND.N2.NE.0.AND.N4.NE.0)THEN
+                                                IF(N1/=0.AND.N2/=0.AND.N4/=0)THEN
                                                         BUFFER_S(JJ+1) =II(1)
                                                         BUFFER_S(JJ+2) =II(3)
                                                         BUFFER_S(JJ+3) =II(6)
                                                         BUFFER_S(JJ+4) =II(6)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)THEN
+                                                IF(N2/=0.AND.N3/=0.AND.N4/=0)THEN
                                                         BUFFER_S(JJ+1) =II(3)
                                                         BUFFER_S(JJ+2) =II(5)
                                                         BUFFER_S(JJ+3) =II(6)
                                                         BUFFER_S(JJ+4) =II(6)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N3.NE.0.AND.N1.NE.0.AND.N4.NE.0)THEN
+                                                IF(N3/=0.AND.N1/=0.AND.N4/=0)THEN
                                                         BUFFER_S(JJ+1) =II(5)
                                                         BUFFER_S(JJ+2) =II(1)
                                                         BUFFER_S(JJ+3) =II(6)
@@ -451,42 +451,42 @@ C brick, shell16, brick20
                                                 N7=MOD(IPACK/POWER2(7),2)
                                                 N8=MOD(IPACK/POWER2(8),2)
 
-                                                IF(N1.NE.0.AND.N2.NE.0.AND.N3.NE.0.AND.N4.NE.0)THEN
+                                                IF(N1/=0.AND.N2/=0.AND.N3/=0.AND.N4/=0)THEN
                                                         BUFFER_S(JJ+1) =II(1)
                                                         BUFFER_S(JJ+2) =II(2)
                                                         BUFFER_S(JJ+3) =II(3)
                                                         BUFFER_S(JJ+4) =II(4)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N5.NE.0.AND.N6.NE.0.AND.N7.NE.0.AND.N8.NE.0)THEN
+                                                IF(N5/=0.AND.N6/=0.AND.N7/=0.AND.N8/=0)THEN
                                                         BUFFER_S(JJ+1) =II(5)
                                                         BUFFER_S(JJ+2) =II(6)
                                                         BUFFER_S(JJ+3) =II(7)
                                                         BUFFER_S(JJ+4) =II(8)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N1.NE.0.AND.N5.NE.0.AND.N6.NE.0.AND.N2.NE.0)THEN
+                                                IF(N1/=0.AND.N5/=0.AND.N6/=0.AND.N2/=0)THEN
                                                         BUFFER_S(JJ+1) =II(1)
                                                         BUFFER_S(JJ+2) =II(5)
                                                         BUFFER_S(JJ+3) =II(6)
                                                         BUFFER_S(JJ+4) =II(2)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N4.NE.0.AND.N8.NE.0.AND.N7.NE.0.AND.N3.NE.0)THEN
+                                                IF(N4/=0.AND.N8/=0.AND.N7/=0.AND.N3/=0)THEN
                                                         BUFFER_S(JJ+1) =II(4)
                                                         BUFFER_S(JJ+2) =II(8)
                                                         BUFFER_S(JJ+3) =II(7)
                                                         BUFFER_S(JJ+4) =II(3)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N1.NE.0.AND.N4.NE.0.AND.N8.NE.0.AND.N5.NE.0)THEN
+                                                IF(N1/=0.AND.N4/=0.AND.N8/=0.AND.N5/=0)THEN
                                                         BUFFER_S(JJ+1) =II(1)
                                                         BUFFER_S(JJ+2) =II(4)
                                                         BUFFER_S(JJ+3) =II(8)
                                                         BUFFER_S(JJ+4) =II(5)
                                                         JJ=JJ+4
                                                 END IF
-                                                IF(N2.NE.0.AND.N3.NE.0.AND.N7.NE.0.AND.N6.NE.0)THEN
+                                                IF(N2/=0.AND.N3/=0.AND.N7/=0.AND.N6/=0)THEN
                                                         BUFFER_S(JJ+1) =II(2)
                                                         BUFFER_S(JJ+2) =II(3)
                                                         BUFFER_S(JJ+3) =II(7)
@@ -529,7 +529,7 @@ C brick, shell16, brick20
 ! proc =                   0                                           1                    ...               m
 
 
-        IF (ISPMD==0.AND.NSECT.GT.0) THEN
+        IF (ISPMD==0.AND.NSECT>0) THEN
                 DO I=1,NSPMD
                         SHIFT_SECT(1,1,I) = 0
                         SHIFT_SECT(1,2,I) = RINDEX_PROC(1,1,I)
@@ -594,14 +594,14 @@ C brick, shell16, brick20
                         N4=N3+NRWALL
                         ITYP= NPRW(N4)
 
-                        IF(IABS(ITYP).EQ.1.OR.ITYP.EQ.4)THEN
+                        IF(IABS(ITYP)==1.OR.ITYP==4)THEN
                                 II(1) = N1
                                 II(2) = N1 + 3
                                 II(3) = N1 + 2
                                 II(4) = N1 + 1
                                 CALL WRITE_I_C(II,4)
                                 N1 = N1 + 4
-                        ELSEIF(ITYP.EQ.2)THEN
+                        ELSEIF(ITYP==2)THEN
                                 N10 = N1
                                 DO J = 1,23
                                         II(1) = N1
@@ -617,7 +617,7 @@ C brick, shell16, brick20
                                 II(4) = N1 + 1
                                 CALL WRITE_I_C(II,4)
                                 N1 = N1 + 2
-                        ELSEIF(ITYP.EQ.3)THEN
+                        ELSEIF(ITYP==3)THEN
                                 DO I = 1,6
                                         DO J = 1,6
                                                 DO L = 1,6
@@ -634,7 +634,7 @@ C brick, shell16, brick20
                                 ENDDO
                         ENDIF
                         K=K+NPRW(N)
-                        IF(NPRW(N4).EQ.-1)K=K+NINT(RWBUF(8,N))
+                        IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))
                 ENDDO
         ENDIF
 

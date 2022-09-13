@@ -114,7 +114,7 @@ C     Volume, area computation
      .     Y1, Y2, Y3, Y4, 
      .     Z1, Z2, Z3, Z4)
 C     Compute deltax
-      IF (JEUL .NE. 0) THEN
+      IF (JEUL /= 0) THEN
          CALL QDLEN2(IPARG(63), 
      .        GBUF%AREA, GBUF%DELTAX, 
      .        Y1, Y2, Y3, Y4,
@@ -151,10 +151,10 @@ C     Material initialization
          PM(104,IXQ(1, 1 + NFT)) = PM(104,IXQ(1, 1 + NFT)) + VFRAC * PRES !global pressure
      
          MATLAW = IPM(2, MAT(1))
-         IF (MATLAW .EQ. 5) THEN
+         IF (MATLAW == 5) THEN
 !     JWL MAT - layer detonation times
             IF (.NOT. ERROR_THROWN) THEN
-               IF (PM(44, MAT(1)) .EQ. ZERO) THEN
+               IF (PM(44, MAT(1)) == ZERO) THEN
                   CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .                 I1 = IPM(1, IXQ(1, 1 + NFT)), I2 = IPM(1, MAT(1)))
                ENDIF
@@ -164,7 +164,7 @@ C     Material initialization
          ENDIF
       ENDDO
 
-      IF (NLAY .GT. 1) THEN
+      IF (NLAY > 1) THEN
          
 C      Mass globalization
          GBUF%RHO(LFT:LLT)=ZERO                 

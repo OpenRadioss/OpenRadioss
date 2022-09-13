@@ -50,7 +50,7 @@ C=======================================================================
       DO I=1,NUMELR
         II=ELEM(I)
         IPIDT = NINT(GEO(12,IXR(1,II)))
-        IF (IPIDT == 12 .AND. IXR(4,II).NE.0) THEN
+        IF (IPIDT == 12 .AND. IXR(4,II)/=0) THEN
           NIX2=4
         ELSE
           NIX2=3

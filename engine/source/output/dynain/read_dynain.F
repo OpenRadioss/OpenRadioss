@@ -105,18 +105,18 @@ C-------------------------------------------------------------------------------
         NELCG = 0
         NELTGG = 0 
 
-        IF(NUMELC.NE.0) ALLOCATE(NELIDC(NUMELC),STAT=IERR)
-        IF(NUMELTG.NE.0) ALLOCATE(NELIDTG(NUMELTG),STAT=IERR)
+        IF(NUMELC/=0) ALLOCATE(NELIDC(NUMELC),STAT=IERR)
+        IF(NUMELTG/=0) ALLOCATE(NELIDTG(NUMELTG),STAT=IERR)
 
         IF(NDYNAINALL /= 0) THEN
 
-          IF(NUMELC.NE.0)THEN
+          IF(NUMELC/=0)THEN
             DO I=1,NUMELC
                NELIDC(I) = IXC(NIXC,I)
             ENDDO
             NELC = NUMELC 
           ENDIF
-          IF(NUMELTG.NE.0)THEN
+          IF(NUMELTG/=0)THEN
             DO I=1,NUMELTG
                NELIDTG(NELTG) = IXTG(NIXTG,I)
             ENDDO
@@ -196,11 +196,11 @@ C-------------------------------------------------------------------------------
         ELSE
           NELCG = NELC
           NELTGG = NELTG
-          IF(NELCG.NE.0) THEN
+          IF(NELCG/=0) THEN
             ALLOCATE(NELIDCG(NELCG),STAT=IERR)
             NELIDCG(1:NELCG) = NELIDC(1:NELC)
           ENDIF
-          IF(NELTGG.NE.0) THEN     
+          IF(NELTGG/=0) THEN     
             ALLOCATE(NELIDTGG(NELTGG),STAT=IERR)     
             NELIDTGG(1:NELTGG) = NELIDTG(1:NELTG)  
           ENDIF  
@@ -212,7 +212,7 @@ C-------------------------------------------------------------------------------
 
           FLG_CHK = 0
 
-          IF(NELCG.NE.0.AND.NELTGG.NE.0) FLG_CHK = 1
+          IF(NELCG/=0.AND.NELTGG/=0) FLG_CHK = 1
       
           IF(FLG_CHK > 0 ) THEN ! IF checK is needed
 
@@ -237,19 +237,19 @@ C-------------------------------------------------------------------------------
 
               CALL MY_ORDERS(0,WORK,CLEFTG,INDXTG,NELTGG,1)         
 
-              IF(NELIDTGG(INDXTG(1)).GE.NELIDCG(INDXC(1)).AND.NELIDTGG(INDXTG(1)).LE.NELIDCG(INDXC(NELCG)))THEN
+              IF(NELIDTGG(INDXTG(1))>=NELIDCG(INDXC(1)).AND.NELIDTGG(INDXTG(1))<=NELIDCG(INDXC(NELCG)))THEN
                  IS_CHECK = 1
               ENDIF
 
-              IF(NELIDTGG(INDXTG(NELTGG)).GE.NELIDCG(INDXC(1)).AND.NELIDTGG(INDXTG(NELTGG)).LE.NELIDCG(INDXC(NELCG)))THEN
+              IF(NELIDTGG(INDXTG(NELTGG))>=NELIDCG(INDXC(1)).AND.NELIDTGG(INDXTG(NELTGG))<=NELIDCG(INDXC(NELCG)))THEN
                  IS_CHECK = 1
               ENDIF
 
-              IF(NELIDCG(INDXC(1)).GE.NELIDTGG(INDXTG(1)).AND.NELIDCG(INDXC(1)).LE.NELIDTGG(INDXTG(NELTGG)))THEN
+              IF(NELIDCG(INDXC(1))>=NELIDTGG(INDXTG(1)).AND.NELIDCG(INDXC(1))<=NELIDTGG(INDXTG(NELTGG)))THEN
                  IS_CHECK = 1
               ENDIF
 
-              IF(NELIDCG(INDXC(NELCG)).GE.NELIDTGG(INDXTG(1)).AND.NELIDCG(INDXC(NELCG)).LE.NELIDTGG(INDXTG(NELTGG)))THEN
+              IF(NELIDCG(INDXC(NELCG))>=NELIDTGG(INDXTG(1)).AND.NELIDCG(INDXC(NELCG))<=NELIDTGG(INDXTG(NELTGG)))THEN
                  IS_CHECK = 1
               ENDIF
        
@@ -261,9 +261,9 @@ C-------------------------------------------------------------------------------
 
                  JWARN = 0
                  DO I=1,NELCG
-                   IF(NELIDCG(INDXC(I)).GE.NELMIN.AND.NELIDCG(INDXC(I)).LE.NELMAX) THEN
+                   IF(NELIDCG(INDXC(I))>=NELMIN.AND.NELIDCG(INDXC(I))<=NELMAX) THEN
                      DO J=1,NELTGG
-                       IF(NELIDTGG(INDXTG(J)).GE.NELMIN.AND.NELIDTGG(INDXTG(J)).LE.NELMAX) THEN
+                       IF(NELIDTGG(INDXTG(J))>=NELMIN.AND.NELIDTGG(INDXTG(J))<=NELMAX) THEN
                          IF(NELIDCG(INDXC(I))==NELIDTGG(INDXTG(J))) THEN
                            JWARN = JWARN + 1
                            IDWARN(JWARN) = NELIDCG(INDXC(I)) 
@@ -273,7 +273,7 @@ C-------------------------------------------------------------------------------
                    ENDIF
                  ENDDO
 
-                 IF(JWARN.NE.0)THEN
+                 IF(JWARN/=0)THEN
                    WRITE(IOUT,'(A,A)')
      . ' ** ERROR : DYNAIN FILE CAN NOT BE WRITTEN',
      . ' THESE 4 NODE SHELLS AND 3 NODE SHELLS HAVE SAME USER ID'
@@ -295,8 +295,8 @@ C
           ENDIF
         ENDIF
 
-        IF(NUMELC.NE.0) DEALLOCATE(NELIDC,STAT=IERR)
-        IF(NUMELTG.NE.0) DEALLOCATE(NELIDTG,STAT=IERR)
+        IF(NUMELC/=0) DEALLOCATE(NELIDC,STAT=IERR)
+        IF(NUMELTG/=0) DEALLOCATE(NELIDTG,STAT=IERR)
         DEALLOCATE(NELIDCG,NELIDTGG)
 
       ENDIF

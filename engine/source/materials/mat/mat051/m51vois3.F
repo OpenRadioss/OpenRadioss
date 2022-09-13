@@ -100,8 +100,8 @@ C-----------------------------------------------
         IVOI  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
         ML    = 51
         IFORM = 1000 
-        IF(IVOI.GT.0)THEN
-          IF(IVOI.LE.NUMELS)THEN
+        IF(IVOI>0)THEN
+          IF(IVOI<=NUMELS)THEN
             ML     = NINT(PM(19,IXS(1,IVOI))) 
             IADBUF = IPM(7,IXS(1,IVOI))
             IF(ML==51)IFORM  = BUFMAT(IADBUF+31-1)     !si voisin est materiau 51 alors on recupere UPARAM(31)=IFLG (IFLG=0,1 pour IFROM=0,1ou10)
@@ -157,7 +157,7 @@ C-----------------------------------------------
           VDZ(I)=VDZ(I)-FOURTH*(W(3,IX1)+W(3,IX2)+W(3,IX3)+W(3,IX4))         
          ENDIF
          VD2(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
-         IF(VDX(I)*XN+VDY(I)*YN+VDZ(I)*ZN .LE.ZERO)THEN
+         IF(VDX(I)*XN+VDY(I)*YN+VDZ(I)*ZN <=ZERO)THEN
           VDX(I)=ZERO
           VDY(I)=ZERO
           VDZ(I)=ZERO 
@@ -171,18 +171,18 @@ C-----------------------------------------------
          VN4=V(1,IX4)*XN+V(2,IX4)*YN+V(3,IX4)*ZN
          VEL(I)=(MIN(VN1,VN2,VN3,VN4))**2
          VN(I)=FOURTH*(VN1+VN2+VN3+VN4)
-         IF(VN(I).GE.ZERO)VEL(I)=ZERO
+         IF(VN(I)>=ZERO)VEL(I)=ZERO
 
-        IF(IVOI.LE.NUMELS)THEN
+        IF(IVOI<=NUMELS)THEN
           !element du processeur                           
  	  DO N=1,NGROUP                                    
  	     KTY = IPARG(5,N)                              
  	     KLT = IPARG(2,N)                              
  	     MFT = IPARG(3,N)                              
- 	     IF (KTY.EQ.1 .AND. IVOI.LE.KLT+MFT) EXIT      
+ 	     IF (KTY==1 .AND. IVOI<=KLT+MFT) EXIT      
  	  ENDDO                                            
 
- 	  IF (KTY.NE.1 .OR. IVOI.GT.KLT+MFT) CYCLE
+ 	  IF (KTY/=1 .OR. IVOI>KLT+MFT) CYCLE
           GBUF  => ELBUF_TAB(N)%GBUF
           LBUF  => ELBUF_TAB(N)%BUFLY(1)%LBUF(1,1,1)
           MBUF  => ELBUF_TAB(N)%BUFLY(1)%MAT(1,1,1)
@@ -237,7 +237,7 @@ C-----------------------------------------------
           RHO0V(4,I) = BUFMAT(IADBUF+47-1)  !UPARAM(47) = RHO40                  
           RHO0V(0,I) = BUFMAT(IADBUF+69-1)  !UPARAM(69) = RHO0
                                                  
-        ELSE !(IVOI.GT.NUMELS)
+        ELSE !(IVOI>NUMELS)
 
           !cas SPMD et voisin remote : aller chercher dans BUFVOIS
           !BUFVOIS rempli dans ALEMAIN (spmf_cfd.F : SPMD_L51VOIS)

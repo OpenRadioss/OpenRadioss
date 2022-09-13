@@ -106,20 +106,20 @@ C
       DO I=NMEF,NMEL
           I20=NELEM(I)-NUMELS8-NUMELS10
           I16=I20-NUMELS20
-          IF(I16.GE.1.AND.I16.LE.NUMELS16)THEN
+          IF(I16>=1.AND.I16<=NUMELS16)THEN
             LLT16=LLT16+1
             INDEX16(LLT16)=I
-            IF(LLT16.EQ.MVSIZ-1)THEN
+            IF(LLT16==MVSIZ-1)THEN
               CALL I16BOX(
      1            LFT16,LLT16  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS16,SIZE_T,
      3            XMSR ,INDEX16,XSAV  )
               LLT16=0
             ENDIF
-          ELSEIF(I20.GE.1.AND.I20.LE.NUMELS20)THEN
+          ELSEIF(I20>=1.AND.I20<=NUMELS20)THEN
             LLT20=LLT20+1
             INDEX20(LLT20)=I
-            IF(LLT20.EQ.MVSIZ-1)THEN
+            IF(LLT20==MVSIZ-1)THEN
               CALL I20BOX(
      1            LFT20,LLT20  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS20,SIZE_T,
@@ -128,11 +128,11 @@ C
             ENDIF
           ENDIF
       END DO
-      IF(LLT16.GT.0)CALL I16BOX(
+      IF(LLT16>0)CALL I16BOX(
      1            LFT16,LLT16  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS16,SIZE_T,
      3            XMSR ,INDEX16,XSAV  )
-      IF(LLT20.GT.0)CALL I20BOX(
+      IF(LLT20>0)CALL I20BOX(
      1            LFT20,LLT20  ,NELEM,EMINX,NMEF ,NMEL  ,
      2            X    ,V      ,A    ,IXS  ,IXS20,SIZE_T,
      3            XMSR ,INDEX20,XSAV  )

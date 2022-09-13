@@ -87,12 +87,12 @@ C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       NMAX=(NPFIP-NPFI)/2
       I=NPFI+(N-1)*2
-      IF (N.GT.NMAX.OR.N.LE.0) THEN
+      IF (N>NMAX.OR.N<=0) THEN
         CALL ANCMSG(MSGID=178,ANMODE=ANINFO,
      .              I1=N,I2=GET_U_NUMFUN(IFUNC),I3=NMAX)
         CALL ARRET(2)
       END IF
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,I,XX)
       ELSE
           CALL GET_VAR_USER_F(6,I,XX)
@@ -135,12 +135,12 @@ C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
       NMAX=(NPFIP-NPFI)/2
       I=NPFI+(N-1)*2
-      IF (N.GT.NMAX.OR.N.LE.0) THEN
+      IF (N>NMAX.OR.N<=0) THEN
           CALL ANCMSG(MSGID=178,ANMODE=ANINFO,
      .              I1=N,I2=GET_U_NUMFUN(IFUNC),I3=NMAX)
           CALL ARRET(2)
       END IF
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,I+1,YY)
       ELSE
           CALL GET_VAR_USER_F(6,I+1,YY)
@@ -188,7 +188,7 @@ C
 C-----------------------------------------------
         CALL GET_VAR_USER_I(5,IFUNC,NPFI)
         CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,NPFI,VAL)
         ELSE
           CALL GET_VAR_USER_F(6,NPFI,VAL)
@@ -196,7 +196,7 @@ C-----------------------------------------------
         DX2=VAL-XX
 C
       DO 100 I=NPFI+2,NPFIP-2,2
-         IF (IRESP.EQ.1) THEN
+         IF (IRESP==1) THEN
            CALL GET_VAR_USER_F_SP(6,I,TFI)
            CALL GET_VAR_USER_F_SP(6,I+1,TFIP)
            CALL GET_VAR_USER_F_SP(6,I-1,TFI1)
@@ -209,9 +209,9 @@ C
          ENDIF
        DX1 = -DX2
        DX2 = TFI - XX
-       IF(DX2.GE.ZERO.OR.I.EQ.NPFIP-2)THEN
+       IF(DX2>=ZERO.OR.I==NPFIP-2)THEN
          DERI = (TFIP - TFI1) / (TFI - TFI2)
-         IF(DX1.LE.DX2)THEN
+         IF(DX1<=DX2)THEN
            GET_U_FUNC = TFI1 + DX1 * DERI
          ELSE
            GET_U_FUNC = TFIP - DX2 * DERI
@@ -247,7 +247,7 @@ C
      .    DYDX(*),XX(*),YY(*),VAR,TF
 
       CALL GET_VAR_USER_VFUNC(5,LLT,IFUNC,JPOS,JAD,JLEN)
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL u_vinter2dp(JAD ,JPOS ,JLEN ,LLT,XX ,DYDX,YY )
       ELSE
       CALL u_vinter2(JAD ,JPOS ,JLEN ,LLT,XX ,DYDX,YY )
@@ -271,13 +271,13 @@ Chd|====================================================================
       INTEGER J,ID
 C=======================================================================
       GET_U_NUMFUN = 0
-      IF(IDFUN.LE.0)THEN
+      IF(IDFUN<=0)THEN
         RETURN
       ENDIF
 C---
       DO J=1,NFUNCT
         CALL GET_VAR_USER_I(5,NFUNCT+1+J,ID)
-        IF(IDFUN.EQ.ID)THEN
+        IF(IDFUN==ID)THEN
           GET_U_NUMFUN = J
           RETURN
         ENDIF
@@ -298,7 +298,7 @@ Chd|====================================================================
       INTEGER IFUN,DEPLA
 C=======================================================================
       GET_U_FID = 0
-      IF(IFUN.LE.0)THEN
+      IF(IFUN<=0)THEN
         RETURN
       ENDIF
       DEPLA = NFUNCT+1+IFUN
@@ -329,7 +329,7 @@ C
 C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
-      IF (IRESP.EQ.1) THEN
+      IF (IRESP==1) THEN
         CALL GET_VAR_USER_F_SP(6,NPFI+1,VAL)
       ELSE
         CALL GET_VAR_USER_F(6,NPFI+1,VAL)
@@ -338,7 +338,7 @@ C
       DY2=VAL-YY
 C
       DO 100 I=NPFI+2,NPFIP-2,2
-        IF (IRESP.EQ.1) THEN
+        IF (IRESP==1) THEN
           CALL GET_VAR_USER_F_SP(6,I,TFI)
           CALL GET_VAR_USER_F_SP(6,I+1,TFIP)
           CALL GET_VAR_USER_F_SP(6,I-1,TFI1)
@@ -351,9 +351,9 @@ C
         ENDIF
         DY1 = -DY2
         DY2 = TFIP - YY
-        IF(DY2.GE.ZERO.OR.I.EQ.NPFIP-2)THEN
+        IF(DY2>=ZERO.OR.I==NPFIP-2)THEN
           DERI = (TFI - TFI2) / (TFIP - TFI1)
-          IF(DY1.LE.DY2)THEN
+          IF(DY1<=DY2)THEN
             GET_U_FUNC_INV = TFI2 + DY1 * DERI
           ELSE
             GET_U_FUNC_INV = TFI  - DY2 * DERI

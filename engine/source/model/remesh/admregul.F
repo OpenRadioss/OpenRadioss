@@ -101,7 +101,7 @@ C-----------------------------------------------
 C-----------------------------------------------
  10   CONTINUE 
 
-      IF(ITASK.EQ.0) THEN
+      IF(ITASK==0) THEN
 
         ILEVNOD=0
 
@@ -581,7 +581,7 @@ C     compactage de LSH4ACT
         NSH4ACT=0
         DO NN=1,NTMP
           N=LSH4ACT(NN)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             NSH4ACT=NSH4ACT+1
             LSH4ACT(NSH4ACT)=N
           END IF
@@ -595,7 +595,7 @@ C     compactage de LSH3ACT
         NSH3ACT=0
         DO NN=1,NTMP
           N=LSH3ACT(NN)
-          IF(N.NE.0)THEN
+          IF(N/=0)THEN
             NSH3ACT=NSH3ACT+1
             LSH3ACT(NSH3ACT)=N
           END IF

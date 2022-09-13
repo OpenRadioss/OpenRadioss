@@ -67,7 +67,7 @@ C-----------------------------------------------
         ENDIF ! IF (NODREAC(N) > 0)
       ENDDO
 
-      IF (IRODDL.NE.0) THEN
+      IF (IRODDL/=0) THEN
         DO N=NODFT,NODLT
           IF (NODREAC(N) > 0) THEN
             FTHREAC(4,NODREAC(N)) = FTHREAC(4,NODREAC(N)) + IFLAG * IN(N)*AR(1,N)*DT12

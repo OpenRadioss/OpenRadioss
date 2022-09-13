@@ -338,11 +338,11 @@ C
         STIN(I)=ZERO
       ENDDO
 C
-      IF (ICP.EQ.1) THEN                                
+      IF (ICP==1) THEN                                
         DO I=1,NEL                                    
          NU1(I)=HALF                                  
         ENDDO                                           
-      ELSEIF (ICP.EQ.2) THEN                            
+      ELSEIF (ICP==2) THEN                            
         CALL S8CSIGP3(GBUF%SIG,E0 ,GBUF%PLA,FAC,GBUF%G_PLA,NEL)
         DO I=1,NEL                                    
           NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)             
@@ -602,7 +602,7 @@ C-----------------------------
 C-----------------------------
       IF (IOFFS == 1) THEN
        DO I=1,NEL
-         IF (OFFS(I).LE.TWO)GBUF%OFF(I) = OFFS(I)
+         IF (OFFS(I)<=TWO)GBUF%OFF(I) = OFFS(I)
        END DO
        DO ILAY=1,NLAY
          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)

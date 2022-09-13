@@ -105,7 +105,7 @@ C----------------------------------------------------------------
 
 C SET INITIAL MATERIAL CONSTANTS
       PEXT = UPARAM(1)
-      IF(TIME.EQ.ZERO)THEN
+      IF(TIME==ZERO)THEN
         T0	= UPARAM(2)
         CPA	= PM(186)
         CPB	= PM(187)
@@ -139,14 +139,14 @@ C  pour rezonne ale
         END DO
       END IF
 C
-C      IF(CPA-RMW.LE.ZERO)THEN
-C      ELSEIF(CPC.GT.ZERO)THEN
-C        IF(CPB.GT.ZERO)THEN
+C      IF(CPA-RMW<=ZERO)THEN
+C      ELSEIF(CPC>ZERO)THEN
+C        IF(CPB>ZERO)THEN
 C         0 <= T1 <= T2 <= infinite
 C          CAS=0
 C        ELSE
 C         DELTA=CPB*CPB-FOUR*(CPA-RMW)*CPC
-C         IF(DELTA.GT.ZERO)THEN
+C         IF(DELTA>ZERO)THEN
 C           DELTA=SQRT(DELTA)
 C           T01  =(-CPB-DELTA)/(TWO*CPC)
 C           T02  =(-CPB+DELTA)/(TWO*CPC)
@@ -158,7 +158,7 @@ C          0 <= T1 <= T2 <= infinite
 C           CAS=0
 C         END IF
 C        END IF
-C      ELSEIF(CPC.LT.ZERO)THEN
+C      ELSEIF(CPC<ZERO)THEN
 C        DELTA=SQRT(CPB*CPB-FOUR*(CPA-RMW)*CPC)
 C       T01  =(-CPB-DELTA)/(TWO*CPC) is negative
 C       T02  =(-CPB+DELTA)/(TWO*CPC) is positive
@@ -166,10 +166,10 @@ C        CAS=1
 C        T01  =(-CPB+DELTA)/(TWO*CPC)
 C       0 <= T1 <= T2 < T01
 C      ELSE
-C        IF(CPB.GT.ZERO)THEN
+C        IF(CPB>ZERO)THEN
 C         0 <= T1 <= T2 <= infinite
 C          CAS=0
-C        ELSEIF(CPB.LT.ZERO)THEN
+C        ELSEIF(CPB<ZERO)THEN
 C          CAS=1
 C          T01=-(CPA-RMW)/CPB
 C         0 <= T1 <= T2 < T01

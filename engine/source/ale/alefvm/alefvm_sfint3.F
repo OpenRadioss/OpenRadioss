@@ -112,7 +112,7 @@ C-----------------------------------------------
       IMAT        = IXS(1,LFT+NFT)
       ILAW        = IPM(2,IMAT)
       IALEFVM_FLG = IPM(251,IMAT)
-      IF(IALEFVM_FLG .LE. 1)RETURN       
+      IF(IALEFVM_FLG <= 1)RETURN       
       IF(ILAW==11)          RETURN  
       IFLG_ALE    = IPARG(7,NG)
       IFLG_EUL    = IPARG(11,NG)   
@@ -220,7 +220,7 @@ C-----------------------------------------------
             Z_1              = F_FACE(1,3,II) ! impedance
             DO J=1,NV46
               IV  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-              IF(IV .GT. 0)THEN
+              IF(IV > 0)THEN
                 !--ADJACENT ELEM DOES EXIST
                  IAD3 = ALE_CONNECT%ee_connect%iad_connect(IV)
                 DO JV=1,NV46
@@ -257,7 +257,7 @@ C-----------------------------------------------
             P1    = F_FACE(1,4,II)                                                
             DO J=1,NV46                                                      
               IV  = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
-              IF(IV .GT. 0)THEN                                              
+              IF(IV > 0)THEN                                              
                 !--ADJACENT ELEM DOES EXIST 
                  IAD3 = ALE_CONNECT%ee_connect%iad_connect(IV)
                 DO JV=1,NV46                                                 
@@ -288,7 +288,7 @@ c     ." id=", ixs(11,ii)," ncycle=", NCYCLE, " F=", FFACE(1:3,J,I) , "Pf=", Pf
         II           = I + NFT
         IF(INT22/=0)THEN
           IB           = NINT(IAD22(I))
-          IF(IB.GT.0) CYCLE
+          IF(IB>0) CYCLE
         ENDIF
         F0(1,I)      = SUM(FFACE(1,1:NV46,I)) 
         F0(2,I)      = SUM(FFACE(2,1:NV46,I)) 
@@ -324,7 +324,7 @@ c     ." id=", ixs(11,ii)," ncycle=", NCYCLE, " F=", FFACE(1:3,J,I) , "Pf=", Pf
 !              ii = nft + i
 !              IF(INT22/=0)THEN
 !                IB           = NINT(IAD22(I))
-!                IF(IB.GT.0) CYCLE
+!                IF(IB>0) CYCLE
 !              ENDIF              
 !              print *,                    "      brique=", ixs(11,nft+i)
 !              write(*,FMT='(A34,6A26)')   "                                  ",    

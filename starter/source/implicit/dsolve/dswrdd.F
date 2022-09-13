@@ -75,7 +75,7 @@ C
      .    '    --> DOMAIN DECOMPOSITION VERIFICATION FILE'
 C
 C
-      IF (VERS.GE.50) THEN
+      IF (VERS>=50) THEN
          NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//ROOTNAM(1:ROOTLEN)//'_graph.rad'
          OPEN(UNIT=IFICM,FILE=NAME(1:ROOTLEN+10+OUTFILE_NAME_LEN),
      .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
@@ -122,7 +122,7 @@ C Ecriture des RBODIES
          N=NPBY(1,I)
          NSN=NPBY(2,I)
          WRITE(IFICM,FMT=FRM1) LCASE
-         IF (VERS.GE.50) THEN
+         IF (VERS>=50) THEN
             WRITE(IFICM,'(A7,I8.8)') '/RBODY/',I
             WRITE(IFICM,'(A11,I8)') 'Rigid body ',I
          ELSE
@@ -137,7 +137,7 @@ C Ecriture des RBODIES
       ENDDO
 C
       WRITE(IFICM,FMT=FRM1) LCASE
-      IF (VERS.GE.50) THEN
+      IF (VERS>=50) THEN
          WRITE(IFICM,'(A)') '/MAT/VOID/1'
          WRITE(IFICM,'(A)') 'Dummy material'
          WRITE(IFICM,'(A)') '/PROP/VOID/1'
@@ -171,7 +171,7 @@ C Ecriture des SUBSETS
             ISUBS2=ISUBS+NBSD
             DO IDEC=1,NBSD
                ISUBS=ISUBS+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A8,I4.4)') '/SUBSET/',OFF+ISUBS
                   WRITE(IFICM,'(A3,I4,A8,I4,A9,I4)')
      . 'Id ',OFF+ISUBS,' - Proc ',IPROC,' - Level ',ILVL
@@ -180,7 +180,7 @@ C Ecriture des SUBSETS
      .            '/SUBSET/',OFF+ISUBS,
      .'/Id ',OFF+ISUBS,' - Proc ',IPROC,' - Level ',ILVL
                ENDIF
-               IF (ILVL.NE.NSLEVEL) 
+               IF (ILVL/=NSLEVEL) 
      .    WRITE(IFICM,FMT=FRM2) (OFF+ISUBS2+(IDEC-1)*NSDEC+I,I=1,NSDEC)
             ENDDO
             ISUBS=ISUBS2
@@ -206,11 +206,11 @@ C
             OFFEL=0
             IS=0
             DO I=1,NUMELS
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A19,I4)') 'Part solide - Proc ',IPROC
                ELSE
@@ -220,7 +220,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A7,I8.8)') '/BRICK/',OFFP+IPART
                DO I=1,NUMELS
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELS=NELS+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      WRITE(IFICM,FMT=FRM2)
@@ -232,11 +232,11 @@ C
 C               
             IS=0
             DO I=1,NUMELQ
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                    WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                    WRITE(IFICM,'(A19,I4)') 'Part 2D - Proc ',IPROC
                ELSE
@@ -246,7 +246,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A6,I8.8)') '/QUAD/',OFFP+IPART
                DO I=1,NUMELQ
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELQ=NELQ+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      WRITE(IFICM,FMT=FRM2) 
@@ -258,11 +258,11 @@ C
 C               
             IS=0
             DO I=1,NUMELC
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A18,I4)') 'Part shell - Proc ',IPROC
                ELSE
@@ -272,7 +272,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A7,I8.8)') '/SHELL/',OFFP+IPART
                DO I=1,NUMELC
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELC=NELC+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      WRITE(IFICM,FMT=FRM2) 
@@ -284,11 +284,11 @@ C
 C               
             IS=0
             DO I=1,NUMELT
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A18,I4)') 'Part truss - Proc ',IPROC
                ELSE
@@ -298,7 +298,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A7,I8.8)') '/TRUSS/',OFFP+IPART
                DO I=1,NUMELT
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELT=NELT+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      WRITE(IFICM,FMT=FRM2) 
@@ -310,11 +310,11 @@ C
 C               
             IS=0
             DO I=1,NUMELP
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A17,I4)') 'Part beam - Proc ',IPROC
                ELSE
@@ -324,7 +324,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A6,I8.8)') '/BEAM/',OFFP+IPART
                DO I=1,NUMELP
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELP=NELP+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      WRITE(IFICM,FMT=FRM2) 
@@ -336,11 +336,11 @@ C
 C               
             IS=0
             DO I=1,NUMELR
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A19,I4)') 'Part spring - Proc ',IPROC
                ELSE
@@ -350,11 +350,11 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A8,I8.8)') '/SPRING/',OFFP+IPART
                DO I=1,NUMELR
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELR=NELR+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      INR3=IXR(4,IEL)
-                     IF (INR3.NE.0) INR3=ITAB(INR3)
+                     IF (INR3/=0) INR3=ITAB(INR3)
                      WRITE(IFICM,FMT=FRM2) 
      .                       NELR,(ITAB(IXR(J,IEL)),J=2,3),INR3
                   ENDIF
@@ -364,11 +364,11 @@ C
 C               
             IS=0
             DO I=1,NUMELTG
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A17,I4)') 'Part sh3n - Proc ',IPROC
                ELSE
@@ -378,7 +378,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A6,I8.8)') '/SH3N/',OFFP+IPART
                DO I=1,NUMELTG
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELC=NELC+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      WRITE(IFICM,FMT=FRM2) 
@@ -390,18 +390,18 @@ C
 C               
             IS=0
             DO I=1,NUMELUR
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) WRITE(ISTDO,'(A)') 
+            IF (IS>0) WRITE(ISTDO,'(A)') 
      .  '  WARNING : RNUR ELEMENTS ARE NOT DISPLAYED'
 C               
             IS=0
             DO I=1,NUMELX
-               IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) IS=IS+1
+               IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS.GT.0) THEN
+            IF (IS>0) THEN
                IPART=IPART+1
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A18,I4)') 'Part xelem - Proc ',IPROC
                ELSE
@@ -411,7 +411,7 @@ C
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
                WRITE(IFICM,'(A7,I8.8)') '/XELEM/',OFFP+IPART
                DO I=1,NUMELX
-                  IF (ELDOM(IPROC,2,I+OFFEL).EQ.OFFSD+IDEC) THEN
+                  IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELX=NELX+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      N=KXX(3,IEL)
@@ -434,7 +434,7 @@ C Ecriture des GRNODS
                IGRN=IGRN+1
                NSDDL=GRAPHE(IPROC)%DGRAPH(IGRN)%NDDL_F+
      .               GRAPHE(IPROC)%DGRAPH(IGRN)%NDDL_I
-               IF (VERS.GE.50) THEN
+               IF (VERS>=50) THEN
                   WRITE(IFICM,'(A12,I4.4)') '/GRNOD/NODE/',OFF+IGRN
                   WRITE(IFICM,'(A3,I4,A8,I4,A9,I4,A13,2I8)')
      . 'Id ',OFF+IGRN,' - Proc ',IPROC,' - Level ',ILVL,' Ndofs (T/I) ',
@@ -450,7 +450,7 @@ C Ecriture des GRNODS
                DO I=1,NSDDL
                   IDDL=GRAPHE(IPROC)%DGRAPH(IGRN)%DDLS(I)
                   INO=GRAPHE(IPROC)%LSDDL(1,IDDL)
-                  IF (INO.NE.INO2) THEN
+                  IF (INO/=INO2) THEN
                      NN=NN+1
                      LNOD(NN)=INO
                      INO2=INO
@@ -479,14 +479,14 @@ C
       II=0
       NFDDL=0
       DO I=1,NUMNOD
-         IF (ITAG(I).EQ.1) THEN
+         IF (ITAG(I)==1) THEN
             II=II+1
             LNOD(II)=I
             NFDDL=NFDDL+NDOF(I)
          ENDIF
       ENDDO
       WRITE(IFICM,FMT=FRM1) LCASE
-      IF (VERS.GE.50) THEN
+      IF (VERS>=50) THEN
          WRITE(IFICM,'(A12,I4.4)') '/GRNOD/NODE/',1
          WRITE(IFICM,'(A3,I4,A29,I10)') 
      .'Id ',1,' - Condensed problem - Ndofs ',NFDDL

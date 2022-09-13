@@ -189,7 +189,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
 C statistique interface
-      IF (DEBUG(3).GE.1.AND.NCYCLE.EQ.0) THEN
+      IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
         NB_JLT(JTASK) = 0
         NB_JLT_NEW(JTASK) = 0
         NB_STOK_N(JTASK) = 0
@@ -203,7 +203,7 @@ C
         CALL MY_BARRIER()
       ENDIF
 C
-      IF (IMPL_S.EQ.1) IAD=1
+      IF (IMPL_S==1) IAD=1
       DO N=1,NINTER
         IF(IMONM > 0 ) THEN
 !$OMP MASTER
@@ -221,7 +221,7 @@ C
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 21.OR.NTY == 24.OR.NTY == 25)
      .      ISENS = IPARI(64,N) ! INTERFACE SENSOR NUMBER
-        IF(ISENS.NE.0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -229,19 +229,19 @@ C
 C
         NTH = N
 C-----  INTER/TYPE19 -> output redirected for TYPE7 and TYPE11
-        IF (IPARI(71,N).GT.0) NTH = IPARI(71,N)
+        IF (IPARI(71,N)>0) NTH = IPARI(71,N)
 C
 C-----------------------------------------------------------------------
-        IF((NTY == 7.AND.TT.GE.TS).OR.NTY == 17) THEN
+        IF((NTY == 7.AND.TT>=TS).OR.NTY == 17) THEN
 C----------------------------------------------------------------------- 
-          IF(IPARI(22,N).EQ.7)THEN    ! si inacti==7
+          IF(IPARI(22,N)==7)THEN    ! si inacti==7
             NRTMDIM=IPARI(4,N)
             NI18 = NI18 + 1
             IF(INT18ADD(NINTER+1) >= 0.and.JTASK == 1
      .         .and.IPARI(34,N)==-2)THEN
               INT18ADD(N+1) = INT18ADD(N) + LINDMAX
             ENDIF
-          ELSEIF(IPARI(44,N).NE.0)THEN
+          ELSEIF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
           ELSE
             NRTMDIM=0
@@ -251,7 +251,7 @@ C
      .         +NVOLU+NRBAG+NFXBODY+1
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
 
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             ALLOCATE(XE(3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)))
             XE(1:3*NUMNOD) = X(1:3*NUMNOD)
             XE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%XIGE(1:3*INTBUF_TAB(N)%S_NIGE)
@@ -265,7 +265,7 @@ C
             PTR_V => VE
             PTR_MS => MSE
             PTR_KINET => KINET(1:NUMNOD)
-          ELSEIF (MULTI_FVM%IS_USED .AND. IPARI(22,N) .EQ. 7) THEN
+          ELSEIF (MULTI_FVM%IS_USED .AND. IPARI(22,N) == 7) THEN
              PTR_X => MULTI_FVM%X_APPEND
              PTR_V => MULTI_FVM%V_APPEND
              PTR_MS => MULTI_FVM%MASS_APPEND
@@ -281,7 +281,7 @@ C
             PTR_KINET => KINET(1:NUMNOD)
           ENDIF
 
-          IF(IMPL_S.NE.1)THEN
+          IF(IMPL_S/=1)THEN
            NULLIFY(ptr_FR_I18)
            IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18) 
            CALL I7MAINF(
@@ -336,14 +336,14 @@ C
             NME   =IGRBRIC(IGE)%NENTITY
             IAD17 = IAD17+6*(NME+NMES)
           END IF
-          IF(INTBUF_TAB(N)%S_NIGE.NE.0) THEN
+          IF(INTBUF_TAB(N)%S_NIGE/=0) THEN
             DEALLOCATE(XE,VE,MSE)
           ENDIF
 C-----------------------------------------------------------------------
-        ELSEIF(NTY.EQ.10)THEN
+        ELSEIF(NTY==10)THEN
 C-----------------------------------------------------------------------
 C
-          IF(IMPL_S.NE.1)THEN
+          IF(IMPL_S/=1)THEN
            CALL I10MAINF(
      1      IPARI(1,N),X         ,A       ,
      2      ICODT     ,FSAV(1,N)    ,V            ,MS        ,DT2T    ,
@@ -374,13 +374,13 @@ C
            IAD=IAD+NUM_IMP(N)
           ENDIF
 C-----------------------------------------------------------------------
-        ELSEIF(NTY.EQ.11.AND.TT.GE.TS)THEN
+        ELSEIF(NTY==11.AND.TT>=TS)THEN
 C-----------------------------------------------------------------------
 C
           NN1 = NINTER+NRWALL+NRBODY+NSECT+NJOINT
      .         +NVOLU+NRBAG+NFXBODY+1
 C
-          IF(IMPL_S.NE.1)THEN
+          IF(IMPL_S/=1)THEN
            CALL I11MAINF(
      1  IPARI(1,N) ,X            ,A          ,
      2  ICODT      ,FSAV(1,NTH)  ,V            ,MS        ,DT2T       ,
@@ -412,10 +412,10 @@ C
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 20) THEN
 C-----------------------------------------------------------------------
-          IF(IPARI(22,N).EQ.7)THEN    ! si inacti==7
+          IF(IPARI(22,N)==7)THEN    ! si inacti==7
             NRTMDIM=IPARI(4,N)
             NI18 = NI18 + 1
-          ELSEIF(IPARI(44,N).NE.0)THEN
+          ELSEIF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
           ELSE
             NRTMDIM=0
@@ -449,9 +449,9 @@ C
           IF(IMPL_S == 1) IAD=IAD+NUM_IMP(N)
 
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 21.AND.TT.GE.TS) THEN
+        ELSEIF(NTY == 21.AND.TT>=TS) THEN
 C-----------------------------------------------------------------------
-          IF(IPARI(44,N).NE.0)THEN
+          IF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
           ELSE
             NRTMDIM=0
@@ -479,7 +479,7 @@ C
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 22) THEN
 C-----------------------------------------------------------------------
-c          IF(IPARI(44,N).NE.0)THEN
+c          IF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
 c          ELSE
 c            NRTMDIM=0
@@ -508,7 +508,7 @@ C
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 23) THEN
 C-----------------------------------------------------------------------
-          IF(IPARI(44,N).NE.0)THEN
+          IF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
           ELSE
             NRTMDIM=0
@@ -527,9 +527,9 @@ C
      9  NPC       ,TF          ,NISKYFI(N)    ,NEWFRONT(N),WA          ,
      A  FBSAV6,ISENSINT(1,N)   ,DIMFB         ,DT2T       ,H3D_DATA    )
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 24.AND.TT.GE.TS) THEN
+        ELSEIF(NTY == 24.AND.TT>=TS) THEN
 C----------------------------------------------------------------------- 
-          IF(IPARI(44,N).NE.0)THEN
+          IF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
           ELSE
             NRTMDIM=0
@@ -538,7 +538,7 @@ C
           NN1 = NINTER+NRWALL+NRBODY+NSECT+NJOINT
      .         +NVOLU+NRBAG+NFXBODY+1
           NN2 = NINTER+NRWALL+NRBODY+NSECT+NJOINT+1
-          IF(IMPL_S.NE.1)THEN
+          IF(IMPL_S/=1)THEN
            CALL I24MAINF(
      1  IPARI     ,INTBUF_TAB(N),X            ,A          ,
      2  ICODT     ,FSAV(1,N)    ,V            ,MS         ,DT2T        ,
@@ -582,9 +582,9 @@ C
            IAD=IAD+NUM_IMP(N)
           END IF
 C-----------------------------------------------------------------------
-        ELSEIF(NTY == 25.AND.TT.GE.TS) THEN
+        ELSEIF(NTY == 25.AND.TT>=TS) THEN
 C----------------------------------------------------------------------- 
-          IF(IPARI(44,N).NE.0)THEN
+          IF(IPARI(44,N)/=0)THEN
             NRTMDIM=IPARI(4,N)
         ELSE
             NRTMDIM=0
@@ -638,9 +638,9 @@ C
         CALL INT18_LAW151_NSV_SHIFT('-',JTASK-1,MULTI_FVM,IPARI,INTBUF_TAB)
       ENDIF
 C
-      IF (DEBUG(3).GE.1) THEN
-        IF(MOD(NCYCLE+1,DEBUG(3)).EQ.0)THEN
-          IF (NB_JLT(JTASK).EQ.0) THEN
+      IF (DEBUG(3)>=1) THEN
+        IF(MOD(NCYCLE+1,DEBUG(3))==0)THEN
+          IF (NB_JLT(JTASK)==0) THEN
             PCT = HUNDRED
             PCT1= ZERO
           ELSE
@@ -665,8 +665,8 @@ C
 C
 C       INTERFACE TYPE25
         IF(NINTER25 /= 0)THEN
-          IF(MOD(NCYCLE+1,DEBUG(3)).EQ.0)THEN
-            IF(NB25_CANDT(1).EQ.0)THEN
+          IF(MOD(NCYCLE+1,DEBUG(3))==0)THEN
+            IF(NB25_CANDT(1)==0)THEN
               PCT2 = HUNDRED
             ELSE
               PCT2 = HUNDRED * NB25_DST2(JTASK) / NB25_CANDT(1)

@@ -152,7 +152,7 @@ C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
         ELSEIF (ITY == 6) THEN
-          IF(MLW.EQ.3)THEN
+          IF(MLW==3)THEN
             DO I=LFT,LLT
               N = I + NFT
               N_FA = I + NFT_FA

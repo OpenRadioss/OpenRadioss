@@ -137,14 +137,14 @@ C--------------------------------------------------
          VALUE(I) = ANIN(I+K)			 
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
-      ELSEIF(KEYWORD == 'MASS')THEN      ! IFUNC.LT.3.OR.IFUNC.EQ.12)THEN
+      ELSEIF(KEYWORD == 'MASS')THEN      ! IFUNC<3.OR.IFUNC==12)THEN
         DO I=1,NUMNOD
          VALUE(I) = MS(I)			 
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
         DO N=1,NRBYKIN
           M=NPBY(1,N)
-          IF (M.GT.0) THEN
+          IF (M>0) THEN
             VALUE(M) = VALUE(M) +(RBY(15,N)-MS(M))
           ENDIF
         ENDDO
@@ -173,18 +173,18 @@ c
          IF(KEYWORD == 'SSP') IFUNC = 30         
          !ALE Nodal Pressure
          IF (KEYWORD == 'P') THEN
-           IF(N2D.EQ.0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-           IF(N2D.NE.0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+           IF(N2D==0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+           IF(N2D/=0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
          ENDIF
          !ALE Nodal Density
          IF (KEYWORD == 'DENS') THEN
-           IF(N2D.EQ.0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
-           IF(N2D.NE.0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
+           IF(N2D==0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
+           IF(N2D/=0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
          ENDIF
          !ALE Nodal Temperature
          IF (KEYWORD == 'TEMP') THEN
-           IF(N2D.EQ.0)CALL NODALT(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-           IF(N2D.NE.0)CALL NODALT(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
+           IF(N2D==0)CALL NODALT(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+           IF(N2D/=0)CALL NODALT(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
          ENDIF
          !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
          CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, MONVOL, VOLMON, 1)
@@ -205,7 +205,7 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'NDMASS')THEN
 C--------------------------------------------------
-        IF(IDTMINS .NE. 0)THEN
+        IF(IDTMINS /= 0)THEN
           DO I=1,NUMNOD
             VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-ONE)	 
             IS_WRITTEN_VALUE(I) = 1
@@ -235,7 +235,7 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'STIFR')THEN
 C--------------------------------------------------
-        IF(IRODDL.NE.0)THEN
+        IF(IRODDL/=0)THEN
           DO I=1,NUMNOD
             VALUE(I)=STIFR(I)		 
             IS_WRITTEN_VALUE(I) = 1

@@ -90,7 +90,7 @@ C
 C Traitement specifique pour DMAS
 C
 C MMASS(II) initialise a MS(J) a t=0 dans starter
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS  .GT.0) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS  >0) THEN
         DO II=1,NMN
           J=MSR(II)
           ADM(J) = ADM(J)*MMASS(II)
@@ -112,7 +112,7 @@ C
        K = INDXC(II)                                      
        IF (K == 0) CYCLE                                  
        I = NSV(K)
-       IF(I.GT.0)THEN
+       IF(I>0)THEN
         L=IRTL(II)
 C
         S = CRST(1,II)    
@@ -204,12 +204,12 @@ C
         DPARA(6,II)=C2
         DPARA(7,II)=C3
 C
-        IF (WEIGHT(I).EQ.1) THEN
+        IF (WEIGHT(I)==1) THEN
          XMSI=MS(I)
          FXS=A(1,I)
          FYS=A(2,I)
          FZS=A(3,I) 
-         IF (IRODDL.EQ.1) THEN
+         IF (IRODDL==1) THEN
            INS=IN(I)
            MX=AR(1,I) + YS*FZS - ZS*FYS
            MY=AR(2,I) + ZS*FXS - XS*FZS
@@ -244,8 +244,8 @@ C     MASSES & FORCES TRANSMISES AUX NOEUDS MAINS
 C------------------------------------------------------
 C
          FACT = ONE
-         IF (IRODDL.EQ.1) THEN
-         IF ((IN(J1).GT.ZERO.AND.IN(J2).GT.ZERO.AND.IN(J3).GT.ZERO.AND.IN(J4).GT.ZERO)) THEN
+         IF (IRODDL==1) THEN
+         IF ((IN(J1)>ZERO.AND.IN(J2)>ZERO.AND.IN(J3)>ZERO.AND.IN(J4)>ZERO)) THEN
 C--        Inertie transmise sous forme d'inertie
            FACT = ZERO
          ENDIF
@@ -318,7 +318,7 @@ C
 C
          DMAST = DMAST + 4.*XMSI - MS(I)
 C
-         IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS .GT.0) THEN
+         IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
           ADM(J1) = ADM(J1) + XMSI - FOURTH*MS(I)
           ADM(J2) = ADM(J2) + XMSI - FOURTH*MS(I)
           ADM(J3) = ADM(J3) + XMSI - FOURTH*MS(I)
@@ -326,12 +326,12 @@ C
          ENDIF
         ENDIF
 C
-        IF(IDEL2.NE.0.AND.MS(I).NE.0.)SMASS(II)=MS(I)
+        IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
         STIFN(I)=EM20
 C
-        IF (IRODDL.EQ.1) THEN
-          IF(IDEL2.NE.0.AND.IN(I).NE.0.)SINER(II)=IN(I)
+        IF (IRODDL==1) THEN
+          IF(IDEL2/=0.AND.IN(I)/=0.)SINER(II)=IN(I)
           IN(I)=ZERO
           STIFR(I)=EM20
         ENDIF
@@ -342,7 +342,7 @@ C---    output of tied contact forces
      .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)   
 C----
 C stokage ZERO pour noeuds delete par idel2
-       ELSEIF(WEIGHT(-I).EQ.1) THEN
+       ELSEIF(WEIGHT(-I)==1) THEN
          I0 = I0BASE + IADX(K)
          NN = IADI2(1,I0)
          FSKYI2(1,NN) = ZERO
@@ -403,7 +403,7 @@ C
 C
 C Traitement specifique pour ADM
 C
-      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS  .GT.0) THEN
+      IF(ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS  >0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
           J=MSR(II)

@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  SPMD_CELL_LIST_EXCHANGE       source/mpi/interfaces/spmd_cell_list_exchange.F
 Chd|-- called by -----------
@@ -140,7 +140,7 @@ C-----------------------------------------------
         !   mode = 1
         !   send & rcv the number of cell & prepare the array for the next comm
         IF(MODE==1) THEN
-            IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN !CYCLE
+            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN !CYCLE
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%NB_CELL_PROC)) THEN
                 SIZE_ = SORT_COMM(NIN)%PROC_NUMBER
                 ALLOCATE(SORT_COMM(NIN)%NB_CELL_PROC(SIZE_))
@@ -228,13 +228,13 @@ C-----------------------------------------------
        IF(MODE==2) THEN
             !   -------------------------
             !   wait the previous comm
-            IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
+            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
 
             CALL MPI_WAIT(SORT_COMM(NIN)%REQUEST_NB_CELL,STATUS,IERROR) 
 
             SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 0
             SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = 0
-            IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN !CYCLE
+            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN !CYCLE
 
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%REQUEST_CELL_SEND)) THEN
                 ALLOCATE(SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%PROC_NUMBER))
@@ -322,7 +322,7 @@ C-----------------------------------------------
             !   wait the previous comm
             CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)  
             NSNFI(NIN)%P(1:NSPMD) = 0
-            IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
+            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
 
             ITIED = IPARI(85,NIN)
             IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0.OR.ITIED/=0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
@@ -364,7 +364,7 @@ C-----------------------------------------------
         !   wait the S comm "send the cells"
         !   and deallocation
         IF(MODE==4) THEN
-            IF(IRCVFROM(NIN,LOC_PROC).EQ.0.AND.ISENDTO(NIN,LOC_PROC).EQ.0) RETURN
+            IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
             DO KK=1,SORT_COMM(NIN)%NB_REQUEST_CELL_SEND
                 !   wait the first message
                 CALL MPI_WAITANY( SORT_COMM(NIN)%NB_REQUEST_CELL_SEND,

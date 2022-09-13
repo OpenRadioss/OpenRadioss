@@ -60,8 +60,8 @@ C-----------------------------------------------
       CHARACTER STRI*8
 C-----------------------------------------------
       EXTERNAL STRI
-      IF (L.EQ.0)RETURN
-      IF (IFORM/5.EQ.1)THEN
+      IF (L==0)RETURN
+      IF (IFORM/5==1)THEN
        LREC=10
       ELSE
        LREC=2000
@@ -70,7 +70,7 @@ C
       L1=1
       L2=LREC
    1  L2=MIN(L,L2)
-      IF (IFORM/5.EQ.1)THEN
+      IF (IFORM/5==1)THEN
        II=0
        DO 20 I=L1,L2
        II=II+1
@@ -79,7 +79,7 @@ C
       ELSE
        WRITE(IUNIT) (IA(I),I=L1,L2)
       ENDIF
-      IF(L2.EQ.L)RETURN
+      IF(L2==L)RETURN
       L1=L2+1
       L2=L1+LREC-1
       GOTO 1

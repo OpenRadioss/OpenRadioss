@@ -192,9 +192,9 @@ C
           !--------------------
           !    SPMD EXCHANGE OF ADJACENT ELEMS 
           !--------------------
-        IF(IALE+IEULER+ITHERM .NE. 0)THEN	     
+        IF(IALE+IEULER+ITHERM /= 0)THEN	     
           LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
-          IF (NSPMD.GT.1) THEN
+          IF (NSPMD>1) THEN
             ! Partie non parallele smt
             CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2      	       LESDVOIS,LENCOM  )
@@ -267,7 +267,7 @@ C-----------------------------------------------
 C
     	      DO I=1,NEL
     	        N = I + NFT
-    	        IF(IALEL.EQ.0)THEN
+    	        IF(IALEL==0)THEN
     	          MT=IXQ(1,N)
     	          MASS(I)=PM(89,MT)*GBUF%VOL(I)
     	        ELSE
@@ -372,7 +372,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'K')THEN
 C--------------------------------------------------
-              IF(JTURB.NE.0)THEN
+              IF(JTURB/=0)THEN
                 DO I=1,NEL
                   VALUE(I) = GBUF%RK(I)
                   IS_WRITTEN_VALUE(I) = 1
@@ -381,7 +381,7 @@ C--------------------------------------------------
 C--------------------------------------------------
             ELSEIF(KEYWORD == 'TVIS')THEN
 C--------------------------------------------------
-              IF (MLW == 6 .OR. MLW == 17.AND.JTURB.NE.0) THEN
+              IF (MLW == 6 .OR. MLW == 17.AND.JTURB/=0) THEN
                 DO I=1,NEL
                   MT=IXQ(1,I+NFT)
                   VALUE(I)=PM(81,MT)*GBUF%RK(I)**2/
@@ -410,7 +410,7 @@ C--------------------------------------------------
               ELSEIF(MLW == 151)THEN
                 !ITY = IPARG(5, NG)
                 NB_FACE = 4
-                IF (ITY .EQ. 7)NB_FACE=3
+                IF (ITY == 7)NB_FACE=3
                 DO I=1,NEL
                   II = I + NFT
                   IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
@@ -592,7 +592,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A9,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     GBUF => ELBUF_TAB(NG)%GBUF
                     LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
                     DO I=1,NEL
@@ -606,7 +606,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     DO I=1,NEL
                        VALUE(I) = MULTI_FVM%PHASE_EINT(IMAT, I + NFT) / 
      .                      MULTI_FVM%PHASE_RHO(IMAT, I + NFT)
@@ -619,7 +619,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     DO I=1,NEL
                        VALUE(I) = MULTI_FVM%PHASE_PRES(IMAT, I + NFT)
                        IS_WRITTEN_VALUE(I) = 1           
@@ -631,7 +631,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               IF (MLW == 151) THEN 
                  READ(KEYWORD, '(A8,I10)') BUFF, IMAT
-                 IF (IMAT .GT. 0 .AND. IMAT .LE. NLAY) THEN
+                 IF (IMAT > 0 .AND. IMAT <= NLAY) THEN
                     DO I=1,NEL
                        VALUE(I) = MULTI_FVM%PHASE_RHO(IMAT, I + NFT)
                        IS_WRITTEN_VALUE(I) = 1           
@@ -643,7 +643,7 @@ C--------------------------------------------------
 C--------------------------------------------------
               !BURN FRACTION explosive EOS 
                 IF(GBUF%G_BFRAC > 0) THEN
-                  IF (MLW.EQ.151)THEN
+                  IF (MLW==151)THEN
                     DO I=1,NEL
                       VALUE(I)=-EP30
                       DO ILAY=1,NLAY
@@ -666,7 +666,7 @@ C--------------------------------------------------
                   ENDDO
                ELSE
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
-                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN              
+                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN              
                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
                      DO  I=1,NEL                                         
                         VALUE(I) = LBUF%SSP(I) 
@@ -685,7 +685,7 @@ C--------------------------------------------------
             ELSEIF(KEYWORD == 'SCHLIEREN') THEN     
 C--------------------------------------------------                                                   
                IALEL=IPARG(7,NG)+IPARG(11,NG)
-               IF(IPARG(7,NG)+IPARG(11,NG) .NE. 0)THEN                                         
+               IF(IPARG(7,NG)+IPARG(11,NG) /= 0)THEN                                         
                  CALL SCHLIEREN(
      1                 EVAR    , IXQ    , X           , V       , W       ,
      2                 IPARG   , WA_L   , ELBUF_TAB   , ALE_CONNECT   , GBUF%VOL,
@@ -972,7 +972,7 @@ C--------------------------------------------------
                   MT = IXQ(1,NFT+1)
                   DO I=1,NEL
                     VALUE(I) = PM(1,MT)*LBUF1%VOL(I)*TWO*PI_
-                    IF(LBUF1%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/LBUF1%RHO(I)
+                    IF(LBUF1%RHO(I)>ZERO)VALUE(I) = VALUE(I)/LBUF1%RHO(I)
 	            IS_WRITTEN_VALUE(I) = 1
                   ENDDO                
                 ELSE
@@ -993,7 +993,7 @@ C--------------------------------------------------
                     MT = IXQ(1,NFT+1)
                     DO I=1,NEL
                       VALUE(I) = PM(1,MT)*LBUF2%VOL(I)*TWO*PI_
-                      IF(LBUF2%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/LBUF2%RHO(I)
+                      IF(LBUF2%RHO(I)>ZERO)VALUE(I) = VALUE(I)/LBUF2%RHO(I)
 	              IS_WRITTEN_VALUE(I) = 1
                     ENDDO                
                   ELSE
@@ -1012,7 +1012,7 @@ C--------------------------------------------------
                 MT = IXQ(1,NFT+1)                                         
                 DO I=1,NEL                                                
                   VALUE(I) = PM(1,MT)*GBUF%VOL(I)*TWO*PI_                
-                  IF(GBUF%RHO(I).GT.ZERO)VALUE(I) = VALUE(I)/GBUF%RHO(I)  
+                  IF(GBUF%RHO(I)>ZERO)VALUE(I) = VALUE(I)/GBUF%RHO(I)  
 	          IS_WRITTEN_VALUE(I) = 1                                 
                 ENDDO                                                     
               ELSE                                                        
@@ -1056,7 +1056,7 @@ C--------------------------------------------------
               ELSEIF (KEYWORD == 'EINTM' .OR. KEYWORD == 'ENER')THEN
 C-------------------------------------------------- 
                !LAG: GBUF%VOL = V0,    GBUF%EINT=rho0.e
-               IF (MLW .EQ. 151) THEN
+               IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I)  !
                      IS_WRITTEN_VALUE(I) = 1
@@ -1077,7 +1077,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINTV')THEN
 C-------------------------------------------------- 
-               IF (MLW .EQ. 151) THEN
+               IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT)
                      IS_WRITTEN_VALUE(I) = 1
@@ -1098,7 +1098,7 @@ C--------------------------------------------------
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'EINT')THEN
 C-------------------------------------------------- 
-              IF (MLW .EQ. 151) THEN
+              IF (MLW == 151) THEN
                   DO I = 1, NEL
                      VALUE(I) = MULTI_FVM%EINT(I + NFT) * GBUF%VOL(I)
                      IS_WRITTEN_VALUE(I) = 1
@@ -1131,7 +1131,7 @@ C--------------------------------------------------
                ENDIF    
                !GBUF%EINT is rho.e           
                IF(KEYWORD == 'ENTH')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I) !
                         IS_WRITTEN_VALUE(I) = 1
@@ -1152,7 +1152,7 @@ C--------------------------------------------------
                      ENDDO
                   ENDIF                
                ELSEIF(KEYWORD == 'ENTHV')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         VALUE(I) = MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT)/GBUF%VOL(I) + PRES(I) !
                         IS_WRITTEN_VALUE(I) = 1
@@ -1173,7 +1173,7 @@ C--------------------------------------------------
                      ENDDO
                   ENDIF                                
                ELSEIF(KEYWORD == 'ENTHM')THEN
-                 IF (MLW .EQ. 151) THEN
+                 IF (MLW == 151) THEN
                      DO I = 1, NEL
                         MASS(I) = MULTI_FVM%RHO(I + NFT)*GBUF%VOL(I)
                         VALUE(I) = (MULTI_FVM%EINT(I + NFT) / MULTI_FVM%RHO(I + NFT) + PRES(I)*GBUF%VOL(I))/MASS(I) !
@@ -1224,9 +1224,9 @@ C--------------------------------------------------
                       VALUE(I) = VEL(0)/MULTI_FVM%SOUND_SPEED(I + NFT)
                       IS_WRITTEN_VALUE(I) = 1                             
                    ENDDO
-                ELSEIF(I_ALE_SOLVER.GT.1)THEN
+                ELSEIF(I_ALE_SOLVER>1)THEN
                      L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                        
-                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN              
+                     IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN              
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)            
                         DO  I=1,NEL     
                            VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
@@ -1239,7 +1239,7 @@ C--------------------------------------------------
                      ENDIF                                             
                 ELSE                                                                                 
                   L = ELBUF_TAB(NG)%BUFLY(1)%L_SSP                                                     
-                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP .NE. 0)THEN                                               
+                  IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                                               
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)    
                     IF(IS_ALE /= 0)THEN 
                     !ale                                         
@@ -1319,7 +1319,7 @@ C--------------------------------------------------
               
                  ! print *, "MWL,NFRAC,NEL=", MLW,NFRAC,NEL
               
-              IF(NFRAC.GT.0)THEN
+              IF(NFRAC>0)THEN
                 DO I=1,NEL
                   VALUE(I)=ZERO
                   DO IMAT=1,NFRAC

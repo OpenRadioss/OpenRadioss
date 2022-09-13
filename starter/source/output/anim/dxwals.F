@@ -64,7 +64,7 @@ C
        XN =RWL(1)
        YN =RWL(2)
        ZN =RWL(3)
-       IF(MSR.EQ.0)THEN
+       IF(MSR==0)THEN
         XWL=RWL(4)
         YWL=RWL(5)
         ZWL=RWL(6)

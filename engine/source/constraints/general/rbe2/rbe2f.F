@@ -76,7 +76,7 @@ C     REAL
 C======================================================================|
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       ICOM = IAD_RBE2(NSPMD+1)-IAD_RBE2(1)
-      IF (NSPMD.GT.1)CALL SPMD_MAX_I(ICOM)
+      IF (NSPMD>1)CALL SPMD_MAX_I(ICOM)
       DO NHI=0,NHRBE2
        DO N=1,NMRBE2
         DO J=1,3
@@ -93,7 +93,7 @@ C======================================================================|
 c       CALL RBE2_POFF(IRBE2 ,A     ,AR    ,MS    ,IN    ,
 c     1                STIFN ,STIFR ,WEIGHT,JR    ,NHI   )
        DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.NHI) CYCLE
+        IF (IRBE2(9,N)/=NHI) CYCLE
 	IAD = IRBE2(1,N)
         NSN = IRBE2(5,N)
         M   = IRBE2(3,N)
@@ -101,7 +101,7 @@ c     1                STIFN ,STIFR ,WEIGHT,JR    ,NHI   )
 	MID = IABS(IRBE2(6,N))
 	IRAD = IRBE2(11,N)
 c	print *,'iad,m,mid,ih=',iad,m,IRBE2(6,N),IRBE2(9,N)
-	IF (ISK.GT.1) THEN
+	IF (ISK>1) THEN
           CALL RBE2FL(NSN   ,LRBE2(IAD+1),X     ,A     ,AR    ,
      1                MS    ,IN    ,WEIGHT,JT(1,N),JR(1,N),
      2               FRBE2M6(1,1,MID),MRBE2M6(1,1,MID),STIFN ,STIFR,
@@ -115,7 +115,7 @@ c	print *,'iad,m,mid,ih=',iad,m,IRBE2(6,N),IRBE2(9,N)
 	END IF
        END DO
 C-----------------
-        IF (ICOM.GT.0) THEN
+        IF (ICOM>0) THEN
             CALL SPMD_EXCH_RBE2_PON(
      .       FRBE2M6 ,MRBE2M6 ,STRBE2M6 ,SRRBE2M6 ,IAD_RBE2,
      .       FR_RBE2M,IAD_RBE2(NSPMD+1),R2SIZE)
@@ -178,12 +178,12 @@ C     REAL
       DOUBLE PRECISION
      .   AS6(6,3,NSL),STIS6(6,NSL)
 C======================================================================|
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
       ENDIF
-      IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF ((JR(1)+JR(2)+JR(3))>0) THEN
        IJR=1
       ELSE
        IJR=0
@@ -208,7 +208,7 @@ c---    summ secnd forces pon
         ENDDO
       ENDDO
 C-----------Nastran's formulation----
-      IF (IRAD.EQ.0) THEN
+      IF (IRAD==0) THEN
        DO I=1,NSL
         NS  = ISL(I)
         DO J=1,3
@@ -238,7 +238,7 @@ c---    summ secnd moments pon
          STIR6(K) = STIR6(K) + STIS6(K,I)
         ENDDO
        ENDDO
-      ELSEIF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+      ELSEIF ((JR(1)+JR(2)+JR(3))>0) THEN
        DO I=1,NSL
         NS  = ISL(I)
         DO J=1,3
@@ -341,12 +341,12 @@ C     REAL
 C======================================================================|
        IC = JT(1)*100+JT(2)*10+JT(3)
        CALL CDI_BCN(IC   ,SKEW  ,JT   ,CDT  ,JT1  )
-      IF ((JT(1)+JT(2)+JT(3)).GT.0) THEN
+      IF ((JT(1)+JT(2)+JT(3))>0) THEN
        IJT=1
       ELSE
        IJT=0
       ENDIF
-      IF ((JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF ((JR(1)+JR(2)+JR(3))>0) THEN
        IJR=1
       ELSE
        IJR=0
@@ -376,12 +376,12 @@ c---    summ secnd forces pon
         ENDDO
       ENDDO
 C---    NS components
-      IF (IC.GT.0.AND.IC.LT.111) THEN
+      IF (IC>0.AND.IC<111) THEN
        CALL RBE2FLSN(NSL   ,ISL  ,A     ,WEIGHT ,IC     ,
      1              SKEW  )
       END IF
 C---
-      IF (IRAD.EQ.0.OR.(JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF (IRAD==0.OR.(JR(1)+JR(2)+JR(3))>0) THEN
        IC = JR(1)*100+JR(2)*10+JR(3)
        CALL CDI_BCN(IC   ,SKEW  ,JR   ,CDR  ,JR1 )
        DO I=1,NSL
@@ -414,7 +414,7 @@ c---    summ secnd moments pon
          STIR6(K) = STIR6(K) + STIS6(K,I)
         ENDDO
        ENDDO
-       IF (IC.GT.0.AND.IC.LT.111) THEN
+       IF (IC>0.AND.IC<111) THEN
         CALL RBE2FLSN(NSL   ,ISL  ,AR    ,WEIGHT ,IC     ,
      1                SKEW  )
        END IF
@@ -489,14 +489,14 @@ C     REAL
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2
-        IF (IRBE2(9,N).NE.IH) CYCLE
+        IF (IRBE2(9,N)/=IH) CYCLE
         M  = IRBE2(3,N)
 	A(1,M) = A(1,M)*WEIGHT(M)
 	A(2,M) = A(2,M)*WEIGHT(M)
 	A(3,M) = A(3,M)*WEIGHT(M)
 	STIFN(M) = STIFN(M)*WEIGHT(M)
 	IROT = JR(1,N)+JR(2,N)+JR(3,N)
-        IF (IROT.GT.0) THEN
+        IF (IROT>0) THEN
 	 AR(1,M) = AR(1,M)*WEIGHT(M)
 	 AR(2,M) = AR(2,M)*WEIGHT(M)
 	 AR(3,M) = AR(3,M)*WEIGHT(M)
@@ -546,11 +546,11 @@ C     REAL
 C======================================================================|
 #include    "vectorize.inc"
       DO N=1,NRBE2
-        IF (IH.NE.IRBE2(9,N)) CYCLE
+        IF (IH/=IRBE2(9,N)) CYCLE
         M  = IRBE2(3,N)
         MID = IRBE2(6,N)
         IRAD = IRBE2(11,N)
-        IF (MID.LT.0) CYCLE
+        IF (MID<0) CYCLE
 	IROT = JR(1,N)+JR(2,N)+JR(3,N)
          DO K=1,6
 	  A(1,M) = A(1,M)+ F6(1,K,MID)
@@ -558,7 +558,7 @@ C======================================================================|
 	  A(3,M) = A(3,M)+ F6(3,K,MID)
 	  STIFN(M) = STIFN(M)+ST6(K,MID)
          ENDDO
-         IF (IROT.GT.0.OR.IRAD.EQ.0) THEN
+         IF (IROT>0.OR.IRAD==0) THEN
           DO K=1,6
 	   AR(1,M) = AR(1,M)+ M6(1,K,MID)
 	   AR(2,M) = AR(2,M)+ M6(2,K,MID)
@@ -616,7 +616,7 @@ C======================================================================|
 	IC=IRBE2(4,N)
         ICT=IC/512
         ICR=(IC-512*(ICT))/64
-	IF (IRODDL.EQ.0) ICR =0
+	IF (IRODDL==0) ICR =0
 	DO J =1,3
            JT(J,N)=0
            JR(J,N)=0
@@ -698,7 +698,7 @@ C-----------------------------------------------
       INTEGER I, J, M,N,ITAG(NUMNOD),IAD,IH(NRBE2),NSL,NS,NIH
 C======================================================================|
       NMRBE2 = 0
-      IF (NRBE2.EQ.0) RETURN
+      IF (NRBE2==0) RETURN
       DO N=1,NUMNOD
 	ITAG(N)=0
       ENDDO
@@ -714,7 +714,7 @@ C	M=IRBE2(3,N)
 C	NSL =IRBE2(5,N)
 C	DO J=1,NSL
 C	 NS= LRBE2(IAD+J)
-C	 IF (ITAG(NS).GT.0) IH(ITAG(NS)) =M
+C	 IF (ITAG(NS)>0) IH(ITAG(NS)) =M
 C	ENDDO
 C      ENDDO
 C      DO N=1,NRBE2
@@ -724,7 +724,7 @@ C      ENDDO
 C
        DO N=1,NRBE2
 	M=IRBE2(3,N)
-	IF (ITAG(M).EQ.0) THEN
+	IF (ITAG(M)==0) THEN
 	 NMRBE2 =NMRBE2 +1
 	 ITAG(M)= NMRBE2
 	 IRBE2(6,N) = ITAG(M)
@@ -733,7 +733,7 @@ C
 	 NIH = IH(ITAG(M))
 	 IRBE2(6,N) = ITAG(M)
 C---------to avoid the double sum on A,AR for main nodes in the same IH
-	 IF (IRBE2(9,N).EQ.NIH) THEN
+	 IF (IRBE2(9,N)==NIH) THEN
            IRBE2(6,N) = -ITAG(M)
 C---------case the same main in the same IH, but also before
          ELSE
@@ -793,7 +793,7 @@ C     REAL
       my_real
      .       RX,RY,RZ,FX,FY,FZ, SKEW(LSKEW),CDT(9),CDR(9),CDTR(9),AAR(3)
 C======================================================================|
-	IF (ISK.GT.1) THEN
+	IF (ISK>1) THEN
 	 DO K=1,9
 	  SKEW(K)=SKEW0(K)
 	 ENDDO
@@ -811,11 +811,11 @@ C======================================================================|
         A(2,M) = A(2,M)+CDT(4)*A(1,NS)+CDT(5)*A(2,NS)+CDT(6)*A(3,NS)
         A(3,M) = A(3,M)+CDT(7)*A(1,NS)+CDT(8)*A(2,NS)+CDT(9)*A(3,NS)
 C---    NS components
-      IF (IC.GT.0.AND.IC.LT.111) THEN
+      IF (IC>0.AND.IC<111) THEN
        CALL RBE2FLSNFR(NS   ,A     ,IC     ,SKEW  )
       END IF
 C---
-      IF (IRAD.EQ.0.OR.(JR(1)+JR(2)+JR(3)).GT.0) THEN
+      IF (IRAD==0.OR.(JR(1)+JR(2)+JR(3))>0) THEN
        IC = JR(1)*100+JR(2)*10+JR(3)
        CALL CDI_BCN(IC   ,SKEW  ,JR   ,CDR  ,JR1 )
         RX = X(1,NS) - X(1,M)
@@ -832,7 +832,7 @@ C
      .           AAR(2)+CDR(4)*AR(1,NS)+CDR(5)*AR(2,NS)+CDR(6)*AR(3,NS)
         AR(3,M)= AR(3,M)+
      .           AAR(3)+CDR(7)*AR(1,NS)+CDR(8)*AR(2,NS)+CDR(9)*AR(3,NS)
-       IF (IC.GT.0.AND.IC.LT.111) THEN
+       IF (IC>0.AND.IC<111) THEN
         CALL RBE2FLSNFR(NS   ,AR    ,IC     ,SKEW  )
        END IF
       END IF
@@ -903,7 +903,7 @@ C----------------011-------------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(4)/SKEW(3+J1)
@@ -924,7 +924,7 @@ C----------------101-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -945,7 +945,7 @@ C----------------110-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -960,27 +960,27 @@ C----------------110-------------------------
 C
        DO I=1,NSL
         NS = ISL(I)
-	IF (WEIGHT(NS).EQ.0) CYCLE
+	IF (WEIGHT(NS)==0) CYCLE
 C-------------------100---------------------
-         IF (ICT .EQ. 100 ) THEN
+         IF (ICT == 100 ) THEN
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
           A(K,NS) = A(K,NS)-EJ(K)*A(J,NS)
 C-------------------010---------------------
-         ELSEIF (ICT .EQ. 10) THEN
+         ELSEIF (ICT == 10) THEN
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
           A(K,NS) = A(K,NS)-EJ(K)*A(J,NS)
 C-------------------001---------------------
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           A(J1,NS) = A(J1,NS)-EJ(J1)*A(J,NS)
           A(K,NS) = A(K,NS)-EJ(K)*A(J,NS)
 C-------------------011---------------------
-         ELSEIF (ICT .EQ. 11) THEN
+         ELSEIF (ICT == 11) THEN
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
 C-------------------101---------------------
-         ELSEIF (ICT .EQ. 101) THEN
+         ELSEIF (ICT == 101) THEN
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
 C-------------------110---------------------
-         ELSEIF (ICT .EQ. 110 ) THEN
+         ELSEIF (ICT == 110 ) THEN
           A(K,NS)=A(K,NS)+EA*A(J,NS)+EB*A(J1,NS)
          ENDIF
       ENDDO
@@ -1056,7 +1056,7 @@ C----------------011-------------------------
           EJ1(2)=SKEW(5)
           EJ1(3)=SKEW(6)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(4)/SKEW(3+J1)
@@ -1078,7 +1078,7 @@ C----------------101-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)
@@ -1100,7 +1100,7 @@ C----------------110-------------------------
           EJ1(2)=SKEW(2)
           EJ1(3)=SKEW(3)
           CALL L_DIR(EJ1,J1)
-          IF (J1.EQ.J) THEN
+          IF (J1==J) THEN
            EJ1(J)=ZERO
            CALL L_DIR(EJ1,J1)
            EJ1(1)=SKEW(1)/SKEW(J1)

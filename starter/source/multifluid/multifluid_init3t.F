@@ -160,10 +160,10 @@ C     Material initialization
          PM(104,IXS(1, 1 + NFT)) = PM(104,IXS(1, 1 + NFT)) + VFRAC * PRES !global pressure
      
          MATLAW = IPM(2, MAT(1))
-         IF (MATLAW .EQ. 5) THEN
+         IF (MATLAW == 5) THEN
 ! JWL MAT
             IF (.NOT. ERROR_THROWN) THEN
-               IF (PM(44, MAT(1)) .EQ. ZERO) THEN
+               IF (PM(44, MAT(1)) == ZERO) THEN
                   CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .                 I1 = IPM(1, IXS(1, 1 + NFT)), I2 = IPM(1, MAT(1)))
                ENDIF
@@ -173,7 +173,7 @@ C     Material initialization
          ENDIF
       ENDDO
 
-      IF (NLAY .GT. 1) THEN     
+      IF (NLAY > 1) THEN     
 
 C     Mass globalization
          

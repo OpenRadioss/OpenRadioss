@@ -64,7 +64,7 @@ C   THEACCFACT : factor to speed-up thermal analysis
 C--------------------------------------------------
       THEACCFACT=ONE
       IKEY=KTHERMAL
-      IF(IKAD(IKEY).NE.IKAD(IKEY+1))THEN
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC2,*,ERR=9990)  THEACCFACT
        IF(THEACCFACT == ZERO)  THEACCFACT=ONE 

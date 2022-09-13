@@ -120,9 +120,9 @@ C---------------------------------------------------
 C 1- Assemblage
 C---------------------------------------------------
       IF (L_ASSEMB) THEN
-         IF (ILVOUT.GE.1.AND.ISPMD.EQ.0) WRITE(ISTDO,'(A)') 
+         IF (ILVOUT>=1.AND.ISPMD==0) WRITE(ISTDO,'(A)') 
      .   ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
-         IF (IFORM.EQ.1) THEN
+         IF (IFORM==1) THEN
 C Assemblage de H
             DO I=1,NNRP
                DO J=1,NNCP
@@ -133,7 +133,7 @@ C Assemblage de H
                ENDDO
             ENDDO
             DO I=1,NCEIP
-               IF (ILVOUT.EQ.2) 
+               IF (ILVOUT==2) 
      .            CALL PROGCONDP_C(I,NCEIP+NEP, ISPMD+1, IBID)
                IEL=CCEI_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -168,14 +168,14 @@ C Assemblage de H
      .                        X0,  Y0,  Z0,  D2,   AREA2,
      .                        NRX, NRY, NRZ, RVAL, N1,
      .                        N2,  N3,  X  )
-                  IF (NL1.NE.0) HBEM(J,NL1)=HBEM(J,NL1)+RVAL(1)
-                  IF (NL2.NE.0) HBEM(J,NL2)=HBEM(J,NL2)+RVAL(2)
-                  IF (NL3.NE.0) HBEM(J,NL3)=HBEM(J,NL3)+RVAL(3)
+                  IF (NL1/=0) HBEM(J,NL1)=HBEM(J,NL1)+RVAL(1)
+                  IF (NL2/=0) HBEM(J,NL2)=HBEM(J,NL2)+RVAL(2)
+                  IF (NL3/=0) HBEM(J,NL3)=HBEM(J,NL3)+RVAL(3)
                ENDDO
             ENDDO
 C Assemblage de G
             DO I=1,NEP
-               IF (ILVOUT.EQ.2) 
+               IF (ILVOUT==2) 
      .            CALL PROGCONDP_C(NCEIP+I,NCEIP+NEP, ISPMD+1, IBID)
                IEL=CE_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -227,10 +227,10 @@ C Somme des lignes pour le terme diagonal de H
             DO I=1,NNO
                IR=CR_GLOB_LOC(I)
                IC=CC_GLOB_LOC(I)
-               IF (IR.GT.0.AND.IC.GT.0) HBEM(IR,IC)=-LSUMT(I)
+               IF (IR>0.AND.IC>0) HBEM(IR,IC)=-LSUMT(I)
             ENDDO
 C
-         ELSEIF (IFORM.EQ.2) THEN
+         ELSEIF (IFORM==2) THEN
             DO I=1,NNRP
                DO J=1,NNCP
                   HBEM(I,J)=ZERO
@@ -240,7 +240,7 @@ C
                ENDDO
             ENDDO
             DO I=1,NREIP
-               IF (ILVOUT.EQ.2) 
+               IF (ILVOUT==2) 
      .            CALL PROGCONDP_C(I,NREIP, ISPMD+1, IBID)
                IEL=CREI_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -304,10 +304,10 @@ C Somme des lignes de G pour remplacer la derniere colonne de H
          ENDDO
          CALL SPMD_FL_SUM(LSUM, NNO, LSUMT)
          IC=CC_GLOB_LOC(NNO)
-         IF (IC.GT.0) THEN
+         IF (IC>0) THEN
             DO I=1,NNO
                IR=CR_GLOB_LOC(I)
-               IF (IR.GT.0) HBEM(IR,IC)=-LSUMT(I)
+               IF (IR>0) HBEM(IR,IC)=-LSUMT(I)
             ENDDO
          ENDIF
 C Factorisation de HBEM
@@ -317,7 +317,7 @@ C Factorisation de HBEM
 C---------------------------------------------------
 C 2- Resolution
 C---------------------------------------------------
-      IF (ILVOUT.GE.1.AND.ISPMD.EQ.0) THEN
+      IF (ILVOUT>=1.AND.ISPMD==0) THEN
          WRITE(ISTDO,*)
          WRITE(ISTDO,'(A)') 
      .' ** BEMSOLV : PARALLEL LINEAR SYSTEM SOLUTION'
@@ -327,17 +327,17 @@ C---------------------------------------------------
      .            1,   DESC_Q, 1,   ZERO, PHI,
      .            1,   1,   DESC_P, 1)
 C
-      IF (IFORM.EQ.1) THEN
+      IF (IFORM==1) THEN
          IC=CC_GLOB_LOC(1)
-         IF (IC.GT.0) THEN
+         IF (IC>0) THEN
             DO I=1,NNRP
                IR=CR_LOC_GLOB(I)
                PHI(I)=PHI(I)-PHI_INF(IR)
             ENDDO
          ENDIF
-      ELSEIF (IFORM.EQ.2) THEN
+      ELSEIF (IFORM==2) THEN
          IC=CC_GLOB_LOC(1)
-         IF (IC.GT.0) THEN
+         IF (IC>0) THEN
             DO I=1,NREIP
                IEL=CREI_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -629,9 +629,9 @@ C
          S(NL1)=S(NL1)-OFFNR(1)*W*VAL1*PHI_INFP*JAC
          S(NL2)=S(NL2)-OFFNR(2)*W*VAL2*PHI_INFP*JAC
          S(NL3)=S(NL3)-OFFNR(3)*W*VAL3*PHI_INFP*JAC
-*         IF (NL1.GT.0) S(NL1)=S(NL1)-W*VAL1*PHI_INFP*JAC
-*         IF (NL2.GT.0) S(NL2)=S(NL2)-W*VAL2*PHI_INFP*JAC
-*         IF (NL3.GT.0) S(NL3)=S(NL3)-W*VAL3*PHI_INFP*JAC
+*         IF (NL1>0) S(NL1)=S(NL1)-W*VAL1*PHI_INFP*JAC
+*         IF (NL2>0) S(NL2)=S(NL2)-W*VAL2*PHI_INFP*JAC
+*         IF (NL3>0) S(NL3)=S(NL3)-W*VAL3*PHI_INFP*JAC
       ENDDO
 C
       RETURN

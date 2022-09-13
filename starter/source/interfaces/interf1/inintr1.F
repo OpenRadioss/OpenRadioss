@@ -61,39 +61,39 @@ C-----------------------------------------------
       INTEGER N
       INTEGER NTY, IGSTI
 C
-      IF(N2D.NE.0)RETURN
+      IF(N2D/=0)RETURN
 C
       DO N=1,NINTER
        NTY=IPARI(7,N)
-       IF (NTY.EQ.7.OR.NTY.EQ.22)THEN
+       IF (NTY==7.OR.NTY==22)THEN
          IGSTI=IPARI(34,N)
-         IF(IGSTI.GT.1)THEN
+         IF(IGSTI>1)THEN
            CALL I7STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N))
          ENDIF
-       ELSEIF (NTY.EQ.20)THEN
+       ELSEIF (NTY==20)THEN
          CALL I20STIFN(IPARI(1,N),STIFINT,INTBUF_TAB(N))
-       ELSEIF (NTY.EQ.21)THEN
+       ELSEIF (NTY==21)THEN
          IGSTI=IPARI(34,N)
-         IF(IGSTI.EQ.0)THEN
+         IF(IGSTI==0)THEN
            CALL I7STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N))
          END IF
-       ELSEIF (NTY.EQ.23)THEN
+       ELSEIF (NTY==23)THEN
          IGSTI=IPARI(34,N)
-         IF(IGSTI.EQ.0)THEN
+         IF(IGSTI==0)THEN
            CALL I7STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N))
          END IF
-       ELSEIF (NTY.EQ.24)THEN
+       ELSEIF (NTY==24)THEN
          IGSTI=IPARI(34,N)
-         IF(IGSTI.GT.1)THEN
+         IF(IGSTI>1)THEN
            CALL I24STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N),STFAC(N))
          ENDIF
-       ELSEIF (NTY.EQ.25)THEN
+       ELSEIF (NTY==25)THEN
          IGSTI=IPARI(34,N)
-         IF(IGSTI.GT.1)THEN
+         IF(IGSTI>1)THEN
            CALL I25STSECND(
      1      IPARI(1,N),STIFINT,INTBUF_TAB(N),STFAC(N))
          ENDIF

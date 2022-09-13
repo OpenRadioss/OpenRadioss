@@ -62,7 +62,7 @@ C=======================================================================
 
       ! doqa is set in QA_OUT_MOD depending on DO_QA env variable setting
       ! we skip the specific QAPRINT treatment if doqa is != 1
-      IF ( doqa .ne. 1  ) RETURN
+      IF ( doqa /= 1  ) RETURN
 
       IF(NCYCLE == 0) THEN ! ECRITURE QAPRINT AU CYCLE 0 ENGINE
         CALL ENG_QAPRINT_GENERALCONTROLSINPUT(IRUNN_BIS)

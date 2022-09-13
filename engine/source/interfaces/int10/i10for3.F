@@ -149,7 +149,7 @@ C-----------------------------------------------
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),BID ,DTI
 C-----------------------------------------------
 #include "sync_dir.inc"
-      IF(DT1.GT.ZERO)THEN
+      IF(DT1>ZERO)THEN
         DT1INV = ONE/DT1
       ELSE
         DT1INV =ZERO
@@ -187,7 +187,7 @@ C
       ENDDO
 C
       DO I=1,JLT
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
          PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
 C
          LA1 = ONE - LB1(I) - LC1(I)
@@ -230,7 +230,7 @@ C
 CC    VMAX = 0.
       DO I=1,JLT
 C       correction hourglass
-        IF(IX3(I).NE.IX4(I))THEN
+        IF(IX3(I)/=IX4(I))THEN
           H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
           H0 = MIN(H0,H2(I),H4(I))
           H0 = MAX(H0,-H1(I),-H3(I))
@@ -243,7 +243,7 @@ C       correction hourglass
 C-----------------------------------------------
       DO 5 I=1,JLT
        II = INDEX(I)
-       IF(CAND_F(1,II).EQ.ZERO)THEN
+       IF(CAND_F(1,II)==ZERO)THEN
 C------------------------------------
 C       1ER IMPACT ou PAS d'IMPACT
 C------------------------------------
@@ -302,7 +302,7 @@ C
  20   CONTINUE
 C
       DO 25 I=1,JLT
-      IF(PENE(I).EQ.ZERO.AND.CAND_F(1,INDEX(I)).EQ.ZERO)THEN
+      IF(PENE(I)==ZERO.AND.CAND_F(1,INDEX(I))==ZERO)THEN
 C------------------------------------
 C       PAS ENCORE D'IMPACT OU REBOND
 C------------------------------------
@@ -323,12 +323,12 @@ C
  40   CONTINUE
 C
       DO 100 I=1,JLT
-      IF(ITIED.EQ.0)THEN
-          IF(CAND_F(1,INDEX(I))*FNI(I).LT.ZERO)THEN
+      IF(ITIED==0)THEN
+          IF(CAND_F(1,INDEX(I))*FNI(I)<ZERO)THEN
 C------------------------------------
 C           REBOND
 C------------------------------------
-            IF(PENE(I).EQ.ZERO)THEN
+            IF(PENE(I)==ZERO)THEN
 Cel on ne devrait plus passer par ici (teste dans i10dst3)
               CAND_F(1,INDEX(I)) =ZERO
             ELSE
@@ -341,21 +341,21 @@ Cel on ne devrait plus passer par ici (teste dans i10dst3)
             VT1(I) = ZERO
             VT2(I) = ZERO    
           ELSE
-            IF (INCONV.EQ.1) CAND_F(1,INDEX(I)) = FNI(I)
+            IF (INCONV==1) CAND_F(1,INDEX(I)) = FNI(I)
           ENDIF
-      ELSEIF(FNI(I).EQ.ZERO.AND.PENE(I).NE.ZERO)THEN
+      ELSEIF(FNI(I)==ZERO.AND.PENE(I)/=ZERO)THEN
             CAND_F(1,INDEX(I)) = EM30
       ELSE
-            IF (INCONV.EQ.1) CAND_F(1,INDEX(I)) = FNI(I)
+            IF (INCONV==1) CAND_F(1,INDEX(I)) = FNI(I)
       ENDIF
-      IF (INCONV.EQ.1) THEN
+      IF (INCONV==1) THEN
       CAND_F(2,INDEX(I)) = FT1(I)
       CAND_F(3,INDEX(I)) = FT2(I)
       ENDIF 
 C    
  100  CONTINUE
 C
-      IF(KDTINT.EQ.0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
+      IF(KDTINT==0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
        DO 120 I=1,JLT
         VIS = VISC * SQRT(TWO * STIF(I) * MSI(I)) 
         FNI(I) = FNI(I) + VN(I)  * VIS
@@ -454,7 +454,7 @@ C---------------------------------
 	ENDDO
       ENDIF
 C---------------------------------
-       IF (INCONV.EQ.1) THEN
+       IF (INCONV==1) THEN
 #include "lockon.inc"
         FSAV(1)=FSAV(1)+FSAV1
         FSAV(2)=FSAV(2)+FSAV2
@@ -482,19 +482,19 @@ C---------------------------------
 C---------------------------------
 C     SORTIES TH PAR SOUS INTERFACE
 C---------------------------------
-      IF(NISUB.NE.0)THEN
+      IF(NISUB/=0)THEN
          DO I=1,JLT
           NN = NSVG(I)
-          IF(NN.GT.0)THEN
+          IF(NN>0)THEN
            IN=CN_LOC(I)
            IE=CE_LOC(I)
            JJ  =ADDSUBS(IN)
            KK  =ADDSUBM(IE)
-           DO WHILE(JJ.LT.ADDSUBS(IN+1))
+           DO WHILE(JJ<ADDSUBS(IN+1))
              JSUB=LISUBS(JJ)
-             DO WHILE(KK.LT.ADDSUBM(IE+1))
+             DO WHILE(KK<ADDSUBM(IE+1))
                KSUB=LISUBM(KK)   
-               IF(KSUB.EQ.JSUB)THEN
+               IF(KSUB==JSUB)THEN
                  IMPX=FXN(I)*DT12
                  IMPY=FYN(I)*DT12
                  IMPZ=FZN(I)*DT12
@@ -544,7 +544,7 @@ C
      .                           +XP(I)*IMPY-YP(I)*IMPX
                  KK=KK+1
                  GO TO 200             
-               ELSE IF(KSUB.LT.JSUB)THEN
+               ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
                  GO TO 200
@@ -555,20 +555,20 @@ C
            END DO
           END IF
          END DO
-        IF(NSPMD.GT.1) THEN
+        IF(NSPMD>1) THEN
 C boucle separee sinon bug PGI en SMP
          DO I=1,JLT
           NN = NSVG(I)
-          IF(NN.LT.0)THEN
+          IF(NN<0)THEN
            NN = -NN
            IE=CE_LOC(I)
            JJ  =ADDSUBSFI(NIN)%P(NN)
            KK  =ADDSUBM(IE)
-           DO WHILE(JJ.LT.ADDSUBSFI(NIN)%P(NN+1))
+           DO WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
              JSUB=LISUBSFI(NIN)%P(JJ)
-             DO WHILE(KK.LT.ADDSUBM(IE+1))
+             DO WHILE(KK<ADDSUBM(IE+1))
                KSUB=LISUBM(KK)   
-               IF(KSUB.EQ.JSUB)THEN
+               IF(KSUB==JSUB)THEN
                  IMPX=FXN(I)*DT12
                  IMPY=FYN(I)*DT12
                  IMPZ=FZN(I)*DT12
@@ -606,7 +606,7 @@ C
      .                           +XP(I)*IMPY-YP(I)*IMPX
                  KK=KK+1
                  GO TO 250             
-               ELSE IF(KSUB.LT.JSUB)THEN
+               ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
                  GO TO 250
@@ -648,12 +648,12 @@ C
  160  CONTINUE
 C
 Cel spmd : identification des noeuds interf. utiles a envoyer (exchange_a)
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
 Ctmp+1 mic only to avoid compiler bug
 #include "mic_lockon.inc"
         DO I = 1,JLT
           NN = NSVG(I)
-          IF(NN.LT.0)THEN
+          IF(NN<0)THEN
 C tag temporaire de NSVFI a -
             NSVFI(NIN)%P(-NN) = -ABS(NSVFI(NIN)%P(-NN))
           ENDIF
@@ -662,7 +662,7 @@ ctmp+1 mic only
 #include "mic_lockoff.inc"
       ENDIF
 C
-      IF(KDTINT.NE.0)THEN
+      IF(KDTINT/=0)THEN
         DO I=1,JLT
           K1(I) =STIF(I)*ABS(H1(I))
           C1(I) =C(I)*ABS(H1(I))
@@ -681,7 +681,7 @@ C
      2              NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
      3              NIN   ,NOINT ,MSKYI_SMS, ISKYI_SMS,NSMS  ,
      4              STIF  ,C     ,DTI  )
-        IF(DTI.LT.DT2T)THEN
+        IF(DTI<DT2T)THEN
           DT2T    = DTI
           NELTST  = NOINT
           ITYPTST = 10
@@ -692,8 +692,8 @@ C
         STIF(1:JLT)=ZERO
       END IF
 C
-      IF(IPARIT.EQ.0)THEN
-        IF(KDTINT.EQ.0)THEN
+      IF(IPARIT==0)THEN
+        IF(KDTINT==0)THEN
           CALL I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
      3                FX1   ,FY1  ,FZ1  ,FX2  ,FY2    ,FZ2  ,
@@ -713,7 +713,7 @@ C
      9                 JTASK ,BID  ,BID  ,IBID )
         END IF
       ELSE
-        IF(KDTINT.EQ.0)THEN
+        IF(KDTINT==0)THEN
           CALL I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
      2                NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
      3                FX1   ,FY1   ,FZ1  ,FX2  ,FY2  ,FZ2    ,
@@ -735,8 +735,8 @@ C
         END IF
       END IF
 C
-      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT .GT.0)THEN
-         IF (INCONV.EQ.1) THEN
+      IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
+         IF (INCONV==1) THEN
 #include "lockon.inc"
            DO I=1,JLT
             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
@@ -752,7 +752,7 @@ C
             FCONT(2,IX4(I)) =FCONT(2,IX4(I)) + FY4(I)
             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
-            IF(JG.GT.0) THEN
+            IF(JG>0) THEN
 C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
               FCONT(1,JG)=FCONT(1,JG)- FXI(I)
               FCONT(2,JG)=FCONT(2,JG)- FYI(I)
@@ -760,13 +760,13 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
             ENDIF
            ENDDO
 #include "lockoff.inc"
-         END IF !(INCONV.EQ.1) THEN
+         END IF !(INCONV==1) THEN
       ENDIF
 C---------------------------------
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .          (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .              (MANIM.GE.4.AND.MANIM.LE.15).OR. H3D_DATA%MH3D.NE.0))THEN
-         IF (INCONV.EQ.1) THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .          (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .              (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D/=0))THEN
+         IF (INCONV==1) THEN
 #include "lockon.inc"
            DO I=1,JLT
             FNCONT(1,IX1(I)) =FNCONT(1,IX1(I)) + FX1(I)
@@ -782,7 +782,7 @@ C---------------------------------
             FNCONT(2,IX4(I)) =FNCONT(2,IX4(I)) + FY4(I)
             FNCONT(3,IX4(I)) =FNCONT(3,IX4(I)) + FZ4(I)
             JG = NSVG(I)
-            IF(JG.GT.0) THEN
+            IF(JG>0) THEN
 C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
               FNCONT(1,JG)=FNCONT(1,JG)- FXI(I)
               FNCONT(2,JG)=FNCONT(2,JG)- FYI(I)
@@ -795,47 +795,47 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
             ENDIF
            ENDDO
 #include "lockoff.inc"
-         END IF !(INCONV.EQ.1) THEN
+         END IF !(INCONV==1) THEN
       ENDIF
 C
 C---------------------------------
-      IF(ISECIN.GT.0.AND.INCONV.EQ.1)THEN
+      IF(ISECIN>0.AND.INCONV==1)THEN
        K0=NSTRF(25)
-       IF(NSTRF(1)+NSTRF(2).NE.0)THEN
+       IF(NSTRF(1)+NSTRF(2)/=0)THEN
        DO I=1,NSECT
         NBINTER=NSTRF(K0+14)
         K1S=K0+30
         DO J=1,NBINTER
-          IF(NSTRF(K1S).EQ.NOINT)THEN
-              IF(ISECUT.NE.0)THEN
+          IF(NSTRF(K1S)==NOINT)THEN
+              IF(ISECUT/=0)THEN
 #include "lockon.inc"
                 DO K=1,JLT
 C   attention aux signes pour le cumul des efforts
 C   a rendre conforme avec CFORC3
-                 IF(SECFCUM(4,IX1(K),I).EQ.1.)THEN
+                 IF(SECFCUM(4,IX1(K),I)==1.)THEN
                   SECFCUM(1,IX1(K),I)=SECFCUM(1,IX1(K),I)-FX1(K)
                   SECFCUM(2,IX1(K),I)=SECFCUM(2,IX1(K),I)-FY1(K)
                   SECFCUM(3,IX1(K),I)=SECFCUM(3,IX1(K),I)-FZ1(K)
                 ENDIF
-                IF(SECFCUM(4,IX2(K),I).EQ.1.)THEN
+                IF(SECFCUM(4,IX2(K),I)==1.)THEN
                   SECFCUM(1,IX2(K),I)=SECFCUM(1,IX2(K),I)-FX2(K)
                   SECFCUM(2,IX2(K),I)=SECFCUM(2,IX2(K),I)-FY2(K)
                   SECFCUM(3,IX2(K),I)=SECFCUM(3,IX2(K),I)-FZ2(K)
                 ENDIF
-                IF(SECFCUM(4,IX3(K),I).EQ.1.)THEN
+                IF(SECFCUM(4,IX3(K),I)==1.)THEN
                   SECFCUM(1,IX3(K),I)=SECFCUM(1,IX3(K),I)-FX3(K)
                   SECFCUM(2,IX3(K),I)=SECFCUM(2,IX3(K),I)-FY3(K)
                   SECFCUM(3,IX3(K),I)=SECFCUM(3,IX3(K),I)-FZ3(K)
                 ENDIF
-                IF(SECFCUM(4,IX4(K),I).EQ.1.)THEN
+                IF(SECFCUM(4,IX4(K),I)==1.)THEN
                   SECFCUM(1,IX4(K),I)=SECFCUM(1,IX4(K),I)-FX4(K)
                   SECFCUM(2,IX4(K),I)=SECFCUM(2,IX4(K),I)-FY4(K)
                   SECFCUM(3,IX4(K),I)=SECFCUM(3,IX4(K),I)-FZ4(K)
                 ENDIF
                 JG = NSVG(K)
-                IF(JG.GT.0) THEN
+                IF(JG>0) THEN
 C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
-                  IF(SECFCUM(4,JG,I).EQ.1.)THEN
+                  IF(SECFCUM(4,JG,I)==1.)THEN
                     SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                     SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
                     SECFCUM(3,JG,I)=SECFCUM(3,JG,I)+FZI(K)
@@ -853,13 +853,13 @@ C +fsav(section)
        ENDIF
       ENDIF
 C-----------------------------------------------------      
-      IF (IDAMP_RDOF.NE.0) THEN
+      IF (IDAMP_RDOF/=0) THEN
        DO I=1,JLT
-C       IF(PENE(I).NE.ZERO)THEN
+C       IF(PENE(I)/=ZERO)THEN
 C test modifie pour coherence avec communication SPMD (spmd_i7tools)
-        IF(FXI(I).NE.ZERO.OR.FYI(I).NE.ZERO.OR.FZI(I).NE.ZERO)THEN
+        IF(FXI(I)/=ZERO.OR.FYI(I)/=ZERO.OR.FZI(I)/=ZERO)THEN
           JG = NSVG(I)
-          IF(JG.GT.0) THEN
+          IF(JG>0) THEN
 C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
             ICONTACT(JG)=1  
           ENDIF

@@ -273,7 +273,7 @@ C-----------------------------------------------
       DO I=1,NEL
          OFF(I) = ZERO
          TTA = TT-TA(I)
-         IF(TTA .GT. ZERO) OFF(I) = ONE
+         IF(TTA > ZERO) OFF(I) = ONE
       ENDDO
       IF(IPRES == 1) THEN
         IF(IWAVE == 1)THEN
@@ -365,7 +365,7 @@ C-----------------------------------------------
         DO I=1,NEL
            OFF(I) = ZERO
            TTA = TT-TA(I+NEL)
-           IF(TTA .GT. ZERO) OFF(I) = ONE
+           IF(TTA > ZERO) OFF(I) = ONE
         ENDDO
         IF(IPRES == 1) THEN
           DO I=1,NEL
@@ -530,7 +530,7 @@ C-----------------------------------------------
         DO K=1,NSENSOR
           IF(IGRV(6,GRAV_ID) == LSENSOR(1,K))ISENS=K
         ENDDO
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
           TS = TT
         ELSE
           TS = TT-SENSOR(2,ISENS)

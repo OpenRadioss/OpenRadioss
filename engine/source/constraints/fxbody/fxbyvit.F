@@ -73,9 +73,9 @@ C-----------------------------------------------
 C
       N2=NINTER+NRWALL+NRBODY+NSECT+NJOINT+NRBAG+NVOLU
       ITN=0
-      IF(TT.LT.TANIM) ITN=1
+      IF(TT<TANIM) ITN=1
       NCYCLP1=NCYCLE+1
-      IF((NCYCLP1/NCRST)*NCRST.EQ.NCYCLP1.OR.MREST.NE.0) ITN=0
+      IF((NCYCLP1/NCRST)*NCRST==NCYCLP1.OR.MREST/=0) ITN=0
       DO NFX=1,NFXBODY
          NN2=N2+NFX
          NMOD=FXBIPM(4,NFX)
@@ -88,14 +88,14 @@ C
          ASE =(NFX-1)*15+1
          ISH =FXBIPM(16,NFX)
          NME =FXBIPM(17,NFX)
-         IF (ISH.EQ.0) THEN
+         IF (ISH==0) THEN
             DMT=18
          ELSE
             DMT=24
          ENDIF
          IBLO=FXBIPM(28,NFX)
          PMAIN=FXBIPM(39,NFX)
-         IF (ISPMD.EQ.PMAIN)
+         IF (ISPMD==PMAIN)
      .     CALL FXBODVP1(
      .FXBRPM(ARPM),FXBGLM(AGLM),FXBLM(ALM)  ,FXBMVN(ACP) ,FXBMCD(AMCD),
      .FXBSE(ASE)  ,FXBSV(ALM)  ,FXBVIT(AVAR),FXBACC(AVAR),NME         ,
@@ -107,7 +107,7 @@ C
 C
       DO NFX=1,NFXBODY
          IDMAST=FXBIPM(2,NFX)
-         IF (ITN.GT.0) THEN
+         IF (ITN>0) THEN
             NSN=FXBIPM(18,NFX)
          ELSE
             NSN=FXBIPM(3,NFX)
@@ -122,9 +122,9 @@ C
          NME =FXBIPM(17,NFX)
          IFILE=FXBIPM(29,NFX)
          NSNI=FXBIPM(18,NFX)
-         IF (IFILE.EQ.0) THEN
+         IF (IFILE==0) THEN
             LMOD=NSNT*6
-         ELSEIF (IFILE.EQ.1) THEN
+         ELSEIF (IFILE==1) THEN
             LMOD=NSNI*6
          ENDIF
          IRCM=FXBIPM(30,NFX)

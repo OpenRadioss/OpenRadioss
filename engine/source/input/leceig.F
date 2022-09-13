@@ -60,24 +60,24 @@ C
       DO I=1,(NEOFF+9)/10
          READ(IIN,'(10I10)') (ITEMP(J),J=1,10)
          DO 100 J=1,10
-            IF (ITEMP(J).EQ.0) GOTO 100
+            IF (ITEMP(J)==0) GOTO 100
             DO N=1,NEIG
-               IF (ID(N).EQ.ITEMP(J)) EIGIPM(1,N)=0
+               IF (ID(N)==ITEMP(J)) EIGIPM(1,N)=0
             ENDDO
   100    CONTINUE
       ENDDO
 C
       NACTI=0
       DO N=1,NEIG
-         IF (EIGIPM(1,N).EQ.0) THEN
-            IF (IMACH.NE.3.OR.ISPMD.EQ.0) 
+         IF (EIGIPM(1,N)==0) THEN
+            IF (IMACH/=3.OR.ISPMD==0) 
      .         WRITE(IOUT,'(A,I9,A)') ' EIGENPROBLEM:',ID(N),' SET OFF'
          ELSE
             NACTI=NACTI+1
          ENDIF
       ENDDO
 C
-      IF (NACTI.EQ.0) THEN
+      IF (NACTI==0) THEN
          WRITE(IOUT,'(A)') ' ALL EIGENPROBLEMS DEACTIVATED'
          WRITE(IOUT,*)
          NEIG=0

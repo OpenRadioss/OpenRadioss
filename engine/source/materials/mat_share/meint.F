@@ -73,7 +73,7 @@ C-----------------------------------------------
 C
       DTA =HALF*DT1
 C
-      IF(INCOMP.EQ.1.AND. JLAG.EQ.0)THEN
+      IF(INCOMP==1.AND. JLAG==0)THEN
         DO I=LFT,LLT
           POLD(I)=(SOLD1(I)+SOLD2(I)+SOLD3(I))*THIRD
           EINT(I)=EINT(I)+(HALF*DVOL(I)*(POLD(I)-PSH(I)))*OFF(I)
@@ -99,7 +99,7 @@ C
        EINC(I) = VOL_AVG(I) * (E1+E2+E3+E4+E5+E6) * DTA
       ENDDO
 C
-      IF(JTUR.EQ.0 .OR. JPOR.EQ.2)THEN
+      IF(JTUR==0 .OR. JPOR==2)THEN
        DO I=LFT,LLT
          EINT(I)=EINT(I)+(EINC(I)+HALF*DVOL(I)*(POLD(I)-PSH(I)-QOLD(I)-QNEW(I)))*OFF(I)
        ENDDO

@@ -133,7 +133,7 @@ C-----------------------------------------------
         ELSE
 		  !(CROSS_PROD_1*CROSS_PROD_2 > EPS) Pi-1 and Pi are in the same half plane of boundary (DL)
           IOMBR=0
-        ENDIF !(CROSS_PROD_1*CROSS_PROD_2.LE.EPS)
+        ENDIF !(CROSS_PROD_1*CROSS_PROD_2<=EPS)
       END DO !I=2,NPE
 
       IF(JOMBR+KOMBR == 2)THEN

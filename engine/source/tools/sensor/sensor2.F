@@ -147,7 +147,7 @@ C--------------------------------
                TSTART2=ZERO
             END IF
           ENDIF
-          IF(LSENSOR(3,K) == 0.AND.TT.GE.MAX(TSTART1,TSTART2))THEN
+          IF(LSENSOR(3,K) == 0.AND.TT>=MAX(TSTART1,TSTART2))THEN
               ACTI = 1
               SENSOR(2,K) = TT
           ELSEIF(LSENSOR(3,K) == 1.AND.TT < MAX(TSTART1,TSTART2))THEN
@@ -234,7 +234,7 @@ C--------------------------------
 C--------------------------------
 C         USER SENSOR
 C--------------------------------
-        ELSEIF(TYP.GE.29 .AND. TYP.LE.31)THEN
+        ELSEIF(TYP>=29 .AND. TYP<=31)THEN
           IF(TYP == 29)THEN
             NSENS  = LSENSOR(1,K)
             IF(USERL_AVAIL==1)THEN

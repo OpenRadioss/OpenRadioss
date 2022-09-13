@@ -63,7 +63,7 @@ C
       NB_L = 0
 C
       DO I = 1, NUMRADIA
-        IF(CEP(I+OFF).EQ.PROC) THEN
+        IF(CEP(I+OFF)==PROC) THEN
            NB_L = NB_L + 1
            N1 = IBCR(1,I)
            N2 = IBCR(2,I)
@@ -87,7 +87,7 @@ C ============== Local numbering
               IF (ITY == 1) THEN
               ! Solid
                 K = ID - NFT
-                IF (K .LE. NELG) GOTO 100
+                IF (K <= NELG) GOTO 100
               ENDIF 
             ENDDO  ! NG = 1,NGROUP
  100        CONTINUE

@@ -260,8 +260,8 @@ C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
         DO IG = 1, NGROUNC
           NG = IGROUNC(IG)        
-          IF(IPARG(8,NG).EQ.1)GOTO 250
-          IF (IDDW.GT.0) CALL STARTIMEG(NG)
+          IF(IPARG(8,NG)==1)GOTO 250
+          IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
             NEL   =IPARG(2,NG)
@@ -271,19 +271,19 @@ C-----------------------------------------------
             IPARTSPH=IPARG(69,NG)
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
-            IF(ITY.EQ.1.AND.IPARTSPH.NE.0) THEN
+            IF(ITY==1.AND.IPARTSPH/=0) THEN
 C-----------
              GBUF => ELBUF_TAB(NG)%GBUF
              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
              MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
 C-----
-             IF (IPARG(28,NG).EQ.4) THEN
+             IF (IPARG(28,NG)==4) THEN
 C-----
 C----TETRA---
 C-----
               DO I=LFT,LLT
                 N=NFT+I
-                IF(GBUF%OFF(I).EQ.ZERO) CYCLE
+                IF(GBUF%OFF(I)==ZERO) CYCLE
 C
 C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
                 N1=IXS(2,N)
@@ -337,7 +337,7 @@ C----HEXA---
 C-----
               DO I=LFT,LLT
                 N=NFT+I
-                IF(GBUF%OFF(I).EQ.ZERO) CYCLE
+                IF(GBUF%OFF(I)==ZERO) CYCLE
 C
 C               SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
                 N1=IXS(2,N)
@@ -408,7 +408,7 @@ C-----
              ENDIF
 C-----
             ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
           END DO
 C--------
  250      CONTINUE
@@ -419,11 +419,11 @@ C--------
 C-----------------------------------------------
 C Comm H et A sur cellules remotes
 C-----------------------------------------------
-      IF(NSPMD.GT.1)THEN
-        IF(ITASK.EQ.0) THEN
+      IF(NSPMD>1)THEN
+        IF(ITASK==0) THEN
           ALLOCATE(ASPHR(4,NSPHR))
           CALL SPMD_SPHGETF(KXSP,SPBUF,A,MS,ASPHR)
-c          IF(NSPHIO.NE.0.AND.NSPHACT.NE.0)THEN 
+c          IF(NSPHIO/=0.AND.NSPHACT/=0)THEN 
 c               CALL SPMD_SPHGETV(KXSP,SPBUF,V,MS)
 c          ENDIF
         END IF
@@ -445,7 +445,7 @@ C-----------------------------------------------
         DO NS =ITASK+1,NSPHACT,NTHREAD
          N=WASPACT(NS)
          JS=ISPSYM(NC,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           INOD=KXSP(3,N)
           XI =X(1,INOD)
           YI =X(2,INOD)
@@ -453,7 +453,7 @@ C-----------------------------------------------
           AXI=A(1,INOD)
           AYI=A(2,INOD)
           AZI=A(3,INOD)
-          IF(ISLIDE.EQ.0)THEN
+          IF(ISLIDE==0)THEN
            AXS=-AXI
            AYS=-AYI
            AZS=-AZI
@@ -473,14 +473,14 @@ C Particules symetriques de particules remotes
 C
         DO NS = ITASK+1,NSPHR,NTHREAD
          JS=ISPSYMR(NC,NS)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           XI =XSPHR(3,NS)
           YI =XSPHR(4,NS)
           ZI =XSPHR(5,NS)
           AXI=ASPHR(1,NS)
           AYI=ASPHR(2,NS)
           AZI=ASPHR(3,NS)
-          IF(ISLIDE.EQ.0)THEN
+          IF(ISLIDE==0)THEN
            AXS=-AXI
            AYS=-AYI
            AZS=-AZI
@@ -557,11 +557,11 @@ C------
 C-----
         DO J=1,NVOIS
          JNOD=IXSP(J,N)
-         IF(JNOD.GT.0)THEN
+         IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LT.0.AND.KXSP(2,M).LT.0)CYCLE
+          IF(KXSP(2,N)<0.AND.KXSP(2,M)<0)CYCLE
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
           ZJ=X(3,JNOD)
@@ -591,7 +591,7 @@ C Solids to SPH, no interaction if both particles are inactive
           NN = -JNOD
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LE.0.AND.XSPHR(13,NN).LE.0)CYCLE
+          IF(KXSP(2,N)<=0.AND.XSPHR(13,NN)<=0)CYCLE
           XJ=XSPHR(3,NN)
           YJ=XSPHR(4,NN)
           ZJ=XSPHR(5,NN)
@@ -627,11 +627,11 @@ C       partie symetrique.
         NVOISS=KXSP(6,N)
         DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
          JS=IXSP(J,N)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           SM=JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LE.0.AND.KXSP(2,SM).LE.0)CYCLE
+          IF(KXSP(2,N)<=0.AND.KXSP(2,SM)<=0)CYCLE
           NC=MOD(JS,NSPCOND+1)
           JS=ISPSYM(NC,SM)
           XJ=XSPSYM(1,JS)
@@ -666,7 +666,7 @@ C         BETAZJ=WACOMP(4,SM)
           SM=-JS/(NSPCOND+1)
 C
 C Solids to SPH, no interaction if both particles are inactive
-          IF(KXSP(2,N).LE.0.AND.XSPHR(13,SM).LE.0)CYCLE
+          IF(KXSP(2,N)<=0.AND.XSPHR(13,SM)<=0)CYCLE
           NC=MOD(-JS,NSPCOND+1)
           JS=ISPSYMR(NC,SM)
           XJ=XSPSYM(1,JS)
@@ -732,7 +732,7 @@ C a paralleliser smp
             A(2,INOD)=A(2,INOD)+WA(MYADRN+2)
             A(3,INOD)=A(3,INOD)+WA(MYADRN+3)
 C
-          ELSEIF (SOL2SPH_TYP(SPH2SOL(N)).EQ.4) THEN
+          ELSEIF (SOL2SPH_TYP(SPH2SOL(N))==4) THEN
 C---------------
 C------ TETRA -- 
 C---------------
@@ -871,7 +871,7 @@ C------
         DO NS=1,NSPHACT
           N=WASPACT(NS)
           IF(SPH2SOL(N)/=0)THEN
-           IF (SOL2SPH_TYP(SPH2SOL(N)).EQ.4) THEN
+           IF (SOL2SPH_TYP(SPH2SOL(N))==4) THEN
 C---------------
 C------ TETRA -- 
 C---------------
@@ -1034,8 +1034,8 @@ C
 #include "atomend.inc"
       ENDIF
 C
-      IF(NSPMD.GT.1 .AND. ITASK.EQ.0.AND.ALLOCATED(ASPHR)) DEALLOCATE(ASPHR)
-      IF(ITASK.EQ.0.AND.SOL2SPH_FLAG/=0) DEALLOCATE(AS,AS6,A6,ITAG)
+      IF(NSPMD>1 .AND. ITASK==0.AND.ALLOCATED(ASPHR)) DEALLOCATE(ASPHR)
+      IF(ITASK==0.AND.SOL2SPH_FLAG/=0) DEALLOCATE(AS,AS6,A6,ITAG)
 C-------------------------------------------
       RETURN
       END

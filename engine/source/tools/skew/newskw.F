@@ -100,7 +100,7 @@ C-----------------------------------------------
       DO NN=1,NUMSKW_L
         N = ISKWP_L(NN)
 !        do n=1,NUMSKW
-!        IF(abs(ISKWP(N+1)).EQ.LOC_PROC)THEN
+!        IF(abs(ISKWP(N+1))==LOC_PROC)THEN
 
 C processeur concerne par le skew
           N1=ISKWN(1,N+1)
@@ -111,10 +111,10 @@ C processeur concerne par le skew
 C----------------
 C     SKEW MOBILE
 C----------------
-          IF (N1+N2+N3.NE.0) THEN
+          IF (N1+N2+N3/=0) THEN
 C
             IF(IMOV == 1)THEN
-              IF(N2D.EQ.0)THEN
+              IF(N2D==0)THEN
 C-----------------
 C     CALCUL DE X'(IDIR=1) Y'(IDIR=2) Z'(IDIR=3)
 C-----------------
@@ -165,7 +165,7 @@ C      => Z'=Z(IDIR=3)
 C------------------
               IF (IDIR == 1) THEN
                 PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
-                IF(PP1.EQ.ZERO)THEN
+                IF(PP1==ZERO)THEN
                   P(1)=ONE
                   P(2)=ZERO
                   P(3)=ZERO
@@ -173,7 +173,7 @@ C------------------
                 ENDIF
               ELSE IF (IDIR == 2)THEN 
                 PP2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
-                IF(PP2.EQ.ZERO)THEN
+                IF(PP2==ZERO)THEN
                   P(4)=ZERO
                   P(5)=ONE
                   P(6)=ZERO
@@ -181,7 +181,7 @@ C------------------
                 ENDIF
               ELSE IF (IDIR == 3)THEN
                 PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-                IF(PP3.EQ.ZERO)THEN
+                IF(PP3==ZERO)THEN
                   P(7)=ZERO
                   P(8)=ZERO
                   P(9)=ONE
@@ -216,8 +216,8 @@ C      SI X'=0 (Z0'=Y')
 C      => Z0' != Z'(IDIR=3)
 C------------------
               IF (IDIR == 1) THEN
-                IF(PP3.EQ.ZERO)THEN
-                  IF(P(1).EQ.ZERO)THEN
+                IF(PP3==ZERO)THEN
+                  IF(P(1)==ZERO)THEN
                     P(4)=PP1
                     P(5)=P(2)
                   ELSE
@@ -231,8 +231,8 @@ C------------------
                   PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
                 ENDIF
               ELSEIF (IDIR == 2) THEN
-                IF(PP1.EQ.ZERO)THEN
-                  IF(P(4).EQ.ZERO)THEN
+                IF(PP1==ZERO)THEN
+                  IF(P(4)==ZERO)THEN
                     P(7)=PP2
                     P(8)=P(5)
                   ELSE
@@ -246,8 +246,8 @@ C------------------
                   PP1=SQRT(P(1)*P(1)+P(2)*P(2)+P(3)*P(3))
                 ENDIF
               ELSEIF (IDIR == 3) THEN
-                IF(PP2.EQ.ZERO)THEN
-                  IF(P(7).EQ.ZERO)THEN
+                IF(PP2==ZERO)THEN
+                  IF(P(7)==ZERO)THEN
                     P(1)=PP3
                     P(2)=P(8)
                   ELSE
@@ -299,7 +299,7 @@ C      SI Z'=0
 C      => Z'=Z
 C------------------
               PP3=SQRT(P(7)*P(7)+P(8)*P(8)+P(9)*P(9))
-              IF(PP3.EQ.ZERO)THEN
+              IF(PP3==ZERO)THEN
                 P(7)=ZERO
                 P(8)=ZERO
                 P(9)=ONE
@@ -316,8 +316,8 @@ C------------------
 C      SI Y'=0 (X0'=Z')
 C      => X0' != Y'
 C------------------
-              IF(PP2.EQ.ZERO)THEN
-                IF(P(7).EQ.ZERO)THEN
+              IF(PP2==ZERO)THEN
+                IF(P(7)==ZERO)THEN
                   P(1)=PP3
                   P(2)=P(8)
                 ELSE
@@ -456,14 +456,14 @@ C-----------------------------------------------
         DO N=1,NUMSKW
                 !       LAG MULT method
                 IF(LAG_NCF+LAG_NCL>0) THEN
-                        IF(ABS(ISKWP(N+1)).EQ.LOC_PROC)THEN
+                        IF(ABS(ISKWP(N+1))==LOC_PROC)THEN
                                 NN2 = NN2 + 1
                                 ISKWP_L_SEND(NN2) = N
                         ENDIF
                         IF(ISKWP(N+1)/=0) RECVCOUNT(ABS(ISKWP(N+1))) = RECVCOUNT(ABS(ISKWP(N+1))) + 10
                 ELSE
                 !       other
-                        IF(ISKWP(N+1).EQ.LOC_PROC)THEN
+                        IF(ISKWP(N+1)==LOC_PROC)THEN
                                 NN2 = NN2 + 1
                                 ISKWP_L_SEND(NN2) = N
                         ENDIF

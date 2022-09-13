@@ -62,7 +62,7 @@ C
       II = 0
 C
       DO I = 1, NUMELC
-        IF(CEP(I).EQ.P)THEN
+        IF(CEP(I)==P)THEN
 cc           IEL_L(NEL1_L) = 0
            II  = IELPXFEM(I)
            IF(II  > 0) THEN

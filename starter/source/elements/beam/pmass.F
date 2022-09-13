@@ -127,7 +127,7 @@ C----------------------------------------------
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES + RHOCP 
 C----------------------------------------------
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
         DO I=LFT,LLT
           MS(NC1(I))=MS(NC1(I))+EMS(I)
           MS(NC2(I))=MS(NC2(I))+EMS(I)
@@ -146,7 +146,7 @@ C----------------------------------------------
 C----------------------------------------------
 C     INERTIES SPHERIQUES
 C----------------------------------------------
-      IF (IMACH.NE.3) THEN
+      IF (IMACH/=3) THEN
         DO I=LFT,LLT
          TINER(NC1(I))=TINER(NC1(I))+TIN(I)
          TINER(NC2(I))=TINER(NC2(I))+TIN(I)
@@ -159,8 +159,8 @@ C----------------------------------------------
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
-      IF(I7STIFS.NE.0)THEN
-       IF (IMACH.NE.3) THEN
+      IF(I7STIFS/=0)THEN
+       IF (IMACH/=3) THEN
         DO I=LFT,LLT
           E = PM (20,MXT(I))
           STI = E * AREA(I) / AL(I)

@@ -274,7 +274,7 @@ C---   find shells SURF/PART/EXT
      .                         BUFTMPSURF ,IAD_SURF ,1)
 !!              ELSEIF (CLAUSE%NB_PART > 0 .AND.
               ELSEIF (KEYSET == 'PART' .AND.
-     .                IABS(PART_TAG(IPARTG(KS))) .NE. 1)THEN
+     .                IABS(PART_TAG(IPARTG(KS))) /= 1)THEN
                 NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)
@@ -299,7 +299,7 @@ C---   find shells SURF/PART/EXT
      .                         BUFTMPSURF ,IAD_SURF ,1)
 !!              ELSEIF (CLAUSE%NB_PART > 0 .AND.
               ELSEIF (KEYSET == 'PART' .AND.
-     .                IABS(PART_TAG(IPARTC(KS))) .NE. 1 ) THEN
+     .                IABS(PART_TAG(IPARTC(KS))) /= 1 ) THEN
                NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(4) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)

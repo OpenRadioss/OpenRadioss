@@ -297,7 +297,7 @@ C---
          
          IF(ASHEAR == ZERO) ASHEAR=FIVE_OVER_6
 C
-         IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+         IF (IHBE>11.AND.IHBE<29) THEN
 C---------GEO(13,I) est utilise pour porte dn;GEO(17,I),CVIS se change ----
            HM = DN
            DN = CVIS
@@ -325,7 +325,7 @@ C-------to have DR----
          GEO(3) =ISMSTR
          IGEO(5)=ISMSTR
 C      
-       IF (SUB_ID .NE. 0)
+       IF (SUB_ID /= 0)
      .       CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 C---
       GEO(1) = THK
@@ -335,7 +335,7 @@ C---
       GEO(42) = EM03 ! default value  ! not used 
       FAIL_SHELL = 0
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
-      IF(AN .LT. EM10)THEN
+      IF(AN < EM10)THEN
         VX=ONE
         VY=ZERO
         VZ=ZERO
@@ -355,7 +355,7 @@ C---
         VZ=VZ/AN
       ENDIF
       ISK = 0
-      IF (IDSK.NE.0) THEN
+      IF (IDSK/=0) THEN
         DO J=0,NUMSKW+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD
           IF(IDSK == ISKN(4,J+1)) THEN
             ISK=J+1
@@ -441,7 +441,7 @@ C
         GEO(171)= 1                                        
       ELSEIF(IHBE==2)THEN                                   
         GEO(171)=0                                        
-      ELSEIF(IHBE.GE.3.AND.IHBE.LT.100.AND.IHBE.NE.4)THEN   
+      ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN   
         GEO(171)=IHBE-1                                   
       ENDIF                                                 
 
@@ -474,7 +474,7 @@ C-----------------------------------------------------------------
      &    5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      &    5X,'CONFIDENTIAL DATA'//)
       ELSE
-       IF(ISK.EQ.0)THEN
+       IF(ISK==0)THEN
         IF (IHBE > 11.AND.IHBE < 29) THEN
           WRITE(IOUT,2112)PROP_ID,ISTRAIN,GEO(1),ISS,IHBE,
      .               ISH3N,IGEO(20),
@@ -504,7 +504,7 @@ C-----------------------------------------------------------------
       ENDIF
       
 C---
-!!!      IF (NLY.GT.NLYMAX) THEN
+!!!      IF (NLY>NLYMAX) THEN
 !!         CALL ANCMSG(MSGID=28,
 !!     .               MSGTYPE=MSGERROR,
 !!     .               ANMODE=ANINFO_BLIND_1,

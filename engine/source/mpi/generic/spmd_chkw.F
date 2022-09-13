@@ -55,9 +55,9 @@ C-----------------------------------------------
       REWIND(UNIT=IOUT)
       READ(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
       IOS = 0
-      DO WHILE(IOS.EQ.0)
+      DO WHILE(IOS==0)
         READ(UNIT=IOUT,IOSTAT=IOS,FMT='(A)') LINE
-        IF(IOS.EQ.0) THEN
+        IF(IOS==0) THEN
 C calcul du nombre exacte de ligne de 80c
           IWIOUT = IWIOUT + NCHAROUT
         ENDIF

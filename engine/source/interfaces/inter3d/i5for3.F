@@ -109,7 +109,7 @@ C
 C  A=CVMGN(B,C,D) => IF D=0 THEN A=C ELSE A=B
 C
 C      XFACE(I)=CVMGN(XFACE(I),ZERO,ANS(I))
-      IF(ANS(I).EQ.ZERO)XFACE(I)=ZERO
+      IF(ANS(I)==ZERO)XFACE(I)=ZERO
       ANS(I)=XFACE(I)*ANS(I)
  100  CONTINUE
 C
@@ -117,7 +117,7 @@ C
       DO 110 I=LFT,LLT
       IGIMP=IGIMP+ABS(XFACE(I))
  110  CONTINUE
-      IF(IGIMP.EQ.0)RETURN
+      IF(IGIMP==0)RETURN
 C
       DO 140 I=LFT,LLT
       IL=I+NFT
@@ -159,7 +159,7 @@ C
 C
  160  CONTINUE
 C
-      IF(IPARIT.EQ.0)THEN
+      IF(IPARIT==0)THEN
         DO 180 I=LFT,LLT
         J3=3*IX1(I)
         J2=J3-1
@@ -241,8 +241,8 @@ C
  190    CONTINUE
       ENDIF
 C
-      IF(INCONV.NE.1) RETURN
-      IF(IBAG.NE.0.OR.IADM.NE.0)THEN
+      IF(INCONV/=1) RETURN
+      IF(IBAG/=0.OR.IADM/=0)THEN
 #include "lockon.inc"
        DO I=LFT,LLT
           IL=I+NFT
@@ -255,9 +255,9 @@ C
 #include "lockoff.inc"
       ENDIF
 C
-      IF(ANIM_V(4)+OUTP_V(4).GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15)))THEN
+      IF(ANIM_V(4)+OUTP_V(4)>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.
+     .   (MANIM>=4.AND.MANIM<=15)))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
@@ -279,9 +279,9 @@ C
 #include "lockoff.inc"
       ENDIF
 C
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT.GT.0.AND.
-     .    (TT.GE.TANIM.OR.TT.GE.TOUTP.OR.TT.GE.H3D_DATA%TH3D.OR.
-     .   (MANIM.GE.4.AND.MANIM.LE.15).OR.H3D_DATA%MH3D.NE.0))THEN
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR.H3D_DATA%MH3D/=0))THEN
 #include "lockon.inc"
            DO I=1,LLT
             FNCONT(1,IX1(I)) =FNCONT(1,IX1(I)) + FX1(I)
@@ -303,9 +303,9 @@ C
 #include "lockoff.inc"
       ENDIF
 C
-      IF(IBC.EQ.0) RETURN
+      IF(IBC==0) RETURN
        DO 200 I=LFT,LLT
-       IF(IBC.EQ.0.OR.XFACE(I).EQ.ZERO)GOTO 200
+       IF(IBC==0.OR.XFACE(I)==ZERO)GOTO 200
        IL=I+NFT
        IG=NSV(IL)
        CALL IBCOFF(IBC,ICODT(IG))

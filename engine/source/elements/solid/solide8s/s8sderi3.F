@@ -162,28 +162,28 @@ C-----------------------------------------------
       ICOR = 0
       DO I=LFT,LLT
         OFF(I)=OFFG(I)
-        IF(OFF(I).EQ.ZERO)THEN
+        IF(OFF(I)==ZERO)THEN
          DETJ(I)=ONE
-         IF (VOLDP(I).LE.ZERO) VOLDP(I)=ONE
-        ELSEIF (VOLDP(I).LE.ZERO ) THEN
+         IF (VOLDP(I)<=ZERO) VOLDP(I)=ONE
+        ELSEIF (VOLDP(I)<=ZERO ) THEN
          VOLDP(I)= EM20
          OFF(I) =ZERO
           ICOR=1
         ENDIF
       ENDDO
 C
-      IF (ICOR.GT.0.AND.IMPL_S.GT.0) THEN
+      IF (ICOR>0.AND.IMPL_S>0) THEN
         DO I=LFT,LLT
-          IF(VOLDP(I).LE.ZERO.AND.OFF(I).NE.ZERO)THEN
+          IF(VOLDP(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOLDP(I)= EM20
             OFF(I) =ZERO 
-           IF (IMP_CHK.GT.0) THEN
+           IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IR = IMP_IR + 1
-           ELSEIF (IMCONV.EQ.1) THEN
+           ELSEIF (IMCONV==1) THEN
 #include "lockon.inc"
             WRITE(ISTDO,2000) NGL(I)
             WRITE(IOUT ,2000) NGL(I)

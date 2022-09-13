@@ -73,7 +73,7 @@ C-----------------------------------------------
 C      SKEW
 C-----------------------------------------------
 Cel seul proc0 ecrit en spmd
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        DO I=1,NUMSKW
          ISK(1)=NINT(SKEW(1,I)*S3000)
          ISK(2)=NINT(SKEW(2,I)*S3000)
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C      SKEW ELEMENT 1D
 C-----------------------------------------------
 Cel il faut recuperer les donnees sur les procs
-c      IF (IMACH.EQ.3) THEN
+c      IF (IMACH==3) THEN
         II = 0
 c      ENDIF
 C
@@ -106,7 +106,7 @@ C---
 C-----------------------------------------------
 C      TRUSS
 C-----------------------------------------------
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
             DO I=LFT,LLT
               N = I + NFT
               X1=X(1,IXT(3,I))-X(1,IXT(2,I))
@@ -117,7 +117,7 @@ C-----------------------------------------------
               Y1=Y1*S
               Z1=Z1*S
 
-              IF(ABS(Z1).LT.HALF)THEN
+              IF(ABS(Z1)<HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
                 Z2 = ONE -Z1*Z1
@@ -127,7 +127,7 @@ C-----------------------------------------------
                 Z2 =    -X1*Z1
               ENDIF
               S=S3000/SQRT(X2*X2+Y2*Y2+Z2*Z2)
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                ISK(1)=NINT(X1*S3000)
 c                ISK(2)=NINT(Y1*S3000)
 c                ISK(3)=NINT(Z1*S3000)
@@ -148,7 +148,7 @@ c              ENDIF
 C-----------------------------------------------
 C       POUTRES
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
           DO I=LFT,LLT
              JJ = 3*(I-1)
              N = I + NFT
@@ -162,7 +162,7 @@ C-----------------------------------------------
 cc             X2=  BUFEL(NB6+3*I-3)
 cc             Y2=  BUFEL(NB6+3*I-2)
 cc             Z2=  BUFEL(NB6+3*I-1)
-c             IF (IMACH.NE.3) THEN
+c             IF (IMACH/=3) THEN
 c               ISK(1)=NINT(X1*S)
 c               ISK(2)=NINT(Y1*S)
 c               ISK(3)=NINT(Z1*S)
@@ -183,17 +183,17 @@ c             ENDIF
 C-----------------------------------------------
 C       RESSORTS
 C-----------------------------------------------
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
           IPROP = IXR(1,NFT+1)
           IGTYP =  NINT(GEO(12,IPROP))
-          IF(IGTYP.EQ.4.OR.IGTYP.EQ.26)THEN
+          IF(IGTYP==4.OR.IGTYP==26)THEN
             DO I=LFT,LLT
               N = I + NFT
               X1=X(1,IXR(3,N))-X(1,IXR(2,N))
               Y1=X(2,IXR(3,N))-X(2,IXR(2,N))
               Z1=X(3,IXR(3,N))-X(3,IXR(2,N))
               S=X1*X1+Y1*Y1+Z1*Z1
-              IF(S.LT.EM30)THEN
+              IF(S<EM30)THEN
                 X1=ONE
                 Y1=ZERO
                 Z1=ZERO
@@ -203,7 +203,7 @@ C-----------------------------------------------
                 Y1=Y1*S
                 Z1=Z1*S
               ENDIF
-              IF(ABS(Z1).LT.HALF)THEN
+              IF(ABS(Z1)<HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
                 Z2 = ONE -Z1*Z1
@@ -214,7 +214,7 @@ C-----------------------------------------------
               ENDIF
               S=X2*X2+Y2*Y2+Z2*Z2
               S=S3000/MAX(EM20,SQRT(S))
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                ISK(1)=NINT(X1*S3000)
 c                ISK(2)=NINT(Y1*S3000)
 c                ISK(3)=NINT(Z1*S3000)
@@ -233,7 +233,7 @@ c              ELSE
 c              ENDIF
             ENDDO
 
-          ELSEIF(IGTYP.EQ.12)THEN
+          ELSEIF(IGTYP==12)THEN
             DO I=LFT,LLT
               N = I + NFT
               X1=X(1,IXR(3,N))-X(1,IXR(2,N))
@@ -243,7 +243,7 @@ c              ENDIF
               X1=X1*S
               Y1=Y1*S
               Z1=Z1*S
-              IF(ABS(Z1).LT.HALF)THEN
+              IF(ABS(Z1)<HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
                 Z2 = ONE -Z1*Z1
@@ -253,7 +253,7 @@ c              ENDIF
                 Z2 =    -X1*Z1
               ENDIF
               S=S3000/MAX(EM20,SQRT(X2*X2+Y2*Y2+Z2*Z2))
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                ISK(1)=NINT(X1*S3000)
 c                ISK(2)=NINT(Y1*S3000)
 c                ISK(3)=NINT(Z1*S3000)
@@ -277,7 +277,7 @@ c              ENDIF
               X1=X1*S
               Y1=Y1*S
               Z1=Z1*S
-              IF(Z1.LT.HALF)THEN
+              IF(Z1<HALF)THEN
                 X2 =    -Z1*X1
                 Y2 =    -Z1*Y1
                 Z2 = ONE -Z1*Z1
@@ -287,7 +287,7 @@ c              ENDIF
                 Z2 =    -X1*Z1
               ENDIF
               S=S3000/MAX(EM20,SQRT(X2*X2+Y2*Y2+Z2*Z2))
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                ISK(1)=NINT(X1*S3000)
 c                ISK(2)=NINT(Y1*S3000)
 c                ISK(3)=NINT(Z1*S3000)
@@ -306,7 +306,7 @@ c              ELSE
 c              ENDIF
             ENDDO
 
-          ELSEIF(IGTYP.EQ.13 .OR. IGTYP == 23)THEN
+          ELSEIF(IGTYP==13 .OR. IGTYP == 23)THEN
             DO I=LFT,LLT
              JJ = 3*(I-1)
              N = I + NFT
@@ -320,7 +320,7 @@ c              ENDIF
 cc             X2=  BUFEL(NB14+3*I-3)
 cc             Y2=  BUFEL(NB14+3*I-2)
 cc             Z2=  BUFEL(NB14+3*I-1)
-c             IF (IMACH.NE.3) THEN
+c             IF (IMACH/=3) THEN
 c               ISK(1)=NINT(X1*S)
 c               ISK(2)=NINT(Y1*S)
 c               ISK(3)=NINT(Z1*S)
@@ -352,7 +352,7 @@ c             ENDIF
 cc             X2=  BUFEL(NB14+3*I-3)
 cc             Y2=  BUFEL(NB14+3*I-2)
 cc             Z2=  BUFEL(NB14+3*I-1)
-c             IF (IMACH.NE.3) THEN
+c             IF (IMACH/=3) THEN
 c               ISK(1)=NINT(X1*S)
 c               ISK(2)=NINT(Y1*S)
 c               ISK(3)=NINT(Z1*S)
@@ -370,7 +370,7 @@ c             ELSE
                II = II + 6
 c             ENDIF
             ENDDO
-          ELSEIF(IGTYP.GE.29.AND.IGTYP.LE.32)THEN
+          ELSEIF(IGTYP>=29.AND.IGTYP<=32)THEN
             DO I=LFT,LLT
              JJ = 3*(I-1)
              N = I + NFT
@@ -384,7 +384,7 @@ c             ENDIF
 cc             X2=  BUFEL(NB14+3*I-3)
 cc             Y2=  BUFEL(NB14+3*I-2)
 cc             Z2=  BUFEL(NB14+3*I-1)
-c             IF (IMACH.NE.3) THEN
+c             IF (IMACH/=3) THEN
 c               ISK(1)=NINT(X1*S)
 c               ISK(2)=NINT(Y1*S)
 c               ISK(3)=NINT(Z1*S)
@@ -403,7 +403,7 @@ c             ELSE
 c             ENDIF
             ENDDO
 
-          ELSEIF ((IGTYP.EQ.33).OR.(IGTYP.EQ.45))THEN
+          ELSEIF ((IGTYP==33).OR.(IGTYP==45))THEN
             NUVAR  = NINT(GEO(25,IPROP))
             DO I=LFT,LLT
               N = I + NFT
@@ -420,7 +420,7 @@ cc              EX(3) = BUFEL(NB15+24)
 cc              EX(4) = BUFEL(NB15+25)
 cc              EX(5) = BUFEL(NB15+26)
 cc              EX(6) = BUFEL(NB15+27)
-c              IF (IMACH.NE.3) THEN
+c              IF (IMACH/=3) THEN
 c                ISK(1)=NINT(EX(1)*S3000)
 c                ISK(2)=NINT(EX(2)*S3000)
 c                ISK(3)=NINT(EX(3)*S3000)
@@ -453,7 +453,7 @@ C-----------------------------------------------
       ELSE
         LEN = II
       END IF
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         CALL WRITE_S_C(WA,LEN)
       ENDIF
 C

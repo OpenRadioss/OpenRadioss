@@ -375,7 +375,7 @@ C-----------------------------------------------
             UPARAM(IDX_YIELD(J)+24) = SSP
             UPARAM(IDX_YIELD(J)+26) = RHO*SSP*SSP
             UPARAM(IDX_VISC+J) = VISC
-         ENDIF !(MLN.NE.5)
+         ENDIF !(MLN/=5)
 
          SELECT CASE(MLN)
            CASE (5)

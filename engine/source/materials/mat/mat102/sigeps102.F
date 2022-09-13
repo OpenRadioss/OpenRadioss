@@ -126,7 +126,7 @@ C----------------------------------------------------------------
         AJ2(I)= HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
       ENDDO
       !----SUBCASE --- ORIGINAL MOHR COULOMB
-      IF(IFORM.EQ.4)THEN
+      IF(IFORM==4)THEN
         K = ONE/SQRT(THREE)
         DO I=1,NEL
           I3(I)    = T2(I)*T3(I)*T1(I)-T2(I)*T6(I)*T6(I)-T3(I)*T4(I)*T4(I)-T5(I)*T5(I)*T1(I)+2*T5(I)*T4(I)*T6(I)
@@ -145,7 +145,7 @@ C----------------------------------------------------------------
           G0(I)    = A0 +A1 *PTOT+A2 *PTOT*PTOT
           G0(I)    = MIN(AMAX,G0(I))
           G0(I)    = MAX(ZERO,G0(I))
-          IF(PTOT .LE. PSTAR)G0(I)=ZERO
+          IF(PTOT <= PSTAR)G0(I)=ZERO
           YIELD2(I)=AJ2(I)-G0(I)
         ENDDO !next I           
       ENDIF 
@@ -155,7 +155,7 @@ C----------------------------------------------------------------
       !----------------------------------------------------------------!      
       DO  I=1,NEL
         RATIO(I)=ZERO
-        IF(YIELD2(I).LE.ZERO .AND. G0(I).GT.ZERO)THEN
+        IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
           RATIO(I)=ONE
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))

@@ -176,16 +176,16 @@ C-----------------------------------------------
       PSH      = UPARAM(16)
       ISOLVER  = NINT(UPARAM(17))
       RHOSCALE = ONE
-      IF(IFUNC(1).GT.0)RHOSCALE=FINTER(IFUNC(1),TIME,NPF,TF,DYDX)
+      IF(IFUNC(1)>0)RHOSCALE=FINTER(IFUNC(1),TIME,NPF,TF,DYDX)
       DP0      = P0+PSH !default = P0-P0 = ZERO
 
       !------------------------------------!
-      !      TIME.EQ.ZERO                  !
+      !      TIME==ZERO                  !
       !------------------------------------!
-      IF(TIME.EQ.ZERO)THEN
+      IF(TIME==ZERO)THEN
        DO I=1,NEL
          P = MAX(EM30,(-SIGOXX(I)-SIGOYY(I)-SIGOZZ(I))*THIRD)         
-         IF(GAM*C1.GE.EM30)THEN !if Liquid and gas correctly defined
+         IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
           MU1P1     = (P/C1+ONE)
           MU2P1     =( ONE+P/P0)**(ONE/GAM)
           RHO1      = RHO10*MU1P1
@@ -195,7 +195,7 @@ C-----------------------------------------------
           UVAR(I,2) = RHO2
           UVAR(I,3) = RHO1
           UVAR(I,4) = A
-          IF(UVAR(I,4).LT.EM20)UVAR(I,4)=ZERO
+          IF(UVAR(I,4)<EM20)UVAR(I,4)=ZERO
           UVAR(I,5) = ONE-UVAR(I,4)
          ELSE !boundary element
            UVAR(I,3)=RHO(I)
@@ -211,9 +211,9 @@ C-----------------------------------------------
       ! CASE OF BOUNDARY ELEMENT INPUT     !
       ! C1=0:not a fluid ; gam=0:not a gas !
       !------------------------------------!
-      IF(GAM*C1.LT.EM30)THEN
+      IF(GAM*C1<EM30)THEN
        DO I=1,NEL
-        IF(UVAR(I,3)/RHO10.LT.HALF)THEN
+        IF(UVAR(I,3)/RHO10<HALF)THEN
          UVAR(I,1) = ZERO !massic percentage of liquid
          RHO(I)    = UVAR(I,3)*RHOSCALE
          UVAR(I,2) = RHO(I)
@@ -240,14 +240,14 @@ C-----------------------------------------------
       !------------------------------------!
       !    EQUILIBRIUM ITERATIONS (T>0)    !
       !------------------------------------!
-      IF(ISOLVER.EQ.2)THEN
+      IF(ISOLVER==2)THEN
         !------------------------------------!
         !       NEW SOLVER (ISOLVER=1)       !
         !------------------------------------!
         TOL = EM10
         NITER = 20
         DO I=1,NEL
-                ! if(ix(11,I+NFT).eq.1807425 .OR. ix(11,I+NFT).eq.1807425)then
+                ! if(ix(11,I+NFT)==1807425 .OR. ix(11,I+NFT)==1807425)then
                 !      print *, " 0    ELEM_ID    =", IX(11,I+NFT)
                 !      print *, " 0    PRES       =", P0 * RHO2T**GAM
                 !      print *, " 0    DENS       =", RHO(I)
@@ -268,7 +268,7 @@ C-----------------------------------------------
           RHO1T = RHO1 / RHO10
           RHO2T = RHO2 / RHO20
           POLD = P0 * RHO2T**GAM
-          IF (MAS1 / MAS .LT. EM10) THEN
+          IF (MAS1 / MAS < EM10) THEN
              !! Phase 2 seule presente
              UVAR(I, 1) = ZERO
              UVAR(I, 4) = ZERO
@@ -280,7 +280,7 @@ C-----------------------------------------------
              !!RHO1 = RHO10
              !!
              P = P0 * (RHO2/RHO20)**GAM
-          ELSEIF (MAS2 / MAS .LT. EM10) THEN
+          ELSEIF (MAS2 / MAS < EM10) THEN
              !! Phase 1 seule presente
              RHO1 = MAS / VOL
              UVAR(I, 1) = RHO1
@@ -295,7 +295,7 @@ C-----------------------------------------------
           ELSE
              ERROR = EP30
              ITER = 1
-             DO WHILE(ITER .LT. NITER .AND. ERROR .GT. TOL)
+             DO WHILE(ITER < NITER .AND. ERROR > TOL)
                 P1 = R1 * RHO1 - C1 + P0
                 P2 = P0 * (RHO2/RHO20)**GAM
                 F1 = MAS1 / RHO1 + MAS2 / RHO2 - VOL
@@ -315,10 +315,10 @@ C-----------------------------------------------
                 ERROR = ABS(DRHO1 / RHO1) + ABS(DRHO2 / RHO2)
                 ITER = ITER + 1
              ENDDO
-             IF (ABS(P1 - P2) .GT. 1.D-5) THEN
+             IF (ABS(P1 - P2) > 1.D-5) THEN
                 !PRINT*, "P1", P1, "P2", P2
              ENDIF
-             IF (ERROR .GT. TOL) THEN
+             IF (ERROR > TOL) THEN
                 PRINT*, "*** WARNING LAW37, convergence tolerance ", ERROR, TOL
              ENDIF
              P = R1 * RHO1 - C1 + P0
@@ -332,14 +332,14 @@ C-----------------------------------------------
           UVAR(I,2)  = RHO2
           UVAR(I,3)  = RHO1
           UVAR(I,4)  = UVAR(I,1)/RHO1 
-          IF(UVAR(I,4).LT.EM20)UVAR(I,4)=ZERO
+          IF(UVAR(I,4)<EM20)UVAR(I,4)=ZERO
           UVAR(I,5)  = ONE-UVAR(I,4)
-          IF (SSP1 .GT. ZERO) THEN
+          IF (SSP1 > ZERO) THEN
              SSP1 = UVAR(I,4) / SSP1
           ELSE
              SSP1 = ZERO
           ENDIF
-          IF (SSP2 .GT. ZERO) THEN
+          IF (SSP2 > ZERO) THEN
              SSP2 = UVAR(I,5) / SSP2
           ELSE
              SSP2 = ZERO
@@ -367,7 +367,7 @@ C-----------------------------------------------
           UVAR(I,3)  = MAX(ZERO, UVAR(I,3))
           UVAR(I,4)  = MAX(ZERO, UVAR(I,4))
           UVAR(I,5)  = MAX(ZERO, UVAR(I,5))
-                  ! if(ix(11,I+NFT).eq.1807425 .OR. ix(11,I+NFT).eq.1807425)then
+                  ! if(ix(11,I+NFT)==1807425 .OR. ix(11,I+NFT)==1807425)then
                   !    print *, " 1    ELEM_ID    =", IX(11,I+NFT)
                   !    print *, " 1    PRES       =", -SIGNXX(I)
                   !    print *, " 1    DENS       =", RHO(I)
@@ -410,7 +410,7 @@ C-----------------------------------------------
           UVAR(I,2)  = RHO2
           UVAR(I,3)  = RHO1
           UVAR(I,4)  = UVAR(I,1)/RHO1 
-          IF(UVAR(I,4).LT.EM20)UVAR(I,4)=ZERO
+          IF(UVAR(I,4)<EM20)UVAR(I,4)=ZERO
           UVAR(I,5)  = ONE-UVAR(I,4)
           P          = MAX(PMIN, P) + DP0
           SIGNXX(I)  = -P
@@ -433,11 +433,11 @@ C-----------------------------------------------
           UVAR(I,3)  = MAX(ZERO, UVAR(I,3))
           UVAR(I,4)  = MAX(ZERO, UVAR(I,4))
           UVAR(I,5)  = MAX(ZERO, UVAR(I,5))
-          !IF(UVAR(I,1).LE.EM20)UVAR(I,1) = ZERO
-          !IF(UVAR(I,2).LE.EM20)UVAR(I,2) = ZERO
-          !IF(UVAR(I,3).LE.EM20)UVAR(I,3) = ZERO
-          !IF(UVAR(I,4).LE.EM20)UVAR(I,4) = ZERO
-          !IF(UVAR(I,5).LE.EM20)UVAR(I,5) = ZERO                              
+          !IF(UVAR(I,1)<=EM20)UVAR(I,1) = ZERO
+          !IF(UVAR(I,2)<=EM20)UVAR(I,2) = ZERO
+          !IF(UVAR(I,3)<=EM20)UVAR(I,3) = ZERO
+          !IF(UVAR(I,4)<=EM20)UVAR(I,4) = ZERO
+          !IF(UVAR(I,5)<=EM20)UVAR(I,5) = ZERO                              
         ENDDO!next I
       ENDIF
 

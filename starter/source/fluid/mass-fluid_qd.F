@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-------------------------------------------------------------------
 C 1- Compute Bij Cij and Ai
 C-------------------------------------------------------------------
-      IF (ILVOUT.GE.1) THEN
+      IF (ILVOUT>=1) THEN
        WRITE(ISTDO,'(A)') ' .. FLUID MASS MATRIX:
      . ASSEMBLY OF INTEGRAL OPERATORS'
       ENDIF
@@ -100,7 +100,7 @@ C Collocation BEM
       IF(IFORM == 1) THEN
 C Gauss integration
         DO IEL=1,NEL
-C           IF (ILVOUT.GE.2) CALL PROGBAR_C(IEL,NEL)
+C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            N1=ELEM(1,IEL)
            N2=ELEM(2,IEL)
            N3=ELEM(3,IEL)
@@ -196,7 +196,7 @@ C  Position de la source Q
       ELSEIF(IFORM == 2) THEN
 C Integration analytique
         DO IEL=1,NEL
-C           IF (ILVOUT.GE.2) CALL PROGBAR_C(IEL,NEL)
+C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            N1=ELEM(1,IEL)
            N2=ELEM(2,IEL)
            N3=ELEM(3,IEL)
@@ -270,7 +270,7 @@ C Matrice B=G
         ENDDO
       ENDIF
 
-      IF(ILVOUT.GE.3) THEN
+      IF(ILVOUT>=3) THEN
         WRITE (*,'(//,A)') ' BBEM MATRIX'
         IF(NEL < 11) THEN
           DO IN = 1,NEL
@@ -341,14 +341,14 @@ C #warning "MKL not used: DAA will be slow"
 C---------------------------------------------------
 C 2- Compute fluid mass matrix MFLE
 C---------------------------------------------------
-      IF (ILVOUT.GE.1) WRITE(ISTDO,'(A)') ' .. FLUID MASS MATRIX'
+      IF (ILVOUT>=1) WRITE(ISTDO,'(A)') ' .. FLUID MASS MATRIX'
       ALLOCATE(EBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
          CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
       ENDIF
        CALL INVERT(CBEM,EBEM,NEL,ERR)
 
-      IF(ILVOUT.GE.3) THEN
+      IF(ILVOUT>=3) THEN
         WRITE (*,'(//,A)') ' CBEM-1 MATRIX'
         IF(NEL < 11) THEN
           DO IN = 1,NEL
@@ -378,7 +378,7 @@ c$$$            ENDDO
 c$$$         ENDDO
 c$$$      ENDDO
 
-      IF(ILVOUT.GE.3) THEN
+      IF(ILVOUT>=3) THEN
         WRITE (*,'(//,A)') ' EBEM MATRIX = BBEM*CBEM-1'
         IF(NEL < 11) THEN
           DO IN = 1,NEL
@@ -400,7 +400,7 @@ c$$$      ENDDO
          ENDDO
       ENDDO	  
 C
-      IF(ILVOUT.GE.3) THEN
+      IF(ILVOUT>=3) THEN
         WRITE (*,'(//,A)') ' FLUID MASS MATRIX'
         IF(NEL < 11) THEN
           DO IN = 1,NEL
@@ -443,7 +443,7 @@ C---------------------------------------------------
         CALL INVERT(BBEM,EBEM,NEL,ERR)
 
 C
-        IF(ILVOUT.GE.3) THEN
+        IF(ILVOUT>=3) THEN
           WRITE (*,'(//,A)') ' INVERSE FLUID MASS MATRIX'
           IF(NEL < 11) THEN
             DO IN = 1,NEL

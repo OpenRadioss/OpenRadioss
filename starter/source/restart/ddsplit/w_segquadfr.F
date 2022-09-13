@@ -52,7 +52,7 @@ C-----------------------------------------------
 C
       IL=0
       DO I = 1, NSEGQUADFR
-        IF(CEP(SEGQUADFR(1,I)).EQ.P)THEN
+        IF(CEP(SEGQUADFR(1,I))==P)THEN
            IL=IL+1
            FASTMP(1,IL) = CEL(SEGQUADFR(1,I))
            FASTMP(2,IL) = SEGQUADFR(2,I)

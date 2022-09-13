@@ -67,18 +67,18 @@ C
       STM = ZERO
       IPGMAT = 700
       IGMAT = 0
-      IF(NUMELTG.NE.0)THEN
+      IF(NUMELTG/=0)THEN
         DO 230 IAD=KNOD2ELTG(IRECT(1,IS))+1,KNOD2ELTG(IRECT(1,IS)+1)
           N = NOD2ELTG(IAD)
           DO 220 J=1,2
             II=IRECT(J,IS)
             DO 210 K=1,3
-              IF(IXTG(K+1,N).EQ.II) GOTO 220
+              IF(IXTG(K+1,N)==II) GOTO 220
   210       CONTINUE
             GOTO 230
   220     CONTINUE
           IGTYP = GEO(11,IXTG(5,N))
-          IF ( THK(NUMELC+N) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+          IF ( THK(NUMELC+N) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK(NUMELC+N)
           ELSEIF(IGTYP ==17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
             DX=THK(NUMELC+N)
@@ -86,7 +86,7 @@ C
             DX = GEO(1,IXTG(5,N))
           ENDIF
           IGMAT = IGEO(98,IXTG(5,N))
-          IF (IXTG(1,N).GT.0) THEN
+          IF (IXTG(1,N)>0) THEN
             ST = PM(20,IXTG(1,N))
             IF(IGTYP == 11 .AND. IGMAT > 0) THEN
                ST=GEO(IPGMAT+2,IXTG(5,N))
@@ -98,30 +98,30 @@ C
           ELSE
             ST = ZERO
           ENDIF
-          IF (DX.GT.DXM) THEN
+          IF (DX>DXM) THEN
             DXM = DX
             NELTG = N
             STM = ST
-          ELSEIF(DX.EQ.DXM) THEN
-            IF ((ST.GE.STM).OR.(STM.EQ.ZERO)) THEN
+          ELSEIF(DX==DXM) THEN
+            IF ((ST>=STM).OR.(STM==ZERO)) THEN
               NELTG = N
               STM = ST
             ENDIF
           ENDIF        
   230   CONTINUE
       ENDIF
-      IF(NUMELC.NE.0) THEN
+      IF(NUMELC/=0) THEN
         DO 430 IAD=KNOD2ELC(IRECT(1,IS))+1,KNOD2ELC(IRECT(1,IS)+1)
           N = NOD2ELC(IAD)
           DO 420 J=1,2
             II=IRECT(J,IS)
             DO 410 K=1,4
-              IF(IXC(K+1,N).EQ.II) GOTO 420
+              IF(IXC(K+1,N)==II) GOTO 420
   410       CONTINUE
             GOTO 430
   420     CONTINUE
           IGTYP = IGEO(11,IXC(6,N))
-          IF ( THK(N) .NE. ZERO .AND. IINTTHICK .EQ. 0) THEN
+          IF ( THK(N) /= ZERO .AND. IINTTHICK == 0) THEN
             DX=THK(N)
           ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP  == 52) THEN
             DX=THK(N)
@@ -129,7 +129,7 @@ C
             DX = GEO(1,IXC(6,N))
           ENDIF
           IGMAT = IGEO(98,IXC(6,N))
-          IF (IXC(1,N).GT.0) THEN
+          IF (IXC(1,N)>0) THEN
             ST = PM(20,IXC(1,N))
             IF(IGTYP == 11 .AND. IGMAT > 0)THEN
               ST=GEO(IPGMAT + 2 ,IXC(6,N))
@@ -141,12 +141,12 @@ C
           ELSE
             ST = 0.
           ENDIF
-          IF (DX.GT.DXM) THEN
+          IF (DX>DXM) THEN
             DXM = DX
             NEL = N
             STM = ST
-          ELSEIF(DX.EQ.DXM) THEN
-            IF ((ST.GT.STM).OR.(STM.EQ.ZERO)) THEN
+          ELSEIF(DX==DXM) THEN
+            IF ((ST>STM).OR.(STM==ZERO)) THEN
               NEL = N
               STM = ST
             ENDIF
@@ -194,36 +194,36 @@ C
       NELT=0
       NELR=0
       NELX=0
-      IF(NUMELT+NUMELP+NUMELR+NUMELX.NE.0)THEN
+      IF(NUMELT+NUMELP+NUMELR+NUMELX/=0)THEN
        DO IAD=KNOD2EL1D(IRECT(1,IS))+1,KNOD2EL1D(IRECT(1,IS)+1)
         N = NOD2EL1D(IAD)
-        IF(N.GT.0.AND.N.LE.NUMELT)THEN
-          IF(IRECT(1,IS).EQ.IXT(2,N).AND.IRECT(2,IS).EQ.IXT(3,N).OR.
-     .       IRECT(2,IS).EQ.IXT(2,N).AND.IRECT(1,IS).EQ.IXT(3,N))THEN
+        IF(N>0.AND.N<=NUMELT)THEN
+          IF(IRECT(1,IS)==IXT(2,N).AND.IRECT(2,IS)==IXT(3,N).OR.
+     .       IRECT(2,IS)==IXT(2,N).AND.IRECT(1,IS)==IXT(3,N))THEN
             NELT=N
             RETURN
           ENDIF
-        ELSEIF(N.GT.0.AND.N.LE.NUMELT+NUMELP)THEN
+        ELSEIF(N>0.AND.N<=NUMELT+NUMELP)THEN
           N=N-NUMELT
-          IF(IRECT(1,IS).EQ.IXP(2,N).AND.IRECT(2,IS).EQ.IXP(3,N).OR.
-     .       IRECT(2,IS).EQ.IXP(2,N).AND.IRECT(1,IS).EQ.IXP(3,N))THEN
+          IF(IRECT(1,IS)==IXP(2,N).AND.IRECT(2,IS)==IXP(3,N).OR.
+     .       IRECT(2,IS)==IXP(2,N).AND.IRECT(1,IS)==IXP(3,N))THEN
             NELP=N
             RETURN
           ENDIF
-        ELSEIF(N.GT.0.AND.N.LE.NUMELT+NUMELP+NUMELR)THEN
+        ELSEIF(N>0.AND.N<=NUMELT+NUMELP+NUMELR)THEN
           N=N-NUMELT-NUMELP
-          IF(IRECT(1,IS).EQ.IXR(2,N).AND.IRECT(2,IS).EQ.IXR(3,N).OR.
-     .       IRECT(2,IS).EQ.IXR(2,N).AND.IRECT(1,IS).EQ.IXR(3,N).OR.
-     .       IRECT(1,IS).EQ.IXR(3,N).AND.IRECT(2,IS).EQ.IXR(4,N).OR.
-     .       IRECT(2,IS).EQ.IXR(3,N).AND.IRECT(1,IS).EQ.IXR(4,N))THEN
+          IF(IRECT(1,IS)==IXR(2,N).AND.IRECT(2,IS)==IXR(3,N).OR.
+     .       IRECT(2,IS)==IXR(2,N).AND.IRECT(1,IS)==IXR(3,N).OR.
+     .       IRECT(1,IS)==IXR(3,N).AND.IRECT(2,IS)==IXR(4,N).OR.
+     .       IRECT(2,IS)==IXR(3,N).AND.IRECT(1,IS)==IXR(4,N))THEN
             NELR=N
             RETURN
           ENDIF
-        ELSEIF(N.GT.0.AND.N.LE.NUMELT+NUMELP+NUMELR+NUMELX)THEN
+        ELSEIF(N>0.AND.N<=NUMELT+NUMELP+NUMELR+NUMELX)THEN
           N=N-NUMELT-NUMELP-NUMELR
           DO J=KXX(4,N),KXX(4,N)+KXX(3,N)-1
-            IF(IRECT(1,IS).EQ.IXX(J).AND.IRECT(2,IS).EQ.IXX(J+1).OR.
-     .         IRECT(2,IS).EQ.IXX(J).AND.IRECT(1,IS).EQ.IXX(J+1))THEN
+            IF(IRECT(1,IS)==IXX(J).AND.IRECT(2,IS)==IXX(J+1).OR.
+     .         IRECT(2,IS)==IXX(J).AND.IRECT(1,IS)==IXX(J+1))THEN
                 NELX=N
                 RETURN
             ENDIF

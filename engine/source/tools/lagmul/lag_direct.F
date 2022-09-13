@@ -62,7 +62,7 @@ C-----------------------------------------------
       my_real
      .        HLOC(MXDLEN,MXDLEN),RLOC(MXDLEN),S,HIJ
 C======================================================================|
-      IF (NCL.GT.MXDLEN) THEN
+      IF (NCL>MXDLEN) THEN
         CALL ANCMSG(MSGID=111,ANMODE=ANINFO,
      .            I1=NCL)
         CALL ARRET(2)
@@ -74,7 +74,7 @@ C---  Local H matrix
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = LLL(IK)
           J = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             LTSM(J,I) = XLL(IK)/IN(I)
           ELSE
             LTSM(J,I) = XLL(IK)/MS(I)
@@ -103,7 +103,7 @@ C---  second membre
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = LLL(IK)
           J = JLL(IK)
-          IF (J.GT.3) THEN
+          IF (J>3) THEN
             J = J-3
             RLOC(K) = RLOC(K) + XLL(IK)*(VR(J,I)/DT12+AR(J,I))
           ELSE
@@ -113,7 +113,7 @@ C---  second membre
       ENDDO
 C---  Factorise H (Full Cholesky)
       DO J=1,NCL
-	    IF (HLOC(J,J).LE.ZERO) THEN
+	    IF (HLOC(J,J)<=ZERO) THEN
           CALL ANCMSG(MSGID=112,ANMODE=ANINFO,
      .            I1=J)
           CALL ARRET(2)
@@ -151,7 +151,7 @@ C---  update accelerations
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = LLL(IK)
           J = JLL(IK)
-          IF(J.GT.3) THEN
+          IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)*RLOC(K)/IN(I)
           ELSE

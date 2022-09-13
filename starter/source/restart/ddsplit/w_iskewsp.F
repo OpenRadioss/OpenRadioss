@@ -59,7 +59,7 @@ C
 ! --------------------------------
       NL = 0
       DO I = 1, NUMSPH
-        IF(CEPSP(I).EQ.PROC)THEN
+        IF(CEPSP(I)==PROC)THEN
           NL = NL + 1
           LOCAL(I) = NL
         ELSE
@@ -69,13 +69,13 @@ C
 C
       DO I = 1, NUMNOD_L
         ISK = ISKEW(NODGLOB(I))
-        IF(ISK.LE.NUMSKW+1)THEN     ! no skew classique
+        IF(ISK<=NUMSKW+1)THEN     ! no skew classique
           ITMP(I) = ISK
-        ELSEIF(ISK.LE.NUMSKW+NUMSPH+1 .AND.NSPCOND .GT. 0
-     .            .AND. NUMSPH .GT. 0 )THEN                      ! no skew sph
+        ELSEIF(ISK<=NUMSKW+NUMSPH+1 .AND.NSPCOND > 0
+     .            .AND. NUMSPH > 0 )THEN                      ! no skew sph
           NG = ISK-NUMSKW-1
           NL = LOCAL(NG)
-          IF(NL.EQ.0)print*,'error in sph decomp'
+          IF(NL==0)print*,'error in sph decomp'
           ITMP(I)=NL+NUMSKW+1
         ELSE
           ITMP(I) = ISK

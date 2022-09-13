@@ -87,12 +87,12 @@ C-----------------------------------------------
        DO IS = 1 , NN
         I = JS+IS 
 C test si rivet a traiter sur le proc
-        IF(IXRT(2,I).GT.0)THEN
+        IF(IXRT(2,I)>0)THEN
 C----------------------------
 C       RUPTURE
 C----------------------------
          OFF = RIVET(1,I)
-         IF (OFF.NE.ZERO) THEN
+         IF (OFF/=ZERO) THEN
           IG=IXRT(1,I)
           N1=IXRT(2,I)
           N2=IXRT(3,I)
@@ -102,17 +102,17 @@ C----------------------------
           YN(IS)=X(2,N2)-X(2,N1)
           ZN(IS)=X(3,N2)-X(3,N1)
           DX2(IS)=XN(IS)**2+YN(IS)**2+ZN(IS)**2
-          IF(DX2(IS).GT.DMX2)THEN
+          IF(DX2(IS)>DMX2)THEN
             OFF=OFF-EM01
-            IF(OFF.LE.ZERO)THEN
+            IF(OFF<=ZERO)THEN
               RIVET(1,I)=-ONE
               RUPT = 1
             ELSE
               RIVET(1,I) = OFF
             ENDIF
           ENDIF
-          IF (OFF.GT.ZERO) THEN
-            IF(IMOD.EQ.1) THEN
+          IF (OFF>ZERO) THEN
+            IF(IMOD==1) THEN
               NIND1 = NIND1 + 1
               IND1(NIND1) = IS
             ELSE
@@ -167,7 +167,7 @@ C
          VY = (VMY1+VMY2)*MASM1
          VZ = (VMZ1+VMZ2)*MASM1
 C
-         IF(IROT.EQ.0) THEN
+         IF(IROT==0) THEN
 C----------------------------
 C          CALCUL FORCES
 C----------------------------
@@ -175,7 +175,7 @@ C----------------------------
            AY = (-A(2,N1)+(VY-V(2,N1))*DT12M1)*MS(N1)
            AZ = (-A(3,N1)+(VZ-V(3,N1))*DT12M1)*MS(N1)
 C
-           IF(DX2(IS).GT.EM15)THEN
+           IF(DX2(IS)>EM15)THEN
 C            POINTS NON CONFONDUS CRITERE FN ET FT
              S  = ONE/SQRT(DX2(IS))
              XN(IS) =XN(IS)*S
@@ -257,7 +257,7 @@ C
            AY = (-A(2,N1)+(VY+VT1(2)-V(2,N1))*DT12M1)*MS(N1)
            AZ = (-A(3,N1)+(VZ+VT1(3)-V(3,N1))*DT12M1)*MS(N1)
 C
-           IF(DX2(IS).GT.EM15)THEN
+           IF(DX2(IS)>EM15)THEN
 C            POINTS NON CONFONDUS CRITERE FN ET FT
              S = ONE/SQRT(DX2(IS))
              XN(IS) =XN(IS)*S
@@ -356,7 +356,7 @@ C-----------------------------------------------
          AMX=(A(1,N2)-A(1,N1)+(V(1,N2)-V(1,N1))/DT12)*XM
          AMY=(A(2,N2)-A(2,N1)+(V(2,N2)-V(2,N1))/DT12)*XM
          AMZ=(A(3,N2)-A(3,N1)+(V(3,N2)-V(3,N1))/DT12)*XM
-         IF(DX2(IS).GT.EM15)THEN
+         IF(DX2(IS)>EM15)THEN
 C          POINTS NON CONFONDUS CRITERE FN ET FT
            S = ONE/SQRT(DX2(IS))
            XN(IS) =XN(IS)*S
@@ -387,7 +387,7 @@ C          POINTS CONFONDUS CRITERE UNIQUEMENT SUR FN
          A(1,N2)=A(1,N2)-AMX/MS(N2)
          A(2,N2)=A(2,N2)-AMY/MS(N2)
          A(3,N2)=A(3,N2)-AMZ/MS(N2)
-         IF(IROT.EQ.1)THEN
+         IF(IROT==1)THEN
            INM1=ONE/(IN(N1)+IN(N2))
            AR(1,N1)=(AR(1,N1)*IN(N1)+AR(1,N2)*IN(N2))*INM1
            AR(2,N1)=(AR(2,N1)*IN(N1)+AR(2,N2)*IN(N2))*INM1
@@ -404,9 +404,9 @@ C
 #include "lockon.inc"
         ENROT = ENROT + ENROT_L 
 #include "lockoff.inc"
-      IF (RUPT.EQ.1) THEN
+      IF (RUPT==1) THEN
         DO I=LFT,LLT
-          IF(RIVET(1,I).EQ.-ONE)THEN
+          IF(RIVET(1,I)==-ONE)THEN
             RIVET(1,I)=ZERO
 #include "lockon.inc"
             WRITE(ISTDO,*)' FAILURE OF RIVET',IXRT(4,I)

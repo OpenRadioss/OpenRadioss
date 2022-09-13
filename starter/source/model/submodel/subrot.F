@@ -79,7 +79,7 @@ C-----------------------------------------------
 C======================================================================   
       X0 = ZERO
       IDSUBMODEL = 0
-      IF(SUB_ID .NE. 0) THEN
+      IF(SUB_ID /= 0) THEN
         DO K= 1,NSUBMOD
           IF(LSUBMODEL(K)%NOSUBMOD == SUB_ID) THEN
             IDSUBMODEL = K
@@ -89,9 +89,9 @@ C======================================================================
       ENDIF
       CUR_SUBMOD = IDSUBMODEL
       SUB_LEVEL = LSUBMODEL(IDSUBMODEL)%LEVEL
-      DO WHILE (SUB_LEVEL .NE. 0)
+      DO WHILE (SUB_LEVEL /= 0)
         DO I=1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
-          IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) .NE. 0) THEN
+          IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) /= 0) THEN
             CPTZERO = 0
             DO L=1,9
               ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)
@@ -168,7 +168,7 @@ C-----------------------------------------------
      .   ROT(9),P(3),X0(3),TX,TY,TZ,XP,YP,ZP,XCOLD(3),XCNEW(3)
 C====================================================================== 
       IDSUBMODEL = 0
-      IF(SUB_ID .NE. 0) THEN
+      IF(SUB_ID /= 0) THEN
         DO K= 1,NSUBMOD
           IF(LSUBMODEL(K)%NOSUBMOD == SUB_ID) THEN
             IDSUBMODEL = K
@@ -178,9 +178,9 @@ C======================================================================
       ENDIF
       CUR_SUBMOD = IDSUBMODEL
       SUB_LEVEL = LSUBMODEL(IDSUBMODEL)%LEVEL
-      DO WHILE (SUB_LEVEL .NE. 0)
+      DO WHILE (SUB_LEVEL /= 0)
         DO I=1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
-          IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) .NE. 0) THEN
+          IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) /= 0) THEN
             ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),2)
             IF (ITY ==1 )THEN
               TX = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),15)
@@ -282,7 +282,7 @@ C-----------------------------------------------
 C======================================================================   
       X0 = ZERO
       IDSUBMODEL = 0
-      IF(SUB_ID .NE. 0) THEN
+      IF(SUB_ID /= 0) THEN
         DO K= 1,NSUBMOD
           IF(LSUBMODEL(K)%NOSUBMOD == SUB_ID) THEN
             IDSUBMODEL = K
@@ -292,9 +292,9 @@ C======================================================================
       ENDIF
       CUR_SUBMOD = IDSUBMODEL
       SUB_LEVEL = LSUBMODEL(IDSUBMODEL)%LEVEL
-      DO WHILE (SUB_LEVEL .NE. 0)
+      DO WHILE (SUB_LEVEL /= 0)
         DO I=1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
-          IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) .NE. 0) THEN
+          IF (LSUBMODEL(CUR_SUBMOD)%IDTRANS(I) /= 0) THEN
             CPTZERO = 0
             DO L=1,9
               ROT(L) = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(I),L+2)

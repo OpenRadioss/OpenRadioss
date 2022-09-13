@@ -111,13 +111,13 @@ C
 C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
        INCREM = 1
 C pas de NSN defini en type 16 et interface non spmd compatible
-       IF(NTY.EQ.16.OR.NTY.EQ.17) RETURN
+       IF(NTY==16.OR.NTY==17) RETURN
 C
-       IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.11.OR.
-     .    NTY.EQ.20.OR.NTY.EQ.21.OR.NTY.EQ.22.OR.
-     .    NTY.EQ.23.OR.NTY.EQ.24.OR.NTY.EQ.25) INCREM = 100
+       IF(NTY==7.OR.NTY==10.OR.NTY==11.OR.
+     .    NTY==20.OR.NTY==21.OR.NTY==22.OR.
+     .    NTY==23.OR.NTY==24.OR.NTY==25) INCREM = 100
 C
-       IF(NTY.EQ.8) THEN
+       IF(NTY==8) THEN
          DO P=1,NSPMD
            DO I=1,NSN
          !Comment ne donner les SECONDARYs qu'aux procs
@@ -126,7 +126,7 @@ C
            END DO
          ENDDO
 C
-       ELSEIF(NTY.NE.2) THEN
+       ELSEIF(NTY/=2) THEN
 	     IF(INCREM==1)THEN
             DO I=1,NSN
 	           CALL IFRONTPLUS(INTBUF_TAB%NSV(I),1)
@@ -136,7 +136,7 @@ C
             END DO
 	     ENDIF
 C  interface ALE -> c. c. traitees par P0
-         IF(NTY.EQ.1.OR.NTY.EQ.9.OR.NTY.EQ.12)THEN
+         IF(NTY==1.OR.NTY==9.OR.NTY==12)THEN
            INCREM = 10
            DO I=1,NSN
              !set FLAGKIN to 1 for boundary node with
@@ -148,7 +148,7 @@ C  interface ALE -> c. c. traitees par P0
            END DO
          ENDIF
        ELSE
-         IF (N2D.EQ.0) THEN
+         IF (N2D==0) THEN
            NIR = 4
          ELSE
            NIR = 2
@@ -173,7 +173,7 @@ c            optimisation possible
       ENDIF
 C
 C
-      IF(NTY.EQ.6) THEN
+      IF(NTY==6) THEN
 C
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST) = 0
@@ -211,7 +211,7 @@ C
 C
       ENDIF
 C
-      IF(IWPENE.NE.0) THEN
+      IF(IWPENE/=0) THEN
          CALL ANCMSG(MSGID=342,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -410,12 +410,12 @@ C=======================================================================
       NTY   =IPARI(7)
       NOINT =IPARI(15)
 C
-      IF(IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+      IF(IMACH==3.AND.NSPMD>1) THEN
 C      les interfaces type 7 sont distribuees, les autres centralisees sur P0
        INCREM = 1
-       IF(NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.11.OR.NTY.EQ.22) INCREM = 100
+       IF(NTY==7.OR.NTY==10.OR.NTY==11.OR.NTY==22) INCREM = 100
 C
-       IF(NTY.NE.2) THEN
+       IF(NTY/=2) THEN
          IF(INCREM==1)THEN
             DO I=1,NSN
                CALL IFRONTPLUS(INTBUF_TAB%NSV(I),1)
@@ -425,7 +425,7 @@ C
             END DO
          ENDIF
 C interface ALE -> c. c. traitees par P0
-         IF(NTY.EQ.1.OR.NTY.EQ.9.OR.NTY.EQ.12)THEN
+         IF(NTY==1.OR.NTY==9.OR.NTY==12)THEN
            INCREM = 10
            DO I=1,NSN
               !set FLAGKIN to 1 for boundary node with
@@ -437,7 +437,7 @@ C interface ALE -> c. c. traitees par P0
            END DO
          ENDIF
        ELSE
-         IF (N2D.EQ.0) THEN
+         IF (N2D==0) THEN
            NIR = 4
          ELSE
            NIR = 2

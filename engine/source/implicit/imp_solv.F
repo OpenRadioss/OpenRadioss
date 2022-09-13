@@ -383,26 +383,26 @@ c		  BUFIN_C=>IMPBUF_TAB%BUFIN_C
 C--------explicite iteration only-------------
 C-------smp // first for IMP_GLOB_K, PCG solver, Nonlinear drivers,
          NDT=NEXP
-         IF (I_IMP(4).GT.0) THEN
+         IF (I_IMP(4)>0) THEN
           CALL INTEGRATOR_HP(NDT  ,D_IMP ,DR_IMP,
      1                       X     ,V     ,VR    ,A     ,AR    )
 C    /---------------/
            I_IMP(4)=I_IMP(4)-1
-           IF (IMCONV.EQ.1) IMCONV=2
+           IF (IMCONV==1) IMCONV=2
           RETURN
          ENDIF
 C------------------------------
 C        Initialisation
 C------------------------------
          IPRINT0=0
-         IF (ISPMD.EQ.0) THEN
-          IF(NCYCLE.EQ.1.AND.IMCONV.EQ.1.AND.I_IMP(5).EQ.0) IPRINT0=1
-          IF (ILINE.NE.1) INPRINT=NPRINT
+         IF (ISPMD==0) THEN
+          IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) IPRINT0=1
+          IF (ILINE/=1) INPRINT=NPRINT
          ELSE
           INPRINT=0
          ENDIF
 C
-         IF (IRREF.GT.0.AND.IMCONV.EQ.1.AND.ILINE.NE.1) THEN
+         IF (IRREF>0.AND.IMCONV==1.AND.ILINE/=1) THEN
           IRFLAG=IRREF
          ELSE
           IRFLAG=0
@@ -411,13 +411,13 @@ C
          ISETP=ISETK
          NDDLI=0
          NDDLI_G=0
-         IF (NINT7.EQ.0) THEN
+         IF (NINT7==0) THEN
           DO I=1,NUMNOD
            NDOFI(I)=0
           ENDDO
          ENDIF
          ISTOP=0
-         IF (IMCONV.EQ.2) IMCONV=1
+         IF (IMCONV==2) IMCONV=1
          NNDL = 3*NUMNOD
 C
          NSREM=0
@@ -425,12 +425,12 @@ C
          ICONTA = 0
 C
          WE_IMP = TFEXT
-         IF (IMCONV.EQ.1) THEN
+         IF (IMCONV==1) THEN
           ITER_NL=0
          ELSE
           ITER_NL=IT+1
          END IF
-         IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5).EQ.0) THEN
+         IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) THEN
           R_IMP(19)=TT-DT2
 C---------for interface sorting         
           IF(NINTER>0) CALL INI_BMINMA_IMP
@@ -441,11 +441,11 @@ Citask0        IF (ITASK == 0) THEN
 C-----------------------------
          IF (IMCONV==3) CALL CP_REAL_HP(NNDL,X_C,X)
          NFXV_G = NFXVEL
-         IF (NSPMD.GT.1) CALL SPMD_MAX_I(NFXV_G)
+         IF (NSPMD>1) CALL SPMD_MAX_I(NFXV_G)
 C
-         IF (ILINTF.GT.0) THEN
+         IF (ILINTF>0) THEN
            ALLOCATE(XI_C(NNDL))
-           IF (NCYCLE.EQ.1) THEN
+           IF (NCYCLE==1) THEN
             CALL CP_IMPBUF(
      .           1      ,ELBUF,ELBUF_C,BUFMAT ,BUFMAT_C,
      .                     FSAV  ,VOLMON  ,PARTSAV ,INTBUF_TAB       ,
@@ -473,7 +473,7 @@ C
             CALL CP_REAL_HP(NNDL,X_C,XI_C)
             CALL INTEGRATOR1_HP(D_IMP ,XI_C )
             CALL IMP_B2A(A ,AR ,IDDL ,NDOF ,LB0  )
-            IF (NCYCLE.EQ.ILINTF) THEN
+            IF (NCYCLE==ILINTF) THEN
              LPRINT = I_IMP(2)
             ELSE
              LPRINT = 0
@@ -483,30 +483,30 @@ C----------otherwise, X_A is accumulated---
            ENDIF
          ENDIF
 C
-         IF (IMCONV.EQ.1 ) THEN
+         IF (IMCONV==1 ) THEN
            R_IMP(16)=ZERO
 C          R_IMP(6)=ZERO
 C---------initialise D,DD-----
-             IF (NCYCLE.GT.1.AND.ILINE.NE.1) THEN
+             IF (NCYCLE>1.AND.ILINE/=1) THEN
 C-----------------Dn,0=Dn-1--------
 c              CALL CP_REAL(NNDL,D_IMP,DD)
-c              IF (IRODDL.NE.0) CALL CP_REAL(NNDL,DR_IMP,DDR)
+c              IF (IRODDL/=0) CALL CP_REAL(NNDL,DR_IMP,DDR)
 C----------for the case where the run diverges due to the first contact(Gravity)->
 C----------use reduced Dn_1 instead of resolution: 
                CALL DU_INI_HP(D_IMP  ,DR_IMP,DD    ,
      1                        DDR   ,I_IMP(5),I_IMP(7))
              ENDIF
              CALL ZEROR_HP(D_IMP,NUMNOD)
-             IF (IRODDL.NE.0) CALL ZEROR_HP(DR_IMP,NUMNOD)
+             IF (IRODDL/=0) CALL ZEROR_HP(DR_IMP,NUMNOD)
 C         permet aussi de faire linear avec 'initial state'
             CALL ZEROR_HP(AC,NUMNOD)
-            IF (IRODDL.NE.0) CALL ZEROR_HP(ACR,NUMNOD)
+            IF (IRODDL/=0) CALL ZEROR_HP(ACR,NUMNOD)
 C
-           IF (ISIGINI.EQ.1.AND.NCYCLE.EQ.1) THEN
+           IF (ISIGINI==1.AND.NCYCLE==1) THEN
             CALL IMP_SETB(A ,AR ,IDDL ,NDOF ,LB0  )
            ENDIF
 C
-         IF (NCYCLE.EQ.1.AND.IDYNA.GT.0)
+         IF (NCYCLE==1.AND.IDYNA>0)
      .      CALL DYNA_INA(IBCL  ,FORC   ,NPC   ,TF    ,A     ,
      2                    V     ,X      ,SKEW  ,AR    ,VR    ,
      3                    SENSOR,LSENSOR,WEIGHT,TFEXC ,IADS_F ,
@@ -520,8 +520,8 @@ C       FORCES EXTERNES A=Fext-Fint
 C----------------------------------
 C
          NCL_MAX=0
-         IF(NCONLD.NE.0) THEN
-          IF (IMON.GT.0) CALL STARTIME(4,1)
+         IF(NCONLD/=0) THEN
+          IF (IMON>0) CALL STARTIME(4,1)
 C         --en spmd force est traite comme elements---
           CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,AC    ,
      2               V     ,X     ,SKEW  ,ACR ,VR    ,
@@ -529,27 +529,27 @@ C         --en spmd force est traite comme elements---
      4               IADS_F,FSKY  ,FSKY,RBID,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC)
 C
-         IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+         IF (IMACH==3.AND.NSPMD>1) THEN
           DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
 	        N1 = 3*(J-1)+1
 	        N2 = 3*(J-1)+2
 	        N3 = 3*(J-1)+3
             TMP = ABS(AC(N1))+ABS(AC(N2))+ABS(AC(N3))
-            IF (IRODDL.NE.0) TMP = TMP +
+            IF (IRODDL/=0) TMP = TMP +
      .            ABS(ACR(N1))+ABS(ACR(N2))+ABS(ACR(N3))
-            IF (TMP.GT.ZERO) NCL_MAX = NCL_MAX + 1
+            IF (TMP>ZERO) NCL_MAX = NCL_MAX + 1
           ENDDO
           ENDIF
 C
-           IF (IMON.GT.0) CALL STOPTIME(4,1)
+           IF (IMON>0) CALL STOPTIME(4,1)
          ENDIF
 C
-        IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+        IF (IMACH==3.AND.NSPMD>1) THEN
          CALL SPMD_MAX_I(NCL_MAX)
-         IF (NCL_MAX.GT.0) THEN
+         IF (NCL_MAX>0) THEN
           LBAND = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
            NTMP = 6
           ELSE
            NTMP = 3
@@ -558,55 +558,55 @@ C
          ENDIF
         ENDIF
 C---------no //SMP for the moment, add it after----
-         IF(NGRAV.NE.0) THEN
-          IF (IMON.GT.0) CALL STARTIME(4,1)
+         IF(NGRAV/=0) THEN
+          IF (IMON>0) CALL STARTIME(4,1)
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,AC,
      2                    V     ,X     ,SKEW  ,MS,TFEXC,
      3                    SENSOR,LSENSOR,WEIGHT,
      4                    LGRAV ,ITASK,
      5                    NRBYAC,IRBYAC,NPBY  ,RBY    )
-          IF (IMON.GT.0) CALL STOPTIME(4,1)
+          IF (IMON>0) CALL STOPTIME(4,1)
          ENDIF
 C---------no //SMP for the moment, add it after----
-         IF(NLOADC.NE.0) THEN
-          IF (IMON.GT.0) CALL STARTIME(4,1)
+         IF(NLOADC/=0) THEN
+          IF (IMON>0) CALL STARTIME(4,1)
           CALL CFIELD_IMP(ICFIELD  ,CFIELD,NPC   ,TF    ,AC,
      2                    V     ,X     ,XFRAME  ,MS,TFEXC,
      3                    SENSOR,LSENSOR,WEIGHT,IFRAME,
      4                    LCFIELD ,ITASK,
      5                    NRBYAC,IRBYAC,NPBY  ,RBY,ISKEW    )
-          IF (IMON.GT.0) CALL STOPTIME(4,1)
+          IF (IMON>0) CALL STOPTIME(4,1)
          ENDIF
 
 
           TFEXT = WE_IMP
-C fin IF (IMCONV.EQ.1)
+C fin IF (IMCONV==1)
          ENDIF
 C-------------dU_d---------------------------------
-        IF(NFXVEL.NE.0.AND.(IMCONV.EQ.1.OR.IMCONV.EQ.3)) THEN
-          IF (IMON.GT.0) CALL STARTIME(4,1)
+        IF(NFXVEL/=0.AND.(IMCONV==1.OR.IMCONV==3)) THEN
+          IF (IMON>0) CALL STARTIME(4,1)
           CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
      3                X     ,DIRUL  ,NDOF   ,A     ,AR    )
-          IF (IMON.GT.0) CALL STOPTIME(4,1)
+          IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
 C-------------RGWAL0_IMP peut suivre-ISETK=1, mais il faut changer-FV_IMP1
 C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
         NT_RW=0
         NRWDONE = 0
-        IF (NRWALL.GT.0) THEN
-         IF (IMON.GT.0) CALL STARTIME(4,1)
+        IF (NRWALL>0) THEN
+         IF (IMON>0) CALL STARTIME(4,1)
          DO I=1,NDDL0
-          IF (IKC(I).EQ.3.OR.IKC(I).EQ.10) IKC(I)=0
+          IF (IKC(I)==3.OR.IKC(I)==10) IKC(I)=0
          ENDDO
-         IF (IMCONV.EQ.1) THEN
+         IF (IMCONV==1) THEN
           DO I=1,NDDL0
-           IF (IKC(I).EQ.4.OR.IKC(I).EQ.11) IKC(I)=0
+           IF (IKC(I)==4.OR.IKC(I)==11) IKC(I)=0
           ENDDO
          ENDIF
 
-         IF (ISMDISP.GT.0.AND.ILINE.EQ.0) THEN
+         IF (ISMDISP>0.AND.ILINE==0) THEN
           CALL RGWAL0_IMP(
      1     X_A         ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
      2     NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
@@ -622,31 +622,31 @@ C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
      5     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)     
          ENDIF
 C
-         IF(NT_RW.GT.0) THEN
+         IF(NT_RW>0) THEN
           CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
          ENDIF
-         IF (IMON.GT.0) CALL STOPTIME(4,1)
+         IF (IMON>0) CALL STOPTIME(4,1)
         ENDIF
 C
         IFDIS=NT_RW+NFXV_G
-        IF(IFDIS.GT.0.AND.IMCONV.EQ.1) THEN
-          IF (NCYCLE.GT.1.AND.ILINE.NE.1)
+        IF(IFDIS>0.AND.IMCONV==1) THEN
+          IF (NCYCLE>1.AND.ILINE/=1)
 C--------------Dn,0=Dn-1--------
      .    CALL FV_DD0(IDDL   ,IKC   ,NDOF  ,DD  ,DDR ,D_IMP)
-          IF(NT_RW.GT.0) THEN
+          IF(NT_RW>0) THEN
            DO I=1,NDDL0
-            IF (IKC(I).EQ.3) IKC(I)=4
+            IF (IKC(I)==3) IKC(I)=4
 C
-            IF (IKC(I).EQ.10) IKC(I)=11
+            IF (IKC(I)==10) IKC(I)=11
            ENDDO
           ENDIF
         ENDIF
 C
         IRWALL = NT_RW
-        IF (NSPMD.GT.1) CALL SPMD_MAX_I(IRWALL)
+        IF (NSPMD>1) CALL SPMD_MAX_I(IRWALL)
 C-------!!!should stop line-search if Rwall activates!!!
-        IF(IRWALL.GT.0.AND.IMCONV.GE.0) THEN
-          IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+        IF(IRWALL>0.AND.IMCONV>=0) THEN
+          IF(IMACH/=3.OR.ISPMD==0) THEN
            WRITE(IOUT,*)'  *--------- RIGID WALL IMPACT---------*'
            WRITE(ISTDO,*)'  *--------- RIGID WALL IMPACT---------*'
           ENDIF
@@ -664,10 +664,10 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
 C-----------------------
-        IF (ISOLV.EQ.5.OR.ISOLV.EQ.6.AND.IMCONV.GE.0) THEN
-         IF (IDSC.EQ.0) THEN
+        IF (ISOLV==5.OR.ISOLV==6.AND.IMCONV>=0) THEN
+         IF (IDSC==0) THEN
 C-----------one update per increment
-          IF (IPUPD.EQ.0.AND.I_IMP(2).EQ.0.AND.IT.EQ.0) THEN
+          IF (IPUPD==0.AND.I_IMP(2)==0.AND.IT==0) THEN
            IDSC=MAX(IDSC,ISETK)
           ENDIF
 C-----------NDDL could be changed by RWALL impact
@@ -682,8 +682,8 @@ C    /---------------/
 C----------------------------------
 C       MATRICE DE RIGIDITE
 C----------------------------------
-        IF (ISETK .EQ.1 ) THEN
-          IF (IMON.GT.0 .AND. ITASK .EQ.0) CALL STARTIME(31,1)
+        IF (ISETK ==1 ) THEN
+          IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(31,1)
           L1 = 1+NIXS*NUMELS
           L2 = L1+6*NUMELS10
           L3 = L2+12*NUMELS20
@@ -715,9 +715,9 @@ C
           LI15 = LI14+LSIZE(15)
           LIF = LI15+LSIZE(16)
 C---------attention si rigid body reactive(deactive) pendant un restart il faut relancer aussi dim
-          IF (ILINE.NE.1) THEN
+          IF (ILINE/=1) THEN
            NTMP=0
-               IF (I_IMP(11).EQ.1) THEN
+               IF (I_IMP(11)==1) THEN
             NTMP=1
                 I_IMP(11)=-1
               ENDIF
@@ -764,13 +764,13 @@ C    /---------------/
 C-----------------------------
 citask0       IF (ITASK == 0) THEN
 C-----------------------------
-        IF (IDYNA.GT.0.AND.IDY_DAMP.GT.0) THEN
+        IF (IDYNA>0.AND.IDY_DAMP>0) THEN
          CALL DYNA_CPK0(NDDL  ,NNZK  ,IADK  ,JDIK   ,DIAG_K ,
      .                  LT_K  )
         END IF
 C-------estimation of A(t+dt) w/ initial velocity----
-        IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1.AND.I_IMP(5).EQ.0
-     .      .AND.IDYNA.GT.0.AND.NINVEL.GT.0) THEN
+        IF (NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0
+     .      .AND.IDYNA>0.AND.NINVEL>0) THEN
           CALL IMP_DYKV0(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                   DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,
      1                   RBY    ,X       ,SKEW   ,LPBY   ,NPBY   ,
@@ -779,18 +779,18 @@ C-------estimation of A(t+dt) w/ initial velocity----
      4                   IRBE2  ,LRBE2   ,V      ,VR     ,NDDL0  ,
      5                   FR_ELEM,IAD_ELEM,MS     ,IN     )
         END IF
-        IF (IDYNA.GT.0.OR.IQSTAT.GT.0)
+        IF (IDYNA>0.OR.IQSTAT>0)
      .   CALL IMP_DYNAM(NODFT  ,NODLT   ,IDDL   ,NDOF   ,DIAG_K ,
      .                  MS     ,IN      ,HHT_A  ,WEIGHT ,IADK   ,
      .                  LT_K   )
 C
-        IF (IKPRES.GT.0.AND.NBUCK.EQ.0)
+        IF (IKPRES>0.AND.NBUCK==0)
      1    CALL IMP_KPRES(IBCL  ,FORC   ,NPC   ,TF    ,X     ,
      2                   SKEW  ,SENSOR,LSENSOR,WEIGHT,IADS_F,
      3                   IDDL  ,NDOF   ,IADK  ,JDIK  ,DIAG_K,
      4                   LT_K  )
-         IF(IAUTSPC.GT.0) THEN
-          IF(NCYCLE.EQ.1.AND.IMCONV.EQ.1.AND.I_IMP(5).EQ.0) THEN
+         IF(IAUTSPC>0) THEN
+          IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) THEN
               ELSE
                CALL GET_NSPC(NSPC_OLD)
            IF (NSPMD > 1) CALL SPMD_MAX_I(NSPC_OLD)
@@ -813,7 +813,7 @@ C
 C
           anew_stif = 'Y'
 c
-          IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+          IF (IMACH==3.AND.NSPMD>1) THEN
           CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -821,14 +821,14 @@ C
           CALL WEIGHTDDL(IDDL  ,NDOF  ,IKC  ,WEIGHT ,W_DDL  ,INLOC )
          ENDIF
 C--------case autospc---------
-         IF(IAUTSPC.GT.0) THEN
-          IF(NCYCLE.EQ.1.AND.IMCONV.EQ.1.AND.I_IMP(5).EQ.0) THEN
+         IF(IAUTSPC>0) THEN
+          IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) THEN
               ELSE
                CALL GET_NSPC(NSPC)
            IF (NSPMD > 1) CALL SPMD_MAX_I(NSPC)
-               IF (NSPC.NE.NSPC_OLD) THEN
+               IF (NSPC/=NSPC_OLD) THEN
                 IMCONV=-2
-            IF (ISPMD.EQ.0) THEN
+            IF (ISPMD==0) THEN
              WRITE(IOUT,1012)NSPC_OLD,NSPC
              WRITE(ISTDO,1012)NSPC_OLD,NSPC
             ENDIF
@@ -837,31 +837,31 @@ C--------case autospc---------
               END IF
              ENDIF
 C
-         IF (N_PAT.GT.1) THEN
+         IF (N_PAT>1) THEN
           CALL FIL_SPAN1(NRBYAC,IRBYAC,NPBY,IDDL,NDDL,IKC,NDOF,INLOC)
          ENDIF
 C
-         IF(NCYCLE.EQ.1.AND.IMCONV.EQ.1.AND.I_IMP(5).EQ.0) THEN
+         IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) THEN
 C--------case mono-domain, Multi-domain NDDL_G is set inside PR_INFOK            
                   NDDL_G = NDDL
           CALL PR_INFOK(NDDL0,NNZK0,NDDL,NNZK,MAX(NNMAX,NKMAX))
 C
-          IF (IPREC.GT.4) THEN
+          IF (IPREC>4) THEN
            CALL K_BAND(NDDL,IADK,JDIK,IBID)
                MAXB = MIN(MAXB,IBID)
-           IF (MAXB.GT.10000) THEN
+           IF (MAXB>10000) THEN
             CALL M_LNZ(NDDL,IADK,JDIK,MAXB,MAX_L)
            ENDIF
           ENDIF
 C
           NTMP = (TSTOP-TT)/DT2
-          IF (NTMP.GE.2) THEN
+          IF (NTMP>=2) THEN
            IDSGAP = 1
           ELSE
            IDSGAP = 0
           ENDIF
 C
-          IF (ISOLV.EQ.7) THEN
+          IF (ISOLV==7) THEN
            CALL CRIT_LLIM(NDDL,NNZK)
           END IF
 C
@@ -870,30 +870,30 @@ C
             W_DDL(I)=1
            ENDDO
           ENDIF
-          IF (IMCONV.NE.-2)CALL INI_K0H(NDDL,NNZK,NNZK,IADK,JDIK)
+          IF (IMCONV/=-2)CALL INI_K0H(NDDL,NNZK,NNZK,IADK,JDIK)
 C
          ENDIF
 C
-         IF (NINT7.LE.0.AND.IMCONV.EQ.1.AND.NSPMD.EQ.1)
+         IF (NINT7<=0.AND.IMCONV==1.AND.NSPMD==1)
      .    CALL IMP_CHECK(ITAB  ,NDDL  ,IDDL  ,DIAG_K  ,NDOF  ,
      .                   IKC   ,INLOC ,NDDL0 )
 C
-         IF (IMON.GT.0) CALL STOPTIME(31,1)
-!         IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
-c          IF (NCYCLE.EQ.1.AND.IMCONV.EQ.1)THEN
-c           IF (ILINE.NE.1)THEN
+         IF (IMON>0) CALL STOPTIME(31,1)
+!         IF(IMACH/=3.OR.ISPMD==0) THEN
+c          IF (NCYCLE==1.AND.IMCONV==1)THEN
+c           IF (ILINE/=1)THEN
 c            WRITE(IOUT,1005)N_LIM
 c            WRITE(ISTDO,1005)N_LIM
 c            WRITE(IOUT,*)
 c            WRITE(ISTDO,*)
 c           ENDIF
-c          ELSEIF(INPRINT.NE.0) THEN
+c          ELSEIF(INPRINT/=0) THEN
 c           WRITE(IOUT,1003)
-c           IF (INPRINT.LT.0)WRITE(ISTDO,1003)
+c           IF (INPRINT<0)WRITE(ISTDO,1003)
 c          ENDIF
 !         END IF
 C
-         IF (ISOLV.EQ.4.OR.ISOLV.EQ.6) THEN
+         IF (ISOLV==4.OR.ISOLV==6) THEN
 C  Renumerotation des ddls du graphe pour suivre celle de la matrice
 C  de rigidite
             CALL DSRENUM0(GRAPHE, NDDL_INI0)
@@ -906,15 +906,15 @@ citask0         END IF !(ITASK == 0) THEN
 C-----------------------------
 c      CALL MY_BARRIER
 C     ---------------
-         IF (IMCONV.EQ.-2.AND.ILINE.EQ.0) THEN
+         IF (IMCONV==-2.AND.ILINE==0) THEN
           IF (NINT7 > 0) NINT7=0
           GOTO 100
          END IF
-        ENDIF !IF (ISETK .EQ.1 )
+        ENDIF !IF (ISETK ==1 )
 C-----------------------------
 citask0       IF (ITASK == 0) THEN
 C-----------------------------
-        IF (IQSTAT.GT.0) THEN
+        IF (IQSTAT>0) THEN
          CALL QSTAT_INI(NDDL   ,INLOC  ,IDDL    ,NDOF   ,IKC    ,
      .                  MS     ,IN     )
         ENDIF
@@ -922,16 +922,16 @@ C----------------------------------
 C       MATRICE DE RIGIDITE D'INTERFACE
 C----------------------------------
         GAP=EP20
-        IF (NINT7.GT.0) THEN
+        IF (NINT7>0) THEN
           L1=LSIZE(1)
           L2=LSIZE(2)
           LNSS2=0
           LNSS=0
-          IF (IMON.GT.0) CALL STARTIME(31,1)
+          IF (IMON>0) CALL STARTIME(31,1)
           CALL SAV_INTTD(NINT7,NUM_IMP,NS_IMP(1+NT_IMP5),
      1                   NE_IMP(1+NT_IMP5),IND_IMP,NUM_IMP1)
 C
-          IF (IMP_INT.EQ.1) CALL IDEL_INT(
+          IF (IMP_INT==1) CALL IDEL_INT(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    IND_IMP   ,NDOF      ,NINT7     )
 C
@@ -970,10 +970,10 @@ C
            CALL ZERO1(DIAG_I0,NDDLI)
            CALL ZERO1(LT_I0,NNZI)
 C
-           IF (NSREM.GT.0) THEN
+           IF (NSREM>0) THEN
             CALL IMP_FR7I(IPARI ,INTBUF_TAB,NUM_IMP ,NS_IMP ,NSREM ,
      1                     NBINTC,INTLIST)
-            IF (INTP_C.GT.0)
+            IF (INTP_C>0)
      1      CALL IND_FRKD(
      2      IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      3      IDDLI     ,IKC       ,NDOF      ,NSREM     ,IND_IMP  )
@@ -981,7 +981,7 @@ C
 C
            NDDL_L = NDDLI
 Ctmp-------A n'est pas modifie ici -------------------
-           IF (ILINTF.GT.0) THEN
+           IF (ILINTF>0) THEN
            CALL IMP_INT_K(A     ,V         ,
      1     ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2     TF        ,VEL       ,SENSOR    ,LSENSOR   ,XFRAME    ,
@@ -997,7 +997,7 @@ Ctmp-------A n'est pas modifie ici -------------------
      C     NT_RW     ,NUM_IMP1  ,IRBE3     ,LRBE3     ,FRBE3     ,
      D     NSS3      ,ISS3      ,IRBE2     ,LRBE2     ,NSB2      ,
      E     ISB2      )
-           ELSEIF (ISMDISP.GT.0.AND.ILINE.EQ.0) THEN
+           ELSEIF (ISMDISP>0.AND.ILINE==0) THEN
            CALL IMP_INT_K(A     ,V         ,
      1     ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2     TF        ,VEL       ,SENSOR    ,LSENSOR   ,XFRAME    ,
@@ -1030,22 +1030,22 @@ Ctmp-------A n'est pas modifie ici -------------------
      D     NSS3      ,ISS3      ,IRBE2     ,LRBE2     ,NSB2      ,
      E     ISB2      )
            ENDIF
-          IF (IMON.GT.0) CALL STOPTIME(31,1)
+          IF (IMON>0) CALL STOPTIME(31,1)
 C
            DEALLOCATE(NSS2,NSS3,NSB2)
            DEALLOCATE(ISS2,ISS3,ISB2)
            DEALLOCATE(NSS)
            DEALLOCATE(ISS)
 C
-          IF (NDDLI.GT.0) THEN
+          IF (NDDLI>0) THEN
 C
                IFIF = 0
-           IF (ILINTF.GT.0) THEN
+           IF (ILINTF>0) THEN
             IFIF = NDDLIF
             CALL SAVE_KIF(NDDLI ,IADI0 ,JDII0 ,DIAG_I0,LT_I0   ,
      1                    ITOK  ,NDDL)
            ENDIF
-           IF (IFIF.GT.0) THEN
+           IF (IFIF>0) THEN
             NDDLI = NDDLIF
             ALLOCATE(IADI(NDDLI+1))
                 NNZI = IADIF(NDDLI+1)-IADIF(1)
@@ -1076,9 +1076,9 @@ C
            DEALLOCATE(DIAG_I0)
            DEALLOCATE(LT_I0)
 C
-           IF (ISOLV.EQ.4.OR.ISOLV.EQ.6) THEN
+           IF (ISOLV==4.OR.ISOLV==6) THEN
 C Remise a zero des modifications au graphe dues aux interfaces
-              IF (ISETK.EQ.0) CALL DSACTI1(GRAPHE, IKC, NDDL, NDDL0)
+              IF (ISETK==0) CALL DSACTI1(GRAPHE, IKC, NDDL, NDDL0)
 C
               CALL DSMAJI7(
      .            GRAPHE, NUM_IMP, NS_IMP, NE_IMP, INTBUF_TAB,
@@ -1097,9 +1097,9 @@ C
           ENDIF
 C
 C         Store the size of the contact stifness matrix for nonlinear solver outputs            
-          IF ((NSPMD.EQ.1.OR.NBINTC.EQ.0).AND.IMCONV.GE.0) I_IMP(13) = NDDLI
-          IF ((NSPMD.EQ.1.OR.NBINTC.EQ.0).AND.IMCONV.GE.0.AND.
-     .         (LPRINT.NE.0.OR.NPRINT.NE.0)) THEN
+          IF ((NSPMD==1.OR.NBINTC==0).AND.IMCONV>=0) I_IMP(13) = NDDLI
+          IF ((NSPMD==1.OR.NBINTC==0).AND.IMCONV>=0.AND.
+     .         (LPRINT/=0.OR.NPRINT/=0)) THEN
             WRITE(IOUT,1006)
             WRITE(ISTDO,1006)
             WRITE(IOUT,1007)NDDLI,NNZI !,NNMAX
@@ -1109,22 +1109,22 @@ c            WRITE(ISTDO,*)
           ENDIF
         ENDIF
 C----------------------------------
-        IF (NFXVEL.NE.0.AND.IMCONV.EQ.1) THEN
+        IF (NFXVEL/=0.AND.IMCONV==1) THEN
           CALL FV_IMP1(NKUD   ,IKUD    ,BKUD    ,LB    )
           CALL FVBC_IMPL1(IBFV   ,SKEW  ,XFRAME ,DIRUL ,IDDL   ,
      1                    IKC    ,NDOF  ,D_IMP  ,DR_IMP,ICODT  ,
      3                    ICODR  ,ISKEW )
         ENDIF
 C-------------initialization of Fext---for Riks-->approximation for follower load
-C         IF (NCYCLE.EQ.1.AND.IDTC.EQ.3.AND.IMCONV.EQ.1.AND.
-         IF (IDTC.EQ.3.AND.IMCONV.EQ.1.AND.
-     .       I_IMP(5).EQ.0) THEN
+C         IF (NCYCLE==1.AND.IDTC==3.AND.IMCONV==1.AND.
+         IF (IDTC==3.AND.IMCONV==1.AND.
+     .       I_IMP(5)==0) THEN
             CALL GET_FEXT(NDDL0 ,NDDL   ,IDDL   ,NDOF   ,IKC   ,
      1                    INLOC ,LB     ,FEXT   ,AC     ,ACR   )
               R_IMP(13) = TSTOP-TT+DT2
 C             R_IMP(13) = SQRT(R2)
          END IF
-        IF (IDYNA.GT.0.AND.IDY_DAMP.GT.0) THEN
+        IF (IDYNA>0.AND.IDY_DAMP>0) THEN
           CALL IMP_DYKV(NODFT  ,NODLT   ,IDDL   ,NDOF   ,IKC    ,
      .                  DIAG_K ,IADK    ,JDIK   ,LT_K   ,WEIGHT ,
      1                  RBY    ,X       ,SKEW   ,LPBY   ,NPBY   ,
@@ -1145,15 +1145,15 @@ C-------------LB,A,AR devient Fext-Fint---------------------
      7               V     ,VR    ,MS     ,IN     ,IRBE3  ,
      8               LRBE3 ,FRBE3 ,WEIGHT ,IRBE2  ,LRBE2  )
 C
-        IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+        IF (IMACH==3.AND.NSPMD>1) THEN
           ICONTA = NDDLI + NSREM
           CALL SPMD_MAX_I(ICONTA)
-         IF (NBINTC.GT.0.) THEN
+         IF (NBINTC>0.) THEN
           CALL SPMD_MIN_S(GAP)
-          IF (ICONTA.GT. 0.AND.GAP.GT.ZERO) THEN
+          IF (ICONTA> 0.AND.GAP>ZERO) THEN
 C
            CALL SPMD_MAX_I(IFDIS)
-           IF (ILINTF.GT.0) THEN
+           IF (ILINTF>0) THEN
             CALL IMP_INTFR(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -1167,7 +1167,7 @@ C
      A    ACR       ,MS        ,V         ,NDDL0     ,R_IMP(1)  ,
      B    RBY       ,ICODR     ,NT_RW     ,W_DDL     ,WEIGHT    ,
      C    IRFLAG    )
-           ELSEIF (ISMDISP.GT.0.AND.ILINE.EQ.0) THEN
+           ELSEIF (ISMDISP>0.AND.ILINE==0) THEN
             CALL IMP_INTFR(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -1195,7 +1195,7 @@ C
      A    ACR       ,MS        ,V         ,NDDL0     ,R_IMP(1)  ,
      B    RBY       ,ICODR     ,NT_RW     ,W_DDL     ,WEIGHT    ,
      C    IRFLAG    )
-           END IF !(ILINTF.GT.0) THEN
+           END IF !(ILINTF>0) THEN
 C
           CALL GETNDDLI_G(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -1204,9 +1204,9 @@ C
      4    NDDLI     ,NSL       ,NDDLI_G   ,IRBE3     ,LRBE3     ,
      5    IRBE2     ,LRBE2     )
 C         Store the size of the contact stifness matrix for nonlinear solver outputs            
-          IF (ISPMD.EQ.0.AND.IMCONV.GE.0) I_IMP(13) = NDDLI_G     
-            IF (ISPMD.EQ.0.AND.IMCONV.GE.0.AND.
-     .         (LPRINT.NE.0.OR.NPRINT.NE.0)) THEN
+          IF (ISPMD==0.AND.IMCONV>=0) I_IMP(13) = NDDLI_G     
+            IF (ISPMD==0.AND.IMCONV>=0.AND.
+     .         (LPRINT/=0.OR.NPRINT/=0)) THEN
              WRITE(IOUT,1006)
              WRITE(ISTDO,1006)
              WRITE(IOUT,1011)NDDLI_G
@@ -1218,7 +1218,7 @@ C         Store the size of the contact stifness matrix for nonlinear solver out
          ENDIF
         ENDIF
 C
-        IF (INTP_C.LT.0) THEN
+        IF (INTP_C<0) THEN
             CALL KIN_KNL(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -1228,7 +1228,7 @@ C
      6    SKEW      ,IRBE2     ,LRBE2)
         ENDIF
 C
-          IF (NMONV.GT.0.AND.ISETK.EQ.1) CALL MONV_IMP(
+          IF (NMONV>0.AND.ISETK==1) CALL MONV_IMP(
      .     MONVOL ,VOLMON  ,X      ,IGRSURF  ,
      1     NMONV  ,IMONV   ,IPARI  ,INTBUF_TAB      ,
      2     A      ,AR      ,NDOF   ,IDDL   ,IKC     ,
@@ -1236,37 +1236,37 @@ C
      4     DIRUL  ,ISKEW   ,ICODT  ,IRBE3   ,LRBE3  ,
      5     FRBE3  ,IRBE2   ,LRBE2  ,NSURF)
 C
-        IF (GAP.LT.ZERO) THEN
+        IF (GAP<ZERO) THEN
          IMCONV = -2
-          IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+          IF (IMACH/=3.OR.ISPMD==0) THEN
            WRITE(IOUT,1009)INT(-GAP)
            WRITE(ISTDO,1009)INT(-GAP)
           ENDIF
         ENDIF
 C------------
-        IF (ISPRB.EQ.1.AND.IMCONV.EQ.1) THEN
+        IF (ISPRB==1.AND.IMCONV==1) THEN
           DO I=1,NDDL
             LB0(I) = LB(I)
           ENDDO
         ENDIF
 C
-        IF (ISIGINI.EQ.1.AND.NCYCLE.EQ.1.AND.IMCONV.EQ.1) THEN
+        IF (ISIGINI==1.AND.NCYCLE==1.AND.IMCONV==1) THEN
          CALL CONDENS_B(NDDL0  ,IKC  ,LB0  )
         ENDIF
 C---------for mono
         NDDLI_G=MAX(NDDLI_G,NDDLI)
         ICONTA = MAX(ICONTA,NDDLI_G)
-         IF (ICONTA.GT.0) THEN
-              IF (ISOLV.LT.5) IDSC = 1
+         IF (ICONTA>0) THEN
+              IF (ISOLV<5) IDSC = 1
              ENDIF
 C
-         IF (ILINTF.GT.2.AND.NCYCLE.LT.ILINTF) THEN
+         IF (ILINTF>2.AND.NCYCLE<ILINTF) THEN
           NSREM = 0
           NSL = 0
          ENDIF
 C
-         IF (ILINTF.GT.0.AND.NDDLI.EQ.0) THEN
-           IF (NDDLIF.GT.0) THEN
+         IF (ILINTF>0.AND.NDDLI==0) THEN
+           IF (NDDLIF>0) THEN
             NDDLI = NDDLIF
             IF (ALLOCATED(IADI)) DEALLOCATE(IADI)
             ALLOCATE(IADI(NDDLI+1))
@@ -1289,12 +1289,12 @@ C
 C
           R_IMP(18)=GAP
 C
-         IF (IQSTAT.GT.0.AND.ILINTF.GT.0.AND.ILINTF.EQ.NCYCLE)
+         IF (IQSTAT>0.AND.ILINTF>0.AND.ILINTF==NCYCLE)
      .      CALL IMP_QIFAM(NODFT  ,NODLT   ,IDDL   ,NDOF   ,INLOC ,
      .                     IKC    ,DIAG_K  ,MS     ,IN     ,WEIGHT)
 C
 C        WRITE(6,*) IMUMPSV,IDSC,IMCONV
-         IF (IMUMPSV >0 .AND.IDSC.EQ.1.AND.IMCONV.GE.0)
+         IF (IMUMPSV >0 .AND.IDSC==1.AND.IMCONV>=0)
 #ifdef MUMPS5
      .     CALL IMP_MUMPS1(NDDL0,   NNZK0,     NDDL,   NNZK,  NNMAX,
      .                     NODGLOB, IDDL,      NDOF,   INLOC, IKC,
@@ -1309,11 +1309,11 @@ C        WRITE(6,*) IMUMPSV,IDSC,IMCONV
 #endif
             CALL CP_REAL_HP(NDDL,LB,LBB)
 C--------PCG w/ Projection----
-         IF(NCYCLE.EQ.1.AND.IMCONV.EQ.1.AND.I_IMP(5).EQ.0) THEN
+         IF(NCYCLE==1.AND.IMCONV==1.AND.I_IMP(5)==0) THEN
           IF (M_VS> 0) THEN
 C-------------Case smll model---
            NPCGPV=NDDL
-           IF (NSPMD.GT.1)CALL SPMD_MIN_I(NPCGPV)
+           IF (NSPMD>1)CALL SPMD_MIN_I(NPCGPV)
            M_VS=MIN(M_VS,NPCGPV)
            IF (M_VS> 0) NPCGPV=-1
           END IF
@@ -1325,15 +1325,15 @@ C---------for free rigi motion for springback(generalization later)
           END IF
          END IF
 C-----------------------------
-        IF (ICONTA.GT.0) ISETP = 1
+        IF (ICONTA>0) ISETP = 1
 C----------------------------------
 C       IMPLICIT RESOLVE
 C----------------------------------
  100    CONTINUE
 C
-       IF (ILINE.EQ.1) THEN
-         IF (NCYCLE.EQ.1.AND.ISPMD.EQ.0.AND.ITASK.EQ.0) THEN
-              IF (IQSTAT.GT.0) THEN
+       IF (ILINE==1) THEN
+         IF (NCYCLE==1.AND.ISPMD==0.AND.ITASK==0) THEN
+              IF (IQSTAT>0) THEN
            WRITE(IOUT,*)
            WRITE(IOUT,*)
      .      ' ** BEGIN LINEAR QUASI-STATIC IMPLICIT COMPUTATION **'
@@ -1349,7 +1349,7 @@ C
          WRITE(ISTDO,*)' ** BEGIN LINEAR STATIC IMPLICIT COMPUTATION **'
            WRITE(IOUT,*)
            WRITE(ISTDO,*)
-              END IF !(IQSTAT.GT.0) THEN
+              END IF !(IQSTAT>0) THEN
          ENDIF
 C
           NTMP=0
@@ -1357,8 +1357,8 @@ C
 c          R2=ZERO          
           CALL PRODUT_HP(NDDL,LB,LB,W_DDL,R2)
 C
-          IF (R2.GT.ZERO.AND.R2.LT.EP30) THEN
-          ELSEIF(IQSTAT.EQ.0.AND.ITASK.EQ.0.AND.NDDL.GT.0) THEN
+          IF (R2>ZERO.AND.R2<EP30) THEN
+          ELSEIF(IQSTAT==0.AND.ITASK==0.AND.NDDL>0) THEN
            CALL IMP_STOP(0)
           ENDIF
 C
@@ -1380,20 +1380,20 @@ C
 C-----------------------------
 citask0        IF (ITASK == 0) THEN
 C-----------------------------
-         IF (INEGA.GT.0) THEN
+         IF (INEGA>0) THEN
           CALL IDDL2NOD(NDDL  ,IDDL  ,NDOF  ,IKC   ,INLOC ,
      .                  INEGA ,NNOD  )
-          IF (NNOD.GT.0) THEN
+          IF (NNOD>0) THEN
            WRITE(IOUT,1008)ITAB(NNOD)
            WRITE(ISTDO,1008)ITAB(NNOD)
           ENDIF
 C
-         ELSEIF(IPREC.GT.1.AND.ISOLV.LE.2) THEN
+         ELSEIF(IPREC>1.AND.ISOLV<=2) THEN
           CALL IMP_CHECM(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,
      .                   IKC   ,INLOC ,NDDL0 )
 C
          ENDIF
-         IF(NFXV_G.NE.0.AND.(NSREM+NSL-INTP_C).GT.0) THEN
+         IF(NFXV_G/=0.AND.(NSREM+NSL-INTP_C)>0) THEN
           CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
@@ -1407,11 +1407,11 @@ C
      5                X     ,XFRAME,DIRUL ,IXR   ,IXC   ,
      6                IXTG  ,SH4TREE,SH3TREE,IRBE3 ,LRBE3,
      7                FRBE3 ,IRBE2 ,LRBE2 )
-          IF (ISTOP.GT.0) CALL IMP_STOP(-1)
+          IF (ISTOP>0) CALL IMP_STOP(-1)
           CALL INTEGRATORL_HP(D_IMP ,DR_IMP,
      1                        X    ,V    ,VR    ,A     ,AR    )
 C
-c         IF (IMPDEB.GT.0) THEN
+c         IF (IMPDEB>0) THEN
 c            CALL PR_DEB(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   , 
 c     1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
 c     2                  IADK  ,JDIK  ,LT_K   ,LT_M   ,NDDLI  ,
@@ -1420,7 +1420,7 @@ c     4                  LBB   ,LBB   ,0      ,NSREM  ,NSL    ,
 c     5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
 c     6                  ACR   ,A     ,AR     ,R2     ,0  ,NODGLOB) 
 c         END IF
-         IF (ILINTF.GT.0.AND.NCYCLE.LT.ILINTF) THEN
+         IF (ILINTF>0.AND.NCYCLE<ILINTF) THEN
           CALL IMP_INTTD0(
      1       IPARI ,INTBUF_TAB    ,X_A     ,D       ,
      2       MS    ,ITAB   ,IN    ,D_IMP   ,DR_IMP  ,
@@ -1438,7 +1438,7 @@ c         END IF
           ISETK =0
 C-------save Fint par AC,ACR---------
          ELSE
-          IF (ILINTF.GT.0) THEN
+          IF (ILINTF>0) THEN
            NT_IMP1 = 0
            DO I = 1,NINTER
             NUM_IMP1(I) = 0
@@ -1446,13 +1446,13 @@ C-------save Fint par AC,ACR---------
           ENDIF
 C
           CALL INTEGRATOR1_HP(D_IMP ,D    )
-          IF ((ISUB.GT.0.OR.ISECUT.GT.0.OR.IISROT.GT.0
-     .      .OR.ISHSUB.NE.0.OR.IMPOSE_DR.NE.0 .OR. IDROT.EQ.1)
-     .      .AND. IRODDL.NE.0) THEN
+          IF ((ISUB>0.OR.ISECUT>0.OR.IISROT>0
+     .      .OR.ISHSUB/=0.OR.IMPOSE_DR/=0 .OR. IDROT==1)
+     .      .AND. IRODDL/=0) THEN
            CALL INTEGRATOR1_HP(DR_IMP,DR)
           ENDIF
 C
-          IF (ISCAU.GT.0)CALL INTEGRATOR1_HP(D_IMP ,X    )
+          IF (ISCAU>0)CALL INTEGRATOR1_HP(D_IMP ,X    )
          ENDIF
          CALL INTEGRATOR1_HP(D_IMP ,X_A   )
 C-----------------------------
@@ -1460,13 +1460,13 @@ citask0        END IF !(ITASK == 0) THEN
 C-----------------------------
        ELSE  !  nonlinear
 C-------------------------
-C        IF (GAP.LT.ZERO) GOTO 300
-        IF (R_IMP(18).LT.ZERO.OR.IMCONV.EQ.-2) GOTO 300
-         IF (IMCONV.EQ.1) THEN
+C        IF (GAP<ZERO) GOTO 300
+        IF (R_IMP(18)<ZERO.OR.IMCONV==-2) GOTO 300
+         IF (IMCONV==1) THEN
 C--------valeur au debut d'increament--sauf diverge----
 citask0          IF (ITASK == 0) THEN
-          IF(NCY_MAX.GT.0.AND.NCYCLE.GT.NCY_MAX) CALL IMP_STOP(-3)
-          IF (INCONV.EQ.1) THEN
+          IF(NCY_MAX>0.AND.NCYCLE>NCY_MAX) CALL IMP_STOP(-3)
+          IF (INCONV==1) THEN
            CALL CP_IMPBUF(1     ,ELBUF   ,ELBUF_C ,BUFMAT ,BUFMAT_C ,
      .                    FSAV  ,VOLMON  ,PARTSAV ,INTBUF_TAB       ,
      .                    INTBUF_TAB_C,IPARI   ,ISLEN7 ,IRLEN7   ,
@@ -1475,14 +1475,14 @@ citask0          IF (ITASK == 0) THEN
      .          IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,          
      .          IPARG   )          
           END IF
-          IF (NCYCLE.EQ.1) THEN
-           IF (ISPRB.EQ.1.AND.I_IMP(5).EQ.0) R_IMP(1) = ZERO
+          IF (NCYCLE==1) THEN
+           IF (ISPRB==1.AND.I_IMP(5)==0) R_IMP(1) = ZERO
            R_IMP(1) = MAX(R_IMP(1),RF_MIN*RF_MIN)
            R_IMP(1) = MIN(R_IMP(1),RF_MAX*RF_MAX)
-           IF (INCONV.EQ.1) I_IMP(12)=1
+           IF (INCONV==1) I_IMP(12)=1
           END IF
 C--------case of converge with 0 iteration-------
-           IF (ISMDISP.GT.0) THEN
+           IF (ISMDISP>0) THEN
             CALL CP_REAL_HP(NNDL,X_A,X_C)
            ELSE
             CALL CP_REAL_HP(NNDL,X,X_C)
@@ -1510,8 +1510,8 @@ c          R2=ZERO
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-          IF (R2.GE.ZERO.AND.R2.LT.EP30) THEN
-          ELSEIF(IDYNA.EQ.0.AND.IQSTAT.EQ.0) THEN
+          IF (R2>=ZERO.AND.R2<EP30) THEN
+          ELSEIF(IDYNA==0.AND.IQSTAT==0) THEN
            CALL IMP_STOP(0)
           ENDIF
 C
@@ -1519,29 +1519,29 @@ C
 !sb
           IF(N_LIM == 1 .AND. ISPRB == 0) R_IMP(1)=R2    
 !fin sb
-         IF (ISPRB.EQ.1) THEN
-           IF (SQRT(R2/R_IMP(1)).LE.N_TOL) THEN
+         IF (ISPRB==1) THEN
+           IF (SQRT(R2/R_IMP(1))<=N_TOL) THEN
 c            IF (ITASK == 0) THEN
              DT_IMP=TSTOP-TT+DT2
              CALL ZEROR_HP(D_IMP,NUMNOD)
-             IF (IRODDL.NE.0) CALL ZEROR_HP(DR_IMP,NUMNOD)
+             IF (IRODDL/=0) CALL ZEROR_HP(DR_IMP,NUMNOD)
 c            END IF !(ITASK == 0) THEN
             GOTO 200
            ENDIF
-          END IF !(ISPRB.EQ.1) THEN
+          END IF !(ISPRB==1) THEN
 C
 citask0          IF (ITASK == 0) THEN
 C
-          IF (ISPRB.EQ.1) THEN
+          IF (ISPRB==1) THEN
            TMP1 = DT2*NCYCLE
            TMP2 = TSTOP-TT+TMP1-DT2
            BFAC =TMP1/MAX(DT2,TMP2)
            R_IMP(10)=BFAC-ONE
            R_IMP(2)=R2*BFAC*BFAC
-           IF (NCYCLE.EQ.1) THEN
+           IF (NCYCLE==1) THEN
             R_IMP(12)=EM01
 C
-            IF (ICONTA.GT.0) R_IMP(12)=ZEP9
+            IF (ICONTA>0) R_IMP(12)=ZEP9
            ELSE
             TMP = DT12/MAX(DT12,TSTOP-TT)+N_TOL/SQRT(R2/R_IMP(1))
             TMP = MIN(HALF*TMP,ONE)
@@ -1557,14 +1557,14 @@ citask0          END IF !(ITASK == 0) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-          IF (ISPRB.EQ.1) THEN
+          IF (ISPRB==1) THEN
            TMP = R_IMP(10)+ONE
            CALL VSCALY_HP(NDDL ,LB  ,LB0  ,TMP )
           END IF
-         ELSEIF (IMCONV.EQ.-1) THEN
+         ELSEIF (IMCONV==-1) THEN
 C--------line-search------
-          IF (ISPRB.EQ.1.OR.ISIGINI.EQ.1) THEN
-           IF (R_IMP(10).LT.ZERO) THEN
+          IF (ISPRB==1.OR.ISIGINI==1) THEN
+           IF (R_IMP(10)<ZERO) THEN
             CALL VAXPY_HP(NDDL ,LB  ,LB0  ,R_IMP(10))
            ENDIF
           ENDIF
@@ -1573,30 +1573,30 @@ citask0          IF (ITASK == 0) THEN
            IT=IT+1
            I_IMP(2)=I_IMP(2)+1
 citask0          END IF !(ITASK == 0) THEN
-          IF (ISPRB.EQ.1.OR.ISIGINI.EQ.1) THEN
-           IF (R_IMP(10).LT.ZERO) THEN
+          IF (ISPRB==1.OR.ISIGINI==1) THEN
+           IF (R_IMP(10)<ZERO) THEN
             CALL VAXPY_HP(NDDL ,LB  ,LB0  ,R_IMP(10))
            ENDIF
           ENDIF
-         ENDIF  !         IF (IMCONV.EQ.1) THEN
+         ENDIF  !         IF (IMCONV==1) THEN
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
 citask0        IF (ITASK == 0) THEN
 C-----------------------------
-         IF (ISPRB.EQ.1) THEN
+         IF (ISPRB==1) THEN
           FACI=MIN(ONE,R_IMP(12))
           R02=FACI*FACI*R_IMP(1)
          ELSE
           R02=R_IMP(1)
          ENDIF
-         IF (IT.EQ.1.AND.IREFI.EQ.5) THEN
+         IF (IT==1.AND.IREFI==5) THEN
               R02 = MAX(R02,EM20)
           R_IMP(6) = MAX(EM20,R_IMP(6))
              ENDIF
-         IF (IT.EQ.1.AND.ICONTA.GT.I_IMP(6)) THEN
+         IF (IT==1.AND.ICONTA>I_IMP(6)) THEN
 C       re-evoluer Rref-------
-          IF (IREFI.EQ.5.AND.NFXV_G.GT.0.AND.IMCONV.GE.0) THEN
+          IF (IREFI==5.AND.NFXV_G>0.AND.IMCONV>=0) THEN
            CALL RER02(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
      2                IBFV  ,VEL   ,LSENSOR,ICODT,ICODR ,
@@ -1610,14 +1610,14 @@ C       re-evoluer Rref-------
      A                AR    ,R02    ,IRBE2 ,LRBE2  ,X_C  )
            R_IMP(1) = MAX(R02,R_IMP(1))
           ENDIF
-          IF (I_IMP(7).EQ.0.AND.IREFI.EQ.4) IREFI= -4
+          IF (I_IMP(7)==0.AND.IREFI==4) IREFI= -4
          ENDIF
-         IF (IMCONV.GT.0.AND.ISPRB.NE.1) THEN
+         IF (IMCONV>0.AND.ISPRB/=1) THEN
            R02 = MAX(R02,RF_MIN*RF_MIN)
            R02 = MIN(R02,RF_MAX*RF_MAX)
          END IF
 C
-         IF (NCYCLE.EQ.1.AND.INSOLV.GE.2.AND.IT.EQ.0.AND.IMCONV.GE.0)
+         IF (NCYCLE==1.AND.INSOLV>=2.AND.IT==0.AND.IMCONV>=0)
      .    CALL BFGS_INI(NDDL,N_LIM)
            R_IMP(17) = R02
 C-----------------------------
@@ -1665,13 +1665,13 @@ C---------------------
 C---------------------------------
 citask0        IF (ITASK == 0) THEN
 C---------------------------------
-         IF(NFXVEL.NE.0) THEN
+         IF(NFXVEL/=0) THEN
 C-----for FV_local
           NTMP=0
           DO I=1,NFXVEL
            NTMP=NTMP+IABS(DIRUL(I))
           END DO
-          IF (NTMP.GT.0)
+          IF (NTMP>0)
      .    CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
@@ -1684,7 +1684,7 @@ C--------Rigid motions elimination----
      2    IKC       ,D_IMP     ,DR_IMP    ,ICODT     ,ICODR ,
      3    SKEW      ,ISKEW     ,itab     )
         END IF
-         IF(IMP_LR .GT. 0)THEN
+         IF(IMP_LR > 0)THEN
            CALL RECUKIN(RBY   ,LPBY  ,NPBY  ,SKEW  ,ISKEW ,
      1                  ITAB  ,WEIGHT,MS    ,IN    ,SENSOR,
      2                  IBFV  ,VEL   ,LSENSOR,ICODT,ICODR ,
@@ -1717,8 +1717,8 @@ c       Print information of non-linear solver
          ENDIF       
         ENDIF  
 c        
-c        IF (IMPDEB.GT.0) THEN
-c          IF (NCYCLE.GE.NDEB0.AND.NCYCLE.LE.NDEB1) THEN
+c        IF (IMPDEB>0) THEN
+c          IF (NCYCLE>=NDEB0.AND.NCYCLE<=NDEB1) THEN
 c            CALL PRODUT_HP(NDDL,LB,LB,W_DDL,R2)
 c            CALL PR_DEB(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
 c     1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
@@ -1730,8 +1730,8 @@ c     6                  ACR   ,A     ,AR     ,R2    ,NDEB0   )
 c          END IF
 c         END IF           
 c
-         IF (NBINTC.GT.0) THEN
-          IF (ISMDISP.GT.0) THEN
+         IF (NBINTC>0) THEN
+          IF (ISMDISP>0) THEN
           CALL IMP_DTKIN(
      1       IPARI ,INTBUF_TAB       ,X_A     ,V       ,
      2       VR    ,ITAB   ,D_IMP   ,DR_IMP  ,NBINTC  ,
@@ -1745,12 +1745,12 @@ c
      3       INTLIST,ITASK  ,NEWFRONT,ISENDTO ,IRECVFROM,
      4       IDDL  ,NDOF   ,IKC     ,TMP     ,MS      ,
      5       SENSOR,MAXDGAP)
-          IF(NFXV_G.NE.0.AND.TMP.LT.ONE)
+          IF(NFXV_G/=0.AND.TMP<ONE)
      .    CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
      3                X     ,DIRUL  ,NDOF   ,A     ,AR    )
-          END IF !(ISMDISP.GT.0) THEN
+          END IF !(ISMDISP>0) THEN
          END IF
 C
 C---------------------------------
@@ -1760,7 +1760,7 @@ C---------------------------------
 C---------------------------------
 citask0        IF (ITASK == 0) THEN
 C---------------------------------
-          IF (ISMDISP.GT.0) THEN
+          IF (ISMDISP>0) THEN
            CALL CP_REAL_HP(NNDL,X_C,X_A)
           ELSE
            CALL CP_REAL_HP(NNDL,X_C,X) 
@@ -1782,7 +1782,7 @@ C---------------------------------
            END IF
           END IF
 
-         IF (ISTOP.GT.0) THEN
+         IF (ISTOP>0) THEN
           IF (ISTOP == 3 .AND.ISOLV == 7) THEN
 
              ISOLV = 3
@@ -1815,18 +1815,18 @@ C---------------------------------
               IMCONV=-2
           CALL IDDL2NOD(NDDL  ,IDDL  ,NDOF  ,IKC   ,INLOC ,
      .                  ISTOP ,NNOD  )
-          IF (NNOD.GT.0) THEN
+          IF (NNOD>0) THEN
            WRITE(IOUT,1008)ITAB(NNOD)
            WRITE(ISTDO,1008)ITAB(NNOD)
               ENDIF
          ENDIF
              INCONV = MIN(1,IMCONV)
-         IF (IMCONV.LE.-2) THEN
+         IF (IMCONV<=-2) THEN
           CALL ZEROR_HP(D_IMP,NUMNOD)
-          IF (IRODDL.NE.0) CALL ZEROR_HP(DR_IMP,NUMNOD)
+          IF (IRODDL/=0) CALL ZEROR_HP(DR_IMP,NUMNOD)
           R_IMP(6)=R_IMP(4)
           I_IMP(5)=-2
-          IF (ISPRB.EQ.1.AND.IMCONV.EQ.-3.AND.ICONTA.EQ.0) THEN
+          IF (ISPRB==1.AND.IMCONV==-3.AND.ICONTA==0) THEN
            DO I=1,NDDL
             LB(I) = LB0(I)
            ENDDO
@@ -1835,29 +1835,29 @@ C---------------------------------
           ENDIF
            TT=MAX(ZERO,TT-DT2)
            NCYCLE=NCYCLE-1
-               IF (NCYCLE.EQ.0) DT1=ZERO
+               IF (NCYCLE==0) DT1=ZERO
            CALL INT5_DIVERG(IPARI )
-          IF (IMCONV.EQ.-2.AND.I_IMP(11).NE.1) THEN
+          IF (IMCONV==-2.AND.I_IMP(11)/=1) THEN
 C-----------change dt------
            CALL IMP_DTN(IT,R_IMP(11),R_IMP(10),R_IMP(24))
 C           CALL NUL_ETFAC_A
            CALL ETFAC_INI(IPARG )
-           IF (DT_IMP.EQ.DT_MIN) THEN
+           IF (DT_IMP==DT_MIN) THEN
              CALL IMP_STOP(IMCONV)
            ENDIF
           ENDIF
          ENDIF
 C
-         IF (IMCONV.LE.-2.OR.IMCONV.EQ.0) THEN
-          IF (IT.EQ.1.AND.ICONTA.GT.I_IMP(6)) THEN
+         IF (IMCONV<=-2.OR.IMCONV==0) THEN
+          IF (IT==1.AND.ICONTA>I_IMP(6)) THEN
            R02 =R_IMP(17)
-               IF (IREFI.EQ.1) THEN
+               IF (IREFI==1) THEN
             R02 = MIN(R02,TEN*R_IMP(1))
-               ELSEIF (IREFI.EQ.2) THEN
+               ELSEIF (IREFI==2) THEN
             R02 = MIN(R02,ONEP2*R_IMP(1))
-               ELSEIF (IREFI.EQ.3.OR.IREFI.EQ.4.OR.IREFI.EQ.5) THEN
+               ELSEIF (IREFI==3.OR.IREFI==4.OR.IREFI==5) THEN
              R02 = MIN(R02,R_IMP(1))
-               ELSEIF (IREFI.EQ.-4) THEN
+               ELSEIF (IREFI==-4) THEN
             I_IMP(7) = 1
                 IREFI = 4
                END IF
@@ -1865,14 +1865,14 @@ C----Used for gravity case
                IF (NCYCLE > 1) I_IMP(7) = 1
            R_IMP(1)=MAX(R_IMP(1),R02)
           ENDIF
-         ENDIF !IF (IMCONV.LE.-2.OR.IMCONV.EQ.0)
+         ENDIF !IF (IMCONV<=-2.OR.IMCONV==0)
 C------------for restart---
-         IF (IMCONV.GT.0) THEN
+         IF (IMCONV>0) THEN
            R_IMP(1) = MAX(R_IMP(1),RF_MIN*RF_MIN)
            R_IMP(1) = MIN(R_IMP(1),RF_MAX*RF_MAX)
          ENDIF
 C
-         IF (IMCONV.EQ.2) DT2=DT2/I_IMP(2)
+         IF (IMCONV==2) DT2=DT2/I_IMP(2)
 C---------------------------------
  200     CONTINUE
 C    /---------------/
@@ -1881,26 +1881,26 @@ C    /---------------/
 C---------------------------------
 citask0        IF (ITASK == 0) THEN
 C---------------------------------
-         IF (IMCONV.EQ.1.OR.IMCONV.EQ.2.OR.IMCONV.EQ.3) THEN
-          IF(IDYNA.GT.0.AND.NFXVEL.NE.0) THEN
+         IF (IMCONV==1.OR.IMCONV==2.OR.IMCONV==3) THEN
+          IF(IDYNA>0.AND.NFXVEL/=0) THEN
             CALL FV_FINT0(IBFV  ,NPC    ,TF   ,VEL   ,SENSOR,
      1                   LSENSOR,D_IMP ,DR_IMP,IKC   ,IDDL  ,
      2                   SKEW   ,IFRAME ,XFRAME,A    ,AR    ,
      3                   X      ,NDOF  ,MS   ,IN    ,WEIGHT ,
      4                   RBY    )
           END IF
-          IF (IMCONV.NE.3) CALL INTEGRATOR1_HP(D_IMP ,D     )
-              IF (R_IMP(11).LT.EM10)
+          IF (IMCONV/=3) CALL INTEGRATOR1_HP(D_IMP ,D     )
+              IF (R_IMP(11)<EM10)
      .      CALL PRODUT_UHP0(D_IMP ,DR_IMP,R_IMP(11),WEIGHT)
           CALL IMP_DTN(IT,R_IMP(11),R_IMP(10),R_IMP(24))
           IF ( IQSTAT>0) CALL DIS_CP(NNDL,D_IMP,DR_IMP,0    )
          ENDIF
-         IF (INCONV.EQ.1 .AND. (ISUB.GT.0.OR.ISECUT.GT.0.OR.IISROT.GT.0
-     .      .OR.ISHSUB.NE.0.OR.IMPOSE_DR.NE.0 .OR. IDROT.EQ.1)
-     .      .AND. IRODDL.NE.0) THEN
-           IF (IMCONV.NE.3) CALL INTEGRATOR1_HP(DR_IMP,DR)
+         IF (INCONV==1 .AND. (ISUB>0.OR.ISECUT>0.OR.IISROT>0
+     .      .OR.ISHSUB/=0.OR.IMPOSE_DR/=0 .OR. IDROT==1)
+     .      .AND. IRODDL/=0) THEN
+           IF (IMCONV/=3) CALL INTEGRATOR1_HP(DR_IMP,DR)
          ENDIF
-         IF (ISMDISP.GT.0) THEN
+         IF (ISMDISP>0) THEN
          CALL INTEGRATOR_HP(NDT   ,D_IMP ,DR_IMP,
      1                      X_A   ,V     ,VR    ,A     ,AR    )
          ELSE
@@ -1909,7 +1909,7 @@ C
      1                      X     ,V     ,VR    ,A     ,AR    )
          ENDIF
 C
-         IF(IDYNA.GT.0.AND.IMCONV.EQ.1)  THEN
+         IF(IDYNA>0.AND.IMCONV==1)  THEN
             CALL DYNA_WEX(IBCL  ,FORC   ,NPC   ,TF    ,AC    ,
      2                    V     ,X      ,SKEW  ,ACR   ,VR    ,
      3                    SENSOR,LSENSOR,WEIGHT,TFEXT ,IADS_F,
@@ -1921,25 +1921,25 @@ C
            CALL DYNA_CPR0(NDDL0  )
          END IF
 C----------D_imp taking D_n-1 :exception for case with Gravity----- 
-         IF (IMCONV.LE.-2 .AND.IQSTAT>0 .AND. I_IMP(7) >0) THEN
+         IF (IMCONV<=-2 .AND.IQSTAT>0 .AND. I_IMP(7) >0) THEN
            CALL DIS_CP(NNDL,D_IMP,DR_IMP,1    )
          END IF
 C
          IF (IMCONV == 3 ) INCONV = 0
-         IF (IMCONV.LE.-2) IMCONV=1
-         IF (IMCONV.EQ.1) I_IMP(1)=I_IMP(1)+IT+1
-         IF (IMCONV.EQ.1) I_IMP(12)=INCONV
+         IF (IMCONV<=-2) IMCONV=1
+         IF (IMCONV==1) I_IMP(1)=I_IMP(1)+IT+1
+         IF (IMCONV==1) I_IMP(12)=INCONV
          I_IMP(4)=NDT-1
 		 IT_T = I_IMP(1)
 C--------
 citask0        END IF !(ITASK == 0) THEN
 C
-       ENDIF !IF (ILINE.EQ.1) THEN
+       ENDIF !IF (ILINE==1) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------       
 citask0       IF (ITASK == 0) THEN
-        IF (NINT7.GT.0) THEN
+        IF (NINT7>0) THEN
           DEALLOCATE(IADI)
           DEALLOCATE(ITOK)
           DEALLOCATE(JDII)
@@ -1947,9 +1947,9 @@ citask0       IF (ITASK == 0) THEN
           DEALLOCATE(LT_I)
         ENDIF
 C
-        IF ((NSREM+NSL).GT.0) CALL INI_KIC
-        IF (ILINTF.GT.0) DEALLOCATE(XI_C)
-        IF (INTP_C.LT.0) CALL DEALLOCM
+        IF ((NSREM+NSL)>0) CALL INI_KIC
+        IF (ILINTF>0) DEALLOCATE(XI_C)
+        IF (INTP_C<0) CALL DEALLOCM
 		IF (NINT2>0) DEALLOCATE(IAINT2)
 
 citask0       END IF !(ITASK == 0) THEN
@@ -2029,9 +2029,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
        IMG=ISTOP
-       IF (ISTOP.GT.2) IMG=1
+       IF (ISTOP>2) IMG=1
          CALL ANCMSG(MSGID=79,ANMODE=ANINFO,
      .               C1=MSG(IMG),I1=ISTOP)
          CALL MY_FLUSH(IOUT)
@@ -2078,21 +2078,21 @@ C-----------------------------------------------
 C------------------------------------------
        NID=0
        DO I=1,NDDL
-        IF (DIAG_K(I).LT.EM10) THEN
+        IF (DIAG_K(I)<EM10) THEN
           NID=NID+1
           IDL(NID)=I
-          IF (NID.EQ.6*NLIM) GOTO 100
+          IF (NID==6*NLIM) GOTO 100
         ENDIF
        ENDDO
  100   CONTINUE
-       IF (NID.GT.0) THEN
+       IF (NID>0) THEN
 c            write(*,*)'nid=',nid
         NKC=0
         DO N = 1,NUMNOD
          I=INLOC(N)
          DO J=1,NDOF(I)
           ND = IDDL(I)+J
-          IF (IKC(ND).GT.0) NKC=NKC+1
+          IF (IKC(ND)>0) NKC=NKC+1
           NFIX(ND)=NKC
          ENDDO
         ENDDO
@@ -2103,15 +2103,15 @@ c            write(*,*)'nid=',nid
           I=INLOC(N)
           IDI=IDDL(I)
           ID=IDI-NFIX(IDI)
-C          IF (ID.GT.IDL(K)) GOTO 400
+C          IF (ID>IDL(K)) GOTO 400
           DO J=1,NDOF(I)
            ND = IDI+J
            ID = ND-NFIX(ND)
-           IF (IDL(K).EQ.ID) THEN
+           IF (IDL(K)==ID) THEN
             NN=NN+1
             INOD(NN)=ITAB(I)
 c            write(*,*)'id,i,n,j=',id,i,n,j
-            IF (NN.EQ.NLIM) GOTO 200
+            IF (NN==NLIM) GOTO 200
             NFT=N+1
             GOTO 400
            ENDIF
@@ -2119,7 +2119,7 @@ c            write(*,*)'id,i,n,j=',id,i,n,j
          ENDDO
  400    CONTINUE
  200    CONTINUE
-        IF (NN.GT.0) THEN
+        IF (NN>0) THEN
          ISTOP=1
          WRITE(IOUT,*)
      .   ' **ERROR: STIFFNESS MATRIX IS NOT DEFINITE** '
@@ -2129,8 +2129,8 @@ c            write(*,*)'id,i,n,j=',id,i,n,j
      .   ' **ERROR: STIFFNESS MATRIX IS NOT DEFINITE** '
          WRITE(ISTDO,*)'--- LOOK AT NODES:---'
          WRITE(ISTDO,*)(INOD(I),I=1,NN)
-         IF (NRBE2.GT.0.AND.ILINE.EQ.0) ISTOP = 0
-         IF (ISTOP.GT.0) CALL IMP_STOP(-1)
+         IF (NRBE2>0.AND.ILINE==0) ISTOP = 0
+         IF (ISTOP>0) CALL IMP_STOP(-1)
         ENDIF
        ENDIF
 C
@@ -2173,7 +2173,7 @@ C-----------------------------------------------
       INTEGER NDDL0P(NSPMD),NNZK0P(NSPMD),NDDLP(NSPMD) ,
      .        NNZKP(NSPMD),NNMAXP(NSPMD),I
 C------------------------------------------
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
         NDDLG0 = NDDL0
         NNZKG0 = NNZK0
         NDDLG = NDDL
@@ -2182,8 +2182,8 @@ C------------------------------------------
         CALL SPMD_INF_G(
      1   NDDLG0   ,NNZKG0  ,NDDLG    ,NNZKG    ,NNMAXG    ,
      2   NDDL0P   ,NNZK0P  ,NDDLP    ,NNZKP    ,NNMAXP    )
-        IF (ISPMD.EQ.0) THEN
-         IF (IMP_CHK.GT.0) THEN
+        IF (ISPMD==0) THEN
+         IF (IMP_CHK>0) THEN
             WRITE(IOUT,*)
           WRITE(IOUT,*)'  *--------- STIFFNESS MATRIX INFO. ---------*'
             WRITE(IOUT,1001)NDDLG0,NNZKG0,NNMAXG
@@ -2220,11 +2220,11 @@ C------------------------------------------
             WRITE(IOUT,1003)I,NDDLP(I),NNZKP(I),NNMAXP(I)
             WRITE(ISTDO,1003)I,NDDLP(I),NNZKP(I),NNMAXP(I)
           ENDDO
-C          IF (L_LIM.EQ.0) L_LIM=NDDLG
+C          IF (L_LIM==0) L_LIM=NDDLG
          ENDIF
         ENDIF
        ELSE
-         IF (IMP_CHK.GT.0) THEN
+         IF (IMP_CHK>0) THEN
           WRITE(IOUT,*)
           WRITE(IOUT,*)'  *--------- STIFFNESS MATRIX INFO. ---------*'
           WRITE(IOUT,1001)NDDL0,NNZK0,NNMAX
@@ -2242,7 +2242,7 @@ C          IF (L_LIM.EQ.0) L_LIM=NDDLG
            WRITE(IOUT,*)
            WRITE(ISTDO,*)
          ENDIF
-          IF (L_LIM.EQ.0) L_LIM=NDDL
+          IF (L_LIM==0) L_LIM=NDDL
        ENDIF
  1001 FORMAT(' SYMBOLIC DIM : ND =',I8,1X,'NZ =',I10,1X,'NB_MAX =',I8)
  1002 FORMAT(' FINAL    DIM : ND =',I8,1X,'NZ =',I10,1X,'NB_MAX =',I8)
@@ -2369,7 +2369,7 @@ C--------------------------------------------
         DO K=IADK(J),IADK(J+1)-1
          JJ=JDIK(K)
          N=INTAB0(NC,JM,JJ)
-         IF (N.GT.0) NNZA=NNZA+1
+         IF (N>0) NNZA=NNZA+1
         ENDDO
       ENDDO
 C
@@ -2410,20 +2410,20 @@ C-----------------------------------------------
 C------------------------------------------
        NID=0
        DO I=1,NDDL
-        IF (DIAG_M(I).GT.EP10) THEN
+        IF (DIAG_M(I)>EP10) THEN
           NID=NID+1
           IDL(NID)=I
-          IF (NID.EQ.6*NLIM) GOTO 100
+          IF (NID==6*NLIM) GOTO 100
         ENDIF
        ENDDO
  100   CONTINUE
-       IF (NID.GT.0) THEN
+       IF (NID>0) THEN
         NKC=0
         DO N = 1,NUMNOD
          I=INLOC(N)
          DO J=1,NDOF(I)
           ND = IDDL(I)+J
-          IF (IKC(ND).GT.0) NKC=NKC+1
+          IF (IKC(ND)>0) NKC=NKC+1
           NFIX(ND)=NKC
          ENDDO
         ENDDO
@@ -2437,10 +2437,10 @@ C------------------------------------------
           DO J=1,NDOF(I)
            ND = IDI+J
            ID = ND-NFIX(ND)
-           IF (IDL(K).EQ.ID) THEN
+           IF (IDL(K)==ID) THEN
             NN=NN+1
             INOD(NN)=ITAB(I)
-            IF (NN.EQ.NLIM) GOTO 200
+            IF (NN==NLIM) GOTO 200
             NFT=N+1
             GOTO 400
            ENDIF
@@ -2448,7 +2448,7 @@ C------------------------------------------
          ENDDO
  400    CONTINUE
  200    CONTINUE
-        IF (NN.GT.0) THEN
+        IF (NN>0) THEN
          WRITE(IOUT,*)
      .   ' **WARNING : POSSIBLE NOT DEFINITE STIFFNESS MATRIX ** '
          WRITE(IOUT,*)'--- LOOK AT NODES:---'
@@ -2495,7 +2495,7 @@ C------------------------------------------
        DO I = 1,NUMNOD
         DO J =1,NDOF(I)
          ID = IDDL(I) + J
-         IF (J.GT.3) THEN
+         IF (J>3) THEN
           M(J-3,I) = B(ID)
          ELSE
           F(J,I) = B(ID)
@@ -2577,8 +2577,8 @@ C-----------------------------------------------
       my_real
      .  DIAG_CP(NDDLIF),LT_CP(NZIF)
 C------------------------------------------
-       IF (NDDL.EQ.0) RETURN
-       IF (NDDLIF.EQ.0) THEN
+       IF (NDDL==0) RETURN
+       IF (NDDLIF==0) THEN
         NDDLIF = NDDL
         NZIF =IADK(NDDL+1)-IADK(1)
         IF(ALLOCATED(IADIF)) DEALLOCATE(IADIF)
@@ -2609,7 +2609,7 @@ C------------------------------------------
         ENDDO
         DO I = 1,NDDL
          J = ITOK(I)
-         IF (ITAG(J).EQ.0) THEN
+         IF (ITAG(J)==0) THEN
           NDDLIF = NDDLIF+1
           NZIF = NZIF+IADK(I+1)-IADK(I)
           ITON(I) = NDDLIF
@@ -2635,7 +2635,7 @@ C---------add [k]-----
         NZIF = NZI0
         DO I = 1,NDDL
          J = ITOK(I)
-         IF (ITAG(J).EQ.0) THEN
+         IF (ITAG(J)==0) THEN
           NL = NL + 1
           NR = IADK(I+1)-IADK(I)
           IFTOK(NL) = J
@@ -2649,7 +2649,7 @@ C---------add [k]-----
          ENDIF
         ENDDO
 C
-        IF (NL.NE.NDDLIF)
+        IF (NL/=NDDLIF)
      .    print *,'--MEMERY PROBLEM [K]if--:',NL,NDDLIF
        ENDIF
 C------------------------------------------
@@ -2783,7 +2783,7 @@ C-----------------------------------------------
       INTEGER LI1,LI2,LI3,LI4,LI5
 C--------------Iflag= 1->copy; 2 ->restore---------------
        CALL BUF_DIM(LI1,LI2,LI3,LI4)
-       IF (IFLAG.EQ.1) THEN
+       IF (IFLAG==1) THEN
            CALL CP_REAL(LI1,ELBUF,ELBUF_C)
            CALL CP_REAL(LI2,BUFMAT,BUFMAT_C)
            CALL CP_REAL(LI3,FSAV,BUFMAT_C(LI2+1))
@@ -2792,7 +2792,7 @@ C--------------Iflag= 1->copy; 2 ->restore---------------
            CALL CP_REAL(NPSAV*NPART,PARTSAV,R_IMP(16))
            R_IMP(14) = ENCIN
            R_IMP(15) = ENROT
-       ELSEIF (IFLAG.EQ.2) THEN
+       ELSEIF (IFLAG==2) THEN
           CALL CP_REAL(LI1,ELBUF_C,ELBUF)
           CALL CP_REAL(LI2,BUFMAT_C,BUFMAT)
           CALL CP_REAL(LI3,BUFMAT_C(LI2+1),FSAV)
@@ -2852,7 +2852,7 @@ C-----------------------------------------------
       my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: SR
 C------------------------------------------
-       IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+       IF (IMACH/=3.OR.ISPMD==0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,*)' ** ZERO STIFFNESS CHECKING **'
          WRITE(IOUT,*)
@@ -2867,19 +2867,19 @@ C------------------------------------------
           J=ITOK(I)
           DIAG_M(J)=DIAG_M(J)+DIAG_I(I)
        ENDDO
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1)CALL SPMD_SUMF_V(DIAG_M)
+       IF (IMACH==3.AND.NSPMD>1)CALL SPMD_SUMF_V(DIAG_M)
        DO I=1,NDDL
-        IF (DIAG_M(I).LT.EM10) THEN
-         IF (DIAG_M(I).LE.EM20) NIR =NIR +1
+        IF (DIAG_M(I)<EM10) THEN
+         IF (DIAG_M(I)<=EM20) NIR =NIR +1
          NID = NID + 1
         ENDIF
        ENDDO
 C
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
         S = NID
         CALL SPMD_SUM_S(S)
         NN = INT(S)
-        IF (NN.GT.0) THEN
+        IF (NN>0) THEN
          S = NIR
          CALL SPMD_SUM_S(S)
          NIR = INT(S)
@@ -2890,22 +2890,22 @@ C
 C
        IERR = IERR + NIR
        IWAR = IWAR + NN-NIR
-       IF (IMACH.NE.3.OR.ISPMD.EQ.0) WRITE(IOUT,1000)NN
-       IF (NID.GT.0) THEN
+       IF (IMACH/=3.OR.ISPMD==0) WRITE(IOUT,1000)NN
+       IF (NID>0) THEN
          NKC=0
          DO N = 1,NUMNOD
           I=INLOC(N)
           IDDLM(I)=IDDL(I)-NKC
           DO J=1,NDOF(I)
            ND = IDDL(I)+J
-           IF (IKC(ND).GT.0) NKC=NKC+1
+           IF (IKC(ND)>0) NKC=NKC+1
           ENDDO
          ENDDO
        ENDIF
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
         NDMAX = NID
         CALL SPMD_MAX_I(NDMAX)
-        IF (NID.GT.0) THEN
+        IF (NID>0) THEN
          II = 0
          ALLOCATE(SR(3,NID))
          DO  N = 1,NUMNOD
@@ -2914,10 +2914,10 @@ C
           NKC = 0
           DO J=1,NDOF(I)
            ND = IDDL(I)+J
-           IF (IKC(ND).EQ.0) THEN
+           IF (IKC(ND)==0) THEN
             NKC=NKC+1
             ID = IDI+NKC
-            IF (DIAG_M(ID).LT.EM10) THEN
+            IF (DIAG_M(ID)<EM10) THEN
               II = II + 1
               SR(1,II)=ITAB(I)
               SR(2,II)=J
@@ -2932,18 +2932,18 @@ C
         ENDIF
        ELSE
 C
-        IF (NID.GT.0) THEN
+        IF (NID>0) THEN
          DO  N = 1,NUMNOD
           I=INLOC(N)
           IDI=IDDLM(I)
           NKC = 0
           DO J=1,NDOF(I)
            ND = IDDL(I)+J
-           IF (IKC(ND).EQ.0) THEN
+           IF (IKC(ND)==0) THEN
             NKC=NKC+1
             ID = IDI+NKC
-            IF (DIAG_M(ID).LT.EM10) THEN
-             IF (J.LE.3) THEN
+            IF (DIAG_M(ID)<EM10) THEN
+             IF (J<=3) THEN
               WRITE(IOUT,1001)ITAB(I),DIR(J),DIAG_M(ID)
              ELSE
               WRITE(IOUT,1002)ITAB(I),DIR(J-3),DIAG_M(ID)
@@ -3006,7 +3006,7 @@ C-----------------------------------------------
       my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: SR
 C------------------------------------------
-       IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+       IF (IMACH/=3.OR.ISPMD==0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,*)' ** POSITIVE DEFINITE MATRIX CHECKING **'
          WRITE(IOUT,*)
@@ -3015,20 +3015,20 @@ C------------------------------------------
        NID=0
        IDLFT0=0
        IR=0
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1)
+       IF (IMACH==3.AND.NSPMD>1)
      .   CALL FR_DLFT(NDDL,IDLFT0,IDLFT1)
        DO I=1+IDLFT0,NDDL
-        IF (DIAG_M(I).LT.EM12.OR.DIAG_M(I).GT.EP10) THEN
-         IF (DIAG_M(I).LE.EM20) IR =IR +1
+        IF (DIAG_M(I)<EM12.OR.DIAG_M(I)>EP10) THEN
+         IF (DIAG_M(I)<=EM20) IR =IR +1
          NID = NID+ 1
         ENDIF
        ENDDO
 C
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
         S = NID
         CALL SPMD_SUM_S(S)
         NN = INT(S)
-        IF (NN.GT.0) THEN
+        IF (NN>0) THEN
          S = IR
          CALL SPMD_SUM_S(S)
          IR = INT(S)
@@ -3038,36 +3038,36 @@ C
        ENDIF
        IERR = IERR + IR
        IWAR = IWAR + NN-IR
-       IF (IMACH.NE.3.OR.ISPMD.EQ.0) WRITE(IOUT,1000)NN
-       IF (NID.GT.0) THEN
+       IF (IMACH/=3.OR.ISPMD==0) WRITE(IOUT,1000)NN
+       IF (NID>0) THEN
         NKC=0
         DO N = 1,NUMNOD
          I=INLOC(N)
          IDDLM(I)=IDDL(I)-NKC
          DO J=1,NDOF(I)
           ND = IDDL(I)+J
-          IF (IKC(ND).GT.0) NKC=NKC+1
+          IF (IKC(ND)>0) NKC=NKC+1
          ENDDO
         ENDDO
        ENDIF
 C
-       IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+       IF (IMACH==3.AND.NSPMD>1) THEN
         NDMAX = NID
         CALL SPMD_MAX_I(NDMAX)
         ALLOCATE(SR(3,NID))
-        IF (NID.GT.0) THEN
+        IF (NID>0) THEN
          II = 0
          DO  N = 1,NUMNOD
           I=INLOC(N)
           IDI=IDDLM(I)
-          IF (NDOF(I).GT.0.AND.IDI.GE.IDLFT0) THEN
+          IF (NDOF(I)>0.AND.IDI>=IDLFT0) THEN
           NKC = 0
           DO J=1,NDOF(I)
            ND = IDDL(I)+J
-           IF (IKC(ND).EQ.0) THEN
+           IF (IKC(ND)==0) THEN
             NKC=NKC+1
             ID = IDI+NKC
-            IF (DIAG_M(ID).LT.EM12.OR.DIAG_M(ID).GT.EP10) THEN
+            IF (DIAG_M(ID)<EM12.OR.DIAG_M(ID)>EP10) THEN
               II = II + 1
               SR(1,II)=ITAB(I)
               SR(2,II)=J
@@ -3083,19 +3083,19 @@ C
         DEALLOCATE(SR)
        ELSE
 C
-        IF (NID.GT.0) THEN
+        IF (NID>0) THEN
          DO  N = 1,NUMNOD
           I=INLOC(N)
           IDI=IDDLM(I)
-          IF (NDOF(I).GT.0.AND.IDI.GE.IDLFT0) THEN
+          IF (NDOF(I)>0.AND.IDI>=IDLFT0) THEN
             NKC = 0
           DO J=1,NDOF(I)
            ND = IDDL(I)+J
-           IF (IKC(ND).EQ.0) THEN
+           IF (IKC(ND)==0) THEN
             NKC=NKC+1
             ID = IDI+NKC
-            IF (DIAG_M(ID).LT.EM12.OR.DIAG_M(ID).GT.EP10) THEN
-             IF (J.LE.3) THEN
+            IF (DIAG_M(ID)<EM12.OR.DIAG_M(ID)>EP10) THEN
+             IF (J<=3) THEN
               WRITE(IOUT,1001)ITAB(I),DIR(J),DIAG_M(ID)
              ELSE
               WRITE(IOUT,1002)ITAB(I),DIR(J-3),DIAG_M(ID)
@@ -3362,7 +3362,7 @@ c		  BUFIN_C=>IMPBUF_TAB%BUFIN_C
          IMP_IW = 0
          IMP_IR = 0
 C
-         IF (IRREF.GT.0.AND.IMCONV.EQ.1.AND.ILINE.NE.1) THEN
+         IF (IRREF>0.AND.IMCONV==1.AND.ILINE/=1) THEN
           IRFLAG=IRREF
          ELSE
           IRFLAG=0
@@ -3370,38 +3370,38 @@ C
 citask0       IF (ITASK == 0) THEN
 C
           CALL ZEROR(D_IMP,NUMNOD)
-          IF (IRODDL.NE.0) CALL ZEROR(DR_IMP,NUMNOD)
+          IF (IRODDL/=0) CALL ZEROR(DR_IMP,NUMNOD)
           CALL ZEROR(AC,NUMNOD)
-          IF (IRODDL.NE.0) CALL ZEROR(ACR,NUMNOD)
+          IF (IRODDL/=0) CALL ZEROR(ACR,NUMNOD)
 C----------------------------------
 C       FORCES EXTERNES A=Fext-Fint
 C----------------------------------
          NCL_MAX=0
          R_IMP(16)=ZERO
-         IF(NCONLD.NE.0) THEN
+         IF(NCONLD/=0) THEN
           CALL FORCE(IBCL  ,FORC  ,NPC   ,TF  ,AC    ,
      2               V     ,X     ,SKEW  ,ACR ,VR    ,
      3               SENSOR,LSENSOR,WEIGHT,TFEXC,
      4               IADS_F,FSKY  ,FSKY, RBID,H3D_DATA,
      5               CPTREAC,FTHREAC,NODREAC)
-          IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+          IF (IMACH==3.AND.NSPMD>1) THEN
            DO I=IAD_ELEM(1,1),IAD_ELEM(1,NSPMD+1)-1
             J = FR_ELEM(I)
 	        N1 = 3*(J-1)+1
 	        N2 = 3*(J-1)+2
 	        N3 = 3*(J-1)+3
             TMP = ABS(AC(N1))+ABS(AC(N2))+ABS(AC(N3))
-            IF (IRODDL.NE.0) TMP = TMP +
+            IF (IRODDL/=0) TMP = TMP +
      .            ABS(ACR(N1))+ABS(ACR(N2))+ABS(ACR(N3))
-            IF (TMP.GT.ZERO) NCL_MAX = NCL_MAX + 1
+            IF (TMP>ZERO) NCL_MAX = NCL_MAX + 1
            ENDDO
           ENDIF
          ENDIF
-         IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+         IF (IMACH==3.AND.NSPMD>1) THEN
           CALL SPMD_MAX_I(NCL_MAX)
-          IF (NCL_MAX.GT.0) THEN
+          IF (NCL_MAX>0) THEN
            LBAND = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-           IF (IRODDL.NE.0) THEN
+           IF (IRODDL/=0) THEN
             NTMP = 6
            ELSE
             NTMP = 3
@@ -3409,7 +3409,7 @@ C----------------------------------
            CALL SPMD_SUMF_A(AC,ACR,IAD_ELEM,FR_ELEM,NTMP,LBAND)
           ENDIF
          ENDIF
-         IF(NGRAV.NE.0) THEN
+         IF(NGRAV/=0) THEN
 c          CALL MY_BARRIER
           CALL GRAVIT_IMP(IGRV  ,AGRV  ,NPC   ,TF    ,AC,
      2                    V     ,X     ,SKEW  ,MS,TFEXC,
@@ -3418,7 +3418,7 @@ c          CALL MY_BARRIER
      5                    NRBYAC,IRBYAC,NPBY  ,RBY    )
 c          CALL MY_BARRIER
          ENDIF
-         IF(NLOADC.NE.0) THEN
+         IF(NLOADC/=0) THEN
           CALL CFIELD_IMP(ICFIELD  ,CFIELD,NPC   ,TF    ,AC,
      2                    V     ,X     ,XFRAME  ,MS,TFEXC,
      3                    SENSOR,LSENSOR,WEIGHT,IFRAME,
@@ -3426,7 +3426,7 @@ c          CALL MY_BARRIER
      5                    NRBYAC,IRBYAC,NPBY  ,RBY,ISKWN    )
          ENDIF
 C-------------dU_d---------------------------------
-         IF(NFXVEL.NE.0.AND.IMCONV.EQ.1) THEN
+         IF(NFXVEL/=0.AND.IMCONV==1) THEN
           CALL FV_IMP(IBFV  ,NPC    ,TF     ,VEL   ,SENSOR,
      1               LSENSOR,D_IMP  ,DR_IMP ,IKC   ,IDDL  ,
      2                SKEW  ,IFRAME ,XFRAME ,V     ,VR    ,
@@ -3435,28 +3435,28 @@ C-------------dU_d---------------------------------
 C-------------U_d--> rigid wall-------------------------------
         NT_RW=0
         NRWDONE = 0
-        IF (NRWALL.GT.0) THEN
+        IF (NRWALL>0) THEN
          CALL RGWAL0_IMP(
      1     X           ,D_IMP    ,V      ,RWBUF   ,LPRW    ,
      2     NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
      4     NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
      5     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
-         IF(NT_RW.GT.0) CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
+         IF(NT_RW>0) CALL FV_RW(IDDL   ,IKC   ,NDOF  ,D_IMP  ,V )
         ENDIF
         IFDIS=NT_RW+NFXVEL
-        IF(IFDIS.GT.0.AND.IMCONV.EQ.1) THEN
-          IF(NT_RW.GT.0) THEN
+        IF(IFDIS>0.AND.IMCONV==1) THEN
+          IF(NT_RW>0) THEN
            DO I=1,NDDL0
-            IF (IKC(I).EQ.3) IKC(I)=4
-            IF (IKC(I).EQ.10) IKC(I)=11
+            IF (IKC(I)==3) IKC(I)=4
+            IF (IKC(I)==10) IKC(I)=11
            ENDDO
           ENDIF
         ENDIF
         NTMP = NT_RW
-        IF (IMACH.EQ.3.AND.NSPMD.GT.1) CALL SPMD_MAX_I(NTMP)
-        IF(NTMP.GT.0) THEN
-          IF(IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+        IF (IMACH==3.AND.NSPMD>1) CALL SPMD_MAX_I(NTMP)
+        IF(NTMP>0) THEN
+          IF(IMACH/=3.OR.ISPMD==0) THEN
            WRITE(IOUT,*)'  *--------- RIGID WALL IMPACT---------*'
           ENDIF
         ENDIF
@@ -3466,14 +3466,14 @@ C----------------------------------
 C----------------------------------
 C  CHECKING
 C----------------------------------
-          IF (ISPMD.EQ.0) THEN
+          IF (ISPMD==0) THEN
            WRITE(ISTDO,*)
            WRITE(ISTDO,*)' ** BEGIN IMPLICIT MODEL CHECKING **'
            WRITE(IOUT,*)
            WRITE(IOUT,*)' ** BEGIN IMPLICIT MODEL CHECKING **'
            WRITE(IOUT,*)
           ENDIF
-        IF (NSPMD.GT.1) THEN
+        IF (NSPMD>1) THEN
          CALL IMP_COMPABP(
      1    ICODT     ,ICODR     ,ISKEW     ,IBFV      ,NPC       ,
      2    TF        ,VEL       ,SENSOR    ,LSENSOR   ,XFRAME    ,
@@ -3497,13 +3497,13 @@ citask0       END IF !(ITASK == 0) THEN
 C----------------------------------
 C       MATRICE DE RIGIDITE
 C----------------------------------
-        IF (ISETK.EQ.1) THEN
-         IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+        IF (ISETK==1) THEN
+         IF (IMACH/=3.OR.ISPMD==0) THEN
           WRITE(ISTDO,*)' * FINIT ELEMENT CHECKING '
           WRITE(IOUT,*)' ** FINIT ELEMENT CHECKING **'
           WRITE(IOUT,*)
          ENDIF
-          IF (IMON.GT.0 .AND. ITASK .EQ.0) CALL STARTIME(31,1)
+          IF (IMON>0 .AND. ITASK ==0) CALL STARTIME(31,1)
           NDDL = NDDL0
           NNZK = NNZK0
           NNMAX=LSIZE(9)
@@ -3557,7 +3557,7 @@ C------ 1er VP: for dt check
           tmp = TWO*sqrt(ONE/LAMDA)
           write(iout,*) 'critical DT =',tmp
          END IF
-          IF (IDYNA.GT.0.OR.IQSTAT.GT.0)
+          IF (IDYNA>0.OR.IQSTAT>0)
      .    CALL IMP_DYNAM(NODFT  ,NODLT   ,IDDL   ,NDOF   ,DIAG_K ,
      .                   MS     ,IN      ,HHT_A  ,WEIGHT ,IADK   ,
      .                   LT_K   )
@@ -3576,7 +3576,7 @@ C------ 1er VP: for dt check
      C    IRBE3     ,LRBE3     ,FRBE3     ,IKINW(LI13),IRBE2    ,
      D    LRBE2     ,IKINW(LI14),IKINW(LI15))
 C
-         IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
+         IF (IMACH==3.AND.NSPMD>1) THEN
           CALL UPD_FR_K(
      1    IADK     ,JDIK     ,NDOF      ,IKC      ,IDDL     ,
      2    INLOC    ,FR_ELEM  ,IAD_ELEM  ,NDDL     )
@@ -3586,18 +3586,18 @@ C
 C
          CALL PR_INFOK(NDDL0,NNZK0,NDDL,NNZK,MAX(NNMAX,NKMAX))
 C
-          IF (IPREC.GT.4.AND.NKMAX.GT.200) THEN
+          IF (IPREC>4.AND.NKMAX>200) THEN
            CALL K_BAND(NDDL,IADK,JDIK,IBID)
                 MAXB = MIN(MAXB,IBID)
 C
-           IF (MAXB.GT.10000) THEN
+           IF (MAXB>10000) THEN
             CALL M_LNZ(NDDL,IADK,JDIK,MAXB,MAX_L)
            ENDIF
 C
           ENDIF
 
           CALL INI_K0H(NDDL,NNZK,NNZK,IADK,JDIK)
-          IF (IMON.GT.0) CALL STOPTIME(31,1)
+          IF (IMON>0) CALL STOPTIME(31,1)
 citask0        END IF !(ITASK == 0) THEN
         ENDIF
 
@@ -3606,13 +3606,13 @@ C----------------------------------
 C       MATRICE DE RIGIDITE D'INTERFACE
 C----------------------------------
         GAP=EP20
-        IF (NINT7.GT.0) THEN
+        IF (NINT7>0) THEN
           L1=LSIZE(1)
           L2=LSIZE(2)
           LNSS2=0
           LNSS=0
-          IF (IMON.GT.0) CALL STARTIME(31,1)
-          IF (IMP_INT.EQ.1) CALL IDEL_INT(
+          IF (IMON>0) CALL STARTIME(31,1)
+          IF (IMP_INT==1) CALL IDEL_INT(
      1    IPARI     ,INTBUF_TAB,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    IND_IMP   ,NDOF      ,NINT7     )
           CALL DIM_INT_K(
@@ -3647,7 +3647,7 @@ C----------------------------------
            ALLOCATE(LT_I(NNZI))
            CALL ZERO1(DIAG_I,NDDLI)
            CALL ZERO1(LT_I,NNZI)
-           IF (NSREM.GT.0)
+           IF (NSREM>0)
      1       CALL IMP_FR7I(IPARI ,INTBUF_TAB  ,NUM_IMP ,NS_IMP ,NSREM ,
      2                     NBINTC,INTLIST)
 Ctmp-------A n'est pas modifie ici -------------------
@@ -3671,8 +3671,8 @@ C
            DEALLOCATE(ISS2,ISS3,ISB2)
            DEALLOCATE(NSS)
            DEALLOCATE(ISS)
-          IF (NSPMD.EQ.1.AND.IMCONV.GE.0.AND.
-     .         (LPRINT.NE.0.OR.NPRINT.NE.0)) THEN
+          IF (NSPMD==1.AND.IMCONV>=0.AND.
+     .         (LPRINT/=0.OR.NPRINT/=0)) THEN
             WRITE(IOUT,1006)
 c            WRITE(ISTDO,1006)
             WRITE(IOUT,1007)NDDLI,NNZI,NNMAX
@@ -3680,10 +3680,10 @@ c            WRITE(ISTDO,1007)NDDLI,NNZI,NNMAX
             WRITE(IOUT,*)
 c            WRITE(ISTDO,*)
           ENDIF
-         IF (IMON.GT.0) CALL STOPTIME(31,1)
+         IF (IMON>0) CALL STOPTIME(31,1)
         ENDIF
 C----------------------------------
-        IF (NFXVEL.NE.0.AND.IMCONV.EQ.1) THEN
+        IF (NFXVEL/=0.AND.IMCONV==1) THEN
           CALL FV_IMP1(NKUD   ,IKUD    ,BKUD    ,LB    )
         ENDIF
 C-------------LB,A,AR devient Fext-Fint---------------------
@@ -3697,11 +3697,11 @@ C-------------LB,A,AR devient Fext-Fint---------------------
      7               V     ,VR    ,MS     ,IN     ,IRBE3  ,
      8               LRBE3 ,FRBE3 ,WEIGHT ,IRBE2  ,LRBE2  )
 
-        IF (IMACH.EQ.3.AND.NSPMD.GT.1) THEN
-         IF (NBINTC.GT.0.) THEN
+        IF (IMACH==3.AND.NSPMD>1) THEN
+         IF (NBINTC>0.) THEN
           ICONTA = NDDLI + NSREM
           CALL SPMD_MAX_I(ICONTA)
-          IF (ICONTA.GT. 0) THEN
+          IF (ICONTA> 0) THEN
            CALL IMP_FRI(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
@@ -3713,7 +3713,7 @@ C-------------LB,A,AR devient Fext-Fint---------------------
      8    IRBE3     ,LRBE3     ,FRBE3     ,IRBE2  ,LRBE2 )
            CALL SPMD_MIN_S(GAP)
            CALL SPMD_MAX_I(IFDIS)
-           IF ((NSREM+NSL).GT.0.AND.IFDIS.GT.0)
+           IF ((NSREM+NSL)>0.AND.IFDIS>0)
      .       CALL IMP_FRFV(
      1    NUM_IMP   ,NS_IMP    ,NE_IMP    ,IPARI     ,INTBUF_TAB,
      2    IDDL      ,IKC       ,NDOF      ,NSREM     ,
@@ -3725,9 +3725,9 @@ C-------------LB,A,AR devient Fext-Fint---------------------
           ENDIF
          ENDIF
         ENDIF
-        IF (GAP.LT.ZERO) THEN
+        IF (GAP<ZERO) THEN
          IMCONV = -2
-          IF (IMACH.NE.3.OR.ISPMD.EQ.0) THEN
+          IF (IMACH/=3.OR.ISPMD==0) THEN
            WRITE(IOUT,1009)INT(-GAP)
            WRITE(ISTDO,1009)INT(-GAP)
           ENDIF
@@ -3738,11 +3738,11 @@ C----------------------------------
            CALL IMP_CHECK0(ITAB  ,NDDL  ,IDDL  ,DIAG_K  ,DIAG_M  ,
      .                     NDOF  ,IKC   ,INLOC ,NDDL0   ,INEGA   ,
      .                     NDDLI ,ITOK  ,DIAG_I,IMP_IW  ,IMP_IR )
-          IF (INEGA.GT.0) GOTO 100
+          IF (INEGA>0) GOTO 100
           NTMP=0
           CALL PRODUT_W(NDDL,LB,LB,W_DDL,R2)
-          IF (R2.GT.ZERO.AND.R2.LT.EP30) THEN
-          ELSEIF(IQSTAT.GT.0) THEN
+          IF (R2>ZERO.AND.R2<EP30) THEN
+          ELSEIF(IQSTAT>0) THEN
            WRITE(IOUT,*)
            WRITE(IOUT,*)' ** WARNING :IMPLICIT LOADING DATA **'
            IMP_IW = IMP_IW + 1
@@ -3774,7 +3774,7 @@ C    /---------------/
 c       IF (ITASK == 0) THEN
           CALL IMP_CHECM0(ITAB  ,NDDL  ,IDDL  ,DIAG_M  ,NDOF  ,
      .                    IKC   ,INLOC ,NDDL0 ,IMP_IW  ,IMP_IR)
-        IF (NINT7.GT.0) THEN
+        IF (NINT7>0) THEN
           DEALLOCATE(IADI)
           DEALLOCATE(ITOK)
           DEALLOCATE(JDII)
@@ -3874,84 +3874,84 @@ C--------implicit imcompability--
          WRITE(ISTDO,*)
          WRITE(ISTDO,*)' * INCOMBABILITY CHECKING '
 C-----------
-        IF (NLASER.GT.0) THEN
+        IF (NLASER>0) THEN
          ICOMP = ICOMP + NLASER
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'IMPACT LASER'
         ENDIF
         DO N =1,NINTER
          NTY   =IPARI(7,N)
-         IF (NTY.EQ.2.OR.NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.11
-     .       .OR.NTY.EQ.5.OR.NTY.EQ.24) THEN
-          IF(NTY.EQ.7.AND.IPARI(33,N).NE.0)THEN
+         IF (NTY==2.OR.NTY==7.OR.NTY==10.OR.NTY==11
+     .       .OR.NTY==5.OR.NTY==24) THEN
+          IF(NTY==7.AND.IPARI(33,N)/=0)THEN
            ICOMP = ICOMP + IPARI(33,N)
            IWAR = IWAR +1
            WRITE(IOUT,1100)MSG_TYPE(IT),'LAGRANGE MULTIPLIER INTERFACE'
           ENDIF
-         ELSEIF (NTY.GT.0) THEN
+         ELSEIF (NTY>0) THEN
           IWAR = IWAR +1
           ICOMP = ICOMP + 1
           WRITE(CSP,'(A,I2.2)')'INTERFACE TYPE ',NTY
           WRITE(IOUT,1100)MSG_TYPE(IT),CSP
          ENDIF
         ENDDO
-        IF (NRIVET.GT.0) THEN
+        IF (NRIVET>0) THEN
          ICOMP = ICOMP + NRIVET
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'RIVET'
         ENDIF
-        IF (NGJOINT.GT.0) THEN
+        IF (NGJOINT>0) THEN
          ICOMP = ICOMP + NGJOINT
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'JOINT TYPE SPRINGS'
         ENDIF
-        IF (NJOINT.GT.0) THEN
+        IF (NJOINT>0) THEN
          ICOMP = ICOMP + NJOINT
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'CYLINDRIC JOINT'
         ENDIF
-        IF (NUMMPC.GT.0) THEN
+        IF (NUMMPC>0) THEN
          ICOMP = ICOMP + NUMMPC
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'MULTI-POINT CONSTRAINTS'
         ENDIF
-        IF (NLINK.GT.0) THEN
+        IF (NLINK>0) THEN
          ICOMP = ICOMP + NLINK
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'RIGID LINK'
         ENDIF
-        IF (NUMELX.GT.0) THEN
+        IF (NUMELX>0) THEN
          ICOMP = ICOMP + NUMELX
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'MULTI-PURPOSE ELEMENTS'
         ENDIF
-        IF (NUMELS16.GT.0) THEN
+        IF (NUMELS16>0) THEN
          ICOMP = ICOMP + NUMELS16
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SOLID 16n. ELEMENTS'
         ENDIF
-        IF (NUMELS20.GT.0) THEN
+        IF (NUMELS20>0) THEN
          ICOMP = ICOMP + NUMELS20
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SOLID 20n. ELEMENTS'
         ENDIF
-        IF (NUMELTG6.GT.0) THEN
+        IF (NUMELTG6>0) THEN
          ICOMP = ICOMP + NUMELTG6
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SHELL S3N6 ELEMENTS'
         ENDIF
-        IF (NUMSPH.GT.0) THEN
+        IF (NUMSPH>0) THEN
          ICOMP = ICOMP + NUMSPH
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SPH ELEMENTS'
         ENDIF
 C
-       IF (ICOMP.GT.0) WRITE(IOUT,1101) ICOMP
+       IF (ICOMP>0) WRITE(IOUT,1101) ICOMP
 C--------IKIN: 1 MAIN node of rb, 2 s.n. of int2--,3 s.n. of rb,
 C------------: 4 bcs, 5 imposed Dis. ,6 sn of rwall, 7 ns of joint,8 ns os rlink
       DO N =1,NUMNOD
        IKIN(N)=0
-       IF (NDOF(N).GT.0) THEN
+       IF (NDOF(N)>0) THEN
         IOF(N)=2
        ELSE
         IOF(N)=1
@@ -3962,7 +3962,7 @@ C----- MAIN of rigid body first------
       DO I=1,NRBYAC
        N=IRBYAC(I)
        M=NPBY(1,N)
-       IF (IKIN(M).EQ.0) THEN
+       IF (IKIN(M)==0) THEN
         IKIN(M)=1
        ELSE
         WRITE(IOUT,1001)MSG_TYPE(2),ITAB(M)
@@ -3978,12 +3978,12 @@ C------interface 2--------------
        NSN = IPARI(5,N)
        DO J=1,NSN
         NS=INTBUF_TAB(N)%NSV(J)
-        IF (IKIN(NS).EQ.0) THEN
+        IF (IKIN(NS)==0) THEN
          IKIN(NS)=2
-        ELSEIF(IKIN(NS).EQ.1) THEN
+        ELSEIF(IKIN(NS)==1) THEN
          WRITE(IOUT,1002)MSG_TYPE(1),ITAB(NS)
          IW =IW + 1
-        ELSEIF(IKIN(NS).EQ.2) THEN
+        ELSEIF(IKIN(NS)==2) THEN
          WRITE(IOUT,1003)MSG_TYPE(2),ITAB(NS)
          IR =IR + 1
         ENDIF
@@ -3997,50 +3997,50 @@ C----- rigid body ------
        NSN  =NPBY(2,N)
        DO J=1,NSN
         NS=LPBY(K+J)
-         IF (IKIN(NS).EQ.0) THEN
+         IF (IKIN(NS)==0) THEN
           IKIN(NS)=3
-         ELSEIF(IKIN(NS).EQ.1) THEN
+         ELSEIF(IKIN(NS)==1) THEN
           WRITE(IOUT,1004)MSG_TYPE(1),ITAB(NS)
           IW =IW + 1
-         ELSEIF(IKIN(NS).EQ.2) THEN
+         ELSEIF(IKIN(NS)==2) THEN
           IT = MIN(IOF(NS),2)
           WRITE(IOUT,1005)MSG_TYPE(IT),ITAB(NS)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
-         ELSEIF(IKIN(NS).EQ.3) THEN
+         ELSEIF(IKIN(NS)==3) THEN
           IT = MIN(IOF(NS),2)
           WRITE(IOUT,1006)MSG_TYPE(IT),ITAB(NS)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
          ENDIF
        ENDDO
       ENDDO
 C--------bcs---------
-      IF (IRODDL.EQ.0) THEN
+      IF (IRODDL==0) THEN
        DO N = 1,NUMNOD
-        IF (ICODT(N) .GT. 0) THEN
-         IF (IKIN(N).EQ.0) THEN
+        IF (ICODT(N) > 0) THEN
+         IF (IKIN(N)==0) THEN
           IKIN(N)=4
-         ELSEIF(IKIN(N).EQ.2) THEN
+         ELSEIF(IKIN(N)==2) THEN
           IT = MIN(IOF(N),2)
           WRITE(IOUT,1007)MSG_TYPE(IT),ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
-         ELSEIF(IKIN(N).EQ.3) THEN
+         ELSEIF(IKIN(N)==3) THEN
           IT = MIN(IOF(N),2)
           WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
          ENDIF
@@ -4048,23 +4048,23 @@ C--------bcs---------
        ENDDO
       ELSE
        DO N = 1,NUMNOD
-        IF ((ICODT(N)+ICODR(N)).GT.0 ) THEN
-         IF (IKIN(N).EQ.0) THEN
+        IF ((ICODT(N)+ICODR(N))>0 ) THEN
+         IF (IKIN(N)==0) THEN
           IKIN(N)=4
-         ELSEIF(IKIN(N).EQ.2) THEN
+         ELSEIF(IKIN(N)==2) THEN
           IT = MIN(IOF(N),2)
           WRITE(IOUT,1007)MSG_TYPE(IT),ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
-         ELSEIF(IKIN(N).EQ.3) THEN
+         ELSEIF(IKIN(N)==3) THEN
           IT = MIN(IOF(N),2)
           WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
          ENDIF
@@ -4073,34 +4073,34 @@ C--------bcs---------
       ENDIF
 C--------fxv---------
       DO NN=1,NFXVEL,NVSIZ
-        IF (IBFV(8,NN).EQ.1) GOTO 100
-        IF (NSENSOR.GT.0) THEN
+        IF (IBFV(8,NN)==1) GOTO 100
+        IF (NSENSOR>0) THEN
           DO 10 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
-            IF(TT.LT.STARTT)GOTO 10
-            IF(TT.GT.STOPT) GOTO 10
+            IF(TT<STARTT)GOTO 10
+            IF(TT>STOPT) GOTO 10
             I=IABS(IBFV(1,N))
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N).EQ.LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
             ENDDO
-            IF(ISENS.EQ.0)THEN
+            IF(ISENS==0)THEN
               TS=TT
             ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.ZERO)GOTO 10
+              IF(TS<ZERO)GOTO 10
             ENDIF
-            IF (IKIN(I).EQ.0) THEN
+            IF (IKIN(I)==0) THEN
              IKIN(I)=5
-            ELSEIF(IKIN(I).EQ.2) THEN
+            ELSEIF(IKIN(I)==2) THEN
              WRITE(IOUT,1009)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-            ELSEIF(IKIN(I).EQ.3) THEN
+            ELSEIF(IKIN(I)==3) THEN
              WRITE(IOUT,1010)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-            ELSEIF(IKIN(I).EQ.4) THEN
+            ELSEIF(IKIN(I)==4) THEN
              WRITE(IOUT,1011)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
             ENDIF
@@ -4110,18 +4110,18 @@ C--------fxv---------
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
-            IF(TT.LT.STARTT)GOTO 20
-            IF(TT.GT.STOPT) GOTO 20
+            IF(TT<STARTT)GOTO 20
+            IF(TT>STOPT) GOTO 20
             I=IABS(IBFV(1,N))
-            IF (IKIN(I).EQ.0) THEN
+            IF (IKIN(I)==0) THEN
              IKIN(I)=5
-            ELSEIF(IKIN(I).EQ.2) THEN
+            ELSEIF(IKIN(I)==2) THEN
              WRITE(IOUT,1009)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-            ELSEIF(IKIN(I).EQ.3) THEN
+            ELSEIF(IKIN(I)==3) THEN
              WRITE(IOUT,1010)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-            ELSEIF(IKIN(I).EQ.4) THEN
+            ELSEIF(IKIN(I)==4) THEN
              WRITE(IOUT,1011)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
             ENDIF
@@ -4132,27 +4132,27 @@ C
  100    CONTINUE
       ENDDO
 C--------rwall---------
-      IF (NT_RW.GT.0) THEN
+      IF (NT_RW>0) THEN
        DO I = 1,NUMNOD
         K = MIN(3,NDOF(I))
         IRW = 0
         DO J =1,K
          ID = IDDL(I) + J
-         IF (IKC(ID).EQ.4.OR.IKC(ID).EQ.11) IRW = 1
+         IF (IKC(ID)==4.OR.IKC(ID)==11) IRW = 1
         ENDDO
-        IF (IRW.GT.0) THEN
-         IF (IKIN(I).EQ.0) THEN
+        IF (IRW>0) THEN
+         IF (IKIN(I)==0) THEN
           IKIN(I)=6
-         ELSEIF(IKIN(I).EQ.2) THEN
+         ELSEIF(IKIN(I)==2) THEN
           WRITE(IOUT,1012)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-         ELSEIF(IKIN(I).EQ.3) THEN
+         ELSEIF(IKIN(I)==3) THEN
           WRITE(IOUT,1013)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-         ELSEIF(IKIN(I).EQ.4) THEN
+         ELSEIF(IKIN(I)==4) THEN
           WRITE(IOUT,1014)MSG_TYPE(2),ITAB(I)
              IR =IR + 1
-         ELSEIF(IKIN(I).EQ.5) THEN
+         ELSEIF(IKIN(I)==5) THEN
           WRITE(IOUT,1015)MSG_TYPE(1),ITAB(I)
              IW =IW + 1
          ENDIF
@@ -4264,7 +4264,7 @@ C     REAL
 C--------implicit imcompability--
         ICOMP = 0
         IT = 1
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          WRITE(IOUT,*)
          WRITE(IOUT,*)' ** INCOMBABILITY CHECKING **'
          WRITE(IOUT,*)
@@ -4274,7 +4274,7 @@ C--------implicit imcompability--
 C
         NN = NLASER
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
           IWAR = IWAR +1
           WRITE(IOUT,1100)MSG_TYPE(IT),'IMPACT LASER'
@@ -4282,18 +4282,18 @@ C
         IV = 0
         DO N =1,NINTER
          NTY   =IPARI(7,N)
-         IF (NTY.EQ.2.OR.NTY.EQ.7.OR.NTY.EQ.10.OR.NTY.EQ.11
-     .       .OR.NTY.EQ.5.OR.NTY.EQ.24) THEN
-          IF(NTY.EQ.7.AND.IPARI(33,N).NE.0)THEN
+         IF (NTY==2.OR.NTY==7.OR.NTY==10.OR.NTY==11
+     .       .OR.NTY==5.OR.NTY==24) THEN
+          IF(NTY==7.AND.IPARI(33,N)/=0)THEN
            ICOMP = ICOMP + IPARI(33,N)
            IWAR = IWAR +1
            WRITE(IOUT,1100)MSG_TYPE(IT),'LAGRANGE MULTIPLIER INTERFACE'
           ENDIF
-         ELSEIF (NTY.GT.0) THEN
+         ELSEIF (NTY>0) THEN
           IWAR = IWAR +1
           ICOMP = ICOMP + 1
 C---------------- espere que ca ne arrive pas le contraire -----
-          IF (IV.LE.NUMNOD) THEN
+          IF (IV<=NUMNOD) THEN
            IV = IV + 1
            VI(1,IV) = NTY
           ENDIF
@@ -4301,82 +4301,82 @@ C---------------- espere que ca ne arrive pas le contraire -----
         ENDDO
         NVMAX = IV
         CALL SPMD_MAX_I(NVMAX)
-        IF (NVMAX.GT.0) THEN
+        IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IV       ,1     ,VI       ,NVMAX     ,IOUT     )
         ENDIF
         NN = NRIVET
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
           IWAR = IWAR +1
           WRITE(IOUT,1100)MSG_TYPE(IT),'RIVET'
         ENDIF
         NN = NGJOINT
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'JOINT TYPE SPRINGS'
         ENDIF
         NN = NJOINT
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'CYLINDRIC JOINT'
         ENDIF
         NN = NUMMPC
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'MULTI-POINT CONSTRAINTS'
         ENDIF
         NN = NLINK
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
          ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'RIGID LINK'
         ENDIF
         NN = NUMELX
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'MULTI-PURPOSE ELEMENTS'
         ENDIF
         NN = NUMELS16
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SOLID 16n. ELEMENTS'
         ENDIF
         NN = NUMELS20
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SOLID 20n. ELEMENTS'
         ENDIF
         NN = NUMELTG6
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SHELL S3N6 ELEMENTS'
         ENDIF
         NN = NUMSPH
         CALL SPMD_MAX_I(NN)
-        IF (NN.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (NN>0.AND.ISPMD==0) THEN
           ICOMP = ICOMP + NN
          IWAR = IWAR +1
          WRITE(IOUT,1100)MSG_TYPE(IT),'SPH ELEMENTS'
         ENDIF
 C-----------
-        IF (ICOMP.GT.0.AND.ISPMD.EQ.0) THEN
+        IF (ICOMP>0.AND.ISPMD==0) THEN
          WRITE(IOUT,1101) ICOMP
         ENDIF
 C--------IKIN: 1 MAIN node of rb, 2 s.n. of int2--,3 s.n. of rb,
@@ -4384,7 +4384,7 @@ C------------: 4 bcs, 5 imposed Dis. ,6 sn of rwall, 7 ns of joint,8 ns os rlink
        NSIZ = 3
       DO N =1,NUMNOD
        IKIN(N)=0
-       IF (NDOF(N).GT.0) THEN
+       IF (NDOF(N)>0) THEN
         IOF(N)=2
        ELSE
         IOF(N)=1
@@ -4395,7 +4395,7 @@ C----- MAIN of rigid body first------
       DO I=1,NRBYAC
        N=IRBYAC(I)
        M=NPBY(1,N)
-       IF (IKIN(M).EQ.0) THEN
+       IF (IKIN(M)==0) THEN
         IKIN(M)=1
        ELSE
 c        WRITE(IOUT,1001)MSG_TYPE(2),ITAB(M)
@@ -4410,7 +4410,7 @@ c        WRITE(IOUT,1001)MSG_TYPE(2),ITAB(M)
         NVMAX = IR
        CALL SPMD_MAX_I(NVMAX)
        IERR = IERR +INT(SS)
-        IF (NVMAX.GT.0) THEN
+        IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IR       ,NSIZ   ,VI       ,NVMAX     ,IOUT     )
         ENDIF
@@ -4429,16 +4429,16 @@ C------IRECT(4,NSN)-----
 C------NSV(NSN)--node number---
        DO J=1,NSN
         NS=INTBUF_TAB(N)%NSV(J)
-        IF (IKIN(NS).EQ.0) THEN
+        IF (IKIN(NS)==0) THEN
          IKIN(NS)=2
-        ELSEIF(IKIN(NS).EQ.1) THEN
+        ELSEIF(IKIN(NS)==1) THEN
 c         WRITE(IOUT,1002)MSG_TYPE(1),ITAB(NS)
          IW =IW + 1
          IV =IV + 1
          VI(1,IV) = 2
          VI(2,IV) = 1
          VI(3,IV) = ITAB(NS)
-        ELSEIF(IKIN(NS).EQ.2) THEN
+        ELSEIF(IKIN(NS)==2) THEN
 c         WRITE(IOUT,1003)MSG_TYPE(2),ITAB(NS)
          IR =IR + 1
          IV =IV + 1
@@ -4450,7 +4450,7 @@ c         WRITE(IOUT,1003)MSG_TYPE(2),ITAB(NS)
       ENDDO
        NVMAX = IV
        CALL SPMD_MAX_I(NVMAX)
-       IF (NVMAX.GT.0) THEN
+       IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IV       ,NSIZ   ,VI       ,NVMAX     ,IOUT     )
        ENDIF
@@ -4463,37 +4463,37 @@ C----- rigid body ------
        NSN  =NPBY(2,N)
        DO J=1,NSN
         NS=LPBY(K+J)
-         IF (IKIN(NS).EQ.0) THEN
+         IF (IKIN(NS)==0) THEN
           IKIN(NS)=3
-         ELSEIF(IKIN(NS).EQ.1) THEN
+         ELSEIF(IKIN(NS)==1) THEN
 c          WRITE(IOUT,1004)MSG_TYPE(1),ITAB(NS)
           IW =IW + 1
           IV =IV + 1
           VI(1,IV) = 4
           VI(2,IV) = 1
           VI(3,IV) = ITAB(NS)
-         ELSEIF(IKIN(NS).EQ.2) THEN
+         ELSEIF(IKIN(NS)==2) THEN
           IT = MIN(IOF(NS),2)
 c          WRITE(IOUT,1005)MSG_TYPE(IT),ITAB(NS)
           IV =IV + 1
           VI(1,IV) = 5
           VI(2,IV) = IT
           VI(3,IV) = ITAB(NS)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
-         ELSEIF(IKIN(NS).EQ.3) THEN
+         ELSEIF(IKIN(NS)==3) THEN
           IT = MIN(IOF(NS),2)
 c          WRITE(IOUT,1006)MSG_TYPE(IT),ITAB(NS)
           IV =IV + 1
           VI(1,IV) = 6
           VI(2,IV) = IT
           VI(3,IV) = ITAB(NS)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
          ENDIF
@@ -4501,30 +4501,30 @@ c          WRITE(IOUT,1006)MSG_TYPE(IT),ITAB(NS)
       ENDDO
        NVMAX = IV
        CALL SPMD_MAX_I(NVMAX)
-       IF (NVMAX.GT.0) THEN
+       IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IV       ,NSIZ   ,VI       ,NVMAX     ,IOUT     )
        ENDIF
 C--------bcs---------
       IV =0
-      IF (IRODDL.EQ.0) THEN
+      IF (IRODDL==0) THEN
        DO N = 1,NUMNOD
-        IF (ICODT(N) .GT. 0) THEN
-         IF (IKIN(N).EQ.0) THEN
+        IF (ICODT(N) > 0) THEN
+         IF (IKIN(N)==0) THEN
           IKIN(N)=4
-         ELSEIF(IKIN(N).EQ.2) THEN
+         ELSEIF(IKIN(N)==2) THEN
           IT = MIN(IOF(N),2)
 c          WRITE(IOUT,1007)MSG_TYPE(IT),ITAB(N)
           IV =IV + 1
           VI(1,IV) = 7
           VI(2,IV) = IT
           VI(3,IV) = ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
-         ELSEIF(IKIN(N).EQ.3) THEN
+         ELSEIF(IKIN(N)==3) THEN
           IT = 1
 C          IT = MIN(IOF(N),2)
 c          WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
@@ -4532,9 +4532,9 @@ c          WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
           VI(1,IV) = 8
           VI(2,IV) = IT
           VI(3,IV) = ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
          ENDIF
@@ -4542,22 +4542,22 @@ c          WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
        ENDDO
       ELSE
        DO N = 1,NUMNOD
-        IF ((ICODT(N)+ICODR(N)).GT.0 ) THEN
-         IF (IKIN(N).EQ.0) THEN
+        IF ((ICODT(N)+ICODR(N))>0 ) THEN
+         IF (IKIN(N)==0) THEN
           IKIN(N)=4
-         ELSEIF(IKIN(N).EQ.2) THEN
+         ELSEIF(IKIN(N)==2) THEN
           IT = MIN(IOF(N),2)
 c          WRITE(IOUT,1007)MSG_TYPE(IT),ITAB(N)
           IV =IV + 1
           VI(1,IV) = 7
           VI(2,IV) = IT
           VI(3,IV) = ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
-         ELSEIF(IKIN(N).EQ.3) THEN
+         ELSEIF(IKIN(N)==3) THEN
           IT = 1
 C          IT = MIN(IOF(N),2)
 c          WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
@@ -4565,9 +4565,9 @@ c          WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
           VI(1,IV) = 8
           VI(2,IV) = IT
           VI(3,IV) = ITAB(N)
-          IF (IT.EQ.1) THEN
+          IF (IT==1) THEN
            IW =IW + 1
-          ELSEIF (IT.EQ.2) THEN
+          ELSEIF (IT==2) THEN
            IR =IR + 1
           ENDIF
          ENDIF
@@ -4576,49 +4576,49 @@ c          WRITE(IOUT,1008)MSG_TYPE(IT),ITAB(N)
       ENDIF
        NVMAX = IV
        CALL SPMD_MAX_I(NVMAX)
-       IF (NVMAX.GT.0) THEN
+       IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IV       ,NSIZ   ,VI       ,NVMAX     ,IOUT     )
        ENDIF
 C--------fxv---------
       IV =0
       DO NN=1,NFXVEL,NVSIZ
-        IF (IBFV(8,NN).EQ.1) GOTO 100
-        IF (NSENSOR.GT.0) THEN
+        IF (IBFV(8,NN)==1) GOTO 100
+        IF (NSENSOR>0) THEN
           DO 10 II = 1, MIN(NFXVEL-IDEB,NVSIZ)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
-            IF(TT.LT.STARTT)GOTO 10
-            IF(TT.GT.STOPT) GOTO 10
+            IF(TT<STARTT)GOTO 10
+            IF(TT>STOPT) GOTO 10
             I=IABS(IBFV(1,N))
             ISENS=0
             DO K=1,NSENSOR
-              IF(IBFV(4,N).EQ.LSENSOR(1,K))ISENS=K
+              IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
             ENDDO
-            IF(ISENS.EQ.0)THEN
+            IF(ISENS==0)THEN
               TS=TT
             ELSE
               TS = TT-SENSOR(2,ISENS)
-              IF(TS.LT.ZERO)GOTO 10
+              IF(TS<ZERO)GOTO 10
             ENDIF
-            IF (IKIN(I).EQ.0) THEN
+            IF (IKIN(I)==0) THEN
              IKIN(I)=5
-            ELSEIF(IKIN(I).EQ.2) THEN
+            ELSEIF(IKIN(I)==2) THEN
 c             WRITE(IOUT,1009)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 9
              VI(2,IV) = 2
              VI(3,IV) = ITAB(I)
              IR =IR + 1
-            ELSEIF(IKIN(I).EQ.3) THEN
+            ELSEIF(IKIN(I)==3) THEN
 c             WRITE(IOUT,1010)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 10
              VI(2,IV) = 1
              VI(3,IV) = ITAB(I)
              IW =IW + 1
-            ELSEIF(IKIN(I).EQ.4) THEN
+            ELSEIF(IKIN(I)==4) THEN
 c             WRITE(IOUT,1011)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 11
@@ -4632,26 +4632,26 @@ c             WRITE(IOUT,1011)MSG_TYPE(2),ITAB(I)
             N = II+IDEB
             STARTT = VEL(2,N)
             STOPT  = VEL(3,N)
-            IF(TT.LT.STARTT)GOTO 20
-            IF(TT.GT.STOPT) GOTO 20
+            IF(TT<STARTT)GOTO 20
+            IF(TT>STOPT) GOTO 20
             I=IABS(IBFV(1,N))
-            IF (IKIN(I).EQ.0) THEN
+            IF (IKIN(I)==0) THEN
              IKIN(I)=5
-            ELSEIF(IKIN(I).EQ.2) THEN
+            ELSEIF(IKIN(I)==2) THEN
 c             WRITE(IOUT,1009)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 9
              VI(2,IV) = 2
              VI(3,IV) = ITAB(I)
              IR =IR + 1
-            ELSEIF(IKIN(I).EQ.3) THEN
+            ELSEIF(IKIN(I)==3) THEN
 c             WRITE(IOUT,1010)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 10
              VI(2,IV) = 1
              VI(3,IV) = ITAB(I)
              IW =IW + 1
-            ELSEIF(IKIN(I).EQ.4) THEN
+            ELSEIF(IKIN(I)==4) THEN
 c             WRITE(IOUT,1011)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 11
@@ -4667,45 +4667,45 @@ C
       ENDDO
        NVMAX = IV
        CALL SPMD_MAX_I(NVMAX)
-       IF (NVMAX.GT.0) THEN
+       IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IV       ,NSIZ   ,VI       ,NVMAX     ,IOUT     )
        ENDIF
 C--------rwall---------
       IV =0
-      IF (NT_RW.GT.0) THEN
+      IF (NT_RW>0) THEN
        DO I = 1,NUMNOD
         K = MIN(3,NDOF(I))
         IRW = 0
         DO J =1,K
          ID = IDDL(I) + J
-         IF (IKC(ID).EQ.4.OR.IKC(ID).EQ.11) IRW = 1
+         IF (IKC(ID)==4.OR.IKC(ID)==11) IRW = 1
         ENDDO
-        IF (IRW.GT.0) THEN
-         IF (IKIN(I).EQ.0) THEN
+        IF (IRW>0) THEN
+         IF (IKIN(I)==0) THEN
           IKIN(I)=6
-         ELSEIF(IKIN(I).EQ.2) THEN
+         ELSEIF(IKIN(I)==2) THEN
 c          WRITE(IOUT,1012)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 12
              VI(2,IV) = 2
              VI(3,IV) = ITAB(I)
              IR =IR + 1
-         ELSEIF(IKIN(I).EQ.3) THEN
+         ELSEIF(IKIN(I)==3) THEN
 c          WRITE(IOUT,1013)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 13
              VI(2,IV) = 1
              VI(3,IV) = ITAB(I)
              IW =IW + 1
-         ELSEIF(IKIN(I).EQ.4) THEN
+         ELSEIF(IKIN(I)==4) THEN
 c          WRITE(IOUT,1014)MSG_TYPE(2),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 14
              VI(2,IV) = 2
              VI(3,IV) = ITAB(I)
              IR =IR + 1
-         ELSEIF(IKIN(I).EQ.5) THEN
+         ELSEIF(IKIN(I)==5) THEN
 c          WRITE(IOUT,1015)MSG_TYPE(1),ITAB(I)
              IV =IV + 1
              VI(1,IV) = 15
@@ -4719,7 +4719,7 @@ c          WRITE(IOUT,1015)MSG_TYPE(1),ITAB(I)
 C
        NVMAX = IV
        CALL SPMD_MAX_I(NVMAX)
-       IF (NVMAX.GT.0) THEN
+       IF (NVMAX>0) THEN
          CALL SPMD_SEND_VI(
      1   IV       ,NSIZ   ,VI       ,NVMAX     ,IOUT     )
        ENDIF
@@ -4787,13 +4787,13 @@ C-------------mis  zero Fint des noeuds dependants------------
           IDDL => IMPBUF_TAB%IDDL
           NDOF => IMPBUF_TAB%NDOF
           IKC => IMPBUF_TAB%IKC
-      IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT.GT.0) THEN
+      IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
        DO I = NODFT,NODLT
         DO J=1,MIN(3,NDOF(I))
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) FANI(J,I+NFIA)= ZERO
+         IF (IKC(ND)/=0) FANI(J,I+NFIA)= ZERO
         ENDDO
-        IF (NDOF(I).EQ.0) THEN
+        IF (NDOF(I)==0) THEN
          FANI(1,I+NFIA)= ZERO
          FANI(2,I+NFIA)= ZERO
          FANI(3,I+NFIA)= ZERO
@@ -4844,7 +4844,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I,J,K,ND
 C---
-      IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT.GT.0) THEN
+      IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
             FANI(1,N+NFIA)= FINT(1,N)
@@ -4896,7 +4896,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,I,J,K,ND
 C---
-      IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT.GT.0) THEN
+      IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
             FANI(1,N+NFIA)= -FEXT(1,N)
@@ -4904,7 +4904,7 @@ C---
             FANI(3,N+NFIA)= -FEXT(3,N)
           ENDDO
       ENDIF
-      IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT.GT.0) THEN
+      IF(ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT>0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT
             FANI(1,N+NFEA)= FEXT(1,N)
@@ -4980,7 +4980,7 @@ C-----------------------------------------------
 C------------------------------------------
         IF(ALLOCATED(IN_KN)) DEALLOCATE(IN_KN)
         IF(ALLOCATED(ID_KN)) DEALLOCATE(ID_KN)
-       IF (NUMN_KN.GT.0) THEN
+       IF (NUMN_KN>0) THEN
         IF(ALLOCATED(ID_KNM)) DEALLOCATE(ID_KNM)
         IF(ALLOCATED(ID_KNM2)) DEALLOCATE(ID_KNM2)
         IF(ALLOCATED(ID_KNM3)) DEALLOCATE(ID_KNM3)
@@ -5049,43 +5049,43 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C------------------------------------------
        IF(IMUMPSV > 0 ) CALL SPMD_MUMPS_DEAL(MUMPS_PAR) 
-       IF (ISOLV.GT.2) THEN
+       IF (ISOLV>2) THEN
         IF(ALLOCATED(HOLD)) DEALLOCATE(HOLD)
        ENDIF
-       IF (INSOLV.GT.1) THEN
+       IF (INSOLV>1) THEN
         IF(ALLOCATED(BFGS_V)) DEALLOCATE(BFGS_V)
         IF(ALLOCATED(BFGS_W)) DEALLOCATE(BFGS_W)
        ENDIF
-       IF (IDYNA.GT.0) THEN
+       IF (IDYNA>0) THEN
         IF(ALLOCATED(DY_D)) DEALLOCATE(DY_D)
         IF(ALLOCATED(DY_DR)) DEALLOCATE(DY_DR)
         IF(ALLOCATED(DY_V)) DEALLOCATE(DY_V)
         IF(ALLOCATED(DY_VR)) DEALLOCATE(DY_VR)
 c        IF(ALLOCATED(DY_A)) DEALLOCATE(DY_A)
 c        IF(ALLOCATED(DY_AR)) DEALLOCATE(DY_AR)
-        IF (IDY_DAMP.GT.0) THEN
+        IF (IDY_DAMP>0) THEN
          DEALLOCATE(DY_DIAK0,DY_LTK0)
          DEALLOCATE(DY_IADK0,DY_JDIK0)
         ENDIF
-        IF (HHT_A.NE.ZERO)DEALLOCATE(DY_R0,DY_R1)
+        IF (HHT_A/=ZERO)DEALLOCATE(DY_R0,DY_R1)
        ENDIF
 C---------------lin_solv--------
         IF(ALLOCATED(L_U)) DEALLOCATE(L_U)
         IF(ALLOCATED(DIAG_T)) DEALLOCATE(DIAG_T)
         IF(ALLOCATED(L_F0)) DEALLOCATE(L_F0)
-       IF (ISOLV.EQ.1.OR.ISOLV.GT.4) THEN
+       IF (ISOLV==1.OR.ISOLV>4) THEN
         IF(ALLOCATED(IADK0)) DEALLOCATE(IADK0)
         IF(ALLOCATED(JDIK0)) DEALLOCATE(JDIK0)
         IF(ALLOCATED(LT_K0)) DEALLOCATE(LT_K0)
         IF(ALLOCATED(PCG_W1)) DEALLOCATE(PCG_W1)
         IF(ALLOCATED(PCG_W2)) DEALLOCATE(PCG_W2)
         IF(ALLOCATED(PCG_W3)) DEALLOCATE(PCG_W3)
-        IF (IPREC.EQ.5) THEN
+        IF (IPREC==5) THEN
          IF(ALLOCATED(IADM0)) DEALLOCATE(IADM0)
          IF(ALLOCATED(JDIM0)) DEALLOCATE(JDIM0)
          IF(ALLOCATED(LT_M0)) DEALLOCATE(LT_M0)
         ENDIF
-        IF (M_VS.GT.0) THEN
+        IF (M_VS>0) THEN
          IF(ALLOCATED(PROJ_S)) DEALLOCATE(PROJ_S)
          IF(ALLOCATED(PROJ_T)) DEALLOCATE(PROJ_T)
          IF(ALLOCATED(PROJ_LA_1)) DEALLOCATE(PROJ_LA_1)
@@ -5094,9 +5094,9 @@ C---------------lin_solv--------
          IF(ALLOCATED(PROJ_K)) DEALLOCATE(PROJ_K)
         ENDIF
        ENDIF
-      IF(IQSTAT==1 .AND. ILINE.EQ.0) THEN
+      IF(IQSTAT==1 .AND. ILINE==0) THEN
        DEALLOCATE(D_N_1)
-       IF (IRODDL.NE.0) DEALLOCATE(DR_N_1)
+       IF (IRODDL/=0) DEALLOCATE(DR_N_1)
       END IF
       CALL FVBC_DEALLO
       IF (IRIG_M>0) THEN
@@ -5204,39 +5204,39 @@ C-----------------------------------------------
       INTEGER IERR,LNZM
 C------------------for lin_solv---------------
          ALLOCATE(L_U(NDDL),DIAG_T(NDDL),L_F0(NDDL),STAT=IERR)
-         IF (IERR.NE.0) THEN
+         IF (IERR/=0) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT SOLVER')
            CALL ARRET(2)
          ENDIF
-      IF (ISOLV.EQ.1.OR.ISOLV.GT.4) THEN
+      IF (ISOLV==1.OR.ISOLV>4) THEN
        ALLOCATE(PCG_W1(NDDL),PCG_W2(NDDL),PCG_W3(NDDL),STAT=IERR)
        ALLOCATE(IADK0(NDDL+1),JDIK0(NNZ),LT_K0(NNZ),STAT=IERR)
-         IF (IERR.NE.0) THEN
+         IF (IERR/=0) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR PCG SOLVER')
            CALL ARRET(2)
          ENDIF
        LT_K0=ZERO
-       IF (IPREC.EQ.5) THEN
+       IF (IPREC==5) THEN
         LNZM = NNZM
-        IF (N_PAT.GT.1) CALL DIM_SPAN(N_PAT,NDDL,IADK,JDIK,LNZM,IERR)
+        IF (N_PAT>1) CALL DIM_SPAN(N_PAT,NDDL,IADK,JDIK,LNZM,IERR)
         ALLOCATE(IADM0(NDDL+1),JDIM0(LNZM),LT_M0(LNZM),STAT=IERR)
-         IF (IERR.NE.0) THEN
+         IF (IERR/=0) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR PCG(IPREC=5) SOLVER')
            CALL ARRET(2)
          ENDIF
         LT_M0=ZERO
-       END IF !(IPREC.EQ.5) THEN
-      END IF !(ISOLV.EQ.1.OR.ISOLV.GT.4) THEN
+       END IF !(IPREC==5) THEN
+      END IF !(ISOLV==1.OR.ISOLV>4) THEN
 C
-      IF (M_VS.GT.0) THEN
+      IF (M_VS>0) THEN
         LNZM=M_VS+1
         ALLOCATE(PROJ_S(NDDL,LNZM),PROJ_T(NDDL,LNZM),PROJ_LA_1(LNZM),
      .                  PROJ_V(NDDL),PROJ_W(LNZM),PROJ_K(LNZM,LNZM),
      .                  STAT=IERR)
-         IF (IERR.NE.0) THEN
+         IF (IERR/=0) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR PCG SOLVER')
            CALL ARRET(2)
@@ -5344,9 +5344,9 @@ C-----------------------------------------------
       my_real
      .  BFAC,NTMP
 C-----------------------------------------------
-          IF (ABS(TT).LT.EM20) RETURN
+          IF (ABS(TT)<EM20) RETURN
           BFAC=TSTOP/TT
-         IF (NSPMD.GT.1) THEN
+         IF (NSPMD>1) THEN
 C -------------------------------
             NTMP = 0
             DO I=1,NDDL0
@@ -5417,7 +5417,7 @@ C-----------------------------------------
          NIMPJ = IADT
         DO N = 1,NINTER
          ITY   =IPARI(7,N)
-         IF (ITY.EQ.3.OR.ITY.EQ.4.OR.ITY.EQ.5) THEN
+         IF (ITY==3.OR.ITY==4.OR.ITY==5) THEN
            NUMIMP(N)=0
            IADT =IADT + NUMIMPL(N,J)
          END IF
@@ -5425,9 +5425,9 @@ C-----------------------------------------
          NIMPJ = -NIMPJ+IADT
          L_CPJ = MAX(L_CPJ,NIMPJ)
         END DO
-        IF (IADT.EQ.0) RETURN
+        IF (IADT==0) RETURN
 C
-        IF (NTHREAD.EQ.1) THEN
+        IF (NTHREAD==1) THEN
          DO N = 1,NINTER
           NUMIMP(N) =NUMIMPL(N,1)
          END DO
@@ -5450,7 +5450,7 @@ C
          DO N = 1,NINTER
           ITY   =IPARI(7,N)
           NUMIMP(N)=0
-          IF (ITY.EQ.3.OR.ITY.EQ.4.OR.ITY.EQ.5) THEN
+          IF (ITY==3.OR.ITY==4.OR.ITY==5) THEN
           DO J = 1,NTHREAD
            IAD1=(J-1)*L_CP/ NTHREAD + IADN(J)
            DO I = 1,NUMIMPL(N,J)
@@ -5466,7 +5466,7 @@ C-------reput zero
           END IF
          END DO
          DEALLOCATE(NS_CP,NE_CP)
-        END IF !(NTHREAD.EQ.1) THEN
+        END IF !(NTHREAD==1) THEN
 C
         NT_IMP = NT_IMP + IADT
 C
@@ -5518,7 +5518,7 @@ C-----------------------------------------------
          NIMPJ = IADT
          DO N = 1,NINTER
           ITY   =IPARI(7,N)
-          IF (ITY.EQ.7.OR.ITY.EQ.10.OR.ITY.EQ.11.OR.ITY.EQ.24) THEN
+          IF (ITY==7.OR.ITY==10.OR.ITY==11.OR.ITY==24) THEN
            NUMIMP(N)=0
            IADT =IADT + NUMIMPL(N,J)
           END IF
@@ -5526,9 +5526,9 @@ C-----------------------------------------------
          NIMPJ = -NIMPJ+IADT
          L_CPJ = MAX(L_CPJ,NIMPJ)
         END DO
-        IF (IADT.EQ.0) GOTO 100
+        IF (IADT==0) GOTO 100
         
-        IF (NTHREAD.EQ.1) THEN
+        IF (NTHREAD==1) THEN
              DO N = 1,NINTER
               NUMIMP(N) =NUMIMPL(N,1)
              END DO
@@ -5553,7 +5553,7 @@ C-----------------------------------------------
              IAD = IAD0
          DO N = 1,NINTER
           ITY   =IPARI(7,N)
-          IF (ITY.EQ.7.OR.ITY.EQ.10.OR.ITY.EQ.11.OR.ITY.EQ.24) THEN
+          IF (ITY==7.OR.ITY==10.OR.ITY==11.OR.ITY==24) THEN
           DO J = 1,NTHREAD
            IAD1=(J-1)*L_CP/ NTHREAD + IADN(J)
            DO I = 1,NUMIMPL(N,J)
@@ -5570,7 +5570,7 @@ C        ----reput zero
           END IF
          END DO
          DEALLOCATE(NS_CP,NE_CP,IND_CP)
-        END IF !(NTHREAD.EQ.1) THEN
+        END IF !(NTHREAD==1) THEN
 C
         NT_IMP = NT_IMP + IADT
 C-------int24, Istif=6
@@ -5624,14 +5624,14 @@ C--------special case with /QSTAT diverge by contact, restart w/o resolution
         END IF
 C        
         BFAC=DT1_IMP/DT0_IMP
-        IF (IDYNA.EQ.0) THEN
-         IF (ISMDISP.GT.0.OR.IRES==0) THEN
+        IF (IDYNA==0) THEN
+         IF (ISMDISP>0.OR.IRES==0) THEN
           DO I = NODFT ,NODLT
            DD(1,I) = BFAC*DN(1,I)
            DD(2,I) = BFAC*DN(2,I)
            DD(3,I) = BFAC*DN(3,I)
           END DO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
            DO I = NODFT ,NODLT
             DDR(1,I) = BFAC*DNR(1,I)
             DDR(2,I) = BFAC*DNR(2,I)
@@ -5644,7 +5644,7 @@ C
           DD(2,I) = DN(2,I)
           DD(3,I) = DN(3,I)
          ENDDO
-         IF (IRODDL.NE.0) THEN
+         IF (IRODDL/=0) THEN
           DO I = NODFT ,NODLT
            DDR(1,I) = DNR(1,I)
            DDR(2,I) = DNR(2,I)
@@ -5660,7 +5660,7 @@ C
           DD(2,I) = BFAC*DN(2,I)+BDT*DY_A(2,I)
           DD(3,I) = BFAC*DN(3,I)+BDT*DY_A(3,I)
          END DO
-         IF (IRODDL.NE.0) THEN
+         IF (IRODDL/=0) THEN
           DO I = NODFT ,NODLT
            DDR(1,I) = BFAC*DNR(1,I)+BDT*DY_AR(1,I)
            DDR(2,I) = BFAC*DNR(2,I)+BDT*DY_AR(2,I)
@@ -5761,26 +5761,26 @@ C------iflag=1 ->U,F;iflag=2 ->+ [ki];iflag=3 ->+ [k];--iflag=4 ->+[m];
         write(IDF,*)'NCYCLE,IT,NUMNOD,NDDL=',NCYCLE,IT,NUMNOD,NDDL
         write(IDF,*)'NDDLI,NSREM,NSL,IMCONV,NDEB=', NDDLI,NSREM ,NSL,
      .                IMCONV,NDEB
-         if (IMCONV.eq.-1.and.(NSREM +NSL)==0) then
+         if (IMCONV==-1.and.(NSREM +NSL)==0) then
            return
          end if
         write(IDF,*)'R01=',R01
 c        write(IDF,*)'nddlfr=',nddlfr
-       if (NCYCLE.eq.(NDEB+1).AND.IT.eq.0.AND.IMCONV.ge.0) then
+       if (NCYCLE==(NDEB+1).AND.IT==0.AND.IMCONV>=0) then
         NKC=0
        DO N =1,NUMNOD
         I=INLOC(N)
         IDDLM(I)=IDDL(I)-NKC
         DO J=1,NDOF(I)
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) NKC = NKC + 1
+         IF (IKC(ND)/=0) NKC = NKC + 1
         ENDDO
-c       if (NDOF(I).NE.0)
+c       if (NDOF(I)/=0)
         write(IDF,*)'I,ITAB,NDOF,IDDLM=',I,ITAB(I),NDOF(I),
      .                IDDLM(I),NODGLOB(I)
        ENDDO
        endif
-c        if (NSPMD.eq.1) then
+c        if (NSPMD==1) then
 c         I = 849965
         II=0
         S_MAX=ZERO
@@ -5793,14 +5793,14 @@ c         I = 849965
         JJ=0
         DO J=1,NDOF(I)
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) THEN
+         IF (IKC(ND)/=0) THEN
           NKC = NKC + 1
          ELSE
           JJ = JJ + 1
           ID =IDDLM(I) + JJ
           ID2N(ID)=I
               write(IDF,*)'DIAG_K,F,N,id=',DIAG_K(ID),F(ID),ITAB(I),id
-              if (abs(f(id)).gt.S_MAX) THEN
+              if (abs(f(id))>S_MAX) THEN
                S_MAX= abs(f(id))
                II = ID
            NN = I
@@ -5816,24 +5816,24 @@ c         I = N
 c         write(IDF,*),'NC,DIAG_k,DIAG_M=',
 c     .      IADK(I+1)-IADK(I),DIAG_K(I),DIAG_M(I)
 c         write(IDF,*)'DIAG_K,F(I)=',DIAG_K(I),F(I),I
-c         if (abs(f(i)).gt.S_MAX) THEN
+c         if (abs(f(i))>S_MAX) THEN
 c         S_MAX= abs(f(i))
 c         II = I
 c         endif
 c        ENDDO
 c         write(IDF,*)'MAX_F=',F(II),II
-       if (iflag.gt.1) then
+       if (iflag>1) then
         DO N =1,NUMNOD
          I=INLOC(N)
              write(IDF,*)'FEXT,MEXT,I,ITAB=',I,ITAB(I)
              write(IDF,*)FEXT(1,I),FEXT(2,I),FEXT(3,I)
-             IF (IRODDL.NE.0)write(IDF,*)MEXT(1,I),MEXT(2,I),MEXT(3,I)
+             IF (IRODDL/=0)write(IDF,*)MEXT(1,I),MEXT(2,I),MEXT(3,I)
         ENDDO
         DO N =1,NUMNOD
          I=INLOC(N)
              write(IDF,*)'FINT,MINT,I,ITAB=',I,ITAB(I)
              write(IDF,*)FINT(1,I),FINT(2,I),FINT(3,I)
-c         IF (IRODDL.NE.0)write(IDF,*)MINT(1,I),MINT(2,I),MINT(3,I)
+c         IF (IRODDL/=0)write(IDF,*)MINT(1,I),MINT(2,I),MINT(3,I)
 c         XL = VQ(1,1)*FINT(1,I)+ VQ(1,2)*FINT(2,I)+VQ(1,3)*FINT(3,I)
 c         YL = VQ(2,1)*FINT(1,I)+ VQ(2,2)*FINT(2,I)+VQ(2,3)*FINT(3,I)
 c         ZL = VQ(3,1)*FINT(1,I)+ VQ(3,2)*FINT(2,I)+VQ(3,3)*FINT(3,I)
@@ -5841,17 +5841,17 @@ c         write(IDF,*)'FINT,local=',I,ITAB(I)
 c         write(IDF,*)XL,YL,ZL
         ENDDO
        endif
-       if (iflag.ge.1) then
+       if (iflag>=1) then
         DO N =1,NUMNOD
          I=INLOC(N)
-c          if (NDOF(I).NE.0) then
+c          if (NDOF(I)/=0) then
              write(IDF,*)'D,DR,I,ITAB=',I,ITAB(I)
              write(IDF,*)D(1,I),D(2,I),D(3,I)
-             IF (IRODDL.NE.0)write(IDF,*)DR(1,I),DR(2,I),DR(3,I)
-c          end if !(NDOF(I).NE.0) then
+             IF (IRODDL/=0)write(IDF,*)DR(1,I),DR(2,I),DR(3,I)
+c          end if !(NDOF(I)/=0) then
         ENDDO
        endif
-       if (NSPMD.gt.1) then
+       if (NSPMD>1) then
 C
        IF (INTP_D>0) THEN
          write(IDF,*)'NDDL_SL,NDDL_SI=',NDDL_SL,NDDL_SI 
@@ -5894,13 +5894,13 @@ C
         ND=0
         write(IDF,*)'N,ITAB,IDDLFR,IP=',N,ITAB(N),IDDLFR(NK),I
         DO J=1,NDOF(N)
-         IF (IKC(IDDL(N)+J).LT.1) THEN
+         IF (IKC(IDDL(N)+J)<1) THEN
 c          ND=ND+1
           ID=IDDLFR(NK)+IAD-NKC+J
           ID2=IDDLFR(NK)+IAD2-NKC+J
           write(IDF,*)
      .   'FR_ID,id2,id2k,NC=',ID,id2,IFR2K(id2),IADFR(ID+1)-IADFR(ID)
-         IF (IADFR(ID+1).LT.IADFR(ID)) write(IDF,*)IADFR(ID+1),IADFR(ID)
+         IF (IADFR(ID+1)<IADFR(ID)) write(IDF,*)IADFR(ID+1),IADFR(ID)
          ELSE
           NKC=NKC+1
          ENDIF
@@ -5910,7 +5910,7 @@ c          ND=ND+1
        IAD2 = IAD2 + ND_FR(I)
       ENDDO
        endif
-       if (iflag.ge.1) then
+       if (iflag>=1) then
         write(IDF,*)'[Ki]=',NDDLI
        DO I =1,NDDLI
          N=ID2N(ITOK(I))
@@ -5925,7 +5925,7 @@ c          ND=ND+1
         ENDDO
        ENDDO
        endif
-       if (iflag.gt.1) then
+       if (iflag>1) then
         write(IDF,*)'LT_[K]=',NDDL
        DO I =1,NDDL
          write(IDF,*)'NR,I=',IADK(I+1)-IADK(I),I
@@ -5991,18 +5991,18 @@ C------
         FILNAME='MAT'//CHIF//'.TMP'
         OPEN(UNIT=IDF,FILE=FILNAME,STATUS='UNKNOWN',FORM='FORMATTED')
         write(IDF,*)'NCYCLE,NUMNOD,NDDL,NDI=',NCYCLE,NUMNOD,NDDL,NDDLI
-         if (IMCONV.lt.0) return
+         if (IMCONV<0) return
 c        write(IDF,*)'nddlfr=',nddlfr
-       if (NCYCLE.eq.1) then
+       if (NCYCLE==1) then
         NKC=0
        DO N =1,NUMNOD
         I=INLOC(N)
         IDDLM(I)=IDDL(I)-NKC
         DO J=1,NDOF(I)
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) NKC = NKC + 1
+         IF (IKC(ND)/=0) NKC = NKC + 1
         ENDDO
-       if (NDOF(I).NE.0)
+       if (NDOF(I)/=0)
      .  write(IDF,*)'I,ITAB,NDOF,IDDL=',I,ITAB(I),NDOF(I),
      .                IDDL(I)
        ENDDO
@@ -6013,7 +6013,7 @@ c         write(IDF,*),'NC,DIAG_k,DIAG_M=',
 c     .      IADK(I+1)-IADK(I),DIAG_K(I),DIAG_M(I)
           write(IDF,*)'DIAG_K,DIAG_M=',DIAG_K(I),DIAG_M(I),I
         ENDDO
-       if (NSPMD.gt.1) then
+       if (NSPMD>1) then
 C
        IAD = 0
        IAD2 = 0
@@ -6025,13 +6025,13 @@ C
         ND=0
         write(IDF,*)'N,ITAB,IDDLFR,IP=',N,ITAB(N),IDDLFR(NK),I
         DO J=1,NDOF(N)
-         IF (IKC(IDDL(N)+J).LT.1) THEN
+         IF (IKC(IDDL(N)+J)<1) THEN
 c          ND=ND+1
           ID=IDDLFR(NK)+IAD-NKC+J
           ID2=IDDLFR(NK)+IAD2-NKC+J
           write(IDF,*)
      .   'FR_ID,id2,id2k,NC=',ID,id2,IFR2K(id2),IADFR(ID+1)-IADFR(ID)
-         IF (IADFR(ID+1).LT.IADFR(ID)) write(IDF,*)IADFR(ID+1),IADFR(ID)
+         IF (IADFR(ID+1)<IADFR(ID)) write(IDF,*)IADFR(ID+1),IADFR(ID)
          ELSE
           NKC=NKC+1
          ENDIF
@@ -6041,7 +6041,7 @@ c          ND=ND+1
        IAD2 = IAD2 + ND_FR(I)
       ENDDO
        endif
-       if (NDDLI.gt.0.AND.IFLAG.gt.0) then
+       if (NDDLI>0.AND.IFLAG>0) then
         write(IDF,*)'[Ki]=',NDDLI
        DO I =1,NDDLI
          write(IDF,*)'DIAG_I,itok=',DIAG_I(I),ITOK(I)
@@ -6053,7 +6053,7 @@ c          ND=ND+1
         ENDDO
        ENDDO
        endif
-       if (NDDL.gt.1.and.IFLAG.gt.1) then
+       if (NDDL>1.and.IFLAG>1) then
         write(IDF,*)'LT_[K]=',NDDL
        DO I =1,NDDL
          write(IDF,*)'NR,I=',IADK(I+1)-IADK(I),I
@@ -6061,7 +6061,7 @@ c          ND=ND+1
          write(IDF,*)'LT_K,NJ,J=',LT_K(J),JDIK(J),J
         ENDDO
        ENDDO
-       if (IFLAG.gt.1) then
+       if (IFLAG>1) then
         write(IDF,*)'LT_[M]=',NDDL
        DO I =1,NDDL
          write(IDF,*)'NR,I=',IADK(I+1)-IADK(I),I
@@ -6069,7 +6069,7 @@ c          ND=ND+1
          write(IDF,*)'LT_M,NJ,J=',LT_M(J),JDIK(J),J
         ENDDO
        ENDDO
-       endif !(IFLAG.gt.1) then
+       endif !(IFLAG>1) then
        endif
 C------------------------------------------
       RETURN
@@ -6140,17 +6140,17 @@ C-----------------------------------------------
      .  F_MAX,FR_MAX,D_MAX,DR_MAX,DD_MAX,DDR_MAX,
      .  FMAX,FRMAX,DMAX,DRMAX,DDMAX,DDRMAX,TOLE,TOLF,TOLU
       CHARACTER NODEID*10,FILNAM*100
-c       if (IMCONV.eq.-1.and.(NSREM +NSL)==0) then
+c       if (IMCONV==-1.and.(NSREM +NSL)==0) then
 c         return
 c       end if
-c       if (NCYCLE.eq.(NDEB+1).AND.IT.eq.0.AND.IMCONV.ge.0) then
+c       if (NCYCLE==(NDEB+1).AND.IT==0.AND.IMCONV>=0) then
 c        NKC=0
 c       DO N =1,NUMNOD
 c        I=INLOC(N)
 c        IDDLM(I)=IDDL(I)-NKC
 c        DO J=1,NDOF(I)
 c         ND = IDDL(I)+J
-c         IF (IKC(ND).NE.0) NKC = NKC + 1
+c         IF (IKC(ND)/=0) NKC = NKC + 1
 c        ENDDO
 c       ENDDO
 c       endif
@@ -6187,7 +6187,7 @@ c       endif
         JJ=0
         DO J=1,NDOF(I)
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) THEN
+         IF (IKC(ND)/=0) THEN
           NKC = NKC + 1
          ELSE
           JJ = JJ + 1
@@ -6195,35 +6195,35 @@ c       endif
           ID2 = IDDLM(I)
 c          ID2N(ID)=I
           IF (J < 4) THEN
-            IF (abs(F(ID)).gt.F_MAX) THEN
+            IF (abs(F(ID))>F_MAX) THEN
               F_MAX= abs(F(ID))
               II = ID
               NN = I
               K = J
             ENDIF
-            IF (abs(D(J,I)).gt.D_MAX) THEN
+            IF (abs(D(J,I))>D_MAX) THEN
                   D_MAX= abs(D(J,I))
               NN2 = I
               K2 = J
                 ENDIF
-            IF (abs(DD(J,I)).gt.DD_MAX) THEN
+            IF (abs(DD(J,I))>DD_MAX) THEN
                   DD_MAX= abs(DD(J,I))
               NN3 = I
               K3 = J
                 ENDIF
           ELSE
-            IF (abs(F(ID)).gt.FR_MAX) THEN
+            IF (abs(F(ID))>FR_MAX) THEN
              FR_MAX= abs(F(ID))
              IIR = ID
              NNR = I
              KR = J
             ENDIF 
-            IF (abs(DR(J-3,I)).gt.DR_MAX) THEN
+            IF (abs(DR(J-3,I))>DR_MAX) THEN
                   DR_MAX= abs(DR(J-3,I))
               NN2R = I
               K2R = J
                 ENDIF  
-            IF (abs(DDR(J-3,I)).gt.DDR_MAX) THEN
+            IF (abs(DDR(J-3,I))>DDR_MAX) THEN
                   DDR_MAX= abs(DDR(J-3,I))
               NN3R = I
               K3R = J
@@ -6245,7 +6245,7 @@ c          ID2N(ID)=I
        IF (NN3R /= 0) DDRMAX = DDR(K3R-3,NN3R)
        IRTABMAX3 = ITAB(NN3R)              
 c      Compute maximum value F(II) with several processes in SPMD
-       IF (NSPMD.GT.1) THEN
+       IF (NSPMD>1) THEN
          CALL SPMD_MAX_F(FMAX,ITABMAX,K)
          CALL SPMD_MAX_F(DMAX,ITABMAX2,K2)
          CALL SPMD_MAX_F(DDMAX,ITABMAX3,K3)
@@ -6254,7 +6254,7 @@ c      Compute maximum value F(II) with several processes in SPMD
          CALL SPMD_MAX_F(DDRMAX,IRTABMAX3,K3R)
        END IF
 c      Write solver information
-       IF (ISPMD.EQ.0) THEN
+       IF (ISPMD==0) THEN
          IF (IT == ZERO) THEN
           WRITE(ISOLINFO,1667) NCYCLE       
          ENDIF
@@ -6268,63 +6268,63 @@ c      Write solver information
          WRITE (NODEID,'(I10)') ITABMAX
          CUMUL_IT = I_IMP(1)+IT
 c        Write monitor file         
-         IF (K.EQ.0) THEN
+         IF (K==0) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'  ',FMAX 
-         ELSEIF (K.EQ.1) THEN
+         ELSEIF (K==1) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_X',FMAX 
-         ELSEIF (K.EQ.2) THEN
+         ELSEIF (K==2) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_Y',FMAX 
-         ELSEIF (K.EQ.3) THEN
+         ELSEIF (K==3) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_Z',FMAX   
          ENDIF
 c         WRITE (NODEID,'(I10)') ITABMAX2
-c         IF (K2.EQ.0) THEN
+c         IF (K2==0) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'  ',DMAX 
-c         ELSEIF (K2.EQ.1) THEN
+c         ELSEIF (K2==1) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_X',DMAX 
-c         ELSEIF (K2.EQ.2) THEN
+c         ELSEIF (K2==2) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_Y',DMAX 
-c         ELSEIF (K2.EQ.3) THEN
+c         ELSEIF (K2==3) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_Z',DMAX   
 c         ENDIF 
          WRITE (NODEID,'(I10)') ITABMAX3
-         IF (K3.EQ.0) THEN
+         IF (K3==0) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'  ',DDMAX 
-         ELSEIF (K3.EQ.1) THEN
+         ELSEIF (K3==1) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_X',DDMAX 
-         ELSEIF (K3.EQ.2) THEN
+         ELSEIF (K3==2) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_Y',DDMAX 
-         ELSEIF (K3.EQ.3) THEN
+         ELSEIF (K3==3) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_Z',DDMAX   
          ENDIF  
          WRITE (NODEID,'(I10)') IRTABMAX
-         IF (KR.EQ.0) THEN
+         IF (KR==0) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'  ',FRMAX 
-         ELSEIF (KR.EQ.4) THEN
+         ELSEIF (KR==4) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_X',FRMAX 
-         ELSEIF (KR.EQ.5) THEN
+         ELSEIF (KR==5) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_Y',FRMAX 
-         ELSEIF (KR.EQ.6) THEN
+         ELSEIF (KR==6) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_Z',FRMAX   
          ENDIF
 c         WRITE (NODEID,'(I10)') IRTABMAX2
-c         IF (K2R.EQ.0) THEN
+c         IF (K2R==0) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'  ',DRMAX 
-c         ELSEIF (K2R.EQ.4) THEN
+c         ELSEIF (K2R==4) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_X',DRMAX 
-c         ELSEIF (K2R.EQ.5) THEN
+c         ELSEIF (K2R==5) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_Y',DRMAX 
-c         ELSEIF (K2R.EQ.6) THEN
+c         ELSEIF (K2R==6) THEN
 c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_Z',DRMAX   
 c         ENDIF 
          WRITE (NODEID,'(I10)') IRTABMAX3
-         IF (K3R.EQ.0) THEN
+         IF (K3R==0) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'  ',DDRMAX 
-         ELSEIF (K3R.EQ.4) THEN
+         ELSEIF (K3R==4) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_X',DDRMAX 
-         ELSEIF (K3R.EQ.5) THEN
+         ELSEIF (K3R==5) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_Y',DDRMAX 
-         ELSEIF (K3R.EQ.6) THEN
+         ELSEIF (K3R==6) THEN
            WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_Z',DDRMAX   
          ENDIF  
          WRITE(NODEID,'(I10)') 0
@@ -6405,7 +6405,7 @@ c         Nothing since line search not ended
      .        ZERO,ZERO,TT,R_IMP(9)
         ELSEIF (IMCONV == 1) THEN
 c         Converged step
-        IF (IDTC.EQ.3) THEN
+        IF (IDTC==3) THEN
          WRITE(ISOLHIST,1668)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
      .        ZERO,ZERO,TT,R_IMP(9),TT,R_IMP(24)
@@ -6560,7 +6560,7 @@ C-----------------------------------------------
      .   ,'Line search coefficient','Line search coefficient','Line search coefficient'
      .   ,'Line search coefficient','Line search coefficient','Line search coefficient'  
       WRITE(ISOLTPL,1003)
-      IF (IDTC.EQ.3) THEN
+      IF (IDTC==3) THEN
       WRITE(ISOLTPL,1004) 3,3,3,'Arc length','Load factor'
       WRITE(ISOLTPL,1006) 'On',1,27,1,3,27,1,'Load factor',1
      .   ,'Load factor','Load factor','Load factor'
@@ -7028,10 +7028,10 @@ C-----------------------------------------------
 C------------------------------------------
       IF (IFLAG ==0 ) THEN
         CALL CP_REAL(N,D, D_N_1)
-        IF (IRODDL.NE.0) CALL CP_REAL(N,DR, DR_N_1)
+        IF (IRODDL/=0) CALL CP_REAL(N,DR, DR_N_1)
       ELSE
         CALL CP_REAL(N,D_N_1 ,D )
-        IF (IRODDL.NE.0) CALL CP_REAL(N,DR_N_1,DR )
+        IF (IRODDL/=0) CALL CP_REAL(N,DR_N_1,DR )
       END IF
 C------------------------------------------
       RETURN
@@ -7145,14 +7145,14 @@ C
         BFAC=DT1_IMP/DT0_IMP
 !$OMP PARALLEL PRIVATE(ITSK,NODFT ,NODLT,I,BDT)
        CALL IMP_SMPINI(ITSK   ,NODFT ,NODLT,NUMNOD  )
-        IF (IDYNA.EQ.0) THEN
-         IF (ISMDISP.GT.0.OR.IRES==0) THEN
+        IF (IDYNA==0) THEN
+         IF (ISMDISP>0.OR.IRES==0) THEN
           DO I = NODFT ,NODLT
                DD(1,I) = BFAC*DN(1,I)
                DD(2,I) = BFAC*DN(2,I)
                DD(3,I) = BFAC*DN(3,I)
               END DO
-          IF (IRODDL.NE.0) THEN
+          IF (IRODDL/=0) THEN
            DO I = NODFT ,NODLT
                 DDR(1,I) = BFAC*DNR(1,I)
                 DDR(2,I) = BFAC*DNR(2,I)
@@ -7165,7 +7165,7 @@ C
                DD(2,I) = DN(2,I)
                DD(3,I) = DN(3,I)
               ENDDO
-         IF (IRODDL.NE.0) THEN
+         IF (IRODDL/=0) THEN
           DO I = NODFT ,NODLT
                DDR(1,I) = DNR(1,I)
                DDR(2,I) = DNR(2,I)
@@ -7181,7 +7181,7 @@ C
               DD(2,I) = BFAC*DN(2,I)+BDT*DY_A(2,I)
               DD(3,I) = BFAC*DN(3,I)+BDT*DY_A(3,I)
              END DO
-         IF (IRODDL.NE.0) THEN
+         IF (IRODDL/=0) THEN
           DO I = NODFT ,NODLT
                DDR(1,I) = BFAC*DNR(1,I)+BDT*DY_AR(1,I)
                DDR(2,I) = BFAC*DNR(2,I)+BDT*DY_AR(2,I)
@@ -7424,18 +7424,18 @@ C-----------------------------------------------
 C-------R02 correction due the fact that IMP_FRI is done after [K],{LB}condensation----------
 C-------only Fext is re-computed, others don't change-------
 C-------int2,RBE3,rby speciale (Fext seulement)----------
-        IF (IUPD.EQ.0) THEN
+        IF (IUPD==0) THEN
          DO I=1,NINT2
           N=IINT2(I)
           CALL I2_IMPR1(IPARI(1,N),INTBUF_TAB(N),
      .                  X  ,NDOF ,IDDL    ,B  )
          ENDDO
-         IF (NRBE2.GT.0) THEN
+         IF (NRBE2>0) THEN
           CALL RBE2_IMPR1(
      1                    IRBE2  ,LRBE2 ,X     ,SKEW   ,NDOF   ,
      2                    IDDL   ,B     ,WEIGHT)
          ENDIF
-         IF (NRBE3.GT.0) THEN
+         IF (NRBE3>0) THEN
           CALL RBE3_IMPR1(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NDOF   ,IDDL  ,B      ,WEIGHT)
@@ -7453,7 +7453,7 @@ C-------int2,rby speciale (elems deleted)----------
           CALL I2_IMPR2(IPARI(1,N),INTBUF_TAB(N) ,AC    ,ACR  ,
      .                  X  ,NDOF ,IDDL    ,B  )
          ENDDO
-         IF (NRBE3.GT.0) THEN
+         IF (NRBE3>0) THEN
           CALL RBE3_IMPR2(
      1                    IRBE3  ,LRBE3 ,FRBE3  ,X     ,SKEW   ,
      2                    NDOF   ,IDDL  ,B      ,WEIGHT,AC     ,
@@ -7562,7 +7562,7 @@ C
      6    IRBE3     ,LRBE3     ,IRBE2     ,LRBE2     ,DE        ,
      7    NDDL0     ,W_DDL     )
 C--------Fext change (U_d) w/ remot  to re-evalue R02   
-        IF (IRFLAG.GT.0) THEN
+        IF (IRFLAG>0) THEN
          DO I =1,NDDL
           LB0(I) =LB(I)-LB0(I)
          END DO
@@ -7576,7 +7576,7 @@ C------LB0 condensed -> LB0 original
           NDM=IDDL(I)-NKC
           DO J=1,NDOF(I)
            ND = IDDL(I)+J
-           IF (IKC(ND).NE.0) THEN
+           IF (IKC(ND)/=0) THEN
             NKC = NKC + 1
             IDM(ND)=0
            ELSE
@@ -7742,7 +7742,7 @@ C----  end routine
         NKC=0
         DO J=1,MIN(3,NDOF(I))
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) NKC = NKC + 1
+         IF (IKC(ND)/=0) NKC = NKC + 1
         ENDDO
 C--------exclude fixing all translational       
         IF (NKC>0.AND.NKC<3) NBC = NBC +1
@@ -7755,7 +7755,7 @@ C----------pense      deallocate
          NKC=0
          DO J=1,MIN(3,NDOF(I))
           ND = IDDL(I)+J
-          IF (IKC(ND).NE.0) NKC = NKC + 1
+          IF (IKC(ND)/=0) NKC = NKC + 1
          ENDDO
          IF (NKC>0.AND.NKC<3) THEN
           NBC = NBC +1
@@ -7779,7 +7779,7 @@ C-----E_REF(4) saved 4 nodes which are Xmin, Ymin,Zmin,Dmin, will be updated by 
        NE_BC4 = 0
        NE_BC3 = 0
        DO NG = 1, NGROUP
-          IF(IPARG(8,NG).EQ.1) CYCLE
+          IF(IPARG(8,NG)==1) CYCLE
           ITY   =IPARG(5,NG)
           IF (ITY /= 3 .AND. ITY /= 7) CYCLE
           MLW   =IPARG(1,NG)
@@ -7813,7 +7813,7 @@ C
        NE_BC4 = 0
        NE_BC3 = 0
        DO NG = 1, NGROUP
-          IF(IPARG(8,NG).EQ.1) CYCLE
+          IF(IPARG(8,NG)==1) CYCLE
           ITY   =IPARG(5,NG)
           IF (ITY /= 3 .AND. ITY /= 7) CYCLE
           MLW   =IPARG(1,NG)
@@ -7857,7 +7857,7 @@ C-------NBC = 0
        YC = ZERO
        ZC = ZERO
        DO NG = 1, NGROUP
-          IF(IPARG(8,NG).EQ.1) CYCLE
+          IF(IPARG(8,NG)==1) CYCLE
           ITY   =IPARG(5,NG)
           IF (ITY /= 3 .AND. ITY /= 7) CYCLE
           MLW   =IPARG(1,NG)
@@ -7898,7 +7898,7 @@ C
         ZMIN=EP30        
         DMIN=EP30        
        DO NG = 1, NGROUP
-          IF(IPARG(8,NG).EQ.1) CYCLE
+          IF(IPARG(8,NG)==1) CYCLE
           ITY   =IPARG(5,NG)
           IF (ITY /= 3 .AND. ITY /= 7) CYCLE
           MLW   =IPARG(1,NG)
@@ -8279,7 +8279,7 @@ c        END IF
         NKC=0
         DO J=1,MIN(3,NDOF(I))
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) NKC = NKC + 1
+         IF (IKC(ND)/=0) NKC = NKC + 1
         ENDDO
         DROT1(1:3) = DROT(1:3)
 C--------exclude the node w/all translational fixed      
@@ -8319,7 +8319,7 @@ C----transfert DL DROT,to global
         NKC=0
         DO J=1,MIN(3,NDOF(I))
          ND = IDDL(I)+J
-         IF (IKC(ND).NE.0) NKC = NKC + 1
+         IF (IKC(ND)/=0) NKC = NKC + 1
         ENDDO
 C--------exclude the node w/all translational fixed      
         IF (NKC<3.AND.NDOF(I)>0) THEN
@@ -8884,7 +8884,7 @@ C-----------------------------------------------
             WRITE(ISTDO,2000)
             WRITE(IOUT,2010)
         END SELECT
-      IF(IERR.LT.0)THEN
+      IF(IERR<0)THEN
         ISTOP=-4
         CALL IMP_STOP(ISTOP)
       END IF
@@ -9161,46 +9161,46 @@ C-----------------------------------------------
 C----------------BC-------------------------
         IFIX(1:6) = 0
         ND = 0
-        IF (ICT .GT. 0 .AND. K.GT. 0) THEN
-         IF (ICT .EQ. 4 .AND. K.GT.2) THEN
+        IF (ICT > 0 .AND. K> 0) THEN
+         IF (ICT == 4 .AND. K>2) THEN
           IFIX(ND +1) = 1
-         ELSEIF (ICT .EQ. 2) THEN
+         ELSEIF (ICT == 2) THEN
           IFIX(ND +2) = 1
-         ELSEIF (ICT .EQ. 1) THEN
+         ELSEIF (ICT == 1) THEN
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 3) THEN
+         ELSEIF (ICT == 3) THEN
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 5) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 5) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +3) = 1
-         ELSEIF (ICT .EQ. 6) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 6) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +2) = 1
-         ELSEIF (ICT .EQ. 7) THEN
-          IF (K.GT.2) IFIX(ND +1) = 1
+         ELSEIF (ICT == 7) THEN
+          IF (K>2) IFIX(ND +1) = 1
           IFIX(ND +2) = 1
           IFIX(ND +3) = 1
          ENDIF
         ENDIF
 C        
-        IF (ICR .GT. 0 .AND. K.EQ.6) THEN
-         IF (ICR .EQ. 1) THEN
+        IF (ICR > 0 .AND. K==6) THEN
+         IF (ICR == 1) THEN
           IFIX(ND +6) = 1
-         ELSEIF (ICR .EQ. 2) THEN
+         ELSEIF (ICR == 2) THEN
           IFIX(ND +5) = 1
-         ELSEIF (ICR .EQ. 3) THEN
+         ELSEIF (ICR == 3) THEN
           IFIX(ND +5) = 1
           IFIX(ND +6) = 1
-         ELSEIF (ICR .EQ. 4) THEN
+         ELSEIF (ICR == 4) THEN
           IFIX(ND +4) = 1
-         ELSEIF (ICR .EQ. 5) THEN
+         ELSEIF (ICR == 5) THEN
           IFIX(ND +4) = 1
           IFIX(ND +6) = 1
-         ELSEIF (ICR .EQ. 6) THEN
+         ELSEIF (ICR == 6) THEN
           IFIX(ND +4) = 1
           IFIX(ND +5) = 1
-         ELSEIF (ICR .EQ. 7) THEN
+         ELSEIF (ICR == 7) THEN
           IFIX(ND +4) = 1
           IFIX(ND +5) = 1
           IFIX(ND +6) = 1

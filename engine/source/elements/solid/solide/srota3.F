@@ -73,8 +73,8 @@ C=======================================================================
       S6(LFT:LLT)=SIG(LFT:LLT,6)
 
 C
-      IF (MTN.EQ.6.OR.MTN.EQ.17.OR.MTN.EQ.46.OR.MTN.EQ.47
-     .   .OR.ISMSTR.EQ.10.OR.ISMSTR.EQ.12) RETURN
+      IF (MTN==6.OR.MTN==17.OR.MTN==46.OR.MTN==47
+     .   .OR.ISMSTR==10.OR.ISMSTR==12) RETURN
 C
       DO I=LFT,LLT
         Q1 = TWO*S4(I)*WZZ(I)

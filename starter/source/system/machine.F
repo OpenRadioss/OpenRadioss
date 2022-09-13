@@ -101,7 +101,7 @@ C-----------------------------------------------
       INTEGER NODMAX
       DATA NODMAX/55000/
 #if CPP_mach == CPP_w95 || CPP_mach == CPP_wmr  || CPP_mach == CPP_lmr 
-      IF (NUMNOD.GT.NODMAX) THEN
+      IF (NUMNOD>NODMAX) THEN
 C        IWARN = IWARN + 1
 C        WRITE(ISTDO,*)' ** WARNING NUMNOD TOO LARGE'
 C        WRITE(IOUT,*)'** WARNING NUMNOD IS TOO LARGE FOR THIS VERSION'        

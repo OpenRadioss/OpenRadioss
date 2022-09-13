@@ -104,7 +104,7 @@ C
 
       END DO
       
-      IF (NSH_KIN.EQ.0) RETURN
+      IF (NSH_KIN==0) RETURN
 
       ALLOCATE(ISH_NS(NSH_KIN),ISH_MS(2,NSH_KIN))
       
@@ -232,7 +232,7 @@ C-----------------elementary connectivity -----
           K=TAGNOD(NS)
           IF (K > 0) THEN
            DO L=1,4
-            IF (NS.NE.M(L)) THEN
+            IF (NS/=M(L)) THEN
              CALL REORDER_A(NROWK(K),ICOK(1,K),M(L)) 
             ENDIF
            ENDDO
@@ -249,7 +249,7 @@ C-----------------elementary connectivity -----
           K=TAGNOD(NS)
           IF (K > 0) THEN
            DO L=1,3
-            IF (NS.NE.M(L)) THEN
+            IF (NS/=M(L)) THEN
              CALL REORDER_A(NROWK(K),ICOK(1,K),M(L)) 
             ENDIF
            ENDDO
@@ -475,7 +475,7 @@ C --------------------------------------------------
          NJ=IRECT(J)
          NDM = MAX(NDM,NDOF(NJ))
         ENDDO
-        IF (NDM.EQ.0) RETURN
+        IF (NDM==0) RETURN
       FACM = ONE / NIR
       FACM2 = FACM*FACM
         DO K=1,NDOF(I)
@@ -502,29 +502,29 @@ C-------Update K(main node),B---
            ND = MIN(ND,NDOF(NM))
            CALL UPDKDD(ND,KDD,KII,FACM2,0)
            CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KII,ND,ND,IR)
-           IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,3 )
+           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,3 )
           ENDDO 
         ENDDO 
 C--------no diag--Kjm=sum(KjsCsm)--
         DO I1 = 1,NR
           NI=NODS(I1)
           NIDOF=NDOF(NI)
-          IF (NIDOF.EQ.0) CYCLE
+          IF (NIDOF==0) CYCLE
           CALL GET_KIJ(NI,I,IDDL,IADK,JDIK,LT_K,KDD,NIDOF,NDOF(I),IR)
-          IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,3 )
+          IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(I) ,3 )
 C------- Update ---
           NDI = MIN(NDM,NIDOF)
           DO J=1,NIR
            NJ=IRECT(J)
            NDJ = MIN(NDM,NDOF(NJ))
-           IF (NDJ.GT.0) THEN
-            IF (NJ.EQ.NI) THEN
+           IF (NDJ>0) THEN
+            IF (NJ==NI) THEN
              CALL UPDKDD1(NIDOF,NDJ,KDD,KII,FACM,1)
              CALL PUT_KII(NJ ,IDDL ,IADK,DIAG_K,LT_K,KII,NDJ)
             ELSE
              CALL UPDKDD1(NDI,NDOF(I),KDD,KII,FACM,0)
              CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NDI,NDJ,IR)
-             IF (IR.EQ.1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,3 )
+             IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,3 )
             ENDIF 
            ENDIF 
           ENDDO 
@@ -585,7 +585,7 @@ C
 C
           MC=IXC(3,SON+3)
 
-          IF(TAGNOD(MC).EQ.0)THEN
+          IF(TAGNOD(MC)==0)THEN
             TAGNOD(MC)=1
             DO J=1,3
               V(J,MC)= FOURTH*(V(J,N1)+V(J,N2)+V(J,N3)+V(J,N4))
@@ -601,7 +601,7 @@ C
           M(3)=IXC(5,SON+2)
           M(4)=IXC(2,SON+3)
 
-          IF(TAGNOD(M(1)).EQ.0)THEN
+          IF(TAGNOD(M(1))==0)THEN
             TAGNOD(M(1))=1
             DO J=1,3
               V(J,M(1))= HALF*(V(J,N1)+V(J,N2))
@@ -612,7 +612,7 @@ C
           ELSE
           END IF
 
-          IF(TAGNOD(M(2)).EQ.0)THEN
+          IF(TAGNOD(M(2))==0)THEN
             TAGNOD(M(2))=1
             DO J=1,3
               V(J,M(2))= HALF*(V(J,N2)+V(J,N3))
@@ -623,7 +623,7 @@ C
           ELSE
           END IF
 
-          IF(TAGNOD(M(3)).EQ.0)THEN
+          IF(TAGNOD(M(3))==0)THEN
             TAGNOD(M(3))=1
             DO J=1,3
               V(J,M(3))= HALF*(V(J,N3)+V(J,N4))
@@ -634,7 +634,7 @@ C
           ELSE
           END IF
 
-          IF(TAGNOD(M(4)).EQ.0)THEN
+          IF(TAGNOD(M(4))==0)THEN
             TAGNOD(M(4))=1
             DO J=1,3
               V(J,M(4))= HALF*(V(J,N4)+V(J,N1))
@@ -659,7 +659,7 @@ C
           M(2)=IXTG(2,SON+3)
           M(3)=IXTG(3,SON+3)
 
-          IF(TAGNOD(M(1)).EQ.0)THEN
+          IF(TAGNOD(M(1))==0)THEN
             TAGNOD(M(1))=1
             DO J=1,3
               V(J,M(1))= HALF*(V(J,N1)+V(J,N2))
@@ -670,7 +670,7 @@ C
           ELSE
           END IF
 
-          IF(TAGNOD(M(2)).EQ.0)THEN
+          IF(TAGNOD(M(2))==0)THEN
             TAGNOD(M(2))=1
             DO J=1,3
               V(J,M(2))= HALF*(V(J,N2)+V(J,N3))
@@ -681,7 +681,7 @@ C
           ELSE
           END IF
 
-          IF(TAGNOD(M(3)).EQ.0)THEN
+          IF(TAGNOD(M(3))==0)THEN
             TAGNOD(M(3))=1
             DO J=1,3
               V(J,M(3))= HALF*(V(J,N3)+V(J,N1))

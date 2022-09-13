@@ -554,7 +554,7 @@ C*******************************************************************************
 C**********************************************************************************************
 C BUILD H3D FILE
 C**********************************************************************************************
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         FILNAM=ROOTNAM(1:ROOTLEN)//'.h3d'
         FILEN = ROOTLEN + 4
         LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 4
@@ -802,8 +802,8 @@ C
           IF(ISPMD == 0) THEN 
             CALL H3D_CONSTIT(ITAB_P,ITABM1_P,NUMNODG)
             DO I=1,NUMNOD_H3DPART
-              IF(ITAB_P_PART(I) .NE. 0)THEN
-                IF(SYSFUS2(ITAB_P_PART(I),ITABM1_P,NUMNODG) .NE. 0) THEN
+              IF(ITAB_P_PART(I) /= 0)THEN
+                IF(SYSFUS2(ITAB_P_PART(I),ITABM1_P,NUMNODG) /= 0) THEN
                   TAGNOD_P(SYSFUS2(ITAB_P_PART(I),ITABM1_P,NUMNODG)) = 1
                 ENDIF 
               ENDIF 
@@ -826,7 +826,7 @@ c*******************************************************************************
 C CREATE NODES
 C********************************************************************************************** 
 c
-      IF(NSPMD > 1 .AND. ISPMD.EQ.0)THEN
+      IF(NSPMD > 1 .AND. ISPMD==0)THEN
         MAX_NOD_ID = 0
         DO I=1,NUMNODG
           MAX_NOD_ID = MAX(MAX_NOD_ID,ITAB_P(I))
@@ -837,12 +837,12 @@ c
           MAX_NOD_ID = MAX(MAX_NOD_ID,ITAB(I))
         ENDDO
       ENDIF
-      IF(NSPMD > 1 .AND. ISPMD.EQ.0 .AND. H3D_DATA%IH3D == 1 )THEN
+      IF(NSPMD > 1 .AND. ISPMD==0 .AND. H3D_DATA%IH3D == 1 )THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_NODES(ITAB_P,NUMNODG,X_P,TAGNOD_P,D_P)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
 
-      ELSEIF(ISPMD.EQ.0  .AND. H3D_DATA%IH3D == 1)THEN
+      ELSEIF(ISPMD==0  .AND. H3D_DATA%IH3D == 1)THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_NODES(ITAB,NUMNOD,X,TAGNOD_P,D)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -892,7 +892,7 @@ c
         ENDIF
       ENDIF
 
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
                  CALL STARTIME(MACRO_TIMER_LIBH3D,1)
                  CALL C_H3D_CREATE_SPH(ITAB_P,NUMNODG,KXSP_P,NISP,NUMSPHG,IPARTSP_P,IPART,LIPART1,X,H3D_DATA%PARTS(1)%PART)
                  CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -908,7 +908,7 @@ C
           DO I=1,NUMELR
             IXR_TMP(1,I) = IXR(1,I)
             DO J=2,4
-              IF (IXR(J,I) .NE. 0 )IXR_TMP(J,I) = ITAB(IXR(J,I))
+              IF (IXR(J,I) /= 0 )IXR_TMP(J,I) = ITAB(IXR(J,I))
             ENDDO
             IXR_TMP(4:NIXR,I) = IXR(4:NIXR,I)
           ENDDO
@@ -921,7 +921,7 @@ c
           DO I=1,NUMELR
             IXR_P(1,I) = IXR(1,I)
             DO J=2,4
-               IF (IXR(J,I) .NE. 0 ) IXR_P(J,I) = ITAB(IXR(J,I))
+               IF (IXR(J,I) /= 0 ) IXR_P(J,I) = ITAB(IXR(J,I))
             ENDDO
             IXR_P(4:NIXR,I) = IXR(4:NIXR,I)
           ENDDO
@@ -938,7 +938,7 @@ c
         ENDIF
       ENDIF
 c
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_SPRINGS(ITAB,NUMNOD,IXR_P,NIXR,NUMELRG,IPARTR_P,IPART,LIPART1,H3D_DATA%PARTS(1)%PART)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -982,7 +982,7 @@ c
       ENDIF
 c
 c
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
          CALL STARTIME(MACRO_TIMER_LIBH3D,1)
          CALL C_H3D_CREATE_BEAMS(ITAB,NUMNOD,IXP_P,NIXP,NUMELPG,IPARTP_P,IPART,LIPART1,H3D_DATA%PARTS(1)%PART)
          CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -1026,7 +1026,7 @@ c
       ENDIF
 c
 c
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_TRUSS(ITAB,NUMNOD,IXT_P,NIXT,NUMELTRG,IPARTT_P,IPART,LIPART1,H3D_DATA%PARTS(1)%PART)
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -1038,13 +1038,13 @@ C*******************************************************************************
 
       IF(NSPMD > 1 .AND. H3D_DATA%IH3D == 1)THEN
              NERBY = 0
-             IF (NRBODY.GT.0)
+             IF (NRBODY>0)
      .           CALL DRBYCNT(NERBY,NPBY,FR_RBY2)
              NERBE2 = 0
-             IF (NRBE2G.GT.0)
+             IF (NRBE2G>0)
      .         CALL DRBE2CNT(NERBE2,IRBE2,LRBE2,WEIGHT)
              NERBE3 = 0
-             IF (NRBE3G.GT.0)
+             IF (NRBE3G>0)
      .         CALL DRBE3CNT(NERBE3,IRBE3,LRBE3,WEIGHT)
 c
              SBUFSPM=0
@@ -1060,11 +1060,11 @@ c
                SBUFRECVM = SBUFRECVM + 2*NRBYKIN*NSPMD
              DO I=1,NRBYKIN
 
-               IF ((ISPMD+1).EQ.ABS(FR_RBY2(3,I)))
+               IF ((ISPMD+1)==ABS(FR_RBY2(3,I)))
      .           SBUFSPO = SBUFSPO + FR_RBY2(2,I)
              ENDDO
              SBUFSPO = SBUFSPO + NRBYKIN*2
-             IF (ISPMD.EQ.0) THEN
+             IF (ISPMD==0) THEN
                SPORBY = NERBY+NRBYKIN*2
              ELSE
                SPORBY=1
@@ -1081,7 +1081,7 @@ c
      .                         NERBE3T,ITAB,COMPID_RBE3S)
 
       ELSE
-        IF(NSPMD == 1 .AND. ISPMD.EQ.0 .AND. H3D_DATA%IH3D == 1) THEN 
+        IF(NSPMD == 1 .AND. ISPMD==0 .AND. H3D_DATA%IH3D == 1) THEN 
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
           CALL C_H3D_CREATE_RBODIES(ITAB,NUMNOD,NPBY,NNPBY,LPBY,NRBODY,COMPID_RBODIES)
           CALL C_H3D_CREATE_RBE2(ITAB,NUMNOD,IRBE2,NRBE2L,LRBE2,NRBE2,COMPID_RBE2S,COMPID_RBE2S)
@@ -1157,7 +1157,7 @@ c
 c
 
 
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
           CALL C_H3D_CREATE_SHELLS(ITAB_P,NUMNODG,IXC_P,NIXC,NUMELCG,IPARTC_P,IPART,LIPART1,
      .                             H3D_DATA%PARTS(1)%PART)
@@ -1170,7 +1170,7 @@ c*******************************************************************************
 C CREATE RWALLS
 C********************************************************************************************** 
 c
-      IF(H3D_DATA%IH3D  == 1 .AND. NRWALL.GT.0) THEN
+      IF(H3D_DATA%IH3D  == 1 .AND. NRWALL>0) THEN
 
          CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
      .            WEIGHT)
@@ -1183,7 +1183,7 @@ C
      5                  XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN )
 
 
-        IF(ISPMD.EQ.0) THEN 
+        IF(ISPMD==0) THEN 
           CALL STARTIME(MACRO_TIMER_LIBH3D,1)
           CALL C_H3D_CREATE_RWALLS(NOM_OPT, LNOPT1, I16D, NPRW, NRWALL, MAX_NOD_ID,
      .                           XWL ,YWL , ZWL, V1, V2, V3, VV1, VV2, VV3, XL, XN, YN, ZN)
@@ -1338,7 +1338,7 @@ c
       ENDIF
 c
 c
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_SOLID8N(ITAB_P,NUMNODG,IXS_P,NIXS,NUMELSG,IPARTS_P,IPART,LIPART1,
      .                  H3D_DATA%PARTS(1)%PART,NUMELS10G,IXS10_P,IPARTS10_P,NUMELS16G,IXS16_P,
@@ -1383,7 +1383,7 @@ c
       ENDIF
 c
 c
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_QUADS(ITAB_P,NUMNODG,IPART,LIPART1,H3D_DATA%PARTS(1)%PART,
      .                  IXQ_P,NIXQ,NUMELQG,IPARTQ_P)
@@ -1433,7 +1433,7 @@ C
 c**********************************************************************************************
 C CREATE NODAL DISPLACEMENT DATAS
 C********************************************************************************************** 
-      IF(ISPMD.EQ.0.AND. H3D_DATA%IH3D == 1) THEN 
+      IF(ISPMD==0.AND. H3D_DATA%IH3D == 1) THEN 
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL C_H3D_CREATE_DISPLACEMENT_DATATYPE()
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
@@ -1442,7 +1442,7 @@ C
 c**********************************************************************************************
 C CREATE RESULTS DATAS
 C********************************************************************************************** 
-      IF(ISPMD.EQ.0.AND. ( H3D_DATA%IH3D_RUN == 1)) THEN
+      IF(ISPMD==0.AND. ( H3D_DATA%IH3D_RUN == 1)) THEN
         CALL STARTIME(MACRO_TIMER_LIBH3D,1)
         CALL H3D_CREATE_DATATYPE(H3D_DATA,IPARI) 
 C
@@ -1458,7 +1458,7 @@ c*******************************************************************************
 C UPDATE NODES DISPLACEMENTS
 c**********************************************************************************************
 c
-      IF(NRWALL.GT.0) THEN
+      IF(NRWALL>0) THEN
 
          CALL SCANOR(X,D,CDG,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX,SCALE,
      .            WEIGHT)
@@ -1473,7 +1473,7 @@ C
 c
       H3DTITLE = ' '
       LEN_H3DTITLE = 0
-      IF (H3D_DATA%N_TITLE .NE. 0) THEN
+      IF (H3D_DATA%N_TITLE /= 0) THEN
         DO I=1,H3D_DATA%N_TITLE
           IF(H3D_DATA%ITITLE(I) == H3D_DATA%IH3D) THEN
             H3DTITLE = H3D_DATA%TITLE(I)
@@ -1482,7 +1482,7 @@ c
         ENDDO
       ENDIF
 c
-      IF(NSPMD > 1 .AND. ISPMD.EQ.0)THEN
+      IF(NSPMD > 1 .AND. ISPMD==0)THEN
          CALL STARTIME(MACRO_TIMER_LIBH3D,1)
          CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
      .                           ITAB_P,NUMNODG,D_P, NRWALL, MAX_NOD_ID,
@@ -1490,7 +1490,7 @@ c
      .                           V3, VV1, VV2, VV3,KXSP_P,
      .                           NISP,NUMSPHG,TAGNOD_P,NPRW)
          CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
-      ELSEIF(ISPMD.EQ.0 )THEN
+      ELSEIF(ISPMD==0 )THEN
          CALL STARTIME(MACRO_TIMER_LIBH3D,1)
          CALL C_H3D_UPDATE_NODES(H3DTITLE,LEN_H3DTITLE,TT,H3D_DATA%IH3D,
      .                           ITAB,NUMNOD,D, NRWALL, MAX_NOD_ID,
@@ -1847,7 +1847,7 @@ c
 c-----   
 c nodal scalar 
 c-----
-        IF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
+        IF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -1918,7 +1918,7 @@ c
 c-----    
 c nodal vector 
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2)THEN
 c
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2004,7 +2004,7 @@ c
 c-----    
 c nodal tensor 
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 1 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3)THEN
 c
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2048,7 +2048,7 @@ c
 c-----    
 c 1d scalar 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2093,7 +2093,7 @@ c
 c-----    
 c 1d vector 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2137,7 +2137,7 @@ c
 c-----    
 c 1d tensor 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2181,7 +2181,7 @@ c
 c-----    
 c 1d torsor 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 4 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 4 .AND. (NUMELTRG+NUMELPG+NUMELRG) > 0)THEN
 c
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2222,7 +2222,7 @@ c
 c-----
 c shell scalar 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. (NUMELCG+NUMELTGG) > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2277,7 +2277,7 @@ c
 c-----
 c shell vector 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. (NUMELCG+NUMELTGG) > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2331,7 +2331,7 @@ c            print *,'C_H3D_UPDATE_SHELL_VECTOR'
 c-----
 c shell tensor   
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 2 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. (NUMELCG+NUMELTGG) > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2387,7 +2387,7 @@ c
 c-----
 c solid scalar   
 c-----    
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMELSG > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2439,7 +2439,7 @@ c
 c-----
 c solid vector   
 c-----    
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. NUMELSG > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2489,7 +2489,7 @@ c
 c-----
 c solid tensor   
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 3.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMELSG > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2540,7 +2540,7 @@ c
 c-----
 c sph scalar   
 c-----    
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5.AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMSPHG > 0)THEN
 
           IUVAR = H3D_DATA%OUTPUT_LIST(I)%IUVAR
@@ -2583,7 +2583,7 @@ c
 c-----
 c sph tensor   
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5.AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 5.AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMSPHG > 0)THEN
 
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
@@ -2619,7 +2619,7 @@ c
 c-----
 c quad scalar 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMELQG > 0)THEN
 
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
@@ -2673,7 +2673,7 @@ c            print *,'C_H3D_UPDATE_QUAD_SCALAR'
 c-----
 c quad vector 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. NUMELQG > 0)THEN
 
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
@@ -2727,7 +2727,7 @@ c            print *,'C_H3D_UPDATE_QUAD_VECTOR'
 c-----
 c quad tensor   
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 6 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMELQG > 0)THEN
 
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
@@ -2777,7 +2777,7 @@ c
 c-----
 c skin scalar   
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 1 .AND. NUMSKING > 0)THEN
 
           IFUNC = H3D_DATA%OUTPUT_LIST(I)%ID
@@ -2820,7 +2820,7 @@ c
 c-----
 c skin vector 
 c-----
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 2 .AND. NUMSKING > 0)THEN
 
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
@@ -2856,7 +2856,7 @@ c
 c-----
 c skin tensor   
 c-----   
-        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK .NE. 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
+        ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OK /= 0 .AND. H3D_DATA%OUTPUT_LIST(I)%ETYPE == 7 .AND.
      .     H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE == 3 .AND. NUMSKING > 0)THEN
 
           N_OUTP_DATA = H3D_DATA%OUTPUT_LIST(I)%N_OUTP
@@ -3030,7 +3030,7 @@ C
         CALL STOPTIME(MACRO_TIMER_LIBH3D,1)
       ENDIF
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         INQUIRE(FILE=TMP_NAME(1:LEN_TMP_NAME), SIZE=H3DTOTALSIZE8)
         H3DTOTALSIZE8 = H3DTOTALSIZE8/(1024*1024)
         H3DTOTALSIZE = H3DTOTALSIZE8 

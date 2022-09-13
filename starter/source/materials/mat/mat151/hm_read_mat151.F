@@ -109,7 +109,7 @@ C-----------------------------------------------
       CALL HM_GET_INTV('NIP',NBMAT,IS_AVAILABLE,LSUBMODEL)
       MULTI_FVM%NBMAT = MAX(MULTI_FVM%NBMAT, NBMAT)
 
-      IF (NBMAT .GT. 21) THEN
+      IF (NBMAT > 21) THEN
          !! Limitation to 20 material
          CALL ANCMSG(MSGID = 87, MSGTYPE = MSGERROR, ANMODE = ANINFO)
       ENDIF
@@ -126,8 +126,8 @@ C     Reading submaterial IDS and corresponding volumic fractions
          IPM(20 + II) = MAT_ID
          PM(20 + II) = FRAC_VOL
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
-         IF (FRAC_VOL .LT. ZERO .OR. FRAC_VOL .GT. ONE) THEN
-            IF (NINIVOL .EQ. 0) THEN
+         IF (FRAC_VOL < ZERO .OR. FRAC_VOL > ONE) THEN
+            IF (NINIVOL == 0) THEN
                CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .              C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL) 
             ELSE
@@ -136,8 +136,8 @@ C     Reading submaterial IDS and corresponding volumic fractions
             ENDIF
          ENDIF
       ENDDO
-      IF (SUM_FRAC_VOL .NE. ONE) THEN
-         IF (NINIVOL .EQ. 0) THEN
+      IF (SUM_FRAC_VOL /= ONE) THEN
+         IF (NINIVOL == 0) THEN
             CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
      .           C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL) 
          ELSE

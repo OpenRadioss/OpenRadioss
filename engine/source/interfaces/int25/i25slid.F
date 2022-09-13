@@ -506,7 +506,7 @@ C                                |
                  END IF
 
                  IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
-     .              ITAGM(L) .NE. N.AND.TAGMSR(L)==0)THEN
+     .              ITAGM(L) /= N.AND.TAGMSR(L)==0)THEN
                     IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
      .                 NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
                        ITAGM(L)=N
@@ -557,7 +557,7 @@ C                                |
                  END IF
 
                  IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM(1,N).AND.
-     .              ITAGM(L) .NE. N)THEN
+     .              ITAGM(L) /= N)THEN
                     IF(NSV(N)/=IRECT(1,L).AND.NSV(N)/=IRECT(2,L).AND.
      .                 NSV(N)/=IRECT(3,L).AND.NSV(N)/=IRECT(4,L))THEN
                        ITAGM(L)=N
@@ -594,7 +594,7 @@ C-----
                 END IF
 
                 IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM_FI(NIN)%P(1,N).AND.
-     .             ITAGM(L) .NE. N+NSN.AND.TAGMSR(L)==0)THEN
+     .             ITAGM(L) /= N+NSN.AND.TAGMSR(L)==0)THEN
                   ITAGM(L)=N+NSN
                   K_STOK = K_STOK + 1
                   IF(K_STOK <= SIZOPT) THEN
@@ -625,7 +625,7 @@ c
                 END IF
 
                 IF(STFM(L)/=ZERO.AND.MSEGLO(L)/=IRTLM_FI(NIN)%P(1,N).AND.
-     .             ITAGM(L) .NE. N+NSN)THEN
+     .             ITAGM(L) /= N+NSN)THEN
                   ITAGM(L)=N+NSN
                   K_STOK = K_STOK + 1
                   IF(K_STOK <= SIZOPT) THEN
@@ -640,7 +640,7 @@ c
 
       ENDIF
 C-----
-      IF(I_STOK_OPT+K_STOK.GT.SIZOPT) THEN
+      IF(I_STOK_OPT+K_STOK>SIZOPT) THEN
         DEALLOCATE(PROV_E,PROV_N)
         RETURN
       ENDIF
@@ -713,7 +713,7 @@ C--------------------------------------------------------
         N =CAND_N(J)
         L =CAND_E(J)
         IKEEP = 0
-        IF(N.LE.NSN)THEN
+        IF(N<=NSN)THEN
 c            if(itab(nsv(n))==31774)
 c     .          print *,'keepf natif',ispmd+1,itab(nsv(n)),IRTLM(1,N),
 c     .                                mseglo(l),PENM(1,J)+PENM(2,J)+PENM(3,J)+PENM(4,J)
@@ -826,14 +826,14 @@ C
       DO P=1,NSPMD
         SIZBUFS(P)=0
         IF(P/=LOC_PROC)THEN
-          IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P).GT.0) THEN
+          IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)>0) THEN
             DO J=IAD_FRNOR(NI25,P),IAD_FRNOR(NI25,P+1)-1
               NOR       = FR_NOR(J)
 C
 C             NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns / tous les sommets frontires
               DO N=NADD(NOR)+1, NADD(NOR+1)
                 I=KADD(N)
-                IF(TAGSLD(I) .NE. P)THEN
+                IF(TAGSLD(I) /= P)THEN
                   SIZBUFS(P)=SIZBUFS(P)+1
                 END IF
                 TAGSLD(I) = P
@@ -915,9 +915,9 @@ c general case
       ENDIF
 C
 C specific cases ../..
-      IF(IGAP.EQ.1 .OR. IGAP.EQ.2)THEN
+      IF(IGAP==1 .OR. IGAP==2)THEN
         RSIZ = RSIZ + 1
-      ELSEIF(IGAP.EQ.3)THEN
+      ELSEIF(IGAP==3)THEN
         RSIZ = RSIZ + 2
       ENDIF
 C
@@ -967,7 +967,7 @@ C------
       DO P=1,NSPMD
         SIZBUFS(P)=0
         IF(P/=LOC_PROC)THEN
-          IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P).GT.0) THEN
+          IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)>0) THEN
             TAGSLD(1:NSN+NSNR)=0
             ILOC  (1:NSN+NSNR)=0
             DO J=IAD_FRNOR(NI25,P),IAD_FRNOR(NI25,P+1)-1
@@ -1076,7 +1076,7 @@ C
        IDEB = 0
        DO P=1,NSPMD
          IF(P/=LOC_PROC)THEN
-            IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P).GT.0) THEN
+            IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)>0) THEN
 C
               NSEND = SIZBUFS(P)
 C
@@ -1156,7 +1156,7 @@ C specific cases ../..
                ISHIFT = ISHIFT + 2             
               ENDIF
 
-              IF(IGAP.EQ.1 .OR. IGAP.EQ.2)THEN
+              IF(IGAP==1 .OR. IGAP==2)THEN
                 LR = 0        
                 DO J=1,NSEND
                   I = INDEX(IDEB+J)
@@ -1170,7 +1170,7 @@ C specific cases ../..
                   LR = LR + RSIZ
                 END DO
                  RSHIFT = RSHIFT + 1    
-              ELSEIF(IGAP.EQ.3)THEN 
+              ELSEIF(IGAP==3)THEN 
                 LR = 0        
 #include        "vectorize.inc"            
                 DO J = 1, NSEND
@@ -1189,7 +1189,7 @@ C specific cases ../..
               ENDIF
 C
 C thermic
-            IF(INTTH.GT.0)THEN
+            IF(INTTH>0)THEN
                LR = 0  
 	       LI = 0 	    	
 #include      "vectorize.inc"	       	       	    
@@ -1236,7 +1236,7 @@ C Adhesion
             ENDIF
 
 C Friction
-            IF(INTFRIC.GT.0)THEN
+            IF(INTFRIC>0)THEN
 	       LI = 0 	    	
 #include      "vectorize.inc"	       	       	    
                DO J = 1, NSEND
@@ -1277,7 +1277,7 @@ C -- IDTMINS==2
                ISHIFT = ISHIFT + 2
                
 C -- IDTMINS_INT /= 0	       
-            ELSEIF(IDTMINS_INT.NE.0)THEN
+            ELSEIF(IDTMINS_INT/=0)THEN
               LI = 0
 #include      "vectorize.inc"	      
               DO J = 1, NSEND
@@ -1392,7 +1392,7 @@ c                end if
 C
             IDEB = IDEB+NSEND
 C
-          END IF ! IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P).GT.0) THEN
+          END IF ! IF(IAD_FRNOR(NI25,P+1)-IAD_FRNOR(NI25,P)>0) THEN
         END IF ! IF(P/=LOC_PROC)THEN
       END DO ! DO P=1,NSPMD
 

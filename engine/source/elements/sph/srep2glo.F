@@ -220,7 +220,7 @@ C           MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
         ENDIF
       ENDIF
 C
-      IF (JHBE.EQ.24) THEN
+      IF (JHBE==24) THEN
         DO I=LFT,LLT      
                 XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
                 YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)

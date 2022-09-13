@@ -58,35 +58,35 @@ C-----------------------------------------------
         L = INDX(K)
         ISK =ISKEW(L)
         LCOD=ICODT(L)
-        IF(ISK.EQ.1) THEN
+        IF(ISK==1) THEN
 C------------------
 C     REPERE GLOBAL
 C------------------
-          IF(LCOD.EQ.1)THEN
+          IF(LCOD==1)THEN
             V(3,L)=ZERO
             A(3,L)=ZERO
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD==2)THEN
             V(2,L)=ZERO
             A(2,L)=ZERO
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD==3)THEN
             V(2,L)=ZERO
             V(3,L)=ZERO
             A(2,L)=ZERO
             A(3,L)=ZERO
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD==4)THEN
             V(1,L)=ZERO
             A(1,L)=ZERO
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD==5)THEN
             V(1,L)=ZERO
             V(3,L)=ZERO
             A(1,L)=ZERO
             A(3,L)=ZERO
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD==6)THEN
             V(1,L)=ZERO
             V(2,L)=ZERO
             A(1,L)=ZERO
             A(2,L)=ZERO
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD==7)THEN
             V(1,L)=ZERO
             V(2,L)=ZERO
             V(3,L)=ZERO
@@ -99,7 +99,7 @@ C
 C-------------------
 C     REPERE OBLIQUE
 C-------------------
-          IF(LCOD.EQ.1)THEN
+          IF(LCOD==1)THEN
             AA =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
             VV =SKEW(7,ISK)*V(1,L)+SKEW(8,ISK)*V(2,L)+SKEW(9,ISK)*V(3,L)
             A(1,L)=A(1,L)-SKEW(7,ISK)*AA
@@ -108,7 +108,7 @@ C-------------------
             V(1,L)=V(1,L)-SKEW(7,ISK)*VV
             V(2,L)=V(2,L)-SKEW(8,ISK)*VV
             V(3,L)=V(3,L)-SKEW(9,ISK)*VV
-          ELSEIF(LCOD.EQ.2)THEN
+          ELSEIF(LCOD==2)THEN
             AA =SKEW(4,ISK)*A(1,L)+SKEW(5,ISK)*A(2,L)+SKEW(6,ISK)*A(3,L)
             VV =SKEW(4,ISK)*V(1,L)+SKEW(5,ISK)*V(2,L)+SKEW(6,ISK)*V(3,L)
             A(1,L)=A(1,L)-SKEW(4,ISK)*AA
@@ -117,7 +117,7 @@ C-------------------
             V(1,L)=V(1,L)-SKEW(4,ISK)*VV
             V(2,L)=V(2,L)-SKEW(5,ISK)*VV
             V(3,L)=V(3,L)-SKEW(6,ISK)*VV
-          ELSEIF(LCOD.EQ.3)THEN
+          ELSEIF(LCOD==3)THEN
             AA =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
             VV =SKEW(7,ISK)*V(1,L)+SKEW(8,ISK)*V(2,L)+SKEW(9,ISK)*V(3,L)
             A(1,L)=A(1,L)-SKEW(7,ISK)*AA
@@ -134,7 +134,7 @@ C-------------------
             V(1,L)=V(1,L)-SKEW(4,ISK)*VV
             V(2,L)=V(2,L)-SKEW(5,ISK)*VV
             V(3,L)=V(3,L)-SKEW(6,ISK)*VV
-          ELSEIF(LCOD.EQ.4)THEN
+          ELSEIF(LCOD==4)THEN
             AA =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
             VV =SKEW(1,ISK)*V(1,L)+SKEW(2,ISK)*V(2,L)+SKEW(3,ISK)*V(3,L)
             A(1,L)=A(1,L)-SKEW(1,ISK)*AA
@@ -143,7 +143,7 @@ C-------------------
             V(1,L)=V(1,L)-SKEW(1,ISK)*VV
             V(2,L)=V(2,L)-SKEW(2,ISK)*VV
             V(3,L)=V(3,L)-SKEW(3,ISK)*VV
-          ELSEIF(LCOD.EQ.5)THEN
+          ELSEIF(LCOD==5)THEN
             AA =SKEW(7,ISK)*A(1,L)+SKEW(8,ISK)*A(2,L)+SKEW(9,ISK)*A(3,L)
             VV =SKEW(7,ISK)*V(1,L)+SKEW(8,ISK)*V(2,L)+SKEW(9,ISK)*V(3,L)
             A(1,L)=A(1,L)-SKEW(7,ISK)*AA
@@ -160,7 +160,7 @@ C-------------------
             V(1,L)=V(1,L)-SKEW(1,ISK)*VV
             V(2,L)=V(2,L)-SKEW(2,ISK)*VV
             V(3,L)=V(3,L)-SKEW(3,ISK)*VV
-          ELSEIF(LCOD.EQ.6)THEN
+          ELSEIF(LCOD==6)THEN
             AA =SKEW(1,ISK)*A(1,L)+SKEW(2,ISK)*A(2,L)+SKEW(3,ISK)*A(3,L)
             VV =SKEW(1,ISK)*V(1,L)+SKEW(2,ISK)*V(2,L)+SKEW(3,ISK)*V(3,L)
             A(1,L)=A(1,L)-SKEW(1,ISK)*AA
@@ -177,7 +177,7 @@ C-------------------
             V(1,L)=V(1,L)-SKEW(4,ISK)*VV
             V(2,L)=V(2,L)-SKEW(5,ISK)*VV
             V(3,L)=V(3,L)-SKEW(6,ISK)*VV
-          ELSEIF(LCOD.EQ.7)THEN
+          ELSEIF(LCOD==7)THEN
             A(1,L)=ZERO
             A(2,L)=ZERO
             A(3,L)=ZERO

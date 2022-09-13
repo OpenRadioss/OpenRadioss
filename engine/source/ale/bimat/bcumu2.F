@@ -69,7 +69,7 @@ C-----------------------------------------------
       my_real
      .   ALPHT, ALPHX     
 C-----------------------------------------------
-      IF(JALE+JEUL.EQ.0.OR.MTN.EQ.11) THEN
+      IF(JALE+JEUL==0.OR.MTN==11) THEN
       DO I=LFT,LLT
         B11(I)=ZERO
         B12(I)=ZERO
@@ -102,7 +102,7 @@ C-------------------------
        ENDDO
 
       DO I=LFT,LLT
-        IF(ALPH(I).EQ.ZERO)THEN
+        IF(ALPH(I)==ZERO)THEN
          DO J=1,6
            SIG(I,J)= ZERO
          ENDDO
@@ -202,7 +202,7 @@ C-----------------------------------------------
       my_real
      .   ALPHT, ALPHX     
 C-----------------------------------------------
-      IF(JALE+JEUL.EQ.0.OR.MTN.EQ.11) THEN
+      IF(JALE+JEUL==0.OR.MTN==11) THEN
       DO I=LFT,LLT
         B11(I)=ZERO
         B12(I)=ZERO
@@ -217,7 +217,7 @@ C-----------------------------------------------
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
         DO I=LFT,LLT
           ALPHT=ONE
           ALPHX=ALPH(I)
@@ -270,7 +270,7 @@ C-------------------------
       ENDIF
 
       DO I=LFT,LLT
-        IF(ALPH(I).EQ.ZERO)THEN
+        IF(ALPH(I)==ZERO)THEN
          DO J=1,6
            SIG(I,J)=ZERO
          ENDDO
@@ -370,7 +370,7 @@ C-----------------------------------------------
       my_real
      .   ALPHT, ALPHX
 C-----------------------------------------------
-      IF(JALE+JEUL.EQ.0.OR.MTN.EQ.11) THEN
+      IF(JALE+JEUL==0.OR.MTN==11) THEN
       DO I=LFT,LLT
         B11(I)=ZERO
         B12(I)=ZERO
@@ -385,7 +385,7 @@ C-----------------------------------------------
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      IF(IVECTOR.EQ.1) THEN
+      IF(IVECTOR==1) THEN
         DO I=LFT,LLT
           ALPHT=ONE
           ALPHX=ALPH(I)
@@ -454,7 +454,7 @@ C-------------------------
       ENDIF
 
       DO I=LFT,LLT
-        IF(ALPH(I).EQ.ZERO)THEN
+        IF(ALPH(I)==ZERO)THEN
          DO J=1,6
            SIG(I,J)=ZERO
          ENDDO

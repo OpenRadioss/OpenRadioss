@@ -82,7 +82,7 @@ C--------------------------------------------------------------
         IF (ABS(ISIGI)/=3 .AND. ABS(ISIGI)/=4 .AND. ABS(ISIGI)/=5)THEN
           II = I+NFT
           N = NINT(SIGSH(NVSHELL + 1,II))
-          IF (N.NE.IX(NIX,II)) THEN
+          IF (N/=IX(NIX,II)) THEN
             JJ = II
             DO J = 1,NUMEL
               II= J

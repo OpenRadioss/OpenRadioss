@@ -517,7 +517,7 @@ C
         INFO2 = 1
 #endif
 C
-       IF( INFO2.GT.0 ) THEN
+       IF( INFO2>0 ) THEN
          WRITE(*,*)'The algorithm failed to compute eigenvalues.'
          STOP
        END IF

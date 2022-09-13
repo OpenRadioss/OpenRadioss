@@ -152,8 +152,8 @@ C-------------------------
                           ISU=0           
                           DO K=1,NPART
 		            NUMA = IPART(IPP,K)
-                            IF (NSUBDOM.GT.0) THEN
-		               IF (IPP.EQ.5) NUMA = IPART_R2R(2,K)
+                            IF (NSUBDOM>0) THEN
+		               IF (IPP==5) NUMA = IPART_R2R(2,K)
 		            ENDIF
 C-------------------------------------------------------------------------------------------------------------		    
                             IF(JJ == NUMA)THEN

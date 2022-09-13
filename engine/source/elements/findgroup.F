@@ -54,11 +54,11 @@ C
          NEL =IPARG(2,NG)
          NFT =IPARG(3,NG)
          ITY =IPARG(5,NG)
-         IF(ITY.EQ.3) THEN
+         IF(ITY==3) THEN
            DO I=1,NEL
              IGROUPC(I+NFT)=NG
            ENDDO
-         ELSEIF(ITY.EQ.7) THEN
+         ELSEIF(ITY==7) THEN
            DO I=1,NEL
              IGROUPTG(I+NFT)=NG
            ENDDO

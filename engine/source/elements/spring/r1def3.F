@@ -184,7 +184,7 @@ C
         DO I=LFT,LLT
           DL(I)= (ALDP(I)-AL0DP(I)) 
         ENDDO
-      ENDIF !(ISMDISP.GT.0) THEN
+      ENDIF !(ISMDISP>0) THEN
 C
       DO I=LFT,LLT
         ILENG=NINT(GEO(93,MGN(I)))

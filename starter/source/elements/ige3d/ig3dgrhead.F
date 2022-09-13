@@ -121,7 +121,7 @@ C
         ENDDO
       ENDDO
 
-c      IF (IMACH.EQ.3) THEN
+c      IF (IMACH==3) THEN
 c        DO I=1,NUMELIG3D
 c          XEP(I)=CEP(I)
 c        ENDDO
@@ -138,16 +138,16 @@ C
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
 
         JLAG=0
-        IF(JALE.EQ.0.AND.MLN.NE.18)JLAG=1
+        IF(JALE==0.AND.MLN/=18)JLAG=1
         JEUL=0
-        IF(JALE.EQ.2)THEN
+        IF(JALE==2)THEN
           JALE=0
           JEUL=1
         ELSEIF(JALE == 3) THEN
           JLAG = 1
           JALE = 1
         ENDIF
-        IF(MLN.NE.50)JTUR=NINT(PM(70,MID))
+        IF(MLN/=50)JTUR=NINT(PM(70,MID))
         JTHE=NINT(PM(71,MID))
         JTHE = ABS(JTHE)
 C
@@ -166,7 +166,7 @@ C
           KNOTLOCEL((I-1)*6+J)=KNOTLOCELINDX((INDEX(I)-1)*6+J)
         ENDDO    
       ENDDO
-c      IF (IMACH.EQ.3) THEN
+c      IF (IMACH==3) THEN
 c        DO I=1,NUMELIG3D
 c          CEP(I)=XEP(INDEX(I))
 c        ENDDO
@@ -208,7 +208,7 @@ C--------------------------------------------------------------
         JJ2=ITRI(2,INDEX(I-1))
         II3=ITRI(3,INDEX(I))
         JJ3=ITRI(3,INDEX(I-1))
-        IF(II.NE.JJ.OR.II2.NE.JJ2.OR.II3.NE.JJ3) THEN
+        IF(II/=JJ.OR.II2/=JJ2.OR.II3/=JJ3) THEN
           ND=ND+1
           EADD(ND)=I
         ENDIF

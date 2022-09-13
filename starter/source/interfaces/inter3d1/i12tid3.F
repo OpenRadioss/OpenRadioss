@@ -91,8 +91,8 @@ C-----------------------------------------------
 	END DO
         
         CALL INIST3(N1,N2,N3,SS,TT,IER,ALP)
-        IF(IPRI.GE.1)WRITE(IOUT,FMT=FMW_7I_2F) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT
-        IF(IER.EQ.-1)THEN                          
+        IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT
+        IF(IER==-1)THEN                          
           CALL ANCMSG(MSGID=1247,                  
      .                 MSGTYPE=MSGERROR,           
      .                 ANMODE=ANSTOP,              
@@ -102,7 +102,7 @@ C-----------------------------------------------
      .                 I6=ITAB(MSR(IRECT(3,L))),   
      .                 I7=ITAB(MSR(IRECT(4,L))),   
      .                 PRMOD=MSG_CUMU)             
-        ELSE IF(IER.EQ.1)THEN                      
+        ELSE IF(IER==1)THEN                      
           CALL ANCMSG(MSGID=1248,                  
      .                 MSGTYPE=MSGWARNING,         
      .                 ANMODE=ANINFO_BLIND,        

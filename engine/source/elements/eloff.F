@@ -607,7 +607,7 @@ C Set MCP_OFF(i) == 0 if all solids connected to i are deactivated
             NFT=IPARG(3,NG)
             ITY=IPARG(5,NG)
             I = II - NFT
-            IF(OFFG(I) .NE. 0) THEN
+            IF(OFFG(I) /= 0) THEN
              ! put one to all nodes that belong to at least one
              ! activated element
              DO K=2,9

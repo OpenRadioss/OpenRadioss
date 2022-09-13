@@ -65,7 +65,7 @@ C-----------------------------------------------
 C
 C     fixed wall only.
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -87,7 +87,7 @@ C
       NIMPACT=0
 C
       IFQ = NINT(RWL(15))
-      IF (IFQ.GT.0) THEN
+      IF (IFQ>0) THEN
         DO 20 J=1,NSMS
           I=NRWL_SMS(J)
           N=NSW(I)
@@ -104,7 +104,7 @@ C
           YC=UY-YWL
           ZC=UZ-ZWL
           DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
-          IF(DP.GT.ZERO)THEN
+          IF(DP>ZERO)THEN
             K = 3*(I-1)
             RWSAV(K+1) = ZERO
             RWSAV(K+2) = ZERO
@@ -112,7 +112,7 @@ C
             GOTO 20
           ENDIF
 C---      test pour noeuds penetres
-          IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3).GT.ZERO)
+          IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO)
      .      GOTO 20
           NIMPACT = NIMPACT+1
           IMPACT(NIMPACT) = I
@@ -134,9 +134,9 @@ C---      test pour noeuds penetres
           YC=UY-YWL
           ZC=UZ-ZWL
           DP=XC*RWL(1)+YC*RWL(2)+ZC*RWL(3)
-          IF(DP.GT.ZERO) GOTO 21
+          IF(DP>ZERO) GOTO 21
 C---      test pour noeuds penetres
-          IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3).GT.ZERO)
+          IF((VX-VXW)*RWL(1)+(VY-VYW)*RWL(2)+(VZ-VZW)*RWL(3)>ZERO)
      .      GOTO 21
           NIMPACT = NIMPACT+1
           IMPACT(NIMPACT) = I
@@ -193,7 +193,7 @@ C     REAL
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT, FXN, FYN, FZN
 C-----------------------------------------------
 C
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -216,11 +216,11 @@ C
 C
       IF(ITIED == 2)THEN
 C
-       IF (IFQ.GT.0) THEN
+       IF (IFQ>0) THEN
 C---     friction filtering
          FRIC = RWL(13)
          ALPHA= RWL(14)
-         IF (IFQ.EQ.3) ALPHA = ALPHA * DT12
+         IF (IFQ==3) ALPHA = ALPHA * DT12
          ALPHI = ONE - ALPHA
          FRIC2 = FRIC**2
          FAC=ONE/DT12
@@ -247,7 +247,7 @@ C---       filter
 C---
            FNDFN=FNXN**2+FNYN**2+FNZN**2
            FTDFT=FNXT**2+FNYT**2+FNZT**2
-           IF (FNDFN.EQ.0) THEN
+           IF (FNDFN==0) THEN
              RWSAV(K)   = ZERO
              RWSAV(K+1) = ZERO
              RWSAV(K+2) = ZERO
@@ -379,7 +379,7 @@ C     REAL
 C-----------------------------------------------
 C
 C     fixed wall only.
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
        ZWL=RWL(6)
@@ -400,7 +400,7 @@ C     fixed wall only.
 C     
       IFQ = NINT(RWL(15))
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -418,7 +418,7 @@ C
 C
  40    CONTINUE
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C
        DO 60 J = 1,NIMPACT
         I = IMPACT(J)
@@ -494,7 +494,7 @@ C-----------------------------------------------
 C
       IFQ = NINT(RWL(15))
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -509,7 +509,7 @@ C
         A(N3)=A(N3)-DA*RWL(3)
  40    CONTINUE
 C
-      ELSEIF(ITIED.EQ.1)THEN
+      ELSEIF(ITIED==1)THEN
 C
        DO 60 J = 1,NIMPACT
         I = IMPACT(J)
@@ -600,7 +600,7 @@ C     REAL
 C-----------------------------------------------
 C
 C     fixed wall only.
-      IF(MSR.EQ.0)THEN
+      IF(MSR==0)THEN
        VXW=ZERO
        VYW=ZERO
        VZW=ZERO
@@ -618,7 +618,7 @@ C
 C
       IFQ = NINT(RWL(15))
 C     
-      IF(ITIED.EQ.0)THEN
+      IF(ITIED==0)THEN
 C
        DO 40 J = 1,NIMPACT
         I = IMPACT(J)
@@ -690,7 +690,7 @@ c!$OMP ATOMIC ne marche pas
       TFEXT= TFEXT+TFXT
 #include "lockoff.inc"
 C
-C     IF (MSR.NE.0) THEN
+C     IF (MSR/=0) THEN
       CALL SUM_6_FLOAT(1, NIMPACT, F1, FRWL6(1,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F2, FRWL6(2,1), 7)
       CALL SUM_6_FLOAT(1, NIMPACT, F3, FRWL6(3,1), 7)

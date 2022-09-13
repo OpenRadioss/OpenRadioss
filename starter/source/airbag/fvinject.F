@@ -160,11 +160,11 @@ C
             N2=ELEM(2,IEL)
             N3=ELEM(3,IEL)
             NALL=ITAGINJ(N1)*ITAGINJ(N2)*ITAGINJ(N3)
-            IF (NALL.NE.0) THEN
+            IF (NALL/=0) THEN
                NN1=ITAGINJ(N2)-ITAGINJ(N1)
                NN2=ITAGINJ(N3)-ITAGINJ(N1)
-               IF (NN1.EQ.0.AND.NN2.EQ.0) THEN
-                  IF (ITAGEL(IEL) .GT. 0) THEN
+               IF (NN1==0.AND.NN2==0) THEN
+                  IF (ITAGEL(IEL) > 0) THEN
                      CALL ANCMSG(MSGID=1616,MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
      .                    I1=ID,I2=ITAGEL(IEL),I3=ITAGINJ(N1))

@@ -218,7 +218,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------
-      IF(SUB_ID .NE. 0 .AND. IVAL .NE. 0)THEN
+      IF(SUB_ID /= 0 .AND. IVAL /= 0)THEN
         IF(VALUE_TYPE == 1)THEN
           IVAL = IVAL + LSUBMODEL(SUB_ID)%OFF_EL
         ELSEIF(VALUE_TYPE == 2)THEN

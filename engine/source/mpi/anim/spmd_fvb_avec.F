@@ -69,8 +69,8 @@ C
 C
       DO I=1,NFVBAG
          PMAIN=FVSPMD(I)%PMAIN
-         IF (ISPMD.EQ.0) THEN
-            IF (ISPMD.EQ.PMAIN-1) THEN
+         IF (ISPMD==0) THEN
+            IF (ISPMD==PMAIN-1) THEN
                NNS_ANIM=FVDATA(I)%NNS_ANIM
                NNTR=FVDATA(I)%NNTR
                ALLOCATE(VTR(3,NNTR), VV(3,NNS_ANIM), NPTR(NNTR),
@@ -89,7 +89,7 @@ C
                   VV(3,J)=ZERO
                ENDDO
                DO J=1,FVDATA(I)%NPOLH
-                  IF (FVDATA(I)%MPOLH(J).EQ.ZERO) CYCLE
+                  IF (FVDATA(I)%MPOLH(J)==ZERO) CYCLE
                   DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
                      KK=FVDATA(I)%IFVPOLH(K)
                      DO L=FVDATA(I)%IFVTADR(KK),
@@ -112,7 +112,7 @@ C
                   NPN(N1)=NPN(N1)+1
                   NPN(N2)=NPN(N2)+1
                   NPN(N3)=NPN(N3)+1
-                  IF (NPTR(J).NE.0) THEN
+                  IF (NPTR(J)/=0) THEN
                      VVT(1)=VTR(1,J)/NPTR(J)
                      VVT(2)=VTR(2,J)/NPTR(J)
                      VVT(3)=VTR(3,J)/NPTR(J)
@@ -165,7 +165,7 @@ C
                DEALLOCATE(VV)
             ENDIF
          ELSE
-            IF (ISPMD.EQ.PMAIN-1) THEN
+            IF (ISPMD==PMAIN-1) THEN
                NNS_ANIM=FVDATA(I)%NNS_ANIM
                ITAG=MSGOFF
                CALL MPI_SEND(NNS_ANIM, 1, MPI_INTEGER, IT_SPMD(1),
@@ -188,7 +188,7 @@ C
                   VV(3,J)=ZERO
                ENDDO
                DO J=1,FVDATA(I)%NPOLH
-                  IF (FVDATA(I)%MPOLH(J).EQ.ZERO) CYCLE
+                  IF (FVDATA(I)%MPOLH(J)==ZERO) CYCLE
                   DO K=FVDATA(I)%IFVPADR(J),FVDATA(I)%IFVPADR(J+1)-1
                      KK=FVDATA(I)%IFVPOLH(K)
                      DO L=FVDATA(I)%IFVTADR(KK),
@@ -211,7 +211,7 @@ C
                   NPN(N1)=NPN(N1)+1
                   NPN(N2)=NPN(N2)+1
                   NPN(N3)=NPN(N3)+1
-                  IF (NPTR(J).NE.0) THEN
+                  IF (NPTR(J)/=0) THEN
                      VVT(1)=VTR(1,J)/NPTR(J)
                      VVT(2)=VTR(2,J)/NPTR(J)
                      VVT(3)=VTR(3,J)/NPTR(J)
@@ -246,7 +246,7 @@ C
          ENDIF
       ENDDO  
 C
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
          R4=ZERO
          DO I=1,3
             CALL WRITE_R_C(R4,1)

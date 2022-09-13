@@ -101,13 +101,13 @@ C      IADL = IAD-1+(ITASK+1)*NN/NTHREAD
 C
       ISENS=0
       DO K=1,NSENSOR
-         IF(IGRV(6,NL).EQ.LSENSOR(1,K))ISENS=K
+         IF(IGRV(6,NL)==LSENSOR(1,K))ISENS=K
       ENDDO
-      IF(ISENS.EQ.0)THEN
+      IF(ISENS==0)THEN
           TS=TT
       ELSE
           TS = TT-SENSOR(2,ISENS)
-          IF(TS.LT.0.0)GOTO 10
+          IF(TS<0.0)GOTO 10
       ENDIF
 C
         IF (IFUNC > 0) THEN
@@ -125,21 +125,21 @@ C
           GAMA = AGRV(1,NL)
         ENDIF
 C
-      IF(IMACH.EQ.3) THEN
+      IF(IMACH==3) THEN
        PROC = ISPMD + 1
        AA = GAMA
-       IF(N2D.EQ.1.AND.ISK.LE.1)THEN
+       IF(N2D==1.AND.ISK<=1)THEN
 #include "vectorize.inc"
          DO J=IAD,IAD+NN-1
            N1=IABS(IB(J))
            AXI=X(2,N1)
            MA=AA*MS0(N1)
            A(N2,N1)=A(N2,N1)+MA
-           IF(IB(J).GT.0)
+           IF(IB(J)>0)
      .       TFEXTT=TFEXTT
      .             +HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI*WEIGHT(N1)
          ENDDO
-       ELSEIF(N2D.EQ.1.AND.ISK.GT.1)THEN
+       ELSEIF(N2D==1.AND.ISK>1)THEN
          K1=3*N2-2
          K2=3*N2-1
          K3=3*N2
@@ -153,16 +153,16 @@ C
            A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
            A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
            A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-           IF(IB(J).GT.0)
+           IF(IB(J)>0)
      .       TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI*WEIGHT(N1)
          ENDDO
-       ELSEIF(ISK.LE.1)THEN
+       ELSEIF(ISK<=1)THEN
 #include "vectorize.inc"
          DO J=IAD,IAD+NN-1
            N1=IABS(IB(J))
            MA=AA*MS0(N1)
            A(N2,N1)=A(N2,N1)+MA
-           IF(IB(J).GT.0)
+           IF(IB(J)>0)
      .       TFEXTT=TFEXTT
      .             +HALF*(A0+AA)*MS(N1)*V(N2,N1)*WEIGHT(N1)
          ENDDO
@@ -179,11 +179,11 @@ C
            A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
            A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
            A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-           IF(IB(J).GT.0)
+           IF(IB(J)>0)
      .       TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*WEIGHT(N1)
          ENDDO
        ENDIF
-      ELSEIF(N2D.EQ.1.AND.ISK.LE.1)THEN
+      ELSEIF(N2D==1.AND.ISK<=1)THEN
           AA = GAMA
 #include "vectorize.inc"
           DO J=IADF,IADL
@@ -191,11 +191,11 @@ C
           AXI=X(2,N1)
            MA=AA*MS0(N1)
           A(N2,N1)=A(N2,N1)+MA
-          IF(IB(J).GT.0)
+          IF(IB(J)>0)
      .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)*AXI
         ENDDO
 C
-      ELSEIF(N2D.EQ.1.AND.ISK.GT.1)THEN
+      ELSEIF(N2D==1.AND.ISK>1)THEN
           AA = GAMA
           K1=3*N2-2
           K2=3*N2-1
@@ -210,18 +210,18 @@ C
           A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
           A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
           A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-          IF(IB(J).GT.0)
+          IF(IB(J)>0)
      .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*AXI
         ENDDO
 C
-      ELSEIF(ISK.LE.1)THEN
+      ELSEIF(ISK<=1)THEN
           AA = GAMA
 #include "vectorize.inc"
           DO J=IADF,IADL
           N1=IABS(IB(J))
            MA=AA*MS0(N1)
           A(N2,N1)=A(N2,N1)+MA
-          IF(IB(J).GT.0)
+          IF(IB(J)>0)
      .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*V(N2,N1)
         ENDDO
 C
@@ -239,7 +239,7 @@ C
           A(1,N1)=A(1,N1)+SKEW(K1,ISK)*MA
           A(2,N1)=A(2,N1)+SKEW(K2,ISK)*MA
           A(3,N1)=A(3,N1)+SKEW(K3,ISK)*MA
-          IF(IB(J).GT.0)
+          IF(IB(J)>0)
      .        TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV
         ENDDO
 C

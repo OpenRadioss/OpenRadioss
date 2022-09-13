@@ -185,7 +185,7 @@ c
 C--------------------------------------------------
 C SUBMODEL TRANSFORMATION
 C--------------------------------------------------
-      IF (SUB_ID .NE. 0)
+      IF (SUB_ID /= 0)
      .       CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)   
 C----------------------
       PTHK = MIN(PTHK, ONE-EM06)
@@ -422,8 +422,8 @@ C-------LAYER 1
           IGEO(IPMAT+1) = J
           MLAWLY1= NINT(PM(19,J))
           IF(MLAWLY1 == 58.OR.MLAWLY1 == 98) GO TO 250
-          IF(MLAWLY1.GE.29.AND.MLAWLY1.LE.31) GO TO 250
-          IF(MLAWLY1.EQ.99) GO TO 250
+          IF(MLAWLY1>=29.AND.MLAWLY1<=31) GO TO 250
+          IF(MLAWLY1==99) GO TO 250
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
           CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,J),LTITR)
           CALL ANCMSG(MSGID=1201,
@@ -453,7 +453,7 @@ C-----OTHER LAYERS
              IGEO(IPMAT+N) = J
              IF(NINT(PM(19,J)) == MLAWLY1) GO TO 350
              WRITE(LAW_ID,'(I2)')MLAWLY1
-             IF (MLAWLY1.EQ.99) LAW_ID='USER'
+             IF (MLAWLY1==99) LAW_ID='USER'
              CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
              CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,J),LTITR)
              CALL ANCMSG(MSGID=334,
@@ -519,7 +519,7 @@ C-----------------------------
         GEO(171)=1
       ELSEIF(IHBE==2)THEN
         GEO(171)=0
-      ELSEIF(IHBE.GE.3.AND.IHBE.LT.100.AND.IHBE.NE.4)THEN
+      ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN
         GEO(171)=IHBE-1
       ENDIF
       ISHEAR = GEO(37)

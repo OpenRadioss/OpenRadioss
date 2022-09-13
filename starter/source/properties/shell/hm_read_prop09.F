@@ -163,7 +163,7 @@ C--------------------------------------------------
 C----------------------
 Capply submodel transform to V (VX,VY,VZ) 
 C
-      IF (SUB_ID .NE. 0)
+      IF (SUB_ID /= 0)
      .         CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 
 C----------------------
@@ -220,7 +220,7 @@ C-------to have DR----
           IF (ISMSTR==10.AND.ISROT>0.AND.IDROT==0) IDROT = 1
 
 
-        IF(N2D.GT.0.AND.IHBE.NE.0.AND.IHBE.NE.2)THEN
+        IF(N2D>0.AND.IHBE/=0.AND.IHBE/=2)THEN
           IHBE_OLD=IHBE
           IHBE=0
           CALL ANCMSG(MSGID=321,
@@ -249,7 +249,7 @@ C  double stockage temporaire - supprimer GEO(12)=IGTYP apres tests
         GEO(12) =IGTYP+PUN
         GEO(171)=IHBE
 C
-        IF (IHBE.GT.11.AND.IHBE.LT.29) THEN
+        IF (IHBE>11.AND.IHBE<29) THEN
 C---------GEO(13,I) est utilise pour porte dn;GEO(17,I),CVIS se change ----
           GEO(13)=GEO(17)
           GEO(17)=CVIS
@@ -271,7 +271,7 @@ C----------------------
       IF (NIP == 0) NIP = 1
       IF (NIP == 1) GEO(38)= ZERO 
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
-      IF(AN .LT. EM10)THEN
+      IF(AN < EM10)THEN
         VX=ONE
         VY=ZERO
         VZ=ZERO
@@ -300,7 +300,7 @@ C
       GEO(9)=VZ
       GEO(10)=PHI
       ISK = 0
-      IF (IDSK.NE.0) THEN
+      IF (IDSK/=0) THEN
         DO J=0,NUMSKW+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD
           IF(IDSK == ISKN(4,J+1)) THEN
             ISK=J+1
@@ -354,7 +354,7 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
      &    5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      &    5X,'CONFIDENTIAL DATA'//)
        ELSE
-        IF (IHBE.GT.11.AND.IHBE.LT.29) THEN                       
+        IF (IHBE>11.AND.IHBE<29) THEN                       
          WRITE(IOUT,1011)IG,NIP,ISTRAIN,GEO(1),ISS,IHBE,          
      .               ISH3N,IGEO(20) , 
      .               GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,  
@@ -368,7 +368,7 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
         ENDIF                                                     
        ENDIF
 C                
-      IF (NIP.GT.10) THEN
+      IF (NIP>10) THEN
         CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
         CALL ANCMSG(MSGID=33,
      .               MSGTYPE=MSGERROR,
@@ -394,7 +394,7 @@ C-----------------------------
             GEO(171)=1
           ELSEIF(IHBE==2)THEN
             GEO(171)=0
-          ELSEIF(IHBE.GE.3.AND.IHBE.LT.100.AND.IHBE.NE.4)THEN
+          ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN
             GEO(171)=IHBE-1
           ENDIF
 

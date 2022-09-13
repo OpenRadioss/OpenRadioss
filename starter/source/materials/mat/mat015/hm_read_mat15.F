@@ -168,8 +168,8 @@ C
       CALL HM_GET_FLOATV('MCHANG_C1', C11, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MCHANG_C2', C22, IS_AVAILABLE, LSUBMODEL, UNITAB)
     
-      IF(E11.EQ.ZERO .OR. E22.EQ.ZERO .OR.
-     &   G12.EQ.ZERO .OR. G23.EQ.ZERO.OR. G31.EQ.ZERO) THEN
+      IF(E11==ZERO .OR. E22==ZERO .OR.
+     &   G12==ZERO .OR. G23==ZERO.OR. G31==ZERO) THEN
          CALL ANCMSG(MSGID=306,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -187,30 +187,30 @@ C-----
      .                C1=TITR)
        ENDIF 
 C-------------------------------------
-       IF(ICC.NE.2.AND.ISRATE.EQ.0.AND.FCUT.NE.ZERO)ISRATE=1
-       IF(CN.EQ.ZERO)    CN    = ONE
-       IF(FMAX.EQ.ZERO)   FMAX  = INFINITY    
-       IF(WPLAMX.EQ.ZERO)WPLAMX = INFINITY
+       IF(ICC/=2.AND.ISRATE==0.AND.FCUT/=ZERO)ISRATE=1
+       IF(CN==ZERO)    CN    = ONE
+       IF(FMAX==ZERO)   FMAX  = INFINITY    
+       IF(WPLAMX==ZERO)WPLAMX = INFINITY
        IF (WPLAREF == ZERO) WPLAREF = ONE        
        WPLAMX = WPLAMX / WPLAREF
-       IF(ALPHA.EQ.ZERO)ALPHA = ONE
-       IF(CC.EQ.ZERO)  EPS0  = ONE
-       IF(ICC.EQ.ZERO)  ICC  = 1
+       IF(ALPHA==ZERO)ALPHA = ONE
+       IF(CC==ZERO)  EPS0  = ONE
+       IF(ICC==ZERO)  ICC  = 1
        IFLAG = 0
-       IF(S1.EQ.ZERO.AND.S2.EQ.ZERO.AND.S12.EQ.ZERO.AND.
-     . C11.EQ.ZERO.AND.C22.EQ.ZERO) IFLAG = 1
+       IF(S1==ZERO.AND.S2==ZERO.AND.S12==ZERO.AND.
+     . C11==ZERO.AND.C22==ZERO) IFLAG = 1
        
-       IF(S1.EQ.ZERO) S1 = INFINITY
-       IF(S2.EQ.ZERO) S2 = INFINITY 
-       IF(S12.EQ.ZERO) S12 = INFINITY
-       IF(C11.EQ.ZERO) C11= INFINITY
-       IF(C22.EQ.ZERO) C22= INFINITY   
+       IF(S1==ZERO) S1 = INFINITY
+       IF(S2==ZERO) S2 = INFINITY 
+       IF(S12==ZERO) S12 = INFINITY
+       IF(C11==ZERO) C11= INFINITY
+       IF(C22==ZERO) C22= INFINITY   
 C--------------------------------------------------------
-      IF(TMAX.EQ.ZERO)WRITE(*,*)'STOP ERROR IN TMAX INPUT'   
+      IF(TMAX==ZERO)WRITE(*,*)'STOP ERROR IN TMAX INPUT'   
 C--------------------------------------------------------
       N21=N12*E22/E11
       DETC=ONE-N12*N21
-      IF(DETC.LE.ZERO) THEN
+      IF(DETC<=ZERO) THEN
          CALL ANCMSG(MSGID=307,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -218,7 +218,7 @@ C--------------------------------------------------------
      .               C1=TITR)
       ENDIF
 C--------------------------------------------------------
-      IF(CN.GT.ONE) THEN
+      IF(CN>ONE) THEN
          CALL ANCMSG(MSGID=213,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -275,7 +275,7 @@ C-----------------------------------------
 C----------------------------------------
 C     CONSTANTS FOR THE YIELD FUNCTION
 C-------------------------------------------
-      IF (SIGYT1.LE.0.) THEN
+      IF (SIGYT1<=0.) THEN
          CALL ANCMSG(MSGID=538,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -283,7 +283,7 @@ C-------------------------------------------
      .               C1=TITR,
      .               C2='SIGYT1')
       ENDIF
-      IF (SIGYC1.LE.0.) THEN
+      IF (SIGYC1<=0.) THEN
          CALL ANCMSG(MSGID=538,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -291,7 +291,7 @@ C-------------------------------------------
      .               C1=TITR,
      .               C2='SIGYC1')
       ENDIF
-      IF (SIGYT2.LE.0.) THEN
+      IF (SIGYT2<=0.) THEN
          CALL ANCMSG(MSGID=538,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -299,7 +299,7 @@ C-------------------------------------------
      .               C1=TITR,
      .               C2='SIGYT2')
       ENDIF
-      IF (SIGYC2.LE.0.) THEN
+      IF (SIGYC2<=0.) THEN
          CALL ANCMSG(MSGID=538,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -307,7 +307,7 @@ C-------------------------------------------
      .               C1=TITR,
      .               C2='SIGYC2')
       ENDIF
-      IF (SIGYT12.LE.0.) THEN
+      IF (SIGYT12<=0.) THEN
          CALL ANCMSG(MSGID=538,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -315,7 +315,7 @@ C-------------------------------------------
      .               C1=TITR,
      .               C2='SIGYT12')
       ENDIF
-      IF (SIGYC12.LE.0.) THEN
+      IF (SIGYC12<=0.) THEN
          CALL ANCMSG(MSGID=538,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -324,7 +324,7 @@ C-------------------------------------------
      .               C2='SIGYC12')
       ENDIF
 C
-      IF((SIGYC1.GT.0.).AND.(SIGYC2.GT.0.))THEN
+      IF((SIGYC1>0.).AND.(SIGYC2>0.))THEN
        F1  = ONE/SIGYT1-ONE/SIGYC1
        F2  = ONE/SIGYT2-ONE/SIGYC2
        F11 = ONE/(SIGYT1*SIGYC1)
@@ -336,7 +336,7 @@ C
        IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,1650) F1,F2,F11,F22,F33,F12
        ENDIF
-C      IF (FT1.LT.0.) WRITE (IOUT,5560) FT1
+C      IF (FT1<0.) WRITE (IOUT,5560) FT1
 C
        PM(54)=F1
        PM(55)=F2
@@ -360,7 +360,7 @@ C
       PM(50)=CC
       PM(51)=EPS0
       PM(53)=ICC
-      IF(EPS0.EQ.ZERO) THEN
+      IF(EPS0==ZERO) THEN
         CALL ANCMSG(MSGID=298,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,

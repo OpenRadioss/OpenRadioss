@@ -114,26 +114,26 @@ C-----------------------------
       MH3D0=0
 
       MSG_R2R = 0
-      IF ((IRAD2R.EQ.1).AND.(NCYCLE.LT.2)) R2R_MFILR = 0   
+      IF ((IRAD2R==1).AND.(NCYCLE<2)) R2R_MFILR = 0   
 C
-      IF(IALESUB.NE.0 .AND. TT+DT2.LE.T1S+DT2S)RETURN
+      IF(IALESUB/=0 .AND. TT+DT2<=T1S+DT2S)RETURN
 C SOUS CYCLAGE ALE
 C-----------------------------
 C     SENSOR 
 C-----------------------------
-       IF(IANISENS.GT.0)THEN
-        IF(TT.GT.SENSOR(2,IANISENS))THEN
+       IF(IANISENS>0)THEN
+        IF(TT>SENSOR(2,IANISENS))THEN
 C         ACTIVATION
           IANISENS=-IANISENS
           TANIMSENS=TT+DTANISENS
           MANIM=4
           MDESS=MDESS+MANIM
         ENDIF
-       ELSEIF(IANISENS.LT.0)THEN
-        IF(TT.LT.SENSOR(2,-IANISENS))THEN
+       ELSEIF(IANISENS<0)THEN
+        IF(TT<SENSOR(2,-IANISENS))THEN
 C         DEACTIVATION
           IANISENS=-IANISENS
-        ELSEIF(TT.GT.TANIMSENS)THEN
+        ELSEIF(TT>TANIMSENS)THEN
 C         ACTIF
           TANIMSENS=TANIMSENS+DTANISENS
           MANIM=4
@@ -141,33 +141,33 @@ C         ACTIF
           RETURN
         ENDIF
        ENDIF
-       IF(NLSENS.GT.0)THEN
+       IF(NLSENS>0)THEN
          DO I=1,NLSENS
-           IF(LANISENS(I).GT.0)THEN
-             IF(TT.GT.SENSOR(2,LANISENS(I)))THEN
+           IF(LANISENS(I)>0)THEN
+             IF(TT>SENSOR(2,LANISENS(I)))THEN
 C           ACTIVATION
                LANISENS(I)=-LANISENS(I)
                MANIM=4
                MDESS=MDESS+MANIM
              ENDIF
-           ELSEIF(LANISENS(I).LT.0)THEN
-             IF(TT.LT.SENSOR(2,-LANISENS(I)))THEN
+           ELSEIF(LANISENS(I)<0)THEN
+             IF(TT<SENSOR(2,-LANISENS(I)))THEN
 C           DEACTIVATION
                LANISENS(I)=-LANISENS(I)
              ENDIF
            ENDIF
          ENDDO
        ENDIF
-       IF(H3D_DATA%N_SENS_H3D.GT.0)THEN
+       IF(H3D_DATA%N_SENS_H3D>0)THEN
          DO I=1,H3D_DATA%N_SENS_H3D
-           IF(H3D_DATA%LSENS_H3D(I).GT.0)THEN
-             IF(TT.GT.SENSOR(2,H3D_DATA%LSENS_H3D(I)))THEN
+           IF(H3D_DATA%LSENS_H3D(I)>0)THEN
+             IF(TT>SENSOR(2,H3D_DATA%LSENS_H3D(I)))THEN
 C           ACTIVATION
                H3D_DATA%LSENS_H3D(I)=-H3D_DATA%LSENS_H3D(I)
                H3D_DATA%MH3D=1
              ENDIF
-           ELSEIF(H3D_DATA%LSENS_H3D(I).LT.0)THEN
-             IF(TT.LT.SENSOR(2,-H3D_DATA%LSENS_H3D(I)))THEN
+           ELSEIF(H3D_DATA%LSENS_H3D(I)<0)THEN
+             IF(TT<SENSOR(2,-H3D_DATA%LSENS_H3D(I)))THEN
 C           DEACTIVATION
                H3D_DATA%LSENS_H3D(I)=-H3D_DATA%LSENS_H3D(I)
              ENDIF
@@ -178,15 +178,15 @@ C-----------------------------
 C     INTERVENTION MANUELLE
 C-----------------------------
 C
-      IF((NCYCLE/NCINP)*NCINP.EQ.NCYCLE)THEN
-       IF(ISPMD.EQ.0)THEN
+      IF((NCYCLE/NCINP)*NCINP==NCYCLE)THEN
+       IF(ISPMD==0)THEN
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.ctl'
         LEN_TMP_NAME = INFILE_NAME_LEN + LEN_TRIM(FILNAM)
         TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))         
         OPEN(UNIT=IUSC3,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .       STATUS='OLD',ERR=999)
         READ(IUSC3,'(A)',ERR=990,END=990)CARTE
-        IF(CARTE(1:1).NE.'/')GOTO 990
+        IF(CARTE(1:1)/='/')GOTO 990
          MREST=0
          MANIM=0
          MSTOP=0
@@ -203,9 +203,9 @@ C
           GOTO (10,20,30,40,50,60,70,80,90,95,96,97,98)IKEY
           GOTO 100
 C TIME
- 10       IF(LK2.GT.1.AND.LK2.LT.10)THEN
+ 10       IF(LK2>1.AND.LK2<10)THEN
            WRITE(FMT,'(A,I1,A)')'(E',LK2,'.0)'
-          ELSEIF(LK2.LT.100)THEN
+          ELSEIF(LK2<100)THEN
            WRITE(FMT,'(A,I2,A)')'(E',LK2,'.0)'
           ELSE
            GOTO 100
@@ -213,16 +213,16 @@ C TIME
           READ(KEY2,FMT,ERR=990,END=990)TMAN
           GOTO 100
 C CYCLE
- 20       IF(LK2.GT.1.AND.LK2.LT.10)THEN
+ 20       IF(LK2>1.AND.LK2<10)THEN
            WRITE(FMT,'(A,I1,A)')'(I',LK2,')'
-          ELSEIF(LK2.LT.100)THEN
+          ELSEIF(LK2<100)THEN
            WRITE(FMT,'(A,I2,A)')'(I',LK2,')'
           ELSE
            GOTO 100
           ENDIF  
           READ(KEY2,FMT,ERR=990,END=990)MCYCLE
 C MCYCLE DESATIVE EN MULTIDOMAINES	  
-	  IF (IRAD2R.EQ.1) THEN
+	  IF (IRAD2R==1) THEN
 	    MSG_R2R = 1
 	    MCYCLE = 0
 	  ENDIF 	  
@@ -271,50 +271,50 @@ C
 C
          WRITE (IUSC3,'(A)',ERR=990)      ' RUN CONTROL FILE'
          WRITE (IUSC3,'(A,/)',ERR=990)    ' ----------------'
-         IF(TMAN.EQ.0.0.AND.MCYCLE.EQ.0)THEN
-         IF (MSG_R2R.EQ.1) THEN
+         IF(TMAN==0.0.AND.MCYCLE==0)THEN
+         IF (MSG_R2R==1) THEN
            WRITE (IUSC3,'(A)',ERR=990)
      .     ' MULTIDOMAINS -> /CYCLE NOT ALLOWED'
          ENDIF        
           WRITE(CARTE,'(A)')' AT CURRENT CYCLE'
-         ELSEIF(TMAN.EQ.0.0)THEN
+         ELSEIF(TMAN==0.0)THEN
           WRITE(CARTE,'(A,I10)')' AT CYCLE',MCYCLE
-         ELSEIF(MCYCLE.EQ.0)THEN
+         ELSEIF(MCYCLE==0)THEN
           WRITE(CARTE,'(A,G14.7)')' AT TIME ',TMAN
          ELSE
           WRITE(CARTE,'(A,G14.7,A,I10)')' IF TIME >=',TMAN,
      .    ' AND IF CYCLE >=',MCYCLE
          ENDIF
-         IF(MANIM0.EQ.1 .OR.MANIM0.EQ. 3.OR.
-     .      MANIM0.EQ.5 .OR.MANIM0.EQ. 7.OR.
-     .      MANIM0.EQ.9 .OR.MANIM0.EQ.11.OR.
-     .      MANIM0.EQ.13.OR.MANIM0.EQ.15)
+         IF(MANIM0==1 .OR.MANIM0== 3.OR.
+     .      MANIM0==5 .OR.MANIM0== 7.OR.
+     .      MANIM0==9 .OR.MANIM0==11.OR.
+     .      MANIM0==13.OR.MANIM0==15)
      .    WRITE(IUSC3,'(/A,A)',ERR=990)' WRITE NEXT PLOT FILE',CARTE
-         IF(MANIM0.EQ. 2.OR.MANIM0.EQ. 3.OR.
-     .      MANIM0.EQ. 6.OR.MANIM0.EQ. 7.OR.
-     .      MANIM0.EQ.10.OR.MANIM0.EQ.11.OR.
-     .      MANIM0.EQ.14.OR.MANIM0.EQ.15)
+         IF(MANIM0== 2.OR.MANIM0== 3.OR.
+     .      MANIM0== 6.OR.MANIM0== 7.OR.
+     .      MANIM0==10.OR.MANIM0==11.OR.
+     .      MANIM0==14.OR.MANIM0==15)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' WRITE NEXT PATRAN FILES',CARTE
-         IF(MANIM0.EQ. 4.OR.MANIM0.EQ. 5.OR.
-     .      MANIM0.EQ. 6.OR.MANIM0.EQ. 7.OR.
-     .      MANIM0.EQ.12.OR.MANIM0.EQ.13.OR.
-     .      MANIM0.EQ.14.OR.MANIM0.EQ.15)
+         IF(MANIM0== 4.OR.MANIM0== 5.OR.
+     .      MANIM0== 6.OR.MANIM0== 7.OR.
+     .      MANIM0==12.OR.MANIM0==13.OR.
+     .      MANIM0==14.OR.MANIM0==15)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' WRITE NEXT ANIMATION FILES',
      .                                  CARTE
-         IF(MANIM0.EQ. 8.OR.MANIM0.EQ. 9.OR.
-     .      MANIM0.EQ.10.OR.MANIM0.EQ.11.OR.
-     .      MANIM0.EQ.12.OR.MANIM0.EQ.13.OR.
-     .      MANIM0.EQ.14.OR.MANIM0.EQ.15)
+         IF(MANIM0== 8.OR.MANIM0== 9.OR.
+     .      MANIM0==10.OR.MANIM0==11.OR.
+     .      MANIM0==12.OR.MANIM0==13.OR.
+     .      MANIM0==14.OR.MANIM0==15)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' WRITE NEXT OUTPUT FILES',
      .                                  CARTE
-         IF(MREST0.EQ.1)
+         IF(MREST0==1)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' WRITE NEXT RESTART FILE',CARTE
-         IF(MSTOP0.EQ.1)
+         IF(MSTOP0==1)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' RUN STOP',CARTE
          IF(MH3D0 == 1)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' UPDATE H3D FILE', CARTE
          MFILR=1
-	 IF (IRAD2R.EQ.1) R2R_MFILR=1    
+	 IF (IRAD2R==1) R2R_MFILR=1    
          GOTO 999
  990    CONTINUE
         CLOSE (IUSC3)
@@ -327,8 +327,8 @@ C---------------------------------
 C     TRAITEMENT MULTIDOMAINES
 C---------------------------------
        
-       IF (IRAD2R.EQ.1) THEN
-         IF (ISPMD.EQ.0) THEN
+       IF (IRAD2R==1) THEN
+         IF (ISPMD==0) THEN
 C *** traitement flag mstop ***       
 	   MSTOP = R2R_MSTOP
            R2R_MSTOP = MSTOP0
@@ -354,10 +354,10 @@ C *** on applique les flags recus de rad2rad ***
 C---------------------------------
 C     ECHANGE MULTIPROCS
 C---------------------------------
-      IF((IANISENS.NE.0.OR.NLSENS.NE.0.OR.H3D_DATA%N_SENS_H3D.GT.0).OR.
-     .  ((NCYCLE/NCINP)*NCINP.EQ.NCYCLE).OR.
-     .  ((IRAD2R.EQ.1).AND.(MFILR.EQ.1))) THEN    
-          IF (ISPMD.EQ.0) THEN
+      IF((IANISENS/=0.OR.NLSENS/=0.OR.H3D_DATA%N_SENS_H3D>0).OR.
+     .  ((NCYCLE/NCINP)*NCINP==NCYCLE).OR.
+     .  ((IRAD2R==1).AND.(MFILR==1))) THEN    
+          IF (ISPMD==0) THEN
              TMPMAN(1) = MDESS
              TMPMAN(2) = MREST0
              TMPMAN(3) = MREST
@@ -374,7 +374,7 @@ C---------------------------------
              TMPMAN(14) = H3D_DATA%MH3D
            ENDIF
            IF(NSPMD > 1)CALL SPMD_RBCAST(TMPMAN,TMPMAN,1,14,0,2)
-           IF (ISPMD.NE.0)THEN
+           IF (ISPMD/=0)THEN
               MDESS  = NINT(TMPMAN(1))
               MREST0 = NINT(TMPMAN(2))
               MREST  = NINT(TMPMAN(3))
@@ -393,8 +393,8 @@ C---------------------------------
         ENDIF
 C---------------------------------
     
-      IF(MFILR.EQ.1)THEN
-       IF(TT.GE.TMAN.AND.NCYCLE.GE.MCYCLE)THEN
+      IF(MFILR==1)THEN
+       IF(TT>=TMAN.AND.NCYCLE>=MCYCLE)THEN
         MFILR=0
         MREST=MREST0
         MANIM=MANIM0

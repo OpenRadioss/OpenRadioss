@@ -162,25 +162,25 @@ C EXTRACT DATAS (REAL VALUES)
 C
 C CHECKS
 C
-       IF (ALPHA.EQ.0.) IFQ = 0
+       IF (ALPHA==0.) IFQ = 0
        ALPHA = ALPHA 
 
-       IF (FRICFORM.EQ.0) FRICFORM = 1
-       IF (FRICFORM.EQ.2.AND.IFQ.LT.10) IFQ = IFQ + 10
+       IF (FRICFORM==0) FRICFORM = 1
+       IF (FRICFORM==2.AND.IFQ<10) IFQ = IFQ + 10
 C
-       IF (IFQ.GT.0) THEN
-           IF (IFQ.EQ.10) XFILTR = ONE
-           IF (MOD(IFQ,10).EQ.1) XFILTR = ALPHA
-           IF (MOD(IFQ,10).EQ.2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
-           IF (MOD(IFQ,10).EQ.3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
-           IF (XFILTR.LT.ZERO) THEN
+       IF (IFQ>0) THEN
+           IF (IFQ==10) XFILTR = ONE
+           IF (MOD(IFQ,10)==1) XFILTR = ALPHA
+           IF (MOD(IFQ,10)==2) XFILTR=FOUR*ATAN2(ONE,ZERO) / ALPHA
+           IF (MOD(IFQ,10)==3) XFILTR=FOUR*ATAN2(ONE,ZERO) * ALPHA
+           IF (XFILTR<ZERO) THEN
               CALL ANCMSG(MSGID=1591,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=NOINTF,
      .                    C1=TITR,
      .                    R1=ALPHA)
-           ELSEIF (XFILTR.GT.1.AND.MOD(IFQ,10).LE.2) THEN
+           ELSEIF (XFILTR>1.AND.MOD(IFQ,10)<=2) THEN
                 CALL ANCMSG(MSGID=1591,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -197,9 +197,9 @@ C STORAGE IN TEMPARAY INTBUF_FRIC_TAB
 C
        IF(IFLAG == 1 ) THEN        
 
-          IF((FRIC.NE.ZERO.OR.MFROT.NE.0).AND.VISCF.EQ.ZERO)VISCF=ONE
+          IF((FRIC/=ZERO.OR.MFROT/=0).AND.VISCF==ZERO)VISCF=ONE
 
-          IF (FRICFORM.EQ.2)VISCF=ZERO
+          IF (FRICFORM==2)VISCF=ZERO
 
           TABCOEF_FRIC_TMP(NIF,1) = FRIC
           TABCOEF_FRIC_TMP(NIF,2) = VISCF
@@ -223,26 +223,26 @@ C          1st defaults
           ELSE
             WRITE(IOUT,1509) 
           ENDIF
-          IF(MFROT.EQ.0)THEN
+          IF(MFROT==0)THEN
              WRITE(IOUT,1503)  
-          ELSEIF(MFROT.EQ.1)THEN
+          ELSEIF(MFROT==1)THEN
             WRITE(IOUT,3505) 
-          ELSEIF(MFROT.EQ.2)THEN
+          ELSEIF(MFROT==2)THEN
             WRITE(IOUT,3506) 
-          ELSEIF(MFROT.EQ.3)THEN
+          ELSEIF(MFROT==3)THEN
             WRITE(IOUT,3507)  
           ENDIF
           WRITE(IOUT,1502)MOD(IFQ,10), XFILTR
           WRITE(IOUT,1501)
 
-          IF(MFROT.EQ.0)THEN
+          IF(MFROT==0)THEN
              WRITE(IOUT,3503)  FRIC
              IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-          ELSEIF(MFROT.EQ.1)THEN
+          ELSEIF(MFROT==1)THEN
             WRITE(IOUT,1504)  FRIC,C1,C2,C3,C4,C5,C6
-          ELSEIF(MFROT.EQ.2)THEN
+          ELSEIF(MFROT==2)THEN
             WRITE(IOUT,1505)  FRIC,C1,C2,C3,C4,C5,C6
-          ELSEIF(MFROT.EQ.3)THEN
+          ELSEIF(MFROT==3)THEN
             WRITE(IOUT,1506)  C1,C2,C3,C4,C5,C6
           ENDIF
        ENDIF
@@ -389,19 +389,19 @@ C
 C----CHECK coefficient values
 C
           IF(IFLAG == 1 ) THEN
-             IF((FRIC.NE.ZERO.OR.MFROT.NE.0).AND.VISCF.EQ.ZERO)VISCF=ONE
+             IF((FRIC/=ZERO.OR.MFROT/=0).AND.VISCF==ZERO)VISCF=ONE
 
-             IF (FRICFORM.EQ.2)VISCF=ZERO
+             IF (FRICFORM==2)VISCF=ZERO
 
              IF(IDIR > 0) THEN
 
-                IF((FRIC2.NE.ZERO.OR.MFROT.NE.0).AND.VISCF2.EQ.ZERO)VISCF2=ONE
+                IF((FRIC2/=ZERO.OR.MFROT/=0).AND.VISCF2==ZERO)VISCF2=ONE
 
-                IF (FRICFORM.EQ.2)VISCF2=ZERO
+                IF (FRICFORM==2)VISCF2=ZERO
 
-                IF((FRIC2.NE.ZERO.OR.MFROT.NE.0).AND.VISCF2.EQ.ZERO)VISCF2=ONE
+                IF((FRIC2/=ZERO.OR.MFROT/=0).AND.VISCF2==ZERO)VISCF2=ONE
 
-                IF (FRICFORM.EQ.2)VISCF2=ZERO
+                IF (FRICFORM==2)VISCF2=ZERO
 
               ENDIF
           ENDIF
@@ -489,38 +489,38 @@ C
                 WRITE (IOUT,2001) IPART(4,N1),IPART(4,N2)
                 IF(IDIR==0) THEN
                   WRITE(IOUT,1510)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                     WRITE(IOUT,3503) FRIC
                     IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                     WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                     WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                     WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                   ENDIF
                 ELSE
                   WRITE(IOUT,1511)
                   WRITE(IOUT,1512)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                     WRITE(IOUT,3503) FRIC
                     IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                     WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                     WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                     WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                   ENDIF
                   WRITE(IOUT,1513)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                     WRITE(IOUT,3503) FRIC2
                     IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF2
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                     WRITE(IOUT,1504) FRIC2,C11,C22,C33,C44,C55,C66
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                     WRITE(IOUT,1505)FRIC2,C11,C22,C33,C44,C55,C66
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                     WRITE(IOUT,1506)C11,C22,C33,C44,C55,C66
                   ENDIF
                 ENDIF
@@ -705,38 +705,38 @@ C--Output--
      .             IPART(4,N1),GRPART2
                 IF(IDIR==0) THEN
                    WRITE(IOUT,1510)
-                   IF(MFROT.EQ.0)THEN
+                   IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                   ELSEIF(MFROT.EQ.1)THEN
+                   ELSEIF(MFROT==1)THEN
                       WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                   ELSEIF(MFROT.EQ.2)THEN
+                   ELSEIF(MFROT==2)THEN
                       WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                   ELSEIF(MFROT.EQ.3)THEN
+                   ELSEIF(MFROT==3)THEN
                       WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                    ENDIF
                 ELSE
                    WRITE(IOUT,1511)
                    WRITE(IOUT,1512)
-                   IF(MFROT.EQ.0)THEN
+                   IF(MFROT==0)THEN
                       WRITE(IOUT,3503) FRIC
                       IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                   ELSEIF(MFROT.EQ.1)THEN
+                   ELSEIF(MFROT==1)THEN
                       WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                   ELSEIF(MFROT.EQ.2)THEN
+                   ELSEIF(MFROT==2)THEN
                       WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                   ELSEIF(MFROT.EQ.3)THEN
+                   ELSEIF(MFROT==3)THEN
                       WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                    ENDIF
                    WRITE(IOUT,1513)
-                   IF(MFROT.EQ.0)THEN
+                   IF(MFROT==0)THEN
                       WRITE(IOUT,3503) FRIC2
                       IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF2
-                   ELSEIF(MFROT.EQ.1)THEN
+                   ELSEIF(MFROT==1)THEN
                       WRITE(IOUT,1504) FRIC2,C11,C22,C33,C44,C55,C66
-                   ELSEIF(MFROT.EQ.2)THEN
+                   ELSEIF(MFROT==2)THEN
                       WRITE(IOUT,1505)FRIC2,C11,C22,C33,C44,C55,C66
-                   ELSEIF(MFROT.EQ.3)THEN
+                   ELSEIF(MFROT==3)THEN
                       WRITE(IOUT,1506)C11,C22,C33,C44,C55,C66
                    ENDIF
                 ENDIF
@@ -916,38 +916,38 @@ C--Output--
      .             GRPART1,IPART(4,N2)
                IF(IDIR==0) THEN
                   WRITE(IOUT,1510)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                      WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                      WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                      WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                   ENDIF
                ELSE
                   WRITE(IOUT,1511)
                   WRITE(IOUT,1512)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                       WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                      WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                      WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                   ENDIF
                   WRITE(IOUT,1513)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC2
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF2
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                      WRITE(IOUT,1504) FRIC2,C11,C22,C33,C44,C55,C66
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                      WRITE(IOUT,1505)FRIC2,C11,C22,C33,C44,C55,C66
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                      WRITE(IOUT,1506)C11,C22,C33,C44,C55,C66
                   ENDIF
                ENDIF
@@ -1214,38 +1214,38 @@ C--Output--
      .             GRPART1,GRPART2
                IF(IDIR==0) THEN
                   WRITE(IOUT,1510)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                      WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                      WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                      WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                   ENDIF
                ELSE
                   WRITE(IOUT,1511)
                   WRITE(IOUT,1512)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                      WRITE(IOUT,1504) FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                      WRITE(IOUT,1505)FRIC,C1,C2,C3,C4,C5,C6
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                      WRITE(IOUT,1506)C1,C2,C3,C4,C5,C6
                   ENDIF
                   WRITE(IOUT,1513)
-                  IF(MFROT.EQ.0)THEN
+                  IF(MFROT==0)THEN
                      WRITE(IOUT,3503) FRIC2
                      IF(FRICFORM /= 2) WRITE(IOUT,3504) VISCF2
-                  ELSEIF(MFROT.EQ.1)THEN
+                  ELSEIF(MFROT==1)THEN
                      WRITE(IOUT,1504) FRIC2,C11,C22,C33,C44,C55,C66
-                  ELSEIF(MFROT.EQ.2)THEN
+                  ELSEIF(MFROT==2)THEN
                      WRITE(IOUT,1505)FRIC2,C11,C22,C33,C44,C55,C66
-                  ELSEIF(MFROT.EQ.3)THEN
+                  ELSEIF(MFROT==3)THEN
                      WRITE(IOUT,1506)C11,C22,C33,C44,C55,C66
                   ENDIF
                ENDIF

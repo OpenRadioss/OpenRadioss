@@ -113,11 +113,11 @@ C-----------------------------------------------
      .   V87a(MVSIZ,3), V87b(MVSIZ,3)
       INTEGER I,J,IADBUF,IFLG, MX
 C-----------------------------------------------
-      IF(UPWM.EQ.0.AND.IPARG1(64)==1)RETURN   !silent boundary
+      IF(UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
 C-----------------------------------------------
 C  MULTIMATERIAL LAW 51
 C-----------------------------------------------
-      IF(MTN.EQ.51 .AND. UPWM.NE.3 .AND. IPARG1(64)==0)THEN
+      IF(MTN==51 .AND. UPWM/=3 .AND. IPARG1(64)==0)THEN
       !-------------------------------------------------------!
       !     Forces de transports calculees par volume fini    !
       !   DMi = 0.5*DT1*QMV(i,I)  masse entrant par la face i !
@@ -125,7 +125,7 @@ C-----------------------------------------------
       IADBUF = NINT(PM(27,MAT(1)))
       IFLG = NINT(BUFMAT(31+IADBUF-1))
  
-       IF(IFLG.GT.1)RETURN
+       IF(IFLG>1)RETURN
 
        !momentum advection with UPWIND method only. Even if SUPG or TG are activated. (UPSM=2 or 3)   
        MX = MAT(LFT)       
@@ -240,7 +240,7 @@ C-----------------------------------------------
       !     SUPG & TG      !
       !    R,S,T frame     !
       !--------------------!
-      IF(UPWM.GT.1)THEN
+      IF(UPWM>1)THEN
        DO I=LFT,LLT
         V12(I,1)=X2(I)-X1(I)
         V12(I,2)=Y2(I)-Y1(I)
@@ -342,7 +342,7 @@ C-----------------------------------------------
       ! UPWIND STANDARD (upwm<2)                           !
       ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE          !
       !----------------------------------------------------!
-      IF(UPWM.LE.1 .OR.IPARG1(64)==1)THEN
+      IF(UPWM<=1 .OR.IPARG1(64)==1)THEN
       
        IF((IPARG1(64)==1))THEN
        ! VDX,VDY,VDZ EST CALCULE DANS M11VS3 OU M51VS3
@@ -357,7 +357,7 @@ C-----------------------------------------------
          A4(I) = SIGN(ONE,A4(I))        
         ENDDO
        ELSE
-        IF(UPWM.EQ.ZERO)THEN
+        IF(UPWM==ZERO)THEN
          MX = MAT(LFT)
          DO I=LFT,LLT
           GAM(I)= PM(15,MX)

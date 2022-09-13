@@ -108,7 +108,7 @@ C---------------------
 C----------------------
       CALL MY_BARRIER
 C---------------------
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(71,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(71,1)
       DO M = 1,M_VS1
         CALL SMS_MAV_LT2(
      1          NODFT   ,NODLT  ,NUMNOD ,IADK  ,JDIK  ,
@@ -122,14 +122,14 @@ C----------------------
         CALL MY_BARRIER
 C---------------------
       END DO !M = 1,M_VS1
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(71,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(71,1)
 C---------------------- 
 C        [k0]=[S]^t[T]
 C---------------------
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(72,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(72,1)
       CALL SMS_MAM_NM(NODFT  ,NODLT  ,NUMNOD,M_VS1,PROJ_S ,
      .             PROJ_T ,PROJ_K ,WEIGHT ,ITASK   )
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(72,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(72,1)
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -244,10 +244,10 @@ C----------------------
 C----------------------
 C        {W}=[S]^t{R}
 C---------------------
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(72,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(72,1)
       CALL SMS_MAV_NM(NODFT,NODLT,NUMNOD ,NPV   ,PROJ_S ,
      .                R    ,PROJ_W,WEIGHT,ITASK )
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(72,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(72,1)
 C----------------------
       CALL MY_BARRIER
 C----------------------
@@ -266,9 +266,9 @@ C---------------------
 C---------------------
 C       {X0}=[S]{W}
 C---------------------
-       IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(73,1)
+       IF(IMONM>0.AND.ITASK==0)CALL STARTIME(73,1)
        CALL SMS_MAV_MN(NUMNOD ,NPV   ,PROJ_S ,PROJ_W ,X  ,ITASK )
-       IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(73,1)
+       IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(73,1)
 C----------------------
       END IF !(ITASK ==0) THEN
 C----------------------
@@ -360,10 +360,10 @@ C----------------------
 C----------------------
 C        {W}=[T]^t{p}
 C---------------------
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(73,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STARTIME(73,1)
       CALL SMS_MAV_NM(NODFT,NODLT,NUMNOD ,NPV  ,PROJ_T ,
      .                P   ,PROJ_W ,WEIGHT,ITASK )
-      IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(73,1)
+      IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(73,1)
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -381,9 +381,9 @@ C---------------------
 C----------------------
 C       {p}=[S]{W}
 C---------------------
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STARTIME(73,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STARTIME(73,1)
         CALL SMS_MAV_MN(NUMNOD,NPV   ,PROJ_S ,PROJ_W  ,PJ  ,ITASK )
-        IF(IMONM.GT.0.AND.ITASK==0)CALL STOPTIME(73,1)
+        IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(73,1)
       END IF
 C----------------------
       CALL MY_BARRIER
@@ -725,7 +725,7 @@ C-----------------------------------------------
       DOUBLE PRECISION R6T(6), DBUF(6)
 C-----------------------------
       IF(IPARIT==0)THEN
-        IF (ITASK.EQ.0) R_N2_SMS = ZERO
+        IF (ITASK==0) R_N2_SMS = ZERO
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -850,7 +850,7 @@ C-----------------------------------------------
       DOUBLE PRECISION R6(6,3,MVSIZ), R6T(3,6), DBUF(3,6)
 C-----------------------------
       IF(IPARIT==0)THEN
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
          R_N2_SMS1 = ZERO
          R_N2_SMS2 = ZERO
          R_N2_SMS3 = ZERO

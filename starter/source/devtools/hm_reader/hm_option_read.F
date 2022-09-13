@@ -92,7 +92,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------
-      IF(SUB_INDEX .NE. 0 .AND. ID .NE. 0)THEN
+      IF(SUB_INDEX /= 0 .AND. ID /= 0)THEN
         IF(OFFSET_CATEGORY == 1)THEN
           ID = ID + LSUBMODEL(SUB_INDEX)%OFF_EL
         ELSEIF(OFFSET_CATEGORY == 2)THEN
@@ -113,10 +113,10 @@ c          ID = ID + LSUBMODEL(SUB_INDEX)%OFF_SUBMOD
           ID = ID + LSUBMODEL(SUB_INDEX)%OFF_DEF
         ENDIF
       ENDIF
-      IF(SUB_INDEX .NE. 0 .AND. UID .NE. 0)THEN
+      IF(SUB_INDEX /= 0 .AND. UID /= 0)THEN
         UID = UID + LSUBMODEL(SUB_INDEX)%OFF_DEF
-      ELSEIF(SUB_INDEX .NE. 0 )THEN
-        IF(LSUBMODEL(SUB_INDEX)%UID .NE. 0)THEN
+      ELSEIF(SUB_INDEX /= 0 )THEN
+        IF(LSUBMODEL(SUB_INDEX)%UID /= 0)THEN
           UID = LSUBMODEL(SUB_INDEX)%UID
         ENDIF
       ENDIF

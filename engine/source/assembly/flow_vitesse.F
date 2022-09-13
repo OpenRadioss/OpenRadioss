@@ -85,7 +85,7 @@ C
         ENDIF    
       ENDDO
 C
-      IF(ISIGI.EQ.2.OR.ISIGI.EQ.4) THEN
+      IF(ISIGI==2.OR.ISIGI==4) THEN
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
           IF(NALE(N) == 3) THEN

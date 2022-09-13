@@ -72,21 +72,21 @@ C------------parallelisation ici----
        CALL GET_SUBA(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
      .               NC    ,JM    ,A     ,MAXC   ,MAXA  ,
      .               I     ,M     ,MJ     )
-       IF (M.GT.MAXA) WRITE(*,*)'M>MAXB',M,MAXA
+       IF (M>MAXA) WRITE(*,*)'M>MAXB',M,MAXA
 C       write(*,*)'m,n,i=',m,nc(i),i
        CALL IMP_SAIC(M     ,NC(I) ,A     ,MJ     ,MAXA  )
 C------------post-filtrage----
         DO K =1,NC(I)
          J=JM(K,I)
-         IF (J.EQ.I) THEN
+         IF (J==I) THEN
            DIAG_M(I)=MJ(K)
-           IF (DIAG_M(I).LE.EM20) NNE=NNE+1
+           IF (DIAG_M(I)<=EM20) NNE=NNE+1
          ELSE
           I1=MIN(I,J)
           PSR = TOL*ABS(DIAG_M(I1))
-          IF (ABS(MJ(K)).GE.PSR) THEN
+          IF (ABS(MJ(K))>=PSR) THEN
            NNZM = NNZM+1
-           IF (NNZM.GT.MAX_L) THEN
+           IF (NNZM>MAX_L) THEN
              WRITE(*,*)'NNZM>MAX_L',NNZM,MAXC,I
              CALL ARRET(2)
            ENDIF
@@ -195,11 +195,11 @@ C------d'abord NxN-----------
        EXTN(I)=.FALSE.
        M=M+1
 c       write(*,*)'I1,IM,M=',I1,IM,M
-       IF (I.EQ.IM) THEN
+       IF (I==IM) THEN
         N=1
         IUN=M
  100    J=JM(N,IM)
-        IF (J.LT.I) THEN
+        IF (J<I) THEN
          CALL GET_KIJS(J  ,I ,IADK,JDIK,LT_K ,A(M,N))
          N=N+1
          GOTO 100
@@ -214,9 +214,9 @@ C------A(M,N)=DIAG_K(I)------
        ELSE
          DO K=1,NC(IM)
           J=JM(K,IM)
-          IF (J.LT.I) THEN
+          IF (J<I) THEN
            CALL GET_KIJS(J  ,I ,IADK,JDIK,LT_K ,A(M,K))
-          ELSEIF (J.EQ.I) THEN
+          ELSEIF (J==I) THEN
            A(M,K)=DIAG_K(I)
           ELSE
            CALL GET_KIJS(I  ,J ,IADK,JDIK,LT_K ,A(M,K))
@@ -228,17 +228,17 @@ C------ajoute autres lignes-----------
       DO I=1,NDDL
        IF (EXTN(I)) THEN
         N=INTAB2(NC(IM),JM(1,IM),NC(I),JM(1,I))
-        IF (N.GT.0) THEN
-         IF(M.EQ.MAXA) write(*,*)'mem',N,I
+        IF (N>0) THEN
+         IF(M==MAXA) write(*,*)'mem',N,I
          M=M+1
          DO K=1,N-1
           A(M,K)=ZERO
          ENDDO
          DO K=N,NC(IM)
           J=JM(K,IM)
-          IF (J.LT.I) THEN
+          IF (J<I) THEN
            CALL GET_KIJS(J  ,I ,IADK,JDIK,LT_K ,A(M,K))
-          ELSEIF (J.EQ.I) THEN
+          ELSEIF (J==I) THEN
            A(M,K)=DIAG_K(I)
           ELSE
            CALL GET_KIJS(I  ,J ,IADK,JDIK,LT_K ,A(M,K))
@@ -295,7 +295,7 @@ C------------Qi=1-u(i)u(i)^t/tau(i)--------------------------------
        DO I=J,M
         SCAL=MAX(SCAL,ABS(A(I,J)))
        ENDDO 
-       IF (SCAL.EQ.ZERO) THEN
+       IF (SCAL==ZERO) THEN
         TAU(J)=ZERO 
         D_R(J)=ZERO
         WRITE(*,*)'SIGNULAR A' 
@@ -451,7 +451,7 @@ C----6---------------------------------------------------------------7---------8
         K0=IADK(I)
         NL=IADK(I+1)-K0
         N=INTAB0(NL,JDIK(K0),J)
-        IF (N.GT.0) THEN
+        IF (N>0) THEN
          KIJ=K_LT(N+K0-1)
         ELSE
          KIJ=ZERO

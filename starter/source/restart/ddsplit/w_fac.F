@@ -61,7 +61,7 @@ C
       NB_L = 0
 C
       DO I = 1, NCONLD
-        IF(CEP(I+OFF).EQ.PROC) THEN
+        IF(CEP(I+OFF)==PROC) THEN
            NB_L = NB_L + 1
           DO J = 1, LFACCLD
             FACTMP(J,NB_L) = FAC(J,I)

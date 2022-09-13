@@ -199,7 +199,7 @@ C
 C-------------------------
 C     ASSEMBLE
 C-------------------------
-      IF (IVECTOR.EQ.1) THEN
+      IF (IVECTOR==1) THEN
 #include "vectorize.inc"
         DO I=LFT,LLT
           II = I +NFT

@@ -59,7 +59,7 @@ C
       IE_L = 0
 C
       DO I = 1, NUMSPH
-        IF(CEPSP(I).EQ.PROC) THEN
+        IF(CEPSP(I)==PROC) THEN
           IE_L = IE_L + 1
           SKEW_L(1,IE_L) = SKEW(1,I)
           SKEW_L(2,IE_L) = SKEW(2,I)

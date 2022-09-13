@@ -65,7 +65,7 @@ C-----------------------------------------------
       CHARACTER*256 CBUF1,CBUF2
       INTEGER LENR(5)
 
-      IF (ISPMD.EQ.0) THEN
+      IF (ISPMD==0) THEN
         DO I=2,NSPMD
           MSGTYP = MSGOFF
           CALL MPI_RECV(
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .      CBUF2,LENR(2),MPI_CHARACTER,IT_SPMD(I),MSGTYP,
      .      MPI_COMM_WORLD,STATUS,IERROR)
 
-          IF (MEM.GT.-1)THEN
+          IF (MEM>-1)THEN
            WRITE(IOUT,'(I4,A,A,A,A,A,I4,A,I6,A,I6,A)') I,'   ',
      .     CBUF1(1:LENR(1)),'   ',CBUF2(1:LENR(2)),', ',LENR(3),
      .     ' MHz, ',LENR(4),' MB RAM, ',LENR(5),' MB swap'

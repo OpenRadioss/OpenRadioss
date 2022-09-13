@@ -135,14 +135,14 @@ C
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
-      IF(STARTT.GT.TT) RETURN
-      IF(TT.GT.STOPT)  RETURN
+      IF(STARTT>TT) RETURN
+      IF(TT>STOPT)  RETURN
 C
       GAP  = INTBUF_TAB%VARIABLES(2)
       DRAD =INTBUF_TAB%VARIABLES(24)
       DIST = INTBUF_TAB%VARIABLES(5)
       DGAPLOAD =INTBUF_TAB%VARIABLES(46)
-      IF (DIST.GT.ZERO) RETURN
+      IF (DIST>ZERO) RETURN
       RETRI=1
 C -------------------------------------------------------------
 C
@@ -215,10 +215,10 @@ C BARRIER II_STOK et RESULT
 C -------------------------------------------------------------
 C a conserver pour cas inacti est modifie sur p0
       INACTI=IPARI(22,NIN)
-      IF(ITASK.EQ.0)THEN
-        IF(ABS(BMINMA(6)-BMINMA(3)).GT.2*EP30.OR.
-     +     ABS(BMINMA(5)-BMINMA(2)).GT.2*EP30.OR.
-     +     ABS(BMINMA(4)-BMINMA(1)).GT.2*EP30)THEN
+      IF(ITASK==0)THEN
+        IF(ABS(BMINMA(6)-BMINMA(3))>2*EP30.OR.
+     +     ABS(BMINMA(5)-BMINMA(2))>2*EP30.OR.
+     +     ABS(BMINMA(4)-BMINMA(1))>2*EP30)THEN
           CALL ANCMSG(MSGID=87,ANMODE=ANINFO,
      .                I1=NOINT,C1='(I7BUCE)')
           CALL ARRET(2)
@@ -243,7 +243,7 @@ C
 
       IF(NSPMD > 1) THEN
 
-        IF(ITASK.EQ.0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
+        IF(ITASK==0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
 
         CALL MY_BARRIER
 
@@ -256,7 +256,7 @@ C
  
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
-        IF(ITASK.EQ.0)THEN
+        IF(ITASK==0)THEN
 C
 C recuperation des noeuds remote NSNR stockes dans XREM
 C	  
@@ -288,7 +288,7 @@ C -------------------------------------------------------------
       CAND_N_OLD = INTBUF_TAB%I_STOK(1)
  40   CONTINUE
 
-      IF(ITASK.EQ.0)THEN
+      IF(ITASK==0)THEN
         IF(IFORM == 2) THEN
           IF (ALLOCATED(OLDINBUF1)) DEALLOCATE(OLDINBUF1)
           IF (ALLOCATED(OLDINBUF2)) DEALLOCATE(OLDINBUF2)
@@ -312,7 +312,7 @@ C
 C Barrier comm spmd_tri11box + BMINMA + Retour I7BUCE
 C      
  50   CALL MY_BARRIER
-      !IF(NRTM_T.NE.0.OR.ITASK.EQ.0)
+      !IF(NRTM_T/=0.OR.ITASK==0)
 c      CALL I11BUCE(
 c    1   X     ,INTBUF_TAB%IRECTS   ,INTBUF_TAB%IRECTM(1+2*ESHIFT) ,NRTS ,NMN  ,
 c    2   NRTM_T,NSN                 ,INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,GAP  ,
@@ -392,9 +392,9 @@ c       IF(MULTIMP > 200) STOP
 C--------------------------------------------------------------
 C--------------------------------------------------------------
       CALL MY_BARRIER
-      IF (RESULT.NE.0) THEN
+      IF (RESULT/=0) THEN
         CALL MY_BARRIER
-        IF (ITASK.EQ.0) THEN
+        IF (ITASK==0) THEN
           INTBUF_TAB%I_STOK(1) = I_SK_OLD
           RESULT = 0
         ENDIF
@@ -405,7 +405,7 @@ C--------------------------------------------------------------
         TZINF  = INTBUF_TAB%VARIABLES(8)
         GOTO 50
       ENDIF
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
 C mono tache
 !$OMP SINGLE
         IF (IMONM > 0) CALL STARTIME(26,1)

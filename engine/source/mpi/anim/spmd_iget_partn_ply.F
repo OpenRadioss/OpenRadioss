@@ -80,7 +80,7 @@ C-----------------------------------------------
       ALLOCATE(RBUF2(SRBUF))
       ALLOCATE(NPT(NBF_L))
 
-      IF (ISPMD.NE.0) THEN
+      IF (ISPMD/=0) THEN
         MSGTYP=MSGOFF
 
         CALL MPI_SEND(NP,NBF_L,MPI_INTEGER,IT_SPMD(1),MSGTYP,
@@ -110,17 +110,17 @@ C
         DO N = 1, NBPART
           IPLY=INDX_PLY(N)
           DO K = 1, NSPMD
-            IF (N.GT.1) THEN
+            IF (N>1) THEN
               LEN = (IADG(K,N) - IADG(K,N-1))*SIZE
             ELSE
               LEN = IADG(K,N)*SIZE
             ENDIF
-            IF (IFLAG.EQ.1) THEN
+            IF (IFLAG==1) THEN
               DO I=IADP(K), IADP(K)+LEN-1
                 RBUF(I) = RBUF(I)+IDPLY
               ENDDO
               CALL WRITE_I_C(RBUF(IADP(K)),LEN)
-            ELSEIF(IFLAG.EQ.2) THEN
+            ELSEIF(IFLAG==2) THEN
               CALL WRITE_C_C(RBUF(IADP(K)),LEN)
             ENDIF
             IADP(K) = IADP(K) + LEN

@@ -137,7 +137,7 @@ C*********************************************
       JJ = 0
 C
       IE=0
-      IF (DYNAIN_NUMELC.NE.0) THEN
+      IF (DYNAIN_NUMELC/=0) THEN
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
@@ -1128,7 +1128,7 @@ C***********************************************
       JJ = 0
       IE=0
 C
-      IF(DYNAIN_NUMELTG.NE.0) THEN
+      IF(DYNAIN_NUMELTG/=0) THEN
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN

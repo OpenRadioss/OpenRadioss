@@ -74,7 +74,7 @@ C
             ENDDO
          ENDDO
 
-         IF (ITYP.EQ.1) THEN
+         IF (ITYP==1) THEN
 C
             NINOUT=IFLOW(IADI+4)
             NNN=IFLOW(IADI+7)
@@ -83,9 +83,9 @@ C
             JJ=0
             DO J=1,NNO
                JJ=JJ+1
-               IF (JJ.EQ.NBLOC+1) THEN
+               IF (JJ==NBLOC+1) THEN
                   PP=PP+1
-                  IF (PP.EQ.NPROW+1) PP=1
+                  IF (PP==NPROW+1) PP=1
                   JJ=1
                ENDIF
                IFLOW(IADL+J)=PP  !IBUFR
@@ -94,9 +94,9 @@ C
             JJ=0
             DO J=1,NNO
                JJ=JJ+1
-               IF (JJ.EQ.NBLOC+1) THEN
+               IF (JJ==NBLOC+1) THEN
                   PP=PP+1
-                  IF (PP.EQ.NPCOL+1) PP=1
+                  IF (PP==NPCOL+1) PP=1
                   JJ=1
                ENDIF
                IFLOW(IADL+NNO+J)=PP  !IBUFC
@@ -107,9 +107,9 @@ C
             JJ=0
             DO J=1,NEL
                JJ=JJ+1
-               IF (JJ.EQ.NBLOC+1) THEN
+               IF (JJ==NBLOC+1) THEN
                   PP=PP+1
-                  IF (PP.EQ.NPROW+1) PP=1
+                  IF (PP==NPROW+1) PP=1
                   JJ=1
                ENDIF
                IFLOW(IADL+J)=PP   !IBUFELR
@@ -118,9 +118,9 @@ C
             JJ=0
             DO J=1,NEL
                JJ=JJ+1
-               IF (JJ.EQ.NBLOC+1) THEN
+               IF (JJ==NBLOC+1) THEN
                   PP=PP+1
-                  IF (PP.EQ.NPCOL+1) PP=1
+                  IF (PP==NPCOL+1) PP=1
                   JJ=1
                ENDIF
                IFLOW(IADL+NEL+J)=PP  !IBUFELC
@@ -168,9 +168,9 @@ C IBUFELR ligne des elements dans la Process Grid
             JJ=0
             DO J=1,NEL
                JJ=JJ+1
-               IF (JJ.EQ.NBLOC+1) THEN
+               IF (JJ==NBLOC+1) THEN
                   PP=PP+1
-                  IF (PP.EQ.NPROW+1) PP=1
+                  IF (PP==NPROW+1) PP=1
                   JJ=1
                ENDIF
                IFLOW(IADL+J)=PP   !IBUFELR
@@ -181,9 +181,9 @@ C IBUFELC colonne des elements dans la Process Grid
             JJ=0
             DO J=1,NEL
                JJ=JJ+1
-               IF (JJ.EQ.NBLOC+1) THEN
+               IF (JJ==NBLOC+1) THEN
                   PP=PP+1
-                  IF (PP.EQ.NPCOL+1) PP=1
+                  IF (PP==NPCOL+1) PP=1
                   JJ=1
                ENDIF
                IFLOW(IADL+J)=PP  !IBUFELC

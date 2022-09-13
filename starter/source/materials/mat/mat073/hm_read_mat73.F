@@ -146,7 +146,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV_DIM('MAT_PScale'  ,FAC_FREQ    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !========== DEFAULT VALUES=============!              
       RHOR=RHO0
-      IF(RHOR.EQ.ZERO)RHOR=RHO0
+      IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 !!

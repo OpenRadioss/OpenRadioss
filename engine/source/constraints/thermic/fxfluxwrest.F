@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
-      IF (IRFORM/5.LE.1) THEN
+      IF (IRFORM/5<=1) THEN
         CALL WRTSQR (FBFFLUX,LFACTHER*NFXFLUX,IRFORM)
         CALL WRTSQI (IBFFLUX,NITFLUX*NFXFLUX,IRFORM)
       ELSE

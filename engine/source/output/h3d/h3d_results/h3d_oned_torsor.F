@@ -77,7 +77,7 @@ C     REAL
 C-----------------------------------------------
 C
        DO NG=1,NGROUP
-C       IF(ANIM_K.EQ.0.AND.IPARG(8,NG).EQ.1)GOTO 490
+C       IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
         MLW   =IPARG(1,NG)
         NEL   =IPARG(2,NG)
         NFT   =IPARG(3,NG)
@@ -107,13 +107,13 @@ c
           ENDIF
         ENDDO 
 
-        IF(ITY.EQ.4 .OR. ITY.EQ.5 .OR. ITY.EQ.6)THEN
+        IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
           DO I=1,NEL
             ONED_TORSOR(1:9,OFFSET+NFT+I) = ZERO   ! Default = zero in all cases !
           ENDDO
         ENDIF
 c
-        IF(ITY.EQ.4)THEN
+        IF(ITY==4)THEN
 C-----------------------------------------------
           IF (KEYWORD == 'F1') THEN
 C------------------------------------------------
@@ -182,7 +182,7 @@ C------------------------------------------------
           CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
      .          		   EVAR)
 
-        ELSEIF(ITY.EQ.5)THEN
+        ELSEIF(ITY==5)THEN
 C-----------------------------------------------
           IF (KEYWORD == 'F1') THEN
 C------------------------------------------------
@@ -250,7 +250,7 @@ C------------------------------------------------
 
           CALL H3D_WRITE_TORSOR(IOK_PART,IS_WRITTEN_ONED,ONED_TORSOR,NEL,OFFSET,NFT,
      .          		   EVAR)
-        ELSEIF(ITY.EQ.6)THEN
+        ELSEIF(ITY==6)THEN
 C-----------------------------------------------
           IF (KEYWORD == 'F1') THEN
 C------------------------------------------------

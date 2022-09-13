@@ -107,23 +107,23 @@ C-----------------------------------------------
 
       DO I=1,NSPHIO
        ITYPE=ISPHIO(1,I)
-       IF(ITYPE.EQ.1)THEN
+       IF(ITYPE==1)THEN
 C------
        IFVITS=ISPHIO(8,I)
        VN    =ZERO
-       IF(IFVITS.NE.0)THEN
+       IF(IFVITS/=0)THEN
         NPF = (NPC(IFVITS+1)-NPC(IFVITS))/2
         II  = NPC(IFVITS)
-        IF (T05.LE.PLD(II)) THEN
+        IF (T05<=PLD(II)) THEN
           PENTV=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
           VN   =PLD(II+1)+PENTV*(T05-PLD(II))
-        ELSEIF (T05.GE.PLD(II+2*(NPF-1))) THEN
+        ELSEIF (T05>=PLD(II+2*(NPF-1))) THEN
           JJ=II+2*(NPF-1)
           PENTV=(PLD(JJ+1)-PLD(JJ-1))/(PLD(JJ)-PLD(JJ-2))
           VN   =PLD(JJ+1)+MAX(-PLD(JJ+1),PENTV*(T05-PLD(JJ)))
         ELSE
           DO IPT=1,NPF-1
-           IF (PLD(II).LE.T05.AND.T05.LE.PLD(II+2)) THEN
+           IF (PLD(II)<=T05.AND.T05<=PLD(II+2)) THEN
             PENTV=(PLD(II+3)-PLD(II+1))/(PLD(II+2)-PLD(II))
             VN   =PLD(II+1)+PENTV*(T05-PLD(II))
             GOTO 10
@@ -144,9 +144,9 @@ C
       DO NS=1,NSPHACT
       N=WASPACT(NS)
       IMPOSE=KXSP(2,N)/(NGROUP+1)
-      IF(IMPOSE.NE.0)THEN
+      IF(IMPOSE/=0)THEN
        ITYPE=ISPHIO(1,IMPOSE)
-       IF(ITYPE.EQ.1)THEN
+       IF(ITYPE==1)THEN
 C------
           VN=WA(IMPOSE)
 C------
@@ -173,7 +173,7 @@ C------
 C-----------------------------------------------
 C Comm D et A sur cellules remotes
 C-----------------------------------------------
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
           ALLOCATE(ASPHR(3,NSPHR))
           ALLOCATE(DSPHR(12,NSPHR))
           CALL SPMD_SPHGETA(KXSP,SPBUF,A,ASPHR)
@@ -188,7 +188,7 @@ C-------------------------------------------
        IMPOSE=KXSP(2,N)/(NGROUP+1)
        lBOOL=.FALSE.
        IF(IMPOSE /= 0)THEN
-         IF(ISPHIO(1,IMPOSE).EQ.2.OR.ISPHIO(1,IMPOSE).EQ.3)lBOOL=.TRUE.       
+         IF(ISPHIO(1,IMPOSE)==2.OR.ISPHIO(1,IMPOSE)==3)lBOOL=.TRUE.       
        ENDIF
        IF(lBOOL)THEN
           INOD=KXSP(3,N)
@@ -202,7 +202,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
           DO  K=1,KXSP(4,N)  
            JNOD=IXSP(K,N)
   
-           IF(JNOD.GT.0)THEN
+           IF(JNOD>0)THEN
              M   =NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
@@ -216,7 +216,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
                YJ  =X(2,JNOD)
                ZJ  =X(3,JNOD)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -224,17 +224,17 @@ C         plus proche voisin en amont de l'outlet => IPPV.
            ELSE
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
                ZJ  =XSPHR(5,NN)
                DD  =(XI-XJ)*(XI-XJ)+(YI-YJ)*(YI-YJ)+(ZI-ZJ)*(ZI-ZJ)
-               IF(DD.LT.DMIN)THEN
+               IF(DD<DMIN)THEN
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
@@ -243,7 +243,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
           ENDDO
 C-------
 C         calcule grad.v en IPPV (approximation sph corrigee en amont de IPPV).
-          IF(IPPV.GT.0)THEN
+          IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             XP=X(1,IPPV)
             YP=X(2,IPPV)
@@ -262,7 +262,7 @@ C         calcule grad.v en IPPV (approximation sph corrigee en amont de IPPV).
            JNOD=IXSP(J,NP)
 
 c partie JNOD > 0
-           IF(JNOD.GT.0)THEN          ! particule locale
+           IF(JNOD>0)THEN          ! particule locale
              M=NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
@@ -289,12 +289,12 @@ c partie JNOD > 0
              NN = -JNOD
              JMPOSE = NINT(XSPHR(12,NN))
 
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                 JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                DJ  =XSPHR(2,NN)
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
@@ -332,7 +332,7 @@ C------
 
           DO J=1,KXSP(4,NP)
            JNOD=IXSP(J,NP)
-           IF(JNOD.GT.0)THEN
+           IF(JNOD>0)THEN
              M=NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
              lBOOL=.FALSE.
@@ -372,12 +372,12 @@ C------
            ELSE
              NN=-JNOD
              JMPOSE = NINT(XSPHR(12,NN))
-             IF(JMPOSE.GT.0)THEN
+             IF(JMPOSE>0)THEN
                JMPOSE2=ISPHIO(1,JMPOSE)
              ELSE
                JMPOSE2=0
              ENDIF
-             IF(JMPOSE2.EQ.0.OR.JMPOSE2.EQ.1)THEN
+             IF(JMPOSE2==0.OR.JMPOSE2==1)THEN
                DJ  =XSPHR(2,NN)
                XJ  =XSPHR(3,NN)
                YJ  =XSPHR(4,NN)
@@ -408,7 +408,7 @@ C------
            ENDIF
           ENDDO
 C------           
-          ELSEIF(IPPV.LT.0)THEN! fin traitement IPPV > 0
+          ELSEIF(IPPV<0)THEN! fin traitement IPPV > 0
 c traitement IPPV negatif on utilise infos recuperres ds routine comm  
            DXX = DSPHR(1,-IPPV)
            DXY = DSPHR(2,-IPPV)
@@ -435,7 +435,7 @@ c            print*,'IPPV nul ERROR'
 
           PS=VX*VNORMAL(1,N)+VY*VNORMAL(2,N)+VZ*VNORMAL(3,N)
 
-          IF(PS.LT.0.)THEN
+          IF(PS<0.)THEN
 C          impose une vitesse sortante uniquement.
            VX=VX-PS*VNORMAL(1,N)
            VY=VY-PS*VNORMAL(2,N)
@@ -457,7 +457,7 @@ C-------------------------------------------
        TFEXT=TFEXT+TFEXTT
 #include "atomend.inc"
 C-------------------------------------------
-      IF(NSPMD.GT.1)THEN
+      IF(NSPMD>1)THEN
           DEALLOCATE(ASPHR,DSPHR)
       END IF
 C-------------------------------------------

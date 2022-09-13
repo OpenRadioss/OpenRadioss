@@ -120,13 +120,13 @@ C        ENDIF
 C-->     SET TO 1.0
 C--------------------------------------------------
         FLINT = 0
-        IF(KEY(1:5).EQ.'INTER')THEN
+        IF(KEY(1:5)=='INTER')THEN
           FLINT = 1
           CALL HM_GET_INTV('Nb_time_step',NB_PAS,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Range',RANGE,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('grnod_id',JGRN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('skew_id',ISK,IS_AVAILABLE,LSUBMODEL)
-          IF(ISK == 0 .AND. SUB_INDEX .NE. 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
+          IF(ISK == 0 .AND. SUB_INDEX /= 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
           CALL HM_GET_BOOLV('Mass_Damp_Factor_Option',FULL_FORMAT,IS_AVAILABLE)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -154,7 +154,7 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
           CALL HM_GET_INTV('grnod_id',JGRN,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('skew_id',ISK,IS_AVAILABLE,LSUBMODEL)
-          IF(ISK == 0 .AND. SUB_INDEX .NE. 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
+          IF(ISK == 0 .AND. SUB_INDEX /= 0 ) ISK = LSUBMODEL(SUB_INDEX)%SKEW
           CALL HM_GET_BOOLV('Mass_Damp_Factor_Option',FULL_FORMAT,IS_AVAILABLE)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -177,7 +177,7 @@ C--------------------------------------------------
           DAMPR(19,I) = 0
           DAMPR(20,I) = 0       
 C--------------------------------------------------
-        ENDIF !   IF(KEY(1:5).EQ.'INTER')THEN
+        ENDIF !   IF(KEY(1:5)=='INTER')THEN
 C
         DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
           IF(ISK == ISKN(4,J+1)) THEN
@@ -227,7 +227,7 @@ C
           DAMPR(13,I) = ALPHA
           DAMPR(14,I) = BETA
           DAMPR(16,I) = FACTB
-          IF (FLINT.EQ.1) THEN
+          IF (FLINT==1) THEN
             DAMPR(3,I)  = ZERO
             DAMPR(4,I)  = ZERO    
             DAMPR(5,I)  = ZERO
@@ -237,7 +237,7 @@ C
           ENDIF
           WRITE (IOUT,1100) JGRN,ALPHA,BETA,FACTB,TSTART,TSTOP
         ELSE
-          IF (FLINT.EQ.0) THEN
+          IF (FLINT==0) THEN
             FACTB = ONE
             FLG_PRI = 1
             DAMPR(3,I) = ALPHA
@@ -257,7 +257,7 @@ C
      .              ALPHA_XX,BETA_XX,ALPHA_YY,BETA_YY,ALPHA_ZZ,BETA_ZZ,
      .              TSTART,TSTOP
 
-          ELSEIF (FLINT.EQ.1) THEN
+          ELSEIF (FLINT==1) THEN
             FACTB = ONE
             DAMPR(3,I)  = ZERO
             DAMPR(4,I)  = ZERO      

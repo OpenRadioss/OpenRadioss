@@ -299,7 +299,7 @@ C
          ENDDO
         ENDDO
         ENDDO
-       ENDIF !(IORTH.EQ.1)
+       ENDIF !(IORTH==1)
 C---+----1----+----2----+warped elements----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
        DO M=NF,JLT
@@ -418,7 +418,7 @@ C
      2               DMF(3,3,EP)*BXIBXJ(2,2,EP)
         ENDDO
 C
-       END IF !(IORTH.EQ.1)
+       END IF !(IORTH==1)
 
 C
        DO I=1,2
@@ -485,7 +485,7 @@ C--------px1'py1=py1py2;px2'py1=py1py1;px2'py2=py1py2;px1'py2=py2py2;-----------
         MF22(2,1,EP)=DFZ*PX1PY2(EP)-DG(EP)*PX2PY1(EP)
         MF23(2,1,EP)=-(DFZ-DG(EP))*PX1PY1(EP)
        ENDDO
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
         DO M=NF,JLT 
          DF5(M)=FACZ(M)*DF5(M)
          DF6(M)=FACZ(M)*DF6(M)
@@ -576,7 +576,7 @@ C ----add mem-bending coupling terms of orthotrope--warped(same than coplanar---
      1               -DMF(1,2,EP)*PX1PY2(EP)-DMF(2,3,EP)*PY1PY2(EP)
      2               -DMF(1,3,EP)*PX1PX2(EP)-DMF(3,3,EP)*PX2PY1(EP)
         ENDDO
-       END IF !(IORTH.EQ.1)
+       END IF !(IORTH==1)
 C 
        DO I=1,2
         DO J=1,2
@@ -617,7 +617,7 @@ C------ Mzz  ----------
         M44(3,3,EP)=M22(3,3,EP)
        ENDDO
 C------ renforce positive  ----------
-      IF (NEIG.EQ.0) THEN
+      IF (NEIG==0) THEN
        DO EP=JFT,JLT
         C1 = EM8*M11(3,3,EP)
 	C2 = EM8*M22(3,3,EP)
@@ -701,7 +701,7 @@ C--------Constante parts---------------
         DM(1,3,M)=ZERO
         DM(2,3,M)=ZERO
        ENDDO
-       IF (IORTH.EQ.1) THEN
+       IF (IORTH==1) THEN
         DO M=JFT,JLT 
          EP=IPLAT(M)
  	 C2=VOL(EP)
@@ -914,7 +914,7 @@ C------ Mzz  ----------
         M44(3,3,M)=M44(3,3,M)+PRX(4,M)*CBRX(4,M)+
      .              PRY(4,M)*CBRY(4,M)+PRXY(4,M)*CBRZ(4,M)
        ENDDO
-       IF (IORTH.GT.0) THEN
+       IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
         NF=NPLAT+1
 #include "vectorize.inc"
@@ -1066,7 +1066,7 @@ C
           FM14(3,1,EP)=FM14(3,1,EP)-C1
           FM14(3,2,EP)=FM14(3,2,EP)-C2
         ENDDO
-       ENDIF !IF (IORTH.EQ.1)
+       ENDIF !IF (IORTH==1)
 C
        RETURN
        END

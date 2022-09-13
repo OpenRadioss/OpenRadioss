@@ -212,13 +212,13 @@ C
                                                                                                   
           IMAT = IPART(LIPART1*(IPARTFILL-1)+1)  
           ILAW=   IPM((IMAT-1)*NPROPMI + 2)     !IPM(2,IMAT)
-          IF(ILAW.NE.51 .AND. ILAW.NE.151)THEN
+          IF(ILAW/=51 .AND. ILAW/=151)THEN
             CALL ANCMSG(MSGID=821, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)             
           ENDIF   
 
           !!get bijective applocation to retrieve internal order of submaterial.
           !! (internally & historically phase4 is explosive submaterial)
-          IF(ILAW.EQ.51)THEN                    
+          IF(ILAW==51)THEN                    
             IADBUF = IPM((IMAT-1)*NPROPMI + 7)!IPM(7,IMAT)                       
             NUPARAM= IPM((IMAT-1)*NPROPMI + 9)!IPM(9,IMAT)                       
             UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)          
@@ -226,7 +226,7 @@ C
           ENDIF
           
           IF(FILL_RATIO==ZERO)FILL_RATIO = ONE
-          IF(ICUMU.NE.0 .AND. ICUMU.NE.1)THEN
+          IF(ICUMU/=0 .AND. ICUMU/=1)THEN
             ICUMU = 0
           ENDIF
           ISU=0
@@ -247,7 +247,7 @@ C
             IF(FAC /= 1)THEN                                                               
               DO J=1,NN                                                                    
                 ITYP=IGRSURF(ISU)%ELTYP(J)                                                 
-                IF(ITYP.EQ.3 .or. ITYP.EQ.7) FAC = FAC + 1                                 
+                IF(ITYP==3 .or. ITYP==7) FAC = FAC + 1                                 
               ENDDO                                                                        
             ENDIF                                                                          
             !---   discretized surface                                                     

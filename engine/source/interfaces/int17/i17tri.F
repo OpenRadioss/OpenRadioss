@@ -116,12 +116,12 @@ C     1        1        XMAX   YMAX   ZMAX
       NB_NC = 0
       DO I=1,NMES
 C
-        IF(EMINXS(4,I).GT.XMIN.AND.
-     .     EMINXS(5,I).GT.YMIN.AND.
-     .     EMINXS(6,I).GT.ZMIN.AND.
-     .     EMINXS(1,I).LT.XMAX.AND.
-     .     EMINXS(2,I).LT.YMAX.AND.
-     .     EMINXS(3,I).LT.ZMAX)THEN
+        IF(EMINXS(4,I)>XMIN.AND.
+     .     EMINXS(5,I)>YMIN.AND.
+     .     EMINXS(6,I)>ZMIN.AND.
+     .     EMINXS(1,I)<XMAX.AND.
+     .     EMINXS(2,I)<YMAX.AND.
+     .     EMINXS(3,I)<ZMAX)THEN
           NB_NC=NB_NC+1
           BPN(NB_NC) = I
         ENDIF
@@ -137,7 +137,7 @@ C
 C-----------------------------------------------
 C     Boucle sur les boites
 C-----------------------------------------------
-      DO WHILE (CONT.EQ.1)
+      DO WHILE (CONT==1)
 C-----------------------------------------------
 C       Decoupage de l'espace en 2 suivant X Y ou Z
 C-----------------------------------------------
@@ -157,18 +157,18 @@ C     CONT = 0  ==> FIN
 C     CONT = -1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     CONT = -2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
 C     CONT = -3 ==> TROP NIVEAUX PILE 
-      IF(CONT.EQ.0)THEN
-        IF(I_STOK.NE.0)CALL I17STO(
+      IF(CONT==0)THEN
+        IF(I_STOK/=0)CALL I17STO(
      1      I_STOK,I_STOK_GLOB,PROV_N,CAND_N,PROV_E,CAND_E,
      2      CONT  ,MX_CAND    )
       ENDIF
-      IF(CONT.EQ.-1) THEN
+      IF(CONT==-1) THEN
           CALL ANCMSG(MSGID=86,ANMODE=ANINFO,I1=NOINT)
           CALL ARRET(2)
-      ELSEIF(CONT.EQ.-2) THEN
+      ELSEIF(CONT==-2) THEN
           CALL ANCMSG(MSGID=86,ANMODE=ANINFO,I1=NOINT)
           CALL ARRET(2)
-      ELSEIF(CONT.EQ.-3)THEN
+      ELSEIF(CONT==-3)THEN
           CALL ANCMSG(MSGID=90,ANMODE=ANINFO,I1=NOINT)
           CALL ARRET(2)
       ENDIF
@@ -291,7 +291,7 @@ C                    PLUS DE MEMOIRE DISPONIBLE
 C
 C-------------------TEST SUR MEMOIRE DEPASSEE------------
 C
-      IF(ADD(2,I_ADD)+NB_EC.GT.MAXSIZ) THEN
+      IF(ADD(2,I_ADD)+NB_EC>MAXSIZ) THEN
 C       PLUS DE PLACE DANS LA PILE DES ELEMENTS MAINS BOITES TROP PETITES
         CONT = -1
 ctmp+++
@@ -301,7 +301,7 @@ c       WRITE(istdo,*)'NB_EC = ',NB_EC
 ctmp---
         RETURN
       ENDIF
-      IF(ADD(1,I_ADD)+NB_NC.GT.MAXSIZS) THEN
+      IF(ADD(1,I_ADD)+NB_NC>MAXSIZS) THEN
 C       PLUS DE PLACE DANS LA PILE DES ELEMENTS SECONDS BOITES TROP PETITES
         CONT = -1
         RETURN
@@ -309,7 +309,7 @@ C       PLUS DE PLACE DANS LA PILE DES ELEMENTS SECONDS BOITES TROP PETITES
 C
 C--------------------TEST SUR BOITE VIDES-------------- 
 C
-      IF(NB_EC.NE.0.AND.NB_NC.NE.0) THEN
+      IF(NB_EC/=0.AND.NB_NC/=0) THEN
 C
         DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
         DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
@@ -323,14 +323,14 @@ C
 C       NCAND_PROV=NB_EC*NB_NC
 Cel NCAND_PROV negatif qd NB_EC*NB_NC > 2e31
 C
-        IF(NB_EC+NB_NC.LE.128) THEN
+        IF(NB_EC+NB_NC<=128) THEN
           NCAND_PROV = NB_EC*NB_NC
         ELSE
           NCAND_PROV = 129
         ENDIF
 C
-        IF(DSUP.LT.MINBOX.OR.NB_NC.LE.NB_N_B.OR.NCAND_PROV.LE.128)THEN
-Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
+        IF(DSUP<MINBOX.OR.NB_NC<=NB_N_B.OR.NCAND_PROV<=128)THEN
+Cel necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
             NCAND_PROV = NB_EC*NB_NC
             DO L=1,NCAND_PROV
               I = 1+(L-1)/NB_NC
@@ -338,38 +338,38 @@ Cel necessaire qd NB_NC.LE.NB_N_B ou DSUP.LT.MINBOX et NB_EC+NB_NC.GT.128
               LE = BPE(I)
               LES = BPN(J)
               NE  = NELEM(LE)
-              IF(LES.LE.NMES)THEN        ! candidat local
+              IF(LES<=NMES)THEN        ! candidat local
                 NES = NELES(LES)
-                IF(NE.NE.NES.AND.
-     .             EMINXS(4,LES).GT.EMINX(1,LE)-TZINF.AND.
-     .             EMINXS(5,LES).GT.EMINX(2,LE)-TZINF.AND.
-     .             EMINXS(6,LES).GT.EMINX(3,LE)-TZINF.AND.
-     .             EMINXS(1,LES).LT.EMINX(4,LE)+TZINF.AND.
-     .             EMINXS(2,LES).LT.EMINX(5,LE)+TZINF.AND.
-     .             EMINXS(3,LES).LT.EMINX(6,LE)+TZINF)THEN
+                IF(NE/=NES.AND.
+     .             EMINXS(4,LES)>EMINX(1,LE)-TZINF.AND.
+     .             EMINXS(5,LES)>EMINX(2,LE)-TZINF.AND.
+     .             EMINXS(6,LES)>EMINX(3,LE)-TZINF.AND.
+     .             EMINXS(1,LES)<EMINX(4,LE)+TZINF.AND.
+     .             EMINXS(2,LES)<EMINX(5,LE)+TZINF.AND.
+     .             EMINXS(3,LES)<EMINX(6,LE)+TZINF)THEN
                   I_STOK = I_STOK + 1
                   PROV_N(I_STOK) = LES
                   PROV_E(I_STOK) = LE
-                  IF(I_STOK.EQ.MVSIZ-1)CALL I17STO(
+                  IF(I_STOK==MVSIZ-1)CALL I17STO(
      1               I_STOK,I_STOK_GLOB,PROV_N,CAND_N,PROV_E,CAND_E,
      2               CONT  ,MX_CAND    )
-                  IF(CONT.EQ.-2)RETURN
+                  IF(CONT==-2)RETURN
                 ENDIF
               ELSE       ! partie complementaire SPMD
                 LESL = LES-NMES
-                IF(XREM(4,LESL).GT.EMINX(1,LE)-TZINF.AND.
-     .             XREM(5,LESL).GT.EMINX(2,LE)-TZINF.AND.
-     .             XREM(6,LESL).GT.EMINX(3,LE)-TZINF.AND.
-     .             XREM(1,LESL).LT.EMINX(4,LE)+TZINF.AND.
-     .             XREM(2,LESL).LT.EMINX(5,LE)+TZINF.AND.
-     .             XREM(3,LESL).LT.EMINX(6,LE)+TZINF)THEN
+                IF(XREM(4,LESL)>EMINX(1,LE)-TZINF.AND.
+     .             XREM(5,LESL)>EMINX(2,LE)-TZINF.AND.
+     .             XREM(6,LESL)>EMINX(3,LE)-TZINF.AND.
+     .             XREM(1,LESL)<EMINX(4,LE)+TZINF.AND.
+     .             XREM(2,LESL)<EMINX(5,LE)+TZINF.AND.
+     .             XREM(3,LESL)<EMINX(6,LE)+TZINF)THEN
                   I_STOK = I_STOK + 1
                   PROV_N(I_STOK) = LES
                   PROV_E(I_STOK) = LE
-                  IF(I_STOK.EQ.MVSIZ-1)CALL I17STO(
+                  IF(I_STOK==MVSIZ-1)CALL I17STO(
      1               I_STOK,I_STOK_GLOB,PROV_N,CAND_N,PROV_E,CAND_E,
      2               CONT  ,MX_CAND    )
-                  IF(CONT.EQ.-2)RETURN
+                  IF(CONT==-2)RETURN
                 ENDIF
               END IF
             ENDDO 
@@ -386,9 +386,9 @@ C
 C    2.1- DETERMINER LA DIRECTION A DIVISER X,Y OU Z
 C
           DIR = 1
-          IF(DY.EQ.DSUP) THEN
+          IF(DY==DSUP) THEN
             DIR = 2
-          ELSE IF(DZ.EQ.DSUP) THEN
+          ELSE IF(DZ==DSUP) THEN
             DIR = 3
           ENDIF
           SEUIL =(XYZM(DIR+3,I_ADD)+XYZM(DIR,I_ADD))*HALF
@@ -403,8 +403,8 @@ C
 #include "vectorize.inc"
            DO I=1,NB_NC
             LES = BPN(I)
-            IF(LES.LE.NMES)THEN
-              IF(EMINXS(DIR,LES).LT.SEUIL) THEN
+            IF(LES<=NMES)THEN
+              IF(EMINXS(DIR,LES)<SEUIL) THEN
 C               ON STOCKE DANS LA PILE PN
                 NB_NCN1 = NB_NCN1 + 1
                 ADDNN = ADDNN + 1
@@ -412,13 +412,13 @@ C               ON STOCKE DANS LA PILE PN
               ENDIF
             END IF
            ENDDO
-           IF(NSPMD.GT.1)THEN           ! partie complementaire SPMD
+           IF(NSPMD>1)THEN           ! partie complementaire SPMD
 #include "vectorize.inc"
              DO I=1,NB_NC
                LES = BPN(I)
-               IF(LES.GT.NMES)THEN
+               IF(LES>NMES)THEN
                  LESL = LES-NMES
-                 IF(XREM(DIR,LESL).LT.SEUIL) THEN
+                 IF(XREM(DIR,LESL)<SEUIL) THEN
 C                  ON STOCKE DANS LA PILE PN
                    NB_NCN1 = NB_NCN1 + 1
                    ADDNN = ADDNN + 1
@@ -431,21 +431,21 @@ C
 #include "vectorize.inc"
            DO I=1,NB_NC
             LES = BPN(I)
-            IF(LES.LE.NMES)THEN
-              IF(EMINXS(DIR+3,LES).GE.SEUIL) THEN
+            IF(LES<=NMES)THEN
+              IF(EMINXS(DIR+3,LES)>=SEUIL) THEN
 C               ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
                 NB_NCN = NB_NCN + 1
                 BPN(NB_NCN) = LES
               ENDIF
             ENDIF
            ENDDO
-           IF(NSPMD.GT.1)THEN           ! partie complementaire SPMD
+           IF(NSPMD>1)THEN           ! partie complementaire SPMD
 #include "vectorize.inc"
              DO I=1,NB_NC
                LES = BPN(I)
-               IF(LES.GT.NMES)THEN
+               IF(LES>NMES)THEN
                  LESL = LES-NMES
-                 IF(XREM(DIR+3,LESL).GE.SEUIL) THEN
+                 IF(XREM(DIR+3,LESL)>=SEUIL) THEN
 C                  ON STOCKE EN ECRASANT PROGRESSIVEMENT BPN
                    NB_NCN = NB_NCN + 1
                    BPN(NB_NCN) = LES
@@ -458,23 +458,23 @@ C    2.3- DIVISER LES ELEMENTS MAINS
 C
           NB_ECN= 0
           ADDNE= ADD(2,I_ADD)
-          IF(NB_NCN1.EQ.0) THEN
+          IF(NB_NCN1==0) THEN
 C pas d'elements seconds dans la deuxieme boite
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)
-            IF(EMINX(DIR+3,LE)+TZINF.GE.SEUIL) THEN
+            IF(EMINX(DIR+3,LE)+TZINF>=SEUIL) THEN
 C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
               NB_ECN = NB_ECN + 1
               BPE(NB_ECN) = LE
             ENDIF
            ENDDO
-          ELSEIF(NB_NCN.EQ.0) THEN
+          ELSEIF(NB_NCN==0) THEN
 C pas d'elements seconds dans la premiere boite
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)
-            IF(EMINX(DIR,LE)-TZINF.LT.SEUIL) THEN
+            IF(EMINX(DIR,LE)-TZINF<SEUIL) THEN
 C             ON STOCKE DANS LA PILE PE
               ADDNE = ADDNE + 1
               PE(ADDNE) = LE
@@ -484,12 +484,12 @@ C             ON STOCKE DANS LA PILE PE
 #include "vectorize.inc"
            DO I=1,NB_EC
             LE = BPE(I)
-            IF(EMINX(DIR,LE)-TZINF.LT.SEUIL) THEN
+            IF(EMINX(DIR,LE)-TZINF<SEUIL) THEN
 C             ON STOCKE DANS LA PILE PE
               ADDNE = ADDNE + 1
               PE(ADDNE) = LE
             ENDIF
-            IF(EMINX(DIR+3,LE)+TZINF.GE.SEUIL) THEN
+            IF(EMINX(DIR+3,LE)+TZINF>=SEUIL) THEN
 C             ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
               NB_ECN = NB_ECN + 1
               BPE(NB_ECN) = LE
@@ -515,7 +515,7 @@ C
           NB_EC = NB_ECN
 C     on incremente le niveau de descente avant de sortir
           I_ADD = I_ADD + 1
-          IF(I_ADD+1.GE.I_ADD_MAX) THEN
+          IF(I_ADD+1>=I_ADD_MAX) THEN
             CONT = -3
             RETURN
           ENDIF
@@ -542,7 +542,7 @@ C=======================================================================
 C-------------------------------------------------------------------------
 C     TEST FIN DU TRI
 C-------------------------------------------------------------------------
-      IF (I_ADD.EQ.1) THEN
+      IF (I_ADD==1) THEN
         CONT = 0
         RETURN
       ENDIF
@@ -660,13 +660,13 @@ C     Recherche de doublons
       I_STOK = J
 
         J_STOK_GLOB = I_STOK_GLOB
-        IF(I_STOK_GLOB + I_STOK.LE.MX_CAND)THEN
+        IF(I_STOK_GLOB + I_STOK<=MX_CAND)THEN
           I_STOK_GLOB = I_STOK_GLOB + I_STOK
         ELSE
           CONT = -2
         ENDIF
 #include "lockoff.inc"
-      IF(CONT.EQ.-2)RETURN
+      IF(CONT==-2)RETURN
 C
       DO I=1,I_STOK
         CAND_N(I+J_STOK_GLOB)=PROV_N(I)

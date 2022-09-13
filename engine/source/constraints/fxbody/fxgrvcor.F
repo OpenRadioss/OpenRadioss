@@ -65,7 +65,7 @@ C
       DO I=1,NUMNOD
          IAGRV(I)=1
       ENDDO
-      IF (NSPMD.GT.1) THEN
+      IF (NSPMD>1) THEN
          DO I=1,NSPMD
             DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
                JJ=FR_ELEM(J)
@@ -92,7 +92,7 @@ C
               FI0= AGRV(1,NL)
               FI = AGRV(1,NL)
             ENDIF
-            IF (ISK.LE.1) THEN
+            IF (ISK<=1) THEN
                DO I=1,NNO
                   N1=FXBGRVI(AGRVI+IADG+I+1)
                   A(N2,N1)=A(N2,N1)-FI

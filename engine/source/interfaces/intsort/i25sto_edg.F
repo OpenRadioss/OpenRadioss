@@ -96,13 +96,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C SUPPRESSION DES ANCIENS CANDIDATS DEJA STOCKES (PENE INITIALE)
 C-----------------------------------------------
-C     IF(INACTI.EQ.5)THEN
+C     IF(INACTI==5)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
             N  = PROV_S(I)
             NE = PROV_M(I)
 
-            IF(N.GT.NEDGE) THEN
+            IF(N>NEDGE) THEN
 C numerotation tris precedent pour les noeuds non locaux (SPMD)
               N = OLDNUM_EDGE(N-NEDGE)+NEDGE
               IF(N <= NEDGE) N = NEDGE+NEDGE_REMOTE_OLD+1
@@ -110,8 +110,8 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
 
             ASSERT(N > 0)
             J = CAND_A(N)
-            DO WHILE(J.LE.CAND_A(N+1)-1)
-              IF(CAND_M(J).EQ.NE)THEN
+            DO WHILE(J<=CAND_A(N+1)-1)
+              IF(CAND_M(J)==NE)THEN
 ! This is an old candidate
 ! pene is set to 0 in order to ignore it
 C               WRITE(6,*) "PENE SET TO 0 FOR OLD CAND",J,CAND_M(J),LEDGE(8,NE)
@@ -127,15 +127,15 @@ C     ENDIF
 C-----------------------------------------------
       K_STOK = 0
       DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO) THEN
+          IF(PENE(I)/=ZERO) THEN
             K_STOK = K_STOK + 1
           END IF 
       ENDDO
-      IF(K_STOK.EQ.0)RETURN
+      IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
       I_STOK = II_STOK
-      IF(I_STOK+K_STOK.GT.MULNSN) THEN
+      IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"
             RETURN
@@ -144,7 +144,7 @@ C
 #include "lockoff.inc"
 C     IF(INACTI==5)THEN
         DO I=1,J_STOK
-          IF(PENE(I).NE.ZERO)THEN
+          IF(PENE(I)/=ZERO)THEN
 
             I_STOK = I_STOK + 1
             ASSERT(PROV_S(I) > 0)
@@ -175,7 +175,7 @@ C#endif
         ENDDO
 C     ELSE
 C       DO I=1,J_STOK
-C         IF(PENE(I).NE.ZERO)THEN
+C         IF(PENE(I)/=ZERO)THEN
 C           I_STOK = I_STOK + 1
 C           CAND_S(I_STOK) = PROV_S(I)
 C           CAND_M(I_STOK) = PROV_M(I)

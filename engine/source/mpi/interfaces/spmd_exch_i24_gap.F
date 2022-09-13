@@ -76,7 +76,7 @@ C-----------------------------------------------
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-        IF(SIZ.NE.0)THEN
+        IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -107,7 +107,7 @@ C
 C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
-       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+       IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -123,7 +123,7 @@ C
       DO I = 1, NSPMD
 Cel test si msg necessaire a envoyer a completer par test interface
         NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
-        IF(NB_NOD.GT.0)THEN
+        IF(NB_NOD>0)THEN
           CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
           L = IAD_RECV(I)
 C
@@ -141,7 +141,7 @@ C
 Cel wait terminaison isend
 C
       DO I = 1, NSPMD
-        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I).GT.0)THEN
+        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
           CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
         ENDIF
       ENDDO

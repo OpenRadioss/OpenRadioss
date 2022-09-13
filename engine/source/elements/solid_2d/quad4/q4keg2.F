@@ -68,7 +68,7 @@ C-----------------------------------------------
         FZZ(I)=SIG(2,I)*AIR(I)
         FYZ(I)=SIG(4,I)*AIR(I)
       ENDDO
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
         DO I=LFT,LLT
           FXX(I)=SIG(3,I)*AIR(I)
           AYS(I)=AY(I)*AY(I)
@@ -155,7 +155,7 @@ C-----PART 1
         GIJ(I) = FYY(I)*PYI(I)*PYJ(I) + FZZ(I)*PZI(I)*PZJ(I) + 
      .           FYZ(I)*(PYI(I)*PZJ(I)+PZI(I)*PYJ(I))
       ENDDO
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
         DO I=LFT,LLT
           GIJ(I) = GIJ(I) + FXX(I)*AYS(I)
         ENDDO
@@ -178,7 +178,7 @@ C-----PART 2
         HIJ(2,2,I) = FYY(I)*BYIYJ + FZZ(I)*(BYIYJ+BZIZJ) + 
      .               FYZ(I)*(BYIZJ+BZIYJ)
       ENDDO
-      IF (N2D.EQ.1) THEN
+      IF (N2D==1) THEN
         DO I=LFT,LLT
           HIJ(1,1,I) = HIJ(1,1,I) + FXX(I)*AYS(I)
         ENDDO

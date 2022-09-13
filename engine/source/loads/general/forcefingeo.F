@@ -84,7 +84,7 @@ C=======================================================================
       NCUR_OLD = 0
 C----------------------------------
 C     FORCE CONCENTREE
-C     IF(IMACH.NE.3.OR.IPARIT.EQ.0)
+C     IF(IMACH/=3.OR.IPARIT==0)
 C     Code PARITH/OFF
 C----------------------------------
       DO N=1,NFXVEL
@@ -93,8 +93,8 @@ C----------------------------------
         IF (NCUR == 0) CYCLE
         STARTT = VEL(2,N)
         STOPT  = VEL(3,N)
-        IF(TT.LT.STARTT) CYCLE
-        IF(TT.GT.STOPT ) CYCLE
+        IF(TT<STARTT) CYCLE
+        IF(TT>STOPT ) CYCLE
         N1 = IABS(IBFV(1,N))
         N2 = IBFV(14,N)
 c        N2 = SYSFUS2(N2,ITABM1,NUMNOD)
@@ -103,16 +103,16 @@ c        N2 = SYSFUS2(N2,ITABM1,NUMNOD)
 C
         ISENS=0
         DO K=1,NSENSOR
-          IF(IBFV(4,N).EQ.LSENSOR(1,K))ISENS=K
+          IF(IBFV(4,N)==LSENSOR(1,K))ISENS=K
         ENDDO
-        IF(ISENS.EQ.0)THEN
+        IF(ISENS==0)THEN
            TS=TT
         ELSE
            TS = TT-SENSOR(2,ISENS)
            IF(TS < ZERO) CYCLE
         ENDIF
 C
-        IF(NCUR_OLD.NE.NCUR.OR.TS_OLD.NE.TS) THEN
+        IF(NCUR_OLD/=NCUR.OR.TS_OLD/=TS) THEN
 !!          F1 = FINTER(NCUR,(TS-DT1)*FACX,NPC,TF,DYDX)
 !!          F2 = FINTER(NCUR,TS*FACX,NPC,TF,DYDX)
           ISMOOTH = 0
@@ -131,7 +131,7 @@ C
         A0 = FACY*F1
         AA = FACY*F2
 C
-        IF(N2D.NE.1)THEN
+        IF(N2D/=1)THEN
          AXI=ONE
         ELSE
          AXI=X(2,N2)
@@ -154,8 +154,8 @@ C
         A(3,N2) = A(3,N2)+SKEW3*AA
 C
         IF( ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .      ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT .GT. 0 
-     .           .AND.IMPL_S.EQ.0) THEN
+     .      ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0 
+     .           .AND.IMPL_S==0) THEN
           FEXT(1,N2) = FEXT(1,N2)+SKEW1*AA
           FEXT(2,N2) = FEXT(2,N2)+SKEW2*AA
           FEXT(3,N2) = FEXT(3,N2)+SKEW3*AA

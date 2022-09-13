@@ -212,14 +212,14 @@ C     sizes of send buffers
       MSGTYP = 1000
       DO NIN = 1, NINTER
         DO P = 1, NSPMD
-          IF(P .NE. ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
              K = SIZ_SEND_BUF(NIN,P)
 c            WRITE(6,*) "SEND ->",P,SEND_BUF(NIN,P)%P(1:k)
              CALL MPI_ISEND(
      .       SEND_BUF(NIN,P)%P(1),K,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .       MPI_COMM_WORLD,REQ_S(P),IERROR)
           ENDIF
-          IF(P .NE. ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
              K = SIZ_RECV_BUF(NIN,P)
              CALL MPI_IRECV(
      .       RECV_BUF(NIN,P)%P(1),K,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -230,10 +230,10 @@ c       CALL FLUSH(6)
 c       CALL MPI_BARRIER(MPI_COMM_WORLD,IERR)
       
         DO P = 1,NSPMD
-          IF(P .NE. ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
              CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
           ENDIF
-          IF(P .NE. ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
              CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
           ENDIF
         ENDDO
@@ -241,13 +241,13 @@ C ----------------------------------------------------------------
 C                     RESOLVE UID to LOCAL NODE
         DO P = 1, NSPMD
 c         WRITE(6,*) __FILE__,__LINE__, P,SIZ_RECV_BUF(NIN,P) 
-          IF(P .NE. ISPMD +1) THEN
+          IF(P /= ISPMD +1) THEN
             DO L = 1, SIZ_RECV_BUF(NIN,P)
               K = 1
               UID = RECV_BUF(NIN,P)%P(L)
 c             WRITE(6,*) "looking for UID",UID
               NSN = IPARI(MACRO_NSN,NIN)
-              DO WHILE (K<NSN .AND. UID .NE. ITAB(INTBUF_TAB(NIN)%NSV(K)))
+              DO WHILE (K<NSN .AND. UID /= ITAB(INTBUF_TAB(NIN)%NSV(K)))
                 K = K + 1 
               ENDDO  
               IF(ITAB(INTBUF_TAB(NIN)%NSV(K))==UID) THEN
@@ -261,13 +261,13 @@ c                WRITE(6,*) "found at ",K
         ENDDO
 
         DO P = 1, NSPMD
-          IF(P .NE. ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
              K = SIZ_RECV_BUF(NIN,P)
              CALL MPI_ISEND(
      .       RECV_BUF(NIN,P)%P(1),K,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .       MPI_COMM_WORLD,REQ_S(P),IERROR)
           ENDIF
-          IF(P .NE. ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
              K = SIZ_SEND_BUF(NIN,P)
              CALL MPI_IRECV(
      .       SEND_BUF(NIN,P)%P(1),K,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -275,10 +275,10 @@ c                WRITE(6,*) "found at ",K
           ENDIF
         ENDDO
         DO P = 1,NSPMD
-          IF(P .NE. ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_RECV_BUF(NIN,P) > 0) THEN
              CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
           ENDIF
-          IF(P .NE. ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
+          IF(P /= ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
              CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
           ENDIF
         ENDDO
@@ -490,7 +490,7 @@ C             ASSERT( (IM == 1 .OR. IM == -1) )
               NN2 = INTBUF_TAB(N)%ADMSR(MOD(JE,4)+1+(IE-1)*4)
 
 C C====================================================
-C               IF( IM .NE. 1 .AND. IM .NE. -1) THEN
+C               IF( IM /= 1 .AND. IM /= -1) THEN
 C                 WRITE(6,*) "IM=",IM 
 C                 CALL FLUSH(6)
 C                 ASSERT(.FALSE.)
@@ -781,7 +781,7 @@ C           WRITE(6,*) "RECIEVE FROM",P-1
             IBEGIN = 0
             IF( P > 1) THEN
               DO L = 1,P-1 
-                IF( L - 1 .ne. ISPMD)  IBEGIN = IBEGIN + NSNFIE(N)%P(L) 
+                IF( L - 1 /= ISPMD)  IBEGIN = IBEGIN + NSNFIE(N)%P(L) 
               ENDDO
             ENDIF
             DO I =1,NSNFIE(N)%P(P) 

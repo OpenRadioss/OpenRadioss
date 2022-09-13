@@ -130,7 +130,7 @@ C
        
         DO 490 NG=1,NGROUP
          II = 0
-C        IF(ANIM_K.EQ.0.AND.IPARG(8,NG).EQ.1)GOTO 490
+C        IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
@@ -159,7 +159,7 @@ C        IF(ANIM_K.EQ.0.AND.IPARG(8,NG).EQ.1)GOTO 490
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
-         IF(ITY.EQ.3.OR.ITY.EQ.7.AND.ISHPLYXFEM > 0)THEN
+         IF(ITY==3.OR.ITY==7.AND.ISHPLYXFEM > 0)THEN
             GBUF => ELBUF_TAB(NG)%GBUF
             NPTR = ELBUF_TAB(NG)%NPTR
             NPTS = ELBUF_TAB(NG)%NPTS
@@ -168,7 +168,7 @@ C-----------------------------------------------
             NPG  = NPTR*NPTS
             NPT  = NLAY*NPTT
 C
-          IF(ITY.EQ.3)THEN
+          IF(ITY==3)THEN
              N0 = 0
              NNI = NN4
           ELSE
@@ -200,70 +200,70 @@ C
 C------------------------
 C        STRESS
 C------------------------
-           IF(ITENS.EQ.1)THEN
+           IF(ITENS==1)THEN
              NS1 = 5
              NS2 = 3
              IADD = NB10 + NS1 * NEL * (ILAYER-1)
              A1   = ONE
              A2   = ZERO
-           ELSEIF(ITENS.EQ.2)THEN
+           ELSEIF(ITENS==2)THEN
              NS1 = 5
              NS2 = 3
              IADD = NB10 + NS1 * NEL * (ILAYER-1)
              A1   = ZERO
              A2   = ONE
-           ELSEIF(ITENS.EQ.3)THEN
+           ELSEIF(ITENS==3)THEN
              NS1 = 5
              NS2 = 3
-             IF(MLW.EQ.1)THEN
+             IF(MLW==1)THEN
                IADD = NB1
                A1   = ONE
                A2   = SIX
-             ELSEIF(MLW.EQ.2.OR.MLW.EQ.19.OR.
-     .            MLW.EQ.15.OR.
-     .            MLW.EQ.22.OR.MLW.EQ.25.OR.
-     .            MLW.EQ.27.OR.MLW.EQ.32.OR.
-     .            MLW.GE.28)THEN 
+             ELSEIF(MLW==2.OR.MLW==19.OR.
+     .            MLW==15.OR.
+     .            MLW==22.OR.MLW==25.OR.
+     .            MLW==27.OR.MLW==32.OR.
+     .            MLW>=28)THEN 
                IADD = NB10 + NS1 * NEL * (NPT-1)
                A1   = ZERO
                A2   = ZERO
-             ELSEIF(MLW.EQ.3.OR.MLW.EQ.23)THEN
+             ELSEIF(MLW==3.OR.MLW==23)THEN
                IADD = NB1
                A1   = ZERO
                A2   = ZERO
              ENDIF
-           ELSEIF(ITENS.EQ.4)THEN
+           ELSEIF(ITENS==4)THEN
              NS1 = 5
              NS2 = 3
-             IF(MLW.EQ.1)THEN
+             IF(MLW==1)THEN
                IADD = NB1
                A1   = ZERO
                A2   = ZERO
-             ELSEIF(MLW.EQ.2.OR.MLW.EQ.19.OR.
-     .            MLW.EQ.15.OR.
-     .            MLW.EQ.22.OR.MLW.EQ.25.OR.
-     .            MLW.EQ.27.OR.MLW.EQ.32.OR.
-     .            MLW.GE.28)THEN 
+             ELSEIF(MLW==2.OR.MLW==19.OR.
+     .            MLW==15.OR.
+     .            MLW==22.OR.MLW==25.OR.
+     .            MLW==27.OR.MLW==32.OR.
+     .            MLW>=28)THEN 
                IADD = NB10
                A1   = ONE
                A2   = ZERO
-             ELSEIF(MLW.EQ.3.OR.MLW.EQ.23)THEN
+             ELSEIF(MLW==3.OR.MLW==23)THEN
                IADD = NB1
                A1   = ONE
                A2   = ZERO
              ENDIF
-           ELSEIF(ITENS.GE.101.AND.ITENS.LE.200)THEN
+           ELSEIF(ITENS>=101.AND.ITENS<=200)THEN
              NS1 = 5
              NS2 = 3
-             IF(MLW.EQ.1.OR.MLW.EQ.3.OR.MLW.EQ.23)THEN
+             IF(MLW==1.OR.MLW==3.OR.MLW==23)THEN
                IADD = NB1
                A1   = ONE
                A2   = ZERO
-             ELSEIF(MLW.EQ.2.OR.MLW.EQ.19.OR.
-     .            MLW.EQ.15.OR.
-     .            MLW.EQ.22.OR.MLW.EQ.25.OR.
-     .            MLW.EQ.27.OR.MLW.EQ.32.OR.
-     .            MLW.GE.28)THEN 
+             ELSEIF(MLW==2.OR.MLW==19.OR.
+     .            MLW==15.OR.
+     .            MLW==22.OR.MLW==25.OR.
+     .            MLW==27.OR.MLW==32.OR.
+     .            MLW>=28)THEN 
                IPT = MIN(NPT,ITENS-100)
                IADD = NB10 + NS1 * NEL * (ILAYER - 1)
                A1   = ONE
@@ -273,11 +273,11 @@ C------------------------
 C------------------------
 C        STRAIN
 C------------------------
-           ELSEIF(ITENS.EQ.5)THEN
+           ELSEIF(ITENS==5)THEN
              ISTRE  = 0
              NS1 = 8
              NS2 = 8
-             IF(ISTRAIN.EQ.1)THEN
+             IF(ISTRAIN==1)THEN
                IADD = NB8
                IAD2 = NB8 + 5
                A1   = ZERO
@@ -288,11 +288,11 @@ C------------------------
                A1   = ZERO
                A2   = ZERO
              ENDIF
-           ELSEIF(ITENS.EQ.6)THEN
+           ELSEIF(ITENS==6)THEN
              ISTRE  = 0
              NS1 = 8
              NS2 = 8
-             IF(ISTRAIN.EQ.1)THEN
+             IF(ISTRAIN==1)THEN
                IADD = NB8
                IAD2 = NB8 + 5
                A1   = ZERO
@@ -303,11 +303,11 @@ C------------------------
                A1   = ZERO
                A2   = ZERO
              ENDIF
-           ELSEIF(ITENS.EQ.7)THEN
+           ELSEIF(ITENS==7)THEN
              ISTRE  = 0
              NS1 = 8
              NS2 = 8
-             IF(ISTRAIN.EQ.1)THEN
+             IF(ISTRAIN==1)THEN
                IADD = NB8
                IAD2 = NB8 + 5
                A1   = ZERO
@@ -318,11 +318,11 @@ C------------------------
                A1   = ZERO
                A2   = ZERO
              ENDIF
-           ELSEIF(ITENS.EQ.8)THEN
+           ELSEIF(ITENS==8)THEN
              ISTRE  = 0
              NS1 = 8
              NS2 = 8
-             IF(ISTRAIN.EQ.1)THEN
+             IF(ISTRAIN==1)THEN
                IADD = NB8
                IAD2 = NB8 + 5
                A1   = ZERO
@@ -333,13 +333,13 @@ C------------------------
                A1   = ZERO
                A2   = ZERO
              ENDIF
-           ELSEIF(ITENS.GE.201.AND.ITENS.LE.300)THEN
+           ELSEIF(ITENS>=201.AND.ITENS<=300)THEN
              ISTRE  = 0
              NS1 = 8
              NS2 = 8
              IPT = MIN(NPT,ITENS - 200)
              IF(IPT == IPLY ) ION = 1
-             IF(ISTRAIN.EQ.1.AND.NPT.NE.0)THEN
+             IF(ISTRAIN==1.AND.NPT/=0)THEN
 cc             IPT = ILAYER          
               IADD = NB8
               IAD2 = NB8 + 5
@@ -354,26 +354,26 @@ cc             IPT = ILAYER
 C------------------------
 C        STRAIN RATE
 C------------------------
-           ELSEIF(ITENS.EQ.91)THEN
+           ELSEIF(ITENS==91)THEN
              ISTRE  = 2
              A1   = ZERO
              A2   = ZERO
-           ELSEIF(ITENS.EQ.92)THEN
+           ELSEIF(ITENS==92)THEN
              ISTRE  = 2
              A1   = ZERO
              A2   = ZERO
-           ELSEIF(ITENS.EQ.93)THEN
+           ELSEIF(ITENS==93)THEN
              ISTRE  = 2
              A1   = ZERO
              A2   = ZERO
-           ELSEIF(ITENS.EQ.94)THEN
+           ELSEIF(ITENS==94)THEN
              ISTRE  = 2
              A1   = ZERO
              A2   = ZERO
-           ELSEIF(ITENS.GE.301.AND.ITENS.LE.400)THEN
+           ELSEIF(ITENS>=301.AND.ITENS<=400)THEN
             IPT = MIN(NPT,ITENS - 300)
             IF(IPT == IPLY ) ION = 1
-            IF(NPT.NE.0)THEN	
+            IF(NPT/=0)THEN	
              ISTRE  = 2
 cc             IPT = ILAYER             
              A1   = ONE
@@ -385,22 +385,22 @@ cc             IPT = ILAYER
 	        ENDIF
            ENDIF
 C
-           IF(ISTRE.EQ.1)THEN
+           IF(ISTRE==1)THEN
 C------------------------
 C          STRESS
 C------------------------
-             IF(ITY.EQ.3)THEN
+             IF(ITY==3)THEN
                IPID = IXC(6,NFT+1)
              ELSE
                IPID = IXTG(5,NFT+1)
              ENDIF
              IREP = IGEO(6,IPID)
 c------------
-             IF (ITENS.GE.101.AND.ITENS.LE.200
-     .         .AND.(MLW.EQ.25.OR.MLW.EQ.15).AND.IREP.EQ.1) THEN
+             IF (ITENS>=101.AND.ITENS<=200
+     .         .AND.(MLW==25.OR.MLW==15).AND.IREP==1) THEN
              IVISC = 0
              NUVARV = 0
-             IF(ITY.EQ.3)THEN
+             IF(ITY==3)THEN
               DO I=1,NEL
             	MAT(I)=IXC(1,NFT+I)
             	PID(I)=IXC(6,NFT+I)
@@ -461,8 +461,8 @@ cc               R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE))
                  ENDDO
                ENDIF ! ION
 c------------
-             ELSEIF (ITENS.GE.101.AND.ITENS.LE.200
-     .             .AND.MLW.EQ.25.AND.IREP.EQ.0) THEN
+             ELSEIF (ITENS>=101.AND.ITENS<=200
+     .             .AND.MLW==25.AND.IREP==0) THEN
 C    
               IF(ION == 1) THEN
                      DO I=LFT,LLT
@@ -537,7 +537,7 @@ C------------------------
                ILAYER = PLYELEMS(N)
                IF(ILAYER > 0) THEN
                    THK = GBUF%THK(I)
-                   IF(ITENS.NE.6)THEN
+                   IF(ITENS/=6)THEN
                     DO J = 1 , 3
                        R4(J) = A1*GBUF%STRA(JJ(J)+I)+A2*GBUF%STRA(JJ(J)+I)*THK
                     ENDDO
@@ -553,7 +553,7 @@ cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * HALF
                    TENS(3,EL2FA(NEL_PLY + IE)) = R4(3)
               ENDIF 
              ENDDO
-           ELSEIF(ISTRE.EQ.2)THEN
+           ELSEIF(ISTRE==2)THEN
 C------------------------
 C          STRAIN RATE
 C------------------------
@@ -562,7 +562,7 @@ C------------------------
                ILAYER = PLYELEMS(N)
                IF(ILAYER > 0) THEN
                    THK = GBUF%THK(I)               
-                   IF(ITENS.NE.92)THEN
+                   IF(ITENS/=92)THEN
                     DO J = 1 , 3
                      R4(J) = A1*EPSDOT(J,N+N0) + A2*EPSDOT(J+3,N+N0)*THK
                     ENDDO
@@ -607,7 +607,7 @@ C
       ENDDO
 
       IF (NSPMD > 1)THEN
-         IF(ISPMD.EQ.0) THEN
+         IF(ISPMD==0) THEN
            BUF = NBF_PXFEMG*3
          ELSE
            BUF = 1

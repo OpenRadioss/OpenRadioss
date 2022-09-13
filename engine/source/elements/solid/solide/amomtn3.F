@@ -89,16 +89,16 @@ C-----------------------------------------------
       OFF7(1:MVSIZ) = ONE
       OFF8(1:MVSIZ) = ONE
       DO I=LFT,LLT
-         IF (NALE(NC1(I)) .EQ. 0) OFF1(I) = ZERO
-         IF (NALE(NC2(I)) .EQ. 0) OFF2(I) = ZERO
-         IF (NALE(NC3(I)) .EQ. 0) OFF3(I) = ZERO
-         IF (NALE(NC4(I)) .EQ. 0) OFF4(I) = ZERO
-         IF (NALE(NC5(I)) .EQ. 0) OFF5(I) = ZERO
-         IF (NALE(NC6(I)) .EQ. 0) OFF6(I) = ZERO
-         IF (NALE(NC7(I)) .EQ. 0) OFF7(I) = ZERO
-         IF (NALE(NC8(I)) .EQ. 0) OFF8(I) = ZERO
+         IF (NALE(NC1(I)) == 0) OFF1(I) = ZERO
+         IF (NALE(NC2(I)) == 0) OFF2(I) = ZERO
+         IF (NALE(NC3(I)) == 0) OFF3(I) = ZERO
+         IF (NALE(NC4(I)) == 0) OFF4(I) = ZERO
+         IF (NALE(NC5(I)) == 0) OFF5(I) = ZERO
+         IF (NALE(NC6(I)) == 0) OFF6(I) = ZERO
+         IF (NALE(NC7(I)) == 0) OFF7(I) = ZERO
+         IF (NALE(NC8(I)) == 0) OFF8(I) = ZERO
       ENDDO
-      IF (UPWM.EQ.2) THEN
+      IF (UPWM==2) THEN
 
       !-------------------------------------------!
       ! MOMENTUM ADVECTION                        !

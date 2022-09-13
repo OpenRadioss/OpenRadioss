@@ -110,8 +110,8 @@ C--------------------------------------------------
           ENDDO 
         ENDIF
 C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
-        IF (NSUBDOM.GT.0) THEN
-	  IF (IDDOM.GT.0) NN = NN-ISURF_R2R(1,ISS) 
+        IF (NSUBDOM>0) THEN
+	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,ISS) 
 	  NNCL(NCONLD+I)=NN 
 	ENDIF
 C-----------

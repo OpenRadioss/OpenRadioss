@@ -114,11 +114,11 @@ C
        ZI(I) = X(3,IG)
       ENDDO
 C
-      IF(IGAP.EQ.0 .AND. IGNORE .LE. 1)THEN
+      IF(IGAP==0 .AND. IGNORE <= 1)THEN
         DO I=LFT,LLT
          GAPV(I) = GAP
         ENDDO 
-      ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH .NE. ZERO)THEN
+      ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
         DO I=LFT,LLT
           GAPV(I) = GAP
         ENDDO
@@ -131,9 +131,9 @@ C
             IEL  = NOD2ELC(IAD)
             MG=IXC(6,IEL)
 	    IP = IPARTC(IEL)
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKSECND = THK_PART(IP)
-	    ELSEIF ( THK(IEL) .NE. ZERO) THEN
+	    ELSEIF ( THK(IEL) /= ZERO) THEN
 	      THKSECND = THK(IEL)
 	    ELSE
               THKSECND = GEO(1,MG)
@@ -144,9 +144,9 @@ C--         Cooques 3n
             IEL  = NOD2ELTG(IAD) 
             MG=IXTG(5,IEL)
 	    IP = IPARTTG(IEL)
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKSECND = THK_PART(IP)
-	    ELSEIF ( THK(NUMELC+IEL) .NE. ZERO) THEN
+	    ELSEIF ( THK(NUMELC+IEL) /= ZERO) THEN
 	      THKSECND = THK(NUMELC+IEL)
 	    ELSE
               THKSECND = GEO(1,MG)
@@ -162,27 +162,27 @@ C--         Cooques 3n
      .            NELTG,CAND_E(I),GEO  ,PM     ,KNOD2ELC ,
      .            KNOD2ELTG ,NOD2ELC ,NOD2ELTG,THK,2,IGEO,
      .            PM_STACK , IWORKSH )
-          IF(NELTG.NE.0) THEN
+          IF(NELTG/=0) THEN
             MG=IXTG(5,NELTG)
 	    IP = IPARTTG(NELTG) 
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKMAIN = THK_PART(IP)
-	    ELSEIF ( THK(NUMELC+NELTG) .NE. ZERO) THEN
+	    ELSEIF ( THK(NUMELC+NELTG) /= ZERO) THEN
               THKMAIN = THK(NUMELC+NELTG)
 	    ELSE
               THKMAIN = GEO(1,MG)
 	    ENDIF
-          ELSEIF(NELC.NE.0) THEN
+          ELSEIF(NELC/=0) THEN
             MG=IXC(6,NELC)
 	    IP = IPARTC(NELC) 
-            IF ( THK_PART(IP) .NE. ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN  
               THKMAIN = THK_PART(IP)
-	    ELSEIF ( THK(NELC) .NE. ZERO) THEN
+	    ELSEIF ( THK(NELC) /= ZERO) THEN
               THKMAIN = THK(NELC)
 	    ELSE
               THKMAIN = GEO(1,MG)
 	    ENDIF
-          ELSEIF(NELS.NE.0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
+          ELSEIF(NELS/=0 .AND. NELS <= NUMELS8 .AND. IGNORE == 2) THEN
             DO JJ=1,8
               JJJ=IXS(JJ+1,NELS)
               XC(JJ)=X(1,JJJ)
@@ -217,7 +217,7 @@ C         LONGUEUR DIAG 2
         ENDDO
       ENDIF
 C
-      IF(ISTF.NE.0)THEN
+      IF(ISTF/=0)THEN
         DO I=LFT,LLT
           STIF(I)=STF(CAND_E(I))*STFN(CAND_N(I))
         ENDDO

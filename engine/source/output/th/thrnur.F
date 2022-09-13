@@ -65,23 +65,23 @@ C-------------------------
       II=0
       IH=IAD
 Cel specifique spmd
-      IF (IMACH.EQ.3) THEN
+      IF (IMACH==3) THEN
         LWA = NN*NVAR
         DO I = 1, LWA
           WA(I) = ZERO
         ENDDO
 C decalage IH
-        DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.
-     .           (IH.LT.IAD+NN))
+        DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.
+     .           (IH<IAD+NN))
           IH = IH + 1
         ENDDO
-        IF (IH.GE.IAD+NN) RETURN 
+        IF (IH>=IAD+NN) RETURN 
       ENDIF
 C
       DO NG=1,NGROUP
-Cel        IF(IMACH.EQ.3) IWA(NG) = II+1
+Cel        IF(IMACH==3) IWA(NG) = II+1
         ITY=IPARG(5,NG)
-        IF(ITY.EQ.50) THEN
+        IF(ITY==50) THEN
           MTE=IPARG(1,NG)
           NEL=IPARG(2,NG)
           NFT=IPARG(3,NG)
@@ -97,21 +97,21 @@ C
             K=ITHBUF(IH)
             IP=ITHBUF(IH+NN)
 C
-            IF (K.EQ.N)THEN
+            IF (K==N)THEN
               IH=IH+1
 Cel traitement specifique spmd
-              IF (IMACH.EQ.3) THEN
+              IF (IMACH==3) THEN
 C recherche du ii correct
                 II = ((IH-1) - IAD)*NVAR
-                DO WHILE((ITHBUF(IH+NN).NE.ISPMD).AND.
-C    .                   (IH.LE.IAD+NN))
-     .                   (IH.LT.IAD+NN))
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.
+C    .                   (IH<=IAD+NN))
+     .                   (IH<IAD+NN))
                   IH = IH + 1
                 ENDDO
               ENDIF
 C
-              IF(IH.GT.IAD+NN) RETURN
-Cel           IF (IP.EQ.ISPMD)THEN
+              IF(IH>IAD+NN) RETURN
+Cel           IF (IP==ISPMD)THEN
 C
               M1=NB2+3*I-3
               M2=NB5+3*I-3

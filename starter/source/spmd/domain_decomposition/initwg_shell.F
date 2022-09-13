@@ -167,42 +167,42 @@ C-----------------------------------------------
         ELSE
          IRUP2 = 3
         ENDIF
-        IF (MLN.EQ.2) THEN
+        IF (MLN==2) THEN
            CC = PM(43,MID)
-           IF (CC.NE.0) THEN
+           IF (CC/=0) THEN
             INDI = 2
            ELSE
             INDI = 1
            ENDIF
 C          loi 25 en fonction de Crasurv
-        ELSEIF ((MLN.EQ.25).AND.(ABS(NPN)>0)) THEN
+        ELSEIF ((MLN==25).AND.(ABS(NPN)>0)) THEN
            IFLAG = NINT( PM(40,MID))
-           IF (IFLAG.NE.0) THEN
+           IF (IFLAG/=0) THEN
             INDI = 2
            ELSE
             INDI = 1
            ENDIF
 C          loi 36 en fonction des fct
-        ELSEIF ((MLN.EQ.36)) THEN
+        ELSEIF ((MLN==36)) THEN
            IF(ABS(NPN)>0) THEN
             NFUNC = IPM(10,MID)
            ELSE
             NFUNC = NINT(PM(40,MID))
            ENDIF
-           IF (NFUNC.LE.2) THEN
+           IF (NFUNC<=2) THEN
             INDI = 1
-           ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+           ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
             INDI = 2
-           ELSEIF (NFUNC.GT.7) THEN
+           ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
-        ELSEIF((MLN.EQ.86).AND.(ABS(NPN)==0)) THEN
+        ELSEIF((MLN==86).AND.(ABS(NPN)==0)) THEN
            NFUNC = NINT(PM(40,MID))
-           IF (NFUNC.LE.2) THEN
+           IF (NFUNC<=2) THEN
             INDI = 1
-           ELSEIF (NFUNC.GT.2.AND.NFUNC.LE.7) THEN
+           ELSEIF (NFUNC>2.AND.NFUNC<=7) THEN
             INDI = 2
-           ELSEIF (NFUNC.GT.7) THEN
+           ELSEIF (NFUNC>7) THEN
             INDI = 3
            ENDIF
         ELSEIF((MLN==42).OR.(MLN==62).OR.(MLN==69)) THEN
@@ -330,17 +330,17 @@ C           Compute line function A1 ="Time for 1 int Point" - A2="time for 5 in
 !       ----------------------------------------
 !       Radioss material cost
 !       ----------------------------------------
-            IF(ITHK.EQ.2)THEN
+            IF(ITHK==2)THEN
               ITHK = 0
-            ELSEIF(MLN.EQ.32)THEN
+            ELSEIF(MLN==32)THEN
               ITHK = 1
             ENDIF
             ISTRAIN = NINT(GEO(11,PID))
-            IF(MLN.EQ.19.OR.MLN.GE.25)ISTRAIN = 1
+            IF(MLN==19.OR.MLN>=25)ISTRAIN = 1
              ISSN = NINT(GEO(3,PID))
 C ow        test elem delete             
-             IF (WD_LOCAL.EQ.0.) THEN
-               IF(ABS(NPN).GT.0) THEN
+             IF (WD_LOCAL==0.) THEN
+               IF(ABS(NPN)>0) THEN
                 TABX(1) = 1.
                 TABX(2) = 3.
                 TABX(3) = 5.
@@ -401,11 +401,11 @@ C           0pt d integration doit etre traite a part
          INDI5 = 0
          IF(IDRIL==1) INDI5=2
 
-         IF(MLN.NE.0)THEN
-           IF (IHBE.GE.11.AND.IHBE.LE.19) THEN
+         IF(MLN/=0)THEN
+           IF (IHBE>=11.AND.IHBE<=19) THEN
 C ow            BATOZ
                  TELT = SHTELT(INDI4*5+3+INDI5)+BATOZMULT*(TIMMAT + TRUP) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-           ELSEIF (IHBE.GE.21.AND.IHBE.LE.29) THEN
+           ELSEIF (IHBE>=21.AND.IHBE<=29) THEN
 C ow            QEPH
                  TELT = SHTELT(INDI4*5+2+INDI5) + TIMMAT + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
            ELSE
@@ -418,14 +418,14 @@ C ow            Q4
 
         ! --------------------
         IF(RECHERCHE==0) THEN
-         IF((WD_LOCAL.EQ.0.).AND.(MLN.NE.0)) THEN
+         IF((WD_LOCAL==0.).AND.(MLN/=0)) THEN
            POIDS = TELT * INVTREF
            WD(I+OFF) = POIDS
            POIN_PART = IPARTC(I)
            POIN_MID = POIN_PART_SHELL(1,POIN_PART)
            POIN_PID = POIN_PART_SHELL(2,POIN_PART)
            IF(POIN_MID/=0.AND.POIN_PID/=0) MID_PID_SHELL(POIN_MID)%COST1D(POIN_PID) = TELT
-         ELSEIF((WD_LOCAL.EQ.0.).AND.(MLN.EQ.0)) THEN
+         ELSEIF((WD_LOCAL==0.).AND.(MLN==0)) THEN
            WD(I+OFF) = 0.0001
          ENDIF
         ELSE

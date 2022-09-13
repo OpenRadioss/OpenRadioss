@@ -62,7 +62,7 @@ C
 C=======================================================================
        ALLOCATE (BUFSR(3*NUM))     
 C  
-       IF (ISPMD.NE.0) THEN     
+       IF (ISPMD/=0) THEN     
          SIZ = 0
          DO I=1,NUMNOD
            IF (TAGN(I) > 0) THEN

@@ -135,7 +135,7 @@ C
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
       IVIS2 =IPARI(14,NIN)
-      IF(IPARI(33,NIN).EQ.1) RETURN
+      IF(IPARI(33,NIN)==1) RETURN
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
@@ -187,8 +187,8 @@ c----------------------------------------------------
 c   Rayon de courbure : calcul des normales nodales (normees)
 C   IADM!=0 + Icurv!=0 non available (starter error).
 c----------------------------------------------------
-      IF(IADM.NE.0)THEN
-      END IF!(IADM.NE.0)
+      IF(IADM/=0)THEN
+      END IF!(IADM/=0)
 C-----------------------------------------------------------------------
 C
 C     decoupage statique
@@ -196,7 +196,7 @@ C
       I_STOK_GLO = INTBUF_TAB%I_STOK(2)
 C
       NB_LOC = I_STOK_GLO / NTHREAD
-      IF (JTASK.EQ.NTHREAD) THEN
+      IF (JTASK==NTHREAD) THEN
         I_STOK_LOC = I_STOK_GLO-NB_LOC*(NTHREAD-1)
       ELSE
         I_STOK_LOC = NB_LOC
@@ -226,7 +226,7 @@ C         candidates for sliding (IRTLM /= 0 and IRTLM /= MG) & non previously i
 C
       CALL MY_BARRIER
 C
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
           NB_DST2 = NB_DST2 + I_STOK
       ENDIF
 
@@ -297,7 +297,7 @@ C         candidates for sliding (IRTLM /= 0 and IRTLM /= MG) & non previously i
 C
 C     CALL MY_BARRIER
 C
-      IF (DEBUG(3).GE.1) THEN
+      IF (DEBUG(3)>=1) THEN
           NB_DST2 = NB_DST2 + I_STOK
       ENDIF
 

@@ -81,7 +81,7 @@ C-----------------------------------------------
 C=======================================================================
 C---- tag elm /w /INIBRI/ORTHO
       INIORTH(LFT:LLT)=0
-      IF (NVSOLID3 .NE. 0) THEN
+      IF (NVSOLID3 /= 0) THEN
         IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
         DO I=LFT,LLT
          JJ=PT(NFT+I)
@@ -93,12 +93,12 @@ C---- tag elm /w /INIBRI/ORTHO
            ENDIF        
          ELSE            ! IF ORTHOTROPIC AXES IN GLOBAL REFERENCE
           IF(
-     .     SIGSP((ILAY-1)*6+IIS+1,JJ) .NE. ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+2,JJ) .NE. ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+3,JJ) .NE. ZERO .OR. 
-     .     SIGSP((ILAY-1)*6+IIS+4,JJ) .NE. ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+5,JJ) .NE. ZERO .OR. 
-     .     SIGSP((ILAY-1)*6+IIS+6,JJ) .NE. ZERO )THEN
+     .     SIGSP((ILAY-1)*6+IIS+1,JJ) /= ZERO .OR.
+     .     SIGSP((ILAY-1)*6+IIS+2,JJ) /= ZERO .OR.
+     .     SIGSP((ILAY-1)*6+IIS+3,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+4,JJ) /= ZERO .OR.
+     .     SIGSP((ILAY-1)*6+IIS+5,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+6,JJ) /= ZERO )THEN
              INIORTH(I) = 1
           ENDIF         
          ENDIF
@@ -125,7 +125,7 @@ C
            CP  = COS(PHI)
            SP  = SIN(PHI)
 C------------------Vx,Vy,VZ defined by skew-----
-         IF (ISKV.EQ.0) THEN
+         IF (ISKV==0) THEN
           VX=GEO(7,IG)
           VY=GEO(8,IG)
           VZ=GEO(9,IG)
@@ -141,7 +141,7 @@ C------------------Vx,Vy,VZ defined by skew-----
           VY=VY-VN*E1Y(I)
           VZ=VZ-VN*E1Z(I)
           V=SQRT(VX*VX+VY*VY+VZ*VZ)
-          IF(V.LT.EM3)THEN
+          IF(V<EM3)THEN
            CALL ANCMSG(MSGID=526,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -165,7 +165,7 @@ C
           VY=VY-VN*E2Y(I)
           VZ=VZ-VN*E2Z(I)
           V=SQRT(VX*VX+VY*VY+VZ*VZ)
-          IF(V.LT.EM3)THEN
+          IF(V<EM3)THEN
            CALL ANCMSG(MSGID=526,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -189,7 +189,7 @@ C
           VY=VY-VN*E3Y(I)
           VZ=VZ-VN*E3Z(I)
           V=SQRT(VX*VX+VY*VY+VZ*VZ)
-          IF(V.LT.EM3)THEN
+          IF(V<EM3)THEN
            CALL ANCMSG(MSGID=526,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -214,7 +214,7 @@ C
 C
        ENDDO
 C------Uij-->gij; Wij->[g]-1-----
-       IF (IREP.EQ.1) THEN
+       IF (IREP==1) THEN
         DO I=LFT,LLT
           IG = PID(I)
           IPNUM = IGEO(2,IG)
@@ -281,17 +281,17 @@ C
        ENDIF
 C
 C---
-      IF (NVSOLID3 .NE. 0) THEN
+      IF (NVSOLID3 /= 0) THEN
         IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
         DO I=LFT,LLT
          IF(ORTHOGLOB(I) == 0) THEN  ! IF COS(PHI), SIN(PHI)
            II=NFT+I
            JJ=PT(II)
            IFLAGINI = 1
-           IF(JJ.EQ.0)IFLAGINI = 0
+           IF(JJ==0)IFLAGINI = 0
            IF(IFLAGINI == 1 .AND. 
-     .       ( SIGSP((ILAY-1)*6+IIS+1,JJ) .NE. ZERO.OR.
-     .        SIGSP((ILAY-1)*6+IIS+2,JJ).NE.ZERO)  ) THEN
+     .       ( SIGSP((ILAY-1)*6+IIS+1,JJ) /= ZERO.OR.
+     .        SIGSP((ILAY-1)*6+IIS+2,JJ)/=ZERO)  ) THEN
            GAMA(I,1) = SIGSP((ILAY-1)*6+IIS+1,JJ)
            GAMA(I,2) = SIGSP((ILAY-1)*6+IIS+2,JJ)
           ENDIF        
@@ -301,14 +301,14 @@ C---
           IG = PID(I)
           IPNUM = IGEO(2,IG)
           IFLAGINI = 1
-          IF(JJ.EQ.0)IFLAGINI = 0
+          IF(JJ==0)IFLAGINI = 0
           IF(IFLAGINI == 1 .AND.
-     .   ( SIGSP((ILAY-1)*6+IIS+1,JJ) .NE. ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+2,JJ) .NE. ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+3,JJ) .NE. ZERO .OR. 
-     .     SIGSP((ILAY-1)*6+IIS+4,JJ) .NE. ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+5,JJ) .NE. ZERO .OR. 
-     .     SIGSP((ILAY-1)*6+IIS+6,JJ) .NE. ZERO) )THEN
+     .   ( SIGSP((ILAY-1)*6+IIS+1,JJ) /= ZERO .OR.
+     .     SIGSP((ILAY-1)*6+IIS+2,JJ) /= ZERO .OR.
+     .     SIGSP((ILAY-1)*6+IIS+3,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+4,JJ) /= ZERO .OR.
+     .     SIGSP((ILAY-1)*6+IIS+5,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+6,JJ) /= ZERO) )THEN
                GAMATMP(1) = SIGSP((ILAY-1)*6+IIS+1,JJ)
                GAMATMP(2) = SIGSP((ILAY-1)*6+IIS+2,JJ)
                GAMATMP(3) = SIGSP((ILAY-1)*6+IIS+3,JJ)

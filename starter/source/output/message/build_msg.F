@@ -58,9 +58,9 @@ C predim
       DO I=1,SMESSAGESFILE
 C fill MESSAGES
         LINE1=MESSAGESFILE(I)
-        IF (LINE1(1:9).EQ.'/MESSAGE/') THEN
+        IF (LINE1(1:9)=='/MESSAGE/') THEN
           CALL FREDEC2IM(LINE1,ID)
-          IF (ID.GT.SMESSAGES) THEN
+          IF (ID>SMESSAGES) THEN
             SMESSAGES=ID
           END IF
         END IF
@@ -78,8 +78,8 @@ C fill MESSAGES
       DO I=1,SMESSAGESFILE
 C remplir MESSAGES
         LINE1=MESSAGESFILE(I)
-        IF (LINE1(1:9).EQ.'/MESSAGE/') THEN
-          IF (ID.GT.0.AND.ID.LE.SMESSAGESMAX.AND.ITYPE.NE.0) THEN
+        IF (LINE1(1:9)=='/MESSAGE/') THEN
+          IF (ID>0.AND.ID<=SMESSAGESMAX.AND.ITYPE/=0) THEN
             CALL STOCK_MSG(ID,ITYPE,SBUFMSG,BUFMSG)
           END IF
           SBUFMSG=0
@@ -87,23 +87,23 @@ C remplir MESSAGES
           CALL FREDEC2IM(LINE1,ID)
           CALL FREDEC3M(LINE1,KEY)
           ITYPE=1
-          IF (KEY(1:5).EQ.'TITLE') THEN
+          IF (KEY(1:5)=='TITLE') THEN
             ITYPE=1
-          ELSE IF (KEY(1:11).EQ.'DESCRIPTION') THEN
+          ELSE IF (KEY(1:11)=='DESCRIPTION') THEN
             ITYPE=2
-          ELSE IF (KEY(1:8).EQ.'SOLUTION') THEN
+          ELSE IF (KEY(1:8)=='SOLUTION') THEN
             ITYPE=3
-          ELSE IF (KEY(1:4).EQ.'DATA') THEN
+          ELSE IF (KEY(1:4)=='DATA') THEN
             ITYPE=4
           END IF
         ELSE
-          IF (ID.GT.0.AND.LINE1(1:1).NE.'#') THEN
+          IF (ID>0.AND.LINE1(1:1)/='#') THEN
             SBUFMSG=SBUFMSG+1
             BUFMSG(SBUFMSG)=LINE1
           END IF
         END IF
       END DO
-      IF (ID.GT.0.AND.ID.LE.SMESSAGESMAX.AND.ITYPE.NE.0) THEN
+      IF (ID>0.AND.ID<=SMESSAGESMAX.AND.ITYPE/=0) THEN
         CALL STOCK_MSG(ID,ITYPE,SBUFMSG,BUFMSG)
       END IF
       RETURN

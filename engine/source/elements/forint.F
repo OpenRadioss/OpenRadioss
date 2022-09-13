@@ -222,32 +222,32 @@ C======================================================================|
        ALLOCATE(FX(MVSIZ,64),FY(MVSIZ,64),FZ(MVSIZ,64),STAT=IERROR)
        ALLOCATE(MX(MVSIZ,4),MY(MVSIZ,4),MZ(MVSIZ,4),STAT=IERROR)
 !
-       IF(IERROR.NE.0)THEN
+       IF(IERROR/=0)THEN
         CALL ANCMSG(MSGID=246,ANMODE=ANINFO)
         CALL ARRET(2)
        END IF
 C  IOUTPRT for bilan assemblage, not need for spring which call *bilan each cycle   
          IPRI = 0
-         IF(MOD(NCYCLE,IABS(NCPRI)).EQ.0.OR.TT.GE.THIS.OR.TT.GE.TDES.
-     .   OR.TT.GE.TPAT.OR.MDESS /= 0.
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS).
-     .   OR.TT.GE.THIS1(1).OR.TT.GE.THIS1(2).
-     .   OR.TT.GE.THIS1(3).OR.TT.GE.THIS1(4).OR.TT.GE.THIS1(5).
-     .   OR.TT.GE.THIS1(6).OR.TT.GE.THIS1(7).OR.TT.GE.THIS1(8).
-     .   OR.TT.GE.THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
-     .   OR.TT.GE.TABFIS(1).OR.TT.GE.TABFIS(2).
-     .   OR.TT.GE.TABFIS(3).OR.TT.GE.TABFIS(4).OR.TT.GE.TABFIS(5).
-     .   OR.TT.GE.TABFIS(6).OR.TT.GE.TABFIS(7).OR.TT.GE.TABFIS(8).
-     .   OR.TT.GE.TABFIS(9).OR.TT.GE.TABFIS(10).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(1)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(2)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(3)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(4)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(5)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(6)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(7)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(8)).
-     .   OR.(IALESUB /= 0.AND.T1S+DT2S.GE.THIS1(9)).OR.ISTAT==3) IPRI=1
+         IF(MOD(NCYCLE,IABS(NCPRI))==0.OR.TT>=THIS.OR.TT>=TDES.
+     .   OR.TT>=TPAT.OR.MDESS /= 0.
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS).
+     .   OR.TT>=THIS1(1).OR.TT>=THIS1(2).
+     .   OR.TT>=THIS1(3).OR.TT>=THIS1(4).OR.TT>=THIS1(5).
+     .   OR.TT>=THIS1(6).OR.TT>=THIS1(7).OR.TT>=THIS1(8).
+     .   OR.TT>=THIS1(9).OR.NTH /= 0.OR.NANIM /= 0          .
+     .   OR.TT>=TABFIS(1).OR.TT>=TABFIS(2).
+     .   OR.TT>=TABFIS(3).OR.TT>=TABFIS(4).OR.TT>=TABFIS(5).
+     .   OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).OR.TT>=TABFIS(8).
+     .   OR.TT>=TABFIS(9).OR.TT>=TABFIS(10).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(1)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(2)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(3)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(4)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(5)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(6)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(7)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(8)).
+     .   OR.(IALESUB /= 0.AND.T1S+DT2S>=THIS1(9)).OR.ISTAT==3) IPRI=1
 !
       ISENS_ENERGY = 0
       DO I=1,NSENSOR
@@ -282,10 +282,10 @@ c------------------------
 C       temporaly used to avoid pass KTBUF_STR everywhere              
         NG_IMP = NG
 
-        IF (IPARG(8,NG).EQ.1) GOTO 250                                 
+        IF (IPARG(8,NG)==1) GOTO 250                                 
         ITY = IPARG(5,NG)
-C       IF (ITY.EQ.3.OR.ITY.EQ.7) GOTO 250                              
-        IF (IDDW.GT.0) CALL STARTIMEG(NG)                              
+C       IF (ITY==3.OR.ITY==7) GOTO 250                              
+        IF (IDDW>0) CALL STARTIMEG(NG)                              
         OFFSET  = 0                                                    
         MLW     = IPARG(1,NG)                                          
 C       MLW= 0 ----> void                                              
@@ -316,8 +316,8 @@ C
         IPARTSPH = IPARG(69,NG)
         IFORMDT  = IPARG(73,NG)  
 C
-        IF (ITY.EQ.1) ICP = NSG                                       
-        IF (ITY.EQ.1 .OR. ITY.EQ.2) JPLASOL=IPLA
+        IF (ITY==1) ICP = NSG                                       
+        IF (ITY==1 .OR. ITY==2) JPLASOL=IPLA
 C---------------------------------
         LFT   = 1                  
         LLT   = MIN(NVSIZ,NEL)     
@@ -329,8 +329,8 @@ C---------------------------------
         JSPH=0                     
         IHET = 0                   
 C----6---------------------------------------------------------------7---------8
-        IF (ITY.EQ.1 .AND. JLAG.EQ.1)THEN
-          IF(IXS(10,NF1).NE.0)THEN         
+        IF (ITY==1 .AND. JLAG==1)THEN
+          IF(IXS(10,NF1)/=0)THEN         
             IGTYP = IGEO(11,IXS(10,NF1))   
           ELSE                             
             IGTYP=0                        
@@ -339,7 +339,7 @@ C----6---------------------------------------------------------------7---------8
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTS(NF1) ,SUBSET ,IPRI)
 C---------
-          IF(ISOLNOD.EQ.4.AND.(ISROT==0.OR.ISROT==3))THEN                            
+          IF(ISOLNOD==4.AND.(ISROT==0.OR.ISROT==3))THEN                            
 C---------
             CALL S4FORC3(ELBUF_TAB,NG      ,
      1        PM      ,GEO       ,IXS      ,X          ,
@@ -384,7 +384,7 @@ C
               ENDDO                                                    
             ENDIF     
 c---------
-          ELSEIF (ISOLNOD.EQ.10 .OR. (ISOLNOD.EQ.4.AND.ISROT==1)) THEN
+          ELSEIF (ISOLNOD==10 .OR. (ISOLNOD==4.AND.ISROT==1)) THEN
 c---------
             CALL S10FORC3(ELBUF_TAB,NG    ,                            
      1       PM   ,GEO   ,IXS    ,X          ,                         
@@ -402,7 +402,7 @@ c---------
      D       VOLN    ,CONDN    ,CONDNSKY  , VARNOD, 
      E       ITAGND  ,SENSOR   ,LSENSOR   ,IPRI     ,MATPARAM_TAB,IBID)                        
 c
-            IF(NSECT.GT.0)THEN 
+            IF(NSECT>0)THEN 
               K0=NSTRF(25)                                             
               N=NINTER+NRWALL+NRBODY                            
               DO I=1,NSECT                                             
@@ -428,7 +428,7 @@ C
               ENDDO                                                    
             ENDIF                                                      
 c---------
-          ELSEIF(ISOLNOD.EQ.20)THEN
+          ELSEIF(ISOLNOD==20)THEN
 C-------------------------
 C             20 NODE SOLID
 C-------------------------
@@ -487,7 +487,7 @@ c
      K         ITASK    ,IPRI     ,MATPARAM_TAB,IBID) 
 !,SENSOR   ,LSENSOR  
 c
-              IF(NSECT.GT.0)THEN
+              IF(NSECT>0)THEN
                K0=NSTRF(25)
                N=NINTER+NRWALL+NRBODY
                DO I=1,NSECT
@@ -513,7 +513,7 @@ C
                ENDDO
               ENDIF
 c---------
-          ELSEIF(ISOLNOD.EQ.16)THEN
+          ELSEIF(ISOLNOD==16)THEN
 C-------------------------
 C             16 NODE THICK SHELLS
 C-------------------------
@@ -571,7 +571,7 @@ C-------------------------
      H         IGEO     ,VOLN     ,CONDN    ,CONDNSKY   ,ITASK,IPRI  ,
      I         MATPARAM_TAB,IBID)   
 c
-              IF(NSECT.GT.0)THEN
+              IF(NSECT>0)THEN
 
                K0=NSTRF(25)
                N=NINTER+NRWALL+NRBODY
@@ -602,7 +602,7 @@ C-------------------------------------------------------------------7---------8
 C-------------------------
 C             THICK SHELLS HQEPH
 C-------------------------
-            IF(ISOLNOD.EQ.6)THEN
+            IF(ISOLNOD==6)THEN
 C              6 node penta
               CALL S6CFORC3(ELBUF_TAB,NG         ,
      1         PM   ,GEO   ,IXS    ,X            ,
@@ -620,7 +620,7 @@ C              6 node penta
      D         IGRTH(NF1),TABLE ,MSSA(NF1),DMELS(NF1)  ,VOLN  ,
      E         ITASK ,IPRI      ,MATPARAM_TAB,IBID)
 c
-              IF(NSECT.GT.0)THEN
+              IF(NSECT>0)THEN
                K0=NSTRF(25)
                N=NINTER+NRWALL+NRBODY
                DO I=1,NSECT
@@ -911,7 +911,7 @@ C
               ENDDO
             ENDIF
 C----6---------------------------------------------------------------7---------8
-          ELSEIF(IGTYP.GE.29)THEN
+          ELSEIF(IGTYP>=29)THEN
 !
             IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .       CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTS(NF1) ,SUBSET ,IPRI)
@@ -1062,13 +1062,13 @@ C
             ENDIF
           ENDIF
 C----6---------------------------------------------------------------7---------8
-        ELSEIF(ITY.EQ.2.AND.JMULT.EQ.0.AND.JLAG.EQ.1.AND.
-     .         ICRACK.EQ.0) THEN
+        ELSEIF(ITY==2.AND.JMULT==0.AND.JLAG==1.AND.
+     .         ICRACK==0) THEN
              OFF_IGRTH = NUMELS
 !
           IF (ISENS_ENERGY == 1 .AND. IPRI == 0)
      .     CALL SENSOR_ENERGY_PART(LSENSOR ,IPARTQ(NF1) ,SUBSET ,IPRI)
-          IF(JHBE.EQ.17 .OR. (N2D.EQ.1.AND.JHBE.EQ.22)) THEN
+          IF(JHBE==17 .OR. (N2D==1.AND.JHBE==22)) THEN
           
             CALL Q4FORC2(
      1        PM   ,GEO   ,IXQ    ,X         ,A           ,
@@ -1261,7 +1261,7 @@ C
               ENDDO
             ENDIF
 C----6---------------------------------------------------------------7---------8
-        ELSEIF(ITY.EQ.101)THEN
+        ELSEIF(ITY==101)THEN
               OFF_IGRTH = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+
      .                   NUMELR
 c              K = 1+2*(NSECT+NRBODY+NRWALL)
@@ -1291,7 +1291,7 @@ c              K = 1+2*(NSECT+NRBODY+NRWALL)
      E           GRESAV   ,GRTH      ,IGRTH(OFF_IGRTH+NF1) ,MATPARAM_TAB,IBID)
 
         ENDIF
-            IF (IDDW.GT.0) CALL STOPTIMEG(NG)
+            IF (IDDW>0) CALL STOPTIMEG(NG)
 
 C---------Nitsche Method : element mean stress storing----
 
@@ -1309,7 +1309,7 @@ C---------Nitsche Method : element mean stress storing----
           ENDDO
 
 C           STRESS TENSOR IN GLOBAL SYSTEM
-          IF (JCVT /= 0 .AND. JHBE .NE. 16) THEN
+          IF (JCVT /= 0 .AND. JHBE /= 16) THEN
 C             ROTATION IF COROTA SYSTEM
             DO I=LFT,LLT   
               NN = NFT +I

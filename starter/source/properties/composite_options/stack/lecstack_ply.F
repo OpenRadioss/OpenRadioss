@@ -207,7 +207,7 @@ C
           ENDIF
         ENDDO
 C
-        IF (UID.NE.0.AND.IFLAGUNIT==0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=IG,C1='STACK',
      .                 C2='STACK',
@@ -272,7 +272,7 @@ C-------------------------------
 c     call BIDON2 to avoid optimization issue on FAC_L variable from compiler (issue
 c     observed after global code compilation with -openmp flag
         CALL BIDON2(FAC_L)
-        IF (UID.NE.0.AND.IFLAGUNIT==0) THEN
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .          I2=UID, I1=IG,C1='PLY',
      .          C2='PLY',
@@ -291,7 +291,7 @@ C
 C
         CALL LCGEO19(GEO(1,I), IGEO(1,I), PM, IPM, UNITAB, IUNIT, ISTACK,
      .       IDRAPEID, LSUBMODEL)
-        IF (IGEO(4,I).GT.10) THEN
+        IF (IGEO(4,I)>10) THEN
            CALL ANCMSG(MSGID=1146,
      .          MSGTYPE=MSGERROR,
      .          ANMODE=ANINFO,

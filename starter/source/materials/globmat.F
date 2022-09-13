@@ -165,7 +165,7 @@ C used for QEPH
           GEO(IPGMAT +14,I) = RHO0
           GEO(IPGMAT +15,I) = RHOCP
 C          
-          IF(ICRYPT.NE.0)THEN
+          IF(ICRYPT/=0)THEN
              WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
           ELSE
              WRITE(IOUT,100)IGEO(1,I),RHO,E,NU,G
@@ -251,7 +251,7 @@ C used fo    r QEPH
               PM_STACK(13,IS) = SQRT(NU)
               PM_STACK(14,IS)  = RHO0
               PM_STACK(15,IS)  = RHOCP
-              IF(ICRYPT.NE.0)THEN
+              IF(ICRYPT/=0)THEN
                  WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
               ELSE
                  WRITE(IOUT,100)IGEO(1,I),RHO,E,NU,G

@@ -79,7 +79,7 @@ C-----------------------------------------------
         SZFRI24 = 0
       
         DO P = 1, NSPMD
-          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0) THEN
+          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0) THEN
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
               ITAG(NOD)=1
@@ -93,7 +93,7 @@ C-----------------------------------------------
                 DO I=1,NSN
                   SN = INTBUF_TAB(NIN)%NSV(I)
 C Fictives T24 E2E Nodes hav NSV over Numnod
-                  IF(SN.LE.NUMNOD)THEN
+                  IF(SN<=NUMNOD)THEN
                     IF(ITAG(SN)==1)THEN
                       SZFRI24 = SZFRI24+1
                     ENDIF
@@ -116,7 +116,7 @@ C-----------------------------------------------
         IAD_I24(1,1)=1
         IAFR24=0
         DO P = 1, NSPMD
-          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0) THEN
+          IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0) THEN
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
               ITAG(NOD)=1
@@ -132,7 +132,7 @@ C-----------------------------------------------
                 DO I=1,NSN
                   SN = INTBUF_TAB(NIN)%NSV(I)
 C Fictives T24 E2E Nodes hav NSV over Numnod
-                  IF(SN.LE.NUMNOD)THEN
+                  IF(SN<=NUMNOD)THEN
                     IF(ITAG(SN)==1)THEN		 
                       IAD_I24(NI+1,P)=IAD_I24(NI+1,P)+1
 		      IAFR24 = IAFR24 + 1
@@ -151,7 +151,7 @@ C Flush ITAG to zero again for next CPU
             DO I=2,NBINTC+1
 	      IAD_I24(I,P)=IAD_I24(1,P)
 	    ENDDO	  
-          ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P).GT.0)
+          ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)
 	  IF(P<NSPMD)IAD_I24(1,P+1)=IAD_I24(NBINTC+1,P)
         ENDDO
       ENDIF

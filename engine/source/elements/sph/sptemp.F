@@ -91,7 +91,7 @@ C     Calcul du gradient de temperature.
 C-----------------------------------------------
       DO 10 I=LFT,LLT
        N    =NFT+I
-       IF(KXSP(2,N).LE.0)GOTO 10
+       IF(KXSP(2,N)<=0)GOTO 10
        INOD =KXSP(3,N)
        XI=X(1,INOD)
        YI=X(2,INOD)
@@ -120,7 +120,7 @@ C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
         JNOD=IXSP(J,N)
-        IF(JNOD.GT.0)THEN
+        IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
@@ -173,7 +173,7 @@ C      partie symetrique.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)
-        IF(JS.GT.0)THEN
+        IF(JS>0)THEN
           SM=JS/(NSPCOND+1)
           NC=MOD(JS,NSPCOND+1)
           JS=ISPSYM(NC,SM)
@@ -308,7 +308,7 @@ C     Calcul du Laplacien(T).
 C-----------------------------------------------
       DO 10 I=LFT,LLT
        N    =NFT+I
-       IF(KXSP(2,N).LE.0)GOTO 10
+       IF(KXSP(2,N)<=0)GOTO 10
        INOD =KXSP(3,N)
        XI=X(1,INOD)
        YI=X(2,INOD)
@@ -339,7 +339,7 @@ C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
         JNOD=IXSP(J,N)
-        IF(JNOD.GT.0)THEN
+        IF(JNOD>0)THEN
           M=NOD2SP(JNOD)
           XJ=X(1,JNOD)
           YJ=X(2,JNOD)
@@ -489,7 +489,7 @@ C      partie symetrique.
        NVOISS=KXSP(6,N)
        DO J=KXSP(5,N)+1,KXSP(5,N)+NVOISS
         JS=IXSP(J,N)
-        IF(JS.GT.0)THEN
+        IF(JS>0)THEN
           SM=JS/(NSPCOND+1)
           NC=MOD(JS,NSPCOND+1)
           JS=ISPSYM(NC,SM)
@@ -705,21 +705,21 @@ C-----------------------------------------------
         IC=ISPCOND(2,NC)
         IS=ISPCOND(3,NC)
         ISLIDE=ISPCOND(5,NC)
-        IF (IC.EQ.1) THEN
+        IF (IC==1) THEN
             OX=XFRAME(10,IS)
             OY=XFRAME(11,IS)
             OZ=XFRAME(12,IS)
             UX=XFRAME(1,IS)
             UY=XFRAME(2,IS)
             UZ=XFRAME(3,IS)
-        ELSEIF (IC.EQ.2) THEN
+        ELSEIF (IC==2) THEN
             OX=XFRAME(10,IS)
             OY=XFRAME(11,IS)
             OZ=XFRAME(12,IS)
             UX=XFRAME(4,IS)
             UY=XFRAME(5,IS)
             UZ=XFRAME(6,IS)
-        ELSEIF (IC.EQ.3) THEN
+        ELSEIF (IC==3) THEN
             OX=XFRAME(10,IS)
             OY=XFRAME(11,IS)
             OZ=XFRAME(12,IS)
@@ -730,11 +730,11 @@ C-----------------------------------------------
         DO SS=1,NSPHACT
          SM=WASPACT(SS)
          JS=ISPSYM(NC,SM)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           SX=WGRADT(1,SM)
           SY=WGRADT(2,SM)
           SZ=WGRADT(3,SM)
-C         IF(ISLIDE.EQ.0)THEN
+C         IF(ISLIDE==0)THEN
 C----------
            NN=SX*UX+SY*UY+SZ*UZ
            NX=NN*UX
@@ -755,11 +755,11 @@ C Particules symetriques de particules remotes
 C
         DO SS=1,NSPHR
          JS=ISPSYMR(NC,SS)
-         IF(JS.GT.0)THEN
+         IF(JS>0)THEN
           SX=WGR(1,SS)
           SY=WGR(2,SS)
           SZ=WGR(3,SS)
-C         IF(ISLIDE.EQ.0)THEN
+C         IF(ISLIDE==0)THEN
 C----------
            NN=SX*UX+SY*UY+SZ*UZ
            NX=NN*UX
@@ -815,7 +815,7 @@ C       Temperature in element is equivalent to Nodal temperature for SPH
 C-----------------------------------------------
       DO I=LFT,LLT
        N = NFT+I
-       IF(KXSP(2,N).GT.0)THEN
+       IF(KXSP(2,N)>0)THEN
          INOD = KXSP(3,N)
          TEMPEL(I)=TEMP(INOD)
        ENDIF

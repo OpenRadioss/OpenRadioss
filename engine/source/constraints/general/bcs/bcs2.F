@@ -47,11 +47,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n i d i t i o n s 
 C-----------------------------------------------
-      IF(K.EQ.0) RETURN
+      IF(K==0) RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(J.EQ.1) THEN
+      IF(J==1) THEN
         !=====REPERE GLOBAL
         SELECT CASE (K)
           CASE(1)
@@ -168,7 +168,7 @@ C-----------------------------------------------
         N    = INDX(K)
         ISK  = ISKEW(N)
         LCOD = ICODT(N)
-        IF(ISK.EQ.1) THEN
+        IF(ISK==1) THEN
          !=====REPERE GLOBAL
          SELECT CASE (LCOD)
            CASE(1)

@@ -85,7 +85,7 @@ C
 C            True initial penetration
              IWPENE=IWPENE+1
 
-             IF(IPRI.GE.5 )
+             IF(IPRI>=5 )
      .           CALL ANCMSG(MSGID=1164,
      .                           MSGTYPE=MSGWARNING,
      .                           ANMODE=ANINFO_BLIND_1,
@@ -96,31 +96,31 @@ C            True initial penetration
      .                           I5=ITAB(IX4),
      .                           R1=PENE_OLD(5,J),
      .                           PRMOD=MSG_CUMU)
-             IF(INACTI.EQ.0)THEN
+             IF(INACTI==0)THEN
 C              Ignore initial penetrations
                IRTLM(1,J)   = 0
                IRTLM(2,J)   = 0
                IRTLM(3,J)   = 0
                PENE_OLD(5,J)= ZERO
-             ELSEIF(INACTI.EQ.1) THEN
+             ELSEIF(INACTI==1) THEN
 C              DESACTIVATION DES NOEUDS
                WRITE(IOUT,'(A)')'NODE STIFFNESS IS SET TO ZERO'
                STFN(J) = ZERO
-C            ELSE IF(INACTI.EQ.2) THEN
+C            ELSE IF(INACTI==2) THEN
 C              DESACTIVATION DES ELEMENTS
 C              WRITE(IOUT,'(A)')
 C    .           'INACTI=2 IS NOT AVAILABLE FOR INTERFACE TYPE25'
-C            ELSE IF(INACTI.EQ.3) THEN
+C            ELSE IF(INACTI==3) THEN
 C              CHANGE LES COORDONNEES DES NOEUDS SECND
 C              WRITE(IOUT,'(A)')
 C    .           'INACTI=3 IS NOT AVAILABLE FOR INTERFACE TYPE25'
-C            ELSE IF(INACTI.EQ.4) THEN
+C            ELSE IF(INACTI==4) THEN
 C              CHANGE LES COORDONNEES DES NOEUDS MAIN
 C              WRITE(IOUT,'(A)')
 C    .           'INACTI=4 IS NOT AVAILABLE FOOR INTERFACE TYPE25'
-             ELSE IF(INACTI.EQ.5) THEN
+             ELSE IF(INACTI==5) THEN
 C              REDUCTION DU GAP
-             ELSE IF(INACTI.EQ.-1) THEN
+             ELSE IF(INACTI==-1) THEN
 C              Initial penetrations <=> Initial forces
                PENE_OLD(5,J)= ZERO
              ENDIF

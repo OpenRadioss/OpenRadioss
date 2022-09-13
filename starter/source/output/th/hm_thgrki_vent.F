@@ -134,7 +134,7 @@ C-----------------------------------------------
       DO N=1,NVOLU                                                       
         ITYP_MONV=T_MONVOL(N)%TYPE                                       
         NVENT(N)=T_MONVOL(N)%NVENT                                       
-        IF (NVENT(N) .NE. 0) THEN                                        
+        IF (NVENT(N) /= 0) THEN                                        
            CALL NAME_FVBAG(T_MONVOL(N)%IBAGHOL,VENT_NAME(1,N),NVENT(N))  
         ENDIF                                                            
       ENDDO                                                              
@@ -147,15 +147,15 @@ C-----------------------------------------------
         CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,K,IS_AVAILABLE,LSUBMODEL) 
         CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,K,40,IS_AVAILABLE) 
         N_BAK=N
-        IF (NSUBDOM.GT.0) THEN
+        IF (NSUBDOM>0) THEN
 C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
           IF(R2R_EXIST(ITYP,N)==0) CYCLE
 C---------------------------------------------------------------------- 
         ENDIF          
         DO J=1,NUM                                                
-          IF(N.EQ.NOM_OPT(1,INOPT1+J))N=J                         
+          IF(N==NOM_OPT(1,INOPT1+J))N=J                         
         ENDDO                                                     
-        IF(N.EQ.0)THEN                                            
+        IF(N==0)THEN                                            
            CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)      
            CALL ANCMSG(MSGID=257,                                 
      .                 MSGTYPE=MSGERROR,                          
@@ -222,8 +222,8 @@ C
           CALL HM_GET_INT_ARRAY_INDEX('ids',N,KK,IS_AVAILABLE,LSUBMODEL) 
           CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,KK,IS_AVAILABLE,LSUBMODEL) 
           CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,KK,40,IS_AVAILABLE) 
-          IF(N.NE.0)THEN
-               IF (NSUBDOM.GT.0) THEN
+          IF(N/=0)THEN
+               IF (NSUBDOM>0) THEN
 C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
                  IF(R2R_EXIST(ITYP,N)==0) CYCLE
                ENDIF
@@ -232,9 +232,9 @@ C----------------------------------------------------------------------
           N_BAK = N  
           N=0                                                  
           DO J=1,NUM                                              
-            IF(N_BAK.EQ.NOM_OPT(1,INOPT1+J))N=J                       
+            IF(N_BAK==NOM_OPT(1,INOPT1+J))N=J                       
           ENDDO                                                   
-          IF(N.EQ.0)THEN                                          
+          IF(N==0)THEN                                          
              CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)    
              CALL ANCMSG(MSGID=257,                               
      .                   MSGTYPE=MSGERROR,                        
@@ -266,7 +266,7 @@ C
           ENDDO
           CALL FRETITL2(TITR1,ITHBUF(IAD2),40)
 
-          IF (I .LE. NVENT(K)) THEN
+          IF (I <= NVENT(K)) THEN
             WRITE(TMP_CHAR,FMT='(I2,A)')  ID_VENT(I),VENT_NAME(I,K) 
           ELSE
             WRITE(TMP_CHAR,FMT='(I2,A)')  ID_VENT(I),''
@@ -297,7 +297,7 @@ C=======================================================================
 C=======================================================================
 C PRINTOUT
 C=======================================================================
-        IF(IPRI.LT.1)RETURN
+        IF(IPRI<1)RETURN
 C
         N=ITHGRP(4)
         IAD1=ITHGRP(5)

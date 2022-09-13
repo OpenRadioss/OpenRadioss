@@ -114,7 +114,7 @@ C=======================================================================
           MFT = IPARG(3,NG)                                                                              
           ITY = IPARG(5,NG)
           ISOLNOD = IPARG(28,NG)                                                                              
-          IF (ESEG.LE.KLT+MFT) EXIT                                                      
+          IF (ESEG<=KLT+MFT) EXIT                                                      
           IF(N2D==0)THEN
             IF(ITY/=1)CYCLE
             IF(ISOLNOD == 0)THEN

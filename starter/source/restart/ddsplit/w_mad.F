@@ -53,8 +53,8 @@ c      N_L = 0
 c      DO N = 1, NRIVET
 c        N1=IXRI(2,N)
 c        N2=IXRI(3,N)
-c        IF(MOD(FRONT(N1,PROC+1),10).EQ.1.AND.
-c     +     MOD(FRONT(N2,PROC+1),10).EQ.1)THEN
+c        IF(MOD(FRONT(N1,PROC+1),10)==1.AND.
+c     +     MOD(FRONT(N2,PROC+1),10)==1)THEN
 c          N_L = N_L + 1
 c          DO J = 1, NRIVF
 c            RIVET_L(J,N_L) = RIVET(J,N)
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C
 C Couplage etendu
 C
-      IF(NEXMAD.NE.0) THEN
+      IF(NEXMAD/=0) THEN
 C
 C ELEM shell4
 C
@@ -130,7 +130,7 @@ C
         NMAD_L = 0
         DO I = 1, NMADSH4
           K = IEXMAD(IDEB+I-1)
-          IF(CEP(K+ESHIFT).EQ.PROC) THEN
+          IF(CEP(K+ESHIFT)==PROC) THEN
             NMAD_L = NMAD_L+1
             TMPSH4(NMAD_L) = CEL(K+ESHIFT)
           END IF
@@ -143,7 +143,7 @@ C
         NMAD_L = 0
         DO I = 1, NMADSH3
           K = IEXMAD(IDEB+I-1)
-          IF(CEP(K+ESHIFT).EQ.PROC) THEN
+          IF(CEP(K+ESHIFT)==PROC) THEN
             NMAD_L = NMAD_L+1
             TMPSH3(NMAD_L) = CEL(K+ESHIFT)
           END IF
@@ -156,7 +156,7 @@ C
         NMAD_L = 0
         DO I = 1, NMADSOL
           K = IEXMAD(IDEB+I-1)
-          IF(CEP(K+ESHIFT).EQ.PROC) THEN
+          IF(CEP(K+ESHIFT)==PROC) THEN
             NMAD_L = NMAD_L+1
             TMPSOL(NMAD_L) = CEL(K+ESHIFT)
           END IF
@@ -191,7 +191,7 @@ C
 C
       END IF
 C
-      IF(PROC.EQ.0) THEN
+      IF(PROC==0) THEN
         DO I=1,7*NCONX
           ICONX_L(I) = IEXMAD(I)
         END DO
@@ -201,8 +201,8 @@ C
         CALL WRITE_I_C(ICONX_L,7*NCONX)
         LEN_IA = LEN_IA + 7*NCONX
       END IF
-      IF(NEXMAD.NE.0) THEN
-        IF(PROC.EQ.0) THEN
+      IF(NEXMAD/=0) THEN
+        IF(PROC==0) THEN
           CALL WRITE_I_C(IEXMAD(7*NCONX+1),NMADPRT)
           LEN_IA = LEN_IA + NMADPRT
         END IF
@@ -216,7 +216,7 @@ C
         LEN_IA = LEN_IA + NMADNOD_L
         CALL WRITE_I_C(MADCL_TMPNOD,MADCL_NMADNOD_L)
         LEN_IA = LEN_IA + MADCL_NMADNOD_L
-        IF(PROC.EQ.0)THEN
+        IF(PROC==0)THEN
           IDEB = 7*NCONX+NMADPRT+NMADSH4+NMADSH3+NMADSOL+NMADNOD
      +         + NUMELC+NUMELTG+NUMELS + 1
           CALL WRITE_I_C(IEXMAD(IDEB),2*NMADNOD+NMADSH4+NMADSH3+NMADSOL)

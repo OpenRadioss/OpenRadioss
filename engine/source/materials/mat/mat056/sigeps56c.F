@@ -223,8 +223,8 @@ C
        NUX  = UPARAM(IADBUF+6)
        NRATE1 = NINT(UPARAM(IADBUF+1))
        EPSMAX1=UPARAM(IADBUF+6+2*NRATE1+1)
-       IF(EPSMAX1.EQ.ZERO)THEN
-         IF(TF(NPF(IFUNC1(1)+1)-1).EQ.ZERO)THEN
+       IF(EPSMAX1==ZERO)THEN
+         IF(TF(NPF(IFUNC1(1)+1)-1)==ZERO)THEN
            EPSMAX1=TF(NPF(IFUNC1(1)+1)-2)
          ELSE
            EPSMAX1= EP30
@@ -244,8 +244,8 @@ C
        EPSR21 =UPARAM(IADBUF+6+2*NRATE1+3)
        FISOKIN1=UPARAM(IADBUF+6+2*NRATE1+8)
 C
-       IF (ISIGI.EQ.0) THEN
-       IF(TIME.EQ.ZERO)THEN
+       IF (ISIGI==0) THEN
+       IF(TIME==ZERO)THEN
          DO I=1,NEL0
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
@@ -285,7 +285,7 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF (ISRATE.EQ.0) EPSP(I) = 
+         IF (ISRATE==0) EPSP(I) = 
      .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -308,7 +308,7 @@ C-------------------
 Cel inversion boucles
        DO J=2,NRATE1-1
          DO I=1,NEL0
-           IF(EPSP(I).GE.UPARAM(IADBUF+6+J)) JJ(I) = J
+           IF(EPSP(I)>=UPARAM(IADBUF+6+J)) JJ(I) = J
          ENDDO
        ENDDO
        DO I=1,NEL0
@@ -332,7 +332,7 @@ C
        CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL0,PLA,DYDX1,Y1)
        CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL0,PLA,DYDX2,Y2)
 C
-       IF (FISOKIN1.EQ.ZERO) THEN
+       IF (FISOKIN1==ZERO) THEN
         DO I=1,NEL0
          J1 = JJ(I)
          J2 = J1+1
@@ -347,7 +347,7 @@ C
          UVAR(I,J1+4) = IPOS1(I)
          UVAR(I,J2+4) = IPOS2(I)
         ENDDO
-       ELSEIF (FISOKIN1.EQ.1.) THEN
+       ELSEIF (FISOKIN1==1.) THEN
         DO I=1,NEL0
          J1 = JJ(I)
          J2 = J1+1
@@ -391,7 +391,7 @@ C       ECROUISSAGE CINEMATIQUE
 C-------------------
 C     PROJECTION
 C-------------------
-       IF(IFLAG(1).EQ.0)THEN
+       IF(IFLAG(1)==0)THEN
 C projection radiale 
          DO I=1,NEL0
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
@@ -409,10 +409,10 @@ C projection radiale
            DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1) 
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1) 
          ENDDO
 C
-       ELSEIF(IFLAG(1).EQ.1)THEN
+       ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
 C     CRITERE DE VON MISES
 C-------------------------
@@ -432,13 +432,13 @@ C     GATHER PLASTIC FLOW
 C-------------------------
          NINDX=0
          DO I=1,NEL0
-           IF(SVM(I).GT.YLD(I).AND.OFF(I).EQ.ONE) THEN
+           IF(SVM(I)>YLD(I).AND.OFF(I)==ONE) THEN
              NINDX=NINDX+1
              INDEX(NINDX)=I
            ENDIF
          ENDDO
 C
-         IF(NINDX.NE.0) THEN
+         IF(NINDX/=0) THEN
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
@@ -465,7 +465,7 @@ C
      .         *(E1-TWO*DR(I)*HK(I))/YLD_I
      .         -TWO*HK(I)*YLD_I
              DF = SIGN(MAX(ABS(DF),EM20),DF)
-             IF(DPLA_I(I).GT.ZERO) THEN
+             IF(DPLA_I(I)>ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
@@ -489,7 +489,7 @@ C------------------------------------------
           ENDDO
          ENDIF
 C-------------------------------------------
-       ELSEIF(IFLAG(1).EQ.2)THEN
+       ELSEIF(IFLAG(1)==2)THEN
 C projection radial sur le deviateur sur un critere reduit
 C projection elastique en z => sig33 = 0
 C le coef. de reduction du critere est tel que 
@@ -523,18 +523,18 @@ C proj.   signzz    = 0.
            DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R.LT.ONE) ETSE(I)= H(I)/(H(I)+E1)         
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1)         
          ENDDO
        ENDIF
 C
        DO I=1,NEL0
-         IF(PLA(I).GT.EPSMAX1.AND.OFF(I).EQ.ONE)OFF(I)=FOUR_OVER_5
+         IF(PLA(I)>EPSMAX1.AND.OFF(I)==ONE)OFF(I)=FOUR_OVER_5
        ENDDO
 C------------------------------------------
 C     ECROUISSAGE CINE
 C------------------------------------------
 C test bypass
-       IF (FISOKIN1.NE.ZERO) THEN
+       IF (FISOKIN1/=ZERO) THEN
         DO I=1,NEL0
           DSXX = SIGEXX(I) - SIGNXX(I)
           DSYY = SIGEYY(I) - SIGNYY(I)

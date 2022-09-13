@@ -86,7 +86,7 @@ C-----------------------------------------------
       DO SG = FIRST,LAST,MSEG
        NSEG = MIN(MSEG,LAST-JS)
        NLS=0
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -94,7 +94,7 @@ C
          NLS2 = NSEG+1
          DO IS = 1, NSEG
            I=JS+IS
-           IF(CAND_N(I).LE.NSN)THEN
+           IF(CAND_N(I)<=NSN)THEN
              NLS=NLS+1
              LISTI(NLS)=IS
            ELSE
@@ -102,7 +102,7 @@ C
              LISTI(NLS2) = IS
            ENDIF
          ENDDO
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
            DO LS = 1, NLS
              IS = LISTI(LS)
              GAPV(IS)=GAP
@@ -112,13 +112,13 @@ C
              IS = LISTI(LS)
              I=JS+IS
              GAPV(IS)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-             IF(GAPMAX.NE.ZERO)GAPV(IS)=MIN(GAPV(IS),GAPMAX)
+             IF(GAPMAX/=ZERO)GAPV(IS)=MIN(GAPV(IS),GAPMAX)
              GAPV(IS)=MAX(GAPV(IS),GAP)
            ENDDO
          ENDIF
        ELSE
          NLS = NSEG
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
           DO IS=1,NSEG
             GAPV(IS)=GAP
             LISTI(IS)=IS
@@ -127,7 +127,7 @@ C
           DO IS=1,NSEG
             I=JS+IS
             GAPV(IS)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-            IF(GAPMAX.NE.ZERO)GAPV(IS)=MIN(GAPV(IS),GAPMAX)
+            IF(GAPMAX/=ZERO)GAPV(IS)=MIN(GAPV(IS),GAPMAX)
             GAPV(IS)=MAX(GAPV(IS),GAP)
             LISTI(IS)=IS
           ENDDO
@@ -143,7 +143,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L).NE.ZERO.AND.STFA(NSV(CAND_N(I))).NE.ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFA(NSV(CAND_N(I)))/=ZERO) THEN 
 
 c           IG(IS) = NSV(CAND_N(I))
 c           XI = X(1,IG(IS))
@@ -195,7 +195,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L).NE.ZERO.AND.STFA(NSV(CAND_N(I))).NE.ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFA(NSV(CAND_N(I)))/=ZERO) THEN 
             IL(IS) = NSV(CAND_N(I))
             ZI = XA(3,IL(IS))
 
@@ -209,7 +209,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             Z4=XA(3,IX4(IS))
             ZMIN = MIN(Z1,Z2,Z3,Z4)-GAPV(IS)
             ZMAX = MAX(Z1,Z2,Z3,Z4)+GAPV(IS)
-            IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+            IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -230,7 +230,7 @@ C
           Y4=XA(2,IX4(IS))
           YMIN = MIN(Y1,Y2,Y3,Y4)-GAPV(IS)
           YMAX = MAX(Y1,Y2,Y3,Y4)+GAPV(IS)
-          IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+          IF (YMIN<=YI.AND.YMAX>=YI) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -248,23 +248,23 @@ C
           X4=XA(1,IX4(IS))
           XMIN = MIN(X1,X2,X3,X4)-GAPV(IS)
           XMAX = MAX(X1,X2,X3,X4)+GAPV(IS)
-          IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+          IF (XMIN<=XI.AND.XMAX>=XI) THEN
             I=JS+IS
             CAND_N(I) = -CAND_N(I)
             COUNT_CAND = COUNT_CAND+1
           ENDIF
         ENDDO
        ENDIF
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
           NLF = NLS2
           NLT = NSEG
-          IF(IGAP.EQ.0)THEN
+          IF(IGAP==0)THEN
             DO LS = NLF, NLT
               IS = LISTI(LS)
               GAPV(IS)=GAP
             ENDDO
           ELSE
-            IF(GAPMAX.NE.ZERO)THEN
+            IF(GAPMAX/=ZERO)THEN
               DO LS = NLF, NLT
                 IS = LISTI(LS)
                 I=JS+IS
@@ -288,7 +288,7 @@ C
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
              ZI = XFI(NIN)%P(3,II)
@@ -339,7 +339,7 @@ C
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L).NE.ZERO.AND.STIFI(NIN)%P(II).NE.ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
               ZI = XFI(NIN)%P(3,II)
               IX1(IS)=IRECT(1,L)
               Z1=XA(3,IX1(IS))
@@ -351,7 +351,7 @@ C
               Z4=XA(3,IX4(IS))
               ZMIN = MIN(Z1,Z2,Z3,Z4)-GAPV(IS)
               ZMAX = MAX(Z1,Z2,Z3,Z4)+GAPV(IS)
-              IF (ZMIN.LE.ZI.AND.ZMAX.GE.ZI) THEN
+              IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
                 NLS=NLS+1
                 LIST(NLS)=IS
               ENDIF
@@ -373,7 +373,7 @@ C
             Y4=XA(2,IX4(IS))
             YMIN = MIN(Y1,Y2,Y3,Y4)-GAPV(IS)
             YMAX = MAX(Y1,Y2,Y3,Y4)+GAPV(IS)
-            IF (YMIN.LE.YI.AND.YMAX.GE.YI) THEN
+            IF (YMIN<=YI.AND.YMAX>=YI) THEN
               NLS=NLS+1
               LIST(NLS)=IS
             ENDIF
@@ -391,7 +391,7 @@ C
             X4=XA(1,IX4(IS))
             XMIN = MIN(X1,X2,X3,X4)-GAPV(IS)
             XMAX = MAX(X1,X2,X3,X4)+GAPV(IS)
-            IF (XMIN.LE.XI.AND.XMAX.GE.XI) THEN
+            IF (XMIN<=XI.AND.XMAX>=XI) THEN
               CAND_N(I) = -CAND_N(I)
               COUNT_CAND = COUNT_CAND+1
               CT         = CT + 1
@@ -493,7 +493,7 @@ C-----------------------------------------------
       DO SG = FIRST,LAST,MSEG
        NSEG = MIN(MSEG,LAST-JS)
        NLS=0
-       IF(NSPMD.GT.1) THEN
+       IF(NSPMD>1) THEN
 C
 C Partage cand_n local / frontiere
 C
@@ -501,7 +501,7 @@ C
          NLS2 = NSEG+1
          DO IS = 1, NSEG
            I=JS+IS
-           IF(CAND_S(I).LE.NLINSA)THEN
+           IF(CAND_S(I)<=NLINSA)THEN
              NLS=NLS+1
              LISTI(NLS)=IS
            ELSE
@@ -509,7 +509,7 @@ C
              LISTI(NLS2) = IS
            ENDIF
          ENDDO
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
            DO LS = 1, NLS
              IS = LISTI(LS)
              GAPV(IS)=GAP
@@ -524,7 +524,7 @@ C
          ENDIF
        ELSE
          NLS = NSEG
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
           DO IS=1,NSEG
             GAPV(IS)=GAP
             LISTI(IS)=IS
@@ -547,13 +547,13 @@ C
          IS = LISTI(LS)
          I=JS+IS
          L  = CAND_S(I)
-         IF (STFS(L).NE.ZERO) THEN
+         IF (STFS(L)/=ZERO) THEN
            N1L(IS)=IXLINS(1,L)
            Z1=XA(3,N1L(IS))
            N2L(IS)=IXLINS(2,L)
            Z2=XA(3,N2L(IS))
            L  = CAND_M(I)
-           IF (STFM(L).NE.ZERO) THEN
+           IF (STFM(L)/=ZERO) THEN
 
             M1L(IS)=IXLINM(1,L)
             Z3=XA(3,M1L(IS))
@@ -563,7 +563,7 @@ C
             ZMAXS = MAX(Z1,Z2)+GAPV(IS)
             ZMINM = MIN(Z3,Z4)-GAPV(IS)
             ZMAXM = MAX(Z3,Z4)+GAPV(IS)
-            IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+            IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -591,7 +591,7 @@ C
           YMAXS = MAX(Y1,Y2)+GAPV(IS)
           YMINM = MIN(Y3,Y4)-GAPV(IS)
           YMAXM = MAX(Y3,Y4)+GAPV(IS)
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -615,16 +615,16 @@ C
           XMAXS = MAX(X1,X2)+GAPV(IS)
           XMINM = MIN(X3,X4)-GAPV(IS)
           XMAXM = MAX(X3,X4)+GAPV(IS)
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
           ENDIF
        ENDDO
 C
-       IF(NSPMD.GT.1)THEN
+       IF(NSPMD>1)THEN
          NLF = NLS2
          NLT = NSEG
-         IF(IGAP.EQ.0)THEN
+         IF(IGAP==0)THEN
           DO LS=NLF, NLT
             IS = LISTI(LS)
             GAPV(IS)=GAP
@@ -645,13 +645,13 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           II = CAND_S(I)-NLINSA
-          IF (STIFIE(NIN)%P(II).NE.ZERO) THEN
+          IF (STIFIE(NIN)%P(II)/=ZERO) THEN
            NN1 = 2*(II-1)+1
            NN2 = 2*II
            Z1=XFIE(NIN)%P(3,NN1)
            Z2=XFIE(NIN)%P(3,NN2)
            L  = CAND_M(I)
-           IF (STFM(L).NE.ZERO) THEN
+           IF (STFM(L)/=ZERO) THEN
             M1L(IS)=IXLINM(1,L)
             Z3=XA(3,M1L(IS))
             M2L(IS)=IXLINM(2,L)
@@ -660,7 +660,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             ZMAXS = MAX(Z1,Z2)+GAPV(IS)
             ZMINM = MIN(Z3,Z4)-GAPV(IS)
             ZMAXM = MAX(Z3,Z4)+GAPV(IS)
-            IF (ZMAXS.GE.ZMINM.AND.ZMAXM.GE.ZMINS) THEN
+            IF (ZMAXS>=ZMINM.AND.ZMAXM>=ZMINS) THEN
              NLS=NLS+1
              LIST(NLS)=IS
             ENDIF
@@ -689,7 +689,7 @@ C
           YMAXS = MAX(Y1,Y2)+GAPV(IS)
           YMINM = MIN(Y3,Y4)-GAPV(IS)
           YMAXM = MAX(Y3,Y4)+GAPV(IS)
-          IF (YMAXS.GE.YMINM.AND.YMAXM.GE.YMINS) THEN
+          IF (YMAXS>=YMINM.AND.YMAXM>=YMINS) THEN
             NLS=NLS+1
             LIST(NLS)=IS
           ENDIF
@@ -713,7 +713,7 @@ C
           XMAXS = MAX(X1,X2)+GAPV(IS)
           XMINM = MIN(X3,X4)-GAPV(IS)
           XMAXM = MAX(X3,X4)+GAPV(IS)
-          IF (XMAXS.GE.XMINM.AND.XMAXM.GE.XMINS) THEN
+          IF (XMAXS>=XMINM.AND.XMAXM>=XMINS) THEN
             CAND_S(I) = -CAND_S(I)
             COUNT_CAND = COUNT_CAND+1
             CT = CT + 1

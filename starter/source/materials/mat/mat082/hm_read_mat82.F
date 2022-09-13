@@ -169,7 +169,7 @@ csm       PARMAT(3) = NU
        PARMAT(3) = NU
        PARMAT(6) = P
 C       
-       IF(RHOR.EQ.ZERO)RHOR=RHO0
+       IF(RHOR==ZERO)RHOR=RHO0
        PM(1) =RHOR
        PM(89)=RHO0 
 c-----------------

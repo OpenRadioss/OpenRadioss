@@ -67,8 +67,8 @@ C-----------------------------------------------
      .   S32, S33, RR,  RRD
 C
 
-      IF(JSPH.EQ.0)THEN
-        IF(N2D.EQ.0)THEN
+      IF(JSPH==0)THEN
+        IF(N2D==0)THEN
           DO 100 I=LFT,LLT
              RR=MAX(SQRT(RX(I)**2+RY(I)**2+RZ(I)**2),EM20)
              RX(I)=RX(I)/RR
