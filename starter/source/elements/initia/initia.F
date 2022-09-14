@@ -182,7 +182,7 @@ Chd|====================================================================
      I                  FXBCPM     ,FXBCPS       ,FXBLM        ,FXBFLS       ,FXBDLS,
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
-     K                  KNOD2ELC   ,NOD2ELC)
+     K                  KNOD2ELC   ,NOD2ELC      ,DR           )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
@@ -246,6 +246,7 @@ C-----------------------------------------------
 #include      "boltpr_c.inc"
 #include      "mmale51_c.inc"
 #include      "titr_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -303,7 +304,7 @@ C-----------------------------------------------
      .   SIGSP(NSIGI,*),SIGSPH(NSIGSPH,*),SIGRS(NSIGRS,*),SIGBEAM(NSIGBEAM,*),
      .   SIGTRUSS(NSIGTRUSS,*),TOTMAS, KNOTLOCPC(*),KNOTLOCEL(*),VNIGE(*),BNIGE(*),
      .   FXBGLM(*),FXBCPM(*),FXBCPS(*),FXBLM(*),FXBFLS(*),FXBDLS(*),FXB_MATRIX(*),
-     .   RBY_INIAXIS(7,*),ALEA(*)
+     .   RBY_INIAXIS(7,*),ALEA(*),DR(SDR)
 
       my_real, DIMENSION(NUMNOD*2), TARGET ::
      .   STIFN
@@ -384,7 +385,7 @@ C remove automatic allocation to reduce stack consumption
       my_real, DIMENSION(:,:), ALLOCATABLE :: DIS
       my_real
      .    ADDEDMS(NPART), MST3(MVSIZ),PTTRIA(MVSIZ)
-      INTEGER ID,ISTOT, NF1,ICUMU,I15_,SIPHASE, NUMEL_TOT,NNOD
+      INTEGER ID,ISTOT, NF1,ICUMU,I15_,SIPHASE, NUMEL_TOT,NNOD,NSROT
       CHARACTER*nchartitle,
      .   TITR
       LOGICAL :: ERROR_THROWN
@@ -1012,8 +1013,10 @@ C Case total strain
      D         PERTURB     ,RNOISE    )
               IF (NSIGI > 0 ) THEN
                  NNOD = 10
+                 NSROT = 0
+                 IF(ISOLNOD == 4 .AND.ISROT == 1) NSROT = 4
                  CALL SGSAVINIEREFQ(NNOD,STRAGLOB(NF1),SIGSP,NSIGI,PTSOL(NF1),
-     .                              GBUF%SMSTR,GBUF%OFF,NEL)
+     .                            GBUF%SMSTR,GBUF%OFF,IXS(1,NF1),DR,NSROT,NEL)
               END IF
          ELSEIF(ITY==1.AND.ISOLNOD==20)THEN
           KK1=1+NUMELS*NIXS+NUMELS10*6
@@ -3146,7 +3149,8 @@ Chd|-- called by -----------
 Chd|        INITIA                        source/elements/initia/initia.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SGSAVINIEREFQ(NPE,STRAGLOB,SIGSP,NSIGI,PTSOL,SAV,OFFG,NEL)
+      SUBROUTINE SGSAVINIEREFQ(NPE,STRAGLOB,SIGSP,NSIGI,PTSOL,SAV,OFFG,
+     .                         IXS,DR,NDR,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3161,24 +3165,34 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "param_c.inc"
 #include      "com01_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPE,NEL,STRAGLOB(*),PTSOL(*),NSIGI
+      INTEGER NPE,NEL,STRAGLOB(*),PTSOL(*),NSIGI,NDR
+      INTEGER IXS(NIXS,NEL)
 C     REAL
 C-------dim different for quadratic element(historic)
       DOUBLE PRECISION
      .  SAV(NEL,3*NPE)
 C     REAL
       my_real
-     .   SIGSP(NSIGI,*),OFFG(*)
+     .   SIGSP(NSIGI,*),OFFG(*),DR(SDR)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,NPE1,N,JJ,IIS,IIS0
+      INTEGER I,NPE1,N,JJ,IIS,IIS0,NN,NC(NEL,4)
 C     REAL
 C-----------------------------------------------
        IIS0= NUSOLID+4+NVSOLID1 + NVSOLID2 + NVSOLID3 + NVSOLID4 + NVSOLID5
+       IF (NDR>0) THEN
+         DO I=1,NEL
+           NC(I,1) =IXS(2,I)
+           NC(I,2) =IXS(4,I)
+           NC(I,3) =IXS(7,I)
+           NC(I,4) =IXS(6,I)
+         END DO
+       END IF
        DO I=LFT,LLT
         JJ=PTSOL(I)
         IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		       
@@ -3187,6 +3201,13 @@ C-----------------------------------------------
             SAV(I,N)       = SIGSP(IIS+1,JJ)			       
             SAV(I,N+NPE)   = SIGSP(IIS+2,JJ)			       
             SAV(I,N+2*NPE) = SIGSP(IIS+3,JJ)
+          END DO
+          DO N=1,NDR
+            IIS= IIS0 +(NPE+N-1)*3
+            NN = 3*(NC(I,N)-1)
+            DR(NN+1) = SIGSP(IIS+1,JJ)			       
+            DR(NN+2) = SIGSP(IIS+2,JJ)			       
+            DR(NN+3) = SIGSP(IIS+3,JJ)
           END DO
          IF (ISMSTR==1) OFFG(I) =TWO 
         ENDIF          
@@ -3536,7 +3557,7 @@ C------  IPARG(6,NG)= NPG after elbuf_ini
              END SELECT 
             ENDIF  
            WRITE(IOUT,'(A)') '  Isolid  Ismstr   Icpre     NPT'
-           WRITE(IOUT,'(3I8)')IHBE,Ismstr,ICPRE, NLY
+           WRITE(IOUT,'(4I8)')IHBE,Ismstr,ICPRE, NLY
           ELSE
 c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+  
 c---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|

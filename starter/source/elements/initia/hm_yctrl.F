@@ -76,7 +76,7 @@ C-----------------------------------------------
      .      NVSHELL0,NUSHELL0,NORTSHEL0,NUSOLID0,NELS,KK,JJ,
      .      ISOLNOD,ISOLID,IFRAM,IORTH,IREP,IGTYP,ISH3N,NDIR,NLAYERS,
      .      UID,SUB_ID,NLAY,NPTR,NPTS,NPTT,IFAIL,IRUPT_TYP,NVAR_RUPT,
-     .      ILAY,IMAT,NPT_MAX,NUBEAM0,NVSH_STRA,PROP
+     .      ILAY,IMAT,NPT_MAX,NUBEAM0,NVSH_STRA,PROP,NSROT
       INTEGER IGBR, JGBR, IOK
       CHARACTER MESS*40,KEY2*ncharkey,KEY3*ncharkey
 C-----------------------------------------------
@@ -296,8 +296,9 @@ C------------------------------------
                 NUMSOL = NUMSOL + NB_ELEMENTS
                 DO J=1,NB_ELEMENTS
                   CALL HM_GET_INT_ARRAY_INDEX('Isolnod',ISOLNOD,J,IS_AVAILABLE,LSUBMODEL)
+                  CALL HM_GET_INT_ARRAY_INDEX('Nsrot',NSROT,J,IS_AVAILABLE,LSUBMODEL)
 C------ use NVSOLID5 temporarily, read directly after new reader or add NVSOLID6
-                  NVSOLID6 = MAX(NVSOLID6, ISOLNOD*3)
+                  NVSOLID6 = MAX(NVSOLID6, (ISOLNOD+NSROT)*3)
                 ENDDO ! DO J=1,NB_ELEMENTS
 !
               CASE DEFAULT

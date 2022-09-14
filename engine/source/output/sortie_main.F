@@ -799,7 +799,7 @@ C
      A             IXS16    ,IXS20  ,ICODE ,LENGR ,LENGP  ,
      B             LENGT    ,ISKEW  ,V     ,VR    ,LENGQ  ,
      C             MULTI_FVM,BUFMAT ,NPBY  ,LPBY  ,STACK  ,
-     D             DRAPE_Q4, DRAPE_T3)
+     D             DRAPE_Q4, DRAPE_T3,DR   )
        IF(TT>=TSTAT)TSTAT=TSTAT+DTSTAT
        IF ((TSTOP<TSTAT).AND.(TSTAT<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TSTAT+DTSTAT)) THEN

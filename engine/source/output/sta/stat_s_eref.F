@@ -35,7 +35,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
       SUBROUTINE STAT_S_EREF(ELBUF_TAB,IPARG ,IPM ,IGEO ,IXS ,
-     1                        IXS10,IXS16,IXS20,X   ,
+     1                        IXS10,IXS16,IXS20,X   ,DR  ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,IPART,SIZP0)
 C-----------------------------------------------
@@ -66,6 +66,7 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "vect01_c.inc"
 #include      "scr17_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -74,7 +75,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTS(*), IPART_STATE(*), STAT_INDXS(*),IPART(LIPART1,*)
       my_real
-     .   X(3,*)
+     .   X(3,*), DR(SDR)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       double precision WA(*),WAP0(*)
 C-----------------------------------------------
@@ -82,7 +83,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,J,K,II,JJ,LEN,NLAY,NPTR,NPTS,NPTT,ISOLNOD0,
      .   ISOLNOD,ISTRAIN,NG, NEL, MLW, ID, IPRT0, IPRT,IE, 
-     .   NPG,IPG,IPT,IL,IR,IS,IT,IPID,PID,IOFF,KK(8),NC(20),NN1
+     .   NPG,IPG,IPT,IL,IR,IS,IT,IPID,PID,IOFF,KK(8),NC(20),
+     .   NN1,NN,NSROT
       INTEGER PTWA(STAT_NUMELS), PTWA_P0(0:MAX(1,STAT_NUMELS_G))
       my_real
      .   X0(MVSIZ,20), Y0(MVSIZ,20), Z0(MVSIZ,20)
@@ -125,7 +127,11 @@ C----- not output all solid element
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           IF (JHBE==17.AND.IINT==2) JHBE = 18
           ISOLNOD0 = ISOLNOD
-          IF (ISOLNOD0==4 .AND. ISROT>0) ISOLNOD=10
+          NSROT = 0
+          IF (ISOLNOD0==4 .AND. ISROT>0) THEN
+            ISOLNOD=10
+            NSROT = 4
+          END IF
           GBUF => ELBUF_TAB(NG)%GBUF
           IPRT=IPARTS(LFT+NFT)
           PID = IPART(2,IPRT)
@@ -144,7 +150,8 @@ c------
               WA(JJ+ 4)= JHBE                                               
               WA(JJ+ 5)= ISMSTR 
               WA(JJ+ 6)= GBUF%OFF(I)                                                                                                      
-              JJ = JJ + 6
+              WA(JJ+ 7)= NSROT                                                                                                      
+              JJ = JJ + 7
               IF(ISMSTR==1.OR.ISMSTR>=10) THEN
                 IF(ISOLNOD == 8)THEN
 	             DO J = 1,ISOLNOD
@@ -191,6 +198,15 @@ c------
                 WA(JJ)= Y0(I,J)                                               
                 JJ = JJ + 1
                 WA(JJ)= Z0(I,J)                                        
+               END DO              
+               DO J= 1, NSROT
+                NN = 3*(NC(J)-1)
+                JJ = JJ + 1
+                WA(JJ)= DR(1+NN)                                        
+                JJ = JJ + 1
+                WA(JJ)= DR(2+NN)                                               
+                JJ = JJ + 1
+                WA(JJ)= DR(3+NN)                                        
                END DO              
               END IF    ! ISMSTR==1.OR.ISMSTR>=10
               IE=IE+1                                                       
@@ -239,7 +255,7 @@ C         retrouve l'adresse dans WAP0
              WRITE(IUGEO,'(A)')
      .      '#------------------------ REPEAT -------------------------'
              WRITE(IUGEO,'(A)')
-     .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR' 
+     .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR     NSROT' 
              WRITE(IUGEO,'(A/A)')
      .      '# REPEAT K=1,ISOLNOD ',
      .      '#     X,   Y,   Z'
@@ -255,12 +271,17 @@ C         retrouve l'adresse dans WAP0
      .      '#------------------------ REPEAT -------------------------'
                CALL STRS_TXT50(LINE,100)  
                WRITE(LINE,'(A)')
-     .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR'
+     .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR     NSROT'
                CALL STRS_TXT50(LINE,100)  
                WRITE(LINE,'(A)')
      .      '# REPEAT K=1,ISOLNOD '
                CALL STRS_TXT50(LINE,100) 
                WRITE(LINE,'(A)')'#     X,   Y,   Z'
+               CALL STRS_TXT50(LINE,100) 
+               WRITE(LINE,'(A)')
+     .      '# REPEAT K=1,NSROT '
+               CALL STRS_TXT50(LINE,100) 
+               WRITE(LINE,'(A)')'#    RX,  RY,  RZ'
                CALL STRS_TXT50(LINE,100) 
                WRITE(LINE,'(A)')
      .      '#------------------------ REPEAT -------------------------'
@@ -273,16 +294,17 @@ C         retrouve l'adresse dans WAP0
             ID      = NINT(WAP0(J + 2))          
             ISOLNOD = NINT(WAP0(J + 3))          
             JHBE    = NINT(WAP0(J + 4))          
+            NSROT   = NINT(WAP0(J + 7))          
 c
-            J = J + 6
+            J = J + 7
 c------------------------------------------------
             IF (IZIPSTRS == 0) THEN 
-              WRITE(IUGEO,'(I10,10X,3I10)') ID,ISOLNOD,JHBE,ISMSTR
+              WRITE(IUGEO,'(I10,10X,4I10)') ID,ISOLNOD,JHBE,ISMSTR,NSROT
             ELSE
-              WRITE(LINE,'(I10,10X,3I10)') ID,ISOLNOD,JHBE,ISMSTR
+              WRITE(LINE,'(I10,10X,4I10)') ID,ISOLNOD,JHBE,ISMSTR,NSROT
               CALL STRS_TXT50(LINE,100)
             ENDIF
-            DO IPT = 1, ISOLNOD                                 
+            DO IPT = 1, ISOLNOD+NSROT                                 
               IF (IZIPSTRS == 0) THEN                        
                 WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,3) 
               ELSE                                           
