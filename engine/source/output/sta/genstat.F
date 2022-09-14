@@ -93,7 +93,7 @@ Chd|====================================================================
      A                  IXS16    ,IXS20   ,ICODE    ,LENGR   ,LENGP   ,
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
      C                  MULTI_FVM,BUFMAT  ,NPBY     ,LPBY    ,STACK   ,
-     D                  DRAPE_Q4 ,DRAPE_T3)
+     D                  DRAPE_Q4 ,DRAPE_T3,DR       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -133,6 +133,7 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "state_c.inc"
 #include      "sysunit.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -150,7 +151,7 @@ C-----------------------------------------------
       my_real
      .   X(*), MS(*), BUFEL(*), SPBUF(*),
      .   PM(NPROPM,*), GEO(NPROPG,*) ,TEMP(*),THKE(*),
-     .   V(3,*),VR(3,*)
+     .   V(3,*),VR(3,*),DR(SDR)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE (STACK_PLY) :: STACK
@@ -542,7 +543,7 @@ C-----------------------------------------------
       IF(STAT_S(13)==1) CALL STAT_S_EREF(
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,
      2                        IXS ,IXS10,IXS16,IXS20,X   ,
-     3                        WA,WAP0 ,IPARTS, IPART_STATE,
+     3                        DR  ,WA,WAP0 ,IPARTS, IPART_STATE,
      4                        STAT_INDXS,IPART,SIZP0)
 C
 C-----------------------------------------------

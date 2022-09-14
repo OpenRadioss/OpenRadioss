@@ -132,7 +132,7 @@ C-----------------------------------------------
       INTEGER IE, KN, IR, IS, IT, BRIGLOB, SUB_ID, NLAY, ILAY, PID
       INTEGER KTRIELS, KTRIELC, KTRIELTG, KTRIELSPR, KTRIELBEAM, KTRIELTRUSS,
      .   KTRIELTQUAD
-      INTEGER IGBR, JGBR, I1, SIZE
+      INTEGER IGBR, JGBR, I1, SIZE,NSROT
 !      INTEGER :: VARMAX
 !      PARAMETER (VARMAX = MAX(NSIGSH,NSIGI,NSIGI,NSIGTRUSS,NSIGBEAM,NSIGRS))
       my_real
@@ -1859,6 +1859,7 @@ C---------
                   CALL HM_GET_INT_ARRAY_INDEX('Isolnod'  ,ISOLNOD,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('Isolid'   ,JJHBE,J,IS_AVAILABLE,LSUBMODEL)
                   CALL HM_GET_INT_ARRAY_INDEX('Ismstr'   ,ISMSTR,J,IS_AVAILABLE,LSUBMODEL)
+                  CALL HM_GET_INT_ARRAY_INDEX('Nsrot'   ,NSROT,J,IS_AVAILABLE,LSUBMODEL)
 !
                   I=I+1
                   IF (JJHBE == 2) JJHBE = 1
@@ -1913,6 +1914,22 @@ C---------!!!add check Ismstr
                       SIGSP(IIS+(K-1)*3+2,I) =S(2)
                       SIGSP(IIS+(K-1)*3+3,I) =S(3)
                     ENDDO ! DO J=1,ISOLNOD
+                    SIZE = NSROT
+                    CALL HM_GET_FLOAT_ARRAY('Rx' ,TMPVAL1,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                    CALL HM_GET_FLOAT_ARRAY('Ry' ,TMPVAL2,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+                    CALL HM_GET_FLOAT_ARRAY('Rz' ,TMPVAL3,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+!
+                    IIS = IIS + 3*ISOLNOD
+                    DO K=1,NSROT
+                      S(1) =TMPVAL1(K)
+                      S(2) =TMPVAL2(K)
+                      S(3) =TMPVAL3(K)
+                      IF(SUB_ID /= 0 .AND.(ISMSTR==1.OR.ISMSTR==11)) 
+     .                  CALL SUBROTVECT (S(1),S(2),S(3),RTRANS,SUB_ID,LSUBMODEL)
+                      SIGSP(IIS+(K-1)*3+1,I) =S(1)
+                      SIGSP(IIS+(K-1)*3+2,I) =S(2)
+                      SIGSP(IIS+(K-1)*3+3,I) =S(3)
+                    ENDDO 
                     STRAGLOB(IE)=10
 !
                   ENDIF ! IF (IE == 0)

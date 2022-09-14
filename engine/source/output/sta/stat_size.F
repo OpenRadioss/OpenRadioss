@@ -762,11 +762,15 @@ C------------------------------
           ITY	 =IPARG(5,NG)
           ISOLNOD=IPARG(28,NG)
           ISMSTR =IPARG(9,NG)
+          ISROT  =IPARG(41,NG)
           IF(ITY==1) THEN
             NEL	 =IPARG(2,NG)
 c
-            WASZ2 = WASZ2 + NEL * 6
-            IF (ISMSTR==1.OR.ISMSTR>=10) WASZ2 = WASZ2 + NEL * ISOLNOD*3
+            WASZ2 = WASZ2 + NEL * 7
+            IF (ISMSTR==1.OR.ISMSTR>=10) THEN
+              WASZ2 = WASZ2 + NEL * ISOLNOD*3
+              IF (ISOLNOD==4 .AND. ISROT>0) WASZ2 = WASZ2 + NEL * ISOLNOD*10
+            END IF
           ENDIF
         ENDDO
         RWASZ2= WASZ2
