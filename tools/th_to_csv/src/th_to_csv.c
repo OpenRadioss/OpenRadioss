@@ -22,7 +22,7 @@
 //Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
 // For linux compilation :
-// gcc -g -o th_to_csv.linux64.exe th_to_csv.c
+// gcc -o th_to_csv.linux64.exe th_to_csv.c
 
 // To launch conversion :
 // th_to_csv.linux64.exe  T01File 
@@ -67,6 +67,7 @@ int main( int argc, char *argv[] )
     char **ThPartNames;
     char **ThSubsNames;
     char **ThGroupNames;
+    float *allData;
  /* Initialization */
     int nbTimeStep=0;
     int cptData=0;
@@ -87,13 +88,13 @@ int main( int argc, char *argv[] )
     sprintf(t01Filename,"%s",argv[1]);
     sprintf(titleFilename,"%s_TITLES",argv[1]);
 /*-----------------------------
-     PRE READ & DIMENSION 
+     PRE READ & DIMENSION
 -----------------------------*/
     t01PreRead(t01Filename,&nbglobVar,&nbPartVar,&nbSubsVar,&nbTimeStep,&cptData,&cptThGroupNames);
     ThPartNames =(char**)malloc(sizeof(char**)*nbPartVar);
     ThSubsNames =(char**)malloc(sizeof(char**)*nbSubsVar);
     ThGroupNames =(char**)malloc(sizeof(char**)*cptThGroupNames);
-    float allData[cptData];
+    allData = malloc(sizeof(float*)*cptData);
 /*-----------------------------
      READ DATA
 -----------------------------*/
@@ -102,6 +103,13 @@ int main( int argc, char *argv[] )
      WRITE CSV FILE
 -----------------------------*/
     csvFileWrite(csvFilename,titleFilename,&nbglobVar,&nbPartVar,&nbSubsVar,&nbTimeStep,&cptData,allData,ThPartNames,ThSubsNames,ThGroupNames);
+/*-----------------------------
+     FREE
+-----------------------------*/
+     free(ThPartNames);
+     free(ThSubsNames);
+     free(ThGroupNames);
+     free(allData);
 /*-----------------------------
      END
 -----------------------------*/
