@@ -87,8 +87,9 @@ C-----------------------------------------------
         IF(SIZ/=0)THEN
           MSGTYP = MSGOFF
           CALL MPI_IRECV(
-     S      RBUF(1,L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_R(I),IERROR)
+     S      RBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
+     G      IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,
+     H      REQ_R(I),IERROR)
           L = L  + 2*LEN
         ENDIF
         IAD_RECV(I+1)  = L
@@ -137,8 +138,9 @@ C envoi a N+I mod P
           SIZ = LEN * 2 * SIZ6       
           L = IAD_SEND(I)
           CALL MPI_ISEND(
-     S      SBUF(1,L),SIZ,REAL,IT_SPMD(I),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_S(I),IERROR)
+     S      SBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
+     G      IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,
+     H      REQ_S(I),IERROR)
        ENDIF
 C--------------------------------------------------------------------
       ENDDO
