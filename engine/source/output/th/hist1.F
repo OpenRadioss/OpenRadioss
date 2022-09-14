@@ -39,6 +39,7 @@ Chd|        STRI                          source/tools/univ/stri.F
 Chd|        STRR                          source/tools/univ/strr.F      
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
+Chd|        TH_MOD                        share/modules/th_mod.F        
 Chd|====================================================================
              SUBROUTINE HIST1(FILNAM,IFIL ,NTHGRP2,LONG ,
      2                 IWA  ,PM     ,GEO  ,IPART,

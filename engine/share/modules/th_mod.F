@@ -24,6 +24,8 @@ Chd|====================================================================
 Chd|  TH_MOD                        share/modules/th_mod.F        
 Chd|-- called by -----------
 Chd|        ABFHIST2                      source/output/abf/abfhist2.F  
+Chd|        FREFORM                       source/input/freform.F        
+Chd|        HIST1                         source/output/th/hist1.F      
 Chd|        HIST2                         source/output/th/hist2.F      
 Chd|        INIT_TH                       source/output/th/init_th.F    
 Chd|        INIT_TH0                      source/output/th/init_th0.F   
