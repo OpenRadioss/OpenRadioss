@@ -62,7 +62,11 @@ C
         K=1
         DO N=1,NJOINT
             KIND(N) = K
-            K=K+LJOINT(K)+1
+            IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
+                K = K +1
+            ELSE
+                K=K+LJOINT(K)+1
+            ENDIF
         END DO
 
         IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
