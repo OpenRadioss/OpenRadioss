@@ -750,13 +750,12 @@ c
             NINDX   = NINDX + 1  
             INDX(NINDX) = I
             IF (UELR(I) >= NPT) THEN
-		            UVAR(I,31) = ONE
-              TDEL(I) = TIME 
-              OFF(I)  = FOUR_OVER_5 
-              P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-              SIGNXX(I) = P
-              SIGNYY(I) = P
-              SIGNZZ(I) = P
+              UVAR(I,31) = ONE
+              TDEL(I)    = TIME 
+              OFF(I)     = FOUR_OVER_5 
+              SIGNXX(I) = ZERO
+              SIGNYY(I) = ZERO
+              SIGNZZ(I) = ZERO
               SIGNXY(I) = ZERO
               SIGNYZ(I) = ZERO
               SIGNZX(I) = ZERO
@@ -768,41 +767,50 @@ c------------------------
 c     Apply damage to stress
 c------------------------
       DO I=1, NEL
+        IF (OFF(I) == ONE) THEN
 c damage / direction is equal to the max of damages par mode in the same direction
-         DAMXX  = MAX(DAM(I,1),DAM(I,4))
-         DAMYY  = MAX(DAM(I,2),DAM(I,5))
-         DAMZZ  = MAX(DAM(I,7),DAM(I,8))
-         DAMXY  = MAX(DAM(I,3),DAM(I,6))
-         DAMYZ  = MAX(DAM(I,9),DAM(I,10))
-         DAMZX  = MAX(DAM(I,11),DAM(I,12))
+           DAMXX  = MAX(DAM(I,1),DAM(I,4))
+           DAMYY  = MAX(DAM(I,2),DAM(I,5))
+           DAMZZ  = MAX(DAM(I,7),DAM(I,8))
+           DAMXY  = MAX(DAM(I,3),DAM(I,6))
+           DAMYZ  = MAX(DAM(I,9),DAM(I,10))
+           DAMZX  = MAX(DAM(I,11),DAM(I,12))
 c
-         ODAMXX = MAX(ODAM(I,1),ODAM(I,4))
-         ODAMYY = MAX(ODAM(I,2),ODAM(I,5))
-         ODAMXY = MAX(ODAM(I,3),ODAM(I,6))
-         ODAMZZ = MAX(ODAM(I,7),ODAM(I,8))
-         ODAMYZ = MAX(ODAM(I,9),ODAM(I,10))
-         ODAMZX = MAX(ODAM(I,11),ODAM(I,12))
+           ODAMXX = MAX(ODAM(I,1),ODAM(I,4))
+           ODAMYY = MAX(ODAM(I,2),ODAM(I,5))
+           ODAMZZ = MAX(ODAM(I,7),ODAM(I,8))
+           ODAMXY = MAX(ODAM(I,3),ODAM(I,6))
+           ODAMYZ = MAX(ODAM(I,9),ODAM(I,10))
+           ODAMZX = MAX(ODAM(I,11),ODAM(I,12))
 c
-         DFMAX(I) = MAX(DAMXX,DAMYY)
-         DFMAX(I) = MAX(DAMZZ,DFMAX(I))
-         DFMAX(I) = MAX(DAMXY,DFMAX(I))
-         DFMAX(I) = MAX(DAMYZ,DFMAX(I))
-         DFMAX(I) = MAX(DAMZX,DFMAX(I))
+           DFMAX(I) = MAX(DAMXX,DAMYY)
+           DFMAX(I) = MAX(DAMZZ,DFMAX(I))
+           DFMAX(I) = MAX(DAMXY,DFMAX(I))
+           DFMAX(I) = MAX(DAMYZ,DFMAX(I))
+           DFMAX(I) = MAX(DAMZX,DFMAX(I))
 c Undamaged sign estimate
-         SIGNXX(I) = SIGO(I,XX)/(ONE-ODAMXX) + (SIGNXX(I) - SIGO(I,XX))
-         SIGNYY(I) = SIGO(I,YY)/(ONE-ODAMYY) + (SIGNYY(I) - SIGO(I,YY))
-         SIGNZZ(I) = SIGO(I,ZZ)/(ONE-ODAMZZ) + (SIGNZZ(I) - SIGO(I,ZZ))
-         SIGNXY(I) = SIGO(I,XY)/(ONE-ODAMXY) + (SIGNXY(I) - SIGO(I,XY))
-         SIGNYZ(I) = SIGO(I,YZ)/(ONE-ODAMYZ) + (SIGNYZ(I) - SIGO(I,YZ))
-         SIGNZX(I) = SIGO(I,ZX)/(ONE-ODAMZX) + (SIGNZX(I) - SIGO(I,ZX))
+           SIGNXX(I) = SIGO(I,XX)/(ONE-ODAMXX) + (SIGNXX(I) - SIGO(I,XX))
+           SIGNYY(I) = SIGO(I,YY)/(ONE-ODAMYY) + (SIGNYY(I) - SIGO(I,YY))
+           SIGNZZ(I) = SIGO(I,ZZ)/(ONE-ODAMZZ) + (SIGNZZ(I) - SIGO(I,ZZ))
+           SIGNXY(I) = SIGO(I,XY)/(ONE-ODAMXY) + (SIGNXY(I) - SIGO(I,XY))
+           SIGNYZ(I) = SIGO(I,YZ)/(ONE-ODAMYZ) + (SIGNYZ(I) - SIGO(I,YZ))
+           SIGNZX(I) = SIGO(I,ZX)/(ONE-ODAMZX) + (SIGNZX(I) - SIGO(I,ZX))
 c Damaged sign
-         SIGNXX(I) = SIGNXX(I) * (ONE-DAMXX)*OFF(I)
-         SIGNYY(I) = SIGNYY(I) * (ONE-DAMYY)*OFF(I)
-         SIGNZZ(I) = SIGNZZ(I) * (ONE-DAMZZ)*OFF(I)
-         SIGNXY(I) = SIGNXY(I) * (ONE-DAMXY)*(ONE-DAMXX)*(ONE-DAMYY)*OFF(I)
+           SIGNXX(I) = SIGNXX(I) * (ONE-DAMXX)*OFF(I)
+           SIGNYY(I) = SIGNYY(I) * (ONE-DAMYY)*OFF(I)
+           SIGNZZ(I) = SIGNZZ(I) * (ONE-DAMZZ)*OFF(I)
+           SIGNXY(I) = SIGNXY(I) * (ONE-DAMXY)*OFF(I)
 c transverse stress are also affected by OFF(I)
-         SIGNYZ(I) = SIGNYZ(I) * (ONE-DAMYZ)*(ONE-DAMXX)*(ONE-DAMYY)*OFF(I)
-         SIGNZX(I) = SIGNZX(I) * (ONE-DAMZX)*(ONE-DAMXX)*(ONE-DAMYY)*OFF(I)
+           SIGNYZ(I) = SIGNYZ(I) * (ONE-DAMYZ)*OFF(I)
+           SIGNZX(I) = SIGNZX(I) * (ONE-DAMZX)*OFF(I)
+         ELSE
+           SIGNXX(I) = ZERO
+           SIGNYY(I) = ZERO
+           SIGNZZ(I) = ZERO
+           SIGNXY(I) = ZERO
+           SIGNYZ(I) = ZERO
+           SIGNZX(I) = ZERO
+         ENDIF
       ENDDO
 c------------------------
 c     Update UVAR
@@ -831,14 +839,22 @@ c------------------------
       IF (NINDX > 0) THEN 
         DO J=1,NINDX    
           I = INDX(J)
-          DO MODE = 1,12
-            IF (FMODE(I,MODE) == 1) THEN
-#include  "lockon.inc"
-              WRITE(ISTDO,1000) NGL(I),IPT,MODE
-              WRITE(IOUT, 2000) NGL(I),IPT,MODE,EPSP(I,XX)
+#include  "lockon.inc"      
+            WRITE(ISTDO,1000) NGL(I),IPT
+            WRITE(IOUT, 2000) NGL(I),IPT
+            IF (FMODE(I,1)  == 1) WRITE(IOUT,4000) 1 ,EPSP(I,XX)
+            IF (FMODE(I,2)  == 1) WRITE(IOUT,4000) 2 ,EPSP(I,YY)
+            IF (FMODE(I,3)  == 1) WRITE(IOUT,4000) 3 ,EPSP(I,XY)
+            IF (FMODE(I,4)  == 1) WRITE(IOUT,4000) 4 ,EPSP(I,XX)
+            IF (FMODE(I,5)  == 1) WRITE(IOUT,4000) 5 ,EPSP(I,YY)
+            IF (FMODE(I,6)  == 1) WRITE(IOUT,4000) 6 ,EPSP(I,XY)
+            IF (FMODE(I,7)  == 1) WRITE(IOUT,4000) 7 ,EPSP(I,ZZ)
+            IF (FMODE(I,8)  == 1) WRITE(IOUT,4000) 8 ,EPSP(I,ZZ)
+            IF (FMODE(I,9)  == 1) WRITE(IOUT,4000) 9 ,EPSP(I,YZ)
+            IF (FMODE(I,10) == 1) WRITE(IOUT,4000) 10,EPSP(I,YZ)
+            IF (FMODE(I,11) == 1) WRITE(IOUT,4000) 11,EPSP(I,ZX)
+            IF (FMODE(I,12) == 1) WRITE(IOUT,4000) 12,EPSP(I,ZX)
 #include  "lockoff.inc"
-            ENDIF
-          ENDDO
 #include  "lockon.inc"
           IF (OFF(I) == FOUR_OVER_5) WRITE(IOUT, 3000) NGL(I),TIME
 #include  "lockoff.inc"
@@ -852,11 +868,10 @@ c------------------------
         END DO
       END IF              
 c-----------------------------------------------------------------------
- 1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5,
-     .       1X,'MODE',1X,I2)
- 2000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5,
-     .       1X,'MODE',1X,I2,1X,'STRAIN RATE',1PE12.4)
- 3000 FORMAT(1X,'RUPTURE OF ELEMENT #',I10,1X,'AT TIME # ',1PE12.4)    
+ 1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5)
+ 2000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5)
+ 3000 FORMAT(1X,'RUPTURE OF ELEMENT #',I10,1X,'AT TIME # ',1PE12.4)   
+ 4000 FORMAT(1X,'MODE',1X,I2,' STRAIN RATE',1PE12.4) 
 c-----------------------------------------------------------------------
       RETURN          
       END
