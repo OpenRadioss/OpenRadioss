@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,ILAW,ICC,ISRAT,N11,N22,N33,N12,N23,N31,IFLAG1,IFLAG2
       INTEGER ,DIMENSION(5) :: I11,I22,I33,I12,I23,I31
       my_real :: RHO0,RHOR,ASRATE,DMIN,DMAX,E11,E22,E33,G12,G23,G31,
@@ -97,12 +97,12 @@ C-----------------------------------------------
       my_real ,DIMENSION(5) ::  EPSP11,EPSP22,EPSP33,EPSP12,EPSP23,EPSP31,
      .                          FAC11,FAC22,FAC33,FAC12,FAC23,FAC31
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW   = 50
       ISRATE = 1
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'    ,RHOR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -409,7 +409,7 @@ c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,ILAW
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1100)

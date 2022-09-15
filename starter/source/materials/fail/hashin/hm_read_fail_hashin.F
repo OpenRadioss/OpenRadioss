@@ -27,7 +27,7 @@ Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -77,9 +77,9 @@ C-----------------------------------------------
       my_real :: SIGT1,SIGT2,SIGT3,SIGT12,SIGC1,SIGC2,SOFT1,SOFT2,SOFT3,
      .    FSIG12,MSIG12,MSIG23,MSIG13,ANGLE,SDELAM,CSIG,
      .    TMAX,RATIO,TCUT,EPSP_REF,EPSP_MIN
-      LOGICAL  :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 c
       EPSP_MIN    = ZERO
@@ -90,7 +90,7 @@ C--------------------------------------------------
 C     check crypting
 C--------------------------------------------------
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
 C--------------------------------------------------
 C     Read DATA
@@ -181,7 +181,7 @@ c-----------------------------------------------------
       NFUNC   = 0
       NUVAR   = 12
 c-----------------------------------------------------
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
       ELSE
          WRITE(IOUT, 1100) MAT_ID,FAIL_ID,SIGT1,SIGT2,SIGT3,SIGC1,SIGC2,

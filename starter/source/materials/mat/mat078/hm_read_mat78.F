@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CALCULP2                      source/materials/mat/mat057/hm_read_mat57.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -84,17 +84,17 @@ C-----------------------------------------------
      .           NU,SUM,GS,P,VISCMAX,FAC_L,FAC_T,FAC_M,FAC_C,
      .           RBULK,SHEAR,LAMDA,EINF,COE,YFAC,RHO0,
      .           R00,R45,R90,CST,CSTT,P1,P2,P3,P4,N3,MEXP,C1_KH
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 c-----------------------------------------------
 c   S o u r c e   L i n e s 
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISRATE  = 0
       IMATVIS = 0
       ILAW    = 78
 C
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-2
@@ -235,7 +235,7 @@ c------------------------------
       MTAG%G_SEQ  = 1
       MTAG%L_SEQ  = 1
 c------------------------------             
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     
        WRITE(IOUT,1000) 

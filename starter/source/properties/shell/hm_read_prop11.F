@@ -32,7 +32,7 @@ Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER ID,ID1,IUN
       CHARACTER*nchartitle,
      .   TITR,TITR1
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C      LAYERS WITH : -VARIABLE THICKNESS
 C                    -VARIABLE MATERIAL  (BUT LAW 25 OR 27 ONLY)
 C----------------------------------------------------------------
 C======================================================================|
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       IHBE=0
@@ -152,7 +152,7 @@ C     Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -344,7 +344,7 @@ C      IF(ISTRAIN == 0)ISTRAIN=ISTR_D
 C-----using IGEO(14)=ICSTR      
       IGEO(14)  = IRP
 C-----------------------------------------------------------------
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,1000)IG
  1000    FORMAT(
      &    5X,'COMPOSITE LAYERED SHELL PROPERTY SET'/,
@@ -535,7 +535,7 @@ C
         M2=IPTHK+N
         M3=IPPOS+N
         M4=IPWEIGHT+N
-        IF(.NOT. IS_CRYPTED)THEN
+        IF(.NOT. IS_ENCRYPTED)THEN
           WRITE(IOUT,2121)N,GEO(M1),GEO(M2)*GEO(1),GEO(M3)*GEO(1),
      .     GEO(M4),NUML(N)
         ENDIF

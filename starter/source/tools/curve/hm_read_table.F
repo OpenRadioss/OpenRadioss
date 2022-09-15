@@ -83,11 +83,11 @@ C     REAL
       CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield,
      .          TITR1*nchartitle
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
-      LOGICAL :: IS_CRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
       IF(NTABLE  == 0) RETURN 
 !     Initialization
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_COUNT('/FUNCT', NFUNCT0)
@@ -199,12 +199,12 @@ C     REAL
      .        DIMENSION(:,:),ALLOCATABLE :: XV2
       CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
-      LOGICAL :: IS_CRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
 c
       IF(NTABLE == 0) RETURN
 !     Initialization
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       L      =NFUNCT
 C----------------------------

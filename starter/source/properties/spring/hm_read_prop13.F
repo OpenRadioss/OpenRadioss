@@ -30,7 +30,7 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        NL                            source/output/message/message.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -86,7 +86,7 @@ C     REAL
      .   PUN,VT0, VR0, CC(6), CN(6), XA(6), XB(6),ASRATE,GF3,
      .   A_UNIT,B_UNIT,D_UNIT,E_UNIT,F_UNIT,
      .   LSCALE_UNIT,GF3_UNIT,VT0_UNIT,VR0_UNIT,ASR_UNIT,CRIT_SCALE(6)
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
       DATA PUN/0.1/
 C=======================================================================
@@ -97,7 +97,7 @@ C
       ISRATE = 0
       ASRATE = ZERO
 C
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
 C     Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
@@ -108,7 +108,7 @@ C
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -161,7 +161,7 @@ C
       GEO(93)=ILENG
       GEO(95)=IFAIL2
 C----
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,1000)IG
  1000   FORMAT(
      &    5X,'SPRING PROPERTY SET'/,
@@ -311,7 +311,7 @@ C
       IGEO(103) = IFUNC2
       IGEO(119) = IFUNC3
 C----
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1813)'TENSION',XK,XC,IFUNC,LSCALE,IFUNC2,F,IECROU,
@@ -466,7 +466,7 @@ C
       IGEO(106) = IFUNC2
       IGEO(120) = IFUNC3
 C----
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1813)'Y SHEAR',XK,XC,IFUNC,LSCALE,IFUNC2,F,IECROU,
@@ -621,7 +621,7 @@ C
       IGEO(109) = IFUNC2
       IGEO(121) = IFUNC3
 C----
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1813)'Z SHEAR',XK,XC,IFUNC,LSCALE,IFUNC2,F,IECROU,
@@ -793,7 +793,7 @@ C
       IGEO(112) = IFUNC2
       IGEO(122) = IFUNC3
 C----
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1833)'TORSION',XK,XC,IFUNC,LSCALE,IFUNC2,F,IECROU,
@@ -946,7 +946,7 @@ C
       IGEO(115) = IFUNC2
       IGEO(123) = IFUNC3
 C----
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1833)'Y FLEXION',XK,XC,IFUNC,LSCALE,IFUNC2,F,
@@ -1099,7 +1099,7 @@ C
       IGEO(118) = IFUNC2
       IGEO(124) = IFUNC3
 C----
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         IF (IECROU /= 5) THEN
           IF (IFAIL2 == 3) THEN
             WRITE(IOUT,1833)'Z FLEXION',XK,XC,IFUNC,LSCALE,IFUNC2,F,
@@ -1211,7 +1211,7 @@ C----
       GEO(127) = ISRATE
       GEO(128) = ASRATE
 C
-      IF (.NOT. IS_CRYPTED) THEN
+      IF (.NOT. IS_ENCRYPTED) THEN
         WRITE(IOUT,1850) VT0,VR0,
      .      (CC(J),J=1,6),(CN(J),J=1,6),(XA(J),J=1,6),(XB(J),J=1,6)
         WRITE(IOUT,1900) ISRATE,ASRATE

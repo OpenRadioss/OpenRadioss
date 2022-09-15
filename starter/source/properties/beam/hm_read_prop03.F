@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -82,14 +82,14 @@ C-----------------------------------------------
       my_real
      .    PUN,CVIS
       CHARACTER STRING*ncharfield,CHROT*7
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       DATA PUN/0.1/
 C=======================================================================
 C
-        IS_CRYPTED = .FALSE.
+        IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C OLD HIDDEN FLAGS - SET TO ZERO
@@ -101,7 +101,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-        CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+        CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -206,7 +206,7 @@ C
      .                   C1=IDTITL,
      .                   R1=GEO(4))
         ENDIF
-        IF(.NOT. IS_CRYPTED)THEN
+        IF(.NOT. IS_ENCRYPTED)THEN
           WRITE(IOUT,1300)IG,GEO(1),GEO(2),GEO(18),GEO(4),
      .                    IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,ISHEAR,
      .                    GEO(16),GEO(17)

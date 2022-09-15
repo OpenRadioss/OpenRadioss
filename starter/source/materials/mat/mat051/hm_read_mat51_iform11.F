@@ -41,7 +41,7 @@ Chd|====================================================================
      .    AMX,    BUNL,      MUMX,    
      .    B1    , B2    ,    R1     ,  R2     ,W,
      .    VDET  , PCJ   ,    IBFRAC ,  PEXT   ,VIS,
-     .    VISV   ,IS_CRYPTED,LSUBMODEL,UNITAB) 
+     .    VISV   ,IS_ENCRYPTED,LSUBMODEL,UNITAB) 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .    PEXT,VIS,VISV
       my_real
      .    BID
-      LOGICAL,INTENT(INOUT) :: IS_CRYPTED
+      LOGICAL,INTENT(INOUT) :: IS_ENCRYPTED
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   P a r a m e t e r s

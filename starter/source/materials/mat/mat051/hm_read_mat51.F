@@ -33,7 +33,7 @@ Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOAT_ARRAY_INDEX_DIM  source/devtools/hm_reader/hm_get_float_array_index_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_READ_MAT51_IFORM11         source/materials/mat/mat051/hm_read_mat51_iform11.F
 Chd|        LECM51__CHECK_INITIAL_STATE   source/materials/mat/mat051/lecm51__check_initial_state.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
@@ -139,11 +139,11 @@ C-----------------------------------------------
       CHARACTER*32 :: CAV(4),CRHO0(34),CE0(4),CPM(4),CC0(4),CSSP(4)
       CHARACTER*32 :: CPEXT,CTCARP,CTCAR
       !---booleans
-      LOGICAL      :: IS_AVAILABLE,IS_CRYPTED, IFLG6_SUBMAT_DEFINED(4)
+      LOGICAL      :: IS_AVAILABLE,IS_ENCRYPTED, IFLG6_SUBMAT_DEFINED(4)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISRATE=0
       IMATVIS=0
@@ -239,7 +239,7 @@ C-----------------------------------------------
       !==========================================!
       ! IFLG == ALL (0,1,2,3,4,5,10,11,12)       !
       !==========================================!
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -535,7 +535,7 @@ C-----------------------------------------------
      .        AMX    , BUNL      ,MUMX     ,
      .        B1     , B2        ,R1       ,  R2,       W,
      .        VDET   , PCJ       ,IBFRAC   ,  PEXT,     VIS,
-     .        VISV   , IS_CRYPTED,LSUBMODEL,  UNITAB)
+     .        VISV   , IS_ENCRYPTED,LSUBMODEL,  UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('DAMP1' ,FAC_UNIT_SPH   ,1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !Shear Modulus for DPRAG input
         IF(GG(1)==ZERO.AND.IPLA(1)==2)GG(1)=Y(1)/TWO/(ONE+NU(1))
@@ -975,7 +975,7 @@ C     !============================!
       !============================!
       WRITE(IOUT,997) TRIM(TITR),MAT_ID,51
       WRITE(IOUT,998)
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         IF(IFLG /= 12)THEN

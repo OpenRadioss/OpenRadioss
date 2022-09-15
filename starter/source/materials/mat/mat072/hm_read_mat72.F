@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -100,17 +100,17 @@ C-----------------------------------------------
      .     FF,GG,HH,NN,LL,MM,
      .     C1,C2,C3,DC,MEXP
       INTEGER ILAW
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------      
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW = 72
 C
 c------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c------------------------------------------
 c
 card1 - Density
@@ -274,7 +274,7 @@ c     Parameters printout
 c-------------------------- 
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1000)
-      IF(IS_CRYPTED )THEN
+      IF(IS_ENCRYPTED )THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1002) RHO0

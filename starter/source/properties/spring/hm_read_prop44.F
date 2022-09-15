@@ -30,7 +30,7 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SET_U_GEO                     source/user_interface/uaccess.F
 Chd|        SET_U_PNU                     source/user_interface/uaccess.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
@@ -111,7 +111,7 @@ C-----------------------------------------------
      .        FSCAL_DAMP_X_DIM,FSCAL_DAMP_Y_DIM,FSCAL_DAMP_Z_DIM,
      .        FSCAL_DAMP_XX_DIM,FSCAL_DAMP_YY_DIM,FSCAL_DAMP_ZZ_DIM,
      .        F_X_DIM,F_Y_DIM,F_Z_DIM,F_XX_DIM,F_YY_DIM,F_ZZ_DIM
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
       INTEGER    KFUNC
       PARAMETER (KFUNC=29)
@@ -122,12 +122,12 @@ C-----------------------------------------------
       EXTERNAL  SET_U_PNU,SET_U_GEO
 C=======================================================================
 C
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C
       NUVAR = 42   ! damping (linear or function) + strain rate filtering
@@ -528,7 +528,7 @@ C
         RDAMP = IDAMP
         IERROR = SET_U_GEO(36,RDAMP)
 C--------------------------------------------
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1000)

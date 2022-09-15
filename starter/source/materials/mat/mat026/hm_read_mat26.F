@@ -30,7 +30,7 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        MINTP_RE                      ../common_source/eos/mintp_re.F
 Chd|        MINTP_RT                      ../common_source/eos/mintp_rt.F
 Chd|        MRDSE2                        source/materials/mat/mat026/mrdse2.F
@@ -84,13 +84,13 @@ C-----------------------------------------------
 
       CHARACTER(ncharline) ::  FILE, VIDE
 !
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       ILAW = 26
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 !-----------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 !-----------------------
 C License Flag
       LIDFS = 0
@@ -194,7 +194,7 @@ C
 C
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1000)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0,RHOR
@@ -297,8 +297,8 @@ C
         CALL MRDSE3(BUFMAT(IDR),NR,BUFMAT(IDT),NT,BUFMAT(IDQ))
         CLOSE(31)
        ENDIF
-!!       IF (JTHE /= 0 .AND. .not. IS_CRYPTED) WRITE(IOUT,1800)TRIM(FILE),SIG
-       IF (JTHE /= 0 .AND. .not. IS_CRYPTED) WRITE(IOUT,1800)FILE(1:LEN(TRIM(FILE))),SIG
+!!       IF (JTHE /= 0 .AND. .not. IS_ENCRYPTED) WRITE(IOUT,1800)TRIM(FILE),SIG
+       IF (JTHE /= 0 .AND. .not. IS_ENCRYPTED) WRITE(IOUT,1800)FILE(1:LEN(TRIM(FILE))),SIG
 C
       PM(51)=SIG
       PM(52)=XKMAX

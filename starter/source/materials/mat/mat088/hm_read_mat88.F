@@ -33,7 +33,7 @@ Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOAT_ARRAY_INDEX_DIM  source/devtools/hm_reader/hm_get_float_array_index_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -106,11 +106,11 @@ C-----------------------------------------------
      .      J,I, II,IUNLOAD,IFLAG,IETANG,ISTIF,I2017_2,NL,IFUNC0(MAXFUNC),
      .     IFUNC_UNLOAD,ITENS,IUNL_FOR,ICASE,IADD,ILAW
       
-      LOGICAL IS_AVAILABLE,IS_CRYPTED         
+      LOGICAL IS_AVAILABLE,IS_ENCRYPTED         
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISTIF = 0
       IPM(3) = 1 ! 
@@ -119,7 +119,7 @@ C-----------------------------------------------
       IADD = 0
       ILAW = 88
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -261,7 +261,7 @@ c-----------------
 c-----------------
       WRITE(IOUT,1010) TRIM(TITR),MAT_ID,88   
       WRITE(IOUT,1000)     
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     
         WRITE(IOUT,1020)RHO0 

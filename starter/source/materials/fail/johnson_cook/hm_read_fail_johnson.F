@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -95,15 +95,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISHELL,ISOLID
       my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,P_THICKFAIL,DADV
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------    
 !!      FAC_T = UNITAB(4) 
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -142,7 +142,7 @@ C--------------------------------------------------
       NUVAR = 0
       NFUNC = 0
 C
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 
 C---
@@ -176,7 +176,7 @@ C
      .                ANMODE=ANINFO,
      .                I1=IMID_F)
         ENDIF
-      ENDIF ! IF (IS_CRYPTED)
+      ENDIF ! IF (IS_ENCRYPTED)
 C
  1000 FORMAT(
      & 5X,40H  JOHNSON COOK DAMAGE PARAMETER         ,/,

@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED,IS_EOS, EOS_EMBEDDED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,IS_EOS, EOS_EMBEDDED
       INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
       INTEGER JTHE, IFLAGR
       my_real
@@ -106,7 +106,7 @@ C-----------------------------------------------
       BULK = ZERO
       PSH = ZERO
             
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('MAT_RHO'        ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'      ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -205,7 +205,7 @@ C     Formulation for solid elements time step computation.
       PM(105) = TWO*G0/(BULK+FOUR_OVER_3*G0) ! =(1-2*Nu)/(1-Nu)
 C
       WRITE(IOUT,1000)          
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,2001) TITR,MAT_ID,49
@@ -218,7 +218,7 @@ C
       !--------------------------------------------------!
       IF(EOS_EMBEDDED)THEN                    !
         WRITE(IOUT,2000)                                 !      
-        IF(IS_CRYPTED)THEN                              !
+        IF(IS_ENCRYPTED)THEN                              !
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     !
         ELSE                                             !
           WRITE(IOUT,2500)C0,C1,C2,C3,C4,C5,E0,PM(1),PSH !

@@ -31,7 +31,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        NL                            source/output/message/message.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -85,12 +85,12 @@ C     REAL
       CHARACTER*nchartitle,
      .   TITR      
       CHARACTER IDTITL*nchartitle
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       PUN = EM01
-      IS_CRYPTED=.FALSE.
+      IS_ENCRYPTED=.FALSE.
       IS_AVAILABLE = .FALSE.
 C=======================================================================
 C----------------------
@@ -103,7 +103,7 @@ C----------------------
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -239,7 +239,7 @@ C------------------------
       DN = DN * LSCALE                                      
       DX = DX * LSCALE                    
 C------------------------
-      IF(.NOT. IS_CRYPTED)THEN
+      IF(.NOT. IS_ENCRYPTED)THEN
        IF(IECROU/=5) THEN
         WRITE(IOUT,1400)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,
      .                 F,IECROU,A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ABS(ISENS),

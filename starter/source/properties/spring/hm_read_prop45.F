@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        LEC_DOF_JNT                   source/properties/spring/hm_read_prop45.F
 Chd|        SET_U_GEO                     source/user_interface/uaccess.F
 Chd|        SET_U_PNU                     source/user_interface/uaccess.F
@@ -97,7 +97,7 @@ C-----------------------------------------------
       INTEGER IFUN_FMX,IFUN_FMY,IFUN_FMZ,IFUN_FMRX,IFUN_FMRY,IFUN_FMRZ      
       INTEGER RED,IDSK1,IDSK2,COMB_ERROR
       DATA ZEROI/0/
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -105,13 +105,13 @@ C-----------------------------------------------
       PARAMETER (KFUNC=29)
 C=======================================================================
 C
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -127,7 +127,7 @@ C-------------------------------------------------
       CALL HM_GET_FLOATV('Cr',CR,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----------------------
 C
-      IF(.NOT. IS_CRYPTED)THEN
+      IF(.NOT. IS_ENCRYPTED)THEN
         WRITE(IOUT,1400) ID
       ELSE
         WRITE(IOUT,1500) ID
@@ -250,7 +250,7 @@ C
 C=======================================================================
 C----   SPHERICAL JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,100)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -268,15 +268,15 @@ C=======================================================================
          ENDIF
 C
 	 RED = 0	 
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRX,CRX,SAXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRY,CRY,SAYMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRZ,CRZ,SAZMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)
@@ -335,7 +335,7 @@ C
 C=======================================================================
 C----   REVOLUTE JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,200)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -352,7 +352,7 @@ C=======================================================================
            ENDIF
          ENDIF
 C      
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRX,CRX,SAXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)        
@@ -420,7 +420,7 @@ C
 C=======================================================================
 C----   CYLINDRICAL JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,300)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -438,11 +438,11 @@ C=======================================================================
          ENDIF
 C
 	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KXX,CXX,SDXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
      .                     LSUBMODEL)	 
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRX,CRX,SAXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
@@ -511,7 +511,7 @@ C
 C=======================================================================
 C----   PLANAR JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,400)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -529,15 +529,15 @@ C=======================================================================
          ENDIF
 C
 	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KYY,CYY,SDYMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
      .                     SDYMA,FCOMBY,KFY,FMY,IFUN_CYY,IFUN_YY,2,
      .                     FAC_FF,IFUN_FMY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KZZ,CZZ,SDZMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRX,CRX,SAXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)	 
@@ -597,7 +597,7 @@ C
 C=======================================================================
 C----   UNIVERSAL  JOINT
 C=================================================================	 			 
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,500)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -615,11 +615,11 @@ C=================================================================
          ENDIF
 C
 	 RED = 0	 
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRY,CRY,SAYMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRZ,CRZ,SAZMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)
@@ -688,7 +688,7 @@ C
 C=======================================================================
 C----   TRANSLATIONAL JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,600)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -705,7 +705,7 @@ C=======================================================================
            ENDIF
          ENDIF
 C
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KXX,CXX,SDXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
      .                     LSUBMODEL)            
@@ -773,7 +773,7 @@ C
 C=======================================================================
 C----   OLDHAM JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,700)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -791,11 +791,11 @@ C=======================================================================
          ENDIF
 C
 	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KYY,CYY,SDYMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
      .                     SDYMA,FCOMBY,KFY,FMY,IFUN_CYY,IFUN_YY,2,
      .                     FAC_FF,IFUN_FMY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KZZ,CZZ,SDZMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
      .                     LSUBMODEL) 
@@ -864,7 +864,7 @@ C
 C=======================================================================
 C----   RIGID JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,800)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -954,7 +954,7 @@ C
 C=======================================================================
 C----   FREE JOINT
 C=======================================================================
-         IF(.NOT. IS_CRYPTED)THEN
+         IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,900)
 	   IF ((IDSK1==0).AND.(IDSK2==0)) THEN
 	     IF (KNN==0) THEN
@@ -972,27 +972,27 @@ C=======================================================================
          ENDIF
 C
 	 RED = 0
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KXX,CXX,SDXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KYY,CYY,SDYMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KYY,CYY,SDYMI,
      .                     SDYMA,FCOMBY,KFY,FMY,IFUN_CYY,IFUN_YY,2,
      .                     FAC_FF,IFUN_FMY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KZZ,CZZ,SDZMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
      .                     LSUBMODEL)		 
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRX,CRX,SAXMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRY,CRY,SAYMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
      .                     LSUBMODEL)
-	 CALL LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRZ,CRZ,SAZMI,
+	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
      .                     LSUBMODEL)	 
@@ -1252,7 +1252,7 @@ Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE LEC_DOF_JNT(IOUT,IS_CRYPTED,UNITAB,KRX,CRX,SAMI,
+      SUBROUTINE LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAMI,
      .                        SAMA,FCOMB,KFR,FM,IFUN_CRX,IFUN_RX,IDOF,
      .                        FAC3,IFUN_FM,RED,ID,TITR,LSUBMODEL)
 C-----------------------------------------------
@@ -1289,7 +1289,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-      LOGICAL IS_CRYPTED
+      LOGICAL IS_ENCRYPTED
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C=======================================================================
 C   L o c a l   V a r i a b l e s
@@ -1428,7 +1428,7 @@ C
       IF(FM==ZERO.AND.IFUN_FM/=0) FM = ONE * FAC3
 C
 C-----------------------
-      IF(.NOT. IS_CRYPTED)THEN
+      IF(.NOT. IS_ENCRYPTED)THEN
         IF (IDOF==1) THEN
           WRITE(IOUT,100)       
         ELSEIF (IDOF==2) THEN
@@ -1458,7 +1458,7 @@ C
      .                   C1=TITR)
       ENDIF 
 C      
-      IF(.NOT. IS_CRYPTED)THEN
+      IF(.NOT. IS_ENCRYPTED)THEN
         IF (IDOF<4) THEN
           IF (IFUN_FM==0) THEN      
             WRITE(IOUT,1000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,FM

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -88,9 +88,9 @@ C-----------------------------------------------
      .   RC,HBP,ALI,ALF,VMAX,ROK,RO0,HV0,YMS,Y0S,ETS,ARM1,ARM2,ARM3,
      .   ETC,BULK,EXPO,F2D0,AA,CC,BC,SQ32,BT,AC,EPS0,HVFAC
       CHARACTER*64 :: message
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW = 24
 c
@@ -101,7 +101,7 @@ C--------------------------------------------------
 C     check crypting
 C--------------------------------------------------
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
 c--------------------------------------------------
 c     Read DATA
@@ -322,7 +322,7 @@ c-----------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,24
       WRITE(IOUT,1000)
 
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'MATERIAL LAW CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0

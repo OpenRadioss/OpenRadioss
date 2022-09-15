@@ -32,7 +32,7 @@ Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
 Chd|        HM_GET_STRING_INDEX           source/devtools/hm_reader/hm_get_string_index.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SET_U_GEO                     source/user_interface/uaccess.F
 Chd|        SET_U_PNU                     source/user_interface/uaccess.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
@@ -120,16 +120,16 @@ C-----------------------------------------------
       CHARACTER KEYWORD*ncharfield
       CHARACTER CART*ncharline
       INTEGER IP
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 
 C=======================================================================
 C
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -289,7 +289,7 @@ C
      .                 C2='SET_U_GEO(13,X_SCAL)')
         ENDIF
 C
-        IF(.NOT. IS_CRYPTED)THEN 
+        IF(.NOT. IS_ENCRYPTED)THEN 
           WRITE(IOUT,3000)  RHO,XK,XC,IFUNC,IFV,Y_SCAL,X_SCAL,
      .                    DMN,DMX,MU1,MU2
         ELSE
@@ -348,7 +348,7 @@ C
      .                 C1=TITR,
      .                 C2='SET_U_GEO(50+I,FRIC)')
             ENDIF
-            IF(.NOT. IS_CRYPTED) WRITE(IOUT,'(A,I10,A,1PG20.13)')
+            IF(.NOT. IS_ENCRYPTED) WRITE(IOUT,'(A,I10,A,1PG20.13)')
      .                           'PULLEY FRICTION COEFFICIENT : PULLEY NUMBER =',I,
      .                           'VALUE =',FRIC
           ELSEIF (KEYWORD(1:6)=='STRAND') THEN
@@ -371,7 +371,7 @@ C
      .                 C2='SET_U_GEO(525+I,FRIC)')
              ENDIF
 c
-             IF(.NOT. IS_CRYPTED) WRITE(IOUT,'(A,I10,A,1PG20.13)')
+             IF(.NOT. IS_ENCRYPTED) WRITE(IOUT,'(A,I10,A,1PG20.13)')
      .                            'STRAND FRICTION COEFFICIENT : STRAND NUMBER =',I,
      .                            'VALUE =',FRIC
           ELSE

@@ -27,7 +27,7 @@ Chd|        UPDMAT                        source/materials/updmat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CRITYLD2000                   source/materials/mat/mat087/law87_upd.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INVERT                        source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        PRODMATVECT                   source/materials/mat/mat087/law87_upd.F
 Chd|        R_YLD2000                     source/materials/mat/mat087/law87_upd.F
@@ -79,10 +79,10 @@ C-----------------------------------------------
      .      EXPV,KSWIFT,KVOCE,PUIS,PLA,RESIDU,G(2),DAL(8),DFTEST(6,6),DG(2,2),
      .      AL(8),F(8),DF(6,6),DFINV(6,6),RES(6,6),test(3,3),testinv(3,3),DGINV(2,2)
 !      
-      LOGICAL  IS_CRYPTED
+      LOGICAL  IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED = .FALSE.
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      IS_ENCRYPTED = .FALSE.
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       S00  = UPARAM(3)
       S45  = UPARAM(4)
       S90  = UPARAM(5)
@@ -323,7 +323,7 @@ C
       UPARAM(9) = AL(7)
       UPARAM(10)= AL(8)
       !!
-       IF(IS_CRYPTED)THEN
+       IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
        ELSE  
          IF (IOK == 0) THEN

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -95,14 +95,14 @@ C-----------------------------------------------
       my_real :: NU,N12,E11,E22,G12,G23,G31,RCOMP,DET,C1,SSP,
      .   A11,A22,A12,A1C,A2C,GC,RHO0,LMIN,DAMP,FSCALE1,FSCALE2,FSCALET,
      .   ECOAT,NUCOAT,TCOAT
-      LOGICAL IS_AVAILABLE,IS_CRYPTED
+      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 c=======================================================================
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 card1
       CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
       CALL HM_GET_FLOATV('LMIN'     ,LMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
@@ -215,7 +215,7 @@ c---------------------
 c----------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,119
       WRITE(IOUT,1100)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0

@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -109,9 +109,9 @@ C     REAL
       my_real
      .    CVIS,QA,QB,QH,VX,VY,VZ,ANGLE,DTMIN,PX,PY,PZ,VN
       INTEGER K,NSPHDIR,ID_PARTSPH,IPARTSPH,J
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
       ISORTH=1
@@ -132,7 +132,7 @@ C
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -425,7 +425,7 @@ C
       GEO(34)  = PY
       GEO(35)  = PZ
 C----
-      IF(.NOT. IS_CRYPTED)THEN
+      IF(.NOT. IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1)THEN
           WRITE(IOUT,1100)IG,IHBE,ISMSTR,IPLAS,NPT,JCVT,ITET4,ITET10,
      .                ICPRE,ICSTR,CVIS,QA,QB,QH,DTMIN,IREP,ISTR

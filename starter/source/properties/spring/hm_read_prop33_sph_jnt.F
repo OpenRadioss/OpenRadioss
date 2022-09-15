@@ -34,7 +34,7 @@ Chd|        SET_U_PNU                     source/user_interface/uaccess.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PROP33_SPH_JNT(IOUT, ITYP, SKFLAG, PARGEO,IS_CRYPTED,
+      SUBROUTINE HM_READ_PROP33_SPH_JNT(IOUT, ITYP, SKFLAG, PARGEO,IS_ENCRYPTED,
      .                       UNITAB,IUNIT,ID,TITR,LSUBMODEL)
       USE UNITAB_MOD
       USE MESSAGE_MOD
@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-      LOGICAL IS_CRYPTED
+      LOGICAL IS_ENCRYPTED
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C=======================================================================
 C   L o c a l   V a r i a b l e s
@@ -227,7 +227,7 @@ C-----------------------
       IERROR = SET_U_PNU(12,IFUN_CRZ,KFUNC)
 C-----------------------
       WRITE(IOUT,500)
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
        IF (OFLAG==6) THEN

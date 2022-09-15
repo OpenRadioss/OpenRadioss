@@ -31,7 +31,7 @@ Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOAT_ARRAY_INDEX_DIM  source/devtools/hm_reader/hm_get_float_array_index_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -99,11 +99,11 @@ C-----------------------------------------------
       my_real E,NU,G,C1,RATE(MAXFUNC),VISC, VISCV,YFAC(MAXFUNC),EXPO,HYS,YFAC_UNIT(MAXFUNC),
      .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
       INTEGER NRATEN,J,I,NRATEP, IUNLOAD,IFLAG,IETANG,ISTIF,I2017_2,NL
-      LOGICAL IS_AVAILABLE,IS_CRYPTED         
+      LOGICAL IS_AVAILABLE,IS_ENCRYPTED         
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISTIF = 0
       I2017_2 = 0
@@ -111,7 +111,7 @@ C-----------------------------------------------
       IMATVIS = 2
 
       RATE(1:MAXFUNC) = ZERO
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -299,7 +299,7 @@ c-----------------
 c------------------------------------
       WRITE(IOUT,1001) TRIM(TITR),ID,70    
       WRITE(IOUT,1000)
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1050)RHO0      

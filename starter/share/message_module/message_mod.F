@@ -246,7 +246,7 @@ Chd|        HM_LINENGR                    source/groups/hm_linengr.F
 Chd|        HM_LINES_OF_LINES             source/groups/hm_lines_of_lines.F
 Chd|        HM_MESSAGES                   source/devtools/hm_reader/hm_messages.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_NEXT                source/devtools/hm_reader/hm_option_next.F
 Chd|        HM_OPTION_READ                source/devtools/hm_reader/hm_option_read.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F

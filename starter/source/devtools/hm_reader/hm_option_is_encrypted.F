@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
-Chd|  HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|  HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|-- called by -----------
 Chd|        HM_PROP_READ21                source/properties/thickshell/hm_read_prop21.F
 Chd|        HM_READ_EBCS_FLUXOUT          source/boundary_conditions/ebcs/hm_read_ebcs_fluxout.F
@@ -246,7 +246,7 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      SUBROUTINE HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -257,7 +257,7 @@ C   ===================
 C
 C     NAME               DESCRIPTION                         
 C
-C     IS_CRYPTED   IS AT LEAST ONE LINE OF THE OPTION CRYPTED TRUE OR FALSE
+C     IS_ENCRYPTED   IS AT LEAST ONE LINE OF THE OPTION CRYPTED TRUE OR FALSE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -275,7 +275,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C OUTPUT ARGUMENTS
-      LOGICAL,INTENT(OUT)::IS_CRYPTED
+      LOGICAL,INTENT(OUT)::IS_ENCRYPTED
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -286,8 +286,8 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
-      CALL CPP_OPTION_IS_CRYPTED(IS_CRYPTED) 
+      IS_ENCRYPTED   = .FALSE.
+      CALL CPP_OPTION_IS_CRYPTED(IS_ENCRYPTED) 
       RETURN
 C
       END

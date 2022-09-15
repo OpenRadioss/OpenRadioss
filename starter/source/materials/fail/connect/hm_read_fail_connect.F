@@ -27,7 +27,7 @@ Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -88,14 +88,14 @@ C     REAL
       my_real    ::     MAXDN,MAXDT,EXPN,EXPT,FACN,FACT,ASCALE,MAXEI,MAXEN,MAXET,NN,NT,
      .                  DTIME,DSOFT,AREASCALE, UNIT_T
 C-----------------------------------------------
-      LOGICAL    ::     IS_AVAILABLE,IS_CRYPTED
+      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -189,7 +189,7 @@ C
       NFUNC   = 2
       NUVAR   = 13
 C--------------------------------------------------
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 1000)
       ELSE
         WRITE(IOUT, 1100) MAXDN,MAXDT,EXPN,EXPT,IFAIL,ISOLID,ISYM,

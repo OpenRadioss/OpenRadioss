@@ -85,7 +85,7 @@ C-----------------------------------------------
      .    PUN,GAP
       CHARACTER*nchartitle,
      .   TITR
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C      TRUSS PROPERTY
 C------------------------
 C=======================================================================
 
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
 C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
@@ -108,7 +108,7 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
       CALL HM_GET_FLOATV('GAP',GAP,IS_AVAILABLE,LSUBMODEL,UNITAB)
       GEO(2) = MAX(ZERO,GAP)
 
-      IF(.NOT. IS_CRYPTED)THEN
+      IF(.NOT. IS_ENCRYPTED)THEN
          WRITE(IOUT,1200)IG,GEO(1),GEO(2)
       ELSE
          WRITE(IOUT,1299)IG

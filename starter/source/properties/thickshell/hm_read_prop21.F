@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -79,7 +79,7 @@ C-----------------------------------------------
       my_real
      .    CVIS,QA,QB,VX,VY,VZ,ANGLE,DTMIN,PUN
       INTEGER J
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER IDTITL*nchartitle
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -91,7 +91,7 @@ C      21  ORTHOTROPIC THICK SHELL
 C----------------------
 C======================================================================|
 
-       IS_CRYPTED = .FALSE.
+       IS_ENCRYPTED = .FALSE.
        IS_AVAILABLE = .FALSE.
 
 C HIDDEN FLAGS
@@ -112,7 +112,7 @@ C      Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -285,7 +285,7 @@ C
       GEO(15)  = QB
       GEO(172) = DTMIN
 C----
-      IF(.NOT.IS_CRYPTED)THEN
+      IF(.NOT.IS_ENCRYPTED)THEN
         IF(IGEO(31) == 1)THEN
           WRITE(IOUT,1100)IG,IHBE,ISMSTR,NPT,ICSTR,
      .                  CVIS,QA,QB,DTMIN

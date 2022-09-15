@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SET_U_GEO                     source/user_interface/uaccess.F
 Chd|        SET_U_PNU                     source/user_interface/uaccess.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
@@ -90,15 +90,15 @@ C-----------------------------------------------
       INTEGER ISK,IUTYP,PID1,PID2,MID1,IERROR,K
       my_real
      .  XK,AREA,IXX,IYY,IZZ,AA,RAY,ry,rz
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
 C
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -143,7 +143,7 @@ C
         PARGEO(1) = ISK
         PARGEO(2) = XK
 C
-        IF(IS_CRYPTED)THEN
+        IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
         ELSE
           WRITE(IOUT,1000)ISKN(4,ISK),PID1,PID2,XK
@@ -182,7 +182,7 @@ C
 C
         IF ((AREA<=ZERO).AND.(RAY<=ZERO)) THEN
           WRITE(IOUT,*)' ** ERROR : PROPERTY INPUT '
-          IF(.NOT. IS_CRYPTED)THEN
+          IF(.NOT. IS_ENCRYPTED)THEN
            WRITE(IOUT,*)' AREA =',AREA,' R =',RAY
           ENDIF
         ENDIF
@@ -211,7 +211,7 @@ C
         IERROR = SET_U_GEO(6,RY)
         IERROR = SET_U_GEO(7,RZ)
 C
-        IF(IS_CRYPTED)THEN
+        IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
         ELSE
           WRITE(IOUT,2000)MID1,AREA,IXX,IYY,IZZ,RY,RZ

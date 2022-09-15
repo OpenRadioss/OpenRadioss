@@ -27,7 +27,7 @@ Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
@@ -77,17 +77,17 @@ C L o c a l V a r i a b l e s
 C-----------------------------------------------
        INTEGER TYPE_MAX,F_FLAG,STRDEF
        my_real C_MIN , C_MAX,EMA,BUTTER
-       LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
 C
 C      Only visualization by damage of stress or strain is between to limited values
 C            (no element deletion)
 C
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
        
        NFUNC     = 0
@@ -137,7 +137,7 @@ c-----------------------------------------------------------------------
       UPARAM(6) = REAL(F_FLAG) +0.00001
       UPARAM(7) = REAL(STRDEF)
 c-----------------------------------------------------------------------
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE (IOUT,'(5X,A,//)') 'CONFIDENTIAL DATA'
       ELSE 
        IF (TYPE_MAX == 1) THEN

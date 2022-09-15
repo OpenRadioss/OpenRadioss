@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
@@ -102,16 +102,16 @@ C-----------------------------------------------
       my_real :: RHO0, RHOR,E,NU,G,MU,RBULK,   C1,  
      .           C10,C01,C20,C11,C02 ,TAUREF_UNIT,
      .           C30, C21,C12,C03,SB,D1,D2,D3,A,EXPC,EXPM,KSI,TAUREF
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
       IMATVIS = 1                 
       ILAW    = 95
@@ -237,7 +237,7 @@ c-----------------
 c-----------------
       WRITE(IOUT,1001) TRIM(TITR),ID,95
       WRITE(IOUT,1000)
-      IF (IS_CRYPTED)THEN                                     
+      IF (IS_ENCRYPTED)THEN                                     
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     
          WRITE(IOUT,1002)RHO0

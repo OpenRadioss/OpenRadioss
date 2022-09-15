@@ -30,7 +30,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -94,7 +94,7 @@ C-----------------------------------------------
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    PTHK, AN, PHI_I,THK10
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER*nchartitle,
      .   TITR
 C-----------------------------------------------
@@ -117,7 +117,7 @@ C fixing flag and removed from input
         IRP = 0
         IDSK = 0
 
-        IS_CRYPTED = .FALSE.
+        IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
 
 C HIDDEN FLAGS
@@ -130,7 +130,7 @@ C CVIS USED in coquez routines
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -331,7 +331,7 @@ C----
       IGEO(14) = IRP
 
 C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-# 
-       IF(IS_CRYPTED)THEN
+       IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,1000)IG
  1000    FORMAT(
      &    5X,'ORTHOTROPIC LAYERED SHELL PROPERTY SET'/,
@@ -378,7 +378,7 @@ C----------------------
        GEO(M1) = PHI_I
        GEO(IPTHK+K) = THK10 
        GEO(IPPOS+K) = -HALF*(ONE+THK10)+K*THK10
-       IF(.NOT.IS_CRYPTED)WRITE(IOUT,2020)  K,GEO(M1)
+       IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,2020)  K,GEO(M1)
        GEO(M1)=GEO(M1)*PI/HUNDRED80
       ENDDO
       GEO(200)=GEO(1)  

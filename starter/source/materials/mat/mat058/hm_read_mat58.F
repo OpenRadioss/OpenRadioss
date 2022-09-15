@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,ILAW,NC,NT,ISENS,ILOAD,ULOAD
       my_real :: RHO0,RHOR,YOUNG,EC,ET,BC,BT,G,G0,GT,GB,GSH,GFROT,
      .   KC,KT,KKC,KKT,KXC,KXT,KFC,KFT,FLEX,FLEX1,FLEX2,EMBC,EMBT,
@@ -92,14 +92,14 @@ C-----------------------------------------------
      .   VISCE,VISCG,AREAMIN1,AREAMIN2,ZEROSTRESS,STRESS_UNIT
       my_real ,DIMENSION(6) ::  YFAC
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW  = 58
       ILOAD = 0
       NFUNC = 3
       AREAMIN1 = ZERO
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
       CALL HM_GET_FLOATV('MAT_RHO'       ,RHO0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'     ,RHOR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -324,7 +324,7 @@ c     Starter output
 c--------------------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,58
       WRITE(IOUT,1100)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0
