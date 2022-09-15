@@ -746,7 +746,7 @@ C---add ICPRE auto for thick-shell
              SELECT CASE (ICP0)
 C-------compressible       
               CASE(1)                                             
-               ICPRE = 3        
+               ICPRE = 0        
 C-------uncompressible       
               CASE(2)                                             
                ICPRE = 1
@@ -755,7 +755,7 @@ C--------elasto-plastic
                ICPRE = 2
              END SELECT 
 C--------message out       
-                CALL ANCMSG(MSGID=1741,
+             IF (ICPRE>0) CALL ANCMSG(MSGID=1741,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=ID,
@@ -837,8 +837,8 @@ C--------message out
      .                      PRMOD=MSG_CUMU)
            END IF
           END IF
-C---add ICPRE auto for T10, firsly limited by Ismstr=4          
-          IF (IT10 ==1 .AND. ISSN==4 ) THEN
+C---add ICPRE auto for T10, firsly limited by Large Strain          
+          IF (IT10 ==1 .AND.  (ISSN==4 .OR. ISSN==10) ) THEN
             MATPARAM => MATPARAM_TAB(MID)
              ICP0=MATPARAM%COMPRESSIBILITY
              SELECT CASE (ICP0)
@@ -847,14 +847,14 @@ C-------compressible
                ICPRE = 3        
 C-------uncompressible       
               CASE(2)                                             
-               ICPRE = 3
+               ICPRE = 1
 C--------elasto-plastic       
               CASE(3)                                             
-               ICPRE = 3
-               IF (ICPT10==1) ICPRE = 1
+               ICPRE = 2
              END SELECT 
 C--------message out       
-             IF (ICPRE == 1)  CALL ANCMSG(MSGID=1741,
+             IF (ICPRE ==1 .OR. ICPRE ==2)  CALL ANCMSG(
+     .                      MSGID=1741,
      .                      MSGTYPE=MSGINFO,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=ID,
@@ -1204,24 +1204,6 @@ c     .     OR.MLN == 22.OR.MLN == 23.OR.MLN == 24.OR.MLN == 49))THEN
 cc           CALL ANSTCKI(MLN)
 cc          CALL ANCERR(601,ANINFO_BLIND_2)      
           ENDIF   
-C-----ISMSTR<-ISSN ----------  
-C---------- to add incompatibility total strain & element types & IGT  
-C          IF (ISSN >= 10) THEN
-C           IF (JHBE ==16 ) THEN
-CC-----------  warning out         
-C            ISSN =4
-C           END IF
-C           IF (IGT /=14 .AND. IGT /=6 ) THEN
-CC-----------  warning out         
-C            IF (ISSN==10) THEN
-C              ISSN=4
-C            ELSEIF (ISSN==11) THEN
-C              ISSN=1
-C            ELSEIF (ISSN==12) THEN
-C              ISSN=2
-C            END IF
-C           END IF 
-C          END IF
           IF (ISSN == 10 .OR. ISSN == 12) THEN
             IF(MLN /= 38 .AND. MLN /= 42 .AND. MLN /= 62  .AND.
      .         MLN /= 69 .AND. MLN /= 82 .AND. MLN /= 92  .AND. 

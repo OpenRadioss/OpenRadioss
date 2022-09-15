@@ -1512,7 +1512,7 @@ C-------------------------------------------------
         IF(IPARG(8, NG) == 1) CYCLE
         IF(ISOLNOD /= 4 .AND. ISOLNOD /= 10) CYCLE
         IF(ISOLNOD==4.AND.ISROT == 3) ISFEM=1
-        IF(ICPRE==1.AND.(ISOLNOD==10.OR.(ISOLNOD==4.AND.ISROT == 1)))
+        IF(ICPRE>0.AND.(ISOLNOD==10.OR.(ISOLNOD==4.AND.ISROT == 1)))
      .     ISFEM=1
       ENDDO
 C--------------------------------------------

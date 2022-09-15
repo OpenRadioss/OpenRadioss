@@ -174,7 +174,7 @@ C transmises en argument a mmain.
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
-     . CONDE(MVSIZ),CONDEG(MVSIZ), VOLG(MVSIZ)
+     . CONDE(MVSIZ),CONDEG(MVSIZ), VOLG(MVSIZ), JACGM(MVSIZ)
 C-----
 C Variables utilisees en argument par les materiaux.
       my_real
@@ -290,6 +290,18 @@ C
         TEMPEL(I) = ZERO
       END DO
       IF (JTHE < 0) THEM(LFT:LLT,1:10) = ZERO
+C      
+      IF (ICP==1) THEN
+        MX = IXS(1,LFT)
+        NU(LFT:LLT)=MIN(HALF,PM(21,MX))
+        FACP(LFT:LLT)=ONE
+      ELSEIF (ICP==2) THEN
+        MX = IXS(1,LFT)
+        NU(LFT:LLT)=MIN(HALF,PM(21,MX))
+        C1 =PM(32,MX)
+        E0(LFT:LLT) =THREE*(ONE-TWO*NU(I))*C1
+        CALL S10SIGP3(GBUF%SIG,E0 ,GBUF%PLA,FACP ,GBUF%G_PLA,NEL )
+      END IF
 C-----------
       CALL S10COOR3(
      1   X        ,IXS(1,NF1),IXS10(1,NF2),V        ,W        ,
@@ -305,18 +317,6 @@ C-----------
 C     
       CALL S10NX3(NX)
       IF(JTHE < 0 .AND. ISOLNOD == 4) CALL S10NXT4(NXT4,NEL)
-C      
-      IF (ICP==1) THEN
-        MX = MXT(LFT)
-        NU(I)=MIN(HALF,PM(21,MX))
-        FACP(LFT:LLT)=ONE
-      ELSEIF (ICP==2) THEN
-        MX = MXT(LFT)
-        NU(I)=MIN(HALF,PM(21,MX))
-        C1 =PM(32,MX)
-        E0(I) =THREE*(ONE-TWO*NU(I))*C1
-        CALL S8CSIGP3(GBUF%SIG,E0  ,GBUF%PLA,FACP ,GBUF%G_PLA,NEL )
-      END IF
 C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
@@ -417,22 +417,12 @@ C-----------------------------
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
      .       GBUF%GAMA,GAMA )
       ENDIF
-      IF(ICP ==1 ) THEN
-        IF (TT ==ZERO) THEN
-          DO I=LFT,LLT
-           IF(GBUF%OFF(I) == ZERO) CYCLE
-           FAC(I) = GBUF%VOL(I)/VOLG(I)
-           SUM=VARNOD(NC(I,1))+VARNOD(NC(I,2))+VARNOD(NC(I,3))+VARNOD(NC(I,4))
-           VOLG(I)=FOURTH*SUM*GBUF%VOL(I)
-           GBUF%VOL(I) =FAC(I)*VOLG(I)
-          ENDDO
-        ELSE
-          DO I=LFT,LLT
-           IF(GBUF%OFF(I) == ZERO) CYCLE
-           SUM=VARNOD(NC(I,1))+VARNOD(NC(I,2))+VARNOD(NC(I,3))+VARNOD(NC(I,4))
-           VOLG(I)=FOURTH*SUM*GBUF%VOL(I)
-          ENDDO
-        END IF
+      IF(ICP >0 .AND. ISMSTR/=10) THEN
+         DO I=LFT,LLT
+          IF(GBUF%OFF(I) == ZERO) CYCLE
+          SUM=VARNOD(NC(I,1))+VARNOD(NC(I,2))+VARNOD(NC(I,3))+VARNOD(NC(I,4))
+          JACGM(I)=FOURTH*SUM
+         ENDDO
       ENDIF
 C-----------------------------
 C     POINTS D' INTEGRATION 
@@ -457,7 +447,15 @@ C
      .         E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z,OFFG0)
          ENDIF
          IF (ICP>0) THEN
-           CALL S10_ICP(GBUF%OFF,GBUF%VOL,VOLG,FACP,
+           IF (ISMSTR==10) THEN
+             DO I=LFT,LLT
+               IF(GBUF%OFF(I) == ZERO) CYCLE
+               JACGM(I)=VARNOD(NC(I,IP))
+             ENDDO
+           END IF
+           CALL S10_ICP(GBUF%OFF,JACGM,FACP,NU,
+     .        MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), MFYY(1,IP), 
+     .        MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP) ,
      .                  LBUF%VOL,VOLN,LBUF%VOL0DP,VOLDP(1,IP),NEL)
          ENDIF
 C   

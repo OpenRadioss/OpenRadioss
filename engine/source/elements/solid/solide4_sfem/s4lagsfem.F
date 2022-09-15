@@ -72,7 +72,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL,NNOD,ICPRE
+      INTEGER NG, I, J, I1, I2, I3, I4, K, LENR,NEL,NNOD,ICPRE,IBID,IP
       INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC(MVSIZ,10)
       my_real
      .   VOL0(MVSIZ),VOLG(MVSIZ)
@@ -81,6 +81,7 @@ C-----------------------------------------------
      .   VOL06(6,MVSIZ), VARNOD6(6,2*NUMNOD)      
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF     
 C
       VARNOD(1:2*NUMNOD)      = ZERO
       VARNOD6(1:6,1:2*NUMNOD) = ZERO
@@ -106,7 +107,7 @@ C
 C
         IF(JEUL  == 1) CYCLE
         IF(NNOD==4 .AND. ISROT /= 3) CYCLE
-        IF(ICPRE/=1.AND.(NNOD==10.OR.(NNOD==4.AND.ISROT == 1))) CYCLE
+        IF(ICPRE==0.AND.(NNOD==10.OR.(NNOD==4.AND.ISROT == 1))) CYCLE
         LFT=1
         NEL = LLT
 C
@@ -160,32 +161,51 @@ C-----T10 large strain first
           ELSE
             NC(LFT:LLT,5:10) = 0
           ENDIF
-          CALL S10VOLNOD3(VARNOD6,X,NC,GBUF%OFF,VOLG,NEL)
-          DO I=LFT,LLT
-           IF(GBUF%OFF(I) == ZERO) THEN
-             VOL0(I)=ZERO
-           ELSE
-             VOL0(I)=GBUF%VOL(I)
-           ENDIF
-          ENDDO
-C-----for small strain elements
-c          CALL S4VOLNOD_SM(VARNOD6,V,NC1,NC2,NC3,NC4,VOL0,GBUF%AMU,GBUF%OFF,
-c     2                     GBUF%SMSTR,NEL)
-          !Parith-On treatment
-          CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
-          DO I=LFT,LLT      
-            I1=NC1(I)+NUMNOD
-            I2=NC2(I)+NUMNOD
-            I3=NC3(I)+NUMNOD
-            I4=NC4(I)+NUMNOD
-            !Parith-On treatment
-            DO K=1,6
-              VARNOD6(K,I1) = VARNOD6(K,I1) + VOL06(K,I)
-              VARNOD6(K,I2) = VARNOD6(K,I2) + VOL06(K,I)
-              VARNOD6(K,I3) = VARNOD6(K,I3) + VOL06(K,I)
-              VARNOD6(K,I4) = VARNOD6(K,I4) + VOL06(K,I)
+          IF (ISMSTR==10) THEN
+            CALL S10VOLNODT3(ELBUF_TAB(NG),VARNOD6,X,NC,GBUF%OFF,
+     +                       GBUF%SMSTR,NEL)
+            IBID = 1
+            DO IP=1,NPT
+              LBUF => ELBUF_TAB(NG)%BUFLY(IBID)%LBUF(IP,IBID,IBID)
+               DO I=LFT,LLT
+                IF(GBUF%OFF(I) == ZERO) THEN
+                  VOL0(I)=ZERO
+                ELSE
+                  VOL0(I)=LBUF%VOL(I)
+                ENDIF
+               ENDDO
+               !Parith-On treatment
+               CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
+               DO I=LFT,LLT
+                 I1 = NC(I,IP) +NUMNOD         
+                 VARNOD6(1:6,I1) = VARNOD6(1:6,I1) + VOL06(1:6,I)
+               ENDDO
+            END DO !IP=1,NPT
+          ELSE
+            CALL S10VOLNOD3(VARNOD6,X,NC,GBUF%OFF,VOLG,NEL)
+            DO I=LFT,LLT
+             IF(GBUF%OFF(I) == ZERO) THEN
+               VOL0(I)=ZERO
+             ELSE
+               VOL0(I)=GBUF%VOL(I)
+             ENDIF
             ENDDO
-          ENDDO
+            !Parith-On treatment
+            CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
+            DO I=LFT,LLT
+              I1=NC1(I)+NUMNOD
+              I2=NC2(I)+NUMNOD
+              I3=NC3(I)+NUMNOD
+              I4=NC4(I)+NUMNOD
+              !Parith-On treatment
+              DO K=1,6
+                VARNOD6(K,I1) = VARNOD6(K,I1) + VOL06(K,I)
+                VARNOD6(K,I2) = VARNOD6(K,I2) + VOL06(K,I)
+                VARNOD6(K,I3) = VARNOD6(K,I3) + VOL06(K,I)
+                VARNOD6(K,I4) = VARNOD6(K,I4) + VOL06(K,I)
+              ENDDO
+            ENDDO
+          END IF
         ENDIF !ISROT=3
 
       ENDDO !DO=1,NG
