@@ -27,7 +27,7 @@ Chd|        READ_EBCS                     source/boundary_conditions/ebcs/read_e
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        NGR2USR                       source/system/nintrr.F        
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
@@ -102,7 +102,7 @@ C-----------------------------------------------
      .              C3=TITR)                                      
       ENDIF      
 
-      CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('sensorid',  SENS  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('monvol_ID',  MONVOL  ,IS_AVAILABLE,LSUBMODEL)

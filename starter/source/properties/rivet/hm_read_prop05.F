@@ -71,7 +71,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .    PUN ,FN ,FT ,DX
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ c------------------------------
 C      RIVETS (Obsolete)
 C----------------------
 
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE. 
 
       IMODE = 0
@@ -106,7 +106,7 @@ c
       IF(FN==ZERO)FN=EP15
       IF(FT==ZERO)FT=EP15
       IF(DX==ZERO)DX=EP15
-      IF(.NOT.IS_CRYPTED)THEN
+      IF(.NOT.IS_ENCRYPTED)THEN
           WRITE(IOUT,1500)IG,FN,FT,DX,IROT,IMODE
       ELSE
           WRITE(IOUT,1599)IG

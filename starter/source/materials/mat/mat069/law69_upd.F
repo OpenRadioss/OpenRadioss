@@ -27,7 +27,7 @@ Chd|        UPDMAT                        source/materials/updmat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        ARRET                         source/system/arret.F         
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        LAW69_NLSQF                   source/materials/tools/nlsqf.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
@@ -75,13 +75,13 @@ c
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
       INTEGER , DIMENSION(:), ALLOCATABLE :: ITAB_ON_A,INDEX
 !      
-      LOGICAL  IS_CRYPTED         
+      LOGICAL  IS_ENCRYPTED         
 C==================================================================== 
 C=======================================================================
 !       IDENTIFICATION
 !====================================================================       
-       IS_CRYPTED = .FALSE.
-       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+       IS_ENCRYPTED = .FALSE.
+       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
        IF(IFUNC(2) == 0 )  RETURN
 C      
        NMUAL = 2*UPARAM(18)
@@ -152,7 +152,7 @@ C  check if the curve is monotonic
          MUAL(2*II)=TWO                                  
        ENDDO 
 !       
-       IF(IS_CRYPTED)THEN
+       IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
        ELSE 
          WRITE(IOUT,277)    
@@ -189,7 +189,7 @@ C     Formulation for solid elements time step computation.
        PM(105) = GS/(RBULK + TWO_THIRD*G)       
        
 C                                                        
-      IF(.NOT.IS_CRYPTED) THEN 
+      IF(.NOT.IS_ENCRYPTED) THEN 
          IF (UPARAM(13)/=2) THEN                                      
            WRITE(IOUT,278)                                                   
      &  UPARAM(1),UPARAM(2),UPARAM(3),UPARAM(4),         

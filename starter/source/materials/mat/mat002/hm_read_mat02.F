@@ -31,7 +31,7 @@ Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,J  ,ISIZ 
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
@@ -110,7 +110,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       IFLAG   = 0
       MFLAG   = 0
@@ -136,7 +136,7 @@ C-----------------------------------------------
       RHOR    = ZERO
       SDSP    = ZERO
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       
       IF (IFORM==2) THEN
          !/MAT/PLAS_PREDEF
@@ -440,8 +440,8 @@ C--------------------------------
         WRITE(IOUT,1012)TRIM(TITR),ID
       ENDIF
       WRITE(IOUT,1000)
-      IF(.NOT.IS_CRYPTED)WRITE(IOUT,1100)RHO0
-        IF(MFLAG /= 0 .AND. .NOT.IS_CRYPTED) THEN
+      IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1100)RHO0
+        IF(MFLAG /= 0 .AND. .NOT.IS_ENCRYPTED) THEN
           IF(MFLAG == 1) THEN 
             WRITE (IOUT,1407) 'GENERIC MILD STEEL',RHO0,YOUNG,ANU,G,
      .             160000000.0d0/FAC_PRES,380000000.0d0/FAC_PRES,0.24d0
@@ -477,7 +477,7 @@ C--------------------------------
         ENDIF 
 
         IF(IFORM /= 2)THEN
-          IF(.NOT.IS_CRYPTED)THEN
+          IF(.NOT.IS_ENCRYPTED)THEN
            WRITE(IOUT,1300)YOUNG,ANU,G
           ELSE
            WRITE(IOUT,1700)
@@ -485,12 +485,12 @@ C--------------------------------
         ENDIF
       IF(IFORM == 0 .OR. IFORM == 2)THEN
         IF(IFLAG == 0 .AND. IFORM /= 2)THEN
-          IF(.NOT.IS_CRYPTED)WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
+          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ELSE
-          IF(.NOT.IS_CRYPTED .AND. MFLAG == 0 .AND. IFORM /= 2)THEN 
+          IF(.NOT.IS_ENCRYPTED .AND. MFLAG == 0 .AND. IFORM /= 2)THEN 
             WRITE(IOUT,1405)CA,CB0,CN0,CA,CB,CN,EPSM,SIGM,FISOKIN
           ENDIF
-          IF(.NOT.IS_CRYPTED .AND. MFLAG /= 0 .AND. IFORM /= 2)THEN 
+          IF(.NOT.IS_ENCRYPTED .AND. MFLAG /= 0 .AND. IFORM /= 2)THEN 
             WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ENDIF
         ENDIF  
@@ -498,7 +498,7 @@ C--------------------------------
         IF(MT == ZERO)MT=ONE
         TM=C4
         IF(TM == ZERO)TM=EP20
-        IF(.NOT.IS_CRYPTED .AND. IFORM /= 2)THEN
+        IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          ISRAT1 = 1
          WRITE(IOUT,1600)CC,EPS0,ICC,ISRAT1,FCUT,MT,TM,CP,TI
         ENDIF
@@ -506,7 +506,7 @@ C--------------------------------
         PM(51)=MT
         PM(52)=TM
       ELSE
-        IF(.NOT.IS_CRYPTED .AND. IFORM /= 2)THEN
+        IF(.NOT.IS_ENCRYPTED .AND. IFORM /= 2)THEN
          WRITE(IOUT,1410)CA,CB,CN,EPSM,SIGM,FISOKIN
          ISRAT1 = 1
          WRITE(IOUT,1610)ICC,ISRAT1,FCUT,EPS0,CC,C3,C4,CP,TI

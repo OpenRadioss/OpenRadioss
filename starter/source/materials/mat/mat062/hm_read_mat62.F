@@ -30,7 +30,7 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -88,9 +88,9 @@ C-----------------------------------------------
       INTEGER :: J,NORDER,NVISC,FLAG_VISC,IVISC,ILAW,ITAG
       my_real :: RHO0,RHOR,GAMMAINF,NUG,SUM,GS,P,VISCMAX,BULK
       my_real, DIMENSION(100) ::  MU,AL,GAMA,TAUX,NU,BETA
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW    = 62
 c
@@ -98,7 +98,7 @@ C--------------------------------------------------
 C     check crypting
 C--------------------------------------------------
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
 C--------------------------------------------------
 C     Read DATA
@@ -258,7 +258,7 @@ c-----------------
 c-----------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,62
       WRITE(IOUT,1000)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0

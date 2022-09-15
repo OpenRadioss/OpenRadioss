@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_GET_INT_ARRAY_INDEX        source/devtools/hm_reader/hm_get_int_array_index.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        MYQSORT                       ../common_source/tools/sort/myqsort.F
@@ -95,10 +95,10 @@ C     REAL
      .        DIMENSION(:,:),ALLOCATABLE :: XV2
       CHARACTER TITR*nchartitle, MESS*40, KEY*ncharfield
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
-      LOGICAL :: IS_CRYPTED, IS_AVAILABLE
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
 !     Initialization
-      IS_CRYPTED = .FALSE.
+      IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       CALL HM_OPTION_START('/TABLE/1')
 
@@ -107,7 +107,7 @@ C======================================================================|
        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
      .                         OPTION_TITR = TITR, 
      .                         OPTION_ID = ID) 
-       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
        CALL HM_GET_INTV('ORDER', NDIM, IS_AVAILABLE, LSUBMODEL)
        IF(NDIM/=1.AND.NDIM/=2.AND.NDIM/=3.AND.NDIM/=4)THEN
@@ -420,7 +420,7 @@ c         END DO !pmo mw
        DEALLOCATE(ITAG)
 
        NY=SIZE(TABLE(L)%Y%VALUES)
-       IF (IS_CRYPTED)THEN                                     
+       IF (IS_ENCRYPTED)THEN                                     
          WRITE(IOUT,'(A)')'CONFIDENTIAL DATA'
        ELSE
          WRITE(IOUT,2100) TABLE(L)%NOTABLE, TABLE(L)%NDIM

@@ -27,7 +27,7 @@ Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -90,14 +90,14 @@ C-----------------------------------------------
 C     REAL
       my_real    ::     AFRAC,NFRAC,BFRAC,CFRAC,GAMA,DEPS0
 C-----------------------------------------------
-      LOGICAL    ::     IS_AVAILABLE,IS_CRYPTED
+      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS  
 C--------------------------------------------------
@@ -124,7 +124,7 @@ c-----------------------------------------------------------------------
       NUPARAM = 6
       NUVAR   = 2
 c-----------------------------------------------------------------------
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1300)
       ELSE
         WRITE(IOUT, 1100) AFRAC,NFRAC,BFRAC,CFRAC,GAMA,DEPS0

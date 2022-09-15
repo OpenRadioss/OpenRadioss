@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -87,14 +87,14 @@ C-----------------------------------------------
       INTEGER ISHELL, ISOLID,IBRIT
       my_real
      .  TBA,TBK,SIGR,FAC_L,FAC_T,FAC_M,FAC_C,BRIT_B,BRIT_C,DADV
-      LOGICAL    ::     IS_AVAILABLE,IS_CRYPTED
+      LOGICAL    ::     IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C
       CALL HM_GET_FLOATV         ('Lambda'           ,TBA     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('K'           ,TBK     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -141,7 +141,7 @@ C
       NFUNC = 0
 C
 C
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE 
 C---

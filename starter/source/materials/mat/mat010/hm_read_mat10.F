@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,IFUNC,COUNT,ID,IFORM,IEOS
       my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C0,C1,C2,C3,FAC_Y
       my_real :: PMIN,PEXT,XMUMX,BUNL,E0,G,PSTAR,PSH,DELTA,DET,YOUNG,ANU
@@ -103,7 +103,7 @@ C-----------------------------------------------
       XMUMX   = ZERO
       ISRATE  = 0
 !---
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 !
       CALL HM_GET_INTV  ('Line_count'      ,COUNT ,IS_AVAILABLE,LSUBMODEL)
       IF(COUNT==0)COUNT=3 ! format 4.* and older
@@ -343,7 +343,7 @@ C---- Buffer Size for specific element buffer allocations
       !--- OUTPUT IN STARTER LISTING FILE ---!
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,10
       WRITE(IOUT,1000)
-      IF(IS_CRYPTED)THEN
+      IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0,RHOR

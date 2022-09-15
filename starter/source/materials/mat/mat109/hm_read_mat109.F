@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
@@ -83,13 +83,13 @@ C-----------------------------------------------
       INTEGER :: ISMOOTH,ILAW,TAB_YLD,TAB_TEMP,TAB_ETA
       my_real :: YOUNG,NU,G,LAME,BULK,A1,A2,CP,TREF,TINI,ETA,BETA,XRATE,
      .           XSCALE,YSCALE,YSCALE_UNIT,XSCALE_UNIT
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW = 109
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
 
 Card1
@@ -202,7 +202,7 @@ c
 c-----------------------      
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW 
       WRITE(IOUT,1000)   
-      IF (IS_CRYPTED)THEN                                
+      IF (IS_ENCRYPTED)THEN                                
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE     
         WRITE(IOUT,1100) RHO,YOUNG,NU,CP,TREF,TINI,ETA,TAB_YLD,TAB_TEMP,

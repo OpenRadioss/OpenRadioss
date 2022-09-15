@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        REMOVE_DET                    source/initial_conditions/detonation/remove_det.F
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
@@ -110,7 +110,7 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.                                                                 
       IS_NODE_DEFINED = .FALSE.                                                              
       IF(KEY2(1:4)=='NODE')IS_NODE_DEFINED = .TRUE.                                          
-      CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)                                                                                       
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)                                                                                       
       !---------------------------------!                                                    
       !             READING             !                                                    
       !---------------------------------!                                                    

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -78,7 +78,7 @@ C-----------------------------------------------
       my_real :: EXP_N,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,K_IC,K_TH,V0,VC,
      .   ALPHA,GEORED,RLEN,FAC_L,TDELAY,KRES1,KRES2,
      .   ETA1,BETA1,TAU1,ETA2,BETA2,TAU2,A_REF,SIG_INI,PSCALE 
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 c------------------------------------------------
 c  IMOD - choice of failure propagation model between neighbor elements
 c  IMOD = 0 => no failure information propagation
@@ -87,7 +87,7 @@ c  IMOD = 2 => ISOTROPIC FRONTWAVE PROPAGATION
 c  IMOD = 3 => DIRECTIONAL FRONTWAVE PROPAGATION - edges only
 c  IMOD = 4 => DIRECTIONAL FRONTWAVE PROPAGATION - edges and diagonals
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       IXFEM     = 0
       IFAILWAVE = 0
@@ -96,7 +96,7 @@ C--------------------------------------------------
 c     Check crypting option
 C--------------------------------------------------
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
 c--------------------------------------------------
 c     Extract input Parameters
@@ -227,7 +227,7 @@ c---------------------------
       FAIL_TAG%LF_DAM = 1
 c--------------------------------------------------
       WRITE(IOUT,1000)  
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 2000)
       ELSE
         WRITE(IOUT,3000) EXP_N,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,RLEN,

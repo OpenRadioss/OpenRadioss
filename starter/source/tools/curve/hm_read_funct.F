@@ -31,7 +31,7 @@ Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
@@ -122,7 +122,7 @@ c
             IF(KEY(6:12) == '_SMOOTH') ISMOOTH = 1
 c
             IF(ISMOOTH == 0)THEN
-              CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)   
+              CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)   
               L = L + 1   
               CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,L),LTITR)                         
               NOM_OPT(1, L) = FUNC_ID
@@ -204,7 +204,7 @@ c
      .                              OPTION_ID = FUNC_ID,
      .                              KEYWORD1 = KEY)
 c
-            CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)  
+            CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)  
             ISMOOTH = 1
             L = L + 1 
             CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,L),LTITR)                           

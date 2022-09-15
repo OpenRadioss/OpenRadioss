@@ -30,7 +30,7 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|        FRETITL2                      source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBROTVECT                    source/model/submodel/subrot.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -96,7 +96,7 @@ C-----------------------------------------------
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    PTHK, AN, PHI
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       CHARACTER*nchartitle,
      .   TITR
 C-----------------------------------------------
@@ -117,7 +117,7 @@ C=======================================================================
         IRP = 0
         IDSK = 0
 
-        IS_CRYPTED = .FALSE.
+        IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
 
 C HIDDEN FLAGS
@@ -131,7 +131,7 @@ C ISEN USED IN ENGINE call csens3.F routine
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -346,7 +346,7 @@ c      IF(ISTRAIN == 0)ISTRAIN=ISTR_D
       IG = IGEO(1)
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-# 
-       IF(IS_CRYPTED)THEN
+       IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,1000)IG
  1000    FORMAT(
      &    5X,'ORTHOTROPIC SHELL PROPERTY SET'/,

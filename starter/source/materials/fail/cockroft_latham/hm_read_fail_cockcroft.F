@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        HM_READ_FAIL                  source/materials/fail/hm_read_fail.F
 Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_COCKCROFT(UPARAM, MAXUPARAM, NUPARAM,
@@ -78,7 +78,7 @@ C-------------------------------------------------
       NUVAR = 3
       C0  = ZERO
 !     Encryption flag
-      CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)      
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)      
 !     Line 1
       CALL HM_GET_FLOATV('C0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)  
       CALL HM_GET_FLOATV('ALPHA', EMA, IS_AVAILABLE, LSUBMODEL, UNITAB)  

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
@@ -91,14 +91,14 @@ C-----------------------------------------------
       my_real :: RHO0,E,G,THICK,GC1_INI,GC2_INI,GC1_INF,GC2_INF,RATG1,RATG2,FSCALEX,FSCALEX_UNIT,
      .   FG1,FG2,SIGA1,SIGA2,SIGB1,SIGB2,RATE1,RATE2,UNIT_L,E_ELAS_N,E_ELAS_S,TMAX_N,TMAX_S,
      .                   GIC,GIIC,EXP_G,EXP_BK,DISP_0N,DISP_0S,DELTA0N,DELTA0S,UND,UTD,GAMA
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
       ILAW = 117
 !
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 !
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 Card1
       CALL HM_GET_FLOATV('MAT_RHO'        ,RHO0         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('MAT_IMASS'      ,IMASS        ,IS_AVAILABLE, LSUBMODEL)
@@ -184,7 +184,7 @@ c     STARTER Output
 c-------------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1000)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE                                                     
         WRITE(IOUT,1200) RHO0,E_ELAS_N,E_ELAS_S,TMAX_N,TMAX_S,

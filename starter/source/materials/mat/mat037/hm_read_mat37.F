@@ -27,7 +27,7 @@ Chd|        HM_READ_MAT                   source/materials/mat/hm_read_mat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -98,7 +98,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       my_real 
      .        C1,C2,P0,VIS,VISV,RHO10,RHO20,A1,PMIN,GAM,VIS2,PSHIFT,
      .        VISV2,FAC_M,FAC_L,FAC_T,FAC_C,RHO0,RHOR
@@ -116,7 +116,7 @@ C-----------------------------------------------
       IF (IALEMUSCl > 0) I_LAW = 37
       IF(TRIMAT==0)TRIMAT = -2 !allows to detect bimaterial law BIMAT/BIPHAS (used for /ANIM/BRIC/VFRAC)
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('MAT_RHO'        ,RHO0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'      ,RHOR   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -257,7 +257,7 @@ C-----------------------------------------------
         WRITE(IOUT,1000)
 
         IF(ISOLVER==2)WRITE(IOUT,1102)
-        IF(IS_CRYPTED)THEN
+        IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
         ELSE
           WRITE(IOUT,1012) RHO0
@@ -266,7 +266,7 @@ C-----------------------------------------------
         ENDIF
       ELSE
         WRITE(IOUT,1001)
-        IF(IS_CRYPTED)THEN
+        IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
         ELSE
           WRITE(IOUT,1101)RHO10,RHO20,IRHO

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_READ_PROP33_CYL_JNT        source/properties/spring/hm_read_prop33_cyl_jnt.F
 Chd|        HM_READ_PROP33_FIX_JNT        source/properties/spring/hm_read_prop33_fix_jnt.F
 Chd|        HM_READ_PROP33_FREE_JNT       source/properties/spring/hm_read_prop33_free_jnt.F
@@ -87,11 +87,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ITYP,SKFLAG
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -102,31 +102,31 @@ C
       NUVAR = 39
 C
       IF (ITYP==1) THEN
-        CALL HM_READ_PROP33_SPH_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_SPH_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==2) THEN
-        CALL HM_READ_PROP33_REV_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_REV_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==3) THEN
-        CALL HM_READ_PROP33_CYL_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_CYL_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==4) THEN
-        CALL HM_READ_PROP33_PLAN_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_PLAN_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==5) THEN
-        CALL HM_READ_PROP33_UNIV_JNT(IOUT,ITYP,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_UNIV_JNT(IOUT,ITYP,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==6) THEN
-        CALL HM_READ_PROP33_TRANS_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_TRANS_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==7) THEN
-        CALL HM_READ_PROP33_OLD_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_OLD_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==8) THEN
-        CALL HM_READ_PROP33_FIX_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_FIX_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSEIF (ITYP==9) THEN
-        CALL HM_READ_PROP33_FREE_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_CRYPTED,UNITAB,IUNIT,
+        CALL HM_READ_PROP33_FREE_JNT(IOUT,ITYP,SKFLAG,PARGEO,IS_ENCRYPTED,UNITAB,IUNIT,
      .                   ID,TITR,LSUBMODEL)
       ELSE
 C        WRITE(IOUT,*)' **ERROR WRONG JOINT TYPE'

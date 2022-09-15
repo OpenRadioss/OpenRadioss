@@ -30,7 +30,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        FILL_BUFFER_51                source/materials/mat/mat051/fill_buffer_51.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_OPTION_COUNT               source/devtools/hm_reader/hm_option_count.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_OPTION_READ_KEY            source/devtools/hm_reader/hm_option_read_key.F
 Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_start.F
 Chd|        HM_READ_EOS                   source/materials/eos/hm_read_eos.F
@@ -227,7 +227,7 @@ c-------------------------------------------------------------------
         
         DO KK=1,NB_ALEMAT
           CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID)
-          CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
+          CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
           CALL HM_GET_FLOATV('ALE_FLRD',FLRD,IS_AVAILABLE,LSUBMODEL,UNITAB)   
           IALEFVM_FLG = 0
           DO I=1,NUMMAT-1                     
@@ -262,7 +262,7 @@ c-------------------------------------------------------------------
         
         DO KK=1,NB_EULERMAT
           CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID)
-          CALL HM_OPTION_IS_CRYPTED(IS_ENCRYPTED)
+          CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
           CALL HM_GET_FLOATV('EULER_FLRD',FLRD,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IALEFVM_FLG = 0
           DO I=1,NUMMAT-1                                

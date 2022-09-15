@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
@@ -90,7 +90,7 @@ c
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: ILAW,IOFF,ICC,IFLAG,IYEILD,IMODWP
       my_real :: RHO0,RHOR,E11,E22,E33,G12,G23,G31,N12,N21,
      .   CB,CN,EPST1,EPST2,
@@ -105,7 +105,7 @@ C-----------------------------------------------
      .   SIGRSC2,WPLAMXC2,EPS1T12,EPS2T12,SIGRST12,WPLAMXT12,WPLAREF,
      .   EPSF1,EPSF2,RATIO,D11,D22,D12,DMIN,FAC,FSCAL_UNIT
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW = 25
 C 
@@ -178,7 +178,7 @@ c
       IMODWP = 0
 c--------------------------------------------------------
 c
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c
 c--------------------------------------------------------
 c     Common input fields
@@ -493,7 +493,7 @@ C
 C-------------------------------------
       WRITE(IOUT,1050) TRIM(TITR),ID,25
       WRITE(IOUT,1000)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1060) RHO0

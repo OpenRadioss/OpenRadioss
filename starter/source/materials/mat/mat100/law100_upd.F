@@ -94,7 +94,7 @@ Chd|  LAW100_UPD_AB                 source/materials/mat/mat100/law100_upd.F
 Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
@@ -135,12 +135,12 @@ C-----------------------------------------------
      .   ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,LAM,BETA,
      .   LAM_MAX,LAM_MIN,AMULA(2)
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH     
-      LOGICAL  IS_CRYPTED         
+      LOGICAL  IS_ENCRYPTED         
 C==================================================================== 
 !       IDENTIFICATION
 !====================================================================
-       IS_CRYPTED = .FALSE.
-       CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+       IS_ENCRYPTED = .FALSE.
+       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
        TAB = 8 
        NSTART = 2
        ERRTOL = FIVEEM3   
@@ -195,7 +195,7 @@ C
        AMULA(2) = LAM                        
        ITEST  =  UPARAM(TAB +9)
       !----------------       
-        IF(IS_CRYPTED)THEN
+        IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
        ELSE 
          WRITE(IOUT,1000)    
@@ -240,7 +240,7 @@ C parameter
         PM(32) = RBULK                      
         PM(100) = RBULK  !PARMAT(1)                   
 !!        
-        IF(.NOT.IS_CRYPTED)WRITE(IOUT,1100)MU,D,LAM,GS,RBULK
+        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1100)MU,D,LAM,GS,RBULK
 c----------------
 c     end of optimization loop
 c----------------

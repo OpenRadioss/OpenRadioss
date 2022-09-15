@@ -31,7 +31,7 @@ Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_float
 Chd|        HM_GET_FLOATV_DIM             source/devtools/hm_reader/hm_get_floatv_dim.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INIT_MAT_KEYWORD              source/materials/mat/init_mat_keyword.F
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -87,14 +87,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      LOGICAL :: IS_AVAILABLE,IS_CRYPTED
+      LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       INTEGER :: I,J,K,IFORM,IFLAG,IFUNC_BLK,NPRONY,IVISC,ILAW
       my_real :: RHO0,RHOR,BULK,SMAX,GS,MU,NU,GVMAX,C1,ZEP495,FSCAL,FSCAL_UNIT,
      .           AL1,AL2,AL3,AL4,AL5,AL6,AL7,AL8,AL9,AL10,
      .           MU1,MU2,MU3,MU4,MU5,MU6,MU7,MU8,MU9,MU10       
       my_real, DIMENSION(100) ::  GI,TAUX
 C=======================================================================
-      IS_CRYPTED   = .FALSE.
+      IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       NPRONY  = 0
       IFORM   = 0
@@ -104,7 +104,7 @@ C=======================================================================
       ILAW    = 42
       ZEP495  = ZEP4 + NINE*EM02 + FIVE*EM03
 
-      CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -222,7 +222,7 @@ c-----------------
 c-----------------
       WRITE(IOUT,1100) TRIM(TITR),ID,42
       WRITE(IOUT,1000)
-      IF (IS_CRYPTED) THEN
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1200) RHO0

@@ -31,7 +31,7 @@ Chd|        FREERR                        source/starter/freform.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_FLOAT_ARRAY_INDEX      source/devtools/hm_reader/hm_get_float_array_index.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_CRYPTED          source/devtools/hm_reader/hm_option_is_crypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
@@ -82,11 +82,11 @@ C-----------------------------------------------
 C     REAL
       my_real
      .    DM,DR,PY,PZ,AI,YI,ZI,WI,AREA,Y0,Z0,L1,L2,L3,L4,L5,L6,PUN
-      LOGICAL IS_AVAILABLE, IS_CRYPTED
+      LOGICAL IS_AVAILABLE, IS_ENCRYPTED
       DATA PUN/0.1/
 C=======================================================================
 C
-        IS_CRYPTED = .FALSE.
+        IS_ENCRYPTED = .FALSE.
         IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
 C OLD HIDDEN FLAGS - SET TO ZERO
@@ -98,7 +98,7 @@ C
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
-        CALL HM_OPTION_IS_CRYPTED(IS_CRYPTED)
+        CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
@@ -233,7 +233,7 @@ C---  rotation dof
         GEO(10)= 1.1-IR2Y      
         GEO(11)= 1.1-IR2Z      
 C---
-        IF(.NOT. IS_CRYPTED)THEN
+        IF(.NOT. IS_ENCRYPTED)THEN
           WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,NIP
           DO IP=1,NIP
             WRITE(IOUT,1010) IP,Y0+GEO(IPY+IP),Z0+GEO(IPZ+IP),
