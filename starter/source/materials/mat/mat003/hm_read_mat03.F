@@ -78,7 +78,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG  
 C-----------------------------------------------
@@ -100,6 +100,8 @@ C-----------------------------------------------
       IEOS=0
       EOS_EMBEDDED=.FALSE.
       BULK=ZERO
+      IS_ENCRYPTED = .FALSE.
+      IS_AVAILABLE = .FALSE.
 !---
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -208,13 +210,11 @@ C-----------------------------------------------
       !--------------------------------------------------!
       IF(EOS_EMBEDDED)THEN                    !
         WRITE(IOUT,2000)                                 !      
-        IF(IS_ENCRYPTED)THEN 
-              WRITE(IOUT,2001) TITR,MAT_ID,6
-          WRITE(IOUT,2002) RHO0,RHOR           
-                             !
+        IF(IS_ENCRYPTED)THEN                        !
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     !
         ELSE      
-                                                 !
+          WRITE(IOUT,2001) TITR,MAT_ID,6                       
+          WRITE(IOUT,2002) RHO0,RHOR                                                  !
           WRITE(IOUT,2500)C0,C1,C2,C3,C4,C5,E0,PM(1),PSH !
         ENDIF                                            !
       ENDIF                                              !
@@ -263,7 +263,3 @@ C-----------
  999  CALL FREERR(3)
       RETURN
       END
-
-
-
-
