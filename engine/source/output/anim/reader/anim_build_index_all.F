@@ -121,7 +121,9 @@ C-------------------------------------------
      .                        IEPSDOFULL > 0       .OR.
      .                        IWPLAALL > 0         .OR.
      .                        IWPLAFULL > 0        .OR.
-     .                        IBEAM_EPSPALL > 0       ) THEN
+     .                        IBEAM_EPSPALL > 0    .OR.
+     .                        IEPSPNLALL == 1      .OR.
+     .                        IEPSDNLALL == 1    ) THEN
          NIPMAX = 0
          DO I=1,NUMGEO
            NIPMAX = MAX(NIPMAX,NINT(GEO(6,I)))
@@ -848,6 +850,56 @@ c
            DO I=1,NIPMAX_BEAM
              ANIM_FE(22+I) = 1
              NFE_ANI = NFE_ANI + 1
+           ENDDO
+         ENDIF
+       ENDIF
+!---
+       ! NON-LOCAL PLASTIC STRAIN FOR SHELLS
+       IF (IEPSPNLALL == 1) THEN
+         IDX = 4*MX_PLY_ANIM + 14567
+         IF (ANIM_CE(IDX) == 0) THEN
+           ANIM_CE(IDX)      = 1
+           NCE_ANI = NCE_ANI + 1
+         ENDIF
+         IF (ANIM_CE(IDX+1) == 0) THEN
+           ANIM_CE(IDX+1)    = 1
+           NCE_ANI = NCE_ANI + 1
+         ENDIF
+         IF (ANIM_CE(IDX+2) == 0) THEN
+           ANIM_CE(IDX+2)    = 1
+           NCE_ANI = NCE_ANI + 1
+         ENDIF
+         IF (NIPMAX <= 11)THEN
+           DO I=1,NIPMAX
+             IF (ANIM_CE(IDX+2+I) == 0) THEN
+               ANIM_CE(IDX+2+I) = 1
+               NCE_ANI = NCE_ANI + 1
+             ENDIF
+           ENDDO
+         ENDIF
+       ENDIF
+!---
+       ! NON-LOCAL PLASTIC STRAIN RATE FOR SHELLS
+       IF (IEPSDNLALL == 1) THEN
+         IDX = 4*MX_PLY_ANIM + 14581
+         IF (ANIM_CE(IDX) == 0) THEN
+           ANIM_CE(IDX)      = 1
+           NCE_ANI = NCE_ANI + 1
+         ENDIF
+         IF (ANIM_CE(IDX+1) == 0) THEN
+           ANIM_CE(IDX+1)    = 1
+           NCE_ANI = NCE_ANI + 1
+         ENDIF
+         IF (ANIM_CE(IDX+2) == 0) THEN
+           ANIM_CE(IDX+2)    = 1
+           NCE_ANI = NCE_ANI + 1
+         ENDIF
+         IF (NIPMAX <= 11)THEN
+           DO I=1,NIPMAX
+             IF (ANIM_CE(IDX+2+I) == 0) THEN
+               ANIM_CE(IDX+2+I) = 1
+               NCE_ANI = NCE_ANI + 1
+             ENDIF
            ENDDO
          ENDIF
        ENDIF

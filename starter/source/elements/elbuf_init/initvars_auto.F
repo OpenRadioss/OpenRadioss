@@ -171,6 +171,8 @@ c---------------------
           IF (GBUF%G_SEQ    == 0) GBUF%G_SEQ    = MTAG%G_SEQ
           IF (GBUF%G_ABURN  == 0) GBUF%G_ABURN  = MTAG%G_ABURN  
           IF (GBUF%G_MU     == 0) GBUF%G_MU     = MTAG%G_MU 
+          IF (GBUF%G_PLANL  == 0) GBUF%G_PLANL  = MTAG%G_PLANL
+          IF (GBUF%G_EPSDNL == 0) GBUF%G_EPSDNL = MTAG%G_EPSDNL
           IF (GBUF%G_MAXFRAC== 0) GBUF%G_MAXFRAC= MTAG%G_MAXFRAC   
           IF (GBUF%G_MAXEPS == 0) GBUF%G_MAXEPS = MTAG%G_MAXEPS               
           IF (GBUF%G_DMG    == 0) GBUF%G_DMG    = MTAG%G_DMG
@@ -375,7 +377,9 @@ c       local material variables
         IF (BUFLY%L_SEQ    == 0) BUFLY%L_SEQ    = MTAG%L_SEQ
         IF (BUFLY%L_FAC_YLD== 0) BUFLY%L_FAC_YLD= MTAG%L_FAC_YLD 
         IF (BUFLY%L_ABURN  == 0) BUFLY%L_ABURN  = MTAG%L_ABURN 
-        IF (BUFLY%L_MU     == 0) BUFLY%L_MU     = MTAG%L_MU                     
+        IF (BUFLY%L_MU     == 0) BUFLY%L_MU     = MTAG%L_MU   
+        IF (BUFLY%L_PLANL  == 0) BUFLY%L_PLANL  = MTAG%L_PLANL
+        IF (BUFLY%L_EPSDNL == 0) BUFLY%L_EPSDNL = MTAG%L_EPSDNL         
 c       layer property variables
         IF (BUFLY%LY_DMG  == 0) BUFLY%LY_DMG    = PTAG%LY_DMG
         IF (BUFLY%LY_GAMA == 0) BUFLY%LY_GAMA   = PTAG%LY_GAMA               

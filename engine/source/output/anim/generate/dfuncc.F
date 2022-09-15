@@ -3979,11 +3979,144 @@ c------------At a given integration point in the thickness
                  ENDDO
                ENDIF
              ENDIF
+c------------------------------------ NL_EPSP
+           ELSEIF((IFUNC >= 14567 + 4*MX_PLY_ANIM).AND.
+     .            (IFUNC <= 14580 + 4*MX_PLY_ANIM).AND.
+     .             GBUF%G_PLANL > 0)THEN
+             IDX = 14567 + 4*MX_PLY_ANIM
+c------------Mean
+             IF (IFUNC == IDX) THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO
+               NPGT = NPG*NPTT
+               ! (Only 1 layer is supported with non-local)                                           
+               DO IS=1,NPTS                                            
+                 DO IT=1,NPTT                                          
+                   DO IR=1,NPTR    
+                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                     DO I=LFT,LLT
+                       EVAR(I) = EVAR(I) + LBUF%PLANL(I)/NPGT  
+                     ENDDO
+                   ENDDO
+                 ENDDO
+               ENDDO
+c------------Upper
+             ELSEIF (IFUNC == IDX + 1) THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO  
+               ! (Only 1 layer is supported with non-local)                                            
+               DO IS=1,NPTS 
+                 DO IR=1,NPTR                                     
+                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NPTT)
+                   DO I=LFT,LLT
+                     EVAR(I) = EVAR(I) + LBUF%PLANL(I)/NPG
+                   ENDDO
+                 ENDDO
+               ENDDO
+c------------Lower
+             ELSEIF (IFUNC == IDX + 2) THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO   
+               ! (Only 1 layer is supported with non-local)                                          
+               DO IS=1,NPTS 
+                 DO IR=1,NPTR                                     
+                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
+                   DO I=LFT,LLT
+                     EVAR(I) = EVAR(I) + LBUF%PLANL(I)/NPG
+                   ENDDO
+                 ENDDO
+               ENDDO
+c------------At a given integration point in the thickness
+             ELSEIF((IFUNC >= IDX + 2 + 1).AND.(IFUNC <= IDX + 2 + 11))THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO
+               IT = IFUNC - (IDX+2)
+               ! (Only 1 layer is supported with non-local)
+               IF (IT<=NPTT) THEN                                             
+                 DO IS=1,NPTS 
+                   DO IR=1,NPTR                                     
+                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                     DO I=LFT,LLT
+                       EVAR(I) = EVAR(I) + LBUF%PLANL(I)/NPG
+                     ENDDO
+                   ENDDO
+                 ENDDO
+               ENDIF
+             ENDIF     
+c------------------------------------ NL_EPSD
+           ELSEIF((IFUNC >= 14581 + 4*MX_PLY_ANIM).AND.
+     .            (IFUNC <= 14594 + 4*MX_PLY_ANIM).AND.
+     .             GBUF%G_EPSDNL > 0)THEN
+             IDX = 14581 + 4*MX_PLY_ANIM
+c------------Mean
+             IF (IFUNC == IDX) THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO
+               NPGT = NPG*NPTT
+               ! (Only 1 layer is supported with non-local)                                           
+               DO IS=1,NPTS                                            
+                 DO IT=1,NPTT                                          
+                   DO IR=1,NPTR    
+                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                     DO I=LFT,LLT
+                       EVAR(I) = EVAR(I) + LBUF%EPSDNL(I)/NPGT  
+                     ENDDO
+                   ENDDO
+                 ENDDO
+               ENDDO
+c------------Upper
+             ELSEIF (IFUNC == IDX + 1) THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO  
+               ! (Only 1 layer is supported with non-local)                                            
+               DO IS=1,NPTS 
+                 DO IR=1,NPTR                                     
+                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,NPTT)
+                   DO I=LFT,LLT
+                     EVAR(I) = EVAR(I) + LBUF%EPSDNL(I)/NPG
+                   ENDDO
+                 ENDDO
+               ENDDO
+c------------Lower
+             ELSEIF (IFUNC == IDX + 2) THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO   
+               ! (Only 1 layer is supported with non-local)                                          
+               DO IS=1,NPTS 
+                 DO IR=1,NPTR                                     
+                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
+                   DO I=LFT,LLT
+                     EVAR(I) = EVAR(I) + LBUF%EPSDNL(I)/NPG
+                   ENDDO
+                 ENDDO
+               ENDDO
+c------------At a given integration point in the thickness
+             ELSEIF((IFUNC >= IDX + 2 + 1).AND.(IFUNC <= IDX + 2 + 11))THEN
+               DO I = LFT, LLT
+                 EVAR(I) = ZERO
+               ENDDO
+               IT = IFUNC - (IDX+2)
+               ! (Only 1 layer is supported with non-local)
+               IF (IT<=NPTT) THEN                                             
+                 DO IS=1,NPTS 
+                   DO IR=1,NPTR                                     
+                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                     DO I=LFT,LLT
+                       EVAR(I) = EVAR(I) + LBUF%EPSDNL(I)/NPG
+                     ENDDO
+                   ENDDO
+                 ENDDO
+               ENDIF
+             ENDIF
 C
-C available for IGTYP = 51 and 52 only (to be generalized)
-C
-              
-             ! next IFUNC = 14548 + 4*MX_PLY_ANIM               
+             ! next IFUNC = 14595 + 4*MX_PLY_ANIM               
 C-------------------------------------
             ENDIF ! IFUNC SHELLS
 C-------------------------------------

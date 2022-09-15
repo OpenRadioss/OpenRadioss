@@ -239,6 +239,18 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Plastic Strain '
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3   = 'NL_EPSD'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Non-local Plastic Strain Rate'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'NL_EPSP'
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
+      H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Non-local Plastic Strain '
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'FAIL'
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1

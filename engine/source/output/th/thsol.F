@@ -90,7 +90,7 @@ C-----------------------------------------------
      .   X5,Y5,Z5,X6,Y6,Z6,X7,Y7,Z7,X8,Y8,Z8, CS,SN,VAR,PLAG,
      .   SSP
         my_real 
-     .   WWA(239552),A_GAUSS(9,9),SIGP(7,81,9), USER(100),
+     .   WWA(239554),A_GAUSS(9,9),SIGP(7,81,9), USER(100),
      .   STRAIN(6),GAMA(6),EVAR_TMP(6),EVAR(6),SIGG(6),
      .   TMP(3,8),VEL(3),V(3,*),W(3,*),TMP_2(MVSIZ,3)
 C----  
@@ -861,6 +861,32 @@ C SSP
                    WWA(239549)= VEL(3)            
                    WWA(239551)=  SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                 ENDIF
+              ENDIF
+c
+              ! Non-local plastic strain and non-local plastic strain rate
+              IF (GBUF%G_PLANL  > 0) THEN 
+                NPTG = NPTR * NPTS * NPTT
+                WWA(239553) = ZERO
+                DO IR=1,NPTR
+                  DO IS=1,NPTS
+                    DO IT=1,NPTT
+                      WWA(239553) = WWA(239553) + 
+     .                    ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%PLANL(I)/NPTG
+                    ENDDO
+                  ENDDO
+                ENDDO
+              ENDIF
+              IF (GBUF%G_EPSDNL > 0) THEN 
+                NPTG = NPTR * NPTS * NPTT
+                WWA(239554) = ZERO
+                DO IR=1,NPTR
+                  DO IS=1,NPTS
+                    DO IT=1,NPTT
+                      WWA(239554) = WWA(239554) + 
+     .                    ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)%EPSDNL(I)/NPTG
+                    ENDDO
+                  ENDDO
+                ENDDO
               ENDIF
 C------------------------------------------------------------------------------
 C                 2- TH tab filling with stresses  and stain in element 

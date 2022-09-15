@@ -1579,6 +1579,38 @@ c------------------------------------ Damage
                     ENDDO
                   ENDDO
                 ENDDO 
+c------------------------------------ Non-local plastic strain
+            ELSEIF ((IFUNC == 4969).AND.GBUF%G_PLANL>0) THEN  !  /ANIM/ELEM/NL_EPSP
+                DO I = LFT, LLT
+                  EVAR(I) = ZERO
+                ENDDO
+                ! Only 1 layer is supported by non-local for now                                              
+                DO IS=1,NPTS                                            
+                  DO IT=1,NPTT                                          
+                    DO IR=1,NPTR    
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                      DO I=LFT,LLT
+                         EVAR(I) = EVAR(I) + LBUF%PLANL(I)/NPTG  
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO 
+c------------------------------------ Non-local plastic strain
+            ELSEIF ((IFUNC == 4970).AND.GBUF%G_EPSDNL>0) THEN  !  /ANIM/ELEM/NL_EPSD
+                DO I = LFT, LLT
+                  EVAR(I) = ZERO
+                ENDDO
+                ! Only 1 layer is supported by non-local for now                                              
+                DO IS=1,NPTS                                            
+                  DO IT=1,NPTT                                          
+                    DO IR=1,NPTR    
+                      LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
+                      DO I=LFT,LLT
+                         EVAR(I) = EVAR(I) + LBUF%EPSDNL(I)/NPTG  
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDDO 
 c------------------------------------ 
               !OTHER IFUNC VALUES
               ELSE 

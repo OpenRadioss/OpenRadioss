@@ -64,7 +64,7 @@ C-----------------------------------------------
      .   G_POSX,G_POSY,G_POSZ,G_POSXX,G_POSYY,G_POSZZ,G_YIELD,G_LENGTH_ERR,
      .   G_DV,G_DFS,G_SKEW_ERR,G_E6,G_RUPTCRIT,G_MASS,G_V_REPCVT,
      .   G_VR_REPCVT,G_NUVAR,G_NUVARN,G_INIFRIC,G_DT,G_ISMS,G_STRHG,G_ABURN,G_MU,
-     .   G_BPRELD,G_COR_NF,G_COR_FR,G_COR_XR,G_DEFINI,G_FORINI,
+     .   G_PLANL,G_EPSDNL,G_BPRELD,G_COR_NF,G_COR_FR,G_COR_XR,G_DEFINI,G_FORINI,
      .   G_FORPGPINCH,G_MOMPGPINCH,G_EPGPINCHXZ,G_EPGPINCHYZ,G_EPGPINCHZZ,
      .   G_SKEW_ID,G_MAXFRAC,G_MAXEPS,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,
      .   G_RINGSLIP,G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,
@@ -79,7 +79,8 @@ C-----------------------------------------------
      .   L_ANG,L_SF,L_QVIS,L_DELTAX,L_GAMA,
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_SMSTR,L_BFRAC,L_DMG,LF_DAM,LF_DAMMX,LF_TDEL,
-     .   LF_INDX,LF_OFF,L_FORTH,L_EINTTH,L_SEQ,L_SIGPLY,L_FAC_YLD,L_ABURN,L_MU
+     .   LF_INDX,LF_OFF,L_FORTH,L_EINTTH,L_SEQ,L_SIGPLY,L_FAC_YLD,L_ABURN,
+     .   L_MU,L_PLANL,L_EPSDNL
       TYPE(BUF_LAY_)  , POINTER :: BUFLY
       TYPE(L_BUFEL_)  , POINTER :: LBUF
       TYPE(G_BUFEL_)  , POINTER :: GBUFS,GBUFT
@@ -218,6 +219,8 @@ c
            L_FAC_YLD = BUFLY%L_FAC_YLD
            L_ABURN  = BUFLY%L_ABURN
            L_MU     = BUFLY%L_MU
+           L_PLANL  = BUFLY%L_PLANL
+           L_EPSDNL = BUFLY%L_EPSDNL
 
 c
            ELBUF_TGT(NG)%BUFLY(IL)%DMG(1:NEL*LY_DMG) =
@@ -308,6 +311,8 @@ c
                LBUFT%FAC_YLD(1:NEL*L_FAC_YLD)=LBUFS%FAC_YLD(1:NEL*L_FAC_YLD)
                LBUFT%ABURN(1:NEL*L_ABURN)    =LBUFS%ABURN(1:NEL*L_ABURN)
                LBUFT%MU(1:NEL*L_MU)          =LBUFS%MU(1:NEL*L_MU)
+               LBUFT%PLANL(1:NEL*L_PLANL)    =LBUFS%PLANL(1:NEL*L_PLANL)
+               LBUFT%EPSDNL(1:NEL*L_EPSDNL)  =LBUFS%EPSDNL(1:NEL*L_EPSDNL)
              ENDDO                     
             ENDDO                                                                 
            ENDDO                                                                  
@@ -570,6 +575,8 @@ C
           G_ISMS  = GBUFS%G_ISMS
           G_ABURN = GBUFS%G_ABURN    
           G_MU    = GBUFS%G_MU    
+          G_PLANL = GBUFS%G_PLANL
+          G_EPSDNL = GBUFS%G_EPSDNL
           G_BPRELD= GBUFS%G_BPRELD
           G_COR_NF = GBUFS%G_COR_NF
           G_COR_FR = GBUFS%G_COR_FR

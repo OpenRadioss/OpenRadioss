@@ -74,6 +74,8 @@ C-----------------------------------------------
             MLAW_TAG(I)%G_SEQ = 0
             MLAW_TAG(I)%G_ABURN = 0
             MLAW_TAG(I)%G_MU = 0
+            MLAW_TAG(I)%G_PLANL = 0
+            MLAW_TAG(I)%G_EPSDNL = 0
             MLAW_TAG(I)%G_MAXFRAC = 0
             MLAW_TAG(I)%G_MAXEPS = 0
             MLAW_TAG(I)%G_DMG = 0
@@ -141,6 +143,8 @@ c
             MLAW_TAG(I)%L_DMG = 0
             MLAW_TAG(I)%L_ABURN = 0
             MLAW_TAG(I)%L_MU = 0
+            MLAW_TAG(I)%L_PLANL  = 0
+            MLAW_TAG(I)%L_EPSDNL = 0
     
 c---    uvar            
             MLAW_TAG(I)%NUVAR = 0           

@@ -213,7 +213,9 @@ c
         INTEGER ::  G_MU           !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL 
         INTEGER ::  G_MAXFRAC
         INTEGER ::  G_MAXEPS
-        INTEGER ::  G_DMG          !  
+        INTEGER ::  G_DMG          ! 
+        INTEGER ::  G_PLANL
+        INTEGER ::  G_EPSDNL 
 c for spring with mat
         INTEGER ::  G_TOTDEPL
         INTEGER ::  G_TOTROT
@@ -291,6 +293,8 @@ c
         INTEGER ::  L_DMG
         INTEGER ::  L_ABURN
         INTEGER ::  L_MU
+        INTEGER ::  L_PLANL
+        INTEGER ::  L_EPSDNL
 
 c---    uvar            
         INTEGER ::  NUVAR           

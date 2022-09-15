@@ -599,6 +599,35 @@ C
                   ENDIF ! MTE == 25 
                 ENDIF     ! GBUF%G_PLA > 0
 c----
+c------------ Non-local plastic strain and non-local plastic strain rate
+c----
+              IF (GBUF%G_PLANL  > 0) THEN 
+                BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                WWA(37855) = ZERO
+                NPTT = BUFLY%NPTT
+                DO IR = 1,NPTR
+                  DO IS = 1,NPTS
+                    DO IT = 1,NPTT
+                      WWA(37855) = WWA(37855) + 
+     .                   BUFLY%LBUF(IR,IS,IT)%PLANL(I)/(NPTR*NPTS*NPTT)
+                    ENDDO
+                  ENDDO
+                ENDDO
+              ENDIF
+              IF (GBUF%G_EPSDNL > 0) THEN 
+                BUFLY => ELBUF_TAB(NG)%BUFLY(1)
+                WWA(37856) = ZERO
+                NPTT = BUFLY%NPTT
+                DO IR = 1,NPTR
+                  DO IS = 1,NPTS
+                    DO IT = 1,NPTT
+                      WWA(37856) = WWA(37856) + 
+     .                   BUFLY%LBUF(IR,IS,IT)%EPSDNL(I)/(NPTR*NPTS*NPTT)
+                    ENDDO
+                  ENDDO
+                ENDDO
+              ENDIF
+c----
 c------------ User variables
 c----
                 IF ((MTE>=29.AND.MTE<=31).OR.

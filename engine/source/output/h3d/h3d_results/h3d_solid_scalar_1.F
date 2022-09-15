@@ -1551,6 +1551,42 @@ C--------------------------------------------------
                     IS_WRITTEN_VALUE(I) = 1	
                   ENDDO ! DO I=1,NEL
                 ENDIF ! IF (GBUF%G_SEQ > 0)
+C--------------------------------------------------  
+              ELSEIF (KEYWORD == 'NL_EPSP') THEN  
+C--------------------------------------------------  
+                IF (GBUF%G_PLANL > 0) THEN
+                  NPTG = NLAY*NPTR*NPTS*NPTT
+                  VALUE(1:NEL) = ZERO
+                  DO IT=1,NPTT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
+                        DO I=1,NEL
+                          VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPTG
+                          IS_WRITTEN_VALUE(I) = 1	
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDIF
+C--------------------------------------------------  
+              ELSEIF (KEYWORD == 'NL_EPSD') THEN  
+C--------------------------------------------------  
+                IF (GBUF%G_PLANL > 0) THEN
+                  NPTG = NLAY*NPTR*NPTS*NPTT
+                  VALUE(1:NEL) = ZERO
+                  DO IT=1,NPTT
+                    DO IR=1,NPTR
+                      DO IS=1,NPTS
+                        LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
+                        DO I=1,NEL
+                          VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPTG
+                          IS_WRITTEN_VALUE(I) = 1	
+                        ENDDO
+                      ENDDO
+                    ENDDO
+                  ENDDO
+                ENDIF
 C-------------------------------------------------- 
               ELSEIF (KEYWORD == 'BULK') THEN  !  /ANIM/ELEM/QVIS
 C-------------------------------------------------- 

@@ -3014,6 +3014,80 @@ C------------------
                 ENDDO
               ENDIF
 C--------------------------------------------------
+            ELSEIF (KEYWORD == 'NL_EPSP') THEN 
+              IF (GBUF%G_PLANL > 0) THEN
+                ! Reseting values
+                DO I = 1,NEL
+                  VALUE(I) = ZERO
+                ENDDO
+                ! Mean value through all integration points in the thickness
+                IF (IPT == -1) THEN  
+                  NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
+                  NPGT = NPTR*NPTS*NPTT
+                  DO I=1,NEL                                                              
+                    DO IT = 1,NPTT
+                      DO IR = 1,NPTR                                                       
+                        DO IS = 1,NPTS                                                     
+                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)                       
+                          VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPGT                                                           
+                        ENDDO                                                               
+                      ENDDO                                                                 
+                    ENDDO
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ! Value at a given integration point in the thickness
+                ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
+                  NPGT = NPTR*NPTS
+                  DO I=1,NEL                                                              
+                    DO IR = 1,NPTR                                                       
+                      DO IS = 1,NPTS                                                     
+                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)                       
+                        VALUE(I) = VALUE(I) + LBUF%PLANL(I)/NPGT                                                           
+                      ENDDO                                                               
+                    ENDDO                                                                 
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO              
+                ENDIF
+              ENDIF
+C--------------------------------------------------
+            ELSEIF (KEYWORD == 'NL_EPSD') THEN 
+C--------------------------------------------------
+              IF (GBUF%G_EPSDNL > 0) THEN
+C------------------
+                ! Reseting values
+                DO I = 1,NEL
+                  VALUE(I) = ZERO
+                ENDDO
+                ! Mean value through all integration points in the thickness
+                IF (IPT == -1) THEN  
+                  NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
+                  NPGT = NPTR*NPTS*NPTT
+                  DO I=1,NEL                                                              
+                    DO IT = 1,NPTT
+                      DO IR = 1,NPTR                                                       
+                        DO IS = 1,NPTS                                                     
+                          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)                       
+                          VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPGT                                                           
+                        ENDDO                                                               
+                      ENDDO                                                                 
+                    ENDDO
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO
+                ! Value at a given integration point in the thickness
+                ELSEIF ( IPT <= NPT .AND. IPT > 0) THEN
+                  NPGT = NPTR*NPTS
+                  DO I=1,NEL                                                              
+                    DO IR = 1,NPTR                                                       
+                      DO IS = 1,NPTS                                                     
+                        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)                       
+                        VALUE(I) = VALUE(I) + LBUF%EPSDNL(I)/NPGT                                                           
+                      ENDDO                                                               
+                    ENDDO                                                                 
+                    IS_WRITTEN_VALUE(I) = 1
+                  ENDDO              
+                ENDIF
+              ENDIF             
+C--------------------------------------------------
             ELSEIF (KEYWORD == 'TEMP') THEN 
               IF ((GBUF%G_TEMP > 0).AND.(MLW == 104)) THEN
                 NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT

@@ -1532,6 +1532,13 @@ C------------------------------------------------------------
           ! -> Copying the non-local plastic strain increment
           IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN 
             DO I = 1,NEL
+              IF (OFF(I) == ONE) THEN
+                VARNL(I) = MAX(VARNL(I),ZERO)
+              ELSE
+                VARNL(I) = ZERO
+              ENDIF
+              LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I)
+              LBUF%EPSDNL(I) = VARNL(I)/MAX(DT1,EM20)
               DPLA(I) = MAX(VARNL(I),ZERO)
             ENDDO
           ENDIF
@@ -1563,7 +1570,7 @@ C------------------------------------------------------------
           IF (INLOC > 0) THEN 
             IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN 
               DO I = 1,NEL
-                EPSP(I) = MAX(VARNL(I),ZERO)/MAX(DT1,EM20)
+                EPSP(I) = LBUF%EPSDNL(I)
               ENDDO
             ENDIF
           ENDIF

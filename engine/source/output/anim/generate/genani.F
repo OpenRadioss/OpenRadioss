@@ -2435,13 +2435,41 @@ C all NPTT for PID51
 
         !---QUAD VOLUME
         IDX =  IDX+3+11
-        IDX = IDX+1   ! => IDX = 4*MX_PLY_ANIM + 14562
+        IDX = IDX+1   ! => IDX = 4*MX_PLY_ANIM + 14566
         IF(ANIM_CE(IDX) == 1) THEN
           CALL ANI_TXT('Volume',6)  
         ENDIF
 
+        !---NON LOCAL PLASTIC STRAIN 
+        IDX = 14567 + 4*MX_PLY_ANIM 
+        IF(ANIM_CE(IDX)   == 1) CALL ANI_TXT('Non-local plastic strain',24)
+        IF(ANIM_CE(IDX+1) == 1) CALL ANI_TXT('Non-local plastic strain (Upper)',32)
+        IF(ANIM_CE(IDX+2) == 1) CALL ANI_TXT('Non-local plastic strain (Lower)',32)
+        DO I=IDX+2+1,IDX+2+11
+          IF (ANIM_CE(I) == 1) THEN
+            II = I - (IDX+2)
+            WRITE(MES,'(A,I3,A)')
+     .       'Nloc plast at point ',II,' '
+            CALL ANI_TXT(MES,30)
+          ENDIF
+        ENDDO 
+
+        !---NON LOCAL PLASTIC STRAIN RATE
+        IDX = 14581 + 4*MX_PLY_ANIM 
+        IF(ANIM_CE(IDX)   == 1) CALL ANI_TXT('Non-local plastic strain rate',29)
+        IF(ANIM_CE(IDX+1) == 1) CALL ANI_TXT('Non-local plastic strain rate (Upper)',37)
+        IF(ANIM_CE(IDX+2) == 1) CALL ANI_TXT('Non-local plastic strain rate (Lower)',37)
+        DO I=IDX+2+1,IDX+2+11
+          IF (ANIM_CE(I) == 1) THEN
+            II = I - (IDX+2)
+            WRITE(MES,'(A,I3,A)')
+     .       'Nloc rate at point ',II,' '
+            CALL ANI_TXT(MES,30)
+          ENDIF
+        ENDDO 
+
         !---NEXT ANIM
-        !IDX=IDX+1   ! => IDX = 4*MX_PLY_ANIM + 14563
+        !IDX=IDX+1   ! => IDX = 4*MX_PLY_ANIM + 14595
   
        ENDIF !  (NBF+NELCUT+NESBW2/=0)
 !
@@ -4504,6 +4532,8 @@ C
         IF(ANIM_SE(4966)==1)CALL ANI_TXT('Mach Number',11)
         IF(ANIM_SE(4967)==1)CALL ANI_TXT('Color Function',14)
         IF(ANIM_SE(4968)==1)CALL ANI_TXT('Damage',6)
+        IF(ANIM_SE(4969)==1)CALL ANI_TXT('Non-local plastic strain',24)
+        IF(ANIM_SE(4970)==1)CALL ANI_TXT('Non-local plastic strain rate',29)
 C-----------------------------------------------                                         
       ENDIF !(ISPMD==0)
 

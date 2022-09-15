@@ -67,8 +67,8 @@ C-----------------------------------------------
      .   G_POSX,G_POSY,G_POSZ,G_POSXX,G_POSYY,G_POSZZ,G_YIELD,G_LENGTH_ERR,
      .   G_DV,G_DFS,G_SKEW_ERR,G_E6,G_RUPTCRIT,G_MASS,G_V_REPCVT,
      .   G_VR_REPCVT,G_NUVAR,G_NUVARN,G_INIFRIC,G_DT,G_ISMS,G_STRHG,G_ETOTSH,
-     .   G_BPRELD,G_ABURN,G_MU,G_MAXFRAC,G_MAXEPS,G_DT_PITER,G_TEMPG,G_COR_NF,G_COR_FR,
-     .   G_COR_XR,G_DEFINI,G_FORINI,G_IDT_TSH,
+     .   G_BPRELD,G_ABURN,G_MU,G_PLANL,G_EPSDNL,G_MAXFRAC,G_MAXEPS,G_DT_PITER,
+     .   G_TEMPG,G_COR_NF,G_COR_FR,G_COR_XR,G_DEFINI,G_FORINI,G_IDT_TSH,
      .   G_FORPGPINCH,G_MOMPGPINCH,G_EPGPINCHXZ,G_EPGPINCHYZ,G_EPGPINCHZZ,
      .   G_SKEW_ID,G_GAMA_R,G_SLIPRING_ID,G_SLIPRING_STRAND,G_RETRACTOR_ID,G_RINGSLIP,
      .   G_ADD_NODE,G_UPDATE,G_INTVAR,G_BETAORTH,G_AMU,G_SLIPRING_FRAM_ID,G_FRAM_FACTOR,
@@ -86,7 +86,8 @@ C-----------------------------------------------
      .   L_ANG,L_SF,L_QVIS,L_DELTAX,L_GAMA,
      .   L_DAM,L_DSUM,L_DGLO,L_EPE,L_EPC,L_XST,L_SSP,L_Z,L_FRAC,L_VISC,
      .   L_THK,L_FOR,L_MOM,L_EPS,L_SMSTR,L_BFRAC,L_DMG,L_FORTH,L_EINTTH,
-     .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PIJ,L_VOL0DP
+     .   L_SEQ,L_SIGPLY,L_JAC_I,L_FAC_YLD,L_ABURN,L_MU,L_PLANL,L_EPSDNL,
+     .   L_PIJ,L_VOL0DP
       INTEGER  ! failure variables
      .   LF_DAM,LF_DAMMX,LF_TDEL,LF_INDX,LF_OFF
       INTEGER sum
@@ -355,7 +356,9 @@ c
               L_JAC_I   = BUFLY%L_JAC_I
               L_FAC_YLD = BUFLY%L_FAC_YLD
               L_ABURN   = BUFLY%L_ABURN 
-              L_MU      = BUFLY%L_MU 	         
+              L_MU      = BUFLY%L_MU 	        
+              L_PLANL   = BUFLY%L_PLANL
+              L_EPSDNL  = BUFLY%L_EPSDNL 
               L_PIJ     = BUFLY%L_PIJ
               L_VOL0DP  = BUFLY%L_VOL0DP
 
@@ -472,6 +475,10 @@ c---
               RBUF_L(L_REL+1) = L_ABURN       
                 L_REL = L_REL + 1 
               RBUF_L(L_REL+1) = L_MU       
+                L_REL = L_REL + 1 
+              RBUF_L(L_REL+1) = L_PLANL       
+                L_REL = L_REL + 1 
+              RBUF_L(L_REL+1) = L_EPSDNL      
                 L_REL = L_REL + 1 
               RBUF_L(L_REL+1) = L_PIJ       
                 L_REL = L_REL + 1 
@@ -676,6 +683,10 @@ c
                 L_REL = L_REL+NEL*L_ABURN  
               RBUF_L(L_REL+1:L_REL+NEL*L_MU)= LBUF%MU(1:NEL*L_MU)        
                 L_REL = L_REL+NEL*L_MU  		
+              RBUF_L(L_REL+1:L_REL+NEL*L_PLANL)= LBUF%PLANL(1:NEL*L_PLANL)        
+                L_REL = L_REL+NEL*L_PLANL 	
+              RBUF_L(L_REL+1:L_REL+NEL*L_EPSDNL)= LBUF%EPSDNL(1:NEL*L_EPSDNL)        
+                L_REL = L_REL+NEL*L_EPSDNL 	
               RBUF_L(L_REL+1:L_REL+NEL*L_PIJ) = LBUF%PIJ(1:NEL*L_PIJ)
                 L_REL = L_REL+NEL*L_PIJ
 C--------write first VOL0DP                
@@ -1016,6 +1027,8 @@ C
           G_BPRELD= GBUF%G_BPRELD
           G_ABURN = GBUF%G_ABURN 
           G_MU    = GBUF%G_MU
+          G_PLANL = GBUF%G_PLANL
+          G_EPSDNL = GBUF%G_EPSDNL
           G_COR_NF = GBUF%G_COR_NF
           G_COR_FR = GBUF%G_COR_FR
           G_COR_XR = GBUF%G_COR_XR
@@ -1197,7 +1210,11 @@ C
            RBUF_L(L_REL+1) =  G_ABURN        
              L_REL = L_REL + 1  
            RBUF_L(L_REL+1) =  G_MU       
-             L_REL = L_REL + 1     
+             L_REL = L_REL + 1   
+           RBUF_L(L_REL+1) =  G_PLANL     
+             L_REL = L_REL + 1   
+           RBUF_L(L_REL+1) =  G_EPSDNL       
+             L_REL = L_REL + 1   
            RBUF_L(L_REL+1) =  G_TEMPG      
              L_REL = L_REL + 1     
            RBUF_L(L_REL+1) =  G_COR_NF        

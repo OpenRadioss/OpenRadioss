@@ -750,6 +750,8 @@ C
         integer  G_BPRELD        ! bolt preloading
         integer  G_ABURN
         integer  G_MU
+        integer  G_PLANL
+        integer  G_EPSDNL
         integer  G_TEMPG
         integer  G_COR_NF        ! Nodal forces for corotational formulation
         integer  G_COR_FR        ! Local frame for corotational formulation
@@ -1007,7 +1009,9 @@ c---
         my_real, DIMENSION(:) , POINTER ::   ABURN
         my_real, DIMENSION(:) , POINTER ::   MU	  
         my_real, DIMENSION(:) , POINTER ::   PIJ   !--------[NI,J] for Imstr10
-        DOUBLE PRECISION, DIMENSION(:) , POINTER ::   VOL0DP    
+        DOUBLE PRECISION, DIMENSION(:) , POINTER ::   VOL0DP
+        my_real, DIMENSION(:) , POINTER ::   PLANL
+        my_real, DIMENSION(:) , POINTER ::   EPSDNL            
       END TYPE L_BUFEL_                             
 
       TYPE BUF_PROP_
@@ -1167,6 +1171,8 @@ c-------
         integer  L_MU
         integer  L_PIJ
         integer  L_VOL0DP
+        integer  L_PLANL
+        integer  L_EPSDNL
 c-------  layer variables     
         my_real, DIMENSION(:) , POINTER ::   DMG
         my_real, DIMENSION(:) , POINTER ::   GAMA
