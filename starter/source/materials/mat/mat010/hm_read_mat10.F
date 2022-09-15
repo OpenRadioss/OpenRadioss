@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG      
 C-----------------------------------------------
@@ -102,6 +102,8 @@ C-----------------------------------------------
       BUNL    = ZERO
       XMUMX   = ZERO
       ISRATE  = 0
+      IS_ENCRYPTED = .FALSE.
+      IS_AVAILABLE = .FALSE.
 !---
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 !

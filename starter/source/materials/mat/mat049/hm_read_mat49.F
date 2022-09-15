@@ -78,7 +78,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG   
 C-----------------------------------------------
@@ -105,6 +105,9 @@ C-----------------------------------------------
       
       BULK = ZERO
       PSH = ZERO
+      
+      IS_ENCRYPTED=.FALSE.
+      IS_AVAILABLE=.FALSE.
             
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -281,4 +284,3 @@ C-----------
  999  CALL FREERR(3)
       RETURN
       END
-

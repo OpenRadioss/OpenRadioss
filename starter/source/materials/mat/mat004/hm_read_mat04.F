@@ -78,7 +78,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
       TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG    
 C-----------------------------------------------
@@ -103,6 +103,8 @@ C-----------------------------------------------
       EOS_EMBEDDED=.FALSE.
       BULK=ZERO
       ISRATE = 0
+      IS_ENCRYPTED = .FALSE.
+      IS_AVAILABLE = .FALSE.      
 !---
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -229,11 +231,12 @@ CC-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) =  (ONE -TWO*ANU)/(ONE - ANU) ! TWO*G/(BULK + FOUR_OVER_3*G)       
-C----- Definition des variables internes (stockage elementaire)
+      
+      !sizes for element buffer
       MTAG%G_PLA  = 1
       MTAG%G_TEMP = 1
       MTAG%G_EPSD = 1
-c
+      !
       MTAG%L_PLA  = 1
       MTAG%L_TEMP = 1
       MTAG%L_EPSD = 1   
@@ -323,8 +326,3 @@ C
  999  CALL FREERR(3)
       RETURN
       END
-
-
-
-    
-

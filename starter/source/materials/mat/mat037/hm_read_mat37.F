@@ -93,7 +93,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN)              :: ID
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       my_real,INTENT(INOUT)           :: STIFINT
-      TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
+      TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(NSUBMOD)
       INTEGER,INTENT(IN)              :: MAT_ID
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -109,6 +109,8 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       ISRATE = 0  
+      IS_ENCRYPTED = .FALSE.
+      IS_AVAILABLE = .FALSE.
       
       !================================= !
       ! Communicate LAW to ALEMUSC_MOD  !
