@@ -149,7 +149,7 @@ C     REAL
       my_real
      .   FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),
      .   TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*),VOLN(MVSIZ),CONDN(*),
-     .   CONDNSKY(*),SENSOR(NSENSR,*), VARNOD(2*NUMNOD)
+     .   CONDNSKY(*),SENSOR(NSENSR,*), VARNOD(SVARNOD)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
@@ -292,14 +292,14 @@ C
       IF (JTHE < 0) THEM(LFT:LLT,1:10) = ZERO
 C      
       IF (ICP==1) THEN
-        MX = IXS(1,LFT)
+        MX = IXS(1,NF1)
         NU(LFT:LLT)=MIN(HALF,PM(21,MX))
         FACP(LFT:LLT)=ONE
       ELSEIF (ICP==2) THEN
-        MX = IXS(1,LFT)
+        MX = IXS(1,NF1)
         NU(LFT:LLT)=MIN(HALF,PM(21,MX))
         C1 =PM(32,MX)
-        E0(LFT:LLT) =THREE*(ONE-TWO*NU(I))*C1
+        E0(LFT:LLT) =THREE*(ONE-TWO*NU(LFT:LLT))*C1
         CALL S10SIGP3(GBUF%SIG,E0 ,GBUF%PLA,FACP ,GBUF%G_PLA,NEL )
       END IF
 C-----------
