@@ -83,6 +83,8 @@ c       global variables - scalars
         MTAG%G_SEQ    = 0
         MTAG%G_ABURN  = 0  
         MTAG%G_MU     = 0 
+        MTAG%G_PLANL  = 0 
+        MTAG%G_EPSDNL = 0 
         MTAG%G_MAXFRAC= 0   
         MTAG%G_MAXEPS = 0
         MTAG%G_DMG    = 0  
@@ -167,7 +169,9 @@ c---    local variables (per integration point)
         MTAG%L_SEQ    = 0
         MTAG%L_FAC_YLD= 0  
         MTAG%L_ABURN  = 0  
-        MTAG%L_MU     = 0  	 
+        MTAG%L_MU     = 0  
+        MTAG%L_PLANL  = 0  
+        MTAG%L_EPSDNL = 0  	 
       ENDDO
 C-----------------------------------------------
       RETURN

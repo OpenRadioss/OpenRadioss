@@ -298,7 +298,13 @@ C=======================================================================
       ! Make sure that the non-local variable increment is positive
       IF (INLOC > 0) THEN 
         DO I = 1,NEL
-          VARNL(I) = MAX(VARNL(I),ZERO)
+          IF (OFF(I) == ONE) THEN
+            VARNL(I) = MAX(VARNL(I),ZERO)
+          ELSE
+            VARNL(I) = ZERO
+          ENDIF
+          LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I)
+          LBUF%EPSDNL(I) = VARNL(I)/MAX(DT1,EM20)
         ENDDO
       ENDIF
       ! needed in mqviscb
@@ -1730,7 +1736,7 @@ C------------------------------------------------------------
           IF (ELBUF_TAB(NG)%BUFLY(ILAY)%L_PLA > 0) THEN
             IF (INLOC > 0) THEN 
               DO I = 1,NEL
-                EPSP1(I) = MAX(VARNL(I),ZERO)/MAX(DT1,EM20)
+                EPSP1(I) = LBUF%EPSDNL(I)
               ENDDO
             ENDIF
           ENDIF

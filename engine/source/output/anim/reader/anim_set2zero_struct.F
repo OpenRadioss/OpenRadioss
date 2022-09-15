@@ -69,6 +69,8 @@ C-----------------------------------------------
       ISTRAIALL         = 0
       IEPSDOALL         = 0
       IEPSPALL          = 0
+      IEPSPNLALL        = 0
+      IEPSDNLALL        = 0
       IPHIALL           = 0
       IORTHDALL         = 0 
       IPLYALL           = 0

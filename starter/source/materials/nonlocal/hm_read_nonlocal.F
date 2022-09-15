@@ -38,7 +38,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_NONLOCAL(NLOC_DMG ,IPM      ,UNITAB   ,LSUBMODEL)
+      SUBROUTINE HM_READ_NONLOCAL(NLOC_DMG ,MLAW_TAG ,IPM      ,UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -47,6 +47,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NLOCAL_REG_MOD
+      USE ELBUFTAG_MOD            
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,10 +65,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(NLOCAL_STR_)                               :: NLOC_DMG
-      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT) :: IPM
-      TYPE (UNIT_TYPE_) ,INTENT(IN)                   :: UNITAB 
-      TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)  :: LSUBMODEL
+      TYPE(NLOCAL_STR_)                                 :: NLOC_DMG
+      TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT) :: MLAW_TAG
+      INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
+      TYPE (UNIT_TYPE_) ,INTENT(IN)                     :: UNITAB 
+      TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -167,7 +169,12 @@ c--------------------------------------------------
         ! Flag for non-local material
         IPM(253,IMAT) = 1   
         ! Number of the material law
-        ILAW = IPM(2,IMAT)                                  
+        ILAW = IPM(2,IMAT)       
+        ! Flag of saving non-local plastic strain and strain rate in buffer
+        MLAW_TAG(IMAT)%G_PLANL  = 1
+        MLAW_TAG(IMAT)%L_PLANL  = 1
+        MLAW_TAG(IMAT)%G_EPSDNL = 1
+        MLAW_TAG(IMAT)%L_EPSDNL = 1                           
 c--------------------------------------------------
 c       Printout values
 c--------------------------------------------------

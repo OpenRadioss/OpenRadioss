@@ -133,6 +133,20 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 !---
+      IF (IEPSPNLALL == 1) THEN
+        IDX = 4*MX_PLY_ANIM + 14567 + 2
+        DO I=1,11
+          ANIM_CE(IDX+I) = 0
+        ENDDO
+      ENDIF
+!---
+      IF (IEPSDNLALL == 1) THEN
+        IDX = 4*MX_PLY_ANIM + 14581 + 2
+        DO I=1,11
+          ANIM_CE(IDX+I) = 0
+        ENDDO
+      ENDIF
+!---
       IF (IEPSPFULL == 1) THEN
 !   ...EPSP/N1/ALL
         DO I=1,100

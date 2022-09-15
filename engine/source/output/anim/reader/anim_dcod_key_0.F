@@ -1380,6 +1380,42 @@ C------------
           READ(KEY4(1:5),'(I5)')N1   ! NPTT
           IF (N1 > 0 .AND. N1 <= 11) THEN
             ANIM_CE(IDX+3+N1)=1
+          ELSE
+            ANIM_CE(IDX) = 1  
+          ENDIF
+        ENDIF
+      ELSEIF(KEY3(1:7)=='NL_EPSP')THEN
+        IDX = 4*MX_PLY_ANIM + 14567
+        N1  = 0
+        IF(KEY4(1:5)=='UPPER')THEN
+          ANIM_CE(IDX+1)=1
+        ELSEIF(KEY4(1:5)=='LOWER')THEN
+          ANIM_CE(IDX+2)=1
+        ELSEIF(KEY4(1:3)=='ALL')THEN
+          IEPSPNLALL = 1
+        ELSE
+          READ(KEY4(1:5),'(I5)') N1
+          IF (N1 > 0 .AND. N1 <= 11) THEN
+            ANIM_CE(IDX+2+N1) = 1 
+          ELSE
+            ANIM_CE(IDX) = 1
+          ENDIF
+        ENDIF
+      ELSEIF(KEY3(1:7)=='NL_EPSD')THEN
+        IDX = 4*MX_PLY_ANIM + 14581
+        N1  = 0
+        IF(KEY4(1:5)=='UPPER')THEN
+          ANIM_CE(IDX+1)=1
+        ELSEIF(KEY4(1:5)=='LOWER')THEN
+          ANIM_CE(IDX+2)=1
+        ELSEIF(KEY4(1:3)=='ALL')THEN
+          IEPSDNLALL = 1
+        ELSE
+          READ(KEY4(1:5),'(I5)') N1
+          IF (N1 > 0 .AND. N1 <= 11) THEN
+            ANIM_CE(IDX+2+N1) = 1 
+          ELSE
+            ANIM_CE(IDX) = 1
           ENDIF
         ENDIF
       ELSE
@@ -1896,11 +1932,15 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
       ELSEIF(KEY3(1:5)=='COLOR')THEN
         ANIM_SE(4967) = 1   
       ELSEIF(KEY3(1:4)=='DAMG')THEN
-        ANIM_SE(4968) = 1   
+        ANIM_SE(4968) = 1  
+      ELSEIF(KEY3(1:7)=='NL_EPSP')THEN
+        ANIM_SE(4969) = 1    
+      ELSEIF(KEY3(1:7)=='NL_EPSD')THEN
+        ANIM_SE(4970) = 1    
         
 !D YOUR NEW ANIMATION CONTOUR HERE          
       !ELSEIF(...)THEN
-      !  ANIM_SE(4967) = 1
+      !  ANIM_SE(4971) = 1
 
       ENDIF
 C
@@ -2533,7 +2573,15 @@ C--------------------------
         ELSEIF(KEY3(1:5)=='COLOR')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 3
          ANIM_CE(IDX)  = 1  
-         ANIM_SE(4967) = 1           
+         ANIM_SE(4967) = 1      
+        ELSE IF(KEY3(1:7)=='NL_EPSP')THEN
+         IDX           = 14567 + 4*MX_PLY_ANIM
+         ANIM_CE(IDX)  = 1
+         ANIM_SE(4969) = 1
+        ELSE IF(KEY3(1:7)=='NL_EPSD')THEN
+         IDX           = 14581 + 4*MX_PLY_ANIM
+         ANIM_CE(IDX)  = 1
+         ANIM_SE(4970) = 1
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF

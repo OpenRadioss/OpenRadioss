@@ -74,6 +74,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Plastic Strain'
 c-----------------------------------------------
       I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'NL_EPSP'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Non-local Plastic Strain'
+c-----------------------------------------------
+      I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'DENS'
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Density'
 c-----------------------------------------------
@@ -176,6 +180,10 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Strain Rate'
       H3D_KEYWORD_SOLID_SCALAR(I)%COMMENT  = 
      .'Equivalent strain rate (only available in case of strain rate filtering)'
+c-----------------------------------------------
+      I = I + 1
+      H3D_KEYWORD_SOLID_SCALAR(I)%KEY3   = 'NL_EPSD'
+      H3D_KEYWORD_SOLID_SCALAR(I)%TEXT1  = 'Non-local Plastic Strain Rate'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SOLID_SCALAR(I)%KEY3  = 'FLAY'

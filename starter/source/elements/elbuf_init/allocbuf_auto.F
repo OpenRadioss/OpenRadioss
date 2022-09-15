@@ -262,6 +262,10 @@ c
                   LBUF%ABURN = ZERO
               MY_ALLOCATE(LBUF%MU,NEL*BUFLY%L_MU)                   
                   LBUF%MU = ZERO
+              MY_ALLOCATE(LBUF%PLANL,NEL*BUFLY%L_PLANL)                   
+                  LBUF%PLANL = ZERO
+              MY_ALLOCATE(LBUF%EPSDNL,NEL*BUFLY%L_EPSDNL)                   
+                  LBUF%EPSDNL = ZERO
 
               MY_ALLOCATE(LBUF%PIJ,NEL*BUFLY%L_PIJ)              
                   LBUF%PIJ = ZERO

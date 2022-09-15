@@ -327,7 +327,7 @@ c-------------------------------------------------------------------
 c     Non-local regularization : /NONLOCAL
 c-------------------------------------------------------------------
 c
-      CALL HM_READ_NONLOCAL(NLOC_DMG ,IPM      ,UNITAB   ,LSUBMODEL)
+      CALL HM_READ_NONLOCAL(NLOC_DMG ,MLAW_TAG ,IPM      ,UNITAB   ,LSUBMODEL)
 c
 c-------------------------------------------------------------------
       !ALL ALE MATERIAL LAW : SSP STORAGE 

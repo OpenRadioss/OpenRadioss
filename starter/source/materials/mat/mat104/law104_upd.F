@@ -111,8 +111,12 @@ c
         ENDIF
 c
         ! Tag for damage output
-        MLAW_TAG%G_DMG = 1
-        MLAW_TAG%L_DMG = 1
+        MLAW_TAG%G_DMG    = 1
+        MLAW_TAG%L_DMG    = 1
+        MLAW_TAG%G_PLANL  = 1
+        MLAW_TAG%L_PLANL  = 1
+        MLAW_TAG%G_EPSDNL = 1
+        MLAW_TAG%L_EPSDNL = 1
 c
         ! Update MATPARAM 
         CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")

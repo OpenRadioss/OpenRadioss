@@ -158,6 +158,10 @@ C
       IAD = IAD + 1
       GBUF%G_MU = 0  
       IAD = IAD + 1
+      GBUF%G_PLANL = 0  
+      IAD = IAD + 1
+      GBUF%G_EPSDNL = 0  
+      IAD = IAD + 1
       GBUF%G_TEMPG = 0 
       IAD = IAD + 1
       GBUF%G_COR_NF = 0   
@@ -404,6 +408,10 @@ c
         BUFLY%L_ABURN = 0
         IAD = IAD + 1
         BUFLY%L_MU = 0
+        IAD = IAD + 1
+        BUFLY%L_PLANL  = 0
+        IAD = IAD + 1
+        BUFLY%L_EPSDNL = 0
         IAD = IAD + 1
         BUFLY%L_PIJ = 0
         IAD = IAD + 1

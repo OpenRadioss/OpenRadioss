@@ -147,7 +147,7 @@ C
       INTEGER IVARRIV(18,NVARRIVG)
       CHARACTER*10 VARRIV(NVARRIV),VARRIVG(NVARRIVG)
 C-----------------------------------------------
-      PARAMETER (NVARN = 637,NVARS =239552 ,NVARC = 37854,NVART = 6)
+      PARAMETER (NVARN = 637,NVARS =239554 ,NVARC = 37856,NVART = 6)
       PARAMETER (NVARP = 8,NVARR = 65,NVARUR = 12)
       PARAMETER (NVARNS = 4,NVARSPH = 41)
       PARAMETER (NVARIN = 28,NVARRW = 6,NVARRB =15,NVARFX =4)
@@ -164,7 +164,7 @@ C-----------------------------------------------
      .             VARN2(9),
      .             VARNPINCH(9),
      .             VARSG1(202),VARSG2(19782),VARSG3(19782),VARSG4(1),
-     .             VARS8(516),VARS9(6)
+     .             VARS8(516),VARS9(6),VARSNLOC(2)
       CHARACTER*10 VARNS(NVARNS),VARSPH(NVARSPH)
       CHARACTER*10 VARIN(NVARIN),VARRW(NVARRW),VARRB(NVARRB)
       CHARACTER*10 VARAC(NVARAC),VARSE(NVARSE),VARJO(NVARJO)
@@ -231,7 +231,7 @@ C-----------------------------------------------
        CHARACTER  CHI*1,CHJ*3,CHK*1,CHJS*1
        CHARACTER*10 VARC2(574),VARC1(208),VARCG1(167),VARCG2(407), VAR ,
      .              VAR_TMP,VARC3(500),VARCG3(100),
-     .              VARCGPINCH(1),VARCPINCH(7)
+     .              VARCGPINCH(1),VARCPINCH(7),VARCNLOC(2)
        CHARACTER*80 STR, MES
        LOGICAL :: IS_AVAILABLE
       INTEGER, DIMENSION(:), POINTER :: IPARTEL_P
@@ -661,6 +661,9 @@ C Definition of VARS8 : strain matrix output
      . 'VX      ','VY      ','VZ      ','SSP     ','MACH    ',
      . 'VK      '/
 
+      DATA VARSNLOC/
+     . 'NL_PLAS ','NL_PLSR '/
+
 C   shells
 c  VARC = VARC1 + VARC2 + VARC3
       DATA VARC1/
@@ -885,6 +888,8 @@ c  VARC = VARC1 + VARC2 + VARC3
       DATA VARCPINCH/
      .'EPINCHXZ','EPINCHYZ','EPINCHZZ','FPINCH  ','MPINCHXZ','MPINCHYZ',
      .'THK     '/
+      DATA VARCNLOC/
+     .'NL_PLAS ','NL_EPSD '/
 C   trusses
       DATA VART/
      . 'OFF     ','F       ','IE      ','A       ','L       ',
@@ -1602,6 +1607,9 @@ C
       DO I=1,6
        VARS(239546 + I) = VARS9(I)
       ENDDO
+      DO I=1,2
+       VARS(239552 + I) = VARSNLOC(I)
+      ENDDO
 C   (VARSG1, VARSG2, VARSG3 )----> VARSG
       DO I=1,202
        VARSG(I) = VARSG1(I)
@@ -1845,6 +1853,10 @@ C
 C---pinching
        DO I=1,7
          VARC(37847+I) = VARCPINCH(I)
+       ENDDO
+C---non-local
+       DO I=1,2
+         VARC(37854+I) = VARCNLOC(I)
        ENDDO
 C
 C  NVC =   30882 + 199*34 = 37847     

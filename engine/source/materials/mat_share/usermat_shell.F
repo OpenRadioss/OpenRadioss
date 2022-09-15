@@ -493,7 +493,13 @@ c
           ! -> Make sure the non-local increment is positive
           IF (INLOC > 0) THEN 
             DO I = JFT,JLT
-              VARNL(I,IT) = MAX(VARNL(I,IT),ZERO)
+              IF (OFF(I) == ONE) THEN 
+                VARNL(I,IT)    = MAX(VARNL(I,IT),ZERO)
+              ELSE 
+                VARNL(I,IT)    = ZERO
+              ENDIF
+              LBUF%PLANL(I)  = LBUF%PLANL(I) + VARNL(I,IT)
+              LBUF%EPSDNL(I) = VARNL(I,IT)/MAX(DT1,EM20)
             ENDDO 
           ENDIF
 c
@@ -1223,7 +1229,7 @@ C           plastic strain increment for all plastic laws
               IF (INLOC > 0) THEN
                 DO I=JFT,JLT
                   DPLA(I)  = MAX(VARNL(I,IT),ZERO)
-                  EPSPL(I) = DPLA(I)/MAX(DT1,EM20)
+                  EPSPL(I) = LBUF%EPSDNL(I)
                 ENDDO
               ! Classical local material
               ELSE
