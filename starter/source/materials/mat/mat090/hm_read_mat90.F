@@ -160,10 +160,12 @@ C-----------------------------------------------
       IF (ALPHA == ZERO) ALPHA = ONE
       IF (HYS  == ZERO) HYS = ONE
       IF (RHOR==ZERO) RHOR=RHO0
-      IF (FCUT == ZERO ) THEN
-        CALL HM_GET_FLOATV_DIM('Fcut'      , FCUT_UNIT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        FCUT = EP03*FCUT_UNIT
+      IF (FCUT == ZERO .AND. NFUNC > 1 ) THEN
+        FCUT = EP03*FAC_T_WORK
+        ISMOOTH = 1  
       ENDIF
+      IF(ISMOOTH == 0 .AND. FCUT > ZERO .AND. NFUNC > 1) ISMOOTH = 1
+      IF(NFUNC == 1) ISMOOTH = 0
       PM(1) = RHOR
       PM(89)= RHO0
         
