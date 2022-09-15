@@ -397,7 +397,7 @@ C
                 L0FRAM1 = GBUF%INTVAR(II(3)+I-1)
                 L0FRAM2 = GBUF%INTVAR(II(4)+I-1)
                 NODE_FRAM1 = NINT(GBUF%INTVAR(II(5)+I-1))
-                NODE_FRAM2 = NINT(GBUF%INTVAR(II(6)+I-1))           
+                NODE_FRAM2 = NINT(GBUF%INTVAR(II(6)+I-1))
                 IF (FRA2 > 0) THEN
                   OFFSET = (GBUF%POSX(II(1)+I-1)-GBUF%POSX(II(2)+I-1))*FLOW_DIRECTION
                 ELSE
@@ -416,6 +416,9 @@ C--             shell reactivation process - update of reference state -- reset 
      .                                  NODE_FRAM2,GBUF%STRA,NEL,XL2,YL2,
      .                                  XL3,YL3,XL4,YL4,OFFSET,
      .                                  N_DIR2,BUFLY%DIRA(I),BUFLY%DIRA(NEL+I),GBUF%SMSTR,ISMSTR)
+C               reset of fram
+                GBUF%SLIPRING_FRAM_ID(II(1)+I-1) = ZERO
+                GBUF%SLIPRING_FRAM_ID(II(2)+I-1) = ZERO
               ENDIF
 C
             ENDDO

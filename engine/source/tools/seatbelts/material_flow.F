@@ -155,7 +155,8 @@ C--       bisectrice computation
           VEC1(1) = EXDP(I) + EX2DP(I)
           VEC1(2) = EYDP(I) + EY2DP(I)
           VEC1(3) = EZDP(I) + EZ2DP(I)
-          NORM = SQRT((VEC1(1)*VEC1(1))+(VEC1(2)*VEC1(2))+(VEC1(3)*VEC1(3)))
+          NORM = MAX(EM20,VEC1(1)*VEC1(1)+VEC1(2)*VEC1(2)+VEC1(3)*VEC1(3))
+          NORM = SQRT(NORM)
           VEC1(1) = VEC1(1)/NORM
           VEC1(2) = VEC1(2)/NORM
           VEC1(3) = VEC1(3)/NORM
@@ -351,7 +352,8 @@ C--       bisectrice computation
           VEC1(1) = EXDP(I) + EX2DP(I)
           VEC1(2) = EYDP(I) + EY2DP(I)
           VEC1(3) = EZDP(I) + EZ2DP(I)
-          NORM = SQRT((VEC1(1)*VEC1(1))+(VEC1(2)*VEC1(2))+(VEC1(3)*VEC1(3)))
+          NORM = MAX(EM20,VEC1(1)*VEC1(1)+VEC1(2)*VEC1(2)+VEC1(3)*VEC1(3))
+          NORM = SQRT(NORM)
           VEC1(1) = VEC1(1)/NORM
           VEC1(2) = VEC1(2)/NORM
           VEC1(3) = VEC1(3)/NORM
