@@ -2208,10 +2208,11 @@ C Init var parallel SMP
 
         ENDIF
       IF(ISFEM >= 1) THEN
-        ALLOCATE(VARNOD(2*NUMNOD))
+        SVARNOD = 2*NUMNOD
       ELSE
-        ALLOCATE(VARNOD(1))
+        SVARNOD = 1
       ENDIF
+      ALLOCATE(VARNOD(SVARNOD))
 
 C========================================================================================
 C                                    NON PARALLEL SECTION (SMP)

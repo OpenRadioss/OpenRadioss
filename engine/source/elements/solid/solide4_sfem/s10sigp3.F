@@ -52,7 +52,7 @@ C     REAL
       my_real
      .   S1,S2,S3,SIGY,DEFT,RFAC,BASE
 C-----------------------------------------------
-      RFAC = ONE_OVER_6
+      RFAC = ONE/FIFTEEN
       IF (G_PLA == 0) THEN
         FAC(1:NEL)=ZERO
       ELSE
