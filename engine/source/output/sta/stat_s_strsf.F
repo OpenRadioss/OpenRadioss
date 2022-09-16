@@ -816,12 +816,13 @@ c------------------------------------------------------------------
 c-------------------
           IF ((ISOLNOD == 8 .AND. 
      .         (JHBE==1.OR.JHBE==2.OR.JHBE==12.OR.JHBE==24.OR.JHBE==17 .OR. JHBE == 18)
-     .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0)) THEN
+     .         .AND.IGTYP /= 43).OR. (ISOLNOD == 4 .AND. ISROT == 0)
+     .         .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
             DO IPT = 1, NPTG
               IF (IZIPSTRS == 0) THEN
-                WRITE(IUGEO,'(1P2E20.13)')(WAP0(J + K),K=8,9)
-                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,6)
-                WRITE(IUGEO,'(1P1E20.13)') WAP0(J + 7)
+                WRITE(IUGEO,'(1P2E20.13)')(WAP0(J + K),K=8,9) ! EINT,RHO
+                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,6) ! Sig(1-6)
+                WRITE(IUGEO,'(1P1E20.13)') WAP0(J + 7)        ! EPS
               ELSE
                    CALL TAB_STRS_TXT50(WAP0(8),2,J,SIZP0,2)
                    CALL TAB_STRS_TXT50(WAP0(1),6,J,SIZP0,3)
@@ -833,9 +834,9 @@ c-------------------
 c---
             DO IPT = 1, NPTG
               IF (IZIPSTRS == 0) THEN
-                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,3)
-                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=4,6)
-                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=7,9)
+                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,3) ! Sig(1-3)
+                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=4,6) ! Sig(4-6)
+                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=7,9) ! EPS,EINT,RHO
               ELSE
                 CALL TAB_STRS_TXT50(WAP0,9,J,SIZP0,3)
               ENDIF

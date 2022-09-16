@@ -520,7 +520,8 @@ C---------
      3              ISROT          ,KEYWORD )
 !---------not have to distinquate 2 groupes, can be cleaned later
                   IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24) 
-     .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)) THEN
+     .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)
+     .            .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
 !           -----------First Group of solids : 4 lines to be read-----------------
                     IF(ISOLNOD == 8 .AND. JJHBE == 12) THEN
                       SIGSP(2,I) = NPT
@@ -905,7 +906,8 @@ C---------
 !
                   STRSGLOB(IE) = 0
                   IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24) 
-     .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)) THEN
+     .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)
+     .            .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
 !           -----------First Group of solids : 4 lines to be read-----------------
                     IF(ISOLNOD == 8 .AND. JJHBE == 12) THEN
                       SIGSP(2,I) = NPT
@@ -2208,13 +2210,11 @@ C------------------------------------
                         CALL HM_GET_FLOAT_ARRAY('eps_p'   ,TMPVAL7,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('pos_nip' ,TMPVAL8,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C------------potision Ti  [-1,1]  'pos_nip'       --->      undocumented FIELD
-
 !
                         INISHVAR = 22 + NIP*6
                         DO N=1,NIP
                           PT = 22 + (N-1)*6
                           ! Reading CARD_2 ---  sigma_X, sigma_Y, sigma_Z  ---
-!
                           SIGSH(PT,I)     = TMPVAL1(N)
                           SIGSH(PT + 1,I) = TMPVAL2(N)
                           SIGSH(INISHVAR + N,I) = TMPVAL3(N)
@@ -2223,8 +2223,6 @@ C------------potision Ti  [-1,1]  'pos_nip'       --->      undocumented FIELD
                           SIGSH(PT + 4,I) = TMPVAL6(N)
                           SIGSH(PT + 5,I) = TMPVAL7(N)
                           SIGSH(INISHVAR + J+NIP,I) = TMPVAL8(N)
-C------------potision Ti  [-1,1]    'pos_nip'     --->      undocumented FIELD
-!!                          SIGSH(INISHVAR + J+NIP,I) = SIGSH(INISHVAR+J+NIP,I) ! not more supported (not doc)
                         ENDDO ! DO K=1,NIP
                       ENDIF ! IF (NIP = 0) THEN
 !----
@@ -2265,8 +2263,6 @@ C------------potision Ti  [-1,1]    'pos_nip'     --->      undocumented FIELD
                           SIGSH(PT+10,I) = TMPVAL11(K)
                           SIGSH(PT+11,I) = TMPVAL12(K)
                           SIGSH(PT+12,I) = TMPVAL13(K)
-!                          SIGSH(PT:PT+11,I) = SIGSH(PT:PT+11,I)
-!                          SIGSH(PT+12,I) = SIGSH(PT+12,I) 
                         ENDDO ! DO K=1,NPG
 !
                       ELSE  ! NIP > 0
@@ -2295,15 +2291,7 @@ C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
                             SIGSH(PT+5,I) = TMPVAL6(L)
                             SIGSH(PT+6,I) = TMPVAL7(L)
                             SIGSH(PT+7,I) = TMPVAL8(L)
-C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
-!!!     ATTENTION        !!!   SIGSH(PT+7,I) = SIGSH(PT+7,I) !-- undocumented FIELD
-!
-!                            SIGSH(PT:PT+5,I) = SIGSH(PT:PT+5,I)
-!                            SIGSH(PT+6,I) = SIGSH(PT+6,I) 
-                       !!!   SIGSH(PT+7,I) = SIGSH(PT+7,I) !-- undocumented FIELD
-!
-!!!     ATTENTION        !!!   PT = PT + 8  ! --- must become = PT + 7 because of SIGSH(PT+7,I) !-- undocumented FIELD
-                            PT = PT + 8  ! --- must become = PT + 7 because of SIGSH(PT+7,I) !-- undocumented FIELD
+                            PT = PT + 8
                           ENDDO ! DO N=1,NPG
                         ENDDO ! DO N=1,NIP
                       ENDIF ! IF (NIP == 0) THEN
@@ -3444,9 +3432,6 @@ C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
                           SIGSH(PT + 4,I) = TMPVAL6(N)
                           SIGSH(PT + 5,I) = TMPVAL7(N)
                           SIGSH(INISHVAR+NIP+N,I) = TMPVAL8(N)
-!
-C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
-!!!     ATTENTION        !!!   SIGSH(INISHVAR+NIP+N,I) = SIGSH(INISHVAR+NIP+N,I) !-- undocumented FIELD
                         ENDDO ! DO K=1,NIP
                       ENDIF ! IF (NIP = 0) THEN
 !----
@@ -3517,14 +3502,7 @@ C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
                             SIGSH(PT+5,I) = TMPVAL6(L)
                             SIGSH(PT+6,I) = TMPVAL7(L)
                             SIGSH(PT+7,I) = TMPVAL8(L)
-!!!     ATTENTION        !!!   SIGSH(PT+7,I) = SIGSH(PT+7,I) !-- undocumented FIELD
-!
-!                            SIGSH(PT:PT+5,I) = SIGSH(PT:PT+5,I)
-!                            SIGSH(PT+6,I) = SIGSH(PT+6,I) 
-                         !   SIGSH(PT+7,I) = SIGSH(PT+7,I) !-- undocumented FIELD
-!
                             PT = PT + 8
-!!                            PT = PT + 7  ! --- must become = PT + 7 because of SIGSH(PT+7,I) !-- undocumented FIELD
                           ENDDO ! DO N=1,NPG
                         ENDDO ! DO J=1,NIP
                       ENDIF ! IF (NIP == 0) THEN
