@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        FREERR                        source/starter/freform.F      
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_INTV                   source/devtools/hm_reader/hm_get_intv.F
-Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        HM_READ_ALE_CLOSE             source/ale/hm_read_ale_close.F
 Chd|        USR2SYS                       source/system/sysfus.F        
 Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F 

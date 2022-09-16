@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        HM_GET_FLOATV                 source/devtools/hm_reader/hm_get_floatv.F
 Chd|        HM_GET_STRING                 source/devtools/hm_reader/hm_get_string.F
-Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        MINTP_RE                      ../common_source/eos/mintp_re.F
 Chd|        MINTP_RT                      ../common_source/eos/mintp_rt.F
 Chd|        MRDSE2                        source/materials/mat/mat026/mrdse2.F

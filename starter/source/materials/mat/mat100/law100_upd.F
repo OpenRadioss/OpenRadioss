@@ -94,7 +94,7 @@ Chd|  LAW100_UPD_AB                 source/materials/mat/mat100/law100_upd.F
 Chd|-- called by -----------
 Chd|        UPDMAT                        source/materials/updmat.F     
 Chd|-- calls ---------------
-Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        LAW92_NLSQF                   source/materials/mat/mat092/law92_nlsqf.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    

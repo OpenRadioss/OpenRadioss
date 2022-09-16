@@ -27,7 +27,7 @@ Chd|        UPDMAT                        source/materials/updmat.F
 Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        CRITYLD2000                   source/materials/mat/mat087/law87_upd.F
-Chd|        HM_OPTION_IS_ENCRYPTED          source/devtools/hm_reader/hm_option_is_encrypted.F
+Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is_encrypted.F
 Chd|        INVERT                        source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        PRODMATVECT                   source/materials/mat/mat087/law87_upd.F
 Chd|        R_YLD2000                     source/materials/mat/mat087/law87_upd.F
