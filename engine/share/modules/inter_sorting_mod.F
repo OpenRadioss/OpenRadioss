@@ -155,6 +155,9 @@ Chd|====================================================================
             LOGICAL :: COARSE_GRID
             INTEGER, DIMENSION(:), ALLOCATABLE :: NB_LOCAL_CELL
             LOGICAL, DIMENSION(:,:,:), ALLOCATABLE :: CELL_BOOL
+
+            INTEGER :: REMOTE_S_NODE    ! number of real remote secondary nodes
+            INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REMOTE_S_NODE ! list of real remote secondary nodes
 !   -------------------------    
         END MODULE INTER_SORTING_MOD
 

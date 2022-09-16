@@ -44,7 +44,7 @@ Chd|====================================================================
      8      GAP_M  ,GAPMIN      ,GAPMAX  ,MARGE    ,CURV_MAX ,
      9      NIN    ,ITASK       ,BGAPSMX ,KREMNOD  ,REMNOD   ,
      A      ITAB   ,FLAGREMNODE ,DRAD    ,ITIED    ,CAND_F   ,
-     B      DGAPLOAD)
+     B      DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -122,6 +122,8 @@ C-----------------------------------------------
      .   TZINF,MARGE,GAP,GAPMIN,GAPMAX,BGAPSMX,
      .   CURV_MAX(*),GAP_S_L(*),GAP_M_L(*),CAND_F(*)
       my_real , INTENT(IN) :: DRAD,DGAPLOAD
+      INTEGER, INTENT(inout) :: REMOTE_S_NODE
+      INTEGER, DIMENSION(NSNR), INTENT(inout) :: LIST_REMOTE_S_NODE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -261,7 +263,18 @@ C=======================================================================
 C=======================================================================
 C 2   REMOTE NODE CLUSTERING
 C=======================================================================
+       REMOTE_S_NODE = 0
        DO J = 1, NSNR
+
+        IF(XREM(1,J) < XMIN)  CYCLE                                             
+        IF(XREM(1,J) > XMAX)  CYCLE                                             
+        IF(XREM(2,J) < YMIN)  CYCLE                                             
+        IF(XREM(2,J) > YMAX)  CYCLE                                             
+        IF(XREM(3,J) < ZMIN)  CYCLE                                             
+        IF(XREM(3,J) > ZMAX)  CYCLE 
+
+        REMOTE_S_NODE = REMOTE_S_NODE + 1
+        LIST_REMOTE_S_NODE( REMOTE_S_NODE ) = J
         IIX(NSN+J)=INT(NBX*(XREM(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(NSN+J)=INT(NBY*(XREM(2,J)-YMINB)/(YMAXB-YMINB))
         IIZ(NSN+J)=INT(NBZ*(XREM(3,J)-ZMINB)/(ZMAXB-ZMINB))
@@ -542,9 +555,11 @@ C=======================================================================
           VOXEL(IIX(I),IIY(I),IIZ(I))=0
         ENDIF
       ENDDO
-      NSNF = 1 + ITASK*NSNR / NTHREAD
-      NSNL = (ITASK+1)*NSNR / NTHREAD
-      DO J = NSNF, NSNL
+      NSNF = 1 + ITASK*REMOTE_S_NODE / NTHREAD
+      NSNL = (ITASK+1)*REMOTE_S_NODE / NTHREAD
+      IF(ITASK+1==NTHREAD) NSNL=REMOTE_S_NODE
+      DO JJ = NSNF, NSNL
+        J = LIST_REMOTE_S_NODE(JJ)
         VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))=0
       ENDDO
       CALL MY_BARRIER()
