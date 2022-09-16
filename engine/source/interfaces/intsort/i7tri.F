@@ -211,6 +211,12 @@ C
 C Prise en compte candidats non locaux en SPMD
 C
       DO I = NSN+1, NSN+NSNR
+        IF( XREM(1,I-NSN)<XMIN) CYCLE
+        IF( XREM(1,I-NSN)>XMAX) CYCLE
+        IF( XREM(2,I-NSN)<YMIN) CYCLE
+        IF( XREM(2,I-NSN)>YMAX) CYCLE
+        IF( XREM(3,I-NSN)<ZMIN) CYCLE
+        IF( XREM(3,I-NSN)>ZMAX) CYCLE
         NB_NC = NB_NC + 1
         BPN(NB_NC) = I
       ENDDO

@@ -135,8 +135,8 @@ C-----------------------------------------------
                     MIN_LIMIT(J) = MIN(MIN_LIMIT(J),X(J,NOD))
                     SIGMA(J) = SIGMA(J) + X(J,NOD)
                     SIGMA2(J) = SIGMA2(J) + X(J,NOD)**2
-                    NMN_L = NMN_L + 1
                 ENDDO
+                NMN_L = NMN_L + 1
             ENDIF
             IF(INCONV==1) THEN
                 IF( NOD>0 ) THEN

@@ -65,6 +65,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
       USE H3D_MOD
       USE MULTI_FVM_MOD
+      USE INTER_SORTING_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -427,6 +428,12 @@ C       INTBUF_TAB%METRIC%ALGO = ALGO_BUCKET
 C      ENDIF
 
  50   CALL MY_BARRIER
+      IF(ITASK==0) THEN
+        IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) DEALLOCATE( LIST_REMOTE_S_NODE )
+        ALLOCATE( LIST_REMOTE_S_NODE(NSNR) )
+        REMOTE_S_NODE = 0
+      ENDIF
+      CALL MY_BARRIER
 !     IF REMNODE Then VOXEL                               
       IF(IPARI(63,NIN) ==2 ) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL 
  
@@ -453,7 +460,7 @@ C
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
      C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
-     E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP)
+     E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
       ELSE
         CALL I7BUCE(
      1 X      ,INTBUF_TAB%IRECTM(1+4*ESHIFT),INTBUF_TAB%NSV  ,INACTI    ,INTBUF_TAB%CAND_P,
@@ -569,6 +576,11 @@ C
         IF (IMONM > 0) CALL STOPTIME(26,1)
 !$OMP END SINGLE
       END IF
+
+      IF(ITASK==0) THEN
+        IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) DEALLOCATE( LIST_REMOTE_S_NODE )
+      ENDIF
+      CALL MY_BARRIER
 C
       RETURN
       END
