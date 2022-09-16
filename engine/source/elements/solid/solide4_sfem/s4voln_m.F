@@ -105,7 +105,10 @@ c-------------------------------------------------------------------------
         DO I=LFT,LLT
          IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
          SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-         VOLN(I)=FOURTH*SUM*VOL0(I)             
+         VOLN(I)=FOURTH*SUM*VOL0(I) 
+         IF(IRESP==1)THEN
+           VOLDP(I) = VOLN(I) 
+         ENDIF            
         ENDDO
         IF (MATPARAM(MX)%STRAIN_FORMULATION==1) THEN 
 C------compute AMU(t+dt) for large strain   
