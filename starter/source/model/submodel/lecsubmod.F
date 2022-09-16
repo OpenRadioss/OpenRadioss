@@ -104,20 +104,20 @@ C=======================================================================
 
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODES_COUNT(NUMNUSR,NUMNUSR2)
-        ALLOCATE( INDEX(2*NUMNOD))
-        DO I=1,2*NUMNOD
+        ALLOCATE( INDEX(2*NUMNUSR))
+        DO I=1,2*NUMNUSR
          INDEX(I)=I
         ENDDO
-        ALLOCATE( INDEX1(2*NUMNOD) )
-        DO I=1,2*NUMNOD
+        ALLOCATE( INDEX1(2*NUMNUSR) )
+        DO I=1,2*NUMNUSR
          INDEX1(I)=I
         ENDDO
-        ALLOCATE( TAGNODSUB_TMP(NUMNOD) )
-        DO I=1,NUMNOD
+        ALLOCATE( TAGNODSUB_TMP(NUMNUSR) )
+        DO I=1,NUMNUSR
          TAGNODSUB_TMP(I)=I
         ENDDO
-        ALLOCATE( IDNODSUB(NUMNOD) )
-        DO I=1,NUMNOD
+        ALLOCATE( IDNODSUB(NUMNUSR) )
+        DO I=1,NUMNUSR
          IDNODSUB(I)=I
         ENDDO 
       ENDIF
@@ -127,11 +127,25 @@ C--------------------------------------------------
       IF(IS_DYNA /= 0)THEN
         CALL CPP_NODE_SUB_TAG_DYNA(TAGNODSUB_TMP,IDNODSUB)
 
-        CALL MY_ORDERS( 0, WORK, IDNODSUB, INDEX, NUMNOD , 1)
+C  Considering that  nodes with the same coordinated duplicated over multiple include files have the SAME USER ID
+C we have  IDNODSUB(1:NUMNUSR) => 1:NUMNOD 
+
+        CALL MY_ORDERS( 0, WORK, IDNODSUB, INDEX, NUMNUSR , 1)
         CALL MY_ORDERS( 0, WORK, ITAB, INDEX1, NUMNOD , 1)
 
-        DO I=1,NUMNOD
-          TAGNODSUB(INDEX1(I)) = TAGNODSUB_TMP(INDEX(I))
+        I = 1
+        J = 1 
+        DO WHILE(J <= NUMNUSR .AND. I <= NUMNOD)
+C         TAGNODSUB(1:NUMNOD) TAGNODSUB_TMP(1:NUMNUSR) 
+          IF(ITAB(INDEX1(I)) == IDNODSUB(INDEX(J))) THEN
+             TAGNODSUB(INDEX1(I)) = TAGNODSUB_TMP(INDEX(J))
+             I = I + 1
+             J = J + 1
+          ELSE IF(ITAB(INDEX1(I)) < IDNODSUB(INDEX(J))) THEN
+             I = I + 1
+          ELSE
+             J = J + 1
+          ENDIF
         ENDDO
 C--------------------------------------------------
 C      TAG SUBMODEL NODES RADIOSS
