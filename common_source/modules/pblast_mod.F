@@ -45,9 +45,11 @@ Chd|====================================================================
 
       TYPE PBLAST_STRUCT_
         INTEGER SIZ
-        my_real, ALLOCATABLE,DIMENSION(:)   :: PRES      ! pressure output(workarray)
-        my_real, ALLOCATABLE,DIMENSION(:)   :: cos_theta ! angle on structural face
-        my_real, ALLOCATABLE,DIMENSION(:)   :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
+        my_real, ALLOCATABLE,DIMENSION(:)    :: PRES      ! pressure output(workarray)
+        my_real, ALLOCATABLE,DIMENSION(:)    :: cos_theta ! angle on structural face
+        my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters  
+        my_real, DIMENSION(:)  , ALLOCATABLE :: FX,FY,FZ,NPt !working arrays (forces)
+        INTEGER, DIMENSION(:,:), ALLOCATABLE :: N !working array (normal vectors)
       END TYPE PBLAST_STRUCT_
 
       TYPE PBLAST_DATA_
@@ -149,13 +151,18 @@ C-----------------------------------------------
       !--------------------------------------
       DO I=1,NLOADP_B
         SIZ = PBLAST_TAB(I)%SIZ
-        ALLOCATE (   PBLAST_TAB(I)%cos_theta(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%P_inci(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%P_refl(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%ta(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%t0(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%decay_inci(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE (   PBLAST_TAB(I)%decay_refl(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%cos_theta(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%P_inci(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%P_refl(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%ta(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%t0(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%decay_inci(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%decay_refl(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%FX(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%FY(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%FZ(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%N(4,SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
+        ALLOCATE ( PBLAST_TAB(I)%NPt(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000                                
         ALLOCATE(RTMP(7*SIZ))
         CALL READ_DB(RTMP,7*SIZ)
         IAD = 0
@@ -181,6 +188,58 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
+      
+      
+      SUBROUTINE PBLAST_DEALLOCATE(PBLAST_TAB)
+C-----------------------------------------------
+C   M o d u l e s
+C-----------------------------------------------
+      USE MESSAGE_MOD
+C-----------------------------------------------
+C   I m p l i c i t   T y p e s
+C-----------------------------------------------
+#include      "implicit_f.inc"
+C-----------------------------------------------
+C   C o m m o n   B l o c k s
+C-----------------------------------------------
+#include      "com04_c.inc"
+#include      "units_c.inc"
+C-----------------------------------------------
+C   D u m m y   A r g u m e n t s
+C-----------------------------------------------
+      TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB      
+C-----------------------------------------------
+C   L o c a l   V a r i a b l e s
+C-----------------------------------------------
+      INTEGER :: II
+C-----------------------------------------------
+C   P r e - C o n d i t i o n
+C-----------------------------------------------
+      IF(NLOADP_B<=0)RETURN
+C-----------------------------------------------
+C   S o u r c e   C o d e
+C-----------------------------------------------      
+      DO II=1,NLOADP_B
+        IF(ALLOCATED( PBLAST_TAB(II)%cos_theta ))  DEALLOCATE ( PBLAST_TAB(II)%cos_theta ) 
+        IF(ALLOCATED( PBLAST_TAB(II)%P_inci ))     DEALLOCATE ( PBLAST_TAB(II)%P_inci )
+        IF(ALLOCATED( PBLAST_TAB(II)%P_refl ))     DEALLOCATE ( PBLAST_TAB(II)%P_refl )
+        IF(ALLOCATED( PBLAST_TAB(II)%ta ))         DEALLOCATE ( PBLAST_TAB(II)%ta )
+        IF(ALLOCATED( PBLAST_TAB(II)%t0 ))         DEALLOCATE ( PBLAST_TAB(II)%t0 )
+        IF(ALLOCATED( PBLAST_TAB(II)%decay_inci )) DEALLOCATE ( PBLAST_TAB(II)%decay_inci )
+        IF(ALLOCATED( PBLAST_TAB(II)%decay_refl )) DEALLOCATE ( PBLAST_TAB(II)%decay_refl )
+        IF(ALLOCATED( PBLAST_TAB(II)%decay_refl )) DEALLOCATE ( PBLAST_TAB(II)%decay_refl )
+        IF(ALLOCATED( PBLAST_TAB(II)%FX ))         DEALLOCATE ( PBLAST_TAB(II)%FX )
+        IF(ALLOCATED( PBLAST_TAB(II)%FY ))         DEALLOCATE ( PBLAST_TAB(II)%FY )
+        IF(ALLOCATED( PBLAST_TAB(II)%FZ ))         DEALLOCATE ( PBLAST_TAB(II)%FZ )
+        IF(ALLOCATED( PBLAST_TAB(II)%N ))          DEALLOCATE ( PBLAST_TAB(II)%N )
+        IF(ALLOCATED( PBLAST_TAB(II)%NPt ))        DEALLOCATE ( PBLAST_TAB(II)%NPt )
+      ENDDO
+      
+      IF(ALLOCATED(PBLAST_TAB))DEALLOCATE(PBLAST_TAB)
+C-----------------------------------------------
+      RETURN
+      END
+            
 
 Chd|====================================================================
 Chd|  PBLAST_WRITE_STARTER          modules/pblast_mod.F          
