@@ -32,9 +32,9 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        PBLAST_MOD                    ../common_source/modules/pblast_mod.F
 Chd|====================================================================
-      SUBROUTINE PBLAST (ILOADP  ,FAC     ,NPC    ,TF      ,A      ,
-     2                   V       ,X       ,XFRAME ,AR      ,VR     ,
-     3                   SENSOR  ,LSENSOR ,WEIGHT ,TFEXC   ,IADC   ,
+      SUBROUTINE PBLAST (ILOADP  ,FAC     ,A      ,
+     2                   V       ,X       ,
+     3                   TFEXC   ,IADC    ,
      4                   FSKY    ,FSKYV   ,LLOADP ,FEXT    ,ITAB   ,
      5                   H3D_DATA)
 C-----------------------------------------------
@@ -73,14 +73,14 @@ C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*),LLOADP(*)
-      INTEGER ILOADP(SIZLOADP,*),LSENSOR(NSENSI,*)
-      INTEGER WEIGHT(*), IADC(*)
-      INTEGER, INTENT(IN) :: ITAB(*)
+      INTEGER LLOADP(SLLOADP)
+      INTEGER ILOADP(SIZLOADP,NLOADP)
+      INTEGER  IADC(*)
+      INTEGER, INTENT(IN) :: ITAB(NUMNOD)
       my_real
-     .   FAC(LFACLOAD,*), TF(*), A(3,*), V(3,*), AR(3,*), VR(3,*),
-     .   X(3,*), XFRAME(NXFRAME,*), SENSOR(NSENSR,*),TFEXC,
-     .   FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,*)
+     .   FAC(LFACLOAD,NLOADP), A(3,NUMNOD), V(3,NUMNOD),
+     .   X(3,NUMNOD), TFEXC,
+     .   FSKY(8,SFSKY/8), FSKYV(SFSKY/8,8),FEXT(3,NUMNOD)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -123,30 +123,30 @@ C-----------------------------------------------
          
          SELECT CASE(ABAC_ID)
            CASE(1)
-             !FREE AIR, SPHERICAL CHARGE
+             !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
              CALL PBLAST_1(
-     1                   ILOADP  ,FAC     ,NPC    ,TF     ,A          ,
-     2                   V       ,X       ,XFRAME ,AR     ,VR         ,
-     3                   SENSOR  ,LSENSOR ,WEIGHT ,TFEXC  ,IADC       ,
-     4                   FSKY    ,FSKYV   ,LLOADP ,FEXT   ,ITAB       ,
-     5                   H3D_DATA,NL,T0INF_LOC)
+     1                   ILOADP  ,FAC     ,A        ,
+     2                   V       ,X       ,
+     3                   TFEXC   ,IADC    ,
+     4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
+     5                   H3D_DATA,NL      ,T0INF_LOC)
      
            CASE(2)
-             !GROUND REFLECTION, HEMISPHERICAL CHARGE
+             !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
              CALL PBLAST_2(
-     1                   ILOADP  ,FAC     ,NPC    ,TF     ,A          ,
-     2                   V       ,X       ,XFRAME ,AR     ,VR         ,
-     3                   SENSOR  ,LSENSOR ,WEIGHT ,TFEXC  ,IADC       ,
-     4                   FSKY    ,FSKYV   ,LLOADP ,FEXT   ,ITAB       ,
-     5                   H3D_DATA,NL,T0INF_LOC)           
+     1                   ILOADP  ,FAC     ,A        ,
+     2                   V       ,X       ,
+     3                   TFEXC   ,IADC    ,
+     4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
+     5                   H3D_DATA,NL      ,T0INF_LOC)           
            CASE(3)
-             !SURFACE BURST, SPHERICAL CHARGE
+             !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
              CALL PBLAST_3(
-     1                   ILOADP  ,FAC     ,NPC    ,TF     ,A          ,
-     2                   V       ,X       ,XFRAME ,AR     ,VR         ,
-     3                   SENSOR  ,LSENSOR ,WEIGHT ,TFEXC  ,IADC       ,
-     4                   FSKY    ,FSKYV   ,LLOADP ,FEXT   ,ITAB       ,
-     5                   H3D_DATA,NL,T0INF_LOC) 
+     1                   ILOADP  ,FAC     ,A        ,
+     2                   V       ,X       ,
+     3                   TFEXC   ,IADC    ,
+     4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
+     5                   H3D_DATA,NL      ,T0INF_LOC) 
      
 #include "lockon.inc"
       IF(T0INF_LOC<T0INF_PBLAST) USER_ID   = ID
@@ -160,7 +160,6 @@ C-----------------------------------------------
 #include "lockon.inc"
       T0INF_PBLAST = MIN(T0INF_LOC,T0INF_PBLAST)
       DT_PBLAST    = T0INF_PBLAST/NDT
-      !print *, "DT_PBLAST=", DT_PBLAST,T0INF_PBLAST
       IDT_PBLAST   = USER_ID
 #include "lockoff.inc"                 
 
