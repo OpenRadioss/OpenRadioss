@@ -130,6 +130,7 @@ Chd|        HM_READ_MAT93                 source/materials/mat/mat093/hm_read_ma
 Chd|        HM_READ_MAT94                 source/materials/mat/mat094/hm_read_mat94.F
 Chd|        HM_READ_MAT95                 source/materials/mat/mat095/hm_read_mat95.F
 Chd|        HM_READ_MAT97                 source/materials/mat/mat097/hm_read_mat97.F
+Chd|        HM_READ_NONLOCAL              source/materials/nonlocal/hm_read_nonlocal.F
 Chd|        HM_READ_PROP0                 source/properties/void/hm_read_prop0.F
 Chd|        HM_READ_PROP01                source/properties/shell/hm_read_prop01.F
 Chd|        HM_READ_PROP02                source/properties/truss/hm_read_prop02.F

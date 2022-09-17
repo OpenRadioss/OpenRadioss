@@ -190,6 +190,14 @@ C-----------------------------------------------
       END
       
       
+Chd|====================================================================
+Chd|  PBLAST_DEALLOCATE             modules/pblast_mod.F          
+Chd|-- called by -----------
+Chd|        RESOL                         engine/source/engine/resol.F  
+Chd|-- calls ---------------
+Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
+Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
+Chd|====================================================================
       SUBROUTINE PBLAST_DEALLOCATE(PBLAST_TAB)
 C-----------------------------------------------
 C   M o d u l e s

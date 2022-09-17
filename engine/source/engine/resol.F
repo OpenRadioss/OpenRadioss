@@ -228,6 +228,7 @@ Chd|        NLOCAL_DTNODA                 source/time_step/nlocal_dtnoda.F
 Chd|        NLOCAL_INCR                   source/assembly/nlocal_incr.F 
 Chd|        NLOCAL_VEL                    source/assembly/nlocal_vel.F  
 Chd|        PBLAST                        source/loads/pblast/pblast.F  
+Chd|        PBLAST_DEALLOCATE             ../common_source/modules/pblast_mod.F
 Chd|        PFLUID                        source/loads/general/pfluid/pfluid.F
 Chd|        PLYXFEM_WRAVUPLY              source/output/restart/wrrest.F
 Chd|        PLYXFEM_WREST                 source/output/restart/wrrest.F
