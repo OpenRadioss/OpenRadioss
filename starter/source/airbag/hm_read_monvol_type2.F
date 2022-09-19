@@ -223,8 +223,8 @@ C-----------------------------------------------
  1005 FORMAT( 5X,'EXTERNAL SURFACE ID . . . . . . . . . .=',I10)
  1200 FORMAT( 5X,'LOAD CURVE NUMBER . . . . . . . . . . .=',I10,
      .     /5X,'CURVE TYPE  . . . . . . . . . . . . . .=',I10,
-     .     /5X,'  0 : P=F(V)',
+     .     /5X,'  0 : P=F(1/V)',
      .     /5X,'  1 : P=F(T)',
-     .     /5X,'  2 : P=F(1/V)',
+     .     /5X,'  2 : P=F(V)',
      .     /5X,'  3 : P=(1/V) F(T)'/)
       END SUBROUTINE HM_READ_MONVOL_TYPE2
