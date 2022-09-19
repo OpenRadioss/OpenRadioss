@@ -1113,7 +1113,7 @@ c--------------------------
      .       PY8      ,PZ1      ,PZ2      ,PZ3      ,
      .       PZ4      ,PZ5      ,PZ6      ,PZ7      ,
      .       PZ8      ,IMAT     ,H        ,WI       ,
-     .       IP       ,ITASK    ,DT2T     )
+     .       IP       ,ITASK    ,DT2T     ,GBUF%VOL )
       ENDIF       
 c
        DO I=LFT,LLT

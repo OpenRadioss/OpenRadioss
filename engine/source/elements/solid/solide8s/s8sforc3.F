@@ -1142,7 +1142,7 @@ c--------------------------
      .       PZ1      ,PZ2      ,PZ3      ,PZ4      ,
      .       PZ5      ,PZ6      ,PZ7      ,PZ8      ,
      .       IMAT     ,H        ,WI       ,IP       ,
-     .       ITASK    ,DT2T     )
+     .       ITASK    ,DT2T     ,GBUF%VOL )
        ENDIF
        DO I=LFT,LLT
         OFFG(I)=MIN(OFFG(I),OFF(I))

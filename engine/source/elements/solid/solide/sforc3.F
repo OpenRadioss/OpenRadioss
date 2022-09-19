@@ -1191,7 +1191,7 @@ C Virtual internal forces of regularized non local dof
      .       PX2      ,PX3      ,PX4      ,PY1      ,
      .       PY2      ,PY3      ,PY4      ,PZ1      ,
      .       PZ2      ,PZ3      ,PZ4      ,MXT(LFT) ,
-     .       ITASK    ,DT2T     )
+     .       ITASK    ,DT2T     ,GBUF%VOL )
       ENDIF 
 C
       IF (JTHE < 0) THEN

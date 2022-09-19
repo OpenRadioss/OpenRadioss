@@ -35,7 +35,7 @@ Chd|====================================================================
      .                     PX2     ,PX3      ,PX4      ,PY1     ,
      .                     PY2     ,PY3      ,PY4      ,PZ1     ,
      .                     PZ2     ,PZ3      ,PZ4      ,IMAT    ,
-     .                     ITASK   ,DT2T     )
+     .                     ITASK   ,DT2T     ,VOL0     )
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT)                     ::
      .  DT2T
       my_real, DIMENSION(NEL), INTENT(IN) :: 
-     .   VOL,OFF,VAR_REG,
+     .   VOL,OFF,VAR_REG,VOL0,
      .   PX1,PX2,PX3,PX4,PY1,PY2,PY3,PY4,PZ1,PZ2,PZ3,PZ4
       TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG 
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
      . B1,B2,B3,B4,B5,B6,B7,B8,ZETA,SSPNL,DTNL,LE_MAX,
      . MAXSTIF
       my_real, DIMENSION(NEL) :: 
-     . F1,F2,F3,F4,F5,F6,F7,F8
+     . F1,F2,F3,F4,F5,F6,F7,F8,LC
       my_real, DIMENSION(:) ,ALLOCATABLE   :: 
      . BTB11,BTB12,BTB13,BTB14,BTB22,BTB23,BTB24,
      . BTB33,BTB34,BTB44,STI1,STI2,STI3,STI4,STI5,
@@ -95,6 +95,7 @@ C=======================================================================
       SSPNL  = NLOC_DMG%SSPNL(IMAT)
       LE_MAX = NLOC_DMG%LE_MAX(IMAT) ! Maximal length of convergence
       NTN  = EIGHT*EIGHT
+      LC(1:NEL) = ZERO
       ALLOCATE(BTB11(NEL),BTB12(NEL),BTB13(NEL),BTB14(NEL),BTB22(NEL),
      . BTB23(NEL),BTB24(NEL),BTB33(NEL),BTB34(NEL),BTB44(NEL),POS1(NEL),
      . POS2(NEL),POS3(NEL),POS4(NEL),POS5(NEL),POS6(NEL),POS7(NEL),POS8(NEL))
@@ -262,25 +263,29 @@ c
 c            
         ! If the element is broken, the non-local wave is absorbed  
         ELSE
+c
+          ! Initial element characteristic length
+          LC(I) = VOL0(I)**THIRD  
+c
           IF (NODADT > 0) THEN
      
             ! Non-local absorbing forces
             F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LC(I)**2)
             F2(I) = SQRT(MASS(POS2(I))/MASS0(POS2(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS2(I))+VNL0(POS2(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS2(I))+VNL0(POS2(I)))*(THREE/FOUR)*(LC(I)**2)
             F3(I) = SQRT(MASS(POS3(I))/MASS0(POS3(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS3(I))+VNL0(POS3(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS3(I))+VNL0(POS3(I)))*(THREE/FOUR)*(LC(I)**2)
             F4(I) = SQRT(MASS(POS4(I))/MASS0(POS4(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS4(I))+VNL0(POS4(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS4(I))+VNL0(POS4(I)))*(THREE/FOUR)*(LC(I)**2)
             F5(I) = SQRT(MASS(POS5(I))/MASS0(POS5(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LC(I)**2)
             F6(I) = SQRT(MASS(POS6(I))/MASS0(POS6(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LC(I)**2)
             F7(I) = SQRT(MASS(POS7(I))/MASS0(POS7(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LC(I)**2)
             F8(I) = SQRT(MASS(POS8(I))/MASS0(POS8(I)))*ZETA*SSPNL*HALF*
-     .                                (VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LE_MAX**2)
+     .                                (VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LC(I)**2)
             ! Computing nodal equivalent stiffness
             STI1(I) = EM20
             STI2(I) = EM20
@@ -292,14 +297,14 @@ c
             STI8(I) = EM20
           ELSE
             ! Non-local absorbing forces
-            F1(I) = ZETA*SSPNL*HALF*(VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F2(I) = ZETA*SSPNL*HALF*(VNL(POS2(I))+VNL0(POS2(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F3(I) = ZETA*SSPNL*HALF*(VNL(POS3(I))+VNL0(POS3(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F4(I) = ZETA*SSPNL*HALF*(VNL(POS4(I))+VNL0(POS4(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F5(I) = ZETA*SSPNL*HALF*(VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F6(I) = ZETA*SSPNL*HALF*(VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F7(I) = ZETA*SSPNL*HALF*(VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F8(I) = ZETA*SSPNL*HALF*(VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LE_MAX**2)          
+            F1(I) = ZETA*SSPNL*HALF*(VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LC(I)**2)
+            F2(I) = ZETA*SSPNL*HALF*(VNL(POS2(I))+VNL0(POS2(I)))*(THREE/FOUR)*(LC(I)**2)
+            F3(I) = ZETA*SSPNL*HALF*(VNL(POS3(I))+VNL0(POS3(I)))*(THREE/FOUR)*(LC(I)**2)
+            F4(I) = ZETA*SSPNL*HALF*(VNL(POS4(I))+VNL0(POS4(I)))*(THREE/FOUR)*(LC(I)**2)
+            F5(I) = ZETA*SSPNL*HALF*(VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LC(I)**2)
+            F6(I) = ZETA*SSPNL*HALF*(VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LC(I)**2)
+            F7(I) = ZETA*SSPNL*HALF*(VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LC(I)**2)
+            F8(I) = ZETA*SSPNL*HALF*(VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LC(I)**2)          
           ENDIF
         ENDIF
       ENDDO
