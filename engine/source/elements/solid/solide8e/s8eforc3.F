@@ -1386,7 +1386,7 @@ c--------------------------
      .       PY8(1,IP),PZ1(1,IP),PZ2(1,IP),PZ3(1,IP),
      .       PZ4(1,IP),PZ5(1,IP),PZ6(1,IP),PZ7(1,IP),
      .       PZ8(1,IP),IMAT     ,H        ,WI       ,
-     .       IP       ,ITASK    ,DT2T     )
+     .       IP       ,ITASK    ,DT2T     ,GBUF%VOL )
       ENDIF
 c
        DO I=LFT,LLT
