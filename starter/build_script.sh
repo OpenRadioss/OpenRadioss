@@ -218,7 +218,6 @@ if [ ${arch} = "win64" ]
 then
   cmake.exe -G "Unix Makefiles" -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug} ${dc}  -Dstatic_link=$static_link -DCMAKE_BUILD_TYPE=Release  .. 
 else
-  echo "cmake -Darch=${arch} -Dprecision=${prec} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc}   .. "
   cmake -Darch=${arch} -Dprecision=${prec} ${DAD} -Ddebug=${debug}  -Dstatic_link=$static_link ${dc} -Dsanitize=${sanitize}  .. 
 fi
 
