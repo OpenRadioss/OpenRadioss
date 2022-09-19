@@ -68,8 +68,7 @@ C-----------------------------------------------
      . P0a(4)
       INTEGER IEXP, JTHE, IFLG,PLA(4)
       INTEGER ID
-      CHARACTER*nchartitle,
-     .   TITR
+      CHARACTER*nchartitle,TITR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -170,7 +169,7 @@ C===============================================|
       END IF
 
 
-      !TEST3(quel que soit iflg)
+      !TEST3(whatever is iflg)
       !Negative Density or Missing density material
       ! No negative density
       ! If AV>0 THEN R0 must be >0
@@ -192,20 +191,20 @@ C===============================================|
       END DO
    
       
-      !TEST4 (quel que soit iflg)
+      !TEST4 (whatever is iflg)
       !Unbalanced Pressure, material are checked two by two (Cnp couples)
       !IF (TEST1+TEST2+TEST3==0) THEN !If no error
         SUM=ZERO
         IF(IMAX==4)P0a(4) = C0(4)
         DO I=1,IMAX-1
-        if (R0(I)==ZERO)CYCLE !si phase vide eventuelle, autorisee
+        if (R0(I)==ZERO)CYCLE !if empty submaterial
         P0a(I)=C0(I)+C4(I)*E0(I)
           DO J=I,IMAX
-          IF (R0(J)==ZERO)cycle !si phase vide eventuelle, autorisee
-          !On compare Pi(t=0) avec Pj(t=0)
+          IF (R0(J)==ZERO)cycle !if empty submaterial
+          !comparing Pi(t=0) with Pj(t=0)
             P0b=C0(J)+C4(J)*E0(J)
             Err=abs(P0a(I)-P0b)
-          IF (Err<=EM20) Err=ZERO  !eviter epsilon machine si P0a ou P0b est nul
+          IF (Err<=EM20) Err=ZERO  !avoid epsilon issue if P0a ou P0b is zero
           IF (Err/=ZERO) THEN  ! JWL under pressure may detonate.
             IF (Err/max(abs(P0a(I)),abs(P0b))>EM06) THEN
                 IF (J==4) THEN
@@ -215,8 +214,7 @@ C===============================================|
      .                        ANMODE=ANINFO_BLIND_1,
      .                        I1=ID,
      .                        C1=TITR,
-     .   C2=
-     .            'PRESSURES ARE UNBALANCED WITH JWL MATERIAL')
+     .                        C2='PRESSURES ARE UNBALANCED WITH JWL MATERIAL')
                   exit
               ELSE
                   TEST4=1
@@ -225,8 +223,7 @@ C===============================================|
      .                        ANMODE=ANINFO_BLIND_1,
      .                        I1=ID,
      .                        C1=TITR,
-     .   C2=
-     .            'INITIAL PRESSURES ARE UNBALANCED')
+     .                        C2='INITIAL PRESSURES ARE UNBALANCED')
                 EXIT
             END IF
             END IF
@@ -237,7 +234,7 @@ C===============================================|
       !END IF
       
       
-      !TEST5 (quel que soit iflg)
+      !TEST5 (whatever is iflg)
       !Check the consistency between global density and materials densities.
       !IF(TEST1+TEST2+TEST3==0)THEN !If no error
         SUM=0
@@ -250,15 +247,14 @@ C===============================================|
       !END IF
 
 
-      !TEST6 (quel que soit iflg)
+      !TEST6 (whatever is iflg)
       ! Check if C1>=0, C4>=0, C5>=0
       ! Otherwise : error
       DO I=1,3
         IF ((C1(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
-         chain1=
-     . 'POLYNOMIAL COEFFICIENT C1 MUST BE POSITIVE OR NULL FOR '//chain
+         chain1='POLYNOMIAL COEFFICIENT C1 MUST BE POSITIVE OR NULL FOR '//chain
          CALL ANCMSG(MSGID=99,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
@@ -272,8 +268,7 @@ C===============================================|
         IF ((C2(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
-         chain1=
-     . 'POLYNOMIAL COEFFICIENT C2 IS NEGATIVE FOR '//chain
+         chain1='POLYNOMIAL COEFFICIENT C2 IS NEGATIVE FOR '//chain
          CALL ANCMSG(MSGID=98,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -287,8 +282,7 @@ C===============================================|
         IF ((C3(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
-         chain1=
-     . 'POLYNOMIAL COEFFICIENT C3 IS NEGATIVE FOR '//chain
+         chain1='POLYNOMIAL COEFFICIENT C3 IS NEGATIVE FOR '//chain
          CALL ANCMSG(MSGID=98,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -302,8 +296,7 @@ C===============================================|
         IF ((C4(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
-         chain1=
-     . 'POLYNOMIAL COEFFICIENT C4 MUST BE POSITIVE OR NULL FOR '//chain
+         chain1='POLYNOMIAL COEFFICIENT C4 MUST BE POSITIVE OR NULL FOR '//chain
          CALL ANCMSG(MSGID=99,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -317,8 +310,7 @@ C===============================================|
         IF ((C5(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
-         chain1=
-     . 'POLYNOMIAL COEFFICIENT C5 MUST BE POSITIVE OR NULL FOR '//chain
+         chain1='POLYNOMIAL COEFFICIENT C5 MUST BE POSITIVE OR NULL FOR '//chain
          CALL ANCMSG(MSGID=99,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -346,7 +338,7 @@ C===============================================|
                chain='SUBMAT-0'
                write(chain(8:8),'(i1.1)')I           
                chain1=
-     .   chain//' IS A PERFECT GAS:MINIMUM PRESSURE SHOULD BE -PEXT       '
+     .         chain//' IS A PERFECT GAS:MINIMUM PRESSURE SHOULD BE -PEXT       '
                CALL ANCMSG(MSGID=98,
      .                     MSGTYPE=MSGWARNING,
      .                     ANMODE=ANINFO_BLIND_1,

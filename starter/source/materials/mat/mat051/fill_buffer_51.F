@@ -62,9 +62,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER,TARGET :: IPM(NPROPMI,*)
+      INTEGER,TARGET :: IPM(NPROPMI,NUMMAT)
       INTEGER,INTENT(IN) :: USER_ID, INTERNAL_ID
-      my_real,TARGET :: PM(NPROPM,*),BUFMAT(*)
+      my_real,TARGET :: PM(NPROPM,NUMMAT),BUFMAT(*)
       my_real        :: UPARAM(*)
       CHARACTER*nchartitle, INTENT(IN) :: TITR
 C-----------------------------------------------
@@ -214,7 +214,7 @@ C-----------------------------------------------
               IF(IMID > 0)THEN
                 COUNT_VALID_MAT = COUNT_VALID_MAT + 1    !take into account only line with MID>0
                 MID_VALID(COUNT_VALID_MAT) = IMID
-                !--UPARAM(276:280) isBIJECTION TO RETRIVE PHASE ORDER FROM USER
+                !--UPARAM(276:280) is BIJECTION TO RETRIVE PHASE ORDER FROM USER
                 IF(MLN /= 5)THEN
                   COUNT_NONEXPLO=COUNT_NONEXPLO + 1
                   UPARAM(276+COUNT_VALID_MAT)=MINLOC(TAG(1:4),1)
@@ -250,12 +250,7 @@ C-----------------------------------------------
        ENDDO
 
         NBMAT = COUNT_VALID_MAT
-         !IF(IEXP==1)THEN
-         !  UPARAM(55) = IEXP
-         !ELSE
-         !  UPARAM(55) = 0
-         !ENDIF
-        UPARAM(55)=1
+        UPARAM(55)=1 !IEXP
 
        IF(NEXPLO>1)THEN
           chain1='ONLY ONE EXPLOSIVE SUBMATERIAL CAN BE DEFINED'
@@ -268,19 +263,8 @@ C-----------------------------------------------
        ENDIF
 
 !ALREADY CHEKED IN LECM51
-!       IF(NBMAT==0)THEN
-!          chain1='AT LEAST ONE SUBMATERIAL MUST BE DEFINED'
-!          CALL ANCMSG(MSGID=99,
-!     .                MSGTYPE=MSGERROR,
-!     .                ANMODE=ANINFO,
-!     .                I1=ID,
-!     .                C1=TITR,
-!     .                C2=chain1)
-!             J = 1
-!             UPARAM(IDX_AV      +J) = 1.0
-!             UPARAM(IDX_RHO     +J) = EM20
-!             RETURN
-!       ENDIF
+!   chain1='AT LEAST ONE SUBMATERIAL MUST BE DEFINED'
+
 
        IF(NBMAT>4)THEN
           chain1='LAW51 IS COMPATIBLE WITH UP TO 4 SUBMATERIAL ONLY'
@@ -747,7 +731,5 @@ C-----------------------------------------------
        ENDIF
 C-----------------------------------------------
 
-
       RETURN
-  999 CALL FREERR(3)
       END SUBROUTINE
