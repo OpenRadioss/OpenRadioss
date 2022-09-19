@@ -443,7 +443,7 @@ C-----------------------------------------------
           WRITE(IUGEO,'(A)')TEXT
           IF (ITENS == 95) THEN
             WRITE(IUGEO,'(A)')
-     .      '#(NPG=Surface Quadratue Points; For QEPH,QBAT,DKT18: NPG.GT.1) '
+     .      '#(NPG=Surface Quadratue Points; For QEPH,QBAT,DKT18: NPG>1) '
             IF (OUTYY_FMT == 2) THEN
               WRITE(IUGEO,'(A)')
      .        '#FORMAT: (IF NPT.GT.0) (2I8/1P6E12.5/6E12.5) '
@@ -453,7 +453,7 @@ C-----------------------------------------------
      .        '#(TX,TY,TXY,TXZ,TYZ,EPSP(K,J,I)',
      .        'K=1,NPG),J=1,NPT),I=1,NUMSHL)'
               WRITE(IUGEO,'(A)')
-     .        '#FORMAT: (IF NPT .EQ. 0) ((2I8/1P6E12.5/6E12.5/3E12.5)) '
+     .        '#FORMAT: (IF NPT == 0) ((2I8/1P6E12.5/6E12.5/3E12.5)) '
               WRITE(IUGEO,'(A)')
      .        '#0,NPG,THICK,EM,EB,H1,H2,H3'
               WRITE(IUGEO,'(2A)')
@@ -468,7 +468,7 @@ C-----------------------------------------------
      .        '#(TX,TY,TXY,TXZ,TYZ,EPSP(K,J,I)',
      .        'K=1,NPG),J=1,NPT),I=1,NUMSHL)'
               WRITE(IUGEO,'(A)')
-     .        '#FORMAT: (IF NPT .EQ. 0) ((2I10/1P6E20.13/6E20.13/3E20.13)) '
+     .        '#FORMAT: (IF NPT == 0) ((2I10/1P6E20.13/6E20.13/3E20.13)) '
               WRITE(IUGEO,'(A)')
      .        '#0,NPG,THICK,EM,EB,H1,H2,H3'
               WRITE(IUGEO,'(2A)')
